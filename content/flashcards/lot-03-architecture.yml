@@ -57,15 +57,15 @@ flashcards:
     official_item: OIT-vk57zg2wpep7
     language: fr
     level: TRAP
-    front: "Promesse de rétrocompatibilité : les arguments nommés sont-ils couverts ?"
-    back: "Non — sauf pour les constructeurs de classes d'attribut."
+    front: "Backward compatibility promise : les arguments nommés sont-ils couverts ?"
+    back: "Non — sauf pour les constructeurs de classes d'attribute."
     explanation: >-
-      Les noms de paramètres ne font partie de la promesse que là. Ailleurs, un
+      Les noms de parameters ne font partie de la promesse que là. Ailleurs, un
       appel en arguments nommés peut casser lors d'une montée de version
       mineure, alors même que la signature reste compatible.
     memorization_justification: >-
       Exception étroite et contre-intuitive : la promesse est réputée large, et
-      rien dans l'usage quotidien ne signale que le nom d'un paramètre n'en fait
+      rien dans l'usage quotidien ne signale que le nom d'un parameter n'en fait
       pas partie.
     verification_status: VERIFIED
     official_sources:
@@ -79,14 +79,14 @@ flashcards:
     official_item: OIT-vk57zg2wpep7
     language: fr
     level: TRAP
-    front: "Vous étendez une classe Symfony : ajouter une nouvelle méthode est-il couvert par la promesse ?"
-    back: "Non. Ajouter une propriété ou une méthode dans une classe étendue n'est pas garanti."
+    front: "Vous étendez une class Symfony : ajouter une nouvelle method est-il couvert par la promesse ?"
+    back: "Non. Ajouter une property ou une method dans une class étendue n'est pas garanti."
     explanation: >-
-      Symfony peut ajouter une méthode du même nom dans une version mineure, et
-      la collision est alors inévitable. Surcharger une méthode existante, en
+      Symfony peut ajouter une method du même nom dans une version mineure, et
+      la collision est alors inévitable. Surcharger une method existante, en
       revanche, est couvert.
     memorization_justification: >-
-      Deux lignes « No » au milieu d'un tableau de « Yes » ; l'ajout paraît plus
+      Deux lignes « No » au milieu d'un array de « Yes » ; l'ajout paraît plus
       inoffensif que la surcharge, alors que c'est l'inverse.
     verification_status: VERIFIED
     official_sources:
@@ -100,7 +100,7 @@ flashcards:
     official_item: OIT-rd9b27fkb72r
     language: fr
     level: RECALL
-    front: "EventDispatcher : quelle priorité s'exécute en premier, et quelle est la valeur par défaut ?"
+    front: "EventDispatcher : quelle priorité s'exécute en premier, et quelle est la default value ?"
     back: "La plus grande s'exécute en premier. Défaut : 0. Les valeurs négatives sont valides."
     explanation: >-
       À priorité égale, l'ordre est celui de l'enregistrement auprès du
@@ -120,15 +120,15 @@ flashcards:
     official_item: OIT-7sewqvmw6468
     language: fr
     level: RECALL
-    front: "Ordre des événements du noyau pour une requête traitée sans erreur ?"
+    front: "Ordre des events du kernel pour une Request traitée sans erreur ?"
     back: >-
       request → controller → controller_arguments → [view] → response →
       finish_request, puis terminate quand terminate() est appelé après l'envoi.
-      view n'a lieu que si le contrôleur ne rend pas une Response.
+      view n'a lieu que si le controller ne rend pas une Response.
     explanation: >-
-      Exécuté sur HttpKernel 8.0.15 : un contrôleur qui rend une Response donne
+      Exécuté sur HttpKernel 8.0.15 : un controller qui rend une Response donne
       request, controller, controller_arguments, response, finish_request, puis
-      terminate, sans view. Une réponse posée sur kernel.request saute
+      terminate, sans view. Une Response posée sur kernel.request saute
       directement à response. kernel.exception ne figure que si une exception
       survient. terminate n'est pas dispatché par handle() : c'est l'appel
       séparé de terminate(), que fait le Runtime.
@@ -155,14 +155,14 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "Quand kernel.view est-il dispatché ?"
-    back: "Uniquement si le contrôleur n'a pas retourné d'objet Response."
+    back: "Uniquement si le controller n'a pas retourné d'object Response."
     explanation: >-
-      Son rôle est de convertir la valeur retournée en réponse. Si le contrôleur
-      retourne déjà une Response, l'événement n'a jamais lieu — contrairement à
+      Son role est de convertir la valeur retournée en Response. Si le controller
+      retourne déjà une Response, l'event n'a jamais lieu — contrairement à
       kernel.response, qui est toujours dispatché.
     memorization_justification: >-
-      Seul événement conditionnel de la séquence nominale ; l'oublier fait
-      répondre faux à toute question sur un écouteur de kernel.view.
+      Seul event conditionnel de la séquence nominale ; l'oublier fait
+      répondre faux à toute question sur un listener de kernel.view.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/events.rst"
@@ -175,16 +175,16 @@ flashcards:
     official_item: OIT-xc4zfr70jjas
     language: fr
     level: RECALL
-    front: "kernel.exception : comment le code de statut de la réponse est-il choisi ?"
-    back: "1) réponse 4xx, 5xx ou 3xx → son code ; 2) sinon exception HttpExceptionInterface → getStatusCode() ; 3) sinon 500."
+    front: "kernel.exception : comment le status code de la Response est-il choisi ?"
+    back: "1) Response 4xx, 5xx ou 3xx → son code ; 2) sinon exception HttpExceptionInterface → getStatusCode() ; 3) sinon 500."
     explanation: >-
-      Une réponse construite avec un statut 200 ou 204 ne passe pas la première
+      Une Response construite avec un statut 200 ou 204 ne passe pas la première
       règle : elle prend le statut de l'exception si celle-ci implémente
       HttpExceptionInterface (404 pour une NotFoundHttpException, exécuté), et
       500 sinon — à moins d'appeler allowCustomResponseCode() avant de la
       définir.
     memorization_justification: >-
-      Règle en cascade à trois branches dont l'ordre change la réponse, et dont
+      Règle en cascade à trois branches dont l'ordre change la Response, et dont
       la conclusion — « mon 204 devient 404, ou 500 » — contredit frontalement
       l'intuition.
     verification_status: VERIFIED
@@ -199,14 +199,14 @@ flashcards:
     official_item: OIT-c9pjp03cv4bq
     language: fr
     level: RECALL
-    front: "Symfony : que préfixent respectivement As... et Map... dans un attribut PHP ?"
-    back: "As... configure un service (#[AsCommand]). Map... concerne un argument de contrôleur (#[MapEntity])."
+    front: "Symfony : que préfixent respectivement As... et Map... dans un attribute PHP ?"
+    back: "As... configure un service (#[AsCommand]). Map... concerne un argument de controller (#[MapEntity])."
     explanation: >-
-      La convention est officielle et vaut pour tout attribut nouvellement
-      introduit ; elle permet de deviner le rôle d'un attribut inconnu à son
+      La convention est officielle et vaut pour tout attribute nouvellement
+      introduit ; elle permet de deviner le role d'un attribute inconnu à son
       seul nom.
     memorization_justification: >-
-      Association arbitraire entre deux préfixes et deux rôles, sans aucun
+      Association arbitraire entre deux préfixes et deux roles, sans aucun
       indice sémantique permettant de les retrouver.
     verification_status: VERIFIED
     official_sources:
@@ -223,12 +223,12 @@ flashcards:
     front: "Symfony : dans quelles versions une fonctionnalité peut-elle être dépréciée, puis supprimée ?"
     back: "Dépréciée dans une version mineure ; supprimée seulement dans la majeure suivante."
     explanation: >-
-      Il en découle qu'une nouvelle classe ou méthode ne peut pas être
+      Il en découle qu'une nouvelle class ou method ne peut pas être
       introduite déjà dépréciée. Le signal d'exécution est trigger_deprecation(),
-      fourni par le paquet symfony/deprecation-contracts.
+      fourni par le package symfony/deprecation-contracts.
     memorization_justification: >-
       Fenêtre en deux temps souvent réduite à « déprécié puis supprimé », sans
-      la contrainte de version qui en est tout l'intérêt.
+      la constraint de version qui en est tout l'intérêt.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/conventions.rst"
@@ -240,11 +240,11 @@ flashcards:
     official_item: OIT-y0ah7pq9c4hv
     language: fr
     level: UNDERSTANDING
-    front: 'Symfony : dans quel sens va la dépendance entre HttpFoundation et le framework ?'
+    front: 'Symfony : dans quel sens va la dependency entre HttpFoundation et le framework ?'
     back: Du framework vers HttpFoundation. Le composant ne dépend d'aucun composant Symfony.
-    explanation: Le contrat du noyau est écrit dans le vocabulaire de HttpFoundation (`Request`, `Response`),
+    explanation: Le contrat du kernel est écrit dans le vocabulaire de HttpFoundation (`Request`, `Response`),
       donc c'est le framework qui en dépend. Le composant s'installe seul dans un projet PHP quelconque.
-    memorization_justification: 'Direction arbitraire : les deux sens paraissent plausibles et la réponse
+    memorization_justification: 'Direction arbitraire : les deux sens paraissent plausibles et la Response
       décide plusieurs questions d''architecture.'
     verification_status: VERIFIED
     official_sources:
@@ -259,7 +259,7 @@ flashcards:
     level: RECALL
     front: 'Symfony Flex : quelle différence de comportement entre `symfony/recipes` et `symfony/recipes-contrib`
       ?'
-    back: '`symfony/recipes` est appliqué sans question ; `symfony/recipes-contrib` demande une autorisation.'
+    back: '`symfony/recipes` est appliqué sans question ; `symfony/recipes-contrib` demande une authorization.'
     explanation: Le dépôt principal est curé, le dépôt contrib ne l'est pas — d'où l'invite. Une recette
       jamais appliquée s'explique souvent par une invite contrib déclinée.
     memorization_justification: 'Distinction arbitraire entre deux dépôts de même forme : rien dans
@@ -297,8 +297,8 @@ flashcards:
     back: Le bundle apporte la configuration et enregistre des services ; un bridge ne configure rien.
     explanation: 'Le bridge relie un composant à une bibliothèque tierce. Posé seul dans un projet Symfony,
       il n''enregistre aucun service : c''est le bundle qui branche l''ensemble dans le framework.'
-    memorization_justification: 'Critère discriminant : c''est lui, et non la liste des paquets, qui
-      permet de classer un paquet inconnu le jour de l''examen.'
+    memorization_justification: 'Critère discriminant : c''est lui, et non la liste des packages, qui
+      permet de classer un package inconnu le jour de l''examen.'
     verification_status: VERIFIED
     official_sources:
     - url: https://raw.githubusercontent.com/symfony/symfony/8.0/composer.json
@@ -312,13 +312,13 @@ flashcards:
     level: UNDERSTANDING
     front: 'Symfony : où se déplacent `var/cache/` et `var/log/`, contrairement à `src/` ou `public/`
       ?'
-    back: En PHP, par `getCacheDir()` et `getLogDir()` sur le `Kernel` — pas par la clé `extra` du `composer.json`.
+    back: En PHP, par `getCacheDir()` et `getLogDir()` sur le `Kernel` — pas par la key `extra` du `composer.json`.
     explanation: >-
       Seuls `bin/`, `config/`, `src/` et `public/` se déplacent par `extra` ;
       `templates/` et `translations/` par configuration de bundle, `vendor/` par
-      la clé `config` de Composer. Les deux répertoires générés font exception à
+      la key `config` de Composer. Les deux directories générés font exception à
       tout cela : ils se surchargent par code, ou par une variable
-      d'environnement que lit `MicroKernelTrait`.
+      d'environment que lit `MicroKernelTrait`.
     memorization_justification: 'Exception arbitraire : la règle générale est le `composer.json`, et
       rien n''annonce que ces deux-là s''en écartent.'
     verification_status: VERIFIED
@@ -334,11 +334,11 @@ flashcards:
     level: TRAP
     front: 'Best practices Symfony : sous quelle forme définir une valeur qui ne change presque jamais
       ?'
-    back: Une constante de classe — pas un paramètre du conteneur.
+    back: Une constante de class — pas un parameter du container.
     explanation: 'La recommandation est contre-intuitive : une constante est lisible partout, y compris
-      depuis un gabarit, là où un paramètre exige le conteneur. Les paramètres restent pour ce qui varie
-      par environnement.'
-    memorization_justification: 'Recommandation contre-intuitive : le réflexe est d''en faire un paramètre,
+      depuis un template, là où un parameter exige le container. Les parameters restent pour ce qui varie
+      par environment.'
+    memorization_justification: 'Recommandation contre-intuitive : le réflexe est d''en faire un parameter,
       et l''examen interroge précisément l''écart.'
     verification_status: VERIFIED
     official_sources:
@@ -351,7 +351,7 @@ flashcards:
     official_item: OIT-efzq92vdtayj
     language: fr
     level: TRAP
-    front: 'Twig : que se passe-t-il si un gabarit de surcharge étend le gabarit qu''il surcharge par
+    front: 'Twig : que se passe-t-il si un template de surcharge étend le template qu''il surcharge par
       son nom ordinaire ?'
     back: 'Une boucle infinie : le nom résout vers la surcharge, donc vers lui-même. Le préfixe `@!`
       désigne l''original et rompt le cycle.'
@@ -374,8 +374,8 @@ flashcards:
       ?'
     back: 'PSR-7 : elle demande le pont `symfony/psr-http-message-bridge` **plus** une implémentation
       tierce, que le pont ne fournit pas.'
-    explanation: Pour toutes les autres PSR de la liste, Symfony *est* l'implémentation — le conteneur
-      est un `Psr\Container\ContainerInterface`, sans adaptateur à écrire.
+    explanation: Pour toutes les autres PSR de la liste, Symfony *est* l'implémentation — le container
+      est un `Psr\Container\ContainerInterface`, sans adapter à écrire.
     memorization_justification: 'Exception unique dans une liste homogène : c''est exactement la forme
       de question que l''examen pose.'
     verification_status: VERIFIED
@@ -405,10 +405,10 @@ flashcards:
     explanation: >-
       Ce sont trois positions dans une même pile, pas trois notions distinctes.
       Les trois rendent `null` sur une pile vide, et `getParentRequest()` rend
-      `null` dès que la requête courante **est** la principale : il n'y a alors
+      `null` dès que la Request courante **est** la principale : il n'y a alors
       aucun élément avant elle.
     memorization_justification: >-
-      Trois noms qui évoquent des rôles alors qu'ils désignent des indices ;
+      Trois noms qui évoquent des roles alors qu'ils désignent des indices ;
       réduire la question à une position rend la réponse immédiate.
     verification_status: VERIFIED
     official_sources:
@@ -424,15 +424,15 @@ flashcards:
     language: fr
     level: RECALL
     front: "Symfony : quel accesseur de `RequestStack` lève une exception plutôt que de rendre `null` ?"
-    back: "`getSession()` — une `SessionNotFoundException`. Les trois accesseurs de requête rendent `null`."
+    back: "`getSession()` — une `SessionNotFoundException`. Les trois accesseurs de Request rendent `null`."
     explanation: >-
       Son type de retour est `SessionInterface` sans `?` : il ne **peut** rien
-      rendre d'autre. Elle lève dans deux cas — la pile est vide, ou la requête
+      rendre d'autre. Elle lève dans deux cas — la pile est vide, ou la Request
       courante n'a pas de session. L'asymétrie avec les trois autres accesseurs
       est donc portée par la signature, pas par une convention.
     memorization_justification: >-
       Un accesseur sur quatre a un contrat d'échec opposé aux autres, dans la
-      même classe.
+      même class.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/RequestStack.php"
@@ -447,12 +447,12 @@ flashcards:
     language: fr
     level: RECALL
     front: "Quelles superglobales PHP HttpFoundation remplace-t-il, et par quoi ?"
-    back: "`$_GET`, `$_POST`, `$_FILES`, `$_COOKIE`, `$_SERVER` — remplacées par des objets `Request` et `Response`."
+    back: "`$_GET`, `$_POST`, `$_FILES`, `$_COOKIE`, `$_SERVER` — remplacées par des objects `Request` et `Response`."
     explanation: >-
-      L'intérêt n'est pas cosmétique : un objet se **fabrique**.
-      `Request::create('/blog')` produit une requête complète sans serveur web,
+      L'intérêt n'est pas cosmétique : un object se **fabrique**.
+      `Request::create('/blog')` produit une Request complète sans serveur web,
       donc une pile HTTP testable — ce qu'aucune superglobale ne permet. Côté
-      réponse, `header()` et `echo` deviennent un objet qu'on peut inspecter
+      Response, `header()` et `echo` deviennent un object qu'on peut inspecter
       avant émission.
     memorization_justification: >-
       Liste fermée de cinq superglobales, et la raison — la testabilité — qui
@@ -472,13 +472,13 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "Pourquoi n'injecte-t-on jamais `Request` dans un service ?"
-    back: "Parce qu'un service est construit **une fois** et que la requête change à chaque appel : on injecte `RequestStack`."
+    back: "Parce qu'un service est construit **une fois** et que la Request change à chaque appel : on injecte `RequestStack`."
     explanation: >-
-      Injecter la requête figerait, dans un objet à durée de vie longue, une
+      Injecter la Request figerait, dans un object à durée de vie longue, une
       valeur qui n'est vraie que pendant un traitement. `RequestStack` résout
       cela en déplaçant la lecture au moment de l'appel :
       `getCurrentRequest()`. C'est le même raisonnement que pour n'importe quel
-      état changeant confié à un conteneur.
+      état changeant confié à un container.
     memorization_justification: >-
       Règle d'architecture dont la raison — deux durées de vie différentes — est
       ce qui permet de la retrouver plutôt que de la mémoriser.
@@ -495,10 +495,10 @@ flashcards:
     official_item: OIT-y0ah7pq9c4hv
     language: fr
     level: UNDERSTANDING
-    front: "Pourquoi le docblock déconseille-t-il de rendre son code conscient de la requête principale ?"
+    front: "Pourquoi le docblock déconseille-t-il de rendre son code conscient de la main Request ?"
     back: "Parce que cela « might make it un-compatible with other features of your framework like ESI support »."
     explanation: >-
-      Une sous-requête existe pour être traitée **comme si** elle était seule :
+      Une sub-Request existe pour être traitée **comme si** elle était seule :
       c'est ce qui permet à un fragment ESI d'être rendu, mis en cache et servi
       indépendamment. Un service qui consulte `getMainRequest()` fait dépendre
       son résultat d'un contexte que le fragment n'aura pas quand il sera servi
@@ -519,16 +519,16 @@ flashcards:
     official_item: OIT-y0ah7pq9c4hv
     language: fr
     level: UNDERSTANDING
-    front: "Dans quel sens va la dépendance entre HttpFoundation et le reste du framework ?"
-    back: "Du framework **vers** HttpFoundation. Le composant est autonome ; le contrat du noyau, `handle(Request): Response`, est écrit dans son vocabulaire."
+    front: "Dans quel sens va la dependency entre HttpFoundation et le reste du framework ?"
+    back: "Du framework **vers** HttpFoundation. Le composant est autonome ; le contrat du kernel, `handle(Request): Response`, est écrit dans son vocabulaire."
     explanation: >-
       HttpFoundation s'installe et s'utilise dans n'importe quel projet PHP,
       sans Symfony et sans dépendre d'un autre composant. L'inverse est
-      impossible : tout ce qui manipule une requête ou une réponse dans le
+      impossible : tout ce qui manipule une Request ou une Response dans le
       framework parle son langage. C'est la brique la plus basse de la pile
       HTTP.
     memorization_justification: >-
-      Sens de dépendance qu'on inverse spontanément parce que le framework est
+      Sens de dependency qu'on inverse spontanément parce que le framework est
       ce qu'on utilise en premier.
     verification_status: VERIFIED
     official_sources:
@@ -544,13 +544,13 @@ flashcards:
     official_item: OIT-y0ah7pq9c4hv
     language: fr
     level: APPLICATION
-    front: "Un contrôleur rend un fragment par `render(controller(...))`. Que vaut `getParentRequest()` dans le service appelé ?"
-    back: "La requête principale : la sous-requête est empilée par-dessus elle, donc l'avant-dernier élément est bien la requête parente."
+    front: "Un controller rend un fragment par `render(controller(...))`. Que vaut `getParentRequest()` dans le service appelé ?"
+    back: "La main Request : la sub-Request est empilée par-dessus elle, donc l'avant-dernier élément est bien la Request parente."
     explanation: >-
       La pile compte alors deux éléments. `getCurrentRequest()` rend la
-      sous-requête, `getMainRequest()` et `getParentRequest()` rendent toutes
-      deux la requête d'origine — elles coïncident tant qu'il n'y a qu'un
-      niveau d'imbrication. Avec deux sous-requêtes imbriquées, elles
+      sub-Request, `getMainRequest()` et `getParentRequest()` rendent toutes
+      deux la Request d'origine — elles coïncident tant qu'il n'y a qu'un
+      niveau d'imbrication. Avec deux sub-Requests imbriquées, elles
       divergent.
     memorization_justification: >-
       Cas où deux accesseurs rendent la même valeur, ce qui masque leur
@@ -568,16 +568,16 @@ flashcards:
     official_item: OIT-y0ah7pq9c4hv
     language: fr
     level: APPLICATION
-    front: "Comment fabriquer une requête pour un test, sans serveur web ?"
-    back: "`Request::create('/blog')` — la fabrique qui ne lit aucune superglobale."
+    front: "Comment fabriquer une Request pour un test, sans serveur web ?"
+    back: "`Request::create('/blog')` — la factory qui ne lit aucune superglobale."
     explanation: >-
       C'est la contrepartie de `createFromGlobals()`, qui emballe `$_GET`,
-      `$_POST` et les autres. `create()` prend la méthode, les paramètres, le
-      corps et les en-têtes en arguments, et produit un objet complet. C'est
+      `$_POST` et les autres. `create()` prend la method, les parameters, le
+      corps et les headers en arguments, et produit un object complet. C'est
       précisément ce que le remplacement des superglobales rend possible, et
       c'est ce qui rend la pile HTTP testable.
     memorization_justification: >-
-      Deux fabriques de la même classe aux rôles opposés ; confondre les deux
+      Deux fabriques de la même class aux roles opposés ; confondre les deux
       fait échouer un test pour une raison invisible.
     verification_status: VERIFIED
     official_sources:
@@ -593,13 +593,13 @@ flashcards:
     official_item: OIT-y0ah7pq9c4hv
     language: fr
     level: APPLICATION
-    front: "Un service appelle `$requestStack->getCurrentRequest()` depuis une commande console. Que reçoit-il ?"
-    back: "`null` : aucune requête n'a été empilée hors du cycle HTTP."
+    front: "Un service appelle `$requestStack->getCurrentRequest()` depuis une command console. Que reçoit-il ?"
+    back: "`null` : aucune Request n'a été empilée hors du cycle HTTP."
     explanation: >-
       C'est le seul cas où le type de retour `?Request` sert vraiment. Un code
       partagé entre HTTP et console doit donc traiter le `null`, et non
-      supposer qu'une requête existe toujours. Le même raisonnement vaut pour un
-      worker Messenger consommant hors requête.
+      supposer qu'une Request existe toujours. Le même raisonnement vaut pour un
+      worker Messenger consommant hors Request.
     memorization_justification: >-
       Le `?` du type de retour paraît défensif jusqu'à ce qu'on exécute le même
       service hors du cycle HTTP.
@@ -617,15 +617,15 @@ flashcards:
     language: fr
     level: APPLICATION
     front: "Faut-il appeler `push()` et `pop()` soi-même sur `RequestStack` ?"
-    back: "Non : leur docblock dit que la gestion de la pile « should be taken care of by the application itself » — c'est le noyau qui empile et dépile."
+    back: "Non : leur docblock dit que la gestion de la pile « should be taken care of by the application itself » — c'est le kernel qui empile et dépile."
     explanation: >-
       Empiler à la main désaligne la pile du cycle réel : un `pop()` manquant
-      laisse une requête morte au sommet, et tous les services qui appellent
-      `getCurrentRequest()` la reçoivent. Les deux méthodes existent pour le
-      noyau et pour les tests qui simulent une sous-requête, pas pour le code
+      laisse une Request morte au sommet, et tous les services qui appellent
+      `getCurrentRequest()` la reçoivent. Les deux methods existent pour le
+      kernel et pour les tests qui simulent une sub-Request, pas pour le code
       applicatif.
     memorization_justification: >-
-      Deux méthodes publiques dont le docblock déconseille l'usage direct — ce
+      Deux methods publiques dont le docblock déconseille l'usage direct — ce
       que la visibilité `public` ne laisse pas deviner.
     verification_status: VERIFIED
     official_sources:
@@ -640,14 +640,14 @@ flashcards:
     official_item: OIT-y0ah7pq9c4hv
     language: fr
     level: TRAP
-    front: "Vrai ou faux : « sur la requête principale, `getParentRequest()` rend cette requête »."
+    front: "Vrai ou faux : « sur la main Request, `getParentRequest()` rend cette Request »."
     back: "Faux : elle rend `null`. L'index visé est `count - 2`, qui n'existe pas quand la pile n'a qu'un élément."
     explanation: >-
       L'implémentation est `$this->requests[$pos] ?? null` avec
       `$pos = count($this->requests) - 2`. Sur une pile d'un élément, l'index
-      vaut `-1` : absent, donc `null`. Un code qui suppose une requête parente
+      vaut `-1` : absent, donc `null`. Un code qui suppose une Request parente
       toujours présente échoue précisément dans le cas le plus courant — une
-      requête sans sous-requête.
+      Request sans sub-Request.
     memorization_justification: >-
       Le cas nominal est celui qui rend `null`, à rebours de l'intuition selon
       laquelle un `null` signale une situation exceptionnelle.
@@ -664,17 +664,17 @@ flashcards:
     official_item: OIT-y0ah7pq9c4hv
     language: fr
     level: TRAP
-    front: "`$requestStack->getSession()` dans un contrôleur d'API sans session : que se passe-t-il ?"
+    front: "`$requestStack->getSession()` dans un controller d'API sans session : que se passe-t-il ?"
     back: "Une `SessionNotFoundException` est levée — pas un `null` à tester."
     explanation: >-
-      La méthode vérifie `$request->hasSession()` avant de rendre quoi que ce
+      La method vérifie `$request->hasSession()` avant de rendre quoi que ce
       soit, et lève sinon. Un `if (null === $session)` n'attrapera donc jamais
       rien : il faut soit un `try`, soit tester `hasSession()` en amont. Le
       piège est d'appliquer à cet accesseur l'habitude prise avec les trois
       autres.
     memorization_justification: >-
       Contrat d'échec inverse de celui des accesseurs voisins, dans la même
-      classe et avec le même style d'appel.
+      class et avec le même style d'appel.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/RequestStack.php"
@@ -692,11 +692,11 @@ flashcards:
     back: "Non. Il est autonome : il s'installe et s'utilise dans un projet PHP sans Symfony."
     explanation: >-
       L'erreur consiste à lire l'architecture depuis le framework, qui est ce
-      qu'on utilise en premier. La dépendance va dans l'autre sens : le contrat
-      du noyau — `handle(Request): Response` — est écrit dans le vocabulaire de
+      qu'on utilise en premier. La dependency va dans l'autre sens : le contrat
+      du kernel — `handle(Request): Response` — est écrit dans le vocabulaire de
       HttpFoundation, donc tout le framework en dépend, et lui de personne.
     memorization_justification: >-
-      Sens de dépendance contre-intuitif, et c'est exactement ce que l'item
+      Sens de dependency contre-intuitif, et c'est exactement ce que l'item
       officiel demande de justifier.
     verification_status: VERIFIED
     official_sources:
@@ -712,11 +712,11 @@ flashcards:
     official_item: OIT-y0ah7pq9c4hv
     language: fr
     level: TRAP
-    front: "Avec une seule sous-requête en cours, `getMainRequest()` et `getParentRequest()` rendent-elles la même chose ?"
+    front: "Avec une seule sub-Request en cours, `getMainRequest()` et `getParentRequest()` rendent-elles la même chose ?"
     back: "Oui — et c'est ce qui masque leur différence. Elles divergent dès qu'il y a **deux** niveaux d'imbrication."
     explanation: >-
       À deux éléments, `$requests[0]` et `$requests[count - 2]` désignent le
-      même objet. À trois, `getMainRequest()` rend toujours le premier tandis
+      même object. À trois, `getMainRequest()` rend toujours le premier tandis
       que `getParentRequest()` rend le deuxième. Un code écrit et testé sur un
       seul niveau peut donc être faux sans que rien ne le montre.
     memorization_justification: >-
@@ -743,17 +743,17 @@ flashcards:
     official_item: OIT-132nwnh9c6bc
     language: fr
     level: RECALL
-    front: "Symfony Flex : quelles commandes Composer modifie-t-il ?"
+    front: "Symfony Flex : quelles commands Composer modifie-t-il ?"
     back: "`require`, `update` et `remove` — les trois, et rien d'autre."
     explanation: >-
       « Symfony Flex modifies the behavior of the `require`, `update`, and
       `remove` Composer commands ». C'est un **plugin Composer**, pas un bundle
-      ni une commande : il n'y a rien à appeler. D'où le fait que
+      ni une command : il n'y a rien à appeler. D'où le fait que
       `composer require logger` fonctionne dans un projet Flex et échoue
-      ailleurs, `logger` n'étant le nom d'aucun paquet.
+      ailleurs, `logger` n'étant le nom d'aucun package.
     memorization_justification: >-
-      Liste fermée de trois commandes, et une nature — plugin — qui explique
-      qu'aucune commande `flex` n'existe.
+      Liste fermée de trois commands, et une nature — plugin — qui explique
+      qu'aucune command `flex` n'existe.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/setup.rst"
@@ -768,17 +768,17 @@ flashcards:
     official_item: OIT-132nwnh9c6bc
     language: fr
     level: RECALL
-    front: "Flex : quels fichiers la recette de `symfony/twig-bundle` ajoute-t-elle ?"
-    back: "`config/packages/twig.yaml`, `config/packages/test/twig.yaml` et le répertoire `templates/` avec un `base.html.twig` — en plus d'activer le bundle."
+    front: "Flex : quels files la recette de `symfony/twig-bundle` ajoute-t-elle ?"
+    back: "`config/packages/twig.yaml`, `config/packages/test/twig.yaml` et le directory `templates/` avec un `base.html.twig` — en plus d'activer le bundle."
     explanation: >-
-      L'exemple vaut mieux qu'une définition : une recette **crée** des
-      fichiers, en **modifie** — `config/bundles.php` —, crée des répertoires et
+      L'exemple vaut mieux qu'une definition : une recette **crée** des
+      files, en **modifie** — `config/bundles.php` —, crée des directories et
       peut ajouter des variables dans `.env`. La configuration de test est
       séparée de la configuration par défaut, ce qu'on n'attend pas d'une simple
       « installation ».
     memorization_justification: >-
       Cas concret qui rend la notion de recette vérifiable plutôt que vague, et
-      dont le détail — un fichier de test distinct — surprend.
+      dont le détail — un file de test distinct — surprend.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/quick_tour/flex_recipes.rst"
@@ -797,9 +797,9 @@ flashcards:
     back: "Dans `RECIPES.md`, sur le dépôt des recettes."
     explanation: >-
       La documentation y renvoie explicitement. C'est aussi le seul endroit qui
-      fasse autorité : un alias n'est pas déductible du nom du paquet —
+      fasse autorité : un alias n'est pas déductible du nom du package —
       `twig` donne `symfony/twig-bundle`, mais `api` donne
-      `api-platform/api-pack`, qui n'est même pas un paquet Symfony.
+      `api-platform/api-pack`, qui n'est même pas un package Symfony.
     memorization_justification: >-
       Emplacement d'une référence qu'on cherche au mauvais endroit — dans la
       documentation plutôt que dans le dépôt des recettes.
@@ -818,16 +818,16 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "Alias, recette, pack : que fait chacun des trois ?"
-    back: "L'**alias** est un nom court que Flex résout. La **recette** est la configuration que le paquet apporte. Le **pack** est un métapaquet sans code, qui ne regroupe que des dépendances."
+    back: "L'**alias** est un nom court que Flex résout. La **recette** est la configuration que le package apporte. Le **pack** est un métapaquet sans code, qui ne regroupe que des dependencies."
     explanation: >-
-      Une seule commande peut mettre les trois en jeu : `composer require api`
+      Une seule command peut mettre les trois en jeu : `composer require api`
       résout un alias vers `api-platform/api-pack`, lequel est un pack, dont
       l'installation a déclenché **cinq** recettes selon la documentation. Les
-      confondre rend inexplicable qu'une commande installe une dizaine de
-      paquets.
+      confondre rend inexplicable qu'une command installe une dizaine de
+      packages.
     memorization_justification: >-
-      Trois mécanismes distincts que la même commande déclenche, et dont les
-      noms ne disent pas le rôle.
+      Trois mécanismes distincts que la même command déclenche, et dont les
+      noms ne disent pas le role.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/quick_tour/flex_recipes.rst"
@@ -846,11 +846,11 @@ flashcards:
     back: "Parce qu'il recense les **recettes** appliquées : sans lui, personne ne sait quelles recettes ont été installées ni dans quelle version."
     explanation: >-
       La documentation l'écrit comme une obligation : « which must be committed
-      to your code repository ». Il joue pour les recettes le rôle que
-      `composer.lock` joue pour les dépendances — deux fichiers distincts, deux
+      to your code repository ». Il joue pour les recettes le role que
+      `composer.lock` joue pour les dependencies — deux files distincts, deux
       inventaires distincts, tous deux committés.
     memorization_justification: >-
-      Fichier qu'on confond avec `composer.lock` ou qu'on ajoute au
+      File qu'on confond avec `composer.lock` ou qu'on ajoute au
       `.gitignore` par réflexe, alors que la documentation l'interdit.
     verification_status: VERIFIED
     official_sources:
@@ -867,10 +867,10 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "Pourquoi Flex demande-t-il une permission avant d'installer une recette contrib ?"
-    back: "À cause du **paquet**, pas de la recette : les recettes contrib « are guaranteed to work », mais leurs paquets « could be unmaintained »."
+    back: "À cause du **package**, pas de la recette : les recettes contrib « are guaranteed to work », mais leurs packages « could be unmaintained »."
     explanation: >-
       Les deux dépôts sont alimentés par la communauté. Le principal est une
-      liste **curée** pour des paquets de qualité et maintenus, et c'est le seul
+      liste **curée** pour des packages de qualité et maintenus, et c'est le seul
       que Flex consulte par défaut. Dire « le contrib n'est pas revu » est donc
       une approximation qui déplace le risque au mauvais endroit.
     memorization_justification: >-
@@ -891,15 +891,15 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "Pourquoi un pack disparaît-il de `composer.json` après son installation ?"
-    back: "Parce que Flex le **dépaquette** : il inscrit les dépendances réelles à sa place, pour que le fichier reste lisible."
+    back: "Parce que Flex le **dépaquette** : il inscrit les dependencies réelles à sa place, pour que le file reste lisible."
     explanation: >-
       « You won't see the `symfony/debug-pack` dependency in your
       `composer.json`, as Flex automatically unpacks the pack ». Ce sont les
-      paquets réels qui apparaissent — `symfony/var-dumper` dans `require-dev`,
+      packages réels qui apparaissent — `symfony/var-dumper` dans `require-dev`,
       par exemple. Le pack a servi de raccourci à l'installation, pas de
-      dépendance durable.
+      dependency durable.
     memorization_justification: >-
-      Disparition volontaire d'une dépendance qu'on vient d'installer : sans
+      Disparition volontaire d'une dependency qu'on vient d'installer : sans
       l'explication, elle ressemble à un bug.
     verification_status: VERIFIED
     official_sources:
@@ -916,7 +916,7 @@ flashcards:
     language: fr
     level: APPLICATION
     front: "`composer require twig` dans un projet **sans** Flex : que se passe-t-il ?"
-    back: "Composer échoue : `twig` n'est le nom d'aucun paquet. C'est Flex qui résout l'alias."
+    back: "Composer échoue : `twig` n'est le nom d'aucun package. C'est Flex qui résout l'alias."
     explanation: >-
       La documentation prend le même exemple avec `logger` : hors Flex, « you'll
       see a Composer error explaining that `logger` is not a valid package
@@ -940,15 +940,15 @@ flashcards:
     language: fr
     level: APPLICATION
     front: "Après `composer require --dev debug`, que trouve-t-on dans `composer.json` ?"
-    back: "Les paquets réels — `symfony/var-dumper` et ses voisins dans `require-dev` — mais **pas** `symfony/debug-pack`."
+    back: "Les packages réels — `symfony/var-dumper` et ses voisins dans `require-dev` — mais **pas** `symfony/debug-pack`."
     explanation: >-
       Le pack est un métapaquet : il tire `symfony/debug-bundle`,
       `symfony/monolog-bundle`, `symfony/var-dumper` et d'autres, puis Flex le
       dépaquette. Chercher le pack dans son `composer.json` revient à chercher
       ce que Flex a délibérément retiré.
     memorization_justification: >-
-      Résultat observable et contre-intuitif d'une commande courante ; il se
-      constate en ouvrant un fichier.
+      Résultat observable et contre-intuitif d'une command courante ; il se
+      constate en ouvrant un file.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/setup.rst"
@@ -963,15 +963,15 @@ flashcards:
     official_item: OIT-132nwnh9c6bc
     language: fr
     level: APPLICATION
-    front: "Une seule commande installe dix paquets et cinq fichiers de configuration. Quels mécanismes sont en jeu ?"
-    back: "Un alias vers un **pack**, le dépaquetage du pack, et une **recette** par paquet installé qui en possède une."
+    front: "Une seule command installe dix packages et cinq files de configuration. Quels mécanismes sont en jeu ?"
+    back: "Un alias vers un **pack**, le dépaquetage du pack, et une **recette** par package installé qui en possède une."
     explanation: >-
       C'est le cas d'`api` dans la documentation : alias vers
       `api-platform/api-pack`, qui dépend du Validator, de Security et de
       l'ORM Doctrine — et « Flex installed *5* recipes ». Le nombre de recettes
-      n'est pas celui des paquets : seules celles qui existent s'appliquent.
+      n'est pas celui des packages : seules celles qui existent s'appliquent.
     memorization_justification: >-
-      Enchaînement de trois mécanismes derrière une commande d'un mot, et un
+      Enchaînement de trois mécanismes derrière une command d'un mot, et un
       chiffre — cinq recettes — qui montre qu'ils ne se recouvrent pas.
     verification_status: VERIFIED
     official_sources:
@@ -988,10 +988,10 @@ flashcards:
     language: fr
     level: TRAP
     front: "Vrai ou faux : « les recettes du dépôt contrib ne sont pas garanties de fonctionner »."
-    back: "Faux. La documentation dit exactement l'inverse : « All of them are guaranteed to work ». C'est leur **paquet** qui peut être abandonné."
+    back: "Faux. La documentation dit exactement l'inverse : « All of them are guaranteed to work ». C'est leur **package** qui peut être abandonné."
     explanation: >-
       L'approximation est répandue et déplace le risque : on se méfie de la
-      recette alors que le doute porte sur la maintenance du paquet qu'elle
+      recette alors que le doute porte sur la maintenance du package qu'elle
       configure. Elle explique aussi pourquoi Flex ne refuse pas ces recettes —
       il demande seulement la permission.
     memorization_justification: >-
@@ -1012,14 +1012,14 @@ flashcards:
     language: fr
     level: TRAP
     front: "`symfony.lock` fait-il double emploi avec `composer.lock` ?"
-    back: "Non : l'un recense les **recettes** appliquées, l'autre les **dépendances** verrouillées. Les deux se committent."
+    back: "Non : l'un recense les **recettes** appliquées, l'autre les **dependencies** verrouillées. Les deux se committent."
     explanation: >-
-      Supprimer `symfony.lock` ne casse aucune dépendance — il n'en contient
+      Supprimer `symfony.lock` ne casse aucune dependency — il n'en contient
       pas — mais fait perdre la trace des recettes appliquées et de leur
       version, donc la capacité de détecter qu'une recette a évolué depuis
       l'installation.
     memorization_justification: >-
-      Deux fichiers de même suffixe et de contenus disjoints ; la confusion
+      Deux files de même suffixe et de contenus disjoints ; la confusion
       conduit à en ignorer un des deux.
     verification_status: VERIFIED
     official_sources:
@@ -1036,11 +1036,11 @@ flashcards:
     language: fr
     level: TRAP
     front: "Flex est-il un bundle Symfony ?"
-    back: "Non : un **plugin Composer**. Il n'apparaît pas dans `config/bundles.php` et n'expose aucune commande."
+    back: "Non : un **plugin Composer**. Il n'apparaît pas dans `config/bundles.php` et n'expose aucune command."
     explanation: >-
       La documentation est explicite : « Technically speaking, Symfony Flex is a
       Composer plugin ». Conséquence pratique : on ne l'active pas, on ne le
-      configure pas par un fichier de `config/packages/`, et le chercher parmi
+      configure pas par un file de `config/packages/`, et le chercher parmi
       les bundles est une impasse. Il est installé par défaut à la création
       d'une application.
     memorization_justification: >-
@@ -1065,7 +1065,7 @@ flashcards:
     explanation: >-
       Un alias est une entrée dans la liste des recettes, rien de plus : il peut
       désigner un bundle (`twig` → `symfony/twig-bundle`), un pack, ou un
-      paquet qui n'a rien de Symfony. En déduire la cible depuis le nom court
+      package qui n'a rien de Symfony. En déduire la cible depuis le nom court
       est un pari, d'où l'existence de `RECIPES.md`.
     memorization_justification: >-
       Généralisation naturelle à partir des alias les plus connus, que le cas
@@ -1096,7 +1096,7 @@ flashcards:
     front: "Qui est le titulaire du copyright de Symfony, et depuis quand ?"
     back: "**Fabien Potencier**, « Copyright (c) 2004-present » — une personne physique, pas une société."
     explanation: >-
-      Le fichier `LICENSE` de `symfony/symfony` l'écrit en première ligne. Ni
+      Le file `LICENSE` de `symfony/symfony` l'écrit en première ligne. Ni
       SensioLabs, ni la Symfony SAS : le titulaire est nommément une personne, ce
       qui surprend pour un projet de cette taille et se retient mieux pour cette
       raison.
@@ -1146,7 +1146,7 @@ flashcards:
       charge ». Le verbe qui compte en pratique est **sublicense** : il autorise
       à redistribuer sous une autre licence, ce qu'une licence copyleft interdit.
     memorization_justification: >-
-      Énumération littérale dont un terme — sublicense — porte la différence
+      Enum littérale dont un terme — sublicense — porte la différence
       juridique décisive avec le copyleft.
     verification_status: VERIFIED
     official_sources:
@@ -1193,7 +1193,7 @@ flashcards:
       naisse d'un contrat, d'un délit ou d'autre chose. Sans garantie ne suffit
       pas à écarter la responsabilité : il faut les deux.
     memorization_justification: >-
-      Deux paragraphes en majuscules qu'on lit comme un bloc, alors qu'ils
+      Deux paragraphes en majuscules qu'on lit comme un block, alors qu'ils
       couvrent deux risques juridiques différents.
     verification_status: VERIFIED
     official_sources:
@@ -1209,11 +1209,11 @@ flashcards:
     language: fr
     level: APPLICATION
     front: "Une société vend une application propriétaire bâtie sur Symfony. Que doit-elle faire ?"
-    back: "Reproduire l'avis de copyright et le texte de la licence. Rien d'autre : ni publier son code, ni payer, ni demander une autorisation."
+    back: "Reproduire l'avis de copyright et le texte de la licence. Rien d'autre : ni publier son code, ni payer, ni demander une authorization."
     explanation: >-
       La MIT accorde explicitement le droit de *sell* et de *sublicense*, et
       n'exige aucune réciprocité. L'obligation est documentaire — en pratique,
-      une mention dans les crédits ou un fichier de licences tiers — et elle
+      une mention dans les crédits ou un file de licences tiers — et elle
       porte sur le logiciel copié, pas sur l'application qui l'utilise.
     memorization_justification: >-
       Cas d'usage le plus fréquent en entreprise, et celui dont on redoute à
@@ -1231,11 +1231,11 @@ flashcards:
     official_item: OIT-347k8phdewem
     language: fr
     level: APPLICATION
-    front: "Où lit-on la licence de Symfony sans ouvrir le fichier `LICENSE` ?"
-    back: "Dans la clé `license` du `composer.json` de `symfony/symfony`, qui porte la valeur `MIT`."
+    front: "Où lit-on la licence de Symfony sans ouvrir le file `LICENSE` ?"
+    back: "Dans la key `license` du `composer.json` de `symfony/symfony`, qui porte la valeur `MIT`."
     explanation: >-
-      Les deux sources disent la même chose sous deux formes : l'identifiant
-      normalisé côté Composer, le texte intégral côté fichier. L'identifiant
+      Les deux sources disent la même chose sous deux formes : l'identifier
+      normalisé côté Composer, le texte intégral côté file. L'identifier
       suit la nomenclature SPDX, ce qui permet à un outil d'audit de licences de
       le traiter automatiquement.
     memorization_justification: >-
@@ -1280,12 +1280,12 @@ flashcards:
     front: "L'obligation de la MIT se déclenche-t-elle seulement si l'on redistribue le logiciel **entier** ?"
     back: "Non : le texte vise « all copies or **substantial portions** of the Software »."
     explanation: >-
-      Copier un fichier significatif suffit. Le seuil n'est pas défini au
+      Copier un file significatif suffit. Le seuil n'est pas défini au
       caractère près, mais il est clairement en deçà du logiciel complet — ce qui
-      vise précisément le cas courant : reprendre une classe ou un composant dans
+      vise précisément le cas courant : reprendre une class ou un composant dans
       son propre projet.
     memorization_justification: >-
-      Deux mots du texte — « substantial portions » — qui élargissent la portée
+      Deux mots du texte — « substantial portions » — qui élargissent le scope
       de l'obligation bien au-delà de ce qu'on suppose.
     verification_status: VERIFIED
     official_sources:
@@ -1307,11 +1307,11 @@ flashcards:
     official_item: OIT-d416348gfhde
     language: fr
     level: RECALL
-    front: "Quels bridges Symfony sont publiés comme paquets et listés dans `replace` sur la branche 8.0 ?"
+    front: "Quels bridges Symfony sont publiés comme packages et listés dans `replace` sur la branche 8.0 ?"
     back: "Trois : `symfony/doctrine-bridge`, `symfony/monolog-bridge` et `symfony/twig-bridge`."
     explanation: >-
-      La clé `replace` du `composer.json` du mono-dépôt compte 65 paquets, dont
-      exactement ces trois bridges. Le répertoire `src/Symfony/Bridge/` en
+      La key `replace` du `composer.json` du mono-dépôt compte 65 packages, dont
+      exactement ces trois bridges. Le directory `src/Symfony/Bridge/` en
       compte cinq : `PhpUnit` et `PsrHttpMessage` n'y figurent pas, et
       installer `symfony/symfony` ne fournit donc ni `symfony/phpunit-bridge`
       ni `symfony/psr-http-message-bridge`.
@@ -1331,15 +1331,15 @@ flashcards:
     official_item: OIT-d416348gfhde
     language: fr
     level: RECALL
-    front: "Que déclare la clé `replace` du `composer.json` de `symfony/symfony` ?"
-    back: "Que `symfony/symfony` **remplace** 65 paquets individuels — il ne les installe pas en plus."
+    front: "Que déclare la key `replace` du `composer.json` de `symfony/symfony` ?"
+    back: "Que `symfony/symfony` **remplace** 65 packages individuels — il ne les installe pas en plus."
     explanation: >-
       C'est ce qui permet d'installer le mono-dépôt sans entrer en conflit avec
-      les paquets séparés extraits de lui. `replace` et `require` disent des
+      les packages séparés extraits de lui. `replace` et `require` disent des
       choses opposées : l'un annonce « je fournis déjà ceci », l'autre « j'ai
       besoin de ceci ».
     memorization_justification: >-
-      Clé Composer peu manipulée, dont le sens s'inverse facilement avec celui
+      Key Composer peu manipulée, dont le sens s'inverse facilement avec celui
       de `require`.
     verification_status: VERIFIED
     official_sources:
@@ -1362,7 +1362,7 @@ flashcards:
       with various Symfony components ». Sans Twig il est inutile ; sans les
       composants, il n'a rien à exposer.
     memorization_justification: >-
-      Exemple qui rend la définition vérifiable dans un fichier plutôt que
+      Exemple qui rend la definition vérifiable dans un file plutôt que
       mémorisée comme une formule.
     verification_status: VERIFIED
     official_sources:
@@ -1377,16 +1377,16 @@ flashcards:
     official_item: OIT-d416348gfhde
     language: fr
     level: UNDERSTANDING
-    front: "La clé `provide` du mono-dépôt recense-t-elle des paquets ou des interfaces ?"
-    back: "Des implémentations d'interfaces, pas des paquets : uniquement des noms terminés par `-implementation`."
+    front: "La key `provide` du mono-dépôt recense-t-elle des packages ou des interfaces ?"
+    back: "Des implémentations d'interfaces, pas des packages : uniquement des noms terminés par `-implementation`."
     explanation: >-
       Sur la branche 8.0 elle en liste quinze — `psr/log-implementation`,
       `psr/cache-implementation`, `psr/container-implementation`,
-      `symfony/event-dispatcher-implementation`… Aucun paquet Symfony n'y
+      `symfony/event-dispatcher-implementation`… Aucun package Symfony n'y
       figure. Elle déclare que ce dépôt fournit une implémentation de ces
       interfaces, ce qui satisfait une bibliothèque tierce qui l'exige.
     memorization_justification: >-
-      Deuxième clé du même fichier, constamment confondue avec `replace` ; la
+      Deuxième key du même file, constamment confondue avec `replace` ; la
       distinction se teste en une question.
     verification_status: VERIFIED
     official_sources:
@@ -1401,12 +1401,12 @@ flashcards:
     official_item: OIT-d416348gfhde
     language: fr
     level: RECALL
-    front: "La clé `replace` du mono-dépôt ne contient-elle que des composants ?"
+    front: "La key `replace` du mono-dépôt ne contient-elle que des composants ?"
     back: "Non. Cinq bundles y figurent : `framework-bundle`, `security-bundle`, `twig-bundle`, `debug-bundle`, `web-profiler-bundle`."
     explanation: >-
       Sur les 65 entrées, on trouve les composants, les trois bridges publiés et
       ces cinq bundles. `replace` recense ce que le mono-dépôt fournit, quelle
-      que soit la catégorie du paquet — ce n'est pas une liste de composants.
+      que soit la catégorie du package — ce n'est pas une liste de composants.
     memorization_justification: >-
       Corrige la lecture naturelle de `replace` comme « la liste des
       composants », qui est fausse et qu'un QCM peut exploiter directement.
@@ -1424,14 +1424,14 @@ flashcards:
     language: fr
     level: TRAP
     front: "`replace` et `provide` : laquelle des deux contient `symfony/console` ?"
-    back: "`replace`. `provide` ne contient aucun paquet Symfony — seulement des noms en `-implementation`."
+    back: "`replace`. `provide` ne contient aucun package Symfony — seulement des noms en `-implementation`."
     explanation: >-
-      Les deux clés voisinent dans le même fichier et se ressemblent assez pour
-      qu'une question les intervertisse. `replace` nomme des paquets réels que
+      Les deux keys voisinent dans le même file et se ressemblent assez pour
+      qu'une question les intervertisse. `replace` nomme des packages réels que
       `symfony/symfony` fournit à leur place ; `provide` nomme des interfaces
       qu'il implémente.
     memorization_justification: >-
-      Piège d'interversion sur deux clés adjacentes du fichier le plus cité de
+      Piège d'interversion sur deux keys adjacentes du file le plus cité de
       l'item ; il ne se désamorce que si la différence a été apprise.
     verification_status: VERIFIED
     official_sources:
@@ -1447,14 +1447,14 @@ flashcards:
     language: fr
     level: APPLICATION
     front: "Une bibliothèque tierce exige `psr/log-implementation`. Un projet Symfony la satisfait-il ?"
-    back: "Oui : `symfony/symfony` déclare `psr/log-implementation` dans sa clé `provide`, aux versions 1.0, 2.0 et 3.0."
+    back: "Oui : `symfony/symfony` déclare `psr/log-implementation` dans sa key `provide`, aux versions 1.0, 2.0 et 3.0."
     explanation: >-
-      C'est précisément le rôle de `provide` : permettre à une dépendance
-      exprimée en termes d'interface — et non de paquet — d'être résolue par ce
-      dépôt. La même clé couvre `psr/cache-implementation`,
+      C'est précisément le role de `provide` : permettre à une dependency
+      exprimée en termes d'interface — et non de package — d'être résolue par ce
+      dépôt. La même key couvre `psr/cache-implementation`,
       `psr/container-implementation` et douze autres, quinze entrées en tout.
     memorization_justification: >-
-      Transpose la clé en situation réelle de résolution de dépendances, qui est
+      Transpose la key en situation réelle de résolution de dependencies, qui est
       la forme sous laquelle la notion est utile et testée.
     verification_status: VERIFIED
     official_sources:
@@ -1469,11 +1469,11 @@ flashcards:
     official_item: OIT-d416348gfhde
     language: fr
     level: UNDERSTANDING
-    front: "Quel test décide qu'un paquet Symfony est un **composant** ?"
+    front: "Quel test décide qu'un package Symfony est un **composant** ?"
     back: "Peut-il s'installer et servir dans un projet PHP quelconque, sans le framework ? Si non, ce n'est pas un composant."
     explanation: >-
       Chaque composant a son dépôt en lecture seule extrait du mono-dépôt —
-      `symfony/console`, `symfony/routing` — et aucune dépendance au framework.
+      `symfony/console`, `symfony/routing` — et aucune dependency au framework.
       Le test est opérationnel : on peut l'exécuter mentalement sans connaître
       la liste des composants par cœur.
     memorization_justification: >-
@@ -1492,16 +1492,16 @@ flashcards:
     official_item: OIT-d416348gfhde
     language: fr
     level: UNDERSTANDING
-    front: "Pourquoi le bridge PHPUnit contredit-il la définition générale d'un bridge ?"
+    front: "Pourquoi le bridge PHPUnit contredit-il la definition générale d'un bridge ?"
     back: "Parce qu'il n'a pas de « deuxième côté » : son `require` ne contient que `php >=8.1.0` — aucun composant Symfony, aucune bibliothèque tierce."
     explanation: >-
       Il porte pourtant le type « symfony-bridge » dans son manifeste et vit dans
       `src/Symfony/Bridge/`. C'est donc un bridge par son nom et par son type
-      déclaré, pas par sa structure de dépendances. Sa description dit ce qu'il
+      déclaré, pas par sa structure de dependencies. Sa description dit ce qu'il
       fait réellement : « utilities for PHPUnit, especially user deprecation
       notices management ».
     memorization_justification: >-
-      Contre-exemple d'une définition apprise comme universelle ; il est dans le
+      Contre-exemple d'une definition apprise comme universelle ; il est dans le
       périmètre officiel et c'est exactement ce qu'un QCM exploite.
     verification_status: VERIFIED
     official_sources:
@@ -1517,7 +1517,7 @@ flashcards:
     language: fr
     level: APPLICATION
     front: "On installe `symfony/symfony`. Obtient-on `symfony/phpunit-bridge` ?"
-    back: "Non : il est **absent** de la clé `replace`. Il s'installe séparément, en `require-dev`."
+    back: "Non : il est **absent** de la key `replace`. Il s'installe séparément, en `require-dev`."
     explanation: >-
       Les trois autres bridges — doctrine, monolog, twig — y figurent et sont
       donc fournis par le mono-dépôt. Le bridge PHPUnit suit son propre cycle :
@@ -1525,7 +1525,7 @@ flashcards:
       version de Symfony n'est pas celle du bridge.
     memorization_justification: >-
       Exception dans une liste, donc invisible à la lecture ; elle se manifeste
-      par une classe introuvable au moment d'écrire un test.
+      par une class introuvable au moment d'écrire un test.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/composer.json"
@@ -1542,13 +1542,13 @@ flashcards:
     front: "Pourquoi le bridge PHPUnit accepte-t-il `php >=8.1.0` quand le bridge Twig exige `php >=8.4` ?"
     back: "Parce qu'il sert à **tester** : il doit pouvoir s'exécuter sur des versions de PHP plus anciennes que celles du framework qu'il aide à tester."
     explanation: >-
-      La contrainte la plus basse du dépôt n'est donc pas une négligence mais
-      une conséquence de son rôle. C'est cohérent avec son absence de `replace`
+      La constraint la plus basse du dépôt n'est donc pas une négligence mais
+      une conséquence de son role. C'est cohérent avec son absence de `replace`
       et avec son installation en `require-dev` : il vit à côté du framework,
       pas dedans.
     memorization_justification: >-
-      Écart de contrainte de version entre deux paquets du même dépôt, dont la
-      raison éclaire la place du paquet dans l'ensemble.
+      Écart de constraint de version entre deux packages du même dépôt, dont la
+      raison éclaire la place du package dans l'ensemble.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/PhpUnit/composer.json"
@@ -1571,7 +1571,7 @@ flashcards:
       de ce qu'il devait brancher.
     memorization_justification: >-
       Cas concret où les trois notions coexistent ; il rend le triangle
-      mémorable par un exemple plutôt que par un tableau.
+      mémorable par un exemple plutôt que par un array.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/composer.json"
@@ -1588,8 +1588,8 @@ flashcards:
     front: "Vrai ou faux : « tout ce qui vit dans `src/Symfony/Bridge/` dépend d'une bibliothèque tierce »."
     back: "Faux. `symfony/phpunit-bridge` ne requiert que `php >=8.1.0`."
     explanation: >-
-      La définition — un pont entre un composant et une bibliothèque tierce —
-      décrit quatre des cinq répertoires, `PsrHttpMessage` compris. `PhpUnit`
+      La definition — un pont entre un composant et une bibliothèque tierce —
+      décrit quatre des cinq directories, `PsrHttpMessage` compris. `PhpUnit`
       porte le nom et le type sans la structure. Généraliser à partir du bridge Twig, qui est le cas
       canonique, conduit exactement à cette erreur.
     memorization_justification: >-
@@ -1608,15 +1608,15 @@ flashcards:
     official_item: OIT-d416348gfhde
     language: fr
     level: TRAP
-    front: "`replace` dans le `composer.json` du mono-dépôt installe-t-il les 65 paquets ?"
+    front: "`replace` dans le `composer.json` du mono-dépôt installe-t-il les 65 packages ?"
     back: "Non : il déclare que `symfony/symfony` les **remplace**. Rien n'est installé en plus."
     explanation: >-
-      Confondre `replace` et `require` fait attendre 65 dépendances là où il n'y
+      Confondre `replace` et `require` fait attendre 65 dependencies là où il n'y
       en a aucune de ce fait. L'effet réel est un effet de résolution : Composer
       sait qu'il ne doit pas installer `symfony/console` à côté de
       `symfony/symfony`, puisque le second le fournit déjà.
     memorization_justification: >-
-      Deux clés voisines aux effets opposés ; la confusion se voit rarement,
+      Deux keys voisines aux effets opposés ; la confusion se voit rarement,
       parce qu'elle ne casse rien immédiatement.
     verification_status: VERIFIED
     official_sources:
@@ -1635,8 +1635,8 @@ flashcards:
     back: "Non : aucun. C'est le **bundle** qui enregistre des services et apporte la configuration."
     explanation: >-
       Le symptôme est déroutant — les classes sont là, l'autowiring ne trouve
-      rien — parce qu'on attend d'un paquet installé qu'il « marche ». Le bridge
-      fournit du code ; sans bundle, personne ne le déclare au conteneur.
+      rien — parce qu'on attend d'un package installé qu'il « marche ». Le bridge
+      fournit du code ; sans bundle, personne ne le déclare au container.
     memorization_justification: >-
       Erreur dont le symptôme ne désigne pas la cause : on cherche une faute de
       configuration là où il manque une couche entière.
@@ -1655,12 +1655,12 @@ flashcards:
     official_item: OIT-p3p7te94qc1n
     language: fr
     level: RECALL
-    front: "Quelles clés `extra` du `composer.json` déplacent un répertoire ?"
+    front: "Quelles keys `extra` du `composer.json` déplacent un directory ?"
     back: "Quatre : `bin-dir`, `config-dir`, `src-dir`, `public-dir`."
     explanation: >-
       `templates/` et `translations/` se déplacent par configuration de bundle,
-      `vendor/` par la clé `config` de Composer, `var/cache/` et `var/log/` par
-      le noyau. Une clé `extra.templates-dir` n'existe pas.
+      `vendor/` par la key `config` de Composer, `var/cache/` et `var/log/` par
+      le kernel. Une key `extra.templates-dir` n'existe pas.
     memorization_justification: >-
       Liste close et courte, que le QCM allonge ou raccourcit d'une entrée ;
       elle ne se reconstruit pas par raisonnement.
@@ -1677,15 +1677,15 @@ flashcards:
     official_item: OIT-p3p7te94qc1n
     language: fr
     level: RECALL
-    front: "Par quelle clé se déplace le fichier `.env` ?"
+    front: "Par quelle key se déplace le file `.env` ?"
     back: "`extra.runtime.dotenv_path` — sous `extra`, mais imbriquée d'un cran."
     explanation: >-
-      Les quatre autres clés sont plates sous `extra` ; celle-ci vit sous
+      Les quatre autres keys sont plates sous `extra` ; celle-ci vit sous
       `extra.runtime`. Après l'avoir changée il faut regénérer
       `vendor/autoload_runtime.php`, par exemple avec `composer dump-autoload`.
     memorization_justification: >-
-      Seule clé imbriquée de la famille, et seule qui vise un fichier plutôt
-      qu'un répertoire ; la forme exacte ne se devine pas.
+      Seule key imbriquée de la famille, et seule qui vise un file plutôt
+      qu'un directory ; la forme exacte ne se devine pas.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration/override_dir_structure.rst"
@@ -1699,13 +1699,13 @@ flashcards:
     official_item: OIT-p3p7te94qc1n
     language: fr
     level: RECALL
-    front: "Quelle est la valeur par défaut de `Kernel::getCacheDir()` ?"
-    back: "`<racine du projet>/var/cache/<environnement>` — l'environnement est dans le chemin."
+    front: "Quelle est la default value de `Kernel::getCacheDir()` ?"
+    back: "`<racine du projet>/var/cache/<environnement>` — l'environment est dans le path."
     explanation: >-
-      Chaque environnement génère sa propre configuration compilée ; le
+      Chaque environment génère sa propre configuration compilée ; le
       cloisonnement par défaut évite qu'ils se marchent dessus. C'est aussi
-      pourquoi la documentation avertit de garder des répertoires distincts si
-      l'on surcharge la méthode.
+      pourquoi la documentation avertit de garder des directories distincts si
+      l'on surcharge la method.
     memorization_justification: >-
       Valeur exacte, avec un segment que la lecture rapide de « var/cache »
       fait oublier ; elle est la moitié d'une asymétrie que le QCM teste.
@@ -1723,10 +1723,10 @@ flashcards:
     language: fr
     level: RECALL
     front: "Où `Kernel` place-t-il les logs par défaut ?"
-    back: "`<racine du projet>/var/log` — **sans** l'environnement."
+    back: "`<racine du projet>/var/log` — **sans** l'environment."
     explanation: >-
-      Contrairement au cache, les logs ne sont pas cloisonnés par environnement
-      par défaut. Les deux méthodes se ressemblent assez pour qu'on leur prête
+      Contrairement au cache, les logs ne sont pas cloisonnés par environment
+      par défaut. Les deux methods se ressemblent assez pour qu'on leur prête
       la même forme ; la source dit le contraire.
     memorization_justification: >-
       L'autre moitié de l'asymétrie ; c'est elle qui rend la question piégeuse
@@ -1744,7 +1744,7 @@ flashcards:
     official_item: OIT-p3p7te94qc1n
     language: fr
     level: RECALL
-    front: "Quels répertoires `Kernel` expose-t-il par une méthode ?"
+    front: "Quels directories `Kernel` expose-t-il par une method ?"
     back: "Quatre : `getCacheDir()`, `getBuildDir()`, `getShareDir()`, `getLogDir()`."
     explanation: >-
       `getBuildDir()` et `getShareDir()` délèguent par défaut à `getCacheDir()`,
@@ -1766,11 +1766,11 @@ flashcards:
     official_item: OIT-p3p7te94qc1n
     language: fr
     level: UNDERSTANDING
-    front: "Pourquoi le cache est-il cloisonné par environnement et pas le log ?"
-    back: "Le cache contient la configuration compilée, qui diffère par environnement ; un log est un journal, que rien n'oblige à séparer."
+    front: "Pourquoi le cache est-il cloisonné par environment et pas le log ?"
+    back: "Le cache contient la configuration compilée, qui diffère par environment ; un log est un journal, que rien n'oblige à séparer."
     explanation: >-
-      La documentation avertit explicitement de garder un répertoire de cache
-      distinct par environnement sous peine de comportements inattendus. Aucun
+      La documentation avertit explicitement de garder un directory de cache
+      distinct par environment sous peine de comportements inattendus. Aucun
       avertissement équivalent n'existe pour les logs, et le défaut le reflète.
     memorization_justification: >-
       Donne la raison derrière l'asymétrie, ce qui permet de la restituer même
@@ -1789,10 +1789,10 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "Qui lit `APP_CACHE_DIR` et les autres `APP_*_DIR` ?"
-    back: "`MicroKernelTrait`, pas `Kernel`. Un noyau qui n'utilise pas le trait les ignore."
+    back: "`MicroKernelTrait`, pas `Kernel`. Un kernel qui n'utilise pas le trait les ignore."
     explanation: >-
       Le trait surcharge les quatre accesseurs et consulte `$_SERVER` avant de
-      déléguer au parent. La documentation présente la variable et la méthode
+      déléguer au parent. La documentation présente la variable et la method
       comme deux voies équivalentes ; la source montre qu'elles ne sont pas au
       même endroit.
     memorization_justification: >-
@@ -1812,14 +1812,14 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "Pourquoi `getShareDir()` peut-il rendre `null` alors que les trois autres non ?"
-    back: "Le répertoire partagé est facultatif ; sans lui, le paramètre `%kernel.share_dir%` n'est simplement pas enregistré."
+    back: "Le directory partagé est facultatif ; sans lui, le parameter `%kernel.share_dir%` n'est simplement pas enregistré."
     explanation: >-
       Il sert aux installations où plusieurs frontaux partagent un système de
-      fichiers. Sa signature est `?string`, et le noyau n'ajoute le paramètre de
-      conteneur que si la valeur n'est pas nulle.
+      files. Sa signature est `?string`, et le kernel n'ajoute le parameter de
+      container que si la valeur n'est pas nulle.
     memorization_justification: >-
       Seul accesseur au type nullable, avec une conséquence observable sur le
-      conteneur ; l'exception se teste directement.
+      container ; l'exception se teste directement.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Kernel.php"
@@ -1833,15 +1833,15 @@ flashcards:
     official_item: OIT-p3p7te94qc1n
     language: fr
     level: UNDERSTANDING
-    front: "Pourquoi `public/` est-il le seul répertoire exposé ?"
+    front: "Pourquoi `public/` est-il le seul directory exposé ?"
     back: "C'est le serveur web qui décide, pas Symfony : sa racine documentaire pointe sur `public/`, et rien d'autre n'est atteignable."
     explanation: >-
-      Aucune configuration Symfony ne rend accessible un fichier posé hors de
+      Aucune configuration Symfony ne rend accessible un file posé hors de
       cette racine. C'est la raison d'être de la séparation : `config/`, `src/`
       et `var/` restent hors d'atteinte du navigateur.
     memorization_justification: >-
       Déplace la cause au bon endroit ; l'erreur classique est de chercher une
-      option Symfony pour exposer un fichier.
+      option Symfony pour exposer un file.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration/override_dir_structure.rst"
@@ -1859,7 +1859,7 @@ flashcards:
     back: "Non, si `autoload.psr-4` n'a pas suivi : l'autochargement cherche encore les classes `App\\` dans `src/`."
     explanation: >-
       La documentation demande les deux changements, plus un
-      `composer dump-autoload`. La clé `extra` dit à Symfony où est le code ;
+      `composer dump-autoload`. La key `extra` dit à Symfony où est le code ;
       `autoload.psr-4` dit à Composer où le charger. Les deux sont nécessaires.
     memorization_justification: >-
       Cas où une réponse partielle paraît complète ; la question se pose
@@ -1878,14 +1878,14 @@ flashcards:
     language: fr
     level: APPLICATION
     front: "`APP_CACHE_DIR` vaut `/data/cache`. Où le cache est-il écrit en `prod` ?"
-    back: "Dans `/data/cache/prod` : `getEnvDir()` ajoute l'environnement au chemin reçu."
+    back: "Dans `/data/cache/prod` : `getEnvDir()` ajoute l'environment au path reçu."
     explanation: >-
-      La documentation décrit la variable comme « le chemin complet du dossier
+      La documentation décrit la variable comme « le path complet du dossier
       de cache », mais le trait la fait passer par `getEnvDir()`, qui suffixe
-      l'environnement — et qui résout un chemin relatif depuis la racine du
+      l'environment — et qui résout un path relatif depuis la racine du
       projet. Sur ce point, la source prime.
     memorization_justification: >-
-      Écart entre documentation et source, avec un effet visible sur le chemin
+      Écart entre documentation et source, avec un effet visible sur le path
       final ; c'est exactement le genre d'écart qu'une question exploite.
     verification_status: VERIFIED
     official_sources:
@@ -1900,15 +1900,15 @@ flashcards:
     official_item: OIT-p3p7te94qc1n
     language: fr
     level: APPLICATION
-    front: "Les gabarits vivent dans deux répertoires. Quelle option de configuration ?"
+    front: "Les templates vivent dans deux directories. Quelle option de configuration ?"
     back: "`twig.paths`. `twig.default_path` n'en désigne qu'un seul."
     explanation: >-
-      Même partage du côté des traductions :
-      `framework.translator.default_path` pour un répertoire,
+      Même partage du côté des translations :
+      `framework.translator.default_path` pour un directory,
       `framework.translator.paths` pour plusieurs.
     memorization_justification: >-
-      Le besoin réel — plusieurs répertoires — ne se couvre pas avec l'option
-      la plus citée ; la distinction singulier / pluriel est la réponse.
+      Le besoin réel — plusieurs directories — ne se couvre pas avec l'option
+      la plus citée ; la distinction singulier / pluriel est la Response.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration/override_dir_structure.rst"
@@ -1922,10 +1922,10 @@ flashcards:
     official_item: OIT-p3p7te94qc1n
     language: fr
     level: TRAP
-    front: "Vrai ou faux : `vendor/` se déplace par la clé `extra` du `composer.json`."
-    back: "Faux. Par la clé `config` : `config.vendor-dir`."
+    front: "Vrai ou faux : `vendor/` se déplace par la key `extra` du `composer.json`."
+    back: "Faux. Par la key `config` : `config.vendor-dir`."
     explanation: >-
-      `extra` est lue par Symfony Flex ; `config` est une clé native de
+      `extra` est lue par Symfony Flex ; `config` est une key native de
       Composer, qui doit connaître l'emplacement de `vendor/` avant que le
       moindre code Symfony ne soit chargé. L'ordre de démarrage explique la
       séparation.
@@ -1950,7 +1950,7 @@ flashcards:
     explanation: >-
       `APP_CACHE_DIR`, `APP_BUILD_DIR` et `APP_SHARE_DIR` passent par
       `getEnvDir()` ; `APP_LOG_DIR` est renvoyée directement. L'asymétrie des
-      valeurs par défaut se retrouve donc dans celle des variables.
+      default values se retrouve donc dans celle des variables.
     memorization_justification: >-
       Trois cas sur quatre suivent une règle, le quatrième non ; la
       généralisation est exactement l'erreur attendue.
@@ -1968,15 +1968,15 @@ flashcards:
     language: fr
     level: TRAP
     front: "`config/packages/test/` s'ajoute-t-il à la configuration commune ?"
-    back: "Il la surcharge, et seulement dans l'environnement `test`."
+    back: "Il la surcharge, et seulement dans l'environment `test`."
     explanation: >-
-      Un sous-répertoire nommé d'après un environnement n'est lu que dans cet
-      environnement, et ce qu'il déclare l'emporte sur `config/packages/`. Le
+      Un sous-répertoire nommé d'après un environment n'est lu que dans cet
+      environment, et ce qu'il déclare l'emporte sur `config/packages/`. Le
       mot « ajoute » suggère une fusion additive, qui n'est pas ce qui se
       produit.
     memorization_justification: >-
       Le verbe exact est ce qui se teste ; ajouter et surcharger donnent des
-      résultats différents sur une même clé.
+      résultats différents sur une même key.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/best_practices.rst"
@@ -1996,8 +1996,8 @@ flashcards:
     back: "1 et 2. Pas 0 et 1."
     explanation: >-
       Ce sont deux constantes de `HttpKernelInterface`, et le second argument de
-      `handle()` vaut l'une des deux. Le noyau traite les deux types par le même
-      code ; ce sont les écouteurs qui font la différence.
+      `handle()` vaut l'une des deux. Le kernel traite les deux types par le même
+      code ; ce sont les listeners qui font la différence.
     memorization_justification: >-
       Valeurs arbitraires qu'aucun raisonnement ne donne, et qu'un QCM décale
       d'un cran sans que rien ne le signale.
@@ -2015,13 +2015,13 @@ flashcards:
     language: fr
     level: RECALL
     front: "Que fait `handle()` avec le `RequestStack` ?"
-    back: "Il empile la requête à l'entrée et la dépile dans un `finally`."
+    back: "Il empile la Request à l'entrée et la dépile dans un `finally`."
     explanation: >-
       Le `finally` garantit le dépilement même si une exception remonte. C'est
       ce mécanisme, et rien d'autre, qui fait fonctionner `getCurrentRequest()`
       et `getParentRequest()`.
     memorization_justification: >-
-      Relie une méthode très utilisée à son implémentation réelle ; sans elle,
+      Relie une method très utilisée à son implémentation réelle ; sans elle,
       `getCurrentRequest()` reste magique.
     verification_status: VERIFIED
     official_sources:
@@ -2036,12 +2036,12 @@ flashcards:
     official_item: OIT-7sewqvmw6468
     language: fr
     level: RECALL
-    front: "Quelle exception est levée si le résolveur ne trouve aucun contrôleur ?"
+    front: "Quelle exception est levée si le resolver ne trouve aucun controller ?"
     back: "`NotFoundHttpException`, avec le message « the route is wrongly configured »."
     explanation: >-
       `ControllerResolverInterface::getController()` rend `false` quand il
       échoue, et `handleRaw()` traduit ce `false` en 404. L'erreur est donc
-      présentée comme une route mal configurée, pas comme un contrôleur absent.
+      présentée comme une route mal configurée, pas comme un controller absent.
     memorization_justification: >-
       Exception nommée, associée à un message reconnaissable ; le QCM propose
       volontiers une `LogicException` à la place.
@@ -2061,11 +2061,11 @@ flashcards:
     front: "Quelle exception suit « Did you forget to add a return statement… » ?"
     back: "`ControllerDoesNotReturnResponseException`."
     explanation: >-
-      Elle est levée quand le contrôleur ne rend pas une `Response` et qu'aucun
-      écouteur de `kernel.view` n'en pose une. La phrase sur le `return` n'est
+      Elle est levée quand le controller ne rend pas une `Response` et qu'aucun
+      listener de `kernel.view` n'en pose une. La phrase sur le `return` n'est
       ajoutée que si la valeur retournée est `null`.
     memorization_justification: >-
-      Le message est familier, le nom de la classe ne l'est pas ; c'est
+      Le message est familier, le nom de la class ne l'est pas ; c'est
       exactement l'écart qu'une question exploite.
     verification_status: VERIFIED
     official_sources:
@@ -2081,16 +2081,16 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "Pourquoi `kernel.finish_request` est-il fiable pour restaurer un état global ?"
-    back: "Parce qu'il est dispatché sur les trois chemins : succès, exception rattrapée, exception relancée."
+    back: "Parce qu'il est dispatché sur les trois paths : succès, exception rattrapée, exception relancée."
     explanation: >-
       Même quand `$catch` vaut `false` et que `kernel.exception` n'a pas lieu,
       `finishRequest()` est appelé avant que l'exception ne remonte. Aucun autre
-      événement du cycle n'offre cette garantie. Limite : une `\Error` n'y
+      event du cycle n'offre cette garantie. Limite : une `\Error` n'y
       entre que si `handleAllThrowables` est vrai, ce que
       `framework.handle_all_throwables` fait par défaut ; exécuté avec le défaut
-      du constructeur d'`HttpKernel`, une `TypeError` saute l'événement.
+      du constructeur d'`HttpKernel`, une `TypeError` saute l'event.
     memorization_justification: >-
-      Donne la raison d'être de l'événement ; sans elle, on le confond avec un
+      Donne la raison d'être de l'event ; sans elle, on le confond avec un
       simple synonyme tardif de `kernel.response`.
     verification_status: VERIFIED
     official_sources:
@@ -2106,14 +2106,14 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "Que décide exactement l'argument `$catch` de `handle()` ?"
-    back: "Si `kernel.exception` est dispatché. À `false`, l'exception remonte sans passer par l'événement."
+    back: "Si `kernel.exception` est dispatché. À `false`, l'exception remonte sans passer par l'event."
     explanation: >-
-      À `true`, un écouteur peut convertir l'exception en réponse et le cycle
-      reprend au filtre de réponse. À `false`, seule `finishRequest()` a lieu
+      À `true`, un listener peut convertir l'exception en Response et le cycle
+      reprend au filter de Response. À `false`, seule `finishRequest()` a lieu
       avant que l'exception ne soit relancée telle quelle.
     memorization_justification: >-
-      Argument souvent lu comme « attraper ou non », alors qu'il commande la
-      tenue d'un événement précis, avec des conséquences observables.
+      Argument souvent lu comme « attraper ou non », alors qu'il command la
+      tenue d'un event précis, avec des conséquences observables.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php"
@@ -2128,14 +2128,14 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "Pourquoi un court-circuit sur `kernel.request` ne saute-t-il pas `kernel.response` ?"
-    back: "Parce que la réponse posée par l'écouteur passe par le même filtre de réponse que la réponse d'un contrôleur."
+    back: "Parce que la Response posée par le listener passe par le même filter de Response que la Response d'un controller."
     explanation: >-
-      `handleRaw()` rend `filterResponse($event->getResponse(), …)`, et ce filtre
+      `handleRaw()` rend `filterResponse($event->getResponse(), …)`, et ce filter
       dispatche `kernel.response` puis `kernel.finish_request`. Seules la
-      résolution et l'exécution du contrôleur sont sautées.
+      résolution et l'exécution du controller sont sautées.
     memorization_justification: >-
-      Le mot « court-circuit » suggère une sortie immédiate ; comprendre par où
-      passe la réponse évite l'erreur.
+      Le mot « court-circuit » suggère un output immédiate ; comprendre par où
+      passe la Response évite l'erreur.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php"
@@ -2149,15 +2149,15 @@ flashcards:
     official_item: OIT-7sewqvmw6468
     language: fr
     level: UNDERSTANDING
-    front: "Pourquoi une `StreamedResponse` reçoit-elle une fonction de rendu réenveloppée ?"
-    back: "Parce que le flux s'exécute après la sortie de `handle()`, donc après le dépilement de la requête."
+    front: "Pourquoi une `StreamedResponse` reçoit-elle une function de rendu réenveloppée ?"
+    back: "Parce que le flux s'exécute après l'output de `handle()`, donc après le dépilement de la Request."
     explanation: >-
       Sans réenveloppement, `getCurrentRequest()` rendrait `null` à l'intérieur
-      du `callback`. Le noyau réempile la requête le temps du flux, puis la
+      du `callback`. Le kernel réempile la Request le temps du flux, puis la
       dépile dans un `finally`.
     memorization_justification: >-
       Conséquence directe de la mécanique de la pile, et cas où l'intuition
-      « la requête est toujours là » est fausse.
+      « la Request est toujours là » est fausse.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php"
@@ -2174,12 +2174,12 @@ flashcards:
     front: "Qui crée la `Request` et appelle `handle()` ?"
     back: "Le composant Runtime, via `vendor/autoload_runtime.php` — pas `public/index.php` lui-même."
     explanation: >-
-      Le contrôleur frontal se contente de retourner une fonction qui construit
-      le `Kernel`. C'est le Runtime qui crée la requête depuis les globales,
-      appelle `handle()`, envoie la réponse et déclenche `terminate()`.
+      Le front controller se contente de retourner une function qui construit
+      le `Kernel`. C'est le Runtime qui crée la Request depuis les globales,
+      appelle `handle()`, envoie la Response et déclenche `terminate()`.
     memorization_justification: >-
-      Le fichier qu'on lit ne fait pas ce qu'on croit y lire ; la répartition
-      réelle des rôles se teste directement.
+      Le file qu'on lit ne fait pas ce qu'on croit y lire ; la répartition
+      réelle des roles se teste directement.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/runtime.rst"
@@ -2193,14 +2193,14 @@ flashcards:
     official_item: OIT-7sewqvmw6468
     language: fr
     level: APPLICATION
-    front: "Un écouteur de `kernel.request` pose une réponse. Quels événements ont encore lieu ?"
+    front: "Un listener de `kernel.request` pose une Response. Quels events ont encore lieu ?"
     back: "`kernel.response`, `kernel.finish_request`, puis `kernel.terminate` après l'envoi. Pas `kernel.controller` ni `kernel.view`."
     explanation: >-
-      C'est exactement le fonctionnement d'une redirection de sécurité : le
-      contrôleur n'est jamais résolu, mais la réponse traverse tout le reste du
+      C'est exactement le fonctionnement d'un redirect de sécurité : le
+      controller n'est jamais résolu, mais la Response traverse tout le reste du
       cycle et peut encore être modifiée.
     memorization_justification: >-
-      Scénario fréquent en QCM, avec une liste d'événements à cocher où l'erreur
+      Scénario fréquent en QCM, avec une liste d'events à cocher où l'erreur
       naturelle est de tout couper.
     verification_status: VERIFIED
     official_sources:
@@ -2215,14 +2215,14 @@ flashcards:
     official_item: OIT-7sewqvmw6468
     language: fr
     level: APPLICATION
-    front: "Un contrôleur rend un tableau et aucun écouteur de `kernel.view` n'agit. Que se passe-t-il ?"
+    front: "Un controller rend un array et aucun listener de `kernel.view` n'agit. Que se passe-t-il ?"
     back: "`kernel.view` a bien lieu, puis `ControllerDoesNotReturnResponseException` est levée."
     explanation: >-
-      L'événement est dispatché dès que la valeur retournée n'est pas une
-      `Response` ; l'exception ne vient qu'après, faute de réponse posée. Dire
-      que l'événement n'a pas eu lieu est faux.
+      L'event est dispatché dès que la valeur retournée n'est pas une
+      `Response` ; l'exception ne vient qu'après, faute de Response posée. Dire
+      que l'event n'a pas eu lieu est faux.
     memorization_justification: >-
-      Distingue « l'événement n'a rien donné » de « l'événement n'a pas eu
+      Distingue « l'event n'a rien donné » de « l'event n'a pas eu
       lieu », deux réponses différentes à une même question.
     verification_status: VERIFIED
     official_sources:
@@ -2237,14 +2237,14 @@ flashcards:
     official_item: OIT-7sewqvmw6468
     language: fr
     level: APPLICATION
-    front: "On veut remplacer le contrôleur après que ses arguments ont été résolus. Possible ?"
-    back: "Oui, sur `kernel.controller_arguments` : le noyau relit le contrôleur **et** les arguments après le dispatch."
+    front: "On veut remplacer le controller après que ses arguments ont été résolus. Possible ?"
+    back: "Oui, sur `kernel.controller_arguments` : le kernel relit le controller **et** les arguments après le dispatch."
     explanation: >-
-      Les deux sont réaffectés depuis l'événement avant l'appel. L'étape 5,
+      Les deux sont réaffectés depuis l'event avant l'appel. L'étape 5,
       `kernel.controller`, n'est donc pas la dernière occasion de changer de
-      contrôleur.
+      controller.
     memorization_justification: >-
-      Contredit la lecture usuelle de l'événement comme purement dédié aux
+      Contredit la lecture usuelle de l'event comme purement dédié aux
       arguments ; la possibilité se teste en une question fermée.
     verification_status: VERIFIED
     official_sources:
@@ -2259,14 +2259,14 @@ flashcards:
     official_item: OIT-7sewqvmw6468
     language: fr
     level: APPLICATION
-    front: "`$catch` vaut `false` et le contrôleur lève une exception. Quel événement a lieu ?"
+    front: "`$catch` vaut `false` et le controller lève une exception. Quel event a lieu ?"
     back: "`kernel.finish_request`, et lui seul. Puis l'exception remonte."
     explanation: >-
       `kernel.exception` n'est pas dispatché, `kernel.response` non plus,
-      puisqu'aucune réponse n'existe. Mais le noyau appelle `finishRequest()`
+      puisqu'aucune Response n'existe. Mais le kernel appelle `finishRequest()`
       avant de relancer, pour que l'état global soit restauré.
     memorization_justification: >-
-      Cas limite où presque tout est sauté sauf un événement ; la réponse
+      Cas limite où presque tout est sauté sauf un event ; la Response
       « aucun » est l'erreur attendue.
     verification_status: VERIFIED
     official_sources:
@@ -2281,11 +2281,11 @@ flashcards:
     official_item: OIT-7sewqvmw6468
     language: fr
     level: APPLICATION
-    front: "Un écouteur de `kernel.exception` pose une réponse. Le cycle s'arrête-t-il là ?"
-    back: "Non : la réponse passe par le filtre, donc `kernel.response` puis `kernel.finish_request` ont lieu."
+    front: "Un listener de `kernel.exception` pose une Response. Le cycle s'arrête-t-il là ?"
+    back: "Non : la Response passe par le filter, donc `kernel.response` puis `kernel.finish_request` ont lieu."
     explanation: >-
-      Le noyau reprend le cycle au même endroit qu'après un court-circuit sur
-      `kernel.request`. Il ajuste au passage le code de statut si l'écouteur n'a
+      Le kernel reprend le cycle au même endroit qu'après un court-circuit sur
+      `kernel.request`. Il ajuste au passage le status code si le listener n'a
       pas demandé à garder le sien.
     memorization_justification: >-
       Même mécanisme que le court-circuit, appliqué à une autre branche ; le
@@ -2303,11 +2303,11 @@ flashcards:
     official_item: OIT-7sewqvmw6468
     language: fr
     level: TRAP
-    front: "Vrai ou faux : `kernel.terminate` est dispatché avant l'envoi de la réponse."
+    front: "Vrai ou faux : `kernel.terminate` est dispatché avant l'envoi de la Response."
     back: "Faux. Après l'envoi — c'est tout son intérêt."
     explanation: >-
       C'est le seul endroit du cycle où un traitement lent ne coûte rien à
-      l'utilisateur, puisque le client a déjà reçu la réponse. Le placer avant
+      le user, puisque le client a déjà reçu la Response. Le placer avant
       l'envoi lui retirerait sa raison d'être.
     memorization_justification: >-
       Le nom suggère une fin de traitement plutôt qu'un après-envoi ; l'ordre
@@ -2329,10 +2329,10 @@ flashcards:
     back: "Non, après. C'est `filterResponse()` qui dispatche l'un puis appelle l'autre."
     explanation: >-
       L'ordre est lisible dans le code : `dispatch(ResponseEvent)` puis
-      `finishRequest()`. Un commentaire du noyau avertit que l'inverser
+      `finishRequest()`. Un commentaire du kernel avertit que l'inverser
       donnerait des résultats étranges sur `getParentRequest()`.
     memorization_justification: >-
-      Deux événements adjacents dont les noms n'indiquent pas l'ordre ;
+      Deux events adjacents dont les noms n'indiquent pas l'ordre ;
       l'interversion est le piège standard.
     verification_status: VERIFIED
     official_sources:
@@ -2347,12 +2347,12 @@ flashcards:
     official_item: OIT-7sewqvmw6468
     language: fr
     level: TRAP
-    front: "Un contrôleur doit-il être une méthode de classe ?"
-    back: "Non. Le noyau attend un appelable PHP, quel qu'il soit."
+    front: "Un controller doit-il être une method de class ?"
+    back: "Non. Le kernel attend un callable PHP, quel qu'il soit."
     explanation: >-
       `ControllerResolverInterface::getController()` rend un *callable*. Une
-      fonction anonyme ou un objet invocable conviennent ; la classe-contrôleur
-      est une convention, pas une contrainte du noyau.
+      function anonyme ou un object invocable conviennent ; la classe-contrôleur
+      est une convention, pas une constraint du kernel.
     memorization_justification: >-
       L'usage quotidien ne montre qu'une forme, ce qui fait passer une
       convention pour une règle.
@@ -2369,11 +2369,11 @@ flashcards:
     official_item: OIT-7sewqvmw6468
     language: fr
     level: TRAP
-    front: "Le noyau traite-t-il une sous-requête par un autre code que la requête principale ?"
+    front: "Le kernel traite-t-il une sub-Request par un autre code que la main Request ?"
     back: "Non. Même code, même cycle ; seul l'argument `$type` diffère."
     explanation: >-
-      Ce sont les écouteurs qui distinguent les deux quand la distinction
-      compte — le profileur, la sécurité. Le noyau, lui, ne branche nulle part
+      Ce sont les listeners qui distinguent les deux quand la distinction
+      compte — le profiler, la security. Le kernel, lui, ne branche nulle part
       sur `$type` dans le trajet nominal.
     memorization_justification: >-
       L'existence de deux constantes suggère deux traitements ; il n'y en a
@@ -2397,8 +2397,8 @@ flashcards:
     back: "Deux fois : `logKernelException` à **0**, `onKernelException` à **−128**."
     explanation: >-
       Le log passe tôt, la construction de la page d'erreur en tout dernier.
-      C'est cet écart qui laisse un écouteur applicatif devancer le listener
-      intégré tout en gardant la journalisation.
+      C'est cet écart qui laisse un listener applicatif devancer le listener
+      intégré tout en gardant le logging.
     memorization_justification: >-
       Deux valeurs exactes qui expliquent un comportement entier ; aucune ne se
       devine, et la question se pose directement.
@@ -2415,12 +2415,12 @@ flashcards:
     official_item: OIT-xc4zfr70jjas
     language: fr
     level: RECALL
-    front: "Sur combien d'événements `ErrorListener` est-il branché ?"
+    front: "Sur combien d'events `ErrorListener` est-il branché ?"
     back: "Quatre : `kernel.exception` (deux fois), `kernel.controller_arguments` et `kernel.response`."
     explanation: >-
-      Son nom suggère un unique point d'entrée. `onControllerArguments` convertit
-      un argument `\Throwable` du contrôleur d'erreur, et `removeCspHeader`
-      retire l'en-tête `Content-Security-Policy` en débogage.
+      Son nom suggère un unique entry point. `onControllerArguments` convertit
+      un argument `\Throwable` du controller d'erreur, et `removeCspHeader`
+      retire le header `Content-Security-Policy` en debug.
     memorization_justification: >-
       Le nombre exact contredit ce que le nom laisse croire, et c'est une
       question fermée immédiate.
@@ -2437,15 +2437,15 @@ flashcards:
     official_item: OIT-xc4zfr70jjas
     language: fr
     level: RECALL
-    front: "Quel attribut PHP associe une classe d'exception à un statut HTTP ?"
+    front: "Quel attribute PHP associe une class d'exception à un statut HTTP ?"
     back: "`#[WithHttpStatus(…)]`, du composant HttpKernel."
     explanation: >-
       `logKernelException` le lit et remplace l'exception par une
-      `HttpException` portant ce statut. Un attribut frère, `#[WithLogLevel]`,
-      fait de même pour le niveau de journalisation.
+      `HttpException` portant ce statut. Un attribute frère, `#[WithLogLevel]`,
+      fait de même pour le niveau de logging.
     memorization_justification: >-
-      Nom exact d'un attribut qui change le statut sortant sans qu'aucun
-      écouteur soit écrit ; il ne se déduit d'aucune règle.
+      Nom exact d'un attribute qui change le statut sortant sans qu'aucun
+      listener soit écrit ; il ne se déduit d'aucune règle.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php"
@@ -2459,14 +2459,14 @@ flashcards:
     official_item: OIT-xc4zfr70jjas
     language: fr
     level: RECALL
-    front: "Quelles trois clés la table `exceptions` du framework associe-t-elle à une classe ?"
+    front: "Quelles trois keys la table `exceptions` du framework associe-t-elle à une class ?"
     back: "`status_code`, `log_level` et `log_channel`."
     explanation: >-
       `ErrorListener` reçoit cette table en constructeur. Une entrée sans
-      `status_code` ne change que la journalisation ; avec, elle remplace
+      `status_code` ne change que le logging ; avec, elle remplace
       l'exception par une `HttpException`.
     memorization_justification: >-
-      Trois clés exactes, dont une seule agit sur le statut ; la confusion
+      Trois keys exactes, dont une seule agit sur le statut ; la confusion
       entre les deux effets est le piège naturel.
     verification_status: VERIFIED
     official_sources:
@@ -2481,14 +2481,14 @@ flashcards:
     official_item: OIT-xc4zfr70jjas
     language: fr
     level: UNDERSTANDING
-    front: "Pourquoi une exception est-elle journalisée même si un écouteur fournit une réponse ?"
-    back: "Parce que le log passe à la priorité 0 et la page d'erreur à −128 : l'écouteur devance la seconde, pas la première."
+    front: "Pourquoi une exception est-elle journalisée même si un listener fournit une Response ?"
+    back: "Parce que le log passe à la priorité 0 et la page d'erreur à −128 : le listener devance la seconde, pas la première."
     explanation: >-
       `setResponse()` n'interrompt pas le dispatch ; il rend simplement
       `onKernelException` sans effet. `logKernelException`, lui, s'est exécuté
-      avant tout écouteur de priorité négative.
+      avant tout listener de priorité négative.
     memorization_justification: >-
-      Corrige l'idée que « fournir une réponse arrête tout » ; la nuance a une
+      Corrige l'idée que « fournir une Response arrête tout » ; la nuance a une
       conséquence observable dans les journaux.
     verification_status: VERIFIED
     official_sources:
@@ -2504,14 +2504,14 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "Comment la page d'erreur est-elle produite ?"
-    back: "Par une **sous-requête** vers le contrôleur d'erreur : `handle($request, SUB_REQUEST, false)`."
+    back: "Par une **sub-Request** vers le controller d'erreur : `handle($request, SUB_REQUEST, false)`."
     explanation: >-
-      `onKernelException` duplique la requête et rappelle le noyau. Ce n'est
-      donc pas une réponse fabriquée à la main : c'est un cycle complet, avec
-      ses propres événements.
+      `onKernelException` duplique la Request et rappelle le kernel. Ce n'est
+      donc pas une Response fabriquée à la main : c'est un cycle complet, avec
+      ses propres events.
     memorization_justification: >-
-      Explique pourquoi une page d'erreur déclenche des écouteurs, ce qui
-      surprend quand on croit à une réponse construite directement.
+      Explique pourquoi une page d'erreur déclenche des listeners, ce qui
+      surprend quand on croit à une Response construite directement.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php"
@@ -2525,12 +2525,12 @@ flashcards:
     official_item: OIT-xc4zfr70jjas
     language: fr
     level: UNDERSTANDING
-    front: "Pourquoi le critère du statut est-il l'interface et non la classe mère ?"
+    front: "Pourquoi le critère du statut est-il l'interface et non la class mère ?"
     back: "Parce que `HttpException extends \\RuntimeException implements HttpExceptionInterface` : l'ascendance ne dit rien du statut."
     explanation: >-
       `NotFoundHttpException`, `AccessDeniedHttpException` et
       `BadRequestHttpException` sont toutes des `\RuntimeException`. Raisonner
-      sur la classe mère mène donc à la mauvaise réponse dans le cas le plus
+      sur la class mère mène donc à la mauvaise réponse dans le cas le plus
       courant.
     memorization_justification: >-
       Le contre-exemple qu'on croit valable est précisément le cas standard ;
@@ -2548,14 +2548,14 @@ flashcards:
     official_item: OIT-xc4zfr70jjas
     language: fr
     level: UNDERSTANDING
-    front: "Pourquoi `#[WithHttpStatus]` fonctionne-t-il sans écouteur écrit à la main ?"
+    front: "Pourquoi `#[WithHttpStatus]` fonctionne-t-il sans listener écrit à la main ?"
     back: "Parce que `logKernelException` s'exécute **avant** la règle du statut et remplace l'exception par une `HttpException`."
     explanation: >-
-      Le noyau relit l'exception après le dispatch. Il voit donc une exception
+      Le kernel relit l'exception après le dispatch. Il voit donc une exception
       conforme à `HttpExceptionInterface` et applique sa règle 2, sans savoir
       qu'elle a été substituée.
     memorization_justification: >-
-      Relie l'attribut au mécanisme réel ; sans cela il reste une magie dont on
+      Relie l'attribute au mécanisme réel ; sans cela il reste une magie dont on
       ne sait pas prédire les limites.
     verification_status: VERIFIED
     official_sources:
@@ -2570,12 +2570,12 @@ flashcards:
     official_item: OIT-xc4zfr70jjas
     language: fr
     level: APPLICATION
-    front: "Un écouteur pose une `Response` à **204**. Quel statut sort ?"
+    front: "Un listener pose une `Response` à **204**. Quel statut sort ?"
     back: "**500**, sauf appel préalable à `allowCustomResponseCode()`."
     explanation: >-
       204 n'est ni une erreur client, ni une erreur serveur, ni une
-      redirection : la règle 1 ne s'applique pas. L'exception d'origine ne
-      portant pas de statut, le noyau retombe sur 500.
+      redirect : la règle 1 ne s'applique pas. L'exception d'origine ne
+      portant pas de statut, le kernel retombe sur 500.
     memorization_justification: >-
       Cas concret où le code écrit par le développeur est écrasé sans
       avertissement ; c'est la forme sous laquelle la règle est testée.
@@ -2595,12 +2595,12 @@ flashcards:
     front: "Une `\\InvalidArgumentException` porte `#[WithHttpStatus(422)]`. Quel statut sort ?"
     back: "**422**. L'exception est remplacée par une `HttpException` avant que la règle du statut ne s'applique."
     explanation: >-
-      Sans l'attribut, la même exception donnerait 500 : elle n'implémente pas
+      Sans l'attribute, la même exception donnerait 500 : elle n'implémente pas
       `HttpExceptionInterface`. La table `exceptions` du framework produit le
       même effet.
     memorization_justification: >-
       Contre-exemple à la règle « pas l'interface, donc 500 », qui est vraie du
-      noyau seul et fausse d'une application Symfony.
+      kernel seul et fausse d'une application Symfony.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php"
@@ -2614,14 +2614,14 @@ flashcards:
     official_item: OIT-xc4zfr70jjas
     language: fr
     level: APPLICATION
-    front: "Le contrôleur d'erreur lève lui-même une exception. Est-elle rattrapée ?"
-    back: "Non. La sous-requête est lancée avec `$catch = false` : elle remonte, l'originale chaînée en `previous`."
+    front: "Le controller d'erreur lève lui-même une exception. Est-elle rattrapée ?"
+    back: "Non. La sub-Request est lancée avec `$catch = false` : elle remonte, l'originale chaînée en `previous`."
     explanation: >-
       Sans cela, une page d'erreur défaillante provoquerait une récursion. Le
-      noyau journalise l'échec, raccroche l'exception d'origine au bout de la
-      chaîne, et relance.
+      kernel journalise l'échec, raccroche l'exception d'origine au bout de la
+      string, et relance.
     memorization_justification: >-
-      Cas limite dont la réponse intuitive — « oui, elle repasse par
+      Cas limite dont la Response intuitive — « oui, elle repasse par
       kernel.exception » — est fausse et produirait une boucle.
     verification_status: VERIFIED
     official_sources:
@@ -2636,12 +2636,12 @@ flashcards:
     official_item: OIT-xc4zfr70jjas
     language: fr
     level: APPLICATION
-    front: "Une `HttpException` porte des en-têtes. Sont-ils appliqués à la réponse ?"
-    back: "Oui, quand la règle 2 s'applique : le noyau ajoute `getHeaders()` en même temps que `getStatusCode()`."
+    front: "Une `HttpException` porte des headers. Sont-ils appliqués à la Response ?"
+    back: "Oui, quand la règle 2 s'applique : le kernel ajoute `getHeaders()` en même temps que `getStatusCode()`."
     explanation: >-
       C'est ainsi qu'un 405 apporte son `Allow` et un 401 son
-      `WWW-Authenticate`. Si la règle 1 a conservé le statut de la réponse, en
-      revanche, les en-têtes de l'exception ne sont pas ajoutés.
+      `WWW-Authenticate`. Si la règle 1 a conservé le statut de la Response, en
+      revanche, les headers de l'exception ne sont pas ajoutés.
     memorization_justification: >-
       Effet de bord méconnu de la règle 2, et la condition sous laquelle il
       disparaît est exactement ce qu'une question isole.
@@ -2661,8 +2661,8 @@ flashcards:
     front: "Vrai ou faux : `setResponse()` empêche l'exception d'être journalisée."
     back: "Faux. Le log passe à la priorité 0, bien avant `onKernelException` à −128."
     explanation: >-
-      L'écouteur applicatif devance la construction de la page d'erreur, pas la
-      journalisation. Croire le contraire fait chercher en vain un journal
+      Le listener applicatif devance la construction de la page d'erreur, pas la
+      logging. Croire le contraire fait chercher en vain un journal
       manquant.
     memorization_justification: >-
       L'expression « met fin au traitement » suggère un arrêt total ; la
@@ -2687,7 +2687,7 @@ flashcards:
       l'ascendance. `\RuntimeException` est donc le contre-exemple le moins bien
       choisi qui soit.
     memorization_justification: >-
-      Piège bâti sur une hiérarchie que l'on croit connaître ; la réponse
+      Piège bâti sur une hiérarchie que l'on croit connaître ; la Response
       intuitive est fausse pour le cas le plus fréquent.
     verification_status: VERIFIED
     official_sources:
@@ -2703,11 +2703,11 @@ flashcards:
     language: fr
     level: TRAP
     front: "Une exception levée pendant `kernel.terminate` produit-elle une page d'erreur en production ?"
-    back: "Non. `onKernelException` renonce hors débogage : la réponse est déjà partie."
+    back: "Non. `onKernelException` renonce hors debug : la Response est déjà partie."
     explanation: >-
-      L'événement d'exception porte un indicateur disant que le noyau est en
-      train de terminer. En débogage, la page est produite quand même, ce qui
-      explique qu'on observe des comportements opposés selon l'environnement.
+      L'event d'exception porte un indicateur disant que le kernel est en
+      train de terminer. En debug, la page est produite quand même, ce qui
+      explique qu'on observe des comportements opposés selon l'environment.
     memorization_justification: >-
       Divergence prod / debug sur un cas que rien ne signale, et qui rend un
       symptôme irreproductible en local.
@@ -2728,13 +2728,13 @@ flashcards:
     language: fr
     level: RECALL
     front: "Quelle est la signature de `EventDispatcher::dispatch()` ?"
-    back: "`dispatch(object $event, ?string $eventName = null): object` — le nom est facultatif, et l'événement est **retourné**."
+    back: "`dispatch(object $event, ?string $eventName = null): object` — le nom est facultatif, et l'event est **retourné**."
     explanation: >-
       Le retour permet l'idiome
-      `$event = $dispatcher->dispatch(new FooEvent(...))` : l'objet revient
-      enrichi par les écouteurs.
+      `$event = $dispatcher->dispatch(new FooEvent(...))` : l'object revient
+      enrichi par les listeners.
     memorization_justification: >-
-      Signature exacte dont deux détails — nom facultatif, valeur de retour —
+      Signature exacte dont deux détails — nom facultatif, return value —
       changent la façon d'écrire l'appel.
     verification_status: VERIFIED
     official_sources:
@@ -2749,12 +2749,12 @@ flashcards:
     official_item: OIT-rd9b27fkb72r
     language: fr
     level: RECALL
-    front: "Combien d'arguments un écouteur reçoit-il à l'appel ?"
-    back: "Trois : l'événement, le **nom** de l'événement, et le dispatcher."
+    front: "Combien d'arguments un listener reçoit-il à l'appel ?"
+    back: "Trois : l'event, le **nom** de l'event, et le dispatcher."
     explanation: >-
       `callListeners()` appelle `$listener($event, $eventName, $this)`. Le
-      deuxième argument sert quand une même méthode est branchée sur plusieurs
-      événements.
+      deuxième argument sert quand une même method est branchée sur plusieurs
+      events.
     memorization_justification: >-
       On n'en déclare qu'un dans la pratique courante, donc les deux autres
       s'oublient ; leur existence est une question fermée.
@@ -2772,11 +2772,11 @@ flashcards:
     language: fr
     level: RECALL
     front: "Que contient la constante `KernelEvents::ALIASES` ?"
-    back: "La correspondance **classe d'événement → nom** : `RequestEvent::class => 'kernel.request'`, etc."
+    back: "La correspondance **class d'event → nom** : `RequestEvent::class => 'kernel.request'`, etc."
     explanation: >-
       Elle est consommée par `RegisterListenersPass`. C'est elle qui permet à
-      `#[AsEventListener]` de déduire l'événement du type de l'argument, sans
-      paramètre `event`.
+      `#[AsEventListener]` de déduire l'event du type de l'argument, sans
+      parameter `event`.
     memorization_justification: >-
       Constante peu citée qui explique une commodité très utilisée ; son
       existence même est la réponse attendue.
@@ -2793,10 +2793,10 @@ flashcards:
     official_item: OIT-rd9b27fkb72r
     language: fr
     level: RECALL
-    front: "Quelles méthodes d'introspection le dispatcher expose-t-il ?"
+    front: "Quelles methods d'introspection le dispatcher expose-t-il ?"
     back: "`hasListeners($nom)`, `getListeners($nom)` et `getListenerPriority($nom, $listener)`."
     explanation: >-
-      `getListenerPriority()` rend la priorité réelle, ou `null` si l'écouteur
+      `getListenerPriority()` rend la priorité réelle, ou `null` si le listener
       n'est pas enregistré. S'y ajoutent les symétriques d'ajout :
       `removeListener()` et `removeSubscriber()`.
     memorization_justification: >-
@@ -2815,14 +2815,14 @@ flashcards:
     official_item: OIT-rd9b27fkb72r
     language: fr
     level: RECALL
-    front: "Quelle fonction PHP trie les écouteurs par priorité ?"
-    back: "`krsort()` — tri par **clé décroissante**."
+    front: "Quelle function PHP trie les listeners par priorité ?"
+    back: "`krsort()` — tri par **key décroissante**."
     explanation: >-
-      Les priorités sont les clés du tableau interne. Le nom de la fonction dit
+      Les priorités sont les keys de l'array interne. Le nom de la function dit
       donc le sens de l'ordre : 255 avant 0 avant −255.
     memorization_justification: >-
       Mnémonique vérifiable : quand le sens de la priorité s'échappe, le nom de
-      la fonction le restitue.
+      la function le restitue.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/EventDispatcher/EventDispatcher.php"
@@ -2837,14 +2837,14 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "À quelle condition `stopPropagation()` a-t-il un effet ?"
-    back: "L'événement doit implémenter `StoppableEventInterface` — `callListeners()` ne teste la propagation que dans ce cas."
+    back: "L'event doit implémenter `StoppableEventInterface` — `callListeners()` ne teste la propagation que dans ce cas."
     explanation: >-
       `Symfony\Contracts\EventDispatcher\Event` l'implémente, et `KernelEvent`
-      l'étend : les huit événements du noyau sont arrêtables. Un simple objet
+      l'étend : les huit events du kernel sont arrêtables. Un simple object
       dispatché, lui, ne l'est pas.
     memorization_justification: >-
       Condition jamais visible dans l'usage courant, parce que tout ce qu'on
-      manipule l'implémente déjà ; elle ne se révèle que sur un événement maison.
+      manipule l'implémente déjà ; elle ne se révèle que sur un event maison.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/EventDispatcher/EventDispatcher.php"
@@ -2858,13 +2858,13 @@ flashcards:
     official_item: OIT-rd9b27fkb72r
     language: fr
     level: UNDERSTANDING
-    front: "Pourquoi `#[AsEventListener]` peut-il se passer du paramètre `event` ?"
+    front: "Pourquoi `#[AsEventListener]` peut-il se passer du parameter `event` ?"
     back: "Parce que `RegisterListenersPass` déduit le nom du **type** de l'argument, via `KernelEvents::ALIASES`."
     explanation: >-
       Retirer le type de l'argument fait donc échouer la compilation du
-      conteneur : exécuté, `InvalidArgumentException` « must define the "event"
-      attribute ». Un type union abonne l'écouteur à chaque événement. Les
-      autres paramètres — `method`, `priority`, `dispatcher` — restent
+      container : exécuté, `InvalidArgumentException` « must define the "event"
+      attribute ». Un type union abonne le listener à chaque event. Les
+      autres parameters — `method`, `priority`, `dispatcher` — restent
       facultatifs eux aussi.
     memorization_justification: >-
       Relie une commodité d'écriture à son mécanisme, et dit du même coup ce qui
@@ -2882,12 +2882,12 @@ flashcards:
     official_item: OIT-rd9b27fkb72r
     language: fr
     level: UNDERSTANDING
-    front: "Écouteur ou abonné : qu'est-ce qui change réellement ?"
+    front: "Listener ou abonné : qu'est-ce qui change réellement ?"
     back: "Qui déclare l'abonnement. Le fonctionnement est identique."
     explanation: >-
-      Avec un écouteur, c'est la configuration qui sait à quoi il s'abonne ;
-      avec un abonné, c'est la classe, via la méthode statique
-      `getSubscribedEvents()`. Déplacer la classe déplace alors l'abonnement.
+      Avec un listener, c'est la configuration qui sait à quoi il s'abonne ;
+      avec un subscriber, c'est la class, via la method statique
+      `getSubscribedEvents()`. Déplacer la class déplace alors l'abonnement.
     memorization_justification: >-
       Distinction de responsabilité, pas de mécanique ; l'erreur classique est
       de croire à une différence de comportement.
@@ -2904,10 +2904,10 @@ flashcards:
     official_item: OIT-rd9b27fkb72r
     language: fr
     level: UNDERSTANDING
-    front: "Que donne `getSubscribedEvents()` comme valeur pour un événement ?"
-    back: "Soit un nom de méthode, soit `[méthode, priorité]`, soit une **liste** de tels couples."
+    front: "Que donne `getSubscribedEvents()` comme valeur pour un event ?"
+    back: "Soit un nom de method, soit `[méthode, priorité]`, soit une **liste** de tels couples."
     explanation: >-
-      La troisième forme permet de s'abonner plusieurs fois au même événement à
+      La troisième forme permet de s'abonner plusieurs fois au même event à
       des priorités différentes — c'est exactement ce que fait `ErrorListener`
       sur `kernel.exception`.
     memorization_justification: >-
@@ -2927,13 +2927,13 @@ flashcards:
     language: fr
     level: APPLICATION
     front: "On fait `$dispatcher->dispatch(new OrderPlaced($o));` sans second argument. Sous quel nom ?"
-    back: "Sous `App\\Event\\OrderPlaced` — le **nom de la classe**, pas une chaîne pointée."
+    back: "Sous `App\\Event\\OrderPlaced` — le **nom de la class**, pas une string pointée."
     explanation: >-
-      `$eventName ??= $event::class`. Un écouteur branché sur `'order.placed'`
+      `$eventName ??= $event::class`. Un listener branché sur `'order.placed'`
       ne sera donc jamais appelé : il faut soit passer le nom en second
-      argument, soit écouter la classe.
+      argument, soit écouter la class.
     memorization_justification: >-
-      Erreur silencieuse — rien n'échoue, l'écouteur ne se déclenche
+      Erreur silencieuse — rien n'échoue, le listener ne se déclenche
       simplement jamais — et elle découle d'un défaut d'argument.
     verification_status: VERIFIED
     official_sources:
@@ -2948,8 +2948,8 @@ flashcards:
     official_item: OIT-rd9b27fkb72r
     language: fr
     level: APPLICATION
-    front: "Deux écouteurs, priorités `10` et `-10`. Lequel s'exécute en premier ?"
-    back: "Celui à `10`. Tri par clé décroissante : les grands nombres d'abord."
+    front: "Deux listeners, priorités `10` et `-10`. Lequel s'exécute en premier ?"
+    back: "Celui à `10`. Tri par key décroissante : les grands nombres d'abord."
     explanation: >-
       À priorité égale, l'ordre est celui de l'enregistrement.
       `php bin/console debug:event-dispatcher <événement>` donne l'ordre réel
@@ -2970,15 +2970,15 @@ flashcards:
     official_item: OIT-rd9b27fkb72r
     language: fr
     level: APPLICATION
-    front: "Un écouteur de `kernel.request` appelle `stopPropagation()`. `kernel.response` a-t-il lieu ?"
-    back: "Oui. L'arrêt ne concerne que les écouteurs restants du **même** événement."
+    front: "Un listener de `kernel.request` appelle `stopPropagation()`. `kernel.response` a-t-il lieu ?"
+    back: "Oui. L'arrêt ne concerne que les listeners restants du **même** event."
     explanation: >-
-      La propagation est une notion locale à un événement. Le cycle de la
-      requête continue normalement, et tous les autres événements sont
+      La propagation est une notion locale à un event. Le cycle de la
+      Request continue normalement, et tous les autres events sont
       dispatchés.
     memorization_justification: >-
-      Confusion classique entre arrêter un événement et arrêter le traitement ;
-      les deux réponses sont plausibles sans la règle.
+      Confusion classique entre arrêter un event et arrêter le traitement ;
+      les deux Responses sont plausibles sans la règle.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst"
@@ -2992,7 +2992,7 @@ flashcards:
     official_item: OIT-rd9b27fkb72r
     language: fr
     level: APPLICATION
-    front: "On veut modifier la réponse. Quels événements du noyau le permettent ?"
+    front: "On veut modifier la Response. Quels events du kernel le permettent ?"
     back: "`kernel.request`, `kernel.view`, `kernel.exception` la **posent** ; `kernel.response` la modifie. Ni `finish_request` ni `terminate`."
     explanation: >-
       `kernel.finish_request` intervient après `kernel.response`, et
@@ -3014,12 +3014,12 @@ flashcards:
     official_item: OIT-rd9b27fkb72r
     language: fr
     level: APPLICATION
-    front: "Une même méthode écoute trois événements. Comment sait-elle lequel l'a appelée ?"
-    back: "Par son **deuxième** argument : le dispatcher passe le nom de l'événement."
+    front: "Une même method écoute trois events. Comment sait-elle lequel l'a appelée ?"
+    back: "Par son **deuxième** argument : le dispatcher passe le nom de l'event."
     explanation: >-
       `$listener($event, $eventName, $this)`. Sans cet argument il faudrait
-      inspecter la classe de l'événement, ce qui échoue dès que deux noms
-      partagent une classe.
+      inspecter la class de l'event, ce qui échoue dès que deux noms
+      partagent une class.
     memorization_justification: >-
       Usage concret du deuxième argument, seule raison pour laquelle on pense à
       le déclarer.
@@ -3037,7 +3037,7 @@ flashcards:
     language: fr
     level: TRAP
     front: "Vrai ou faux : une priorité négative est invalide."
-    back: "Faux. La priorité est un entier quelconque ; `0` est seulement le défaut."
+    back: "Faux. La priorité est un int quelconque ; `0` est seulement le défaut."
     explanation: >-
       Le framework lui-même utilise `−128` abondamment — `ErrorListener` y place
       sa construction de page d'erreur. Le négatif signifie « tard », pas
@@ -3058,11 +3058,11 @@ flashcards:
     official_item: OIT-rd9b27fkb72r
     language: fr
     level: TRAP
-    front: "`getSubscribedEvents()` est-elle une méthode d'instance ?"
-    back: "Non, elle est **statique** — le conteneur l'appelle sans construire le service."
+    front: "`getSubscribedEvents()` est-elle une method d'instance ?"
+    back: "Non, elle est **statique** — le container l'appelle sans construire le service."
     explanation: >-
       C'est ce qui permet de connaître les abonnements à la compilation, donc
-      d'instancier l'abonné seulement quand son événement survient.
+      d'instancier le subscriber seulement quand son event survient.
     memorization_justification: >-
       Le mot-clé `static` s'oublie à l'écriture, et son oubli a une cause
       technique qu'une question peut demander.
@@ -3079,12 +3079,12 @@ flashcards:
     official_item: OIT-rd9b27fkb72r
     language: fr
     level: TRAP
-    front: "Combien d'événements la classe `KernelEvents` déclare-t-elle ?"
-    back: "**Huit** constantes — plus une table `ALIASES`, qui n'est pas un événement."
+    front: "Combien d'events la class `KernelEvents` déclare-t-elle ?"
+    back: "**Huit** constantes — plus une table `ALIASES`, qui n'est pas un event."
     explanation: >-
       `REQUEST`, `EXCEPTION`, `CONTROLLER`, `CONTROLLER_ARGUMENTS`, `VIEW`,
       `RESPONSE`, `FINISH_REQUEST`, `TERMINATE`. `ALIASES` est une neuvième
-      constante publique, mais elle ne nomme aucun événement nouveau.
+      constante publique, mais elle ne nomme aucun event nouveau.
     memorization_justification: >-
       Le comptage naïf des constantes publiques donne neuf ; la distinction est
       exactement ce qu'une question exploite.
@@ -3101,15 +3101,15 @@ flashcards:
     official_item: OIT-rd9b27fkb72r
     language: fr
     level: TRAP
-    front: "Tout objet dispatché peut-il voir sa propagation arrêtée ?"
-    back: "Non. Sans `StoppableEventInterface`, tous les écouteurs sont appelés quoi qu'il arrive."
+    front: "Tout object dispatché peut-il voir sa propagation arrêtée ?"
+    back: "Non. Sans `StoppableEventInterface`, tous les listeners sont appelés quoi qu'il arrive."
     explanation: >-
-      `callListeners()` ne teste `isPropagationStopped()` que sur un événement
-      arrêtable. PSR-14 autorise à dispatcher n'importe quel objet ; l'arrêt,
+      `callListeners()` ne teste `isPropagationStopped()` que sur un event
+      arrêtable. PSR-14 autorise à dispatcher n'importe quel object ; l'arrêt,
       lui, suppose l'interface.
     memorization_justification: >-
       L'expérience quotidienne dit « oui » parce que tout hérite de `Event` ;
-      le cas contraire ne se rencontre que sur un événement maison.
+      le cas contraire ne se rencontre que sur un event maison.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/EventDispatcher/Event.php"
@@ -3130,7 +3130,7 @@ flashcards:
     back: "**Trente** recommandations, réparties en **dix** sections."
     explanation: >-
       Les dix sections : création du projet, configuration, logique métier,
-      contrôleurs, gabarits, formulaires, internationalisation, sécurité,
+      controllers, templates, forms, internationalisation, security,
       ressources web, tests.
     memorization_justification: >-
       Deux nombres exacts qu'une question peut demander telle quelle, et qu'on
@@ -3148,7 +3148,7 @@ flashcards:
     official_item: OIT-hzbednd04fd4
     language: fr
     level: RECALL
-    front: "Quel hacheur de mots de passe le document recommande-t-il ?"
+    front: "Quel password hasher le document recommande-t-il ?"
     back: "`auto` — et son défaut actuel est **`bcrypt`**."
     explanation: >-
       `auto` n'est pas un algorithme mais un sélecteur : il choisit le meilleur
@@ -3170,14 +3170,14 @@ flashcards:
     official_item: OIT-hzbednd04fd4
     language: fr
     level: RECALL
-    front: "Où le document recommande-t-il de placer les boutons d'un formulaire ?"
-    back: "Dans le **gabarit** — ni dans la classe de formulaire, ni dans le contrôleur."
+    front: "Où le document recommande-t-il de placer les boutons d'un form ?"
+    back: "Dans le **template** — ni dans la class de form, ni dans le controller."
     explanation: >-
-      La classe doit rester agnostique quant à l'endroit où elle sert : le même
-      formulaire affiche « Ajouter » à la création et « Enregistrer » à
-      l'édition. Le style du bouton reste ainsi dans le gabarit.
+      La class doit rester agnostique quant à l'endroit où elle sert : le même
+      form affiche « Ajouter » à la création et « Enregistrer » à
+      l'édition. Le style du bouton reste ainsi dans le template.
     memorization_justification: >-
-      Recommandation contre-intuitive — le bouton fait partie du formulaire pour
+      Recommandation contre-intuitive — le bouton fait partie du form pour
       l'intuition — avec une raison claire qui la rend restituable.
     verification_status: VERIFIED
     official_sources:
@@ -3192,15 +3192,15 @@ flashcards:
     official_item: OIT-hzbednd04fd4
     language: fr
     level: RECALL
-    front: "Quelle classe de base le document recommande-t-il pour un contrôleur ?"
+    front: "Quelle class de base le document recommande-t-il pour un controller ?"
     back: "`AbstractController`."
     explanation: >-
       Elle apporte les raccourcis usuels — `render()`, `redirectToRoute()`,
-      `createForm()` — sans rendre le contrôleur dépendant du conteneur entier,
+      `createForm()` — sans rendre le controller dépendant du container entier,
       puisque les services propres s'obtiennent par injection.
     memorization_justification: >-
-      Nom exact d'une classe, réponse fermée à une question fréquente sur les
-      contrôleurs.
+      Nom exact d'une class, réponse fermée à une question fréquente sur les
+      controllers.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/best_practices.rst"
@@ -3222,7 +3222,7 @@ flashcards:
       JavaScript.
     memorization_justification: >-
       Section à une seule entrée : la question « que dit la section ressources
-      web ? » a une réponse unique qu'il faut connaître.
+      web ? » a une Response unique qu'il faut connaître.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/best_practices.rst"
@@ -3236,15 +3236,15 @@ flashcards:
     official_item: OIT-hzbednd04fd4
     language: fr
     level: UNDERSTANDING
-    front: "Pourquoi une valeur qui change rarement devient-elle une constante plutôt qu'un paramètre ?"
-    back: "Parce qu'une constante est lisible partout, y compris depuis un gabarit, là où un paramètre exige le conteneur."
+    front: "Pourquoi une valeur qui change rarement devient-elle une constante plutôt qu'un parameter ?"
+    back: "Parce qu'une constante est lisible partout, y compris depuis un template, là où un parameter exige le container."
     explanation: >-
       Le document donne l'exemple d'une constante `NUMBER_OF_ITEMS` sur
       l'entité. Le prix à payer est qu'une constante est difficile à redéfinir
       dans un test.
     memorization_justification: >-
       Recommandation qui contredit le réflexe « tout ce qui est configurable est
-      un paramètre » ; sa raison est ce qui permet de trancher.
+      un parameter » ; sa raison est ce qui permet de trancher.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/best_practices.rst"
@@ -3258,7 +3258,7 @@ flashcards:
     official_item: OIT-hzbednd04fd4
     language: fr
     level: UNDERSTANDING
-    front: "Pourquoi coder une URL en dur dans un test fonctionnel plutôt que la générer ?"
+    front: "Pourquoi coder une URL en dur dans un functional test plutôt que la générer ?"
     back: "Pour que le test **échoue** si l'URL publique change — la générer masquerait le changement."
     explanation: >-
       Une URL publique fait partie du contrat avec l'extérieur. La générer
@@ -3284,7 +3284,7 @@ flashcards:
     back: "Parce qu'un projet est **une** application. Les bundles servent à partager du code entre projets."
     explanation: >-
       L'organisation interne se fait par l'arborescence de `src/` et les
-      espaces de noms. Créer un bundle applicatif ajoute une couche sans rien
+      namespaces. Créer un bundle applicatif ajoute une couche sans rien
       rendre réutilisable.
     memorization_justification: >-
       Contredit une pratique longtemps répandue, et le critère — réutilisation
@@ -3303,10 +3303,10 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "Que signifie le « si c'est commode » de la recommandation sur `EntityValueResolver` ?"
-    back: "Qu'elle est **facultative** : dès que la logique se complique, faire la requête dans le contrôleur."
+    back: "Qu'elle est **facultative** : dès que la logique se complique, faire la Request dans le controller."
     explanation: >-
       C'est la seule recommandation du document assortie d'une condition dans
-      son titre même. Le résolveur rend aussi une 404 si l'entité est
+      son titre même. Le resolver rend aussi une 404 si l'entité est
       introuvable, ce qui convient tant que la règle reste simple.
     memorization_justification: >-
       Nuance portée par le titre de la recommandation ; la lire comme un
@@ -3324,12 +3324,12 @@ flashcards:
     official_item: OIT-hzbednd04fd4
     language: fr
     level: APPLICATION
-    front: "L'URL de la base de données : variable d'environnement, secret ou paramètre ?"
-    back: "**Variable d'environnement** — elle dépend de l'endroit où tourne l'application."
+    front: "L'URL de la base de données : variable d'environment, secret ou parameter ?"
+    back: "**Variable d'environment** — elle dépend de l'endroit où tourne l'application."
     explanation: >-
-      Le critère est l'infrastructure, pas la sensibilité. Un mot de passe isolé
+      Le critère est l'infrastructure, pas la sensibilité. Un password isolé
       relève du **secret** ; une valeur propre à l'application et non à son
-      hébergement relève du **paramètre**.
+      hébergement relève du **parameter**.
     memorization_justification: >-
       Les trois catégories se recouvrent en apparence ; un cas concret est la
       forme sous laquelle la distinction est testée.
@@ -3346,12 +3346,12 @@ flashcards:
     official_item: OIT-hzbednd04fd4
     language: fr
     level: APPLICATION
-    front: "Un formulaire sert à créer **et** à éditer. Combien d'actions de contrôleur ?"
-    back: "Une seule action par usage, qui affiche **et** traite le formulaire."
+    front: "Un form sert à créer **et** à éditer. Combien d'actions de controller ?"
+    back: "Une seule action par usage, qui affiche **et** traite le form."
     explanation: >-
       La recommandation porte sur l'affichage et le traitement, qui ne se
       séparent pas. C'est le **bouton** qui distingue création et édition, et il
-      vit dans le gabarit.
+      vit dans le template.
     memorization_justification: >-
       Rassemble deux recommandations voisines dont la combinaison est le cas
       réel ; les traiter séparément mène à une mauvaise réponse.
@@ -3369,7 +3369,7 @@ flashcards:
     language: fr
     level: APPLICATION
     front: "On veut vérifier que toutes les URL de l'application répondent. Que recommande le document ?"
-    back: "Un *smoke test* : un test fonctionnel alimenté par un **fournisseur de données** PHPUnit."
+    back: "Un *smoke test* : un functional test alimenté par un **provider de données** PHPUnit."
     explanation: >-
       C'est une recommandation distincte de « coder l'URL en dur », même si les
       deux portent sur les URL en test. Le *smoke test* les parcourt toutes ;
@@ -3390,14 +3390,14 @@ flashcards:
     official_item: OIT-hzbednd04fd4
     language: fr
     level: APPLICATION
-    front: "Où poser les contraintes de validation d'un formulaire ?"
-    back: "Sur l'**objet sous-jacent**, pas sur la classe de formulaire."
+    front: "Où poser les constraints de validation d'un form ?"
+    back: "Sur l'**object sous-jacent**, pas sur la class de form."
     explanation: >-
-      Les contraintes décrivent ce qui rend l'objet valide, indépendamment du
-      formulaire qui le remplit. Le même objet peut ainsi être validé hors
-      contexte de formulaire.
+      Les constraints décrivent ce qui rend l'object valide, indépendamment du
+      form qui le remplit. Le même object peut ainsi être validé hors
+      contexte de form.
     memorization_justification: >-
-      Choix d'emplacement qui se pose à chaque formulaire écrit, et dont les
+      Choix d'emplacement qui se pose à chaque form écrit, et dont les
       deux options paraissent également défendables sans la règle.
     verification_status: VERIFIED
     official_sources:
@@ -3415,7 +3415,7 @@ flashcards:
     front: "Vrai ou faux : `auto` est un algorithme de hachage."
     back: "Faux. C'est un **sélecteur** qui choisit le meilleur disponible — aujourd'hui `bcrypt`."
     explanation: >-
-      Répondre « bcrypt » à la question « quel hacheur recommander ? » est
+      Répondre « bcrypt » à la question « quel hasher recommander ? » est
       inexact : la recommandation porte sur `auto`, dont `bcrypt` n'est que
       l'effet actuel.
     memorization_justification: >-
@@ -3434,15 +3434,15 @@ flashcards:
     official_item: OIT-hzbednd04fd4
     language: fr
     level: TRAP
-    front: "Combien de pare-feu la configuration de sécurité devrait-elle définir ?"
+    front: "Combien de firewall la configuration de sécurité devrait-elle définir ?"
     back: "**Un seul**, selon la recommandation."
     explanation: >-
       L'intuition pousse à en créer un par zone — administration, API, site
-      public. Le document recommande l'inverse : un pare-feu unique, et des
+      public. Le document recommande l'inverse : un firewall unique, et des
       **voteurs** pour les restrictions fines.
     memorization_justification: >-
       Le nombre attendu est contre-intuitif, et la recommandation de repli —
-      les voteurs — fait partie de la même réponse.
+      les voteurs — fait partie de la même Response.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/best_practices.rst"
@@ -3460,7 +3460,7 @@ flashcards:
     back: "Non. Ce sont des recommandations pour une application web classique : rien ne casse si on les ignore."
     explanation: >-
       Aucune n'est vérifiée par le framework, et aucune n'est obligatoire. Les
-      confondre avec des contraintes techniques fait chercher une erreur là où
+      confondre avec des constraints techniques fait chercher une erreur là où
       il n'y a qu'un écart de style.
     memorization_justification: >-
       Statut du document lui-même, qui conditionne la lecture des trente
@@ -3526,13 +3526,13 @@ flashcards:
     official_item: OIT-vk57zg2wpep7
     language: fr
     level: RECALL
-    front: "À quelle position un argument peut-il être ajouté à une méthode publique ?"
+    front: "À quelle position un argument peut-il être ajouté à une method publique ?"
     back: "**En dernier**, et nulle part ailleurs."
     explanation: >-
       C'est la seule position qui laisse valides les appels existants. Ajouter
       ailleurs décalerait tous les arguments positionnels déjà écrits.
     memorization_justification: >-
-      Contrainte unique et absolue, dont la raison — les appels positionnels
+      Constraint unique et absolue, dont la raison — les appels positionnels
       existants — la rend restituable.
     verification_status: VERIFIED
     official_sources:
@@ -3547,14 +3547,14 @@ flashcards:
     official_item: OIT-vk57zg2wpep7
     language: fr
     level: RECALL
-    front: "Quelles fonctions PHP servent à lire un argument ajouté en version mineure ?"
+    front: "Quelles functions PHP servent à lire un argument ajouté en version mineure ?"
     back: "`func_num_args()` et `func_get_arg()`."
     explanation: >-
       L'argument reste **en commentaire** dans la signature le temps d'une
-      transition, documenté en PHPDoc, et lu par ces deux fonctions. C'est ce
+      transition, documenté en PHPDoc, et lu par ces deux functions. C'est ce
       qui explique les signatures à argument commenté du framework.
     memorization_justification: >-
-      Deux noms de fonctions exacts, associés à un motif visible dans le code
+      Deux noms de functions exacts, associés à un motif visible dans le code
       de Symfony et souvent incompris.
     verification_status: VERIFIED
     official_sources:
@@ -3570,7 +3570,7 @@ flashcards:
     language: fr
     level: RECALL
     front: "Quelles sont les trois exclusions de la promesse ?"
-    back: "`@internal` (et les espaces de noms `*\\Tests\\`), les fonctionnalités expérimentales, les traductions internes de sécurité et de validation."
+    back: "`@internal` (et les namespaces `*\\Tests\\`), les fonctionnalités expérimentales, les translations internes de sécurité et de validation."
     explanation: >-
       S'y ajoute une tolérance, qui n'est pas une exclusion : une rupture est
       admise quand elle est nécessaire pour corriger une faille de sécurité.
@@ -3590,15 +3590,15 @@ flashcards:
     official_item: OIT-vk57zg2wpep7
     language: fr
     level: UNDERSTANDING
-    front: "Pourquoi le privé d'un **trait** est-il garanti quand celui d'une classe ne l'est pas ?"
-    back: "Parce qu'un trait importé fait partie de **votre** classe ; la classe étendue reste celle de Symfony."
+    front: "Pourquoi le privé d'un **trait** est-il garanti quand celui d'une class ne l'est pas ?"
+    back: "Parce qu'un trait importé fait partie de **votre** class ; la class étendue reste celle de Symfony."
     explanation: >-
-      Le tableau des traits ne répond jamais non — propriétés et méthodes
+      Le tableau des traits ne répond jamais non — properties et methods
       privées comprises. Celui des classes exclut l'accès au privé par
       réflexion. La différence est structurelle, pas arbitraire.
     memorization_justification: >-
       Asymétrie surprenante entre deux mécanismes voisins ; sa raison est ce
-      qui permet de trancher sans avoir mémorisé les deux tableaux.
+      qui permet de trancher sans avoir mémorisé les deux arrays.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/bc.rst"
@@ -3612,12 +3612,12 @@ flashcards:
     official_item: OIT-vk57zg2wpep7
     language: fr
     level: UNDERSTANDING
-    front: "Pourquoi ajouter une méthode à une classe Symfony étendue n'est-il pas garanti ?"
+    front: "Pourquoi ajouter une method à une class Symfony étendue n'est-il pas garanti ?"
     back: "Parce que Symfony peut introduire le même nom en version mineure, avec une autre signature."
     explanation: >-
       La collision est alors inévitable, et c'est votre code qui casse. Le
       risque vous appartient : la promesse ne couvre pas les noms que vous
-      ajoutez dans l'espace de la classe parente.
+      ajoutez dans l'espace de la class parente.
     memorization_justification: >-
       Exception qui contredit « étendre est couvert » ; la raison la rend
       prévisible plutôt qu'arbitraire.
@@ -3635,11 +3635,11 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "Pourquoi un argument ajouté reste-t-il en commentaire dans la signature ?"
-    back: "Pour ne pas casser les classes qui surchargent la méthode avec l'ancienne signature."
+    back: "Pour ne pas casser les classes qui surchargent la method avec l'ancienne signature."
     explanation: >-
       Déclarer l'argument pour de bon rendrait incompatibles toutes les
       surcharges existantes. Le commentaire annonce la signature future ; la
-      méthode lit l'argument par `func_num_args()` en attendant.
+      method lit l'argument par `func_num_args()` en attendant.
     memorization_justification: >-
       Explique un motif de code déroutant, et la raison se transpose à tout
       changement de signature en mineure.
@@ -3659,8 +3659,8 @@ flashcards:
     front: "`@final` et `final` : quelle différence d'effet ?"
     back: "`final` **interdit** l'extension ; `@final` la laisse fonctionner mais la sort de la promesse."
     explanation: >-
-      `@final since Symfony x.y` signale une transition : la classe n'est pas
-      encore considérée finale. Étendre une classe `@final` compile et
+      `@final since Symfony x.y` signale une transition : la class n'est pas
+      encore considérée finale. Étendre une class `@final` compile et
       s'exécute — simplement sans garantie.
     memorization_justification: >-
       Deux notations voisines aux effets techniques opposés ; la confusion est
@@ -3678,14 +3678,14 @@ flashcards:
     official_item: OIT-vk57zg2wpep7
     language: fr
     level: APPLICATION
-    front: "Vous utilisez une méthode **privée** d'un trait Symfony. Couvert ?"
+    front: "Vous utilisez une method **privée** d'un trait Symfony. Couvert ?"
     back: "Oui. Le tableau des traits garantit tout, privé compris."
     explanation: >-
-      La même question sur une **classe** aurait la réponse inverse : le privé
+      La même question sur une **class** aurait la réponse inverse : le privé
       atteint par réflexion n'est jamais garanti. Seul le trait `@internal`
       échappe à la garantie.
     memorization_justification: >-
-      Cas concret où deux mécanismes voisins donnent des réponses opposées ;
+      Cas concret où deux mécanismes voisins donnent des Responses opposées ;
       c'est la forme sous laquelle la distinction se teste.
     verification_status: VERIFIED
     official_sources:
@@ -3701,9 +3701,9 @@ flashcards:
     language: fr
     level: APPLICATION
     front: "Vous appelez `$mailer->send(message: $m)`. Le code survivra-t-il à une mineure ?"
-    back: "Rien ne le garantit : les noms de paramètres ne sont couverts que pour les constructeurs de classes d'attribut."
+    back: "Rien ne le garantit : les noms de parameters ne sont couverts que pour les constructeurs de classes d'attribute."
     explanation: >-
-      Le nom d'un paramètre peut changer sans rupture déclarée. Un appel
+      Le nom d'un parameter peut changer sans rupture déclarée. Un appel
       positionnel, lui, reste valide — c'est la signature qui est garantie, pas
       la dénomination.
     memorization_justification: >-
@@ -3722,12 +3722,12 @@ flashcards:
     official_item: OIT-vk57zg2wpep7
     language: fr
     level: APPLICATION
-    front: "Vous étendez une classe Symfony et ajoutez `public array $cache = [];`. Couvert ?"
-    back: "Non. Ajouter une **propriété** à une classe étendue n'est pas garanti."
+    front: "Vous étendez une class Symfony et ajoutez `public array $cache = [];`. Couvert ?"
+    back: "Non. Ajouter une **property** à une class étendue n'est pas garanti."
     explanation: >-
-      Symfony peut introduire une propriété du même nom en version mineure. La
-      règle vaut pour les propriétés comme pour les méthodes ; ce sont les deux
-      lignes du tableau qui concernent le code ordinaire.
+      Symfony peut introduire une property du même nom en version mineure. La
+      règle vaut pour les properties comme pour les methods ; ce sont les deux
+      lignes de l'array qui concernent le code ordinaire.
     memorization_justification: >-
       Geste banal qu'on ne soupçonne pas d'être hors promesse ; il se pose
       sous forme de cas concret.
@@ -3747,8 +3747,8 @@ flashcards:
     front: "Une faille de sécurité impose une rupture en version mineure. Est-ce permis ?"
     back: "Oui. C'est la tolérance explicite du document, et elle n'est pas une exclusion."
     explanation: >-
-      La promesse cède devant la sécurité. À distinguer des trois exclusions —
-      `@internal`, expérimental, traductions internes — qui, elles, n'ont jamais
+      La promesse cède devant la security. À distinguer des trois exclusions —
+      `@internal`, expérimental, translations internes — qui, elles, n'ont jamais
       été couvertes.
     memorization_justification: >-
       Exception d'une nature différente des trois autres ; les ranger ensemble
@@ -3766,7 +3766,7 @@ flashcards:
     official_item: OIT-vk57zg2wpep7
     language: fr
     level: TRAP
-    front: "Vrai ou faux : étendre une classe marquée `@final` provoque une erreur."
+    front: "Vrai ou faux : étendre une class marquée `@final` provoque une erreur."
     back: "Faux. Le code fonctionne ; il sort seulement de la promesse."
     explanation: >-
       Seul le mot-clé `final` empêche l'extension. L'annotation est une
@@ -3791,7 +3791,7 @@ flashcards:
     back: "Non. C'est celle qui **préserve** le comportement actuel, même si le commentaire en annonce une autre."
     explanation: >-
       L'exemple du document montre `/* bool $stripWhitespace = true */` dans la
-      signature commentée, et `false` comme valeur de repli dans le corps. Le
+      signature commentée, et `false` comme valeur de repli dans le body. Le
       commentaire décrit la signature **future**.
     memorization_justification: >-
       Deux valeurs contradictoires dans le même extrait ; savoir laquelle agit
@@ -3809,15 +3809,15 @@ flashcards:
     official_item: OIT-vk57zg2wpep7
     language: fr
     level: TRAP
-    front: "Les classes d'un espace de noms `*\\Tests\\` sont-elles couvertes ?"
+    front: "Les classes d'un namespace `*\\Tests\\` sont-elles couvertes ?"
     back: "Non. Elles sont hors promesse au même titre que ce qui porte `@internal`."
     explanation: >-
-      Le document les range ensemble. Utiliser une classe de test de Symfony
+      Le document les range ensemble. Utiliser une class de test de Symfony
       dans du code applicatif est donc sans garantie, même si elle est publique
       et sans annotation.
     memorization_justification: >-
-      Exclusion qui ne repose sur aucune annotation visible dans le fichier,
-      mais sur l'espace de noms seul.
+      Exclusion qui ne repose sur aucune annotation visible dans le file,
+      mais sur le namespace seul.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/bc.rst"
@@ -3877,14 +3877,14 @@ flashcards:
     official_item: OIT-ehf5zdnmdb1j
     language: fr
     level: RECALL
-    front: "Quel paquet fournit `trigger_deprecation()` ?"
+    front: "Quel package fournit `trigger_deprecation()` ?"
     back: "`symfony/deprecation-contracts`."
     explanation: >-
-      Un paquet de contrats minuscule, volontairement séparé du framework, pour
-      qu'une bibliothèque puisse signaler une dépréciation sans dépendre de
+      Un package de contrats minuscule, volontairement séparé du framework, pour
+      qu'une bibliothèque puisse signaler une deprecation sans dépendre de
       Symfony.
     memorization_justification: >-
-      Nom exact d'un paquet qu'on ne trouve pas en cherchant la fonction dans
+      Nom exact d'un package qu'on ne trouve pas en cherchant la function dans
       les composants.
     verification_status: VERIFIED
     official_sources:
@@ -3900,13 +3900,13 @@ flashcards:
     language: fr
     level: RECALL
     front: "Quels sont les trois premiers arguments de `trigger_deprecation()` ?"
-    back: "Le **paquet**, la **version** d'introduction, le **message** formaté."
+    back: "Le **package**, la **version** d'introduction, le **message** formaté."
     explanation: >-
       Exemple :
       `trigger_deprecation('symfony/routing', '4.4', 'The \"%s\" class is deprecated…', Old::class)`.
       Les arguments suivants alimentent le format.
     memorization_justification: >-
-      Ordre exact des arguments d'une fonction qu'on écrit rarement, et que
+      Ordre exact des arguments d'une function qu'on écrit rarement, et que
       l'intuition range volontiers autrement.
     verification_status: VERIFIED
     official_sources:
@@ -3921,14 +3921,14 @@ flashcards:
     official_item: OIT-ehf5zdnmdb1j
     language: fr
     level: RECALL
-    front: "Où se place l'appel `trigger_deprecation()` quand c'est une classe entière qui est dépréciée ?"
-    back: "**Après les déclarations `use`**, avant la classe."
+    front: "Où se place l'appel `trigger_deprecation()` quand c'est une class entière qui est dépréciée ?"
+    back: "**Après les déclarations `use`**, avant la class."
     explanation: >-
-      L'appel doit s'exécuter au chargement du fichier, et non à l'instanciation :
+      L'appel doit s'exécuter au chargement du file, et non à l'instanciation :
       le placer dans le constructeur ne signalerait rien à qui se contente de
-      référencer la classe.
+      référencer la class.
     memorization_justification: >-
-      Position précise dans le fichier, qui ne se devine pas et dont la raison
+      Position précise dans le file, qui ne se devine pas et dont la raison
       éclaire le mécanisme.
     verification_status: VERIFIED
     official_sources:
@@ -3944,14 +3944,14 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "Pourquoi `trigger_deprecation()` vit-elle hors du framework ?"
-    back: "Pour qu'une bibliothèque tierce puisse signaler ses dépréciations sans dépendre de Symfony."
+    back: "Pour qu'une bibliothèque tierce puisse signaler ses deprecations sans dépendre de Symfony."
     explanation: >-
-      Le paquet de contrats est minuscule et sans dépendance. C'est la même
+      Le package de contrats est minuscule et sans dependency. C'est la même
       logique que les autres contrats : offrir une interface commune sans
       imposer l'implémentation.
     memorization_justification: >-
       Explique un placement surprenant, et généralise à la philosophie des
-      paquets de contrats.
+      packages de contrats.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/conventions.rst"
@@ -3965,12 +3965,12 @@ flashcards:
     official_item: OIT-ehf5zdnmdb1j
     language: fr
     level: UNDERSTANDING
-    front: "Pourquoi une dépréciation se déclare-t-elle **deux** fois ?"
+    front: "Pourquoi une deprecation se déclare-t-elle **deux** fois ?"
     back: "Deux publics : `@deprecated` pour qui **lit** le code, `trigger_deprecation()` pour le code qui **tourne**."
     explanation: >-
       L'annotation apparaît dans l'IDE et la documentation ; l'appel remonte
       dans les journaux et les tests. L'un sans l'autre laisse la moitié des
-      utilisateurs sans avertissement.
+      users sans avertissement.
     memorization_justification: >-
       La dualité est le cœur du mécanisme ; n'en retenir qu'une moitié est
       l'erreur que la question vise.
@@ -3990,7 +3990,7 @@ flashcards:
     front: "Pourquoi monter d'abord à la dernière mineure avant de passer à la majeure suivante ?"
     back: "Parce que la majeure ne fait que **supprimer** ce que la dernière mineure a signalé comme déprécié."
     explanation: >-
-      En corrigeant toutes les dépréciations sur la dernière mineure, on arrive
+      En corrigeant toutes les deprecations sur la dernière mineure, on arrive
       à la majeure sans rien à changer. Sauter l'étape revient à découvrir les
       ruptures sans le filet des avertissements.
     memorization_justification: >-
@@ -4009,14 +4009,14 @@ flashcards:
     official_item: OIT-ehf5zdnmdb1j
     language: fr
     level: APPLICATION
-    front: "Vous dépréciez une méthode. Combien de fichiers documenter, et lesquels ?"
+    front: "Vous dépréciez une method. Combien de files documenter, et lesquels ?"
     back: "Trois : le `CHANGELOG.md` du composant, `UPGRADE-<mineure>.md` et `UPGRADE-<majeure>.md` — dans la **même** pull request."
     explanation: >-
-      Le premier `UPGRADE` annonce la dépréciation, le second la suppression à
+      Le premier `UPGRADE` annonce la deprecation, le second la suppression à
       venir. Une quatrième entrée de `CHANGELOG.md` s'ajoutera le jour de la
       suppression.
     memorization_justification: >-
-      Liste close de trois fichiers, plus une quatrième écriture différée ;
+      Liste close de trois files, plus une quatrième écriture différée ;
       le compte exact est la question.
     verification_status: VERIFIED
     official_sources:
@@ -4038,7 +4038,7 @@ flashcards:
       « Remove the `Deprecated` class, use `Replacement` instead ». La tâche est
       qualifiée d'obligatoire.
     memorization_justification: >-
-      Étape qu'on croit réservée au moment de la dépréciation ; la suppression
+      Étape qu'on croit réservée au moment de la deprecation ; la suppression
       a sa propre obligation d'écriture.
     verification_status: VERIFIED
     official_sources:
@@ -4053,7 +4053,7 @@ flashcards:
     official_item: OIT-ehf5zdnmdb1j
     language: fr
     level: APPLICATION
-    front: "Le remplacement d'une classe dépréciée vit dans un autre espace de noms. Comment l'écrire ?"
+    front: "Le remplacement d'une class dépréciée vit dans un autre namespace. Comment l'écrire ?"
     back: "Avec son nom **pleinement qualifié** — c'est obligatoire dans ce cas."
     explanation: >-
       L'annotation `@deprecated` doit indiquer la version et, autant que
@@ -4079,10 +4079,10 @@ flashcards:
     back: "**En haut**."
     explanation: >-
       Et sous la section de la version mineure concernée, sans créer de section
-      de troisième niveau. Le fichier se lit ainsi du plus récent au plus
+      de troisième niveau. Le file se lit ainsi du plus récent au plus
       ancien.
     memorization_justification: >-
-      Détail d'ordre que les deux réponses rendent plausibles, et qui se vérifie
+      Détail d'ordre que les deux Responses rendent plausibles, et qui se vérifie
       d'un coup d'œil sur un extrait.
     verification_status: VERIFIED
     official_sources:
@@ -4097,14 +4097,14 @@ flashcards:
     official_item: OIT-ehf5zdnmdb1j
     language: fr
     level: TRAP
-    front: "Peut-on modifier à la main les fichiers `CHANGELOG-*` de la racine de `symfony/symfony` ?"
+    front: "Peut-on modifier à la main les files `CHANGELOG-*` de la racine de `symfony/symfony` ?"
     back: "Non. Ils sont **générés** à la préparation des versions."
     explanation: >-
       Celui qu'on édite est le `CHANGELOG.md` du **composant**, du bridge ou du
       bundle modifié. Les deux se ressemblent assez pour qu'on se trompe de
-      fichier.
+      file.
     memorization_justification: >-
-      Deux fichiers au nom voisin, dont un seul s'édite ; la confusion est
+      Deux files au nom voisin, dont un seul s'édite ; la confusion est
       exactement ce qu'une question isole.
     verification_status: VERIFIED
     official_sources:
@@ -4119,8 +4119,8 @@ flashcards:
     official_item: OIT-ehf5zdnmdb1j
     language: fr
     level: TRAP
-    front: "Une nouvelle classe peut-elle être introduite avec des méthodes déjà dépréciées ?"
-    back: "Non. Rien ne naît déprécié — ni une classe, ni une méthode."
+    front: "Une nouvelle class peut-elle être introduite avec des methods déjà dépréciées ?"
+    back: "Non. Rien ne naît déprécié — ni une class, ni une method."
     explanation: >-
       Introduire du code déjà déprécié reviendrait à livrer une dette dès le
       premier jour, et à ouvrir une fenêtre de suppression sans qu'aucune
@@ -4141,11 +4141,11 @@ flashcards:
     official_item: OIT-ehf5zdnmdb1j
     language: fr
     level: TRAP
-    front: "Une dépréciation peut-elle être supprimée dans la mineure suivante ?"
+    front: "Une deprecation peut-elle être supprimée dans la mineure suivante ?"
     back: "Non. Seule la **prochaine majeure** supprime — environ tous les deux ans."
     explanation: >-
-      La mineure introduit la dépréciation, la majeure la consomme. Toute autre
-      combinaison casserait la promesse de rétrocompatibilité.
+      La mineure introduit la deprecation, la majeure la consomme. Toute autre
+      combinaison casserait la backward compatibility promise.
     memorization_justification: >-
       Les deux règles de calendrier se ressemblent assez pour être
       interverties, et l'interversion est le piège standard.
@@ -4187,15 +4187,15 @@ flashcards:
     official_item: OIT-efzq92vdtayj
     language: fr
     level: RECALL
-    front: "Où placer un gabarit qui surcharge celui d'un bundle ?"
-    back: "Sous `templates/bundles/<NomDuBundle>/`, avec le **même chemin relatif**."
+    front: "Où placer un template qui surcharge celui d'un bundle ?"
+    back: "Sous `templates/bundles/<NomDuBundle>/`, avec le **même path relatif**."
     explanation: >-
       `registration/confirmed.html.twig` d'`AcmeUserBundle` devient
       `templates/bundles/AcmeUserBundle/registration/confirmed.html.twig`. Il
       faut parfois vider le cache après un ajout à un emplacement nouveau, même
       en mode debug.
     memorization_justification: >-
-      Chemin exact, avec un segment `bundles/` que rien n'annonce ; il ne se
+      Path exact, avec un segment `bundles/` que rien n'annonce ; il ne se
       reconstruit pas par raisonnement.
     verification_status: VERIFIED
     official_sources:
@@ -4210,11 +4210,11 @@ flashcards:
     official_item: OIT-efzq92vdtayj
     language: fr
     level: RECALL
-    front: "Que signifie le préfixe `@!` devant un nom de gabarit ?"
-    back: "« Le gabarit **original**, pas la surcharge. »"
+    front: "Que signifie le préfixe `@!` devant un nom de template ?"
+    back: "« Le template **original**, pas la surcharge. »"
     explanation: >-
-      Sans lui, `{% extends \"@AcmeUser/...\" %}` dans le gabarit qui surcharge
-      ce même fichier résout vers lui-même et produit une boucle infinie.
+      Sans lui, `{% extends \"@AcmeUser/...\" %}` dans le template qui surcharge
+      ce même file résout vers lui-même et produit une boucle infinie.
     memorization_justification: >-
       Syntaxe d'un caractère, invisible à la lecture rapide, et seule solution
       à une panne dont la cause n'est pas évidente.
@@ -4231,12 +4231,12 @@ flashcards:
     official_item: OIT-efzq92vdtayj
     language: fr
     level: RECALL
-    front: "Par quel mécanisme se surcharge un **type de formulaire** ?"
-    back: "Par une **extension de type de formulaire**."
+    front: "Par quel mécanisme se surcharge un **form type** ?"
+    back: "Par une **extension de form type**."
     explanation: >-
       C'est la seule réponse de la section « Forms » du document. Ni décoration,
-      ni passe de compilation : un mécanisme propre au sous-système des
-      formulaires.
+      ni compiler pass : un mécanisme propre au sous-système des
+      forms.
     memorization_justification: >-
       Sous-système à mécanisme unique, qu'on confond volontiers avec la
       décoration de service.
@@ -4256,11 +4256,11 @@ flashcards:
     front: "À quelle condition le mapping d'une entité de bundle est-il surchargeable ?"
     back: "Uniquement si le bundle expose une *mapped superclass*."
     explanation: >-
-      La surcharge porte alors sur les **attributs** et les **associations**.
+      La surcharge porte alors sur les **attributes** et les **associations**.
       Hors de ce cas, le mapping d'une entité concrète ne se surcharge pas.
     memorization_justification: >-
       Condition unique et bloquante, et ce qu'elle autorise exactement est la
-      seconde moitié de la réponse.
+      seconde moitié de la Response.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/override.rst"
@@ -4274,15 +4274,15 @@ flashcards:
     official_item: OIT-efzq92vdtayj
     language: fr
     level: UNDERSTANDING
-    front: "Pourquoi une contrainte de validation ne se remplace-t-elle pas ?"
+    front: "Pourquoi une constraint de validation ne se remplace-t-elle pas ?"
     back: "Parce que Symfony fusionne la configuration de **tous** les bundles en un seul arbre de métadonnées."
     explanation: >-
-      On peut donc ajouter une contrainte à une propriété, jamais en retirer
-      une. Le seul contournement suppose que le bundle ait prévu des **groupes
+      On peut donc ajouter une constraint à une property, jamais en retirer
+      une. Le seul contournement suppose que le bundle ait prévu des **groups
       de validation**.
     memorization_justification: >-
       Exception unique parmi les huit sous-systèmes, et sa raison — la fusion —
-      explique aussi pourquoi le contournement passe par les groupes.
+      explique aussi pourquoi le contournement passe par les groups.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/override.rst"
@@ -4300,7 +4300,7 @@ flashcards:
     back: "Parce que Symfony n'importe **jamais** une route de bundle automatiquement : il n'y a rien à neutraliser."
     explanation: >-
       La route n'existe que si l'application l'importe. Pour la modifier, on
-      copie le fichier dans le projet et on importe la copie, sans jamais
+      copie le file dans le projet et on importe la copie, sans jamais
       importer l'original.
     memorization_justification: >-
       Le sous-système où la question elle-même est mal posée ; comprendre
@@ -4318,15 +4318,15 @@ flashcards:
     official_item: OIT-efzq92vdtayj
     language: fr
     level: UNDERSTANDING
-    front: "Pourquoi une traduction se surcharge-t-elle sans rien déclarer ?"
-    back: "Parce que les traductions sont liées à un **domaine**, pas à un bundle."
+    front: "Pourquoi une translation se surcharge-t-elle sans rien déclarer ?"
+    back: "Parce que les translations sont liées à un **domaine**, pas à un bundle."
     explanation: >-
-      Un fichier du `translations/` du projet portant le même domaine l'emporte.
+      Un file du `translations/` du projet portant le même domaine l'emporte.
       Le nom du bundle dans `AcmeUserBundle.es.yaml` n'est là que parce qu'il
       **est** le nom du domaine.
     memorization_justification: >-
-      Le nom de fichier suggère un lien au bundle qui n'existe pas ; la vraie
-      clé est le domaine.
+      Le nom de file suggère un lien au bundle qui n'existe pas ; la vraie
+      key est le domaine.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/override.rst"
@@ -4340,10 +4340,10 @@ flashcards:
     official_item: OIT-efzq92vdtayj
     language: fr
     level: UNDERSTANDING
-    front: "Décoration ou passe de compilation : qu'est-ce qui les sépare ?"
-    back: "La décoration **enveloppe** un service existant ; la passe de compilation **manipule la définition** elle-même."
+    front: "Décoration ou compiler pass : qu'est-ce qui les sépare ?"
+    back: "La décoration **enveloppe** un service existant ; le compiler pass **manipule la definition** elle-même."
     explanation: >-
-      Supprimer une définition, en modifier une créée par un autre bundle ou
+      Supprimer une definition, en modifier une créée par un autre bundle ou
       ajouter un argument demande une passe : la configuration ne le permet pas.
     memorization_justification: >-
       Deux mécanismes du même sous-système, à des niveaux différents ; choisir
@@ -4361,15 +4361,15 @@ flashcards:
     official_item: OIT-efzq92vdtayj
     language: fr
     level: APPLICATION
-    front: "Le contrôleur à surcharger **est un service**. Que fait-on ?"
+    front: "Le controller à surcharger **est un service**. Que fait-on ?"
     back: "On le **décore**, comme n'importe quel service."
     explanation: >-
-      Le document ouvre sa section par cette condition : « si le contrôleur est
-      un service, voir la section suivante ». La route de même chemin n'est que
+      Le document ouvre sa section par cette condition : « si le controller est
+      un service, voir la section suivante ». La route de même path n'est que
       la branche **sinon**.
     memorization_justification: >-
       Branche prioritaire du document, et celle qui s'applique le plus souvent
-      dans une application moderne où les contrôleurs sont des services.
+      dans une application moderne où les controllers sont des services.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/override.rst"
@@ -4383,11 +4383,11 @@ flashcards:
     official_item: OIT-efzq92vdtayj
     language: fr
     level: APPLICATION
-    front: "Le contrôleur à surcharger **n'est pas** un service. Que fait-on ?"
-    back: "Une route de **même chemin**, chargée **avant** celle du bundle."
+    front: "Le controller à surcharger **n'est pas** un service. Que fait-on ?"
+    back: "Une route de **même path**, chargée **avant** celle du bundle."
     explanation: >-
       L'ordre de chargement décide : la première route qui correspond gagne.
-      C'est la branche de repli du document, pas sa réponse principale.
+      C'est la branche de repli du document, pas sa Response principale.
     memorization_justification: >-
       L'autre moitié de la condition ; la mention « chargée avant » est la
       partie qu'on oublie et qui fait échouer la surcharge.
@@ -4404,12 +4404,12 @@ flashcards:
     official_item: OIT-efzq92vdtayj
     language: fr
     level: APPLICATION
-    front: "Vous voulez ajouter `NotBlank` sur une propriété d'une entité de bundle. Possible ?"
-    back: "Oui : **ajouter** une contrainte est permis. C'est la remplacer qui ne l'est pas."
+    front: "Vous voulez ajouter `NotBlank` sur une property d'une entité de bundle. Possible ?"
+    back: "Oui : **ajouter** une constraint est permis. C'est la remplacer qui ne l'est pas."
     explanation: >-
-      La fusion des métadonnées empile les contraintes de tous les bundles. Pour
-      neutraliser une contrainte existante, il faut que le bundle ait prévu un
-      groupe de validation.
+      La fusion des métadonnées empile les constraints de tous les bundles. Pour
+      neutraliser une constraint existante, il faut que le bundle ait prévu un
+      validation group.
     memorization_justification: >-
       Distingue les deux gestes qu'on croit symétriques ; l'un passe, l'autre
       est impossible.
@@ -4426,13 +4426,13 @@ flashcards:
     official_item: OIT-efzq92vdtayj
     language: fr
     level: APPLICATION
-    front: "Vous devez **supprimer** une définition de service posée par un bundle. Comment ?"
-    back: "Par une **passe de compilation**. La décoration ne sait qu'envelopper."
+    front: "Vous devez **supprimer** une definition de service posée par un bundle. Comment ?"
+    back: "Par un **compiler pass**. La décoration ne sait qu'envelopper."
     explanation: >-
-      La passe s'exécute pendant la compilation du conteneur, quand toutes les
-      définitions sont connues et avant qu'elles ne soient figées.
+      La passe s'exécute pendant la compilation du container, quand toutes les
+      definitions sont connues et avant qu'elles ne soient figées.
     memorization_justification: >-
-      Cas concret où la réponse la plus familière — décorer — ne fonctionne
+      Cas concret où la Response la plus familière — décorer — ne fonctionne
       pas du tout.
     verification_status: VERIFIED
     official_sources:
@@ -4450,8 +4450,8 @@ flashcards:
     front: "Existe-t-il un mécanisme unique pour surcharger un bundle ?"
     back: "Non. Huit sections, chacune avec son mécanisme propre."
     explanation: >-
-      Gabarits, routage, contrôleurs, services et configuration, entités,
-      formulaires, métadonnées de validation, traductions. Chercher une réponse
+      Templates, routage, controllers, services et configuration, entités,
+      forms, métadonnées de validation, translations. Chercher une Response
       universelle est l'erreur de départ.
     memorization_justification: >-
       La structure même du sujet ; croire à un mécanisme unique rend fausse
@@ -4469,7 +4469,7 @@ flashcards:
     official_item: OIT-efzq92vdtayj
     language: fr
     level: TRAP
-    front: "Un fichier de traduction doit-il être déclaré pour surcharger celui d'un bundle ?"
+    front: "Un file de translation doit-il être déclaré pour surcharger celui d'un bundle ?"
     back: "Non. Il suffit qu'il porte le **même domaine** et vive dans `translations/`."
     explanation: >-
       Aucune configuration, aucun enregistrement. Le mécanisme repose
@@ -4490,11 +4490,11 @@ flashcards:
     official_item: OIT-efzq92vdtayj
     language: fr
     level: TRAP
-    front: "Faut-il vider le cache après avoir ajouté un gabarit de surcharge, en mode debug ?"
+    front: "Faut-il vider le cache après avoir ajouté un template de surcharge, en mode debug ?"
     back: "Parfois oui — le document le signale explicitement, **même en debug**."
     explanation: >-
-      Le mode debug recompile les gabarits modifiés, mais l'apparition d'un
-      fichier à un **emplacement nouveau** n'est pas toujours détectée.
+      Le mode debug recompile les templates modifiés, mais l'apparition d'un
+      file à un **emplacement nouveau** n'est pas toujours détectée.
     memorization_justification: >-
       Contredit la garantie que l'on prête au mode debug, et explique une
       surcharge qui semble sans effet.
@@ -4511,11 +4511,11 @@ flashcards:
     official_item: OIT-efzq92vdtayj
     language: fr
     level: TRAP
-    front: "Surcharger un contrôleur, est-ce toujours une affaire de route ?"
+    front: "Surcharger un controller, est-ce toujours une affaire de route ?"
     back: "Non. S'il est un service, c'est une affaire de **décoration**."
     explanation: >-
       Le document pose la condition avant tout le reste. Répondre « route de
-      même chemin » sans se demander si le contrôleur est un service, c'est
+      même path » sans se demander si le controller est un service, c'est
       répondre à la branche de repli.
     memorization_justification: >-
       Question dont la réponse dépend d'une condition qu'on oublie de se poser ;
@@ -4647,7 +4647,7 @@ flashcards:
     front: "Pourquoi 8.0 et 7.4 ont-elles les mêmes fonctionnalités ?"
     back: "Parce que la majeure se développe **en parallèle** de la dernière mineure de la branche précédente."
     explanation: >-
-      Elles ne diffèrent que par les dépréciations : présentes dans l'ancienne,
+      Elles ne diffèrent que par les deprecations : présentes dans l'ancienne,
       supprimées dans la nouvelle. Monter en majeure n'apporte donc rien de neuf
       par soi-même.
     memorization_justification: >-
@@ -4715,7 +4715,7 @@ flashcards:
       Le plafond mouvant s'arrête avec le support. Au-delà, plus aucune garantie
       n'est donnée — la formulation du document est délibérément prudente.
     memorization_justification: >-
-      Cas limite du plafond mouvant, et la réponse n'est ni « aucune » ni
+      Cas limite du plafond mouvant, et la Response n'est ni « aucune » ni
       « toutes ».
     verification_status: VERIFIED
     official_sources:
@@ -4863,14 +4863,14 @@ flashcards:
     official_item: OIT-kcj9a5846b1s
     language: fr
     level: RECALL
-    front: "Combien d'entrées la clé `provide` compte-t-elle, et comment se répartissent-elles ?"
+    front: "Combien d'entrées la key `provide` compte-t-elle, et comment se répartissent-elles ?"
     back: "**Quinze** : huit `psr/*`, cinq contrats Symfony, deux HTTPlug."
     explanation: >-
       Les PSR n'en sont donc qu'un peu plus de la moitié. Lire `provide` comme
       « la liste des PSR implémentées » fait passer sept entrées à la trappe.
     memorization_justification: >-
       Le total et sa décomposition sont deux nombres exacts, vérifiables dans un
-      seul fichier, qu'aucun raisonnement ne donne.
+      seul file, qu'aucun raisonnement ne donne.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/composer.json"
@@ -4913,7 +4913,7 @@ flashcards:
       `psr/clock-implementation`, `psr/event-dispatcher-implementation` et
       `psr/http-client-implementation` n'en déclarent qu'une.
     memorization_justification: >-
-      La contrainte de version fait partie de la déclaration ; l'ignorer fait
+      La constraint de version fait partie de la déclaration ; l'ignorer fait
       croire à une couverture uniforme qui n'existe pas.
     verification_status: VERIFIED
     official_sources:
@@ -4950,7 +4950,7 @@ flashcards:
     official_item: OIT-kcj9a5846b1s
     language: fr
     level: RECALL
-    front: "Quelles entrées non-PSR la clé `provide` contient-elle ?"
+    front: "Quelles entrées non-PSR la key `provide` contient-elle ?"
     back: "Cinq **contrats Symfony** (cache, event-dispatcher, http-client, service, translation) et deux **HTTPlug**."
     explanation: >-
       Les HTTPlug — `php-http/client-implementation` et
@@ -4996,11 +4996,11 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "À quoi servent les contrats Symfony, et pourquoi sont-ils publiés à part ?"
-    back: "Ce sont des abstractions en paquets minuscules et sans dépendance : une bibliothèque peut les exiger sans dépendre de Symfony."
+    back: "Ce sont des abstractions en packages minuscules et sans dependency : une bibliothèque peut les exiger sans dépendre de Symfony."
     explanation: >-
       `provide` en déclare cinq — cache, event-dispatcher, http-client, service,
-      translation. C'est la même logique que le paquet de contrats portant la
-      fonction de signalement des dépréciations.
+      translation. C'est la même logique que le package de contrats portant la
+      function de signalement des deprecations.
     memorization_justification: >-
       Principe d'architecture qui se retrouve à plusieurs endroits du
       framework, et qui explique un choix de packaging surprenant.
@@ -5020,8 +5020,8 @@ flashcards:
     front: "Pourquoi PSR-4 et PSR-12 ne figurent-elles pas dans `provide` ?"
     back: "Parce qu'on ne « fournit » pas une convention : `provide` déclare des **interfaces implémentées**."
     explanation: >-
-      PSR-4 organise les espaces de noms, PSR-12 le style du code. Ni l'une ni
-      l'autre n'est un contrat qu'un paquet puisse satisfaire au sens de
+      PSR-4 organise les namespaces, PSR-12 le style du code. Ni l'une ni
+      l'autre n'est un contrat qu'un package puisse satisfaire au sens de
       Composer.
     memorization_justification: >-
       Relie le statut d'une PSR à la mécanique qui l'enregistre ; le critère
@@ -5039,14 +5039,14 @@ flashcards:
     official_item: OIT-kcj9a5846b1s
     language: fr
     level: APPLICATION
-    front: "Une bibliothèque type contre `Psr\\Container\\ContainerInterface`. Faut-il un adaptateur ?"
-    back: "Non. Le conteneur de Symfony **est** un `ContainerInterface` PSR-11."
+    front: "Une bibliothèque type contre `Psr\\Container\\ContainerInterface`. Faut-il un adapter ?"
+    back: "Non. Le container de Symfony **est** un `ContainerInterface` PSR-11."
     explanation: >-
       Même chose pour PSR-14 : le dispatcher de Symfony **est** un
       `Psr\EventDispatcher\EventDispatcherInterface`. C'est la différence entre
       implémenter et ponter.
     memorization_justification: >-
-      Cas concret d'intégration, et la réponse « il faut un adaptateur » est
+      Cas concret d'intégration, et la Response « il faut un adapter » est
       celle qu'on donne par prudence à tort.
     verification_status: VERIFIED
     official_sources:
@@ -5065,10 +5065,10 @@ flashcards:
     back: "Non. Le pont **convertit** ; il faut en plus une implémentation PSR-7 tierce."
     explanation: >-
       Le pont traduit entre le modèle de HttpFoundation et PSR-7 dans les deux
-      sens, mais ne fournit aucun objet PSR-7. Une implémentation comme
+      sens, mais ne fournit aucun object PSR-7. Une implémentation comme
       `nyholm/psr7` reste nécessaire.
     memorization_justification: >-
-      Deux paquets là où on en attend un ; l'oubli du second est une erreur
+      Deux packages là où on en attend un ; l'oubli du second est une erreur
       d'installation réelle et une question fermée.
     verification_status: VERIFIED
     official_sources:
@@ -5084,13 +5084,13 @@ flashcards:
     language: fr
     level: APPLICATION
     front: "Comment vérifier qu'une PSR est implémentée par Symfony, sans mémoriser la liste ?"
-    back: "Chercher `psr/<nom>-implementation` dans la clé `provide` du `composer.json` du mono-dépôt."
+    back: "Chercher `psr/<nom>-implementation` dans la key `provide` du `composer.json` du mono-dépôt."
     explanation: >-
-      Le nom du paquet virtuel donne la réponse directement. Absent de
+      Le nom du package virtuel donne la Response directement. Absent de
       `provide` ⇒ non implémentée, quelle que soit l'impression laissée par
       l'usage.
     memorization_justification: >-
-      Méthode reproductible qui remplace huit mémorisations par une seule
+      Method reproductible qui remplace huit mémorisations par une seule
       vérification.
     verification_status: VERIFIED
     official_sources:
@@ -5106,7 +5106,7 @@ flashcards:
     language: fr
     level: APPLICATION
     front: "Une bibliothèque exige `php-http/client-implementation`. Symfony la satisfait-il ?"
-    back: "Oui, et sans contrainte de version : l'entrée est déclarée à `*`."
+    back: "Oui, et sans constraint de version : l'entrée est déclarée à `*`."
     explanation: >-
       HTTPlug précède PSR-18, et HttpClient satisfait les deux abstractions.
       C'est l'une des deux entrées non-PSR et non-Symfony de `provide`.
@@ -5129,10 +5129,10 @@ flashcards:
     front: "`provide` est-elle « la liste des PSR que Symfony implémente » ?"
     back: "Pas exactement : sur quinze entrées, **sept** ne sont pas des `psr/*`."
     explanation: >-
-      Cinq contrats Symfony et deux HTTPlug s'y trouvent aussi. La clé déclare
+      Cinq contrats Symfony et deux HTTPlug s'y trouvent aussi. La key déclare
       des interfaces implémentées, pas spécifiquement des PSR.
     memorization_justification: >-
-      Raccourci commode mais faux, qui fait manquer la moitié de ce que la clé
+      Raccourci commode mais faux, qui fait manquer la moitié de ce que la key
       déclare.
     verification_status: VERIFIED
     official_sources:
@@ -5150,7 +5150,7 @@ flashcards:
     front: "Symfony déclare-t-il satisfaire PSR-6 dans toutes ses versions majeures ?"
     back: "Non. `psr/cache-implementation` est déclarée à `2.0|3.0` — **pas** `1.0`."
     explanation: >-
-      Les contraintes varient d'une entrée à l'autre : trois majeures pour
+      Les constraints varient d'une entrée à l'autre : trois majeures pour
       PSR-3 et PSR-16, deux pour PSR-6, PSR-11 et PSR-13, une seule pour
       PSR-14, PSR-18 et PSR-20.
     memorization_justification: >-
@@ -5176,7 +5176,7 @@ flashcards:
       implémentées entrent dans `provide`.
     memorization_justification: >-
       Le mot « suivre » et le mot « implémenter » se confondent à l'oral ; la
-      clé `provide` tranche mécaniquement.
+      key `provide` tranche mécaniquement.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/composer.json"
@@ -5193,7 +5193,7 @@ flashcards:
     front: "PSR-17 est-elle implémentée nativement puisque PSR-7 a un pont ?"
     back: "Non. PSR-7 **et** PSR-17 sont hors de l'implémentation native."
     explanation: >-
-      PSR-17 définit les fabriques de messages PSR-7 ; elle suit donc le même
+      PSR-17 définit les factories de messages PSR-7 ; elle suit donc le même
       sort. Ni l'une ni l'autre n'apparaît dans `provide`.
     memorization_justification: >-
       La seconde PSR du couple s'oublie, et sa présence dans une proposition
@@ -5214,10 +5214,10 @@ flashcards:
     official_item: OIT-c9pjp03cv4bq
     language: fr
     level: RECALL
-    front: "Quels sont les douze noms de méthodes normalisés pour une relation principale ?"
+    front: "Quels sont les douze noms de methods normalisés pour une relation principale ?"
     back: "`get`, `set`, `has`, `all`, `replace`, `remove`, `clear`, `isEmpty`, `add`, `register`, `count`, `keys`."
     explanation: >-
-      Ils ne s'emploient que lorsqu'un objet a une relation « principale »
+      Ils ne s'emploient que lorsqu'un object a une relation « principale »
       évidente avec des choses apparentées. Sinon, on suffixe par le nom de la
       chose.
     memorization_justification: >-
@@ -5239,10 +5239,10 @@ flashcards:
     front: "Que devient `all()` quand la relation n'est pas la principale ?"
     back: "**`getXXXs()`** — pas `allXXX()`."
     explanation: >-
-      C'est l'une des deux lignes irrégulières du tableau : `replace()` devient
+      C'est l'une des deux lignes irrégulières de l'array : `replace()` devient
       de même `setXXXs()`, et non `replaceXXXs()`.
     memorization_justification: >-
-      Transformation qui ne suit pas le schéma « verbe + XXX » ; la réponse
+      Transformation qui ne suit pas le schéma « verbe + XXX » ; la Response
       intuitive est fausse.
     verification_status: VERIFIED
     official_sources:
@@ -5257,8 +5257,8 @@ flashcards:
     official_item: OIT-c9pjp03cv4bq
     language: fr
     level: RECALL
-    front: "Quelle casse pour un **cas d'énumération**, et pour une **constante** ?"
-    back: "`UpperCamelCase` pour le cas d'énumération, `SCREAMING_SNAKE_CASE` pour la constante."
+    front: "Quelle casse pour un **cas d'enum**, et pour une **constante** ?"
+    back: "`UpperCamelCase` pour le cas d'enum, `SCREAMING_SNAKE_CASE` pour la constante."
     explanation: >-
       `InputArgumentMode::IsArray` contre `InputArgument::IS_ARRAY`. Les deux
       cohabitent dans le même code, ce qui rend la confusion facile.
@@ -5321,11 +5321,11 @@ flashcards:
     official_item: OIT-c9pjp03cv4bq
     language: fr
     level: UNDERSTANDING
-    front: "Le conteneur de services a beaucoup de services **et** de paramètres. La convention s'applique-t-elle ?"
+    front: "Le service container a beaucoup de services **et** de parameters. La convention s'applique-t-elle ?"
     back: "Oui — les **services** sont la relation principale, et ce sont eux qui prennent les noms courts."
     explanation: >-
       Deux relations n'empêchent pas la convention si l'une domine. Les
-      paramètres, relation secondaire, prennent la forme suffixée.
+      parameters, relation secondaire, prennent la forme suffixée.
     memorization_justification: >-
       Cas intermédiaire entre le `CookieJar` et l'`Input` ; il montre que le
       critère est la domination, pas l'unicité.
@@ -5343,10 +5343,10 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "Qu'est-ce qui sépare `setXXX()` de `replaceXXX()` ?"
-    back: "`setXXX()` peut **ajouter** un élément ; `replaceXXX()` ne le peut pas et doit lever une exception sur une clé inconnue."
+    back: "`setXXX()` peut **ajouter** un élément ; `replaceXXX()` ne le peut pas et doit lever une exception sur une key inconnue."
     explanation: >-
       Les deux noms suggèrent la même opération. La différence est un **droit** :
-      l'un crée, l'autre exige que la clé existe déjà.
+      l'un crée, l'autre exige que la key existe déjà.
     memorization_justification: >-
       Distinction sémantique invisible dans les noms, avec une conséquence
       observable — l'exception.
@@ -5384,13 +5384,13 @@ flashcards:
     official_item: OIT-c9pjp03cv4bq
     language: fr
     level: APPLICATION
-    front: "Un `CookieJar` expose toutes ses options, relation secondaire. Quel nom de méthode ?"
+    front: "Un `CookieJar` expose toutes ses options, relation secondaire. Quel nom de method ?"
     back: "`getOptions()` — la forme `getXXXs()`, et non `allOptions()`."
     explanation: >-
       `all()` est réservé à la relation principale, ici les cookies. Pour toute
       autre relation, c'est `getXXXs()` qui s'applique.
     memorization_justification: >-
-      Met la ligne irrégulière du tableau en situation, forme sous laquelle
+      Met la ligne irrégulière de l'array en situation, forme sous laquelle
       l'erreur se produit réellement.
     verification_status: VERIFIED
     official_sources:
@@ -5405,15 +5405,15 @@ flashcards:
     official_item: OIT-c9pjp03cv4bq
     language: fr
     level: APPLICATION
-    front: "Vous écrivez un attribut PHP qui déclare un abonné d'événement. Quel préfixe ?"
-    back: "`As...` — l'attribut configure un **service**, comme `#[AsCommand]` ou `#[AsEventListener]`."
+    front: "Vous écrivez un attribute PHP qui déclare un subscriber d'event. Quel préfixe ?"
+    back: "`As...` — l'attribute configure un **service**, comme `#[AsCommand]` ou `#[AsEventListener]`."
     explanation: >-
-      `Map...` est réservé aux **arguments de contrôleur** : `#[MapEntity]`,
-      `#[MapCurrentUser]`. Le critère est ce que l'attribut configure, pas où
+      `Map...` est réservé aux **arguments de controller** : `#[MapEntity]`,
+      `#[MapCurrentUser]`. Le critère est ce que l'attribute configure, pas où
       il est écrit.
     memorization_justification: >-
       Décision concrète d'écriture, et le critère permet de trancher sur un
-      attribut jamais vu.
+      attribute jamais vu.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/standards.rst"
@@ -5427,11 +5427,11 @@ flashcards:
     official_item: OIT-c9pjp03cv4bq
     language: fr
     level: APPLICATION
-    front: "Comment nommer un gabarit Twig et un paramètre de configuration ?"
+    front: "Comment nommer un template Twig et un parameter de configuration ?"
     back: "`snake_case` pour les deux : `section_layout.html.twig`, `framework.csrf_protection`."
     explanation: >-
       Le `snake_case` couvre la configuration, les noms de route, les variables
-      Twig, les gabarits et les ressources web. Le `camelCase` reste au code
+      Twig, les templates et les ressources web. Le `camelCase` reste au code
       PHP.
     memorization_justification: >-
       Frontière entre deux casses qui traverse le projet ; la ranger par
@@ -5453,7 +5453,7 @@ flashcards:
     back: "Il n'y en a **pas**. La ligne `keys()` n'a pas de variante `XXX`."
     explanation: >-
       Symétriquement, `replaceXXX()` n'a **aucune** contrepartie en relation
-      principale. Le tableau n'est donc pas une bijection.
+      principale. L'array n'est donc pas une bijection.
     memorization_justification: >-
       Absence là où le schéma en fait attendre une ; inventer `keysXXX()` est
       l'erreur naturelle.
@@ -5470,13 +5470,13 @@ flashcards:
     official_item: OIT-c9pjp03cv4bq
     language: fr
     level: TRAP
-    front: "Existe-t-il un suffixe pour une classe ordinaire ou une énumération ?"
+    front: "Existe-t-il un suffixe pour une class ordinaire ou une enum ?"
     back: "Non. Ni `...Class`, ni `...Enum`. Seuls `Interface`, `Trait` et `Exception` sont des suffixes."
     explanation: >-
       L'existence de trois suffixes fait croire à une série complète. Les
-      classes ordinaires et les énumérations n'en portent aucun.
+      classes ordinaires et les enums n'en portent aucun.
     memorization_justification: >-
-      Généralisation abusive à partir d'une liste incomplète ; la réponse est
+      Généralisation abusive à partir d'une liste incomplète ; la Response est
       une absence.
     verification_status: VERIFIED
     official_sources:
@@ -5491,10 +5491,10 @@ flashcards:
     official_item: OIT-c9pjp03cv4bq
     language: fr
     level: TRAP
-    front: "Toutes les classes abstraites portent-elles le préfixe `Abstract` ?"
+    front: "Toutes les abstract classes portent-elles le préfixe `Abstract` ?"
     back: "Non : les classes `*TestCase` de PHPUnit en sont dispensées."
     explanation: >-
-      C'est la seule exception nommée par le document. Une classe abstraite de
+      C'est la seule exception nommée par le document. Une abstract class de
       test s'appelle donc `KernelTestCase`, pas `AbstractKernelTestCase`.
     memorization_justification: >-
       Exception unique à une règle énoncée comme générale, et elle se rencontre

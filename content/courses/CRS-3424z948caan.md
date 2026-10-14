@@ -29,7 +29,7 @@ official_sources:
 
 ## Objectif
 
-Maîtriser les mécanismes objet que les autres items du syllabus ne couvrent
+Maîtriser les mécanismes object que les autres items du syllabus ne couvrent
 pas : visibilité, résolution `self`/`static`, immuabilité, promotion.
 
 > Attributes, Interfaces, Abstract classes, Traits et Enums ont chacun leur
@@ -37,15 +37,15 @@ pas : visibilité, résolution `self`/`static`, immuabilité, promotion.
 
 ## Visibilité
 
-`public`, `protected` (classe et descendants), `private` (classe déclarante
+`public`, `protected` (class et descendants), `private` (class déclarante
 seule). Depuis PHP 8.4, la lecture et l'écriture peuvent différer :
 
 ```php
 public private(set) string $title;   // lisible partout, écrivable par la classe
 ```
 
-`private` est lié à la **classe déclarante**, pas à l'instance : deux instances
-de la même classe accèdent mutuellement à leurs membres privés.
+`private` est lié à la **class déclarante**, pas à l'instance : deux instances
+de la même class accèdent mutuellement à leurs membres privés.
 
 ## Promotion de constructeur
 
@@ -59,22 +59,22 @@ final class Money
 }
 ```
 
-La promotion déclare la propriété, la type et l'affecte en une seule écriture.
+La promotion déclare la property, la type et l'affecte en une seule écriture.
 
 ## `readonly`
 
-Une propriété `readonly` est initialisable **une seule fois**. Depuis PHP 8.4,
-elle est implicitement `protected(set)` : une classe fille peut donc
-l'initialiser — exécuté. Depuis 8.2, la classe entière peut être `readonly`, ce qui
-rend toutes ses propriétés `readonly`.
+Une property `readonly` est initialisable **une seule fois**. Depuis PHP 8.4,
+elle est implicitement `protected(set)` : une class fille peut donc
+l'initialiser — exécuté. Depuis 8.2, la class entière peut être `readonly`, ce qui
+rend toutes ses properties `readonly`.
 
 ```php
 $money = new Money(100, 'EUR');
 // $money->amount = 200;  → Error: Cannot modify readonly property
 ```
 
-Attention : `readonly` sur un objet interdit la **réaffectation**, pas la
-mutation de l'objet référencé.
+Attention : `readonly` sur un object interdit la **réaffectation**, pas la
+mutation de l'object référencé.
 
 ## `self` contre `static`
 
@@ -93,29 +93,29 @@ ChildClass::createSelf();     // ParentClass  — self est figé à la déclarat
 ChildClass::createStatic();   // ChildClass   — static suit l'appelant
 ```
 
-`self` se résout **à la classe où le code est écrit**. `static` se résout à la
-classe **réellement appelée** : c'est la liaison statique tardive.
+`self` se résout **à la class où le code est écrit**. `static` se résout à la
+class **réellement appelée** : c'est le binding statique tardive.
 
-`parent::` cible la classe parente ; `$this::` équivaut à `static::`.
+`parent::` cible la class parente ; `$this::` équivaut à `static::`.
 
 ## Pièges d'examen
 
-**`self` ne suit pas l'héritage.** Une factory écrite avec `new self()` renvoie
-toujours la classe parente, même appelée depuis l'enfant.
+**`self` ne suit pas l'inheritance.** Une factory écrite avec `new self()` renvoie
+toujours la class parente, même appelée depuis l'enfant.
 
-**`private` bloque la surcharge.** Une méthode `private` redéfinie dans une
-fille est une méthode différente, pas une surcharge — d'où `#[\Override]` en 8.3
+**`private` bloque la surcharge.** Une method `private` redéfinie dans une
+fille est une method différente, pas une surcharge — d'où `#[\Override]` en 8.3
 pour vérifier une intention de surcharge.
 
-**Une propriété `readonly` typée n'a pas de valeur par défaut** : elle ne peut
+**Une property `readonly` typée n'a pas de default value** : elle ne peut
 pas en avoir, ou elle serait déjà initialisée.
 
 ## Points clés
 
-- `private` est lié à la classe déclarante, pas à l'instance.
-- `self` = classe de déclaration ; `static` = classe appelée.
-- `readonly` : une seule écriture, depuis la classe ou une fille
-  (`protected(set)` implicite en 8.4) ; l'objet reste mutable.
+- `private` est lié à la class déclarante, pas à l'instance.
+- `self` = class de déclaration ; `static` = class appelée.
+- `readonly` : une seule écriture, depuis la class ou une fille
+  (`protected(set)` implicite en 8.4) ; l'object reste mutable.
 - La promotion de constructeur déclare, type et affecte en une fois.
 
 ## Sources officielles

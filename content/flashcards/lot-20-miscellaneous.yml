@@ -10,11 +10,11 @@ flashcards:
   official_item: OIT-s601ppsyb9f7
   language: fr
   level: TRAP
-  front: Deux écouteurs ont les priorités 10 et -10. Lequel s'exécute en premier ?
-  back: Celui à 10. Plus le nombre est élevé, plus l'écouteur est appelé tôt ; les valeurs négatives sont permises
+  front: Deux listeners ont les priorités 10 et -10. Lequel s'exécute en premier ?
+  back: Celui à 10. Plus le nombre est élevé, plus le listener est appelé tôt ; les valeurs négatives sont permises
     et passent en dernier.
   explanation: À priorité égale, c'est l'ordre d'ajout au répartiteur qui départage.
-  memorization_justification: L'analogie avec « priorité 1 » d'une file d'attente suggère l'inverse.
+  memorization_justification: L'analogie avec « priorité 1 » d'une queue suggère l'inverse.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst
@@ -26,11 +26,11 @@ flashcards:
   official_item: OIT-8xcczyjyyanz
   language: fr
   level: RECALL
-  front: Que fait exactement stopPropagation() sur un événement ?
-  back: Elle empêche les écouteurs pas encore appelés de l'être. Elle n'annule rien de ce qui a déjà été fait.
-  explanation: 'Son effet dépend donc entièrement des priorités : un écouteur appelé tôt peut couper la suite.'
+  front: Que fait exactement stopPropagation() sur un event ?
+  back: Elle empêche les listeners pas encore appelés de l'être. Elle n'annule rien de ce qui a déjà été fait.
+  explanation: 'Son effet dépend donc entièrement des priorités : un listener appelé tôt peut couper la suite.'
   memorization_justification: Le mot « stop » laisse croire à une annulation, alors qu'il ne s'agit que d'interrompre
-    une chaîne.
+    une string.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst
@@ -43,7 +43,7 @@ flashcards:
   language: fr
   level: RECALL
   front: 'Symfony : quels arguments prend addListener() ?'
-  back: Le nom de l'événement, un appelable, et une priorité optionnelle (`0` par défaut).
+  back: Le nom de l'event, un callable, et une priorité optionnelle (`0` par défaut).
   explanation: Documentation *Connecting Listeners*, branche 8.0.
   memorization_justification: Signature d'addListener().
   verification_status: VERIFIED
@@ -59,9 +59,9 @@ flashcards:
   language: fr
   level: RECALL
   front: 'Symfony : que rend $dispatcher->dispatch($event) ?'
-  back: L'objet événement lui-même, tel que les écouteurs l'ont laissé.
+  back: L'object event lui-même, tel que les listeners l'ont laissé.
   explanation: Lu dans `EventDispatcher::dispatch()` et exécuté.
-  memorization_justification: Valeur de retour de dispatch().
+  memorization_justification: Return value de dispatch().
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/EventDispatcher/EventDispatcher.php
@@ -74,10 +74,10 @@ flashcards:
   official_item: OIT-s601ppsyb9f7
   language: fr
   level: RECALL
-  front: 'Symfony : quelle méthode appelle par défaut un écouteur de acme.foo_bar ?'
-  back: '`onAcmeFooBar()` : `on` plus le nom de l''événement en camelCase, points et soulignés retirés.'
+  front: 'Symfony : quelle method appelle par défaut un listener de acme.foo_bar ?'
+  back: '`onAcmeFooBar()` : `on` plus le nom de l''event en camelCase, points et soulignés retirés.'
   explanation: 'Exécuté avec `#[AsEventListener(event: ''acme.foo_bar'')]`.'
-  memorization_justification: Méthode par défaut.
+  memorization_justification: Method par défaut.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/EventDispatcher/DependencyInjection/RegisterListenersPass.php
@@ -90,10 +90,10 @@ flashcards:
   official_item: OIT-s601ppsyb9f7
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi un abonné se réutilise-t-il plus facilement qu''un écouteur ?'
-  back: Parce que la liste des événements vit dans la classe, par `getSubscribedEvents()`, et non dans une définition de service.
+  front: 'Symfony : pourquoi un subscriber se réutilise-t-il plus facilement qu''un listener ?'
+  back: Parce que la liste des events vit dans la class, par `getSubscribedEvents()`, et non dans une definition de service.
   explanation: Documentation *Using Event Subscribers*, branche 8.0.
-  memorization_justification: Abonné contre écouteur.
+  memorization_justification: Abonné contre listener.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst
@@ -106,10 +106,10 @@ flashcards:
   official_item: OIT-s601ppsyb9f7
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi un écouteur reçoit-il aussi le nom de l''événement et le répartiteur ?'
-  back: Pour distribuer d'autres événements ou savoir sous quel nom il a été appelé ; le répartiteur passe toujours ces trois arguments.
-  explanation: 'Exécuté : le nom vaut la classe de l''événement quand `dispatch()` n''en reçoit pas.'
-  memorization_justification: Arguments de l'écouteur.
+  front: 'Symfony : pourquoi un listener reçoit-il aussi le nom de l''event et le répartiteur ?'
+  back: Pour distribuer d'autres events ou savoir sous quel nom il a été appelé ; le répartiteur passe toujours ces trois arguments.
+  explanation: 'Exécuté : le nom vaut la class de l''event quand `dispatch()` n''en reçoit pas.'
+  memorization_justification: Arguments du listener.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/EventDispatcher/EventDispatcher.php
@@ -128,8 +128,8 @@ flashcards:
   official_item: OIT-s601ppsyb9f7
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi un écouteur sans méthode onX() fonctionne-t-il encore ?'
-  back: Parce que le passe de compilation se replie sur `__invoke()` quand la méthode par défaut n'existe pas.
+  front: 'Symfony : pourquoi un listener sans method onX() fonctionne-t-il encore ?'
+  back: Parce que le compiler pass se replie sur `__invoke()` quand la method par défaut n'existe pas.
   explanation: Exécuté ; sans l'une ni l'autre, *None of the … or "__invoke" methods exist*.
   memorization_justification: Repli sur __invoke().
   verification_status: VERIFIED
@@ -144,10 +144,10 @@ flashcards:
   official_item: OIT-s601ppsyb9f7
   language: fr
   level: APPLICATION
-  front: 'Symfony : inscrire deux méthodes d''un abonné sur kernel.response, avant et après les autres.'
+  front: 'Symfony : inscrire deux methods d''un subscriber sur kernel.response, avant et après les autres.'
   back: '`KernelEvents::RESPONSE => [[''onPre'', 10], [''onPost'', -10]]` dans `getSubscribedEvents()`.'
   explanation: Documentation *Using Event Subscribers*.
-  memorization_justification: Plusieurs méthodes, un événement.
+  memorization_justification: Plusieurs methods, un event.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst
@@ -160,10 +160,10 @@ flashcards:
   official_item: OIT-s601ppsyb9f7
   language: fr
   level: APPLICATION
-  front: 'Symfony : écouter un événement sans nom explicite, avec un attribut.'
-  back: '`#[AsEventListener]` sur une classe dont `__invoke()` type son argument : l''événement est déduit du type.'
+  front: 'Symfony : écouter un event sans nom explicite, avec un attribute.'
+  back: '`#[AsEventListener]` sur une class dont `__invoke()` type son argument : l''event est déduit du type.'
   explanation: 'Exécuté : `__invoke(CustomEvent $e)` écoute `CustomEvent::class`.'
-  memorization_justification: Événement déduit du type.
+  memorization_justification: Event déduit du type.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/EventDispatcher/DependencyInjection/RegisterListenersPass.php
@@ -176,7 +176,7 @@ flashcards:
   official_item: OIT-s601ppsyb9f7
   language: fr
   level: TRAP
-  front: 'Symfony : deux écouteurs de priorité 0 s''exécutent-ils dans un ordre indéfini ?'
+  front: 'Symfony : deux listeners de priorité 0 s''exécutent-ils dans un ordre indéfini ?'
   back: 'Non : dans l''ordre où ils ont été ajoutés.'
   explanation: 'Exécuté : `0`, `0`, `10`, `-5` ajoutés donnent `10`, les deux `0` dans l''ordre, `-5`.'
   memorization_justification: Égalité de priorité.
@@ -193,7 +193,7 @@ flashcards:
   language: fr
   level: TRAP
   front: 'Symfony : sans nom, dispatch($event) utilise-t-il un nom générique ?'
-  back: 'Non : la classe de l''objet événement sert de nom.'
+  back: 'Non : la class de l''object event sert de nom.'
   explanation: Documentation et exécution.
   memorization_justification: Nom par défaut.
   verification_status: VERIFIED
@@ -214,10 +214,10 @@ flashcards:
   official_item: OIT-8xcczyjyyanz
   language: fr
   level: RECALL
-  front: 'Symfony : quelles méthodes offre la classe de base Event ?'
+  front: 'Symfony : quelles methods offre la class de base Event ?'
   back: '`stopPropagation()` et `isPropagationStopped()`, rien d''autre.'
   explanation: Lu dans `Contracts/EventDispatcher/Event.php`.
-  memorization_justification: Classe de base minimale.
+  memorization_justification: Class de base minimale.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/EventDispatcher/Event.php
@@ -247,7 +247,7 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony : pourquoi l''effet de stopPropagation() dépend-il des priorités ?'
-  back: 'Parce qu''il n''empêche que les écouteurs suivants : l''ordre d''appel décide de qui a déjà tourné.'
+  back: 'Parce qu''il n''empêche que les listeners suivants : l''ordre d''appel décide de qui a déjà tourné.'
   explanation: 'Exécuté : arrêt à la priorité `5`, seuls `10` et `5` tournent.'
   memorization_justification: Arrêt et ordre.
   verification_status: VERIFIED
@@ -269,7 +269,7 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony : pourquoi écrire une sous-classe d''Event plutôt qu''un GenericEvent ?'
-  back: 'Pour un contrat typé : des accesseurs explicites au lieu d''arguments non typés lus par clé.'
+  back: 'Pour un contrat typé : des accesseurs explicites au lieu d''arguments non typés lus par key.'
   explanation: Documentation *The Generic Event Object*.
   memorization_justification: Sous-classe contre GenericEvent.
   verification_status: VERIFIED
@@ -285,7 +285,7 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony : pourquoi le déclencheur lit-il isPropagationStopped() après dispatch() ?'
-  back: Pour savoir si un écouteur a interrompu la chaîne et réagir en conséquence.
+  back: Pour savoir si un listener a interrompu la string et réagir en conséquence.
   explanation: Documentation *Stopping Event Flow/Propagation*.
   memorization_justification: Lecture côté déclencheur.
   verification_status: VERIFIED
@@ -300,10 +300,10 @@ flashcards:
   official_item: OIT-8xcczyjyyanz
   language: fr
   level: APPLICATION
-  front: 'Symfony : transporter une commande dans un événement.'
-  back: Une sous-classe d'`Event` avec un constructeur qui reçoit la commande et un `getOrder()`.
+  front: 'Symfony : transporter une command dans un event.'
+  back: Une sous-classe d'`Event` avec un constructeur qui reçoit la command et un `getOrder()`.
   explanation: Documentation *Creating and Dispatching an Event*.
-  memorization_justification: Événement porteur de données.
+  memorization_justification: Event porteur de données.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst
@@ -316,7 +316,7 @@ flashcards:
   official_item: OIT-8xcczyjyyanz
   language: fr
   level: APPLICATION
-  front: 'Symfony : distribuer un événement générique sur un sujet, avec un argument type.'
+  front: 'Symfony : distribuer un event générique sur un sujet, avec un argument type.'
   back: '`$dispatcher->dispatch(new GenericEvent($subject, [''type'' => ''x'']), ''foo'')`.'
   explanation: Documentation *The Generic Event Object*.
   memorization_justification: GenericEvent en pratique.
@@ -332,9 +332,9 @@ flashcards:
   official_item: OIT-8xcczyjyyanz
   language: fr
   level: TRAP
-  front: 'Symfony : stopPropagation() défait-il le travail des écouteurs déjà appelés ?'
+  front: 'Symfony : stopPropagation() défait-il le travail des listeners déjà appelés ?'
   back: 'Non : il empêche seulement les suivants d''être appelés.'
-  explanation: 'Exécuté : l''écouteur de priorité `10` a bien tourné.'
+  explanation: 'Exécuté : le listener de priorité `10` a bien tourné.'
   memorization_justification: Portée de l'arrêt.
   verification_status: VERIFIED
   official_sources:
@@ -376,9 +376,9 @@ flashcards:
   official_item: OIT-8xcczyjyyanz
   language: fr
   level: TRAP
-  front: 'Symfony : la classe de base Event transporte-t-elle une donnée ?'
+  front: 'Symfony : la class de base Event transporte-t-elle une donnée ?'
   back: 'Non : il faut hériter, ou utiliser `GenericEvent`.'
-  explanation: Lu dans la classe de base.
+  explanation: Lu dans la class de base.
   memorization_justification: Aucune donnée par défaut.
   verification_status: VERIFIED
   official_sources:

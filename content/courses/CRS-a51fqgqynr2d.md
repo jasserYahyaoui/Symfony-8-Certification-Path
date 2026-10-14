@@ -36,17 +36,17 @@ official_sources:
 
 ## Objectif
 
-Obtenir la session depuis un contrôleur, connaître son API de base, et
+Obtenir la session depuis un controller, connaître son API de base, et
 comprendre quand elle démarre réellement.
 
 ## L'obtenir
 
-Trois chemins, selon l'endroit :
+Trois paths, selon l'endroit :
 
 | Contexte | Accès |
 |---|---|
-| contrôleur, requête en main | `$request->getSession()` |
-| contrôleur, argument typé | `SessionInterface $session` |
+| controller, Request en main | `$request->getSession()` |
+| controller, argument typé | `SessionInterface $session` |
 | service | `RequestStack::getSession()` |
 
 Le deuxième fonctionne grâce au `SessionValueResolver` : typer l'argument avec
@@ -60,8 +60,8 @@ valeur.
 
 La documentation est plus étroite que cela : elle écrit *« Sessions are only
 started if you read from or write to them »*, sans mentionner le test. Le code
-tranche. Dans `Session`, **sept méthodes passent par le même accès au sac
-d'attributs** :
+tranche. Dans `Session`, **sept methods passent par le même accès au sac
+d'attributes** :
 
 ```php
 public function has(string $name): bool
@@ -71,19 +71,19 @@ public function has(string $name): bool
 ```
 
 `has()`, `get()`, `set()`, `all()`, `replace()`, `remove()` et `clear()` ont
-toutes ce corps-là, à la méthode appelée près. Il n'y a donc **aucune
+toutes ce corps-là, à la method appelée près. Il n'y a donc **aucune
 consultation neutre** : `has()` démarre la session exactement comme `get()`.
 
 La conséquence est directe et voulue : une page qui ne touche jamais à la
 session n'émet aucun cookie de session, et reste donc cachable par un proxy
 partagé. Activer la session ne coûte rien tant que personne ne s'en sert. À
 l'inverse, une simple vérification suffit à la démarrer, et `SessionListener`
-rend alors la réponse **privée**. Le cookie, lui, n'est posé que si la session
-**n'est pas vide** — exécuté : après un `has()` seul, réponse `private` sans
+rend alors la Response **privée**. Le cookie, lui, n'est posé que si la session
+**n'est pas vide** — exécuté : après un `has()` seul, Response `private` sans
 aucun `Set-Cookie` ; après un `set()`, le cookie part.
 
 Certaines fonctionnalités la démarrent indirectement, parce qu'elles s'en
-servent : l'authentification et les messages flash, notamment.
+servent : l'authentication et les flash messages, notamment.
 
 ## L'API
 
@@ -98,7 +98,7 @@ $session->clear();
 
 ### `invalidate()` est bâtie sur `migrate()`
 
-Les deux méthodes qui portent la sécurité ne sont pas deux mécanismes
+Les deux methods qui portent la security ne sont pas deux mécanismes
 parallèles. L'une appelle l'autre :
 
 ```php
@@ -112,20 +112,20 @@ public function invalidate(?int $lifetime = null): bool
 public function migrate(bool $destroy = false, ?int $lifetime = null): bool
 ```
 
-Trois choses se lisent là, qu'un tableau de deux lignes ne dirait pas.
+Trois choses se lisent là, qu'un array de deux lignes ne dirait pas.
 
 **`invalidate()` fait deux gestes, pas un.** Elle vide le stockage, *puis*
 régénère. C'est ce `clear()` qui supprime les données, pas la régénération.
 
-**`$destroy` vaut `false` par défaut.** Un `migrate()` nu régénère l'identifiant
+**`$destroy` vaut `false` par défaut.** Un `migrate()` nu régénère l'identifier
 mais **laisse l'ancienne session sur le serveur**. `invalidate()` passe `true`,
 donc elle la détruit.
 
-**Les deux acceptent une durée de vie et rendent un booléen.** La signature n'est
+**Les deux acceptent une durée de vie et rendent un bool.** La signature n'est
 pas `void`.
 
-En pratique : `migrate()` après une authentification réussie, contre la fixation
-de session — on garde le panier, on change l'identifiant. `invalidate()` à la
+En pratique : `migrate()` après une authentication réussie, contre la fixation
+de session — on garde le panier, on change l'identifier. `invalidate()` à la
 déconnexion.
 
 ## Pièges d'examen
@@ -143,7 +143,7 @@ le stockage puis appelle `migrate(true, …)`. La suppression des données vient
 vidage, pas de la régénération.
 
 **`migrate()` seule ne détruit pas l'ancienne session.** Son argument `$destroy`
-vaut `false` par défaut : l'identifiant change, mais la session précédente reste
+vaut `false` par défaut : l'identifier change, mais la session précédente reste
 sur le serveur. C'est `invalidate()` qui passe `true`.
 
 **La documentation ne mentionne pas le test.** Elle parle de lire et d'écrire ;
@@ -157,7 +157,7 @@ garder les données ? Oui → `migrate()`, c'est l'après-connexion. Non →
 `invalidate()`, c'est la déconnexion.
 
 **Pour savoir si une page reste cachable** : y a-t-il un seul appel au sac
-d'attributs, fût-il un `has()` ? Si oui, elle devient privée. Le cookie, lui,
+d'attributes, fût-il un `has()` ? Si oui, elle devient privée. Le cookie, lui,
 ne part que si la session contient une donnée.
 
 ## Points clés
@@ -165,7 +165,7 @@ ne part que si la session contient une donnée.
 - `$request->getSession()`, argument typé `SessionInterface`, ou `RequestStack`
   dans un service.
 - Démarrage paresseux : lire, écrire **ou tester** démarre la session — sept
-  méthodes passent par le même accès au sac.
+  methods passent par le même accès au sac.
 - Une page qui n'y touche pas n'émet pas de cookie de session.
 - `invalidate()` = `clear()` du stockage **puis** `migrate(true, …)`.
 - `migrate()` laisse l'ancienne session en place par défaut : `$destroy` vaut

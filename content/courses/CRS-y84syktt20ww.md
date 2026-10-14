@@ -29,8 +29,8 @@ Savoir sous quelle licence Symfony est publié et ce que cette licence autorise.
 
 ## La licence
 
-Symfony est publié sous licence **MIT**. La clé `license` du `composer.json` du
-dépôt `symfony/symfony` porte la valeur `MIT`, et le fichier `LICENSE` à la
+Symfony est publié sous licence **MIT**. La key `license` du `composer.json` du
+dépôt `symfony/symfony` porte la valeur `MIT`, et le file `LICENSE` à la
 racine en donne le texte, avec pour titulaire du copyright **Fabien Potencier**.
 
 ## Ce qu'elle autorise
@@ -48,7 +48,7 @@ code qui utilise Symfony.
 
 ## Le texte, clause par clause
 
-Le fichier `LICENSE` tient en trois paragraphes, et chacun a un rôle distinct.
+Le file `LICENSE` tient en trois paragraphes, et chacun a un rôle distinct.
 
 **L'attribution.** `Copyright (c) 2004-present Fabien Potencier` — une personne
 physique, pas une société ni la SensioLabs.
@@ -83,7 +83,7 @@ protections distinctes.
 **Une seule obligation, et elle est documentaire.** Reproduire l'avis de
 copyright et le texte de la licence. Rien sur le code, rien sur la publication.
 
-**« Substantial portions »**, pas « le logiciel entier » : copier un fichier
+**« Substantial portions »**, pas « le logiciel entier » : copier un file
 significatif suffit à déclencher l'obligation.
 
 **Le titulaire est une personne.** Fabien Potencier, depuis 2004.
@@ -102,8 +102,8 @@ logiciel — rien de plus.
 
 - Symfony est sous licence **MIT**, titulaire du copyright Fabien Potencier.
 - Usage commercial et propriétaire autorisés, sans obligation de réciprocité.
-- Seule contrainte : conserver l'avis de copyright et le texte de la licence.
+- Seule constraint : conserver l'avis de copyright et le texte de la licence.
 
 ## Sources officielles
 
-- [Fichier LICENSE de symfony/symfony (branche 8.0)](https://github.com/symfony/symfony/blob/8.0/LICENSE)
+- [File LICENSE de symfony/symfony (branche 8.0)](https://github.com/symfony/symfony/blob/8.0/LICENSE)

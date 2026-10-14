@@ -14,7 +14,7 @@ flashcards:
   back: Non. MockClock est figée à l'heure de son instanciation et n'avance jamais d'elle-même ; seuls sleep() ou
     modify() la déplacent.
   explanation: sleep() déplace l'heure simulée instantanément — sleep(600) ne fait pas patienter le test dix minutes.
-  memorization_justification: Le mot « horloge » suggère un écoulement ; ici il n'y en a aucun, et c'est exactement
+  memorization_justification: Le mot « clock » suggère un écoulement ; ici il n'y en a aucun, et c'est exactement
     ce qui rend le test déterministe.
   verification_status: VERIFIED
   official_sources:
@@ -27,7 +27,7 @@ flashcards:
   official_item: OIT-qpjnpc56hjj0
   language: fr
   level: RECALL
-  front: 'Symfony : quelle classe rend NativeClock::now() en 8.0 ?'
+  front: 'Symfony : quelle class rend NativeClock::now() en 8.0 ?'
   back: '`DatePoint`, une sous-classe de `DateTimeImmutable`.'
   explanation: Lu dans `NativeClock.php` et exécuté.
   memorization_justification: Type de retour de now().
@@ -43,8 +43,8 @@ flashcards:
   official_item: OIT-qpjnpc56hjj0
   language: fr
   level: RECALL
-  front: 'Symfony : quelle horloge sert à mesurer une durée ?'
-  back: '`MonotonicClock`, fondée sur `hrtime()`, insensible aux ajustements de l''horloge système.'
+  front: 'Symfony : quelle clock sert à mesurer une durée ?'
+  back: '`MonotonicClock`, fondée sur `hrtime()`, insensible aux ajustements de la clock système.'
   explanation: Documentation *Clock*, branche 8.0.
   memorization_justification: Chronomètre.
   verification_status: VERIFIED
@@ -60,7 +60,7 @@ flashcards:
   language: fr
   level: RECALL
   front: 'Symfony : que peut recevoir ClockSensitiveTrait::mockTime() ?'
-  back: Une chaîne (date ou intervalle), un `DateTimeImmutable`, ou un booléen pour figer ou restaurer.
+  back: Une string (date ou intervalle), un `DateTimeImmutable`, ou un bool pour figer ou restaurer.
   explanation: Exécuté avec PHPUnit 11.5.
   memorization_justification: Arguments de mockTime().
   verification_status: VERIFIED
@@ -81,8 +81,8 @@ flashcards:
   official_item: OIT-qpjnpc56hjj0
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi un service avec ClockAwareTrait reçoit-il son horloge ?'
-  back: Parce que `setClock()` porte `#[Required]`, que l'autocâblage appelle ; l'autoconfiguration seule ne l'appelle pas.
+  front: 'Symfony : pourquoi un service avec ClockAwareTrait reçoit-il sa clock ?'
+  back: Parce que `setClock()` porte `#[Required]`, que l'autowiring appelle ; l'autoconfiguration seule ne l'appelle pas.
   explanation: Exécuté sur DependencyInjection 8.0.15 ; la documentation parle d'autoconfiguration.
   memorization_justification: Écart documentation-code.
   verification_status: VERIFIED
@@ -119,8 +119,8 @@ flashcards:
   official_item: OIT-qpjnpc56hjj0
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi un DatePoint créé en test suit-il l''horloge figée ?'
-  back: Parce qu'il prend son heure de l'horloge globale `Clock`.
+  front: 'Symfony : pourquoi un DatePoint créé en test suit-il la clock figée ?'
+  back: Parce qu'il prend son heure de la clock globale `Clock`.
   explanation: 'Exécuté : `Clock::set(new MockClock(''2000-01-01''))`, puis `new DatePoint()` rend 2000-01-01.'
   memorization_justification: DatePoint et Clock.
   verification_status: VERIFIED
@@ -135,10 +135,10 @@ flashcards:
   official_item: OIT-qpjnpc56hjj0
   language: fr
   level: APPLICATION
-  front: 'Symfony : rendre testable une méthode qui appelle new DateTimeImmutable().'
+  front: 'Symfony : rendre testable une method qui appelle new DateTimeImmutable().'
   back: Injecter `ClockInterface` et appeler `$this->clock->now()` à la place.
   explanation: Documentation *Using a Clock inside a Service*.
-  memorization_justification: Injection de l'horloge.
+  memorization_justification: Injection de la clock.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/clock.rst
@@ -184,7 +184,7 @@ flashcards:
   language: fr
   level: TRAP
   front: 'Symfony : sans injection, $this->now() de ClockAwareTrait échoue-t-il ?'
-  back: 'Non : il se replie sur l''horloge globale `Clock`.'
+  back: 'Non : il se replie sur la clock globale `Clock`.'
   explanation: Lu dans `ClockAwareTrait` ; exécuté avec `Clock::set()`.
   memorization_justification: Repli sur Clock.
   verification_status: VERIFIED

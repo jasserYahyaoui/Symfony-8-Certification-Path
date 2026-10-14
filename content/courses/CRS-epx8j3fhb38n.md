@@ -29,18 +29,18 @@ Situer HttpFoundation dans l'architecture : ce qu'il remplace, la place qu'il
 occupe sous le reste du framework, et ce qu'il fournit au-delà de `Request` et
 `Response`.
 
-L'API de `Request` et de `Response` — les sacs, `InputBag`, les en-têtes — est
-traitée dans le lot HTTP ; leur emploi dans un contrôleur, dans le lot
+L'API de `Request` et de `Response` — les sacs, `InputBag`, les headers — est
+traitée dans le lot HTTP ; leur emploi dans un controller, dans le lot
 Controllers.
 
 ## Ce qu'il remplace
 
-En PHP nu, la requête est un ensemble de variables globales — `$_GET`, `$_POST`,
-`$_FILES`, `$_COOKIE`, `$_SERVER` — et la réponse un effet de bord de `header()`
-et `echo`. HttpFoundation remplace ces globales par des objets.
+En PHP nu, la Request est un ensemble de variables globales — `$_GET`, `$_POST`,
+`$_FILES`, `$_COOKIE`, `$_SERVER` — et la Response un effet de bord de `header()`
+et `echo`. HttpFoundation remplace ces globales par des objects.
 
-L'intérêt n'est pas cosmétique : un objet se fabrique. `Request::create('/blog')`
-produit une requête complète sans serveur web, ce qui rend une pile HTTP
+L'intérêt n'est pas cosmétique : un object se fabrique. `Request::create('/blog')`
+produit une Request complète sans serveur web, ce qui rend une pile HTTP
 testable — impossible avec des superglobales.
 
 ## Sa place
@@ -48,17 +48,17 @@ testable — impossible avec des superglobales.
 C'est un composant **autonome** : il s'installe et s'utilise dans n'importe quel
 projet PHP, sans le framework et sans dépendre d'un autre composant Symfony.
 
-L'inverse n'est pas vrai. Le contrat du noyau — `handle(Request): Response` —
+L'inverse n'est pas vrai. Le contrat du kernel — `handle(Request): Response` —
 est écrit dans le vocabulaire de HttpFoundation, et tout le framework en dépend.
 C'est la brique la plus basse de la pile HTTP de Symfony.
 
 ## RequestStack
 
-Le composant fournit `RequestStack`, la pile des requêtes en cours de
-traitement. Un service ne reçoit pas la requête par injection — elle change à
+Le composant fournit `RequestStack`, la pile des Requests en cours de
+traitement. Un service ne reçoit pas la Request par injection — elle change à
 chaque appel, un service non : il reçoit `RequestStack` et demande
-`getCurrentRequest()`. La pile distingue aussi la requête principale
-(`getMainRequest()`) de la requête parente (`getParentRequest()`).
+`getCurrentRequest()`. La pile distingue aussi la main Request
+(`getMainRequest()`) de la Request parente (`getParentRequest()`).
 
 ## Les trois accesseurs, exactement
 
@@ -71,22 +71,22 @@ cette pile :
 | `getMainRequest()` | le **premier** — `$requests[0]` | `null` |
 | `getParentRequest()` | l'avant-dernier — l'index `count - 2` | `null` |
 
-`getParentRequest()` rend donc `null` quand la requête courante **est** la
-requête principale : il n'y a pas d'élément avant elle.
+`getParentRequest()` rend donc `null` quand la Request courante **est** la
+main Request : il n'y a pas d'élément avant elle.
 
-La pile se remplit toute seule : le noyau empile avant de traiter une requête et
+La pile se remplit toute seule : le kernel empile avant de traiter une Request et
 dépile après. `push()` et `pop()` existent, mais leur docblock prévient qu'ils
 « should generally not be called directly ».
 
-## L'avertissement que portent deux de ces méthodes
+## L'avertissement que portent deux de ces methods
 
 `getMainRequest()` et `getParentRequest()` portent la même mise en garde dans
-leur docblock : rendre son code conscient de la requête principale ou parente
+leur docblock : rendre son code conscient de la main Request ou parente
 
 > might make it un-compatible with other features of your framework like ESI
 > support.
 
-La raison est structurelle : une sous-requête existe pour être traitée **comme
+La raison est structurelle : une sub-Request existe pour être traitée **comme
 si** elle était seule — c'est ce qui permet à un fragment ESI d'être rendu par un
 cache séparé. Un service qui regarde par-dessus son épaule casse cette
 indépendance.
@@ -97,8 +97,8 @@ indépendance.
 $session = $requestStack->getSession();   // SessionNotFoundException si aucune
 ```
 
-Contrairement aux trois accesseurs de requête, celui-ci **lève** une
-`SessionNotFoundException` quand la pile est vide ou quand la requête courante
+Contrairement aux trois accesseurs de Request, celui-ci **lève** une
+`SessionNotFoundException` quand la pile est vide ou quand la Request courante
 n'a pas de session — cohérent avec son type de retour, `SessionInterface` sans
 `?`.
 
@@ -107,32 +107,32 @@ n'a pas de session — cohérent avec son type de retour, `SessionInterface` san
 **Pile, pas registre.** `current` = le dernier empilé, `main` = le premier,
 `parent` = celui d'avant. Trois positions, pas trois notions.
 
-**`getParentRequest()` sur la requête principale rend `null`**, pas la requête
+**`getParentRequest()` sur la main Request rend `null`**, pas la Request
 elle-même.
 
 **Le seul accesseur qui lève est `getSession()`** — les autres rendent `null`.
 
 **Un service reçoit `RequestStack`, jamais `Request`.** Le service est construit
-une fois ; la requête change à chaque appel.
+une fois ; la Request change à chaque appel.
 
 ## Pièges d'examen
 
 **On n'injecte jamais `Request` dans un service.** Un service est construit une
-fois, la requête change à chaque appel : c'est `RequestStack` que l'on injecte,
+fois, la Request change à chaque appel : c'est `RequestStack` que l'on injecte,
 et `getCurrentRequest()` que l'on appelle.
 
-**La dépendance va dans un seul sens.** HttpFoundation ne dépend d'aucun
+**La dependency va dans un seul sens.** HttpFoundation ne dépend d'aucun
 composant Symfony ; c'est le framework qui dépend de lui, puisque le contrat du
-noyau est écrit dans son vocabulaire.
+kernel est écrit dans son vocabulaire.
 
 ## Points clés
 
-- HttpFoundation remplace les superglobales PHP par des objets fabricables.
-- `Request::create()` construit une requête sans serveur web : c'est ce qui rend
+- HttpFoundation remplace les superglobales PHP par des objects fabricables.
+- `Request::create()` construit une Request sans serveur web : c'est ce qui rend
   la pile testable.
 - Composant autonome, utilisable hors framework ; c'est le framework qui en
   dépend, pas l'inverse.
-- La requête courante s'obtient par `RequestStack`, jamais par injection.
+- La Request courante s'obtient par `RequestStack`, jamais par injection.
 
 ## Sources officielles
 

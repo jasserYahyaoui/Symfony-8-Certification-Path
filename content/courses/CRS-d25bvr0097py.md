@@ -26,17 +26,17 @@ official_sources:
 
 ## Objectif
 
-Modifier le conteneur pendant sa compilation : collecter des services tagués,
-supprimer une définition, réécrire un argument. Et surtout savoir **quand** une
+Modifier le container pendant sa compilation : collecter des services tagués,
+supprimer une definition, réécrire un argument. Et surtout savoir **quand** une
 passe s'exécute, parce que l'étape choisie décide de ce qu'elle peut encore voir.
 
 ## Prérequis
 
-Le conteneur et sa compilation, et les tags.
+Le container et sa compilation, et les tags.
 
 ## Ce qu'une passe est
 
-Une classe qui implémente `CompilerPassInterface`, donc une seule méthode :
+Une class qui implémente `CompilerPassInterface`, donc une seule method :
 
 ```php
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -59,12 +59,12 @@ class HandlerPass implements CompilerPassInterface
 }
 ```
 
-Elle reçoit le `ContainerBuilder` — les **définitions**, pas les objets. Rien
+Elle reçoit le `ContainerBuilder` — les **definitions**, pas les objects. Rien
 n'est instancié : on manipule des descriptions. Exécuté avec
 `symfony/dependency-injection` 8.0.15 : dans une passe, `getDefinition('priv')`
-rend un objet `Definition`, et `initialized('priv')` vaut `false`.
+rend un object `Definition`, et `initialized('priv')` vaut `false`.
 
-`findTaggedServiceIds()` retourne un tableau `identifiant => liste d'attributs
+`findTaggedServiceIds()` retourne un array `identifier => liste d'attributes
 de tag`, la liste parce qu'un service peut porter le même tag plusieurs fois.
 Exécuté, un service tagué deux fois : `{"x":[{"a":1},{"a":2}]}`.
 
@@ -89,7 +89,7 @@ class Kernel extends BaseKernel implements CompilerPassInterface
 }
 ```
 
-Le noyau n'est pas enregistré à la priorité par défaut : `Kernel` l'ajoute en
+Le kernel n'est pas enregistré à la priorité par défaut : `Kernel` l'ajoute en
 `TYPE_BEFORE_OPTIMIZATION` avec la priorité **-10000** (relu dans
 `HttpKernel\Kernel`, 8.0.15), donc après les passes des bundles de la même étape.
 
@@ -104,10 +104,10 @@ constantes de `PassConfig`, dans cet ordre d'exécution :
 | Constante | Moment | Passes du composant, relues en 8.0.15 |
 |---|---|---|
 | `TYPE_BEFORE_OPTIMIZATION` | **le défaut** — tout est encore là | autoconfiguration, `instanceof`, à la priorité 100 |
-| `TYPE_OPTIMIZE` | résolution | `AutowirePass`, paramètres, bindings, alias, décorateurs |
+| `TYPE_OPTIMIZE` | résolution | `AutowirePass`, parameters, bindings, alias, decorators |
 | `TYPE_BEFORE_REMOVING` | juste avant le nettoyage | aucune par défaut |
 | `TYPE_REMOVE` | suppression | `RemoveUnusedDefinitionsPass`, inlining |
-| `TYPE_AFTER_REMOVING` | après le nettoyage | chemins chauds, préchargement |
+| `TYPE_AFTER_REMOVING` | après le nettoyage | paths chauds, préchargement |
 
 Exécuté, sept passes enregistrées dans le désordre s'exécutent dans cet ordre :
 priorité 10, 0 puis -5 de l'étape par défaut, puis `optimize`, `beforeRemoving`,
@@ -126,7 +126,7 @@ Le choix n'est pas décoratif. Trois exécutions le montrent :
 | la même, priorité 200 | **rien** : l'autoconfiguration, à 100, n'a pas encore eu lieu |
 
 Une passe qui **ajoute** une référence à un service privé doit donc s'exécuter
-avant `TYPE_REMOVE` ; une passe qui veut observer le conteneur final se place en
+avant `TYPE_REMOVE` ; une passe qui veut observer le container final se place en
 `TYPE_AFTER_REMOVING` ; et une priorité élevée dans l'étape par défaut ne voit
 pas encore les tags d'autoconfiguration.
 
@@ -134,26 +134,26 @@ pas encore les tags d'autoconfiguration.
 
 La configuration décrit **ses propres** services. Une passe intervient sur ceux
 des **autres** : collecter tous les services portant un tag, retirer une
-définition posée par un bundle tiers, changer un argument que l'on ne contrôle
+definition posée par un bundle tiers, changer un argument que l'on ne contrôle
 pas. Si la configuration suffit, elle est préférable — elle est lisible et ne
 s'exécute pas à la compilation.
 
 ## Pièges d'examen
 
-- Une passe manipule des **définitions**, jamais des instances.
+- Une passe manipule des **definitions**, jamais des instances.
 - Le type par défaut est `TYPE_BEFORE_OPTIMIZATION`, priorité `0`.
 - Câbler un service privé **après** `TYPE_REMOVE` échoue : il a déjà disparu —
   et l'erreur n'arrive qu'à l'exécution, pas à la compilation.
 - Priorité haute = **plus tôt**, à type égal — au-delà de 100, avant
   l'autoconfiguration.
 - Le noyau-passe tourne à -10000, après les passes de bundle de son étape.
-- Une passe s'exécute **une fois**, à la compilation — jamais par requête.
-- `findTaggedServiceIds()` retourne une **liste** d'attributs par service, pas un
+- Une passe s'exécute **une fois**, à la compilation — jamais par Request.
+- `findTaggedServiceIds()` retourne une **liste** d'attributes par service, pas un
   seul jeu.
 
 ## Points clés
 
-- `CompilerPassInterface::process(ContainerBuilder)` : une méthode, des définitions.
+- `CompilerPassInterface::process(ContainerBuilder)` : une method, des definitions.
 - Enregistrée par `Bundle::build()` ou par un `Kernel` qui implémente l'interface.
 - Cinq étapes de `PassConfig` ; le défaut est `TYPE_BEFORE_OPTIMIZATION`.
 - L'étape décide de ce qui existe encore — `TYPE_REMOVE` supprime les services

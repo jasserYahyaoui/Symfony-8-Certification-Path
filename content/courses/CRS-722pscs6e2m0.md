@@ -41,12 +41,12 @@ reconnaître ce que 8.4 apporte — Symfony 8.0 exigeant PHP 8.4 au minimum.
 ## Pourquoi la version compte ici
 
 Symfony 8.0 déclare `"php": ">=8.4"`. Une question peut donc légitimement
-porter sur une syntaxe 8.4, et une réponse qui « marcherait en 8.1 » n'est pas
+porter sur une syntaxe 8.4, et une Response qui « marcherait en 8.1 » n'est pas
 pour autant correcte.
 
 ## Ce que 8.4 ajoute au cœur du langage
 
-**Property hooks** — un accesseur défini sur la propriété elle-même, sans
+**Property hooks** — un accesseur défini sur la property elle-même, sans
 getter ni setter séparés :
 
 ```php
@@ -62,13 +62,13 @@ class Person
 }
 ```
 
-Aucun des deux hooks ne lit ni n'écrit `$this->fullName` : la propriété est
+Aucun des deux hooks ne lit ni n'écrit `$this->fullName` : la property est
 **virtuelle**, rien n'est stocké. Attention à la forme courte `set => expr` :
 selon la documentation PHP, la valeur de l'expression est écrite **dans la
-propriété elle-même**. Exécuté en PHP 8.4 avec `set => $this->first = …` :
-`fullName` devient une propriété adossée, qui stocke le prénom.
+property elle-même**. Exécuté en PHP 8.4 avec `set => $this->first = …` :
+`fullName` devient une property adossée, qui stocke le prénom.
 
-**Visibilité asymétrique** — lecture et écriture peuvent avoir des portées
+**Visibilité asymétrique** — lecture et écriture peuvent avoir des scopes
 différentes :
 
 ```php
@@ -81,9 +81,9 @@ class Book
 }
 ```
 
-**Objets paresseux** (`lazy objects`), initialisés au premier accès réel.
+**Objects paresseux** (`lazy objects`), initialisés au premier accès réel.
 
-**`#[\Deprecated]`** — un attribut natif pour marquer une fonction, méthode ou
+**`#[\Deprecated]`** — un attribute natif pour marquer une function, method ou
 constante obsolète.
 
 **`new` déréférençable** — `new Foo()->method()` est désormais valide sans
@@ -94,32 +94,32 @@ parenthèses englobantes.
 | Version | Apports les plus examinables |
 |---|---|
 | 8.0 | Arguments nommés, promotion de constructeur, `match`, types union, `?->`, `static` en type de retour |
-| 8.1 | Enums, `readonly`, `never`, syntaxe de callable de première classe `foo(...)`, constantes de classe `final` |
-| 8.2 | `readonly` sur la classe entière, types DNF, propriétés dynamiques dépréciées |
-| 8.3 | Constantes de classe typées, `#[\Override]`, `json_validate()` |
-| 8.4 | Property hooks, visibilité asymétrique, objets paresseux, `#[\Deprecated]`, `new` déréférençable |
+| 8.1 | Enums, `readonly`, `never`, syntaxe de callable de première class `foo(...)`, constantes de class `final` |
+| 8.2 | `readonly` sur la class entière, types DNF, properties dynamiques dépréciées |
+| 8.3 | Constantes de class typées, `#[\Override]`, `json_validate()` |
+| 8.4 | Property hooks, visibilité asymétrique, objects paresseux, `#[\Deprecated]`, `new` déréférençable |
 
 ## Pièges d'examen
 
-**`readonly` n'est pas `private(set)`.** Une propriété `readonly` ne peut être
+**`readonly` n'est pas `private(set)`.** Une property `readonly` ne peut être
 écrite **qu'une fois** ; depuis PHP 8.4, elle est implicitement
-`protected(set)`, donc une classe enfant peut l'initialiser — exécuté.
+`protected(set)`, donc une class enfant peut l'initialiser — exécuté.
 `private(set)` autorise autant d'écritures que voulu, mais seulement depuis la
-classe.
+class.
 
-**Les property hooks ne sont pas des propriétés calculées mises en cache.** Le
+**Les property hooks ne sont pas des properties calculées mises en cache.** Le
 hook `get` s'exécute à chaque lecture.
 
-**`#[\Override]` est 8.3, pas 8.4.** Il vérifie qu'une méthode surcharge bien
+**`#[\Override]` est 8.3, pas 8.4.** Il vérifie qu'une method surcharge bien
 quelque chose ; sinon, erreur de compilation.
 
 ## Points clés
 
 - Symfony 8.0 impose PHP 8.4 : la syntaxe 8.4 est dans le périmètre.
-- 8.4 = property hooks, visibilité asymétrique, objets paresseux, `#[\Deprecated]`.
-- `readonly` (une seule écriture) ≠ `private(set)` (écritures limitées à la classe).
+- 8.4 = property hooks, visibilité asymétrique, objects paresseux, `#[\Deprecated]`.
+- `readonly` (une seule écriture) ≠ `private(set)` (écritures limitées à la class).
 
 ## Sources officielles
 
-- `php-src` branche `PHP-8.4`, fichier `UPGRADING`, section *New Features > Core*
+- `php-src` branche `PHP-8.4`, file `UPGRADING`, section *New Features > Core*
 - Manuel PHP — *Visibility*, *Property hooks*

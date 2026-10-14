@@ -22,18 +22,18 @@ official_sources:
 
 ## Objectif
 
-Lire et écrire une valeur désignée par un **chemin**, et prévoir ce qui se
-passe quand ce chemin n'existe pas.
+Lire et écrire une valeur désignée par un **path**, et prévoir ce qui se
+passe quand ce path n'existe pas.
 
 ## Périmètre
 
-Les conventions d'accesseurs par lesquelles un nom de champ se résout sur un
-objet sont enseignées avec les **formulaires** (lot 07), qui les utilisent pour
-lier un champ à une propriété ; elles ne sont pas reprises ici.
+Les conventions d'accesseurs par lesquelles un nom de field se résout sur un
+object sont enseignées avec les **forms** (lot 07), qui les utilisent pour
+lier un field à une property ; elles ne sont pas reprises ici.
 
-Le chemin de propriété porté par une violation de contrainte appartient au
+Le path de property porté par une violation de constraint appartient au
 **Validator** (lot 08) : c'est un libellé décrivant *où* la violation est
-survenue, pas un chemin exécuté par ce composant.
+survenue, pas un path exécuté par ce composant.
 
 ## Deux notations, deux cibles
 
@@ -44,10 +44,10 @@ $propertyAccessor->getValue($person, '[first_name]');  // un tableau
 $propertyAccessor->getValue($person, 'firstName');     // un objet
 ```
 
-- Les **crochets** désignent un index de tableau.
-- Le **point** désigne une propriété d'objet.
+- Les **crochets** désignent un index de array.
+- Le **point** désigne une property d'object.
 
-Les deux se combinent librement dans un même chemin :
+Les deux se combinent librement dans un même path :
 
 ```php
 $propertyAccessor->setValue($person, 'children[0].firstName', 'Wouter');
@@ -56,52 +56,52 @@ $propertyAccessor->setValue($person, 'children[0].firstName', 'Wouter');
 
 Se tromper de notation n'est pas toléré. Exécuté sur PropertyAccess 8.0.8 :
 
-| Chemin | Cible | Résultat |
+| Path | Cible | Résultat |
 |---|---|---|
-| `a` | tableau | `NoSuchPropertyException`, qui suggère d'écrire `[a]` |
-| `[x]` | `stdClass` | `NoSuchIndexException` : l'objet n'implémente pas `ArrayAccess` |
+| `a` | array | `NoSuchPropertyException`, qui suggère d'écrire `[a]` |
+| `[x]` | `stdClass` | `NoSuchIndexException` : l'object n'implémente pas `ArrayAccess` |
 
-Écrire dans un tableau le modifie **par référence** : `setValue($a, '[y]', 2)`
-ajoute la clé à `$a` lui-même.
+Écrire dans un array le modifie **par référence** : `setValue($a, '[y]', 2)`
+ajoute la key à `$a` lui-même.
 
-## Le chemin absent : deux comportements opposés
+## Le path absent : deux comportements opposés
 
 C'est le piège central de l'item, et il ne se déduit pas.
 
-| Cible | Chemin absent | Par défaut |
+| Cible | Path absent | Par défaut |
 |---|---|---|
-| index de tableau | `[age]` inexistant | rend **`null`** |
-| propriété d'objet | `birthday` inexistante | **lève** `NoSuchPropertyException` |
+| index de array | `[age]` inexistant | rend **`null`** |
+| property d'object | `birthday` inexistante | **lève** `NoSuchPropertyException` |
 
-Un tableau pardonne, un objet non. Les deux comportements se renversent par le
+Un array pardonne, un object non. Les deux comportements se renversent par le
 constructeur d'accesseur, `PropertyAccess::createPropertyAccessorBuilder()` :
 
-- `enableExceptionOnInvalidIndex()` fait lever le tableau, par une
+- `enableExceptionOnInvalidIndex()` fait lever l'array, par une
   `NoSuchIndexException` ;
-- `disableExceptionOnInvalidPropertyPath()` fait rendre `null` à l'objet.
+- `disableExceptionOnInvalidPropertyPath()` fait rendre `null` à l'object.
 
 Ce n'est pas la seule voie : `new PropertyAccessor()` prend les mêmes réglages
 en drapeaux — `THROW_ON_INVALID_INDEX`, `THROW_ON_INVALID_PROPERTY_PATH`,
 `MAGIC_CALL` —, et une application les fixe sous `framework.property_access`.
 Exécuté : avec le seul drapeau `THROW_ON_INVALID_INDEX`, l'index absent lève
-une `NoSuchIndexException` et la propriété absente rend `null`.
+une `NoSuchIndexException` et la property absente rend `null`.
 
 ## Le maillon `null`
 
-Une propriété intermédiaire qui vaut `null` est un troisième cas, distinct du
-chemin absent. Exécuté, `$person` à `null` sur un `Comment` :
+Une property intermédiaire qui vaut `null` est un troisième cas, distinct du
+path absent. Exécuté, `$person` à `null` sur un `Comment` :
 
-| Chemin | Résultat |
+| Path | Résultat |
 |---|---|
 | `person.firstname` | `UnexpectedTypeException` |
 | `person?.firstname` | `null`, évaluation arrêtée |
 
-L'opérateur `?` ne couvre **que** le `null` : si `person` est un objet sans
+L'opérateur `?` ne couvre **que** le `null` : si `person` est un object sans
 `firstname`, `person?.firstname` lève toujours `NoSuchPropertyException`.
 
 ## Demander avant d'appeler
 
-`isReadable()` et `isWritable()` répondent par un booléen, sans lever, là où
+`isReadable()` et `isWritable()` répondent par un bool, sans lever, là où
 `getValue()` et `setValue()` lèveraient :
 
 ```php
@@ -115,17 +115,17 @@ d'appeler `getValue()` ; elle ne dit pas qu'elle évite le getter. Lu dans
 `PropertyAccessor::isReadable()` (8.0) et exécuté avec des accesseurs qui
 journalisent leurs appels :
 
-| Appel | Méthodes de l'objet appelées |
+| Appel | Methods de l'object appelées |
 |---|---|
 | `isReadable($person, 'firstName')` | `getFirstName()` |
 | `isWritable($person, 'firstName')` | aucune |
 | `isWritable($person, 'children[0].firstName')` | `getChildren()` |
 
-`isReadable()` **lit** le chemin entier ; `isWritable()` lit tout sauf le
+`isReadable()` **lit** le path entier ; `isWritable()` lit tout sauf le
 dernier maillon, qu'elle examine sans appeler le setter. Un getter coûteux ou à
 effet de bord s'exécute donc.
 
-## Les méthodes magiques
+## Les methods magiques
 
 Autre asymétrie : `__get()` est utilisée **par défaut**, tandis que `__call()`
 doit être **activée** explicitement par le constructeur de l'accesseur,
@@ -136,14 +136,14 @@ Exécuté : sans `enableMagicCall()`, une lecture qui ne passerait que par
 
 ## Les collections
 
-Pour une propriété de collection, l'écriture passe par les méthodes d'ajout et
-de retrait. Quand celles-ci ne portent pas les préfixes attendus, un extracteur
+Pour une property de collection, l'écriture passe par les methods d'ajout et
+de retrait. Quand celles-ci ne portent pas les préfixes attendus, un extractor
 par réflexion configuré avec les préfixes réellement employés est fourni à
 l'accesseur.
 
-Exécuté, sur un objet qui possède aussi `setChildren()` :
+Exécuté, sur un object qui possède aussi `setChildren()` :
 
-| Ancienne liste → nouvelle | Méthodes appelées |
+| Ancienne liste → nouvelle | Methods appelées |
 |---|---|
 | `['a']` → `['b']` | `getChildren()`, `removeChild()`, `addChild()` |
 | `['a']` → `['a', 'b']` | `getChildren()`, `addChild()` |
@@ -153,22 +153,22 @@ changent sont touchés.
 
 ## Pièges d'examen
 
-**Un index de tableau absent rend `null` ; une propriété d'objet absente lève.**
+**Un index de array absent rend `null` ; une property d'object absente lève.**
 Les deux défauts sont opposés.
 
-**Les crochets ne sont pas décoratifs** : ils choisissent la cible tableau.
+**Les crochets ne sont pas décoratifs** : ils choisissent la cible array.
 
 **`__get()` marche seule ; `__call()` doit être activée.**
 
 **`isReadable()` appelle le getter** — elle ne fait qu'éviter l'exception.
 
-**`?` arrête sur `null`**, pas sur une propriété absente.
+**`?` arrête sur `null`**, pas sur une property absente.
 
 ## Points clés
 
-- `[index]` pour un tableau, `.propriété` pour un objet, mélangeables.
-- Défauts opposés sur chemin absent, renversables par le constructeur.
-- `isReadable()` / `isWritable()` rendent un booléen au lieu de lever ;
+- `[index]` pour un array, `.propriété` pour un object, mélangeables.
+- Défauts opposés sur path absent, renversables par le constructeur.
+- `isReadable()` / `isWritable()` rendent un bool au lieu de lever ;
   `isReadable()` exécute le getter.
 - `?` rend `null` sur un maillon `null`.
 - `__get()` par défaut, `__call()` sur activation.

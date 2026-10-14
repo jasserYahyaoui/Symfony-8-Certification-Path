@@ -58,10 +58,10 @@ Trois protocoles intégrés :
 
 La documentation **déconseille fortement `native://default`** : la
 configuration de `sendmail` échappe à l'application. Si `php.ini` utilise
-`sendmail -t`, il n'y a **pas de remontée d'erreur** et les en-têtes `Bcc` ne
+`sendmail -t`, il n'y a **pas de remontée d'erreur** et les headers `Bcc` ne
 sont **pas retirés**.
 
-Un caractère réservé d'URI dans l'identifiant, le mot de passe ou l'hôte doit
+Un caractère réservé d'URI dans l'identifier, le password ou l'hôte doit
 être encodé.
 
 ## Envoyer
@@ -95,7 +95,7 @@ Deux interfaces, deux comportements :
   façon synchrone**, même si Messenger est présent.
 
 `SentMessage` donne accès au message d'origine (`getOriginalMessage()`) et à
-des informations de débogage (`getDebug()`).
+des informations de debug (`getDebug()`).
 
 Exécuté sur Mailer 8.0.15, transport `null://null` :
 
@@ -108,27 +108,27 @@ Exécuté sur Mailer 8.0.15, transport `null://null` :
 ## Quand l'envoi échoue
 
 Le succès signifie seulement que **le transport a accepté** le message ; ce qui
-se passe ensuite chez le fournisseur échappe à l'application.
+se passe ensuite chez le provider échappe à l'application.
 
 Une erreur de remise au transport lève une
 `TransportExceptionInterface`.
 
 ## Plusieurs transports
 
-`transports` remplace `dsn`. **Le premier déclaré sert par défaut** ; l'en-tête
+`transports` remplace `dsn`. **Le premier déclaré sert par défaut** ; le header
 `X-Transport` en désigne un autre, et Mailer le retire du message final.
 Exécuté avec deux transports `main` et `alt` : un `X-Transport: alt` n'apparaît
-plus dans les octets envoyés, et il est même retiré de l'objet `Email` d'origine.
+plus dans les octets envoyés, et il est même retiré de l'object `Email` d'origine.
 
 ## Configurer globalement
 
 `framework.mailer.envelope` fixe `sender` et `recipients` pour tous les envois ;
-`framework.mailer.headers` fixe des en-têtes communs, `From` compris.
+`framework.mailer.headers` fixe des headers communs, `From` compris.
 
-## Les trois événements
+## Les trois events
 
 - `MessageEvent` — avant l'envoi : modifier message et enveloppe, ajouter des
-  tampons Messenger, ou appeler `reject()` pour **empêcher** l'envoi (ce qui
+  buffers Messenger, ou appeler `reject()` pour **empêcher** l'envoi (ce qui
   arrête aussi la propagation) ;
 - `SentMessageEvent` — après un envoi réussi ;
 - `FailedMessageEvent` — après un échec, avec `getError()`.

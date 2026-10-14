@@ -26,12 +26,12 @@ official_sources:
 
 ## Objectif
 
-Savoir qui décide qu'un accès est accordé, et par quel chemin. Les votants
+Savoir qui décide qu'un accès est accordé, et par quel path. Les voters
 eux-mêmes et les stratégies ont leur propre item.
 
 ## La question posée
 
-L'autorisation répond à **« avez-vous le droit ? »**, une fois l'identité
+L'authorization répond à **« avez-vous le droit ? »**, une fois l'identité
 connue. Elle s'exprime toujours de la même façon :
 
 ```php
@@ -44,75 +44,75 @@ if ($security->isGranted('POST_EDIT', $post)) { }
 {% if is_granted('ROLE_ADMIN') %}
 ```
 
-## Le chemin
+## Le path
 
 `isGranted($attribute, $subject)` délègue à l'`AccessDecisionManager`. Celui-ci
-interroge les votants, chacun retournant l'une de trois valeurs : accordé,
+interroge les voters, chacun retournant l'une de trois valeurs : accordé,
 refusé, ou **abstention**. Une **stratégie** transforme ces votes en décision
 unique.
 
-Les votants ne sont pas forcément **tous** interrogés : l'`AccessDecisionManager`
+Les voters ne sont pas forcément **tous** interrogés : l'`AccessDecisionManager`
 leur demande leur vote **un par un** (un générateur), et la stratégie peut
 s'arrêter avant la fin. Exécuté avec SecurityBundle 8.0.15, stratégie par défaut
-`affirmative`, deux votants supportant `EDIT` — le premier accorde, le second
+`affirmative`, deux voters supportant `EDIT` — le premier accorde, le second
 refuserait : le journal ne montre que `A.supports(EDIT)`, `A.vote`. Le second
 n'a pas même été consulté. `AffirmativeStrategy::decide()` rend `true` au
 premier vote favorable.
 
-Le point à retenir reste que le framework ne compare rien lui-même : un rôle est
-vérifié par un votant comme le reste. `ROLE_ADMIN` n'est pas traité
-différemment de `EDIT` — seul le votant qui répond change.
+Le point à retenir reste que le framework ne compare rien lui-même : un role est
+vérifié par un voter comme le reste. `ROLE_ADMIN` n'est pas traité
+différemment de `EDIT` — seul le voter qui répond change.
 
-## Deux familles d'attributs
+## Deux familles d'attributes
 
-| Attribut | Portée |
+| Attribute | Portée |
 |---|---|
-| `ROLE_*` | ce que l'utilisateur **est** |
-| `IS_AUTHENTICATED_FULLY`, `IS_AUTHENTICATED_REMEMBERED`, `PUBLIC_ACCESS` | l'**état** de l'authentification |
-| un verbe métier — `EDIT`, `PUBLISH` | ce que l'utilisateur peut faire **sur un objet** |
+| `ROLE_*` | ce que le user **est** |
+| `IS_AUTHENTICATED_FULLY`, `IS_AUTHENTICATED_REMEMBERED`, `PUBLIC_ACCESS` | l'**état** de l'authentication |
+| un verbe métier — `EDIT`, `PUBLISH` | ce que le user peut faire **sur un object** |
 
-La troisième famille est la raison d'être des votants : un rôle ne peut pas
+La troisième famille est la raison d'être des voters : un role ne peut pas
 exprimer « l'auteur peut modifier son propre article ».
 
 ## Le sujet
 
-Le second argument d'`isGranted()` est l'objet concerné. C'est lui qui permet à
-un votant de décider au cas par cas ; sans lui, la question ne porte que sur
-l'utilisateur.
+Le second argument d'`isGranted()` est l'object concerné. C'est lui qui permet à
+un voter de décider au cas par cas ; sans lui, la question ne porte que sur
+le user.
 
 ## Refuser
 
-`denyAccessUnlessGranted()` lève une `AccessDeniedException`. Le pare-feu la
-transforme selon que l'utilisateur est connu ou non. Exécuté, sur la même action
+`denyAccessUnlessGranted()` lève une `AccessDeniedException`. Le firewall la
+transforme selon que le user est connu ou non. Exécuté, sur la même action
 exigeant `ROLE_ADMIN` :
 
-| Situation | Réponse |
+| Situation | Response |
 |---|---|
-| anonyme, pare-feu en `http_basic` | **401**, `WWW-Authenticate: Basic realm="Secured Area"` |
-| anonyme, pare-feu en `form_login` | **302** vers la page de connexion |
+| anonyme, firewall en `http_basic` | **401**, `WWW-Authenticate: Basic realm="Secured Area"` |
+| anonyme, firewall en `form_login` | **302** vers la page de connexion |
 | `alice` connue, sans `ROLE_ADMIN` | **403** — « Access Denied. The user doesn't have ROLE_ADMIN. » |
 
-Le code de statut dépend donc de l'authentification — et, pour un anonyme, du
-**point d'entrée** du pare-feu —, pas de l'autorisation.
+Le status code dépend donc de l'authentication — et, pour un anonyme, du
+**entry point** du firewall —, pas de l'authorization.
 
 ## Pièges d'examen
 
-**Un rôle passe par un votant**, comme n'importe quel attribut.
+**Un role passe par un voter**, comme n'importe quel attribute.
 
-**Tous les votants ne votent pas toujours** : en `affirmative`, le premier
+**Tous les voters ne votent pas toujours** : en `affirmative`, le premier
 « accordé » arrête la consultation.
 
-**Le statut n'est pas toujours 403** : un anonyme reçoit la réponse du point
-d'entrée — redirection pour un formulaire, 401 pour HTTP Basic.
+**Le statut n'est pas toujours 403** : un anonyme reçoit la Response du point
+d'entrée — redirect pour un form, 401 pour HTTP Basic.
 
-**Sans sujet, un votant d'objet ne peut rien décider** et s'abstient.
+**Sans sujet, un voter d'object ne peut rien décider** et s'abstient.
 
 ## Points clés
 
 - `isGranted($attribute, $subject)` interroge l'`AccessDecisionManager`.
-- Les votants sont consultés un par un ; la stratégie peut conclure avant la fin.
-- Trois familles d'attributs : rôle, état d'authentification, verbe métier.
-- 403 pour un utilisateur connu ; pour un anonyme, la réponse du point d'entrée.
+- Les voters sont consultés un par un ; la stratégie peut conclure avant la fin.
+- Trois familles d'attributes : role, état d'authentication, verbe métier.
+- 403 pour un user connu ; pour un anonyme, la Response de l'entry point.
 
 ## Sources officielles
 

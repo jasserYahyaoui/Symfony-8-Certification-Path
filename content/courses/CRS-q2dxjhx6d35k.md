@@ -37,13 +37,13 @@ official_sources:
 
 ## Objectif
 
-Déclarer l'entrée d'une commande par attributs. Le mode — requis, optionnel,
-tableau, drapeau — n'est plus écrit : il est **déduit de la signature**. Savoir
+Déclarer l'entrée d'une command par attributes. Le mode — requis, optionnel,
+array, drapeau — n'est plus écrit : il est **déduit de la signature**. Savoir
 lire cette déduction est l'essentiel de l'item.
 
 ## Prérequis
 
-L'écriture d'une commande invocable.
+L'écriture d'une command invocable.
 
 ## La différence de fond
 
@@ -53,7 +53,7 @@ gouverne tout le reste.
 
 ## Déclarer
 
-Les deux attributs se posent sur les **paramètres de `__invoke()`** :
+Les deux attributes se posent sur les **parameters de `__invoke()`** :
 
 ```php
 #[AsCommand(name: 'app:greet')]
@@ -70,29 +70,29 @@ class GreetCommand
 }
 ```
 
-Chaque attribut accepte `description`, `name` et `suggestedValues` ; `#[Option]`
+Chaque attribute accepte `description`, `name` et `suggestedValues` ; `#[Option]`
 accepte en plus `shortcut`.
 
-Le `name` est facultatif : par défaut c'est **le nom du paramètre en
+Le `name` est facultatif : par défaut c'est **le nom du parameter en
 kebab-case** — `$lastName` devient `last-name`, `$maxRetries` devient
-`max-retries`. C'est aussi la clé de `$input->getArgument('last-name')`.
+`max-retries`. C'est aussi la key de `$input->getArgument('last-name')`.
 
 ## Le mode d'un argument
 
-Il se déduit du type et de la valeur par défaut :
+Il se déduit du type et de la default value :
 
 | Signature | Mode |
 |---|---|
 | `string $name` | **requis** |
 | `string $name = ''` ou `?string $name = null` | optionnel |
-| `array $names = []` | tableau |
+| `array $names = []` | array |
 
-La règle tient en une phrase : **sans valeur par défaut et non nullable, c'est
+La règle tient en une phrase : **sans default value et non nullable, c'est
 requis**.
 
 ## Le mode d'une option
 
-Même principe, mais avec une contrainte supplémentaire et un tableau plus riche :
+Même principe, mais avec une constraint supplémentaire et un array plus riche :
 
 | Signature | Mode | Usage |
 |---|---|---|
@@ -102,15 +102,15 @@ Même principe, mais avec une contrainte supplémentaire et un tableau plus rich
 | `array $roles = []` | `VALUE_REQUIRED` + `VALUE_IS_ARRAY` | `--roles=ADMIN --roles=USER` |
 | `string\|bool $output = false` | `VALUE_OPTIONAL` | `--output` ou `--output=f.txt` |
 
-La contrainte : **une option doit déclarer une valeur par défaut**. Sans elle,
-la commande lève une `LogicException` dès son ajout à l'application — exécuté :
+La constraint : **une option doit déclarer une default value**. Sans elle,
+la command lève une `LogicException` dès son ajout à l'application — exécuté :
 « must declare a default value » —, pas une erreur à l'exécution, une erreur
-de définition. La logique est cohérente : une option est
+de definition. La logique est cohérente : une option est
 par nature facultative, elle a donc toujours une valeur en l'absence de saisie.
 
 Le cas des types union mérite attention : seuls `bool|string`, `bool|int` et
-`bool|float` sont acceptés, et leur valeur par défaut **doit être `false`**.
-`--output` seul rend alors `true`, `--output=f.txt` rend la chaîne.
+`bool|float` sont acceptés, et leur default value **doit être `false`**.
+`--output` seul rend alors `true`, `--output=f.txt` rend la string.
 
 Exécuté avec Console 8.0.15 :
 
@@ -123,9 +123,9 @@ Exécuté avec Console 8.0.15 :
 
 ## Les types admis
 
-`string`, `bool`, `int`, `float`, `array` — et les **énumérations typées**
-(`BackedEnum`). Tout autre type lève une `LogicException`. Avec une énumération,
-la chaîne saisie est convertie en cas de l'énumération, et les cas alimentent
+`string`, `bool`, `int`, `float`, `array` — et les **enums typées**
+(`BackedEnum`). Tout autre type lève une `LogicException`. Avec une enum,
+la string saisie est convertie en cas de l'enum, et les cas alimentent
 l'autocomplétion ; une valeur inconnue produit une erreur listant les valeurs
 valides.
 
@@ -145,26 +145,26 @@ $this
 `InputOption` : `VALUE_NONE`, `VALUE_REQUIRED`, `VALUE_OPTIONAL`,
 `VALUE_IS_ARRAY`, `VALUE_NEGATABLE`.
 
-Les attributs ne font rien d'autre que produire ces objets : `#[Argument]`
+Les attributes ne font rien d'autre que produire ces objects : `#[Argument]`
 fabrique un `InputArgument`, `#[Option]` un `InputOption`. Connaître les
 constantes reste donc utile pour lire la déduction.
 
 ## Pièges d'examen
 
-**Une option sans valeur par défaut est une erreur**, pas une option requise.
+**Une option sans default value est une erreur**, pas une option requise.
 Une option n'est jamais requise ; c'est un argument qui peut l'être.
 
 **`bool $flag = true` n'est pas un drapeau simple** : il devient négociable, donc
 `--no-flag` existe.
 
-**Le nom par défaut est kebab-case**, pas le nom du paramètre tel quel.
+**Le nom par défaut est kebab-case**, pas le nom du parameter tel quel.
 
 **`shortcut` n'existe que pour les options** — un argument n'a pas de nom, donc
 pas de raccourci.
 
 **L'ordre des arguments est contraint.** `InputDefinition` lève une
 `LogicException` pour un argument requis déclaré après un argument optionnel,
-et pour **tout** argument déclaré après un argument tableau — celui-ci
+et pour **tout** argument déclaré après un argument array — celui-ci
 absorbant toutes les valeurs positionnelles restantes. Exécuté :
 `array $a = [], string $b = ''` est refusé, même `$b` optionnel, avec un
 message trompeur : « Cannot add a required argument "b" after an array
@@ -172,12 +172,12 @@ argument "a". »
 
 ## Points clés
 
-- `#[Argument]` et `#[Option]` se posent sur les paramètres de `__invoke()`.
-- Le mode est déduit du type et de la valeur par défaut, jamais écrit.
-- Une option **doit** avoir une valeur par défaut ; un argument sans défaut est
+- `#[Argument]` et `#[Option]` se posent sur les parameters de `__invoke()`.
+- Le mode est déduit du type et de la default value, jamais écrit.
+- Une option **doit** avoir une default value ; un argument sans défaut est
   requis.
 - Types admis : `string`, `bool`, `int`, `float`, `array`, `BackedEnum`.
-- Les attributs produisent des `InputArgument` et `InputOption` ordinaires.
+- Les attributes produisent des `InputArgument` et `InputOption` ordinaires.
 
 ## Sources officielles
 

@@ -55,7 +55,7 @@ official_sources:
 
 ## Objectif
 
-Parcourir une séquence, connaître la variable `loop` et sa limite, la portée
+Parcourir une séquence, connaître la variable `loop` et sa limite, le scope
 d'une boucle, et écrire une condition sans se tromper sur ce qui est « vide ».
 
 ## La boucle
@@ -71,14 +71,14 @@ d'une boucle, et écrire une condition sans se tromper sur ce qui est « vide »
 La clause `else` s'exécute quand **aucune itération n'a eu lieu** — la séquence
 était vide. Sans équivalent en PHP, elle évite un `if` englobant.
 
-`{% for key, user in users %}` donne la clé et la valeur ; `{% for key in
+`{% for key, user in users %}` donne la key et la valeur ; `{% for key in
 users|keys %}` les clés seules. L'opérateur `..` produit une suite —
 `{% for i in 0..10 %}` va de 0 à 10 inclus, `'a'..'z'` marche aussi — et la
-fonction `range()` accepte un pas différent de 1.
+function `range()` accepte un pas différent de 1.
 
 ## La variable `loop`
 
-Disponible dans le corps de la boucle :
+Disponible dans le body de la boucle :
 
 | Variable | Contenu |
 |---|---|
@@ -92,25 +92,25 @@ Disponible dans le corps de la boucle :
 | `loop.parent` | le contexte englobant |
 
 **La limite à connaître :** `loop.length`, `loop.revindex`, `loop.revindex0` et
-`loop.last` ne sont disponibles que pour un **tableau PHP** ou un objet
+`loop.last` ne sont disponibles que pour un **array PHP** ou un object
 implémentant `Countable`. Le code compilé par `ForNode` ne les renseigne que
-dans ce cas : sur un générateur ou un itérateur ordinaire, ces clés n'existent
+dans ce cas : sur un générateur ou un itérateur ordinaire, ces keys n'existent
 pas — Twig ne peut pas connaître la taille sans consommer la séquence.
 
 `loop.index` et `loop.first`, eux, fonctionnent toujours.
 
-## La portée d'une boucle
+## Le scope d'une boucle
 
 Une boucle a sa propre portée. Une variable **créée** par `{% set %}` dans le
 corps n'existe plus après `{% endfor %}` ; une variable **déclarée avant** la
 boucle garde en revanche la dernière valeur qu'elle y a reçue. `ForNode` le
-compile ainsi : à la sortie, seules les clés du contexte d'avant la boucle sont
+compile ainsi : à l'output, seules les keys du contexte d'avant la boucle sont
 conservées. Pour cumuler un total, on le déclare donc avant.
 
 ## Filtrer et découper
 
 Twig n'a pas de `break` ni de `continue`, et `ForTokenParser` n'accepte aucune
-condition sur la balise `for` elle-même. On restreint la séquence en amont :
+condition sur le tag `for` lui-même. On restreint la séquence en amont :
 
 ```html
 {% for user in users|filter(u => u.isActive) %}
@@ -118,7 +118,7 @@ condition sur la balise `for` elle-même. On restreint la séquence en amont :
 {% for user in users|sort %}
 ```
 
-Un `if` à l'intérieur du corps fonctionne aussi, mais `loop.index` compte alors
+Un `if` à l'intérieur du body fonctionne aussi, mais `loop.index` compte alors
 les éléments sautés, et `loop.last` peut tomber sur un élément non affiché.
 
 ## Les conditions
@@ -143,23 +143,23 @@ Twig n'a pas d'opérateur `===` : la comparaison stricte s'écrit avec le
 ## Vrai, faux, vide : trois questions différentes
 
 Une condition nue suit les règles de PHP. La documentation de `if` en donne les
-cas limites : la chaîne vide, zéro, la chaîne `'0'`, une séquence vide et `null`
-sont faux ; une chaîne d'espaces, `NAN`, `INF` et **tout objet** sont vrais.
-Une exception, lue dans `IfNode` et `TrueTest` : un objet `Markup` — une chaîne
+cas limites : la string vide, zéro, la string `'0'`, une séquence vide et `null`
+sont faux ; une string d'espaces, `NAN`, `INF` et **tout object** sont vrais.
+Une exception, lue dans `IfNode` et `TrueTest` : un object `Markup` — une string
 déjà marquée sûre — est jugé sur son texte.
 
 Le test `empty` n'est pas la négation de cette règle. `CoreExtension::testEmpty()`
 rend vrai pour `''`, `[]`, `null` et `false`, pour un `Countable` de taille
-zéro, pour un `Traversable` sans élément, et pour un objet dont la conversion en
-chaîne est vide. **`0` et `'0'` ne sont pas vides**, alors qu'ils sont faux dans
-un `if`. Et un objet `Countable` vide — une collection, par exemple — est vrai
+zéro, pour un `Traversable` sans élément, et pour un object dont la conversion en
+string est vide. **`0` et `'0'` ne sont pas vides**, alors qu'ils sont faux dans
+un `if`. Et un object `Countable` vide — une collection, par exemple — est vrai
 dans un `if`, mais `empty`.
 
 `is defined`, enfin, porte sur l'existence de la variable, pas sur sa valeur.
 
 ## Pièges d'examen
 
-**La moitié des propriétés de boucle n'existent pas sur un itérateur** ; l'index
+**La moitié des properties de boucle n'existent pas sur un itérateur** ; l'index
 et le test de première itération, si.
 
 **L'index commence à 1.**
@@ -176,7 +176,7 @@ garde sa dernière valeur.
 - `{% for %}` accepte une clause `else` pour la séquence vide ; `..` et
   `range()` produisent des suites.
 - `loop.index` commence à **1** ; `length`, `revindex`, `revindex0` et `last`
-  exigent un tableau ou `Countable`.
+  exigent un array ou `Countable`.
 - Portée propre à la boucle ; déclarer avant pour garder une valeur.
 - Pas de `break` ni de `continue` : `filter`, `slice`, `sort`.
 - Tests par `is` / `is not` ; `same as` pour `===`, absent comme opérateur.
@@ -184,6 +184,6 @@ garde sa dernière valeur.
 
 ## Sources officielles
 
-- [Twig 3.22, balise `for`](https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/for.rst) et [`ForNode`](https://github.com/twigphp/Twig/blob/v3.22.0/src/Node/ForNode.php)
-- [Twig 3.22, balise `if`](https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/if.rst) et [balise `set`, portée des boucles](https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/set.rst)
+- [Twig 3.22, tag `for`](https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/for.rst) et [`ForNode`](https://github.com/twigphp/Twig/blob/v3.22.0/src/Node/ForNode.php)
+- [Twig 3.22, tag `if`](https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/if.rst) et [tag `set`, portée des boucles](https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/set.rst)
 - [Twig 3.22, tests](https://github.com/twigphp/Twig/blob/v3.22.0/doc/tests/index.rst), [`empty`](https://github.com/twigphp/Twig/blob/v3.22.0/doc/tests/empty.rst) et [`CoreExtension`](https://github.com/twigphp/Twig/blob/v3.22.0/src/Extension/CoreExtension.php)

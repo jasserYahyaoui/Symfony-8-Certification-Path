@@ -43,25 +43,25 @@ security:
         - { path: ^/admin, roles: ROLE_ADMIN }
 ```
 
-La lecture se fait dans cet ordre parce qu'il suit une dépendance : les
-utilisateurs viennent d'un fournisseur, un pare-feu utilise un fournisseur, et
-`access_control` s'applique **à l'intérieur** du pare-feu qui a pris la requête.
+La lecture se fait dans cet ordre parce qu'il suit une dependency : les
+users viennent d'un provider, un firewall utilise un provider, et
+`access_control` s'applique **à l'intérieur** du firewall qui a pris la Request.
 
 ## Ce qui décide de quoi
 
 | Section | Question |
 |---|---|
-| `password_hashers` | comment un mot de passe est stocké et vérifié |
-| `providers` | d'où l'utilisateur est chargé |
+| `password_hashers` | comment un password est stocké et vérifié |
+| `providers` | d'où le user est chargé |
 | `firewalls` | **comment** on prouve son identité |
 | `access_control` | **ce qu'il faut** pour atteindre une URL |
-| `role_hierarchy` | quels rôles en impliquent d'autres |
+| `role_hierarchy` | quels roles en impliquent d'autres |
 
 ## Les deux règles d'ordre
 
 Elles se ressemblent et se confondent :
 
-- dans `firewalls`, le **premier `pattern`** correspondant prend la requête ;
+- dans `firewalls`, le **premier `pattern`** correspondant prend la Request ;
 - dans `access_control`, la **première règle** correspondante s'applique.
 
 Dans les deux cas, les entrées suivantes sont ignorées, et l'entrée sans motif
@@ -76,19 +76,19 @@ Aucune des deux erreurs d'ordre n'est signalée : l'effet est silencieux.
 
 ## `security: false` éteint tout
 
-Un pare-feu `security: false` n'a **aucun écouteur** — ni authentification, ni
+Un firewall `security: false` n'a **aucun listener** — ni authentication, ni
 contrôle d'accès. `SecurityExtension` le traite à part et rend une liste
-d'écouteurs vide ; or c'est l'`AccessListener` du pare-feu qui applique
-`access_control`. Exécuté : pare-feu `free` (`^/free`, `security: false`) et une
+de listeners vide ; or c'est l'`AccessListener` du firewall qui applique
+`access_control`. Exécuté : firewall `free` (`^/free`, `security: false`) et une
 règle `access_control` exigeant `ROLE_ADMIN` sur `^/free` — `/free/page` répond
-**200** à un anonyme, sans jeton.
+**200** à un anonyme, sans token.
 
-La règle est donc morte. C'est l'usage du pare-feu `dev` : laisser passer les
+La règle est donc morte. C'est l'usage du firewall `dev` : laisser passer les
 outils de développement, pas les protéger.
 
-## Plusieurs fournisseurs
+## Plusieurs providers
 
-Dès qu'il y en a deux, chaque pare-feu doit nommer le sien. Exécuté, sans clé
+Dès qu'il y en a deux, chaque firewall doit nommer le sien. Exécuté, sans key
 `provider` : « Not configuring explicitly the provider for the "http_basic"
 authenticator on "main" firewall is ambiguous as there is more than one
 registered provider. »
@@ -100,29 +100,29 @@ php bin/console debug:config security
 php bin/console debug:firewall main
 ```
 
-`debug:config` affiche la configuration **résolue**, valeurs par défaut
-comprises — ce qui répond mieux que la relecture du fichier. `debug:firewall`
-liste les pare-feux et détaille celui qu'on nomme.
+`debug:config` affiche la configuration **résolue**, default values
+comprises — ce qui répond mieux que la relecture du file. `debug:firewall`
+liste les firewalls et détaille celui qu'on nomme.
 
 ## Pièges d'examen
 
 **`firewalls` et `access_control` ont chacun leur règle de première
 correspondance**, et ce sont deux décisions différentes.
 
-**Un pare-feu `security: false` désactive aussi `access_control`** pour ses URL :
-aucun écouteur, aucune règle appliquée.
+**Un firewall `security: false` désactive aussi `access_control`** pour ses URL :
+aucun listener, aucune règle appliquée.
 
-**Un pare-feu sans motif déclaré en premier capte tout, sans erreur.**
+**Un firewall sans motif déclaré en premier capte tout, sans erreur.**
 
-**Plusieurs fournisseurs imposent de nommer celui de chaque pare-feu.**
+**Plusieurs providers imposent de nommer celui de chaque firewall.**
 
 ## Points clés
 
-- Quatre sections : hachage, fournisseurs, pare-feux, contrôle d'accès.
-- Pare-feu = comment on s'authentifie ; `access_control` = ce qu'il faut pour
-  entrer, appliqué par le pare-feu.
+- Quatre sections : hachage, providers, firewalls, contrôle d'accès.
+- Firewall = comment on s'authentifie ; `access_control` = ce qu'il faut pour
+  entrer, appliqué par le firewall.
 - Première correspondance dans les deux listes ; le fourre-tout en dernier.
-- `security: false` : ni authentification ni `access_control`.
+- `security: false` : ni authentication ni `access_control`.
 - `debug:config security` montre la configuration réellement appliquée.
 
 ## Sources officielles

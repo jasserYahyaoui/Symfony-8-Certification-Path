@@ -45,19 +45,19 @@ services:
 
 Trois mécanismes s'y superposent :
 
-- **la découverte** — toute classe de `src/` devient un service dont l'identifiant
+- **la découverte** — toute class de `src/` devient un service dont l'identifier
   est son nom pleinement qualifié ;
 - **`autowire`** — les arguments sont résolus par type ;
-- **`autoconfigure`** — une classe qui implémente une interface connue reçoit
+- **`autoconfigure`** — une class qui implémente une interface connue reçoit
   automatiquement le tag correspondant : un `EventSubscriberInterface` devient un
-  abonné, une `Command` une commande, sans une ligne de configuration.
+  abonné, une `Command` une command, sans une ligne de configuration.
 
-Résultat : écrire la classe suffit. On ne déclare explicitement que l'exception.
+Résultat : écrire la class suffit. On ne déclare explicitement que l'exception.
 
-Une classe découverte mais inutilisée ne gêne pas : exécuté avec FrameworkBundle
+Une class découverte mais inutilisée ne gêne pas : exécuté avec FrameworkBundle
 8.0.15, une entité placée dans `src/` avec un argument `string` non résolu
 n'empêche pas le démarrage — le service, privé et jamais référencé, est retiré.
-Pour sortir un dossier de la découverte, on ajoute une clé `exclude` :
+Pour sortir un dossier de la découverte, on ajoute une key `exclude` :
 
 ```yaml
     App\:
@@ -81,65 +81,65 @@ services:
 Les arguments se nomment `$nom` — le **nom de l'argument**, pas sa position — et
 `@id` référence un autre service.
 
-## Côté attributs
+## Côté attributes
 
-Plusieurs décisions se prennent désormais sur la classe :
+Plusieurs décisions se prennent désormais sur la class :
 
-| Attribut | Effet |
+| Attribute | Effet |
 |---|---|
-| `#[AsAlias]` | déclare un alias vers cette classe |
+| `#[AsAlias]` | déclare un alias vers cette class |
 | `#[Autoconfigure]` | fixe `public`, `lazy`, `shared`, `tags`, `calls`, `bind`, `constructor`… |
-| `#[AutoconfigureTag]` | tague toutes les classes qui implémentent l'interface portant l'attribut |
+| `#[AutoconfigureTag]` | tague toutes les classes qui implémentent l'interface portant l'attribute |
 | `#[Autowire]` | câble un argument précis |
-| `#[When]` | ne déclare le service que dans un environnement |
-| `#[Exclude]` | retire la classe de la découverte |
+| `#[When]` | ne déclare le service que dans un environment |
+| `#[Exclude]` | retire la class de la découverte |
 
 Exécuté, dans une application FrameworkBundle 8.0.15 :
 
-| Classe | Résultat |
+| Class | Résultat |
 |---|---|
-| `#[AsAlias('app.sms')]` | `app.sms` est un alias **privé** vers la classe |
-| interface `#[AutoconfigureTag('app.notifier')]` | la classe qui l'implémente porte le tag `app.notifier` |
+| `#[AsAlias('app.sms')]` | `app.sms` est un alias **privé** vers la class |
+| interface `#[AutoconfigureTag('app.notifier')]` | la class qui l'implémente porte le tag `app.notifier` |
 | `#[When(env: 'prod')]`, injectée en `dev` | « needs an instance of … but this type has been excluded » |
 | la même, en `prod` | injectée |
-| `#[Exclude]`, injectée | même erreur, dans tous les environnements |
+| `#[Exclude]`, injectée | même erreur, dans tous les environments |
 
-`#[When]` n'efface donc pas la classe : hors de son environnement, la définition
+`#[When]` n'efface donc pas la class : hors de son environment, la definition
 existe, marquée `container.excluded`, et toute injection échoue avec un message
 clair.
 
 ## Le piège de `_defaults`
 
-`_defaults` ne s'applique **qu'au bloc où il est écrit**, et pas aux blocs
-`when@dev` ou `when@test` du même fichier : chaque bloc doit redéfinir son
+`_defaults` ne s'applique **qu'au block où il est écrit**, et pas aux blocks
+`when@dev` ou `when@test` du même file : chaque block doit redéfinir son
 `_defaults`. La documentation 8.0 le signale en avertissement.
 
 Exécuté : un service déclaré dans `when@dev` sans `_defaults`, dont le
 constructeur attend un `LoggerInterface`, n'est pas autowiré. L'erreur n'arrive
 qu'à l'instanciation, et elle ne nomme pas la cause : `ArgumentCountError` —
 « Too few arguments to function …::__construct(), 0 passed ». Avec un
-`_defaults: { autowire: true }` dans le bloc, le même service reçoit le logger.
+`_defaults: { autowire: true }` dans le block, le même service reçoit le logger.
 
 ## Pièges d'examen
 
 **Un service découvert est privé** : la découverte ne le rend pas public.
 
-**`exclude` ne supprime pas la classe** : elle l'exclut de l'enregistrement
-automatique. Une classe exclue mais **déclarée** explicitement est enregistrée —
+**`exclude` ne supprime pas la class** : elle l'exclut de l'enregistrement
+automatique. Une class exclue mais **déclarée** explicitement est enregistrée —
 exécuté, avec la visibilité demandée.
 
-**`_defaults` ne traverse pas les blocs `when@`**, et l'oubli se paie par une
+**`_defaults` ne traverse pas les blocks `when@`**, et l'oubli se paie par une
 `ArgumentCountError` qui ne le mentionne pas.
 
-**`#[When]` exclut hors de son environnement** ; `#[Exclude]` exclut partout.
+**`#[When]` exclut hors de son environment** ; `#[Exclude]` exclut partout.
 
 ## Points clés
 
-- `resource` découvre, `autowire` câble, `autoconfigure` tague — écrire la classe suffit.
+- `resource` découvre, `autowire` câble, `autoconfigure` tague — écrire la class suffit.
 - Les arguments explicites se nomment `$argument` ; `@id` référence un service.
 - `#[AsAlias]`, `#[Autoconfigure]`, `#[AutoconfigureTag]`, `#[Autowire]`,
-  `#[When]`, `#[Exclude]` déclarent depuis la classe.
-- `_defaults` est local à son bloc et ne descend pas dans `when@…`.
+  `#[When]`, `#[Exclude]` déclarent depuis la class.
+- `_defaults` est local à son block et ne descend pas dans `when@…`.
 
 ## Sources officielles
 

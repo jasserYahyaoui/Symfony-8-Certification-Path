@@ -10,12 +10,12 @@ flashcards:
   official_item: OIT-fr58jzaj6jtb
   language: fr
   level: RECALL
-  front: Normaliser puis encoder — la représentation normalisée est-elle toujours un tableau ?
-  back: Non. Un objet ordinaire devient un tableau (ObjectNormalizer), mais DateTimeNormalizer rend une chaîne
-    RFC 3339, BackedEnumNormalizer la valeur du cas, et un scalaire passe tel quel. Plusieurs normaliseurs interviennent,
-    un seul encodeur, celui du format demandé.
+  front: Normaliser puis encoder — la représentation normalisée est-elle toujours un array ?
+  back: Non. Un object ordinaire devient un array (ObjectNormalizer), mais DateTimeNormalizer rend une string
+    RFC 3339, BackedEnumNormalizer la valeur du cas, et un scalaire passe tel quel. Plusieurs normalizers interviennent,
+    un seul encoder, celui du format demandé.
   explanation: normalize() déclare array|string|int|float|bool|ArrayObject|null ; exécuté sur Serializer 8.0.15.
-  memorization_justification: L'exemple courant, un objet devenu tableau, se généralise à tort en règle ; les dates
+  memorization_justification: L'exemple courant, un object devenu array, se généralise à tort en règle ; les dates
     et les enums le démentent.
   verification_status: VERIFIED
   reviewed_at: '2026-10-13'
@@ -34,7 +34,7 @@ flashcards:
   official_item: OIT-fr58jzaj6jtb
   language: fr
   level: RECALL
-  front: 'Symfony Serializer : quels encodeurs le service serializer fournit-il par défaut ?'
+  front: 'Symfony Serializer : quels encoders le service serializer fournit-il par défaut ?'
   back: JSON, XML, CSV et YAML.
   explanation: Section *The Serialization Process*, branche 8.0 ; exécuté sur les quatre formats.
   memorization_justification: Quatre formats.
@@ -50,10 +50,10 @@ flashcards:
   official_item: OIT-fr58jzaj6jtb
   language: fr
   level: RECALL
-  front: 'Symfony Serializer : quelle valeur de groups reprend aussi les propriétés sans groupe ?'
+  front: 'Symfony Serializer : quelle valeur de groups reprend aussi les properties sans group ?'
   back: '`''*''`.'
   explanation: Section *Selecting Specific Properties*, branche 8.0, et exécuté.
-  memorization_justification: Groupe joker.
+  memorization_justification: Group joker.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/serializer.rst
@@ -66,8 +66,8 @@ flashcards:
   official_item: OIT-fr58jzaj6jtb
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony Serializer : pourquoi une propriété privée sans getter n''apparaît-elle pas ?'
-  back: 'Parce qu''`ObjectNormalizer` lit l''objet par l''accès aux propriétés : propriétés publiques et méthodes `get`, `has`, `is`, `can`.'
+  front: 'Symfony Serializer : pourquoi une property privée sans getter n''apparaît-elle pas ?'
+  back: 'Parce qu''`ObjectNormalizer` lit l''object par l''accès aux properties : properties publiques et methods `get`, `has`, `is`, `can`.'
   explanation: 'Exécuté sur Serializer 8.0.15 : la privée avec getter sort, la privée ou protégée sans accesseur non.'
   memorization_justification: Portée réelle.
   verification_status: VERIFIED
@@ -98,8 +98,8 @@ flashcards:
   official_item: OIT-fr58jzaj6jtb
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony Serializer : pourquoi un même objet présent dans deux propriétés sœurs ne lève-t-il pas CircularReferenceException ?'
-  back: 'Parce que le compteur voyage dans le contexte transmis aux enfants : seule une branche qui contient l''objet en elle-même le compte deux fois.'
+  front: 'Symfony Serializer : pourquoi un même object présent dans deux properties sœurs ne lève-t-il pas CircularReferenceException ?'
+  back: 'Parce que le compteur voyage dans le contexte transmis aux enfants : seule une branche qui contient l''object en elle-même le compte deux fois.'
   explanation: Lu dans `AbstractNormalizer::isCircularReference()` (8.0) et exécuté avec la limite `1`.
   memorization_justification: Cycle contre répétition.
   verification_status: VERIFIED
@@ -120,8 +120,8 @@ flashcards:
   official_item: OIT-fr58jzaj6jtb
   language: fr
   level: APPLICATION
-  front: 'Symfony Serializer : rendre un identifiant au lieu de lever sur une référence circulaire.'
-  back: Passer `AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER`, une fonction qui reçoit l'objet et rend l'identifiant.
+  front: 'Symfony Serializer : rendre un identifier au lieu de lever sur une référence circulaire.'
+  back: Passer `AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER`, une function qui reçoit l'object et rend l'identifier.
   explanation: Section *Handling Circular References*, branche 8.0 ; exécuté.
   memorization_justification: Remplacer l'exception.
   verification_status: VERIFIED
@@ -136,7 +136,7 @@ flashcards:
   official_item: OIT-fr58jzaj6jtb
   language: fr
   level: APPLICATION
-  front: 'Symfony Serializer : exclure une propriété dans tous les contextes.'
+  front: 'Symfony Serializer : exclure une property dans tous les contextes.'
   back: Lui poser `#[Ignore]`.
   explanation: Section *Ignoring Properties*, branche 8.0, et exécuté.
   memorization_justification: Exclusion permanente.
@@ -152,8 +152,8 @@ flashcards:
   official_item: OIT-fr58jzaj6jtb
   language: fr
   level: TRAP
-  front: 'Symfony Serializer : groups à Default reprend-il les propriétés sans groupe ?'
-  back: 'Non : la sortie est vide ; il n''y a pas de groupe `Default` implicite, seul `*` les reprend.'
+  front: 'Symfony Serializer : groups à Default reprend-il les properties sans group ?'
+  back: 'Non : l''output est vide ; il n''y a pas de group `Default` implicite, seul `*` les reprend.'
   explanation: Exécuté sur Serializer 8.0.15.
   memorization_justification: Pas de Default.
   verification_status: VERIFIED
@@ -175,8 +175,8 @@ flashcards:
   language: fr
   level: TRAP
   front: 'Symfony Serializer : relever circular_reference_limit à 2 suffit-il à sérialiser un vrai cycle ?'
-  back: 'Non : l''exception arrive plus tard, mais elle arrive ; seul un gestionnaire la remplace.'
-  explanation: Exécuté avec deux objets qui se pointent.
+  back: 'Non : l''exception arrive plus tard, mais elle arrive ; seul un handler la remplace.'
+  explanation: Exécuté avec deux objects qui se pointent.
   memorization_justification: Seuil sans fin.
   verification_status: VERIFIED
   official_sources:
@@ -190,7 +190,7 @@ flashcards:
   official_item: OIT-fr58jzaj6jtb
   language: fr
   level: TRAP
-  front: 'Symfony Serializer : un format sans encodeur, comme toml, est-il ignoré ou rendu en JSON ?'
+  front: 'Symfony Serializer : un format sans encoder, comme toml, est-il ignoré ou rendu en JSON ?'
   back: 'Ni l''un ni l''autre : `serialize()` lève une `UnsupportedFormatException`.'
   explanation: Exécuté sur Serializer 8.0.15.
   memorization_justification: Format inconnu.
@@ -206,11 +206,11 @@ flashcards:
   official_item: OIT-fr58jzaj6jtb
   language: fr
   level: TRAP
-  front: 'Serializer construit avec [ObjectNormalizer, MoneyNormalizer] : qui normalise un objet Money ?'
-  back: ObjectNormalizer. Le premier normaliseur qui accepte la valeur l'emporte, et il accepte presque tout objet ; MoneyNormalizer
-    n'est jamais consulté. Dans le framework, ObjectNormalizer a la priorité -1000 et passe après les normaliseurs de l'application.
+  front: 'Serializer construit avec [ObjectNormalizer, MoneyNormalizer] : qui normalise un object Money ?'
+  back: ObjectNormalizer. Le premier normalizer qui accepte la valeur l'emporte, et il accepte presque tout object ; MoneyNormalizer
+    n'est jamais consulté. Dans le framework, ObjectNormalizer a la priorité -1000 et passe après les normalizers de l'application.
   explanation: 'Exécuté sur Serializer 8.0.15 : price sort en {"cents":1250,"currency":"EUR"} au lieu de "12.50 EUR".'
-  memorization_justification: On croit le normaliseur le plus spécialisé choisi ; c'est le premier de la liste.
+  memorization_justification: On croit le normalizer le plus spécialisé choisi ; c'est le premier de la liste.
   verification_status: VERIFIED
   reviewed_at: '2026-10-14'
   official_sources:
@@ -229,8 +229,8 @@ flashcards:
   official_item: OIT-fr58jzaj6jtb
   language: fr
   level: APPLICATION
-  front: 'Dénormaliser {"qty":"7"} vers une propriété int $qty : que se passe-t-il ?'
-  back: Cela dépend de l'extracteur de types. Sans lui, PHP convertit et qty vaut 7. Avec lui — ce que le service du framework
+  front: 'Dénormaliser {"qty":"7"} vers une property int $qty : que se passe-t-il ?'
+  back: Cela dépend de l'extractor de types. Sans lui, PHP convertit et qty vaut 7. Avec lui — ce que le service du framework
     reçoit — NotNormalizableValueException.
   explanation: Exécuté sur Serializer 8.0.15, avec et sans PropertyInfoExtractor(ReflectionExtractor).
   memorization_justification: Le même appel réussit dans un test écrit à la main et échoue dans l'application.
@@ -251,10 +251,10 @@ flashcards:
   official_item: OIT-fr58jzaj6jtb
   language: fr
   level: RECALL
-  front: Quelles clés de contexte omettent les propriétés nulles, et fixent le format des dates ?
+  front: Quelles keys de contexte omettent les properties nulles, et fixent le format des dates ?
   back: skip_null_values (AbstractObjectNormalizer::SKIP_NULL_VALUES) et datetime_format (DateTimeNormalizer::FORMAT_KEY).
   explanation: 'Le contexte, troisième argument, ne règle que l''appel en cours. Exécuté : Y-m-d rend "2026-01-02".'
-  memorization_justification: Deux noms de clé à retrouver sans documentation.
+  memorization_justification: Deux noms de key à retrouver sans documentation.
   verification_status: VERIFIED
   reviewed_at: '2026-10-14'
   official_sources:

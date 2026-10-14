@@ -37,9 +37,9 @@ c'est le composant qui donne au test l'accès au HTML.
 
 ## Prérequis
 
-L'objet client, et les sélecteurs CSS.
+L'object client, et les sélecteurs CSS.
 
-## Deux composants, un rôle chacun
+## Deux composants, un role chacun
 
 **DomCrawler** parcourt le document et en extrait des nœuds. **CssSelector**
 ne parcourt rien : il **traduit un sélecteur CSS en expression XPath**. Le
@@ -62,7 +62,7 @@ install the CssSelector component… Or use filterXpath instead. »
 
 ## Parcourir
 
-Chaque méthode rend **un nouveau `Crawler`**, ce qui permet de les enchaîner :
+Chaque method rend **un nouveau `Crawler`**, ce qui permet de les enchaîner :
 
 ```php
 $crawler->filter('input[type=submit]')
@@ -71,7 +71,7 @@ $crawler->filter('input[type=submit]')
     ->first();
 ```
 
-| Méthode | Ce qu'elle rend |
+| Method | Ce qu'elle rend |
 |---|---|
 | `eq(1)` | le nœud à cet index — `0` est le premier |
 | `first()`, `last()` | le premier, le dernier |
@@ -79,7 +79,7 @@ $crawler->filter('input[type=submit]')
 | `nextAll()`, `previousAll()` | les frères après, avant |
 | `ancestors()` | les ascendants, jusqu'à `<html>` |
 | `children()` | les enfants directs |
-| `reduce($fn)` | retire les nœuds pour lesquels la fonction rend `false` ; tout autre retour garde le nœud |
+| `reduce($fn)` | retire les nœuds pour lesquels la function rend `false` ; tout autre retour garde le nœud |
 
 `count($crawler)` donne le nombre de nœuds retenus.
 
@@ -95,8 +95,8 @@ $crawler->each(fn ($node, $i) => $node->attr('href'));
 ```
 
 Le point à retenir : **`text()` et `attr()` ne portent que sur le premier
-nœud** ; `extract()` et `each()` portent sur tous. La clé `_text` d'`extract()`
-désigne le texte plutôt qu'un attribut.
+nœud** ; `extract()` et `each()` portent sur tous. La key `_text` d'`extract()`
+désigne le texte plutôt qu'un attribute.
 
 Exécuté avec DomCrawler 8.0.15 :
 
@@ -105,11 +105,11 @@ Exécuté avec DomCrawler 8.0.15 :
 | `text()` sur `<h1>  Hello⏎   World  </h1>` | `"Hello World"` — espaces normalisés **par défaut** |
 | `text(null, false)` | le texte brut, retours à la ligne compris |
 | `text()` sur une sélection vide | `InvalidArgumentException` : « The current node list is empty. » |
-| `text('Défaut')`, `attr('class', 'none')` sur une sélection vide | la valeur par défaut |
+| `text('Défaut')`, `attr('class', 'none')` sur une sélection vide | la default value |
 | `text()` sur trois `<li>` | le premier seulement |
 | `siblings()` de `li.me` | les deux autres `<li>` |
 | `ancestors()` de `li.me` | `ul`, `body`, `html` |
-| `reduce()` sur trois `<li>`, une fonction sans `return` | les trois gardés |
+| `reduce()` sur trois `<li>`, une function sans `return` | les trois gardés |
 
 ## Cliquer et soumettre
 
@@ -120,7 +120,7 @@ $client->clickLink('Cliquez ici');
 $crawler = $client->submitForm('Ajouter', ['comment_form[content]' => '…']);
 ```
 
-L'objet passe par le crawler, quand on a besoin du `Link` ou du `Form` :
+L'object passe par le crawler, quand on a besoin du `Link` ou du `Form` :
 
 ```php
 $link = $crawler->selectLink('Cliquez ici')->link();
@@ -132,13 +132,13 @@ $client->submit($form);
 ```
 
 Le point contre-intuitif : **on sélectionne un bouton**, comme le recommande
-`testing.rst`. Un formulaire peut en porter plusieurs, et c'est le bouton qui
+`testing.rst`. Un form peut en porter plusieurs, et c'est le bouton qui
 détermine ce qui est envoyé. Le premier argument de `submitForm()` est le
 texte, l'`id` ou le `name` d'un `<button>` ou d'un `<input type="submit">`.
 
 Le code accepte pourtant aussi le `<form>` lui-même — la documentation du
 composant le montre : `$crawler->filter('.form-vertical')->form()`. Exécuté,
-un formulaire à deux boutons `Save` (`a=A`) et `Delete` (`b=B`) :
+un form à deux boutons `Save` (`a=A`) et `Delete` (`b=B`) :
 
 | Origine du `Form` | Valeurs envoyées |
 |---|---|
@@ -146,11 +146,11 @@ un formulaire à deux boutons `Save` (`a=A`) et `Delete` (`b=B`) :
 | `filter('#f')->form()` — le `<form>` | `q=1` seulement |
 | `filter('input[name=q]')->form()` | `LogicException` « Unable to submit on a "input" tag. » |
 
-Depuis le `<form>`, aucun bouton n'est envoyé, et les attributs `formaction` et
+Depuis le `<form>`, aucun bouton n'est envoyé, et les attributes `formaction` et
 `formmethod` d'un bouton ne s'appliquent pas.
 
-Sur les champs : `select()` pour une liste ou un bouton radio, `tick()` pour une
-case, `upload()` pour un fichier.
+Sur les fields : `select()` pour une liste ou un bouton radio, `tick()` pour une
+case, `upload()` pour un file.
 
 ## Pièges d'examen
 
@@ -160,13 +160,13 @@ case, `upload()` pour un fichier.
 
 **`siblings()` exclut le nœud courant.**
 
-**On sélectionne un bouton pour obtenir un formulaire** quand le bouton compte ;
+**On sélectionne un bouton pour obtenir un form** quand le bouton compte ;
 le `<form>` seul marche aussi, mais n'envoie aucun bouton.
 
 **`text()` normalise les espaces par défaut**, et lève une exception sur une
-sélection vide sans valeur par défaut.
+sélection vide sans default value.
 
-**Chaque méthode de parcours rend un nouveau `Crawler`** ; l'objet d'origine
+**Chaque method de parcours rend un nouveau `Crawler`** ; l'object d'origine
 n'est pas modifié.
 
 ## Points clés

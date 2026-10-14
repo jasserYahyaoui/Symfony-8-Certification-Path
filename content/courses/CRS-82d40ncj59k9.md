@@ -27,7 +27,7 @@ Composer un message électronique et savoir quelle structure MIME il produit.
 ## Périmètre
 
 Ce composant **fabrique** le message ; il ne l'envoie pas. Le transport,
-l'envoi et les événements appartiennent à l'item *Mailer*. L'envoi asynchrone
+l'envoi et les events appartiennent à l'item *Mailer*. L'envoi asynchrone
 appartient au composant Messenger (lot 11) et n'est pas réexpliqué ici.
 
 ## Deux API pour un même message
@@ -57,7 +57,7 @@ ordinaire : elle ajoute de la complexité sans gain réel.
 
 ## L'arborescence MIME
 
-Un message qui porte du texte, du HTML, une image intégrée et un fichier joint
+Un message qui porte du texte, du HTML, une image intégrée et un file joint
 se structure ainsi — c'est l'arbre qui fonctionne sur le plus de clients :
 
 ```text
@@ -70,18 +70,18 @@ multipart/mixed
 └── application/pdf
 ```
 
-Chaque conteneur a un rôle distinct :
+Chaque container a un rôle distinct :
 
 - `multipart/alternative` — plusieurs versions **du même contenu**. La forme
   préférée se place **en dernier**.
 - `multipart/related` — des parties qui forment **un tout**, typiquement des
-  images affichées dans le corps.
+  images affichées dans le body.
 - `multipart/mixed` — des contenus **de natures différentes**, typiquement une
   pièce jointe.
 
 ## Les adresses
 
-`from()`, `to()` et les autres acceptent une chaîne ou un objet `Address`.
+`from()`, `to()` et les autres acceptent une string ou un object `Address`.
 `Address::create('Fabien Potencier <fabien@example.com>')` analyse la forme
 `Nom <adresse>`. `addTo()`, `addCc()` et `addBcc()` **ajoutent** là où `to()`
 remplace.
@@ -96,7 +96,7 @@ texte, HTML, image intégrée et PDF joint — exécuté.
 
 ## Sérialiser un message
 
-`Email` et `Message` sont de simples objets de données : `serialize()` les
+`Email` et `Message` sont de simples objects de données : `serialize()` les
 accepte. On reconstruit ensuite le message avec `RawMessage` :
 
 ```php
@@ -112,7 +112,7 @@ $mimeTypes->getExtensions('image/jpeg');
 $mimeTypes->getMimeTypes('js');
 ```
 
-Les tableaux rendus sont **ordonnés par priorité** : le premier élément est le
+Les arrays rendus sont **ordonnés par priorité** : le premier élément est le
 préféré. La documentation 8.0 illustre cet ordre par des valeurs que le code ne
 rend plus. Exécuté sur Mime 8.0.15 :
 
@@ -123,7 +123,7 @@ rend plus. Exécuté sur Mime 8.0.15 :
 
 Le code l'emporte : l'extension préférée de `image/jpeg` est `jpg`.
 
-`guessMimeType()` **ne regarde pas le nom du fichier** : il inspecte le
+`guessMimeType()` **ne regarde pas le nom du file** : il inspecte le
 contenu — exécuté, un PNG nommé `.txt` est reconnu `image/png`. L'opération
 est coûteuse ; l'extension PHP `fileinfo` l'accélère. Un
 devineur maison implémente `MimeTypeGuesserInterface` et porte le tag
@@ -133,9 +133,9 @@ devineur maison implémente `MimeTypeGuesserInterface` et porte le tag
 
 **Dans `multipart/alternative`, la version préférée est la dernière.**
 
-**`guessMimeType()` ignore le nom du fichier** — il lit le contenu.
+**`guessMimeType()` ignore le nom du file** — il lit le contenu.
 
-**Les tableaux de `MimeTypes` sont classés par priorité, pas alphabétiquement**
+**Les arrays de `MimeTypes` sont classés par priorité, pas alphabétiquement**
 — et la priorité réelle du code diffère de l'exemple de la documentation.
 
 **L'UTF-8 dans la partie locale est refusé pour l'expéditeur seul.**
@@ -149,7 +149,7 @@ devineur maison implémente `MimeTypeGuesserInterface` et porte le tag
 - `Address::create()` analyse `Nom <adresse>` ; `addTo()` ajoute, `to()`
   remplace.
 - `RawMessage` reconstruit un message sérialisé.
-- `MimeTypes` rend des tableaux ordonnés par préférence ; la devinette lit le
+- `MimeTypes` rend des arrays ordonnés par préférence ; la devinette lit le
   contenu.
 
 ## Sources officielles

@@ -48,7 +48,7 @@ official_sources:
 
 ## Objectif
 
-Inspecter le contenu d'une variable dans un gabarit, savoir où le résultat
+Inspecter le contenu d'une variable dans un template, savoir où le résultat
 apparaît, et ce qui se passe hors du développement.
 
 ## Deux formes, deux destinations
@@ -58,65 +58,65 @@ C'est la distinction qui compte :
 | Écriture | Où va le résultat |
 |---|---|
 | `{{ dump(article) }}` | **dans la page**, visible à l'endroit de l'appel |
-| `{% dump articles %}` | dans la **barre de débogage**, pas dans la page |
+| `{% dump articles %}` | dans la **debug toolbar**, pas dans la page |
 
-La balise est donc la bonne quand on inspecte une variable dans une mise en page
+Le tag est donc la bonne quand on inspecte une variable dans une mise en page
 qu'on ne veut pas casser. Le code 8.0 le montre : `DumpExtension::dump()` rend
-du HTML inséré dans la page, alors que `DumpNode` compile la balise en un appel
+du HTML inséré dans la page, alors que `DumpNode` compile le tag en un appel
 à `VarDumper::dump()`, que DebugBundle collecte pour la barre.
 
 Sans argument, `{{ dump() }}` comme `{% dump %}` sortent **tout le contexte** du
-gabarit, macros exclues.
+template, macros exclues.
 
 ## Étiqueter ce qu'on inspecte
 
-- La **balise** étiquette d'elle-même : `{% dump articles, user %}` se compile
+- Le **tag** nomme lui-même ce qu'il affiche : `{% dump articles, user %}` se compile
   en `VarDumper::dump(["articles" => …, "user" => …])`.
-- La **fonction** : la documentation montre
+- La **function** : la documentation montre
   `{{ dump(blog_posts: articles, user: app.user) }}`. Or `DumpExtension`
   déclare `dump(Environment $env, array $context)` sans argument variadique, et
   Twig 3.22 rejette alors les arguments nommés : **`SyntaxError: Unknown
-  arguments`**, reproduit en exécutant Twig 3.22 avec une fonction déclarée à
+  arguments`**, reproduit en exécutant Twig 3.22 avec une function déclarée à
   l'identique. Les arguments positionnels, eux, passent.
 
 ## Hors du développement
 
-La fonction et la balise viennent de `DumpExtension`, que **DebugBundle**
+La function et le tag viennent de `DumpExtension`, que **DebugBundle**
 enregistre (`services.php`). La documentation les annonce en `dev` et `test`
 seulement.
 
-- Bundle absent : la fonction n'existe pas, et la compilation du gabarit échoue
+- Bundle absent : la function n'existe pas, et la compilation du template échoue
   — `SyntaxError: Unknown "dump" function`. C'est l'« erreur PHP » que décrit la
   documentation pour `prod`.
 - Extension chargée mais `kernel.debug` à `false` : `dump()` rend `null` et la
-  balise ne fait rien — les deux testent `isDebug()`.
+  tag ne fait rien — les deux testent `isDebug()`.
 
 C'est délibéré : un `dump()` oublié divulguerait l'état interne de
 l'application.
 
-## Les commandes
+## Les commands
 
-- `php bin/console debug:twig` — filtres, fonctions, tests, globales et chemins
+- `php bin/console debug:twig` — filters, functions, tests, globales et paths
   réellement disponibles ; `--filter=date` restreint la liste.
 - `php bin/console lint:twig templates/` — vérifie la syntaxe **sans rendre** :
   une variable indéfinie n'y est pas détectée. `--show-deprecations` traite les
-  dépréciations comme des erreurs.
+  deprecations comme des erreurs.
 
 ## Pièges d'examen
 
-**La fonction et la balise n'écrivent pas au même endroit.**
+**La function et le tag n'écrivent pas au même endroit.**
 
-**En production, la fonction n'existe pas** : erreur à la compilation, pas un
+**En production, la function n'existe pas** : erreur à la compilation, pas un
 avertissement.
 
 **Sans argument, c'est tout le contexte qui sort.**
 
-**La balise étiquette par nom de variable ; la fonction refuse les arguments
+**Le tag tag par nom de variable ; la function refuse les arguments
 nommés** avec Twig 3.22, malgré l'exemple de la documentation.
 
 ## Points clés
 
-- `{{ dump(x) }}` dans la page ; `{% dump x %}` vers la barre de débogage.
+- `{{ dump(x) }}` dans la page ; `{% dump x %}` vers la debug toolbar.
 - Sans argument : tout le contexte.
 - Fourni par DebugBundle ; absent → `Unknown "dump" function`.
 - `debug:twig` inventorie, `lint:twig` valide la syntaxe sans rendre.

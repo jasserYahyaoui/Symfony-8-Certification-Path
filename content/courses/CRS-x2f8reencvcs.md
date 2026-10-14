@@ -69,7 +69,7 @@ Aucun.
 
 ## Les trois délimiteurs
 
-| Délimiteur | Rôle |
+| Délimiteur | Role |
 |---|---|
 | `{{ … }}` | **affiche** le résultat d'une expression |
 | `{% … %}` | **exécute** une instruction : `if`, `for`, `extends`, `set` |
@@ -84,43 +84,43 @@ manipule*.
 C'est le mécanisme central, et il est ordonné. Pour `{{ foo.bar }}`, Twig essaie
 dans cet ordre :
 
-1. `$foo['bar']` — tableau, `ArrayObject` ou `ArrayAccess`, et clé existante ;
-2. `$foo->bar` — objet et propriété publique ;
-3. `Foo::bar` — objet et **constante de classe** ;
-4. `$foo->bar()` — objet et méthode publique ;
+1. `$foo['bar']` — array, `ArrayObject` ou `ArrayAccess`, et key existante ;
+2. `$foo->bar` — object et property publique ;
+3. `Foo::bar` — object et **constante de class** ;
+4. `$foo->bar()` — object et method publique ;
 5. `$foo->getBar()` — *getter* ;
 6. `$foo->isBar()` — *isser* ;
 7. `$foo->hasBar()` — *hasser* ;
-8. `$foo->__call('bar')`, si la classe déclare `__call()` ;
+8. `$foo->__call('bar')`, si la class déclare `__call()` ;
 9. sinon `null` — **ou** une `Twig\Error\RuntimeError` si l'option
    `strict_variables` est active.
 
-La recherche de méthode ignore la casse, et un *hasser* est écarté quand un
+La recherche de method ignore la casse, et un *hasser* est écarté quand un
 *isser* du même nom existe.
 
-Trois conséquences pratiques. D'abord, le gabarit ne sait pas s'il manipule un
-tableau ou un objet, ce qui permet de commencer avec des tableaux puis de passer
-à des objets sans toucher aux gabarits. Ensuite, un tableau est essayé **avant**
-un objet : un objet qui implémente `ArrayAccess` verra `$foo['bar']` gagner.
-Enfin, la constante de classe passe **avant** toute méthode — si son nom
-correspond à la casse près, alors que les méthodes sont cherchées sans tenir
+Trois conséquences pratiques. D'abord, le template ne sait pas s'il manipule un
+array ou un object, ce qui permet de commencer avec des arrays puis de passer
+à des objects sans toucher aux templates. Ensuite, un array est essayé **avant**
+un object : un object qui implémente `ArrayAccess` verra `$foo['bar']` gagner.
+Enfin, la constante de class passe **avant** toute method — si son nom
+correspond à la casse près, alors que les methods sont cherchées sans tenir
 compte de la casse. Exécuté : avec `const STATUS` et `getStatus()`,
 `{{ order.status }}` appelle le *getter* ; seule une constante nommée `status`
 l'aurait masqué.
 
 > **Deux sources divergent sur l'étape 3.** La documentation Symfony 8.0
-> énumère sept étapes et ne mentionne pas la constante de classe. La
+> énumère sept étapes et ne mentionne pas la constante de class. La
 > documentation Twig v3.22.0 l'énumère, et le moteur l'implémente :
 > `CoreExtension::getAttribute()` teste `\defined($object::class.'::'.$item)`
-> entre la propriété et les méthodes. L'item du syllabus porte sur *Twig syntax
+> entre la property et les methods. L'item du syllabus porte sur *Twig syntax
 > up to 3.22 version*, donc le moteur fait foi ; la liste Symfony est une
 > restitution abrégée, pas une contradiction. Retenir l'ordre du moteur, et
 > savoir que l'énoncé d'examen peut n'en citer que sept.
 
-Pour forcer l'appel d'une méthode, il existe la syntaxe explicite
+Pour forcer l'appel d'une method, il existe la syntaxe explicite
 `{{ foo.bar() }}`. Lorsque le nom est dynamique ou contient un tiret, Twig 3.15
 a ajouté l'expression entre parenthèses : `{{ user.(name) }}`,
-`{{ user.('first-name') }}`. La fonction `attribute()`, qui jouait ce rôle,
+`{{ user.('first-name') }}`. La function `attribute()`, qui jouait ce role,
 est **dépréciée depuis 3.15**.
 
 ## Les opérateurs
@@ -130,18 +130,18 @@ est **dépréciée depuis 3.15**.
 | Arithmétique | `+ - * / % // **` |
 | Comparaison | `== != < > <= >= <=>` |
 | Logique | `and or not xor` — pas `&& \|\| !` ; bit à bit : `b-and b-or b-xor` |
-| Chaînes | `~` pour **concaténer** ; `starts with`, `ends with`, `matches` |
+| Strings | `~` pour **concaténer** ; `starts with`, `ends with`, `matches` |
 | Appartenance | `in`, `not in` ; `..` construit une plage |
-| Itérables | `has some`, `has every`, avec une fonction fléchée |
+| Itérables | `has some`, `has every`, avec une function fléchée |
 | Test | `is` : `is defined`, `is empty`, `is null`, `is iterable`, `is same as` |
 | Confort | `?:` (Elvis), `??` (coalescence) |
-| Filtre | `\|` |
-| Fonctions | `=>` crée une fonction fléchée ; `...` étend une séquence ou un tableau (3.7), les arguments d'un appel (3.15) |
+| Filter | `\|` |
+| Functions | `=>` crée une function fléchée ; `...` étend une séquence ou un array (3.7), les arguments d'un appel (3.15) |
 
 Trois pièges reviennent :
 
 - la concaténation est `~`, pas `+`. `+` est compilé tel quel en PHP : sur deux
-  chaînes non numériques, PHP 8.4 lève une `TypeError` (« Unsupported operand
+  strings non numériques, PHP 8.4 lève une `TypeError` (« Unsupported operand
   types »), donc `{{ 'a' + 'b' }}` casse le rendu au lieu de concaténer ;
 - `//` est la division **entière**, `/` la division ordinaire ;
 - `?:` retourne l'opérande de gauche s'il est *vrai*, `??` s'il est *défini*.
@@ -151,9 +151,9 @@ Trois pièges reviennent :
 ## Affectation et espaces
 
 `{% set total = 0 %}` déclare une variable ; `{% set body %}…{% endset %}`
-capture un bloc entier.
+capture un block entier.
 
-Twig retire d'office le premier saut de ligne qui suit une balise. Au-delà, deux
+Twig retire d'office le premier saut de ligne qui suit un tag. Au-delà, deux
 modificateurs, d'un côté ou des deux :
 
 - `-` — `{{-`, `-}}`, `{%-`, `-%}` — supprime **tout** le blanc de ce côté,
@@ -161,14 +161,14 @@ modificateurs, d'un côté ou des deux :
 - `~` supprime le blanc **sauf** les sauts de ligne ; placé à droite, il
   désactive aussi le retrait automatique du premier saut de ligne.
 
-Le filtre `spaceless`, souvent employé avec `{% apply %}`, est **déprécié
+Le filter `spaceless`, souvent employé avec `{% apply %}`, est **déprécié
 depuis Twig 3.12** : la documentation renvoie aux modificateurs ci-dessus.
 
 ## Pièges d'examen
 
 - `{{ }}` affiche, `{% %}` exécute — un `{% %}` n'affiche jamais rien.
-- L'ordre de résolution commence par le **tableau**, pas par la propriété.
-- Une **constante de classe** est lue avant le *getter* si son nom est
+- L'ordre de résolution commence par le **array**, pas par la property.
+- Une **constante de class** est lue avant le *getter* si son nom est
   identique, casse comprise : `const STATUS` ne masque pas `getStatus()`.
 - `and` / `or` / `not`, jamais `&&` / `||` / `!`.
 - `~` concatène ; `+` additionne.
@@ -177,9 +177,9 @@ depuis Twig 3.12** : la documentation renvoie aux modificateurs ci-dessus.
 
 ## Points clés
 
-- Trois délimiteurs, un rôle chacun.
-- Neuf étapes de résolution pour `foo.bar`, tableau d'abord, constante de
-  classe avant les méthodes, `__call()` en dernier recours, `null` ou erreur au
+- Trois délimiteurs, un role chacun.
+- Neuf étapes de résolution pour `foo.bar`, array d'abord, constante de
+  class avant les methods, `__call()` en dernier recours, `null` ou erreur au
   bout selon `strict_variables`.
 - Opérateurs logiques en mots ; `~` pour concaténer ; `//` pour la division
   entière.
@@ -190,5 +190,5 @@ depuis Twig 3.12** : la documentation renvoie aux modificateurs ci-dessus.
 - [Twig 3.22, *Twig for Template Designers*](https://github.com/twigphp/Twig/blob/v3.22.0/doc/templates.rst)
 - [Symfony Templates, « Template Variables »](https://github.com/symfony/symfony-docs/blob/8.0/templates.rst)
 - [Twig 3.22, `CoreExtension::getAttribute()`](https://github.com/twigphp/Twig/blob/v3.22.0/src/Extension/CoreExtension.php)
-- [Twig 3.22, filtre `spaceless`](https://github.com/twigphp/Twig/blob/v3.22.0/doc/filters/spaceless.rst) et [fonction `attribute`](https://github.com/twigphp/Twig/blob/v3.22.0/doc/functions/attribute.rst)
+- [Twig 3.22, filter `spaceless`](https://github.com/twigphp/Twig/blob/v3.22.0/doc/filters/spaceless.rst) et [function `attribute`](https://github.com/twigphp/Twig/blob/v3.22.0/doc/functions/attribute.rst)
 - [php-src PHP-8.4, `add_006.phpt`](https://github.com/php/php-src/blob/PHP-8.4/Zend/tests/add_006.phpt)

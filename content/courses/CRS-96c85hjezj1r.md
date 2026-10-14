@@ -42,7 +42,7 @@ six niveaux de Symfony 8.0.
 
 `--silent` est le niveau le plus bas et il est **plus radical que `--quiet`** :
 il supprime aussi les messages d'erreur. Exécuté avec Console 8.0.15, dans un
-vrai processus, une commande qui écrit trois lignes puis lève une exception :
+vrai process, une command qui écrit trois lignes puis lève une exception :
 
 | Option | `normal` | `verbose-only` | `quiet-level` | erreur sur STDERR |
 |---|---|---|---|---|
@@ -74,7 +74,7 @@ if ($output->isVerbose()) {
 `isSilent()`, `isQuiet()`, `isVerbose()`, `isVeryVerbose()`, `isDebug()`
 couvrent les autres niveaux.
 
-L'intérêt est qu'une seule commande sert au quotidien et au diagnostic : on ne
+L'intérêt est qu'une seule command sert au quotidien et au diagnostic : on ne
 crée pas d'option `--debug` maison.
 
 ## Pièges d'examen
@@ -90,14 +90,14 @@ message verbeux ; avec `-q`, plus rien d'autre que `quiet-level`.
 **`-q` et `--silent` rendent aussi l'entrée non interactive** : `interact()`
 n'est pas appelée (voir *Console component*).
 
-**Le niveau passé à `writeln()` est un seuil, pas un filtre exact.** Un
+**Le niveau passé à `writeln()` est un seuil, pas un filter exact.** Un
 message marqué `VERBOSITY_VERBOSE` s'affiche à `-v`, `-vv` **et** `-vvv`.
 
-**`writeln()` n'a que deux paramètres** : le niveau est le second.
+**`writeln()` n'a que deux parameters** : le niveau est le second.
 
 ## Points clés
 
-- Six niveaux ; `--silent` supprime même les erreurs, `-q` la sortie normale.
+- Six niveaux ; `--silent` supprime même les erreurs, `-q` l'output normal.
 - `-v`, `-vv`, `-vvv` montent progressivement.
 - Second argument de `writeln()`, ou `isVerbose()` et ses variantes.
 

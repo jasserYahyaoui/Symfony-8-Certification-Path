@@ -47,7 +47,7 @@ Traiter une soumission, dans le bon ordre, et connaître l'alternative à
 
 ## Le motif recommandé
 
-Une **seule action** affiche et traite le formulaire :
+Une **seule action** affiche et traite le form :
 
 ```php
 $form = $this->createForm(TaskType::class, $task);
@@ -62,34 +62,34 @@ if ($form->isSubmitted() && $form->isValid()) {
 return $this->render('task/new.html.twig', ['form' => $form]);
 ```
 
-`handleRequest()` regarde la requête, décide si le formulaire a été soumis, et
+`handleRequest()` regarde la Request, décide si le form a été soumis, et
 ne fait rien s'il ne l'a pas été. C'est ce qui permet au même code de servir les
 deux cas.
 
-Le critère est d'abord la **méthode** : `HttpFoundationRequestHandler` compare
-la méthode de la requête à l'option `method` du formulaire, `POST` par défaut,
-et s'arrête si elles diffèrent. Exécuté : un formulaire `POST` reçoit une
-requête `GET` portant ses champs → `isSubmitted()` vaut `false`.
+Le critère est d'abord la **method** : `HttpFoundationRequestHandler` compare
+la method de la Request à l'option `method` du form, `POST` par défaut,
+et s'arrête si elles diffèrent. Exécuté : un form `POST` reçoit une
+Request `GET` portant ses fields → `isSubmitted()` vaut `false`.
 
-La redirection après succès évite qu'un rafraîchissement du navigateur ne
+Le redirect après succès évite qu'un rafraîchissement du navigateur ne
 renvoie le `POST`.
 
 ## L'ordre des deux tests
 
 `isSubmitted()` **avant** `isValid()` — et ce n'est pas une question de style :
-`Form::isValid()` **lève une `LogicException`** sur un formulaire non soumis,
+`Form::isValid()` **lève une `LogicException`** sur un form non soumis,
 « Cannot check if an unsubmitted form is valid ». Vérifié par exécution. Un
-formulaire soumis mais désactivé (`disabled`) est, lui, toujours valide.
+form soumis mais désactivé (`disabled`) est, lui, toujours valide.
 
-Après une soumission valide, l'objet passé à `createForm()` est **déjà mis à
+Après une soumission valide, l'object passé à `createForm()` est **déjà mis à
 jour** : `getData()` et la variable d'origine désignent la même chose.
 
 ## Le rendu qui suit
 
-Rendre le formulaire invalide est le comportement normal :
-`AbstractController::render()` repère un formulaire soumis et invalide parmi ses
-paramètres et passe la réponse en **422** — seulement si son statut était
-encore 200. Il convertit aussi le formulaire en vue : pas besoin d'appeler
+Rendre le form invalide est le comportement normal :
+`AbstractController::render()` repère un form soumis et invalide parmi ses
+parameters et passe la Response en **422** — seulement si son statut était
+encore 200. Il convertit aussi le form en vue : pas besoin d'appeler
 `createView()`.
 
 ```mermaid
@@ -97,16 +97,16 @@ encore 200. Il convertit aussi le formulaire en vue : pas besoin d'appeler
 title: Une action, deux passages
 ---
 flowchart TD
-  accTitle: Une seule action qui affiche et traite un formulaire
-  accDescr: handleRequest() ne soumet rien si la méthode de la requête diffère de l'option method du formulaire, POST par défaut, ni si la requête ne porte pas de données sous le nom du formulaire. Sinon il appelle submit(), avec clearMissing à false pour PATCH. Le contrôleur teste isSubmitted() puis isValid(). Soumis et valide, il redirige. Sinon il rend le formulaire, et render() passe la réponse en 422 si le formulaire est soumis et invalide. isValid() sur un formulaire non soumis lève une LogicException.
-  HR["handleRequest()"] --> M{"méthode = option method ?"}
+  accTitle: Une seule action qui affiche et traite un form
+  accDescr: handleRequest() ne soumet rien si la method de la Request diffère de l'option method du form, POST par défaut, ni si la Request ne porte pas de données sous le nom du form. Sinon il appelle submit(), avec clearMissing à false pour PATCH. Le controller teste isSubmitted() puis isValid(). Soumis et valide, il redirige. Sinon il rend le form, et render() passe la Response en 422 si le form est soumis et invalide. isValid() sur un form non soumis lève une LogicException.
+  HR["handleRequest()"] --> M{"method = option method ?"}
   M -->|"non"| NS["non soumis"]
-  M -->|"oui"| D{"données sous le nom du formulaire ?"}
+  M -->|"oui"| D{"données sous le nom du form ?"}
   D -->|"non"| NS
   D -->|"oui"| SUB["submit(), clearMissing false pour PATCH"]
   SUB --> V{"isSubmitted() et isValid() ?"}
   NS --> V
-  V -->|"oui"| RED(["redirection"])
+  V -->|"oui"| RED(["redirect"])
   V -->|"non"| R{"soumis et invalide ?"}
   R -->|"oui"| R422(["render() : 422"])
   R -->|"non"| R200(["render() : 200"])
@@ -124,40 +124,40 @@ if ($request->isMethod('POST')) {
 ```
 
 L'exemple de `forms.rst` (8.0) écrit `getPayload()->get($form->getName())`.
-Pour un formulaire composé, la valeur est un tableau, et `InputBag::get()` le
+Pour un form composé, la valeur est un array, et `InputBag::get()` le
 refuse : **`BadRequestException`**, « Input value "form" contains a non-scalar
 value » — exécuté avec HttpFoundation 8.0.15. La forme correcte est `all()`,
 comme ci-dessus.
 
-Son second argument, `$clearMissing`, vaut `true` par défaut : les champs absents
-de la soumission sont mis à `null`. Le passer à `false` — le cas d'une requête
-`PATCH` — laisse les champs absents intacts. `handleRequest()` fait ce choix de
+Son second argument, `$clearMissing`, vaut `true` par défaut : les fields absents
+de la soumission sont mis à `null`. Le passer à `false` — le cas d'une Request
+`PATCH` — laisse les fields absents intacts. `handleRequest()` fait ce choix de
 lui-même : il appelle `submit($data, 'PATCH' !== $method)`.
 
 **Le piège qui va avec :** avec `$clearMissing = false`, la validation ne
-s'applique **qu'aux champs soumis**. Exécuté avec un `NotBlank` sur un champ
-vide absent de la soumission : formulaire **valide** ; le même champ ajouté avec
+s'applique **qu'aux fields soumis**. Exécuté avec un `NotBlank` sur un field
+vide absent de la soumission : form **valide** ; le même field ajouté avec
 `null` : **invalide**. C'est la parade documentée.
 
 ## Pièges d'examen
 
-**`isValid()` sur un formulaire non soumis lève une exception.** Le garde
+**`isValid()` sur un form non soumis lève une exception.** Le garde
 `isSubmitted() && isValid()` n'est pas facultatif.
 
-**Une requête d'une autre méthode que celle du formulaire est ignorée.**
+**Une Request d'une autre method que celle du form est ignorée.**
 
-**Après une soumission valide, l'objet est déjà à jour.**
+**Après une soumission valide, l'object est déjà à jour.**
 
-**La soumission manuelle vide les champs absents par défaut** ; `false` les
+**La soumission manuelle vide les fields absents par défaut** ; `false` les
 préserve, et ne valide alors que ce qui a été soumis.
 
 ## Points clés
 
 - Une seule action rend et traite ; `handleRequest()` ne fait rien si la
-  méthode diffère.
+  method diffère.
 - `isSubmitted()` puis `isValid()` ; l'inverse lève une `LogicException`.
-- L'objet d'origine est mis à jour ; `getData()` le retourne.
-- `render()` : 422 pour un formulaire soumis invalide.
+- L'object d'origine est mis à jour ; `getData()` le retourne.
+- `render()` : 422 pour un form soumis invalide.
 - `submit($data, $clearMissing = true)` ; `false` pour un `PATCH`, choisi
   automatiquement par `handleRequest()`.
 

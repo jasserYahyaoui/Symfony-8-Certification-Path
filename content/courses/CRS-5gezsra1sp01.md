@@ -32,9 +32,9 @@ item.
 
 ## Le problème résolu
 
-Certaines tâches n'ont pas à retarder la réponse : envoyer un courriel,
+Certaines tâches n'ont pas à retarder la Response : envoyer un courriel,
 redimensionner une image, appeler une API lente. Messenger permet de **décider
-plus tard** — le contrôleur émet un message et rend la main ; un autre processus
+plus tard** — le controller émet un message et rend la main ; un autre process
 le traite.
 
 Le même code sert aussi de bus **synchrone** : c'est la configuration qui décide,
@@ -44,16 +44,16 @@ pas le code appelant.
 
 La section « Concepts » de `messenger.rst` (8.0) en nomme six :
 
-| Concept | Rôle |
+| Concept | Role |
 |---|---|
 | **Sender** | sérialise et envoie le message vers « quelque chose » : un broker, une API |
 | **Receiver** | récupère, désérialise et transmet aux handlers |
 | **Handler** | exécute la logique métier ; appelé par `HandleMessageMiddleware` |
-| **Middleware** | accède au message et à l'enveloppe pendant la traversée du bus |
+| **Middleware** | accède au message et à l'Envelope pendant la traversée du bus |
 | **Envelope** | emballe le message pour y attacher des informations |
 | **Envelope Stamps** | ces informations : délai, transport, résultat, marqueurs |
 
-Le **message** lui-même n'est pas dans la liste : c'est un objet PHP ordinaire,
+Le **message** lui-même n'est pas dans la liste : c'est un object PHP ordinaire,
 sans interface à implémenter. Le **bus** est ce qui relie le tout — il reçoit
 le message et le fait traverser la chaîne de middleware.
 
@@ -73,7 +73,7 @@ $this->bus->dispatch(new SendWelcomeEmail($userId));
 routage. Exécuté avec FrameworkBundle et Messenger 8.0.15, un message `Welcome`
 et deux handlers :
 
-| Routage | Handlers exécutés avant le retour de `dispatch()` | Stamps de l'enveloppe retournée |
+| Routage | Handlers exécutés avant le retour de `dispatch()` | Stamps de l'Envelope retournée |
 |---|---|---|
 | aucun (synchrone) | **les deux** | `DelayStamp`, `BusNameStamp`, `HandledStamp` ×2 |
 | vers un transport `in-memory://` | **aucun** | `DelayStamp`, `BusNameStamp`, `SentStamp`, `TransportMessageIdStamp` |
@@ -89,7 +89,7 @@ pour le transport.
 Un message **non routé et sans handler** n'est pas ignoré : exécuté,
 `NoHandlerForMessageException` — « No handler for message "App\…\Orphan" ».
 
-## L'enveloppe et les stamps
+## L'Envelope et les stamps
 
 ```php
 $this->bus->dispatch(new SendWelcomeEmail($id), [new DelayStamp(5000)]);
@@ -98,7 +98,7 @@ $envelope = $this->bus->dispatch($message);
 $handled  = $envelope->last(HandledStamp::class);
 ```
 
-`dispatch()` **retourne l'enveloppe** ; le résultat d'un handler se lit sur son
+`dispatch()` **retourne l'Envelope** ; le résultat d'un handler se lit sur son
 `HandledStamp`, et seulement si le traitement a été synchrone. Avec deux
 handlers, il y a deux `HandledStamp` : exécuté, `last()` rend le résultat du
 second, `all(HandledStamp::class)` les deux.
@@ -112,9 +112,9 @@ times. Only one handler is expected ».
 **`dispatch()` ne signifie pas « traité » en asynchrone** — et signifie « déjà
 traité » en synchrone.
 
-**Un message n'implémente aucune interface.** C'est une classe ordinaire.
+**Un message n'implémente aucune interface.** C'est une class ordinaire.
 
-**Le résultat se lit sur l'enveloppe retournée**, via `HandledStamp`, et
+**Le résultat se lit sur l'Envelope retournée**, via `HandledStamp`, et
 uniquement en synchrone.
 
 **Un `DelayStamp` ne retarde rien en synchrone.**
@@ -128,7 +128,7 @@ middleware, envelope et stamps — pas « message » ni « bus ».
 
 - Six concepts : sender, receiver, handler, middleware, envelope, stamps.
 - `dispatch()` confie au bus ; le routage décide du reste.
-- L'enveloppe porte les stamps et est retournée par `dispatch()`.
+- L'Envelope porte les stamps et est retournée par `dispatch()`.
 - Plusieurs handlers : plusieurs `HandledStamp` ; `HandleTrait` en refuse plus
   d'un.
 

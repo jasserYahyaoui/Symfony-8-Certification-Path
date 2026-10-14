@@ -37,22 +37,22 @@ official_sources:
 ## Objectif
 
 Comprendre ce qui transforme `framework: { … }` en services, et comment un bundle
-expose sa propre clé de configuration.
+expose sa propre key de configuration.
 
 ## Le problème résolu
 
-Sans extension, configurer un bundle voudrait dire écrire ses définitions de
-services à la main. La **configuration sémantique** offre à la place un langage :
-quelques clés lisibles, validées, que le bundle traduit lui-même en services.
+Sans extension, configurer un bundle voudrait dire écrire ses definitions de
+services à la main. La **semantic configuration** offre à la place un langage :
+quelques keys lisibles, validées, que le bundle traduit lui-même en services.
 
 C'est pourquoi `framework.csrf_protection: true` suffit ; personne n'écrit la
-définition du gestionnaire de jetons.
+definition du handler de tokens.
 
 ## Les deux moitiés
 
-| Classe | Rôle |
+| Class | Role |
 |---|---|
-| `ConfigurationInterface` | **déclare** l'arbre : clés admises, types, valeurs par défaut, validation |
+| `ConfigurationInterface` | **déclare** l'arbre : keys admises, types, default values, validation |
 | l'extension | **consomme** la configuration validée et enregistre les services |
 
 L'arbre se décrit avec un `TreeBuilder` :
@@ -71,7 +71,7 @@ public function getConfigTreeBuilder(): TreeBuilder
 }
 ```
 
-Une clé absente de l'arbre provoque une **erreur au chargement**, pas un silence.
+Une key absente de l'arbre provoque une **erreur au chargement**, pas un silence.
 C'est le principal intérêt : la configuration est validée avant de servir.
 
 ## Ce que l'exécution montre
@@ -109,10 +109,10 @@ class AcmeSocialBundle extends AbstractBundle
 ```
 
 `configure()` et `loadExtension()` ne sont appelées **qu'à la compilation** du
-conteneur, jamais à l'exécution. Exécuté : au premier démarrage, les deux
-méthodes sont appelées ; au second, cache chaud, aucune.
+container, jamais à l'exécution. Exécuté : au premier démarrage, les deux
+methods sont appelées ; au second, cache chaud, aucune.
 
-Le nom de la clé racine découle du nom du bundle : `AcmeSocialBundle` donne
+Le nom de la key racine découle du nom du bundle : `AcmeSocialBundle` donne
 `acme_social` — exécuté, `getContainerExtension()->getAlias()` le confirme.
 
 ## Configurer un autre bundle
@@ -132,20 +132,20 @@ Ce qui est *prepend* est placé **avant** la configuration de l'application, don
 l'application garde le dernier mot. Exécuté : un `label` prepend est remplacé par
 celui de `config/packages/acme_social.yaml`.
 
-Entre deux bundles qui prepend la même clé, c'est l'inverse de l'intuition :
+Entre deux bundles qui prepend la même key, c'est l'inverse de l'intuition :
 **le premier enregistré l'emporte** (`prepend_extension.rst`). Exécuté, avec
 `FirstBundle` puis `SecondBundle` : `from-first`.
 
-Les gabarits d'un bundle, eux, n'ont pas besoin de prepend : TwigBundle
+Les templates d'un bundle, eux, n'ont pas besoin de prepend : TwigBundle
 enregistre de lui-même le dossier `templates/` ou `Resources/views/` de chaque
 bundle, sous l'espace de son nom privé du suffixe `Bundle` — `@AcmeSocial` —
 (`TwigExtension::getBundleTemplatePaths()`).
 
 ## Pièges d'examen
 
-**Une clé inconnue est une erreur**, pas une valeur ignorée — avec suggestion.
+**Une key inconnue est une erreur**, pas une valeur ignorée — avec suggestion.
 
-**`loadExtension()` s'exécute à la compilation** : elle ne voit ni requête ni
+**`loadExtension()` s'exécute à la compilation** : elle ne voit ni Request ni
 état d'exécution.
 
 **Le *prepend* passe avant l'application**, qui peut donc toujours surcharger ;
@@ -158,7 +158,7 @@ entre bundles, le premier enregistré gagne.
 - `ConfigurationInterface` + `TreeBuilder` déclarent et valident l'arbre ;
   l'extension le traduit en services.
 - `AbstractBundle::configure()` et `loadExtension()`, appelées à la compilation.
-- La clé racine dérive du nom du bundle.
+- La key racine dérive du nom du bundle.
 - `prependExtensionConfig()` configure un autre bundle, sans priver l'application
   du dernier mot.
 

@@ -41,27 +41,27 @@ official_sources:
 
 ## Objectif
 
-Séparer trois paquets que l'on croit n'en former qu'un, et savoir lequel répond
+Séparer trois packages que l'on croit n'en former qu'un, et savoir lequel répond
 de quoi — et lequel dépend de l'autre.
 
 ## Trois composants, trois responsabilités
 
-| Paquet | Ce qu'il fournit |
+| Package | Ce qu'il fournit |
 |---|---|
-| `symfony/security-core` | le modèle : `UserInterface`, jetons, votants, décision d'accès, hiérarchie des rôles |
-| `symfony/security-csrf` | la génération et la vérification de jetons CSRF |
-| `symfony/password-hasher` | le hachage et la vérification des mots de passe |
+| `symfony/security-core` | le modèle : `UserInterface`, tokens, voters, décision d'accès, hiérarchie des roles |
+| `symfony/security-csrf` | la génération et la vérification de tokens CSRF |
+| `symfony/password-hasher` | le hachage et la vérification des passwords |
 
-À quoi s'ajoutent `security-http`, qui branche le modèle sur la requête HTTP —
-pare-feux, authenticators, points d'entrée — et `SecurityBundle`, qui câble le
-tout dans le framework et expose la clé `security:` de configuration.
+À quoi s'ajoutent `security-http`, qui branche le modèle sur la Request HTTP —
+firewalls, authenticators, entry points — et `SecurityBundle`, qui câble le
+tout dans le framework et expose la key `security:` de configuration.
 
 ## Qui dépend de qui
 
-Les responsabilités sont séparées ; les paquets, eux, ne sont pas tous
+Les responsabilités sont séparées ; les packages, eux, ne sont pas tous
 indépendants. Lu dans les `composer.json` de la branche 8.0 :
 
-| Paquet | `require` (hors PHP et contrats) |
+| Package | `require` (hors PHP et contrats) |
 |---|---|
 | `password-hasher` | **rien** |
 | `security-core` | `password-hasher` |
@@ -76,52 +76,52 @@ de `security-core` (`RuntimeException`, `InvalidArgumentException`).
 
 ## Pourquoi la séparation compte
 
-`password-hasher` sert dans une application sans authentification. Exécuté, seul
+`password-hasher` sert dans une application sans authentication. Exécuté, seul
 dans un projet vide : `PasswordHasherFactory` avec l'algorithme `auto` produit un
-hachage `$2y$13$…`, `verify()` rend `true` pour le bon mot de passe et `false`
-sinon, et aucune classe de `security-core` n'est chargée.
+hachage `$2y$13$…`, `verify()` rend `true` pour le bon password et `false`
+sinon, et aucune class de `security-core` n'est chargée.
 
-`security-csrf` protège un formulaire **sans pare-feu** — c'est ce qu'utilise le
-composant Form. Il installe `security-core`, mais n'exige ni authentification ni
-configuration de sécurité. Aucun de ces paquets ne dépend de Doctrine ni d'une
+`security-csrf` protège un form **sans firewall** — c'est ce qu'utilise le
+composant Form. Il installe `security-core`, mais n'exige ni authentication ni
+configuration de sécurité. Aucun de ces packages ne dépend de Doctrine ni d'une
 base de données.
 
-C'est la réponse à une question d'examen classique : hacher un mot de passe
+C'est la réponse à une question d'examen classique : hacher un password
 **n'exige pas** le système de sécurité complet.
 
 ## Ce qui vit dans `security-core`
 
-- `UserInterface` et le contrat utilisateur ;
-- les **jetons** (`TokenInterface`) et leur stockage ;
-- l'**autorisation** : `AccessDecisionManager`, `Voter`, stratégies ;
-- la **hiérarchie des rôles**.
+- `UserInterface` et le contrat user ;
+- les **tokens** (`TokenInterface`) et leur stockage ;
+- l'**authorization** : `AccessDecisionManager`, `Voter`, stratégies ;
+- la **hiérarchie des roles**.
 
 Ce composant ne **dépend** pas de HTTP : `http-foundation` n'y figure qu'en
 `require-dev`. Quelques classes optionnelles s'en servent quand il est présent —
 `UsageTrackingTokenStorage` pour la session, `LazyResponseException` pour une
-réponse, `ExpressionVoter` pour exposer la requête. C'est `security-http` qui
-traduit une requête en tentative d'authentification et une décision en réponse.
+Response, `ExpressionVoter` pour exposer la Request. C'est `security-http` qui
+traduit une Request en tentative d'authentication et une décision en Response.
 
 ## Pièges d'examen
 
-**Le hachage n'est pas dans `security-core`** : il a son propre paquet,
+**Le hachage n'est pas dans `security-core`** : il a son propre package,
 `password-hasher` — dont `security-core` dépend.
 
-**La protection CSRF n'est pas liée à l'authentification** : aucun pare-feu
-requis. Mais `security-csrf` n'est pas un paquet isolé : il installe
+**La protection CSRF n'est pas liée à l'authentication** : aucun firewall
+requis. Mais `security-csrf` n'est pas un package isolé : il installe
 `security-core`.
 
 **Seul `password-hasher` s'installe vraiment seul.**
 
-**`security-core` ne dépend pas de HTTP.** Pare-feux et authenticators
+**`security-core` ne dépend pas de HTTP.** Firewalls et authenticators
 appartiennent à `security-http`.
 
 ## Points clés
 
-- `security-core` = modèle, jetons, autorisation, rôles ; aucune dépendance à HTTP.
-- `security-csrf` = jetons CSRF, sans pare-feu ; dépend de `security-core`.
+- `security-core` = modèle, tokens, authorization, roles ; aucune dependency à HTTP.
+- `security-csrf` = tokens CSRF, sans firewall ; dépend de `security-core`.
 - `password-hasher` = hachage ; ne dépend de rien.
-- `security-http` relie le modèle à la requête ; `SecurityBundle` le configure.
+- `security-http` relie le modèle à la Request ; `SecurityBundle` le configure.
 
 ## Sources officielles
 

@@ -66,26 +66,26 @@ official_sources:
 
 ## Objectif
 
-Connaître les paramètres que Symfony réserve, leur effet réel dans le code 8.0,
+Connaître les parameters que Symfony réserve, leur effet réel dans le code 8.0,
 et les formes courtes qui les posent — celles qui existent vraiment.
 
-## Les cinq paramètres réservés
+## Les cinq parameters réservés
 
-Outre les paramètres de l'application, une route peut porter ceux-ci, tous
+Outre les parameters de l'application, une route peut porter ceux-ci, tous
 préfixés d'un souligné. La documentation en liste cinq :
 
-| Paramètre | Effet | Qui le lit (8.0) |
+| Parameter | Effet | Qui le lit (8.0) |
 |---|---|---|
-| `_controller` | désigne le contrôleur exécuté quand la route correspond | le résolveur de contrôleur |
-| `_format` | fixe le *request format* de la requête | `Request::getRequestFormat()` |
-| `_locale` | fixe la locale de la requête | `LocaleListener` |
-| `_fragment` | ajoute l'identifiant de fragment — la partie après `#` | `UrlGenerator` |
-| `_query` | ajoute des paramètres de chaîne de requête à l'URL générée | `UrlGenerator` |
+| `_controller` | désigne le controller exécuté quand la route correspond | le resolver de controller |
+| `_format` | fixe le *request format* de la Request | `Request::getRequestFormat()` |
+| `_locale` | fixe la locale de la Request | `LocaleListener` |
+| `_fragment` | ajoute l'identifier de fragment — la partie après `#` | `UrlGenerator` |
+| `_query` | ajoute des parameters de chaîne de Request à l'URL générée | `UrlGenerator` |
 
-`_format` mérite un mot : la valeur appariée devient le format de la requête.
-Au moment de `Response::prepare()`, si la réponse **n'a pas encore** d'en-tête
+`_format` mérite un mot : la valeur appariée devient le format de la Request.
+Au moment de `Response::prepare()`, si la Response **n'a pas encore** de header
 `Content-Type`, Symfony en pose un d'après ce format — `json` donne
-`application/json`. Un contrôleur qui fixe lui-même l'en-tête l'emporte. C'est
+`application/json`. Un controller qui fixe lui-même le header l'emporte. C'est
 ce qui permet à `/search.json` et `/search.xml` de partager une route.
 
 ## Les formes courtes
@@ -95,10 +95,10 @@ qu'il recopie :
 
 | Argument | Devient |
 |---|---|
-| `locale: 'en'` | la valeur par défaut `_locale` |
-| `format: 'html'` | la valeur par défaut `_format` |
-| `stateless: true` | la valeur par défaut `_stateless` |
-| `utf8: true` | l'**option** `utf8`, pas une valeur par défaut |
+| `locale: 'en'` | la default value `_locale` |
+| `format: 'html'` | la default value `_format` |
+| `stateless: true` | la default value `_stateless` |
+| `utf8: true` | l'**option** `utf8`, pas une default value |
 
 ```php
 #[Route(
@@ -110,30 +110,30 @@ qu'il recopie :
 ```
 
 Les deux écritures désignent la même chose : l'argument nommé pose simplement
-la valeur par défaut du paramètre réservé correspondant. En YAML, les clés
-`locale`, `format` et `stateless` jouent le même rôle.
+la default value du parameter réservé correspondant. En YAML, les keys
+`locale`, `format` et `stateless` jouent le même role.
 
 **Écart avec la documentation.** Son exemple ajoute `query: ['page' => 1]`, à
-l'attribut comme en YAML. Le code 8.0 n'a pas d'argument `query` dans le
+l'attribute comme en YAML. Le code 8.0 n'a pas d'argument `query` dans le
 constructeur de `#[Route]` : PHP rejette un argument nommé inconnu, par une
 `Error` « Unknown named parameter » (test `unknown_named_param.phpt` de
-php-src). Et `query` ne figure pas dans la liste des clés acceptées par le
-chargeur YAML, qui lève une `InvalidArgumentException` pour clé non supportée.
+php-src). Et `query` ne figure pas dans la liste des keys acceptées par le
+loader YAML, qui lève une `InvalidArgumentException` pour key non supportée.
 
 ## `_query` n'agit qu'à la génération
 
-`UrlGenerator::doGenerate()` lit `_query` **uniquement** dans les paramètres
+`UrlGenerator::doGenerate()` lit `_query` **uniquement** dans les parameters
 passés à `generate()` — donc à `path()` ou `url()` en Twig. Une valeur `_query`
-posée dans les valeurs par défaut de la route n'apparaît pas dans l'URL
+posée dans les default values de la route n'apparaît pas dans l'URL
 générée : le code ne la lit pas. La documentation la présente pourtant comme
 utilisable dans une route ou un import.
 
-`_fragment`, lui, est lu aux deux endroits : la valeur par défaut de la route
-d'abord, remplacée par un paramètre `_fragment` passé à la génération.
+`_fragment`, lui, est lu aux deux endroits : la default value de la route
+d'abord, remplacée par un parameter `_fragment` passé à la génération.
 
 ## La limite documentée : `_fragment` et les imports
 
-La documentation dit que ces paramètres s'emploient aussi bien dans une route
+La documentation dit que ces parameters s'emploient aussi bien dans une route
 individuelle que dans un **import** de routes — à une exception près :
 `_fragment`, qui ne s'utilise que dans une route.
 
@@ -147,28 +147,28 @@ propre locale.
 
 ## Pièges d'examen
 
-**Les paramètres réservés commencent tous par un souligné ; les arguments
-courts de l'attribut, non.** Ce sont deux écritures de la même chose :
-l'argument pose la valeur par défaut du paramètre réservé.
+**Les parameters réservés commencent tous par un souligné ; les arguments
+courts de l'attribute, non.** Ce sont deux écritures de la même chose :
+l'argument pose la default value du parameter réservé.
 
 **Un seul des cinq est exclu des imports par la documentation** : celui qui
-pose l'identifiant de fragment. Rien dans le code ne le rejette.
+pose l'identifier de fragment. Rien dans le code ne le rejette.
 
 **Pas d'argument `query` dans `#[Route]` en 8.0**, malgré l'exemple officiel.
 `_query` se passe à la génération.
 
-**Le format de requête ne décide du `Content-Type` qu'en l'absence d'en-tête.**
+**Le format de Request ne décide du `Content-Type` qu'en l'absence de header.**
 C'est ce qui permet à deux extensions d'URL de partager une seule route.
 
 ## Points clés
 
-- Cinq paramètres réservés documentés : `_controller`, `_format`, `_locale`,
+- Cinq parameters réservés documentés : `_controller`, `_format`, `_locale`,
   `_fragment`, `_query`.
-- `_format` fixe le format de requête ; `Response::prepare()` en déduit le
+- `_format` fixe le format de Request ; `Response::prepare()` en déduit le
   `Content-Type` s'il manque.
 - Formes courtes de `#[Route]` en 8.0 : `locale`, `format`, `stateless` ;
   `utf8` pose une option.
-- `_query` : seulement dans les paramètres de génération.
+- `_query` : seulement dans les parameters de génération.
 - Tous utilisables dans un import, **sauf** `_fragment` selon la
   documentation.
 

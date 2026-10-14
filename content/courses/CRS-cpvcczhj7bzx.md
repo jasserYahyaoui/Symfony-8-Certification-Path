@@ -30,11 +30,11 @@ official_sources:
 
 ## Objectif
 
-Brancher un téléversement sur un formulaire. `UploadedFile`, `move()` et le
+Brancher un téléversement sur un form. `UploadedFile`, `move()` et le
 caractère non fiable des métadonnées client sont traités dans le lot
 Controllers.
 
-## Le champ
+## Le field
 
 ```php
 ->add('brochure', FileType::class, [
@@ -48,25 +48,25 @@ Controllers.
 ```
 
 **`mapped: false`** est l'astuce centrale. L'entité stocke en général un *nom de
-fichier*, pas un fichier ; le champ n'a donc pas de propriété correspondante.
+file*, pas un file ; le field n'a donc pas de property correspondante.
 
 Le laisser mappé ne lève même pas d'erreur. Exécuté avec `symfony/form` 8.0.15
-et `HttpFoundationExtension`, sur `public string $brochure` : le formulaire est
-**valide** et la propriété reçoit le **chemin temporaire** du fichier,
-`'/tmp/uph3ls52ved943c7dSVBX'` — PHP convertit l'objet en chaîne. Une
+et `HttpFoundationExtension`, sur `public string $brochure` : le form est
+**valide** et la property reçoit le **path temporaire** du file,
+`'/tmp/uph3ls52ved943c7dSVBX'` — PHP convertit l'object en chaîne. Une
 corruption silencieuse, pas une exception.
 
-**`required: false`** rend le téléversement facultatif — utile sur un formulaire
-de modification, où l'absence de fichier signifie « garder l'existant ».
+**`required: false`** rend le téléversement facultatif — utile sur un form
+de modification, où l'absence de file signifie « garder l'existant ».
 
-**`constraints`** : un champ non mappé ne profite pas des contraintes déclarées
-sur l'entité ; on les pose sur le champ. Exécuté : un `b.pdf` passe, un `b.txt`
+**`constraints`** : un field non mappé ne profite pas des constraints déclarées
+sur l'entité ; on les pose sur le field. Exécuté : un `b.pdf` passe, un `b.txt`
 échoue avec le message d'extension. L'option `extensions` de `File` exige le
 composant **Mime** : sans lui, `FileValidator` lève une `LogicException`.
 
-## Récupérer le fichier
+## Récupérer le file
 
-Un champ non mappé n'atterrit pas dans l'objet. Il se lit sur le formulaire :
+Un field non mappé n'atterrit pas dans l'object. Il se lit sur le form :
 
 ```php
 $file = $form->get('brochure')->getData();
@@ -79,26 +79,26 @@ if ($file) {
 Le test est nécessaire : avec `required: false`, `getData()` retourne `null`
 quand rien n'a été envoyé.
 
-## Ce que `FileType` filtre
+## Ce que `FileType` filter
 
-Un écouteur `PRE_SUBMIT` de `FileType` ne garde que de vrais fichiers
-téléversés, reconnus par le gestionnaire de requête. Exécuté : une **chaîne**
-postée à la place du fichier devient `null`, sans erreur. Avec
-`multiple: true`, la valeur est un **tableau** de fichiers.
+Un listener `PRE_SUBMIT` de `FileType` ne garde que de vrais files
+téléversés, reconnus par le handler de Request. Exécuté : une **string**
+postée à la place du file devient `null`, sans erreur. Avec
+`multiple: true`, la valeur est un **array** de files.
 
-Le gestionnaire compte : `HttpFoundationRequestHandler`, celui du framework,
-reconnaît un `UploadedFile` ; le gestionnaire natif attend le tableau de
+Le handler compte : `HttpFoundationRequestHandler`, celui du framework,
+reconnaît un `UploadedFile` ; le handler natif attend l'array de
 `$_FILES`.
 
 ## Pièges d'examen
 
-**Un champ de fichier n'est presque jamais mappé** — et le mapper par erreur
-n'échoue pas : l'entité reçoit le chemin temporaire.
+**Un field de file n'est presque jamais mappé** — et le mapper par erreur
+n'échoue pas : l'entité reçoit le path temporaire.
 
-**Un champ non mappé n'arrive pas dans l'objet**, et vaut `null` quand rien n'a
+**Un field non mappé n'arrive pas dans l'object**, et vaut `null` quand rien n'a
 été envoyé.
 
-**Les contraintes d'un champ non mappé se déclarent sur le champ.**
+**Les constraints d'un field non mappé se déclarent sur le field.**
 
 **`extensions` sans le composant Mime** : `LogicException`.
 
@@ -106,9 +106,9 @@ n'échoue pas : l'entité reçoit le chemin temporaire.
 
 - `FileType` ; `mapped: false`, `required: false`, `constraints`.
 - Valeur lue par `$form->get('champ')->getData()`, `null` si rien n'est envoyé.
-- Tout ce qui n'est pas un fichier téléversé devient `null` ; `multiple` rend
-  un tableau.
-- Mappé sur une chaîne : chemin temporaire, sans erreur.
+- Tout ce qui n'est pas un file téléversé devient `null` ; `multiple` rend
+  un array.
+- Mappé sur une string : path temporaire, sans erreur.
 
 ## Sources officielles
 

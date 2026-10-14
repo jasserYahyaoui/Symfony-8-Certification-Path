@@ -24,10 +24,10 @@ official_sources:
 
 ## Objectif
 
-Construire la bonne sous-classe de `Response` et distinguer ses méthodes de
+Construire la bonne sous-classe de `Response` et distinguer ses methods de
 test — dont deux sont dangereusement proches.
 
-## La classe de base
+## La class de base
 
 ```php
 $response = new Response('<h1>Bonjour</h1>', Response::HTTP_OK, ['content-type' => 'text/html']);
@@ -37,22 +37,22 @@ $response->headers->set('X-Custom', 'value');
 `$response->headers` est un `ResponseHeaderBag`, qui gère aussi les cookies.
 
 Une `Response` fraîchement construite porte **`HTTP/1.0`** : c'est
-`prepare(Request $request)` qui la promeut en 1.1 le cas échéant, vide le corps
-sur un `HEAD` ou un statut sans corps, et complète le `Content-Type`. Le noyau
-l'appelle pour vous ; une réponse fabriquée hors du cycle, non.
+`prepare(Request $request)` qui la promeut en 1.1 le cas échéant, vide le body
+sur un `HEAD` ou un statut sans corps, et complète le `Content-Type`. Le kernel
+l'appelle pour vous ; une Response fabriquée hors du cycle, non.
 
 ## Les sous-classes
 
-| Classe | Usage |
+| Class | Usage |
 |---|---|
-| `JsonResponse` | Encode un tableau en JSON et pose le `Content-Type` |
+| `JsonResponse` | Encode un array en JSON et pose le `Content-Type` |
 | `RedirectResponse` | Pose `Location` et un statut 302 par défaut |
-| `BinaryFileResponse` | Sert un fichier, avec support des requêtes de plage |
+| `BinaryFileResponse` | Sert un file, avec support des Requests de plage |
 | `StreamedResponse` | Corps produit par un callable, sans le charger en mémoire |
 | `StreamedJsonResponse` | JSON diffusé à partir d'un itérable |
 
 `JsonResponse::fromJsonString()` prend du JSON déjà encodé, sans le
-ré-encoder — utile lorsque la sérialisation a déjà eu lieu.
+ré-encoder — utile lorsque la serialization a déjà eu lieu.
 
 ## `isRedirect()` contre `isRedirection()`
 
@@ -71,19 +71,19 @@ public function isRedirect(?string $location = null): bool
 }
 ```
 
-- `isRedirection()` est la **classe 3xx**, littéralement.
-- `isRedirect()` est la liste des statuts qui portent réellement un en-tête
+- `isRedirection()` est la **class 3xx**, littéralement.
+- `isRedirect()` est la liste des statuts qui portent réellement un header
   `Location`. Elle **inclut 201 Created** — qui est 2xx — et **exclut 300 et
   304**, qui sont 3xx.
 
-Autrement dit, les deux méthodes ne sont ni équivalentes ni imbriquées. Un
-`304 Not Modified` est une redirection au sens de `isRedirection()` mais pas au
+Autrement dit, les deux methods ne sont ni équivalentes ni imbriquées. Un
+`304 Not Modified` est un redirect au sens de `isRedirection()` mais pas au
 sens de `isRedirect()`.
 
 `isRedirect()` accepte en outre une URL, et vérifie alors que `Location`
-correspond — pratique dans les tests fonctionnels.
+correspond — pratique dans les functional tests.
 
-## Autres méthodes de test
+## Autres methods de test
 
 ```php
 $response->isSuccessful();   // 2xx
@@ -109,36 +109,36 @@ public function send(bool $flush = true): static
 }
 ```
 
-`send()` n'est pas une méthode de contrôleur. Le contrôleur **rend** une
+`send()` n'est pas une method de controller. Le controller **rend** une
 `Response` ; elle est émise une seule fois, plus haut, par le runner du
 composant Runtime derrière `public/index.php`.
 
-`sendHeaders()` envoie le statut et les en-têtes, `sendContent()` fait un `echo`
-du corps. Deux détails valent d'être connus :
+`sendHeaders()` envoie le statut et les headers, `sendContent()` fait un `echo`
+du body. Deux détails valent d'être connus :
 
-- **Si les en-têtes sont déjà partis**, `sendHeaders()` ne recommence pas : il
+- **Si les headers sont déjà partis**, `sendHeaders()` ne recommence pas : il
   tente seulement de réémettre la ligne de statut, hors des SAPI `cli`,
   `phpdbg` et `embed`. Ce `header()` tardif échoue : exécuté sous `php -S`, un
   `echo` avant `send()` produit un **`E_WARNING`** *Cannot modify header
   information*, et un 404 arrive au client en **200**. Pas d'exception, mais
   un avertissement, et un statut perdu.
-- **`$flush = false`** saute la clôture des tampons — et c'est justement ce que
+- **`$flush = false`** saute la clôture des buffers — et c'est justement ce que
   Symfony passe. `HttpKernelRunner::run()` appelle `send(false)`, exécute
   lui-même `fastcgi_finish_request()` (sauf en mode debug), **puis** appelle
   `terminate()`. C'est de là que vient la promesse de `kernel.terminate` :
-  ses écouteurs tournent après que le client a été relâché.
+  ses listeners tournent après que le client a été relâché.
 
 ## Pièges d'examen
 
 **`isRedirect()` n'est pas « le statut est 3xx ».** Retenir 201 inclus, 304
 exclu.
 
-**`send()` n'appartient pas au contrôleur.** Un contrôleur retourne une
+**`send()` n'appartient pas au controller.** Un controller retourne une
 `Response` ; il ne l'envoie pas. Et le runner l'appelle avec `false`, pas avec
 le défaut.
 
 **`isOk()` n'est pas `isSuccessful()`** : le premier teste 200 exactement, le
-second toute la classe 2xx.
+second toute la class 2xx.
 
 **Un `RedirectResponse` renvoie 302 par défaut** ; un permanent demande
 `new RedirectResponse($url, 301)`.
@@ -150,26 +150,26 @@ second toute la classe 2xx.
 
 ## Tips d'examen
 
-**Le contrôleur rend, le runner émet.** `send()` n'apparaît jamais dans un
-contrôleur, et quand il est appelé c'est avec `false`.
+**Le controller rend, le runner émet.** `send()` n'apparaît jamais dans un
+controller, et quand il est appelé c'est avec `false`.
 
 **`isOk()` est plus strict que `isSuccessful()`** — 200 pile contre toute la
-classe 2xx. Même rapport entre `isNotFound()` et `isClientError()`.
+class 2xx. Même rapport entre `isNotFound()` et `isClientError()`.
 
-**La liste de `isRedirect()` sert deux fois** : pour tester une réponse, et
+**La liste de `isRedirect()` sert deux fois** : pour tester une Response, et
 pour valider le statut d'un `RedirectResponse` à la construction. Retenir la
 liste, c'est retenir les deux comportements.
 
 **`JsonResponse` n'écrit pas le JSON de `json_encode()`** : elle ajoute quatre
-options d'échappement HTML. Comparer les données décodées, jamais la chaîne.
+options d'échappement HTML. Comparer les données décodées, jamais la string.
 
 ## Points clés
 
-- Sous-classes spécialisées plutôt que des en-têtes posés à la main.
+- Sous-classes spécialisées plutôt que des headers posés à la main.
 - `isRedirection()` = 3xx ; `isRedirect()` = liste explicite incluant 201 et
   excluant 300 et 304.
 - `isOk()` ≠ `isSuccessful()`.
-- `send()` = `sendHeaders()` + `sendContent()`, puis clôture des tampons sauf si
+- `send()` = `sendHeaders()` + `sendContent()`, puis clôture des buffers sauf si
   `$flush` est `false` — ce que le runner passe avant d'appeler `terminate()`.
 
 ## Aller lire la source

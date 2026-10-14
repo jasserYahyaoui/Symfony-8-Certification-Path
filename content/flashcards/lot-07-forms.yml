@@ -12,13 +12,13 @@ flashcards:
   official_item: OIT-mgvdw7cfpwyz
   language: fr
   level: RECALL
-  front: 'Formulaires : que fait le second argument de submit(), et que vaut-il par défaut ?'
-  back: 'C''est $clearMissing, vrai par défaut : les champs absents sont mis à null. À false — cas d''un
+  front: 'Forms : que fait le second argument de submit(), et que vaut-il par défaut ?'
+  back: 'C''est $clearMissing, vrai par défaut : les fields absents sont mis à null. À false — cas d''un
     PATCH — ils restent intacts.'
-  explanation: Avec $clearMissing à false, la validation ne s'applique qu'aux champs soumis. Pour valider
-    un champ absent, il faut l'ajouter explicitement à la donnée soumise avec la valeur null.
-  memorization_justification: Un booléen positionnel dont la valeur par défaut détruit silencieusement
-    des données sur une requête partielle, et dont l'effet de bord sur la validation n'est pas devinable.
+  explanation: Avec $clearMissing à false, la validation ne s'applique qu'aux fields soumis. Pour valider
+    un field absent, il faut l'ajouter explicitement à la donnée soumise avec la valeur null.
+  memorization_justification: Un bool positionnel dont la default value détruit silencieusement
+    des données sur une Request partielle, et dont l'effet de bord sur la validation n'est pas devinable.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
@@ -30,10 +30,10 @@ flashcards:
   official_item: OIT-v7zyhcm44m88
   language: fr
   level: TRAP
-  front: 'Formulaires : à partir de quel événement la structure du formulaire est-elle verrouillée ?'
-  back: "À partir de SUBMIT, selon la documentation : un champ ajouté là n'est jamais soumis. Le code ne lève `AlreadySubmittedException` qu'à POST_SUBMIT."
-  explanation: "Exécuté avec symfony/form 8.0.15 : à SUBMIT, `add()` réussit sans erreur, mais le champ garde sa donnée initiale. Les ajouts se font sur PRE_SET_DATA ou POST_SET_DATA, d'après la donnée initiale, ou sur PRE_SUBMIT, d'après la donnée brute soumise."
-  memorization_justification: "Cinq événements dont trois seulement autorisent une modification de structure ; se tromper produit un champ ignoré sans erreur explicite."
+  front: 'Forms : à partir de quel event la structure du form est-elle verrouillée ?'
+  back: "À partir de SUBMIT, selon la documentation : un field ajouté là n'est jamais soumis. Le code ne lève `AlreadySubmittedException` qu'à POST_SUBMIT."
+  explanation: "Exécuté avec symfony/form 8.0.15 : à SUBMIT, `add()` réussit sans erreur, mais le field garde sa donnée initiale. Les ajouts se font sur PRE_SET_DATA ou POST_SET_DATA, d'après la donnée initiale, ou sur PRE_SUBMIT, d'après la donnée brute soumise."
+  memorization_justification: "Cinq events dont trois seulement autorisent une modification de structure ; se tromper produit un field ignoré sans erreur explicite."
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/events.rst
@@ -45,9 +45,9 @@ flashcards:
   official_item: OIT-v7zyhcm44m88
   language: fr
   level: RECALL
-  front: 'Formulaires : sur quel événement la validation s''exécute-t-elle ?'
-  back: POST_SUBMIT, par un écouteur.
-  explanation: "C'est pour cela qu'un objet peuplé et validé est disponible une fois la soumission terminée, et que la validation ne peut pas être observée plus tôt dans le cycle."
+  front: 'Forms : sur quel event la validation s''exécute-t-elle ?'
+  back: POST_SUBMIT, par un listener.
+  explanation: "C'est pour cela qu'un object peuplé et validé est disponible une fois la soumission terminée, et que la validation ne peut pas être observée plus tôt dans le cycle."
   memorization_justification: On suppose spontanément que la validation précède la soumission ; l'ordre
     réel explique ce qui est disponible et quand.
   verification_status: VERIFIED
@@ -61,11 +61,11 @@ flashcards:
   official_item: OIT-v7zyhcm44m88
   language: fr
   level: UNDERSTANDING
-  front: 'Formulaires : PRE_SUBMIT reçoit quelle forme de donnée ?'
-  back: "La donnée brute de la requête, non transformée : chaînes et tableaux, plus les objets `UploadedFile` d'un champ de fichier."
-  explanation: 'PRE_SET_DATA reçoit au contraire la donnée du modèle, qui vient de l''objet. La question
+  front: 'Forms : PRE_SUBMIT reçoit quelle forme de donnée ?'
+  back: "La donnée brute de la Request, non transformée : strings et arrays, plus les objects `UploadedFile` d'un field de file."
+  explanation: 'PRE_SET_DATA reçoit au contraire la donnée du modèle, qui vient de l''object. La question
     qui tranche : réagit-on à la donnée initiale ou à la donnée soumise ?'
-  memorization_justification: Deux événements aux noms voisins portant des couches de données opposées
+  memorization_justification: Deux events aux noms voisins portant des couches de données opposées
     ; le code compile dans les deux cas.
   verification_status: VERIFIED
   official_sources:
@@ -82,9 +82,9 @@ flashcards:
   back: Elle convertit la donnée soumise vers le modèle. transform() fait le trajet modèle vers vue, au
     rendu.
   explanation: Les noms se lisent depuis le modèle. Une valeur non convertible doit lever TransformationFailedException,
-    que le formulaire traduit en erreur de validation.
+    que le form traduit en erreur de validation.
   memorization_justification: Le préfixe reverse invite à lire l'inverse de ce qu'on veut ; l'erreur produit
-    un formulaire qui affiche mais ne soumet pas.
+    un form qui affiche mais ne soumet pas.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/data_transformers.rst
@@ -96,12 +96,12 @@ flashcards:
   official_item: OIT-j2vjdxcer4ft
   language: fr
   level: RECALL
-  front: 'Thèmes de formulaire : dans quel ordre les blocs sont-ils cherchés ?'
-  back: "Du plus spécifique au plus général : le bloc unique _formulaire_champ_partie, puis celui du type, puis ceux des types parents, jusqu'à form_partie."
-  explanation: Le bloc le plus spécifique commence par un souligné et porte le nom du formulaire puis
-    celui du champ. C'est cette chaîne qui permet de personnaliser à n'importe quel niveau.
-  memorization_justification: Chaîne de repli à trois niveaux dont la syntaxe du bloc le plus spécifique
-    — souligné initial, nom du formulaire, nom du champ — ne s'invente pas.
+  front: 'Thèmes de form : dans quel ordre les blocks sont-ils cherchés ?'
+  back: "Du plus spécifique au plus général : le block unique _formulaire_champ_partie, puis celui du type, puis ceux des types parents, jusqu'à form_partie."
+  explanation: Le block le plus spécifique commence par un souligné et porte le nom du form puis
+    celui du field. C'est cette string qui permet de personnaliser à n'importe quel niveau.
+  memorization_justification: Chaîne de repli à trois niveaux dont la syntaxe du block le plus spécifique
+    — souligné initial, nom du form, nom du field — ne s'invente pas.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/form_themes.rst
@@ -118,7 +118,7 @@ flashcards:
     recours.
   explanation: L'ordre naturel de lecture d'une liste YAML suggère l'inverse, et une surcharge placée
     en première ligne n'a alors aucun effet visible.
-  memorization_justification: 'Ordre inverse de l''intuition, sans erreur à la clé : le thème est simplement
+  memorization_justification: 'Ordre inverse de l''intuition, sans erreur à la key : le thème est simplement
     ignoré.'
   verification_status: VERIFIED
   official_sources:
@@ -131,9 +131,9 @@ flashcards:
   official_item: OIT-gxew257vwhm8
   language: fr
   level: RECALL
-  front: 'Formulaires : que rend form_end() en plus de la balise fermante ?'
-  back: Tous les champs non encore rendus, dont le jeton CSRF.
-  explanation: 'Passer render_rest à false supprime ce filet, et fait disparaître le jeton : le formulaire
+  front: 'Forms : que rend form_end() en plus du tag fermant ?'
+  back: Tous les fields non encore rendus, dont le token CSRF.
+  explanation: 'Passer render_rest à false supprime ce filet, et fait disparaître le token : le form
     devient alors invalide à la soumission.'
   memorization_justification: Comportement implicite dont la suppression casse la protection CSRF sans
     message explicite.
@@ -153,8 +153,8 @@ flashcards:
     par défaut.
   explanation: 'Une option ni définie ni pourvue d''un défaut provoque une exception : c''est précisément
     l''intérêt du composant.'
-  memorization_justification: Deux méthodes aux noms proches dont l'une seule fournit une valeur ; la
-    confusion produit une option absente du tableau résolu.
+  memorization_justification: Deux methods aux noms proches dont l'une seule fournit une valeur ; la
+    confusion produit une option absente de l'array résolu.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/options_resolver.rst
@@ -166,12 +166,12 @@ flashcards:
   official_item: OIT-tsxxgp3ppj1n
   language: fr
   level: RECALL
-  front: 'Symfony Forms : combien de couches de données un formulaire manipule-t-il, et lesquelles
+  front: 'Symfony Forms : combien de couches de données un form manipule-t-il, et lesquelles
     ?'
   back: 'Trois : modèle, normalisée, vue.'
   explanation: La couche normalisée est identique au modèle pour la plupart des types, ce qui la rend
     facile à oublier — jusqu'à ce qu'un transformateur doive s'attacher au bon niveau. La couche vue
-    est faite de chaînes.
+    est faite de strings.
   memorization_justification: Comptage exact d'une structure qu'on croit binaire, et qui décide où
     brancher un transformateur.
   verification_status: VERIFIED
@@ -185,10 +185,10 @@ flashcards:
   official_item: OIT-fhpttc4c5x0k
   language: fr
   level: TRAP
-  front: 'Symfony Forms : un champ peut-il fonctionner sans propriété publique du même nom ?'
-  back: "Oui — l'accès essaie d'abord les accesseurs `get`, `is`, `has`, `can`, puis une méthode du nom de la propriété, et seulement ensuite la propriété publique."
-  explanation: "Un getter l'emporte donc sur une propriété publique du même nom. Une propriété privée sans accesseur, elle, fait échouer la lecture (`NoSuchPropertyException`) ; un champ sans propriété correspondante doit être déclaré `mapped: false`."
-  memorization_justification: 'Chaîne de résolution invisible : on suppose un accès direct à la propriété.'
+  front: 'Symfony Forms : un field peut-il fonctionner sans property publique du même nom ?'
+  back: "Oui — l'accès essaie d'abord les accesseurs `get`, `is`, `has`, `can`, puis une method du nom de la property, et seulement ensuite la property publique."
+  explanation: "Un getter l'emporte donc sur une property publique du même nom. Une property privée sans accesseur, elle, fait échouer la lecture (`NoSuchPropertyException`) ; un field sans property correspondante doit être déclaré `mapped: false`."
+  memorization_justification: 'Chaîne de résolution invisible : on suppose un accès direct à la property.'
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
@@ -200,10 +200,10 @@ flashcards:
   official_item: OIT-5xvjqa4203xe
   language: fr
   level: TRAP
-  front: 'Symfony Forms : quel est le parent d''un type de formulaire qui n''en déclare aucun ?'
+  front: 'Symfony Forms : quel est le parent d''un form type qui n''en déclare aucun ?'
   back: '`FormType`, la racine de tous les types — pas « aucun parent ».'
-  explanation: Hériter est la règle, pas l'exception. C'est aussi pourquoi un formulaire est un type
-    comme un autre et s'imbrique en l'ajoutant comme un champ.
+  explanation: Hériter est la règle, pas l'exception. C'est aussi pourquoi un form est un type
+    comme un autre et s'imbrique en l'ajoutant comme un field.
   memorization_justification: Défaut implicite non écrit dans le code du type, et qui explique le
     comportement des extensions.
   verification_status: VERIFIED
@@ -217,12 +217,12 @@ flashcards:
   official_item: OIT-dmkbj2x94rks
   language: fr
   level: TRAP
-  front: 'Symfony : un formulaire soumis sans jeton CSRF valide est-il invalide, ou valide avec une
+  front: 'Symfony : un form soumis sans token CSRF valide est-il invalide, ou valide avec une
     erreur en plus ?'
   back: 'Invalide. Aucun code applicatif ne teste quoi que ce soit : c''est le composant qui refuse.'
-  explanation: 'Un identifiant de jeton distinct par formulaire est par ailleurs préférable : avec
-    un identifiant partagé, un jeton obtenu sur un formulaire vaut pour les autres.'
-  memorization_justification: 'Nature du refus souvent mal située : on croit à une contrainte de validation
+  explanation: 'Un identifier de token distinct par form est par ailleurs préférable : avec
+    un identifier partagé, un token obtenu sur un form vaut pour les autres.'
+  memorization_justification: 'Nature du refus souvent mal située : on croit à une constraint de validation
     applicative.'
   verification_status: VERIFIED
   official_sources:
@@ -235,10 +235,10 @@ flashcards:
   official_item: OIT-j6tqs8s8f54f
   language: fr
   level: TRAP
-  front: 'Symfony Forms : un champ de fichier doit-il être mappé à la propriété de l''entité ?'
-  back: 'Non, presque jamais : l''entité stocke un nom de fichier, pas un fichier.'
-  explanation: Laisser le champ mappé fait écrire un objet dans une propriété qui attend une chaîne.
-    Un champ non mappé se lit sur le formulaire et vaut `null` quand rien n'a été envoyé.
+  front: 'Symfony Forms : un field de file doit-il être mappé à la property de l''entité ?'
+  back: 'Non, presque jamais : l''entité stocke un nom de file, pas un file.'
+  explanation: Laisser le field mappé fait écrire un object dans une property qui attend une string.
+    Un field non mappé se lit sur le form et vaut `null` quand rien n'a été envoyé.
   memorization_justification: Exception à la règle générale du mapping, et source d'une erreur de
     type difficile à lire.
   verification_status: VERIFIED
@@ -255,7 +255,7 @@ flashcards:
   front: 'Symfony Forms : `CountryType`, `LanguageType`, `LocaleType`, `CurrencyType` et `TimezoneType`
     sont-ils des types indépendants ?'
   back: Non — ce sont le même type socle, `ChoiceType`, avec une liste pré-remplie.
-  explanation: "Les options du socle valent donc pour eux tous. Les boutons, eux, s'ajoutent comme des champs mais ne descendent pas de `FormType` : `ButtonType` n'a pas de parent."
+  explanation: "Les options du socle valent donc pour eux tous. Les boutons, eux, s'ajoutent comme des fields mais ne descendent pas de `FormType` : `ButtonType` n'a pas de parent."
   memorization_justification: Factorisation invisible depuis le catalogue, où les cinq apparaissent
     comme des entrées séparées.
   verification_status: VERIFIED
@@ -269,10 +269,10 @@ flashcards:
   official_item: OIT-gcs0jathkv9b
   language: fr
   level: RECALL
-  front: 'Symfony : pour ajouter une option à un type de formulaire fourni par Symfony, écrit-on un
+  front: 'Symfony : pour ajouter une option à un form type fourni par Symfony, écrit-on un
     nouveau type ou une extension ?'
-  back: 'Une extension de type : un type crée un champ, une extension modifie ceux qui existent.'
-  explanation: "La méthode qui désigne les types étendus est statique et retourne un itérable. Étendre le type racine touche tous les champs de l'application, puisque tous en héritent — mais pas les boutons, dont le type n'a pas de parent."
+  back: 'Une type extension : un type crée un field, une extension modifie ceux qui existent.'
+  explanation: "La method qui désigne les types étendus est statique et retourne un itérable. Étendre le type racine touche tous les fields de l'application, puisque tous en héritent — mais pas les boutons, dont le type n'a pas de parent."
   memorization_justification: Distinction que l'examen pose directement, et où écrire un nouveau type
     est l'erreur naturelle.
   verification_status: VERIFIED
@@ -286,10 +286,10 @@ flashcards:
   official_item: OIT-tsxxgp3ppj1n
   language: fr
   level: RECALL
-  front: 'Symfony Forms : quelle méthode rend chaque couche de données d''un formulaire ?'
+  front: 'Symfony Forms : quelle method rend chaque couche de données d''un form ?'
   back: '`getData()` pour le modèle, `getNormData()` pour la couche normalisée, `getViewData()` pour la vue.'
-  explanation: La documentation présente `getNormData()` comme utile pour déboguer les transformateurs ; `getData()` est la méthode d'usage courant.
-  memorization_justification: Trois méthodes pour trois couches, souvent confondues.
+  explanation: La documentation présente `getNormData()` comme utile pour déboguer les transformateurs ; `getData()` est la method d'usage courant.
+  memorization_justification: Trois methods pour trois couches, souvent confondues.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
@@ -303,7 +303,7 @@ flashcards:
   language: fr
   level: TRAP
   front: 'Symfony 8.0 : quelle est la donnée normalisée d''un DateType rendu en trois listes, avec l''input par défaut ?'
-  back: Un objet `DateTime` — pas le tableau d'entiers que montre l'exemple de la documentation.
+  back: Un object `DateTime` — pas l'array d'ints que montre l'exemple de la documentation.
   explanation: '`DateType` n''ajoute de transformateur de modèle que pour les inputs autres que `datetime`, et son transformateur de vue part d''un `DateTime`. Vérifié par exécution avec symfony/form 8.0.15.'
   memorization_justification: Écart entre un exemple documenté et le code.
   verification_status: VERIFIED
@@ -357,8 +357,8 @@ flashcards:
   language: fr
   level: APPLICATION
   front: 'Symfony Forms : un DateType a input: ''string'' et reçoit ''2026-10-18''. Que contiennent les trois couches ?'
-  back: 'Modèle : la chaîne `''2026-10-18''` ; normalisée : un `DateTime` ; vue : `[''year'' => ''2026'', ''month'' => ''10'', ''day'' => ''18'']`.'
-  explanation: Le transformateur de modèle inversé `DateTimeToStringTransformer` convertit la chaîne ; `DateTimeToArrayTransformer` produit la vue. Résultat observé par exécution.
+  back: 'Modèle : la string `''2026-10-18''` ; normalisée : un `DateTime` ; vue : `[''year'' => ''2026'', ''month'' => ''10'', ''day'' => ''18'']`.'
+  explanation: Le transformateur de modèle inversé `DateTimeToStringTransformer` convertit la string ; `DateTimeToArrayTransformer` produit la vue. Résultat observé par exécution.
   memorization_justification: Mise en œuvre concrète des trois couches.
   verification_status: VERIFIED
   official_sources:
@@ -380,7 +380,7 @@ flashcards:
   level: RECALL
   front: 'Symfony Forms : dans quel ordre les couches sont-elles parcourues au rendu, puis à la soumission ?'
   back: 'Rendu : modèle → normalisée → vue. Soumission : vue → normalisée → modèle.'
-  explanation: Les mêmes transformateurs servent dans les deux sens ; à la soumission, c'est leur méthode inverse qui est appelée.
+  explanation: Les mêmes transformateurs servent dans les deux sens ; à la soumission, c'est leur method inverse qui est appelée.
   memorization_justification: Le sens du flux est une question classique.
   verification_status: VERIFIED
   official_sources:
@@ -394,10 +394,10 @@ flashcards:
   official_item: OIT-tsxxgp3ppj1n
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony Forms : quelle méthode des transformateurs la soumission appelle-t-elle, et dans quel ordre ?'
+  front: 'Symfony Forms : quelle method des transformateurs la soumission appelle-t-elle, et dans quel ordre ?'
   back: '`reverseTransform()` : d''abord les transformateurs de vue, qui donnent la donnée normalisée, puis ceux de modèle, qui donnent la donnée du modèle.'
   explanation: 'Au rendu, `transform()` est appelé dans l''ordre inverse : modèle puis vue.'
-  memorization_justification: Relie le sens du flux au nom de la méthode.
+  memorization_justification: Relie le sens du flux au nom de la method.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
@@ -426,7 +426,7 @@ flashcards:
   official_item: OIT-tsxxgp3ppj1n
   language: fr
   level: APPLICATION
-  front: 'Symfony Forms : un champ date se soumet mal. Quelles méthodes comparer pour savoir à quelle couche la conversion échoue ?'
+  front: 'Symfony Forms : un field date se soumet mal. Quelles methods comparer pour savoir à quelle couche la conversion échoue ?'
   back: '`getViewData()` puis `getNormData()` : la première montre ce qui est arrivé du navigateur, la seconde ce qu''en a fait le transformateur de vue.'
   explanation: La documentation présente `getNormData()` comme utile pour déboguer les transformateurs.
   memorization_justification: Usage de diagnostic, rarement pratiqué.
@@ -442,10 +442,10 @@ flashcards:
   official_item: OIT-tsxxgp3ppj1n
   language: fr
   level: RECALL
-  front: 'Symfony Forms : quel événement reçoit la donnée normalisée à la soumission ?'
+  front: 'Symfony Forms : quel event reçoit la donnée normalisée à la soumission ?'
   back: '`FormEvents::SUBMIT`. `PRE_SUBMIT` reçoit les valeurs brutes, `POST_SUBMIT` la donnée entièrement transformée.'
-  explanation: Chaque événement de soumission se place à un niveau précis de la chaîne de transformation.
-  memorization_justification: Relie les couches aux événements.
+  explanation: Chaque event de soumission se place à un niveau précis de la chaîne de transformation.
+  memorization_justification: Relie les couches aux events.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/events.rst
@@ -458,9 +458,9 @@ flashcards:
   official_item: OIT-tsxxgp3ppj1n
   language: fr
   level: TRAP
-  front: 'Symfony Forms : dans la vue d''un DateType en trois listes, les valeurs year, month et day sont-elles des entiers ?'
-  back: 'Non : ce sont des chaînes, `''2026''`, `''10''`, `''18''`.'
-  explanation: '`DateTimeToArrayTransformer::transform()` produit des chaînes ; la couche vue est textuelle parce qu''un navigateur n''envoie que du texte.'
+  front: 'Symfony Forms : dans la vue d''un DateType en trois listes, les valeurs year, month et day sont-elles des ints ?'
+  back: 'Non : ce sont des strings, `''2026''`, `''10''`, `''18''`.'
+  explanation: '`DateTimeToArrayTransformer::transform()` produit des strings ; la couche vue est textuelle parce qu''un navigateur n''envoie que du texte.'
   memorization_justification: Le type des valeurs de vue est souvent mal retenu.
   verification_status: VERIFIED
   official_sources:
@@ -480,9 +480,9 @@ flashcards:
   official_item: OIT-fhpttc4c5x0k
   language: fr
   level: TRAP
-  front: 'Symfony Forms : un objet a une propriété publique $dueDate et une méthode getDueDate() qui renvoient des valeurs différentes. Que lit le champ dueDate ?'
-  back: 'La valeur de `getDueDate()` : les accesseurs passent avant la propriété publique.'
-  explanation: '`ReflectionExtractor::getReadInfo()` essaie les préfixes `get`, `is`, `has`, `can` avant la propriété. Vérifié par exécution avec PropertyAccess 8.0.'
+  front: 'Symfony Forms : un object a une property publique $dueDate et une method getDueDate() qui renvoient des valeurs différentes. Que lit le field dueDate ?'
+  back: 'La valeur de `getDueDate()` : les accesseurs passent avant la property publique.'
+  explanation: '`ReflectionExtractor::getReadInfo()` essaie les préfixes `get`, `is`, `has`, `can` avant la property. Vérifié par exécution avec PropertyAccess 8.0.'
   memorization_justification: L'ordre inverse est l'intuition courante.
   verification_status: VERIFIED
   official_sources:
@@ -496,9 +496,9 @@ flashcards:
   official_item: OIT-fhpttc4c5x0k
   language: fr
   level: RECALL
-  front: 'Symfony Forms : dans quel ordre PropertyAccess cherche-t-il à lire le champ dueDate ?'
-  back: '`getDueDate()`, `isDueDate()`, `hasDueDate()`, `canDueDate()`, puis `dueDate()`, puis la propriété publique `$dueDate`.'
-  explanation: 'Entre la méthode du même nom et la propriété s''intercale `__get()`, activé par défaut. Pour écrire : `setDueDate()` ou la propriété publique.'
+  front: 'Symfony Forms : dans quel ordre PropertyAccess cherche-t-il à lire le field dueDate ?'
+  back: '`getDueDate()`, `isDueDate()`, `hasDueDate()`, `canDueDate()`, puis `dueDate()`, puis la property publique `$dueDate`.'
+  explanation: 'Entre la method du même nom et la property s''intercale `__get()`, activé par défaut. Pour écrire : `setDueDate()` ou la property publique.'
   memorization_justification: Ordre exact, interrogeable tel quel.
   verification_status: VERIFIED
   official_sources:
@@ -512,8 +512,8 @@ flashcards:
   official_item: OIT-fhpttc4c5x0k
   language: fr
   level: TRAP
-  front: 'Symfony Forms : un objet n''a ni propriété dueDate ni getter, seulement une méthode publique dueDate(). Le champ dueDate peut-il la lire ?'
-  back: 'Oui : une méthode portant le nom de la propriété fait partie des candidats, après les préfixes `get`, `is`, `has`, `can`.'
+  front: 'Symfony Forms : un object n''a ni property dueDate ni getter, seulement une method publique dueDate(). Le field dueDate peut-il la lire ?'
+  back: 'Oui : une method portant le nom de la property fait partie des candidats, après les préfixes `get`, `is`, `has`, `can`.'
   explanation: '`PropertyAccessor` active `enable_getter_setter_extraction` ; résultat observé par exécution.'
   memorization_justification: Candidat oublié de la liste des accesseurs.
   verification_status: VERIFIED
@@ -528,10 +528,10 @@ flashcards:
   official_item: OIT-fhpttc4c5x0k
   language: fr
   level: RECALL
-  front: 'Symfony Forms : que devient le type d''un champ ajouté par add(''task'') sans deuxième argument ?'
-  back: Il est deviné par les *type guessers* — contraintes de validation, métadonnées Doctrine, énumération — et vaut `TextType` à défaut.
+  front: 'Symfony Forms : que devient le type d''un field ajouté par add(''task'') sans deuxième argument ?'
+  back: Il est deviné par les *type guessers* — constraints de validation, métadonnées Doctrine, enum — et vaut `TextType` à défaut.
   explanation: 'Sans `data_class`, rien n''est deviné : `FormBuilder::add()` prend directement `TextType`.'
-  memorization_justification: Le type n'est pas lu dans le type PHP de la propriété.
+  memorization_justification: Le type n'est pas lu dans le type PHP de la property.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/FormFactory.php
@@ -556,9 +556,9 @@ flashcards:
   official_item: OIT-fhpttc4c5x0k
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony Forms : si data_class se devine de l''objet passé à createForm(), pourquoi la déclarer ?'
-  back: Parce que sans objet passé, c'est elle qui fait instancier la classe à la soumission (`empty_data`) ; sinon `getData()` rend un tableau.
-  explanation: La documentation la recommande aussi pour les formulaires imbriqués, où la deviner ne suffit plus.
+  front: 'Symfony Forms : si data_class se devine de l''object passé à createForm(), pourquoi la déclarer ?'
+  back: Parce que sans object passé, c'est elle qui fait instancier la class à la soumission (`empty_data`) ; sinon `getData()` rend un array.
+  explanation: La documentation la recommande aussi pour les forms imbriqués, où la deviner ne suffit plus.
   memorization_justification: Justifie une option que l'on croit redondante.
   verification_status: VERIFIED
   official_sources:
@@ -578,10 +578,10 @@ flashcards:
   official_item: OIT-fhpttc4c5x0k
   language: fr
   level: APPLICATION
-  front: 'Symfony Forms : un formulaire est créé sans objet ni data_class, avec un champ task, puis soumis avec task = x. Que rend getData() ?'
-  back: 'Un tableau : `[''task'' => ''x'']`.'
-  explanation: Avec `data_class` déclarée, le même scénario rend un objet neuf de cette classe. Observé par exécution avec symfony/form 8.0.15.
-  memorization_justification: Distingue formulaire tableau et formulaire objet.
+  front: 'Symfony Forms : un form est créé sans object ni data_class, avec un field task, puis soumis avec task = x. Que rend getData() ?'
+  back: 'Un array : `[''task'' => ''x'']`.'
+  explanation: Avec `data_class` déclarée, le même scénario rend un object neuf de cette class. Observé par exécution avec symfony/form 8.0.15.
+  memorization_justification: Distingue form array et form object.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Core/Type/FormType.php
@@ -594,10 +594,10 @@ flashcards:
   official_item: OIT-fhpttc4c5x0k
   language: fr
   level: APPLICATION
-  front: 'Symfony Forms : ajouter une case « j''accepte les conditions » sans propriété dans l''entité, puis lire sa valeur.'
+  front: 'Symfony Forms : ajouter une case « j''accepte les conditions » sans property dans l''entité, puis lire sa valeur.'
   back: '`add(''agreeTerms'', CheckboxType::class, [''mapped'' => false])`, puis `$form->get(''agreeTerms'')->getData()`.'
-  explanation: Un champ non mappé n'est ni lu ni écrit sur l'objet ; sa valeur reste dans le formulaire.
-  memorization_justification: Usage courant du champ non mappé.
+  explanation: Un field non mappé n'est ni lu ni écrit sur l'object ; sa valeur reste dans le form.
+  memorization_justification: Usage courant du field non mappé.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
@@ -610,9 +610,9 @@ flashcards:
   official_item: OIT-fhpttc4c5x0k
   language: fr
   level: TRAP
-  front: 'Symfony Forms : un champ sans propriété correspondante est ajouté sans mapped: false. Quand l''erreur apparaît-elle ?'
+  front: 'Symfony Forms : un field sans property correspondante est ajouté sans mapped: false. Quand l''erreur apparaît-elle ?'
   back: 'Dès `getForm()`, à la lecture des données initiales : `NoSuchPropertyException`, « Can''t get a way to read the property ».'
-  explanation: L'initialisation du formulaire lit chaque champ mappé sur l'objet ; observé par exécution.
+  explanation: L'initialisation du form lit chaque field mappé sur l'object ; observé par exécution.
   memorization_justification: L'erreur survient avant toute soumission.
   verification_status: VERIFIED
   official_sources:
@@ -632,7 +632,7 @@ flashcards:
   official_item: OIT-fhpttc4c5x0k
   language: fr
   level: RECALL
-  front: 'Symfony Forms : quelles options sont devinées en même temps que le type d''un champ ?'
+  front: 'Symfony Forms : quelles options sont devinées en même temps que le type d''un field ?'
   back: '`required`, `maxlength` et `pattern` — les deux premiers selon la documentation, le troisième selon le code.'
   explanation: '`FormFactory::createBuilderForProperty()` appelle `guessRequired()`, `guessMaxLength()` et `guessPattern()` ; les options passées explicitement l''emportent.'
   memorization_justification: Effet de bord du guessing, souvent ignoré.
@@ -655,8 +655,8 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony Forms : quels type guessers FrameworkBundle 8.0 enregistre-t-il ?'
-  back: '`ValidatorTypeGuesser` et `EnumFormTypeGuesser`, sous l''étiquette `form.type_guesser` ; le pont Doctrine fournit `DoctrineOrmTypeGuesser` pour les entités.'
-  explanation: D'autres se déclarent avec la même étiquette ; la chaîne retient la proposition de plus haute confiance (`Guess::getBestGuess()`).
+  back: '`ValidatorTypeGuesser` et `EnumFormTypeGuesser`, sous le tag `form.type_guesser` ; le pont Doctrine fournit `DoctrineOrmTypeGuesser` pour les entités.'
+  explanation: D'autres se déclarent avec la même tag ; la string retient la proposition de plus haute confiance (`Guess::getBestGuess()`).
   memorization_justification: Situe l'origine des types devinés.
   verification_status: VERIFIED
   official_sources:
@@ -676,7 +676,7 @@ flashcards:
   official_item: OIT-mgvdw7cfpwyz
   language: fr
   level: TRAP
-  front: 'Symfony Forms : que se passe-t-il si l''on appelle isValid() sur un formulaire non soumis ?'
+  front: 'Symfony Forms : que se passe-t-il si l''on appelle isValid() sur un form non soumis ?'
   back: 'Une `LogicException` : « Cannot check if an unsubmitted form is valid ».'
   explanation: C'est pourquoi le garde s'écrit `isSubmitted() && isValid()`. Vérifié par exécution avec symfony/form 8.0.15.
   memorization_justification: L'ordre des deux tests est obligatoire, pas stylistique.
@@ -692,9 +692,9 @@ flashcards:
   official_item: OIT-mgvdw7cfpwyz
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony Forms : sur quel critère handleRequest() décide-t-il qu''un formulaire est soumis ?'
-  back: 'D''abord la méthode : si celle de la requête diffère de l''option `method` du formulaire, `POST` par défaut, il ne fait rien.'
-  explanation: 'Ensuite il cherche les données sous le nom du formulaire. Exécuté : un formulaire POST recevant un GET garni reste non soumis.'
+  front: 'Symfony Forms : sur quel critère handleRequest() décide-t-il qu''un form est soumis ?'
+  back: 'D''abord la method : si celle de la Request diffère de l''option `method` du form, `POST` par défaut, il ne fait rien.'
+  explanation: 'Ensuite il cherche les données sous le nom du form. Exécuté : un form POST recevant un GET garni reste non soumis.'
   memorization_justification: Explique pourquoi une même action sert l'affichage et le traitement.
   verification_status: VERIFIED
   official_sources:
@@ -709,9 +709,9 @@ flashcards:
   language: fr
   level: RECALL
   front: 'Symfony Forms : quelle valeur de clearMissing handleRequest() transmet-il à submit() ?'
-  back: '`''PATCH'' !== $method` : `false` pour un formulaire en `PATCH`, `true` sinon.'
-  explanation: Le choix se fait d'après l'option `method` du formulaire, que `handleRequest()` a déjà comparée à la requête.
-  memorization_justification: Lien direct entre méthode HTTP et vidage des champs absents.
+  back: '`''PATCH'' !== $method` : `false` pour un form en `PATCH`, `true` sinon.'
+  explanation: Le choix se fait d'après l'option `method` du form, que `handleRequest()` a déjà comparée à la Request.
+  memorization_justification: Lien direct entre method HTTP et vidage des fields absents.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/HttpFoundation/HttpFoundationRequestHandler.php
@@ -724,8 +724,8 @@ flashcards:
   official_item: OIT-mgvdw7cfpwyz
   language: fr
   level: TRAP
-  front: 'Symfony : l''exemple submit($request->getPayload()->get($form->getName())) fonctionne-t-il pour un formulaire de type TaskType ?'
-  back: 'Non : la valeur est un tableau, et `InputBag::get()` lève une `BadRequestException`, « contains a non-scalar value ». Il faut `getPayload()->all($form->getName())`.'
+  front: 'Symfony : l''exemple submit($request->getPayload()->get($form->getName())) fonctionne-t-il pour un form de type TaskType ?'
+  back: 'Non : la valeur est un array, et `InputBag::get()` lève une `BadRequestException`, « contains a non-scalar value ». Il faut `getPayload()->all($form->getName())`.'
   explanation: L'exemple figure tel quel dans `forms.rst` (8.0) ; l'exception a été reproduite avec HttpFoundation 8.0.15.
   memorization_justification: Exemple documenté qui échoue à l'exécution.
   verification_status: VERIFIED
@@ -746,9 +746,9 @@ flashcards:
   official_item: OIT-mgvdw7cfpwyz
   language: fr
   level: APPLICATION
-  front: 'Symfony Forms : une API PATCH ne doit modifier que les champs envoyés, mais le champ email doit rester validé même absent. Comment soumettre ?'
-  back: '`$form->submit(array_merge([''email'' => null], $data), false)` : `false` préserve les absents, et la clé ajoutée avec `null` force la validation d''email.'
-  explanation: 'Avec `clearMissing` à `false`, seuls les champs soumis sont validés. Exécuté : sans la clé, un `NotBlank` sur un champ vide passe ; avec `null`, il échoue.'
+  front: 'Symfony Forms : une API PATCH ne doit modifier que les fields envoyés, mais le field email doit rester validé même absent. Comment soumettre ?'
+  back: '`$form->submit(array_merge([''email'' => null], $data), false)` : `false` préserve les absents, et la key ajoutée avec `null` force la validation d''email.'
+  explanation: 'Avec `clearMissing` à `false`, seuls les fields soumis sont validés. Exécuté : sans la key, un `NotBlank` sur un field vide passe ; avec `null`, il échoue.'
   memorization_justification: Parade documentée au piège de la validation partielle.
   verification_status: VERIFIED
   official_sources:
@@ -769,9 +769,9 @@ flashcards:
   language: fr
   level: RECALL
   front: 'Symfony : quand AbstractController::render() répond-il en 422 ?'
-  back: Quand un de ses paramètres est un formulaire soumis et invalide, et que la réponse est encore à 200.
-  explanation: '`doRender()` convertit aussi chaque formulaire passé en vue : `createView()` n''est pas nécessaire.'
-  memorization_justification: Statut HTTP d'un formulaire invalide, souvent ignoré.
+  back: Quand un de ses parameters est un form soumis et invalide, et que la Response est encore à 200.
+  explanation: '`doRender()` convertit aussi chaque form passé en vue : `createView()` n''est pas nécessaire.'
+  memorization_justification: Statut HTTP d'un form invalide, souvent ignoré.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php
@@ -791,9 +791,9 @@ flashcards:
   language: fr
   level: RECALL
   front: 'Symfony Forms : que vaut par défaut le second argument de submit() ?'
-  back: '`true` : `$clearMissing`, qui met à `null` les champs absents de la soumission.'
+  back: '`true` : `$clearMissing`, qui met à `null` les fields absents de la soumission.'
   explanation: 'Exécuté : `submit([''task'' => ''new''])` sur `[''task'' => ''old'', ''other'' => ''keep'']` rend `other` à `null` ; avec `false`, `other` reste `keep`.'
-  memorization_justification: Valeur par défaut au cœur des mises à jour partielles.
+  memorization_justification: Default value au cœur des mises à jour partielles.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Form.php
@@ -812,9 +812,9 @@ flashcards:
   official_item: OIT-mgvdw7cfpwyz
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony Forms : pourquoi rediriger après une soumission valide plutôt que rendre le gabarit ?'
-  back: 'Pour qu''un rafraîchissement du navigateur ne renvoie pas le POST : après une redirection, la page affichée provient d''un GET.'
-  explanation: La documentation en fait une bonne pratique ; le rendu du gabarit reste réservé à la branche non soumise ou invalide.
+  front: 'Symfony Forms : pourquoi rediriger après une soumission valide plutôt que rendre le template ?'
+  back: 'Pour qu''un rafraîchissement du navigateur ne renvoie pas le POST : après un redirect, la page affichée provient d''un GET.'
+  explanation: La documentation en fait une bonne pratique ; le rendu du template reste réservé à la branche non soumise ou invalide.
   memorization_justification: Motif POST-redirect-GET.
   verification_status: VERIFIED
   official_sources:
@@ -828,8 +828,8 @@ flashcards:
   official_item: OIT-mgvdw7cfpwyz
   language: fr
   level: APPLICATION
-  front: 'Symfony Forms : un formulaire désactivé (disabled) est soumis. Que rend isValid() ?'
-  back: '`true` : un formulaire soumis et désactivé est valide sans examen de ses erreurs.'
+  front: 'Symfony Forms : un form désactivé (disabled) est soumis. Que rend isValid() ?'
+  back: '`true` : un form soumis et désactivé est valide sans examen de ses erreurs.'
   explanation: '`Form::isValid()` teste d''abord la soumission, puis `isDisabled()`, et seulement ensuite compte les erreurs.'
   memorization_justification: Cas limite lu dans le code.
   verification_status: VERIFIED
@@ -844,8 +844,8 @@ flashcards:
   official_item: OIT-mgvdw7cfpwyz
   language: fr
   level: TRAP
-  front: 'Symfony Forms : après une soumission valide, faut-il recopier getData() dans l''objet passé à createForm() ?'
-  back: 'Non : c''est le même objet, déjà mis à jour par le formulaire.'
+  front: 'Symfony Forms : après une soumission valide, faut-il recopier getData() dans l''object passé à createForm() ?'
+  back: 'Non : c''est le même object, déjà mis à jour par le form.'
   explanation: 'La documentation le précise : la variable d''origine a aussi été modifiée, et peut être persistée telle quelle.'
   memorization_justification: Recopie inutile, souvent écrite par réflexe.
   verification_status: VERIFIED
@@ -860,9 +860,9 @@ flashcards:
   official_item: OIT-5xvjqa4203xe
   language: fr
   level: RECALL
-  front: 'Symfony Forms : quelles sont les six méthodes d''un type, et lesquelles sont obligatoires ?'
+  front: 'Symfony Forms : quelles sont les six methods d''un type, et lesquelles sont obligatoires ?'
   back: '`buildForm()`, `configureOptions()`, `getParent()`, `getBlockPrefix()`, `buildView()`, `finishView()` ; aucune n''est obligatoire.'
-  explanation: '`AbstractType` donne à chacune un défaut : vide, sauf `getParent()` qui rend `FormType::class` et `getBlockPrefix()` dérivé du nom de classe.'
+  explanation: '`AbstractType` donne à chacune un défaut : vide, sauf `getParent()` qui rend `FormType::class` et `getBlockPrefix()` dérivé du nom de class.'
   memorization_justification: Liste complète, souvent réduite à quatre.
   verification_status: VERIFIED
   official_sources:
@@ -883,7 +883,7 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony Forms : dans quel ordre buildForm() est-il appelé pour un type, son parent et ses extensions ?'
-  back: Parent d'abord, puis le type, puis ses extensions de type.
+  back: Parent d'abord, puis le type, puis ses type extensions.
   explanation: '`ResolvedFormType::buildForm()` appelle le parent, puis le type interne, puis chaque extension ; `buildView()` suit le même ordre.'
   memorization_justification: Explique qu'un type enfant peut modifier ce que son parent a ajouté.
   verification_status: VERIFIED
@@ -899,9 +899,9 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony Forms : comment un type hérite-t-il des options de son parent ?'
-  back: '`ResolvedFormType` clone le résolveur d''options du parent avant d''appeler le `configureOptions()` du type : options et défauts du parent sont repris, et modifiables.'
+  back: '`ResolvedFormType` clone le resolver d''options du parent avant d''appeler le `configureOptions()` du type : options et défauts du parent sont repris, et modifiables.'
   explanation: C'est ainsi que `ShippingType` fixe `expanded` à `true` sans redéclarer l'option de `ChoiceType`.
-  memorization_justification: Mécanisme de l'héritage d'options.
+  memorization_justification: Mécanisme de l'inheritance d'options.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/ResolvedFormType.php
@@ -914,10 +914,10 @@ flashcards:
   official_item: OIT-5xvjqa4203xe
   language: fr
   level: RECALL
-  front: 'Symfony Forms : quel préfixe de bloc getBlockPrefix() donne-t-il par défaut à DeliveryAddressType ?'
-  back: '`delivery_address` : le nom de classe sans le suffixe `Type`, en *snake case*.'
+  front: 'Symfony Forms : quel préfixe de block getBlockPrefix() donne-t-il par défaut à DeliveryAddressType ?'
+  back: '`delivery_address` : le nom de class sans le suffixe `Type`, en *snake case*.'
   explanation: '`StringUtil::fqcnToBlockPrefix()` ; observé par exécution avec symfony/form 8.0.15.'
-  memorization_justification: Nom des blocs Twig à écrire pour thématiser le type.
+  memorization_justification: Nom des blocks Twig à écrire pour thématiser le type.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Util/StringUtil.php
@@ -936,9 +936,9 @@ flashcards:
   official_item: OIT-5xvjqa4203xe
   language: fr
   level: APPLICATION
-  front: 'Symfony Forms : un champ shipping de type ShippingType (parent ChoiceType) est ajouté au formulaire order. Quels block_prefixes porte sa vue ?'
+  front: 'Symfony Forms : un field shipping de type ShippingType (parent ChoiceType) est ajouté au form order. Quels block_prefixes porte sa vue ?'
   back: '`["form", "choice", "shipping", "_order_shipping"]`.'
-  explanation: Toute la lignée, de la racine au type, puis un préfixe unique tiré du chemin du champ. Observé par exécution.
+  explanation: Toute la lignée, de la racine au type, puis un préfixe unique tiré du path du field. Observé par exécution.
   memorization_justification: Base de la surcharge ciblée des thèmes.
   verification_status: VERIFIED
   official_sources:
@@ -958,9 +958,9 @@ flashcards:
   official_item: OIT-5xvjqa4203xe
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony Forms : dans quel ordre le rendu cherche-t-il les blocs d''un champ ?'
-  back: 'Du plus spécifique au plus général : le préfixe unique du champ, puis le type, puis ses ancêtres jusqu''à `form`.'
-  explanation: '`FormRenderer` part du dernier élément de `block_prefixes` et redescend tant qu''aucun thème ne définit le bloc.'
+  front: 'Symfony Forms : dans quel ordre le rendu cherche-t-il les blocks d''un field ?'
+  back: 'Du plus spécifique au plus général : le préfixe unique du field, puis le type, puis ses ancêtres jusqu''à `form`.'
+  explanation: '`FormRenderer` part du dernier élément de `block_prefixes` et redescend tant qu''aucun thème ne définit le block.'
   memorization_justification: Explique qu'un thème ne réécrit que ce qui change.
   verification_status: VERIFIED
   official_sources:
@@ -990,9 +990,9 @@ flashcards:
   official_item: OIT-5xvjqa4203xe
   language: fr
   level: APPLICATION
-  front: 'Symfony Forms : un type doit seulement imposer une liste de choix et un rendu en boutons radio. Quelles méthodes écrire ?'
+  front: 'Symfony Forms : un type doit seulement imposer une liste de choix et un rendu en boutons radio. Quelles methods écrire ?'
   back: '`getParent()`, qui rend `ChoiceType::class`, et `configureOptions()`, qui fixe `choices` et `expanded: true`.'
-  explanation: 'Aucune autre méthode n''est nécessaire : le parent fournit champs, options et rendu.'
+  explanation: 'Aucune autre method n''est nécessaire : le parent fournit fields, options et rendu.'
   memorization_justification: Cas type de spécialisation.
   verification_status: VERIFIED
   official_sources:
@@ -1007,9 +1007,9 @@ flashcards:
   language: fr
   level: TRAP
   front: 'Symfony Forms : pour imbriquer AddressType dans OrderType, faut-il que getParent() d''OrderType rende AddressType ?'
-  back: 'Non : on ajoute le type comme champ, `->add(''address'', AddressType::class)`. `getParent()` spécialise un type, il n''imbrique pas.'
+  back: 'Non : on ajoute le type comme field, `->add(''address'', AddressType::class)`. `getParent()` spécialise un type, il n''imbrique pas.'
   explanation: Hériter donne au type le comportement du parent ; ajouter crée un sous-formulaire avec sa propre donnée.
-  memorization_justification: Confusion classique entre héritage et composition.
+  memorization_justification: Confusion classique entre inheritance et composition.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/create_custom_field_type.rst
@@ -1022,9 +1022,9 @@ flashcards:
   official_item: OIT-5xvjqa4203xe
   language: fr
   level: RECALL
-  front: 'Symfony : un type de formulaire placé dans src/ doit-il être déclaré comme service à la main ?'
-  back: 'Non : l''autoconfiguration le détecte et l''étiquette ; il peut recevoir des dépendances par son constructeur.'
-  explanation: Un type est un service ordinaire du conteneur.
+  front: 'Symfony : un form type placé dans src/ doit-il être déclaré comme service à la main ?'
+  back: 'Non : l''autoconfiguration le détecte et le tag ; il peut recevoir des dependencies par son constructeur.'
+  explanation: Un type est un service ordinaire du container.
   memorization_justification: Évite une configuration inutile.
   verification_status: VERIFIED
   official_sources:
@@ -1038,10 +1038,10 @@ flashcards:
   official_item: OIT-gxew257vwhm8
   language: fr
   level: TRAP
-  front: 'Twig : form_row(form.task) puis form_widget(form.task) dans le même gabarit. Que se passe-t-il ?'
+  front: 'Twig : form_row(form.task) puis form_widget(form.task) dans le même template. Que se passe-t-il ?'
   back: 'Une `BadMethodCallException` : « Field "task" has already been rendered ».'
-  explanation: '`FormRenderer` retient les champs déjà rendus ; pour réutiliser un rendu, on le stocke dans une variable. Observé par exécution avec twig-bridge 8.0.15.'
-  memorization_justification: Réflexe de mélanger ligne et widget pour un même champ.
+  explanation: '`FormRenderer` retient les fields déjà rendus ; pour réutiliser un rendu, on le stocke dans une variable. Observé par exécution avec twig-bridge 8.0.15.'
+  memorization_justification: Réflexe de mélanger ligne et widget pour un même field.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/FormRenderer.php
@@ -1054,9 +1054,9 @@ flashcards:
   official_item: OIT-gxew257vwhm8
   language: fr
   level: TRAP
-  front: 'Twig : form(form, {''action'': path(''cible''), ''method'': ''GET''}) règle-t-il l''action et la méthode ?'
-  back: 'Oui : le bloc `form` appelle `form_start(form)`, qui reçoit ces variables.'
-  explanation: 'Exécuté : la sortie commence par `<form name="task_form" method="get" action="/target">`. `form_start()` reste la forme documentée quand on rend les champs un par un.'
+  front: 'Twig : form(form, {''action'': path(''cible''), ''method'': ''GET''}) règle-t-il l''action et la method ?'
+  back: 'Oui : le block `form` appelle `form_start(form)`, qui reçoit ces variables.'
+  explanation: 'Exécuté : l''output commence par `<form name="task_form" method="get" action="/target">`. `form_start()` reste la forme documentée quand on rend les fields un par un.'
   memorization_justification: Idée reçue que seul form_start() porte ces options.
   verification_status: VERIFIED
   official_sources:
@@ -1076,10 +1076,10 @@ flashcards:
   official_item: OIT-gxew257vwhm8
   language: fr
   level: RECALL
-  front: 'Twig : que fait form_end(form) avant d''écrire la balise fermante ?'
-  back: Il appelle `form_rest(form)`, qui rend les champs non encore rendus, sauf si `render_rest` vaut `false`.
-  explanation: C'est ce qui émet le champ caché du jeton CSRF quand les champs sont rendus un par un.
-  memorization_justification: Filet de sécurité invisible dans le gabarit.
+  front: 'Twig : que fait form_end(form) avant d''écrire le tag fermant ?'
+  back: Il appelle `form_rest(form)`, qui rend les fields non encore rendus, sauf si `render_rest` vaut `false`.
+  explanation: C'est ce qui émet le field caché du token CSRF quand les fields sont rendus un par un.
+  memorization_justification: Filet de sécurité invisible dans le template.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig
@@ -1092,9 +1092,9 @@ flashcards:
   official_item: OIT-gxew257vwhm8
   language: fr
   level: APPLICATION
-  front: 'Twig : un formulaire rendu champ par champ perd son jeton CSRF. Quel appel est en cause ?'
-  back: '`form_end(form, {''render_rest'': false})` : il n''émet plus les champs restants, jeton compris.'
-  explanation: 'Exécuté avec un champ caché de test : présent avec `form_end(form)`, absent avec `render_rest: false`.'
+  front: 'Twig : un form rendu field par field perd son token CSRF. Quel appel est en cause ?'
+  back: '`form_end(form, {''render_rest'': false})` : il n''émet plus les fields restants, token compris.'
+  explanation: 'Exécuté avec un field caché de test : présent avec `form_end(form)`, absent avec `render_rest: false`.'
   memorization_justification: Diagnostic d'une soumission refusée.
   verification_status: VERIFIED
   official_sources:
@@ -1114,8 +1114,8 @@ flashcards:
   official_item: OIT-gxew257vwhm8
   language: fr
   level: RECALL
-  front: 'Twig : quelles fonctions rendent chaque partie d''un champ, et laquelle les regroupe ?'
-  back: '`form_label()`, `form_widget()`, `form_help()`, `form_errors()` ; `form_row()` les regroupe dans son conteneur.'
+  front: 'Twig : quelles functions rendent chaque partie d''un field, et laquelle les regroupe ?'
+  back: '`form_label()`, `form_widget()`, `form_help()`, `form_errors()` ; `form_row()` les regroupe dans son container.'
   explanation: Dans le thème par défaut, la ligne place libellé, saisie, aide et erreurs dans une `div`.
   memorization_justification: Granularité du rendu.
   verification_status: VERIFIED
@@ -1136,7 +1136,7 @@ flashcards:
   official_item: OIT-gxew257vwhm8
   language: fr
   level: UNDERSTANDING
-  front: 'Twig : pourquoi form_widget(form.task) seul ne porte-t-il pas d''attribut aria-describedby vers l''aide ?'
+  front: 'Twig : pourquoi form_widget(form.task) seul ne porte-t-il pas d''attribute aria-describedby vers l''aide ?'
   back: 'Parce que l''aide n''est pas rendue avec lui : c''est `form_row()` qui assemble saisie et aide et relie les deux.'
   explanation: 'Observé par exécution : la ligne produit `aria-describedby="task_form_task_help"`, le widget seul non.'
   memorization_justification: Conséquence d'accessibilité du rendu partiel.
@@ -1152,10 +1152,10 @@ flashcards:
   official_item: OIT-gxew257vwhm8
   language: fr
   level: RECALL
-  front: 'Twig : comment désactiver la validation HTML5 du navigateur pour un formulaire ?'
+  front: 'Twig : comment désactiver la validation HTML5 du navigateur pour un form ?'
   back: '`form_start(form, {''attr'': {''novalidate'': ''novalidate''}})`.'
   explanation: Utile pour observer la validation côté serveur.
-  memorization_justification: Option d'attribut documentée.
+  memorization_justification: Option d'attribute documentée.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
@@ -1168,9 +1168,9 @@ flashcards:
   official_item: OIT-gxew257vwhm8
   language: fr
   level: APPLICATION
-  front: 'Twig : ajouter la classe input-lg à la seule zone de saisie du champ username.'
+  front: 'Twig : ajouter la class input-lg à la seule zone de saisie du field username.'
   back: '`form_widget(form.username, {''attr'': {''class'': ''input-lg''}})`.'
-  explanation: Les variables passées à une fonction de rendu ne valent que pour cet appel ; elles ne modifient pas la configuration du champ.
+  explanation: Les variables passées à une function de rendu ne valent que pour cet appel ; elles ne modifient pas la configuration du field.
   memorization_justification: Personnalisation ponctuelle sans thème.
   verification_status: VERIFIED
   official_sources:
@@ -1184,9 +1184,9 @@ flashcards:
   official_item: OIT-gxew257vwhm8
   language: fr
   level: UNDERSTANDING
-  front: 'Twig : pourquoi les fonctions de rendu prennent-elles form.task plutôt que la chaîne ''task'' ?'
-  back: 'Parce qu''elles travaillent sur une `FormView` : l''objet de vue du champ porte ses variables et l''état « déjà rendu ».'
-  explanation: Le contrôleur passe le formulaire ; `render()` le convertit en vue, et chaque enfant est une `FormView`.
+  front: 'Twig : pourquoi les functions de rendu prennent-elles form.task plutôt que la string ''task'' ?'
+  back: 'Parce qu''elles travaillent sur une `FormView` : l''object de vue du field porte ses variables et l''état « déjà rendu ».'
+  explanation: Le controller passe le form ; `render()` le convertit en vue, et chaque enfant est une `FormView`.
   memorization_justification: Explique le type d'argument attendu.
   verification_status: VERIFIED
   official_sources:
@@ -1207,9 +1207,9 @@ flashcards:
   language: fr
   level: RECALL
   front: 'Twig : que rend form_rest(form) ?'
-  back: Tous les champs du formulaire qui n'ont pas encore été rendus.
+  back: Tous les fields du form qui n'ont pas encore été rendus.
   explanation: '`form_end()` l''appelle lui-même, sauf avec `render_rest: false`.'
-  memorization_justification: Fonction rarement écrite, toujours exécutée.
+  memorization_justification: Function rarement écrite, toujours exécutée.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig
@@ -1222,10 +1222,10 @@ flashcards:
   official_item: OIT-j2vjdxcer4ft
   language: fr
   level: TRAP
-  front: 'Symfony Forms : quel thème livré définit un bloc text_widget ?'
+  front: 'Symfony Forms : quel thème livré définit un block text_widget ?'
   back: 'Aucun : ni `form_div_layout.html.twig` ni les thèmes Bootstrap, Foundation ou Tailwind de twig-bridge 8.0.'
-  explanation: La documentation des thèmes cite pourtant ce bloc dans plusieurs exemples ; un `text_widget` n'existe que si l'on l'écrit soi-même.
-  memorization_justification: Bloc supposé par la documentation, absent du code.
+  explanation: La documentation des thèmes cite pourtant ce block dans plusieurs exemples ; un `text_widget` n'existe que si l'on l'écrit soi-même.
+  memorization_justification: Block supposé par la documentation, absent du code.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig
@@ -1244,10 +1244,10 @@ flashcards:
   official_item: OIT-j2vjdxcer4ft
   language: fr
   level: TRAP
-  front: 'Symfony Forms : un thème personnalisé définit text_widget. Les champs EmailType changent-ils ?'
+  front: 'Symfony Forms : un thème personnalisé définit text_widget. Les fields EmailType changent-ils ?'
   back: 'Non : le thème par défaut définit `email_widget`, plus spécifique, trouvé avant `text_widget`.'
-  explanation: 'Vérifié par rendu réel : le champ texte prend le bloc personnalisé, le champ e-mail garde `<input type="email">`.'
-  memorization_justification: L'héritage de types ne garantit pas l'héritage du rendu.
+  explanation: 'Vérifié par rendu réel : le field texte prend le block personnalisé, le field e-mail garde `<input type="email">`.'
+  memorization_justification: L'inheritance de types ne garantit pas l'inheritance du rendu.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig
@@ -1266,10 +1266,10 @@ flashcards:
   official_item: OIT-j2vjdxcer4ft
   language: fr
   level: RECALL
-  front: 'Symfony Forms : quels block_prefixes porte un champ contact de type EmailType dans le formulaire user ?'
+  front: 'Symfony Forms : quels block_prefixes porte un field contact de type EmailType dans le form user ?'
   back: '`["form", "text", "email", "_user_contact"]`.'
-  explanation: La lignée des types, de la racine au type du champ, puis le préfixe unique ; observé avec symfony/form 8.0.15.
-  memorization_justification: Liste qui détermine les noms de blocs cherchés.
+  explanation: La lignée des types, de la racine au type du field, puis le préfixe unique ; observé avec symfony/form 8.0.15.
+  memorization_justification: Liste qui détermine les noms de blocks cherchés.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/FormRenderer.php
@@ -1282,9 +1282,9 @@ flashcards:
   official_item: OIT-j2vjdxcer4ft
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony Forms : pourquoi un bloc du thème par défaut peut-il l''emporter sur un bloc d''un thème personnalisé ?'
-  back: 'Parce que la recherche essaie tous les thèmes à un niveau de spécificité avant de descendre au suivant : un bloc plus spécifique, où qu''il soit, gagne.'
-  explanation: L'ordre des thèmes ne départage que des blocs de même nom.
+  front: 'Symfony Forms : pourquoi un block du thème par défaut peut-il l''emporter sur un block d''un thème personnalisé ?'
+  back: 'Parce que la recherche essaie tous les thèmes à un niveau de spécificité avant de descendre au suivant : un block plus spécifique, où qu''il soit, gagne.'
+  explanation: L'ordre des thèmes ne départage que des blocks de même nom.
   memorization_justification: Explique des surcharges qui semblent ignorées.
   verification_status: VERIFIED
   official_sources:
@@ -1299,9 +1299,9 @@ flashcards:
   language: fr
   level: TRAP
   front: 'Symfony Forms : un thème redéfinit email_widget comme <div>{{ form_widget(form) }}</div>. Que devient la saisie ?'
-  back: 'Un `<input type="text">` : l''appel imbriqué descend à `text_widget`, absent, puis à `form_widget`, dont le bloc simple prend `text` par défaut.'
+  back: 'Un `<input type="text">` : l''appel imbriqué descend à `text_widget`, absent, puis à `form_widget`, dont le block simple prend `text` par défaut.'
   explanation: C'est l'exemple de la documentation 8.0 ; résultat observé par rendu réel avec twig-bridge 8.0.15.
-  memorization_justification: Exemple documenté qui dégrade le champ.
+  memorization_justification: Exemple documenté qui dégrade le field.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig
@@ -1320,7 +1320,7 @@ flashcards:
   official_item: OIT-j2vjdxcer4ft
   language: fr
   level: APPLICATION
-  front: 'Symfony Forms : envelopper les champs e-mail dans une div sans perdre type="email".'
+  front: 'Symfony Forms : envelopper les fields e-mail dans une div sans perdre type="email".'
   back: '`{% use ''form_div_layout.html.twig'' %}` puis, dans `email_widget`, `<div>{{ parent() }}</div>`.'
   explanation: '`parent()` appelle l''`email_widget` importé, qui fixe `type` à `email` ; vérifié par rendu réel.'
   memorization_justification: Parade à l'exemple documenté.
@@ -1337,8 +1337,8 @@ flashcards:
   language: fr
   level: RECALL
   front: 'Symfony Forms : à quelle condition {% form_theme form _self %} fonctionne-t-il ?'
-  back: Le gabarit doit étendre un autre gabarit ; sinon ses blocs sont rendus comme du contenu ordinaire.
-  explanation: 'Avertissement de `form_themes.rst` ; observé sans `extends` : le bloc s''affiche en tête de page et le champ garde son rendu par défaut.'
+  back: Le template doit étendre un autre template ; sinon ses blocks sont rendus comme du contenu ordinaire.
+  explanation: 'Avertissement de `form_themes.rst` ; observé sans `extends` : le block s''affiche en tête de page et le field garde son rendu par défaut.'
   memorization_justification: Condition d'usage souvent oubliée.
   verification_status: VERIFIED
   official_sources:
@@ -1352,7 +1352,7 @@ flashcards:
   official_item: OIT-j2vjdxcer4ft
   language: fr
   level: APPLICATION
-  front: 'Symfony Forms : twig.form_themes liste theme_a puis theme_b, qui définissent tous deux le même bloc. Lequel s''applique ?'
+  front: 'Symfony Forms : twig.form_themes liste theme_a puis theme_b, qui définissent tous deux le même block. Lequel s''applique ?'
   back: '`theme_b`, le dernier de la liste.'
   explanation: La liste est parcourue de la fin vers le début ; vérifié par rendu réel en inversant l'ordre.
   memorization_justification: Mise en pratique de l'ordre inversé.
@@ -1368,9 +1368,9 @@ flashcards:
   official_item: OIT-j2vjdxcer4ft
   language: fr
   level: TRAP
-  front: 'Symfony Forms : {% use ''form_div_layout.html.twig'' %} puis un bloc text_widget contenant parent(). Que se passe-t-il ?'
+  front: 'Symfony Forms : {% use ''form_div_layout.html.twig'' %} puis un block text_widget contenant parent(). Que se passe-t-il ?'
   back: 'Une `RuntimeError` : aucun parent ni trait ne définit `text_widget`.'
-  explanation: Exemple de la documentation 8.0 ; l'erreur a été reproduite. `parent()` n'a de sens que pour un bloc qui existe dans le trait importé, comme `email_widget`.
+  explanation: Exemple de la documentation 8.0 ; l'erreur a été reproduite. `parent()` n'a de sens que pour un block qui existe dans le trait importé, comme `email_widget`.
   memorization_justification: Deuxième exemple documenté qui échoue.
   verification_status: VERIFIED
   official_sources:
@@ -1391,7 +1391,7 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony Forms : pourquoi redéfinir _user_email_row plutôt que _user_email_widget change-t-il bien plus que la saisie ?'
-  back: 'Parce que le bloc `_row` assemble libellé, saisie, aide et erreurs : le redéfinir remplace tout ce conteneur.'
+  back: 'Parce que le block `_row` assemble libellé, saisie, aide et erreurs : le redéfinir remplace tout ce container.'
   explanation: Pour ne toucher qu'à la saisie, on vise le suffixe `_widget`.
   memorization_justification: Choix du suffixe selon l'étendue voulue.
   verification_status: VERIFIED
@@ -1406,10 +1406,10 @@ flashcards:
   official_item: OIT-dmkbj2x94rks
   language: fr
   level: RECALL
-  front: 'Symfony Forms : quel identifiant de jeton CSRF un formulaire utilise-t-il si csrf_token_id n''est pas défini ?'
-  back: Le défaut configuré pour son type, sinon le nom du formulaire, sinon la classe du type.
-  explanation: '`FormTypeCsrfExtension::buildForm()` ; exécuté : le formulaire `task` a pour identifiant `task`, et son jeton est refusé par un formulaire `other`.'
-  memorization_justification: Défaut rarement connu, qui isole déjà les formulaires de noms différents.
+  front: 'Symfony Forms : quel identifier de token CSRF un form utilise-t-il si csrf_token_id n''est pas défini ?'
+  back: Le défaut configuré pour son type, sinon le nom du form, sinon la class du type.
+  explanation: '`FormTypeCsrfExtension::buildForm()` ; exécuté : le form `task` a pour identifier `task`, et son token est refusé par un form `other`.'
+  memorization_justification: Défaut rarement connu, qui isole déjà les forms de noms différents.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Csrf/Type/FormTypeCsrfExtension.php
@@ -1422,9 +1422,9 @@ flashcards:
   official_item: OIT-dmkbj2x94rks
   language: fr
   level: RECALL
-  front: 'Symfony Forms : quel message d''erreur produit un jeton CSRF absent ou invalide ?'
-  back: « The CSRF token is invalid. Please try to resubmit the form. », valeur par défaut de l'option `csrf_message`.
-  explanation: Le formulaire devient invalide ; observé par exécution avec security-csrf 8.0.
+  front: 'Symfony Forms : quel message d''erreur produit un token CSRF absent ou invalide ?'
+  back: « The CSRF token is invalid. Please try to resubmit the form. », default value de l'option `csrf_message`.
+  explanation: Le form devient invalide ; observé par exécution avec security-csrf 8.0.
   memorization_justification: Message reconnaissable lors d'un diagnostic.
   verification_status: VERIFIED
   official_sources:
@@ -1438,9 +1438,9 @@ flashcards:
   official_item: OIT-dmkbj2x94rks
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : comment un jeton CSRF sans état est-il validé ?'
-  back: 'Par les en-têtes `Origin` et `Referer` : si l''un correspond à l''origine de l''application, le jeton est accepté.'
-  explanation: Aucune session n'est nécessaire, ce qui garde la page cachable ; derrière un proxy inverse, l'application doit pouvoir déterminer sa propre origine.
+  front: 'Symfony : comment un token CSRF sans état est-il validé ?'
+  back: 'Par les headers `Origin` et `Referer` : si l''un correspond à l''origine de l''application, le token est accepté.'
+  explanation: Aucune session n'est nécessaire, ce qui garde la page cachable ; derrière un reverse proxy, l'application doit pouvoir déterminer sa propre origine.
   memorization_justification: Sans état ne veut pas dire sans contrôle.
   verification_status: VERIFIED
   official_sources:
@@ -1454,9 +1454,9 @@ flashcards:
   official_item: OIT-dmkbj2x94rks
   language: fr
   level: TRAP
-  front: 'Symfony 8.0 : dans une application Flex, les formulaires utilisent-ils par défaut des jetons CSRF avec état ?'
-  back: 'Non : la configuration fournie déclare `stateless_token_ids: [''submit'', ''authenticate'', ''logout'']` et donne `submit` comme identifiant par défaut aux types autoconfigurés.'
-  explanation: Selon la documentation 8.0, les jetons sans état sont activés par défaut avec Flex ; sans configuration, FrameworkBundle reste en mode avec état.
+  front: 'Symfony 8.0 : dans une application Flex, les forms utilisent-ils par défaut des tokens CSRF avec état ?'
+  back: 'Non : la configuration fournie déclare `stateless_token_ids: [''submit'', ''authenticate'', ''logout'']` et donne `submit` comme identifier par défaut aux types autoconfigurés.'
+  explanation: Selon la documentation 8.0, les tokens sans état sont activés par défaut avec Flex ; sans configuration, FrameworkBundle reste en mode avec état.
   memorization_justification: Défaut qui dépend de la configuration fournie, pas du framework seul.
   verification_status: VERIFIED
   official_sources:
@@ -1476,9 +1476,9 @@ flashcards:
   official_item: OIT-dmkbj2x94rks
   language: fr
   level: APPLICATION
-  front: 'Symfony : déclarer que l''identifiant de jeton submit est validé sans session.'
+  front: 'Symfony : déclarer que l''identifier de token submit est validé sans session.'
   back: '`framework.csrf_protection.stateless_token_ids: [''submit'']`.'
-  explanation: Tout formulaire dont l'identifiant de jeton est `submit` passe alors en protection sans état.
+  explanation: Tout form dont l'identifier de token est `submit` passe alors en protection sans état.
   memorization_justification: Configuration directe du mode sans état.
   verification_status: VERIFIED
   official_sources:
@@ -1498,10 +1498,10 @@ flashcards:
   official_item: OIT-dmkbj2x94rks
   language: fr
   level: RECALL
-  front: 'Symfony Forms : à quel formulaire le champ caché du jeton CSRF est-il ajouté ?'
-  back: 'Au formulaire racine seulement, et s''il est composé : `FormTypeCsrfExtension::finishView()` teste l''absence de parent.'
-  explanation: Un sous-formulaire imbriqué ne reçoit pas son propre jeton ; celui de la racine protège l'ensemble.
-  memorization_justification: Précise où vit le jeton dans une arborescence.
+  front: 'Symfony Forms : à quel form le field caché du token CSRF est-il ajouté ?'
+  back: 'Au form racine seulement, et s''il est composé : `FormTypeCsrfExtension::finishView()` teste l''absence de parent.'
+  explanation: Un sous-formulaire imbriqué ne reçoit pas son propre token ; celui de la racine protège l'ensemble.
+  memorization_justification: Précise où vit le token dans une arborescence.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Csrf/Type/FormTypeCsrfExtension.php
@@ -1514,8 +1514,8 @@ flashcards:
   official_item: OIT-dmkbj2x94rks
   language: fr
   level: APPLICATION
-  front: 'Symfony Forms : renommer le champ caché du jeton en _csrf pour tous les formulaires.'
-  back: '`framework.form.csrf_protection.field_name: ''_csrf''` ; pour un seul formulaire, l''option `csrf_field_name`.'
+  front: 'Symfony Forms : renommer le field caché du token en _csrf pour tous les forms.'
+  back: '`framework.form.csrf_protection.field_name: ''_csrf''` ; pour un seul form, l''option `csrf_field_name`.'
   explanation: Le défaut est `_token`.
   memorization_justification: Configuration globale et locale d'une même option.
   verification_status: VERIFIED
@@ -1536,9 +1536,9 @@ flashcards:
   official_item: OIT-dmkbj2x94rks
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi un jeton CSRF avec état empêche-t-il de mettre la page en cache public ?'
+  front: 'Symfony : pourquoi un token CSRF avec état empêche-t-il de mettre la page en cache public ?'
   back: 'Parce qu''il est stocké en session : l''utiliser démarre une session et émet son cookie.'
-  explanation: C'est la raison d'être des jetons sans état pour les formulaires publics.
+  explanation: C'est la raison d'être des tokens sans état pour les forms publics.
   memorization_justification: Relie CSRF et cachabilité.
   verification_status: VERIFIED
   official_sources:
@@ -1552,10 +1552,10 @@ flashcards:
   official_item: OIT-dmkbj2x94rks
   language: fr
   level: TRAP
-  front: 'Symfony Forms : désactiver csrf_protection sur un sous-formulaire imbriqué désactive-t-il la protection du formulaire principal ?'
-  back: 'Non : le jeton est porté et vérifié par le formulaire racine ; c''est son option à lui qui compte.'
-  explanation: '`finishView()` n''ajoute le champ qu''à la vue racine, et `CsrfValidationListener` ne vérifie que si le formulaire est racine (`isRoot()`).'
-  memorization_justification: Évite une fausse inquiétude sur les formulaires composés.
+  front: 'Symfony Forms : désactiver csrf_protection sur un sous-formulaire imbriqué désactive-t-il la protection du form principal ?'
+  back: 'Non : le token est porté et vérifié par le form racine ; c''est son option à lui qui compte.'
+  explanation: '`finishView()` n''ajoute le field qu''à la vue racine, et `CsrfValidationListener` ne vérifie que si le form est racine (`isRoot()`).'
+  memorization_justification: Évite une fausse inquiétude sur les forms composés.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Csrf/Type/FormTypeCsrfExtension.php
@@ -1574,10 +1574,10 @@ flashcards:
   official_item: OIT-dmkbj2x94rks
   language: fr
   level: RECALL
-  front: 'Twig : comment produire un jeton CSRF pour un formulaire écrit à la main ?'
-  back: '`{{ csrf_token(''delete-item'') }}` dans un champ caché ; l''argument est l''identifiant à vérifier côté contrôleur.'
+  front: 'Twig : comment produire un token CSRF pour un form écrit à la main ?'
+  back: '`{{ csrf_token(''delete-item'') }}` dans un field caché ; l''argument est l''identifier à vérifier côté controller.'
   explanation: La vérification manuelle appartient au lot Controllers.
-  memorization_justification: Pont entre gabarit et contrôleur.
+  memorization_justification: Pont entre template et controller.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/csrf.rst
@@ -1590,9 +1590,9 @@ flashcards:
   official_item: OIT-j6tqs8s8f54f
   language: fr
   level: TRAP
-  front: 'Symfony Forms : un FileType mappé sur une propriété public string $brochure reçoit un fichier. Que se passe-t-il ?'
-  back: 'Aucune erreur : le formulaire est valide et la propriété reçoit le chemin temporaire du fichier, l''objet ayant été converti en chaîne.'
-  explanation: 'Observé par exécution avec symfony/form 8.0.15 et HttpFoundationExtension. C''est pourquoi le champ se déclare `mapped: false`.'
+  front: 'Symfony Forms : un FileType mappé sur une property public string $brochure reçoit un file. Que se passe-t-il ?'
+  back: 'Aucune erreur : le form est valide et la property reçoit le path temporaire du file, l''object ayant été converti en chaîne.'
+  explanation: 'Observé par exécution avec symfony/form 8.0.15 et HttpFoundationExtension. C''est pourquoi le field se déclare `mapped: false`.'
   memorization_justification: Corruption silencieuse plutôt qu'exception.
   verification_status: VERIFIED
   official_sources:
@@ -1612,9 +1612,9 @@ flashcards:
   official_item: OIT-j6tqs8s8f54f
   language: fr
   level: RECALL
-  front: 'Symfony Forms : où déclarer les contraintes d''un champ de fichier non mappé ?'
-  back: 'Dans l''option `constraints` du champ, par exemple `new Assert\File(maxSize: ''1024k'', extensions: [''pdf''])`.'
-  explanation: Un champ non mappé ne profite pas des contraintes déclarées sur l'entité.
+  front: 'Symfony Forms : où déclarer les constraints d''un field de file non mappé ?'
+  back: 'Dans l''option `constraints` du field, par exemple `new Assert\File(maxSize: ''1024k'', extensions: [''pdf''])`.'
+  explanation: Un field non mappé ne profite pas des constraints déclarées sur l'entité.
   memorization_justification: Exemple documenté de la page d'upload.
   verification_status: VERIFIED
   official_sources:
@@ -1628,10 +1628,10 @@ flashcards:
   official_item: OIT-j6tqs8s8f54f
   language: fr
   level: TRAP
-  front: 'Symfony : que se passe-t-il si la contrainte File utilise extensions sans que le composant Mime soit installé ?'
+  front: 'Symfony : que se passe-t-il si la constraint File utilise extensions sans que le composant Mime soit installé ?'
   back: 'Une `LogicException` : « You cannot validate the mime-type of files as the Mime component is not installed ».'
   explanation: '`FileValidator` vérifie le type MIME correspondant aux extensions, ce qui exige `symfony/mime` ; reproduit par exécution.'
-  memorization_justification: Dépendance implicite d'une option courante.
+  memorization_justification: Dependency implicite d'une option courante.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraints/FileValidator.php
@@ -1644,9 +1644,9 @@ flashcards:
   official_item: OIT-j6tqs8s8f54f
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony Forms : pourquoi une chaîne postée dans un champ FileType devient-elle null ?'
-  back: Un écouteur `PRE_SUBMIT` de `FileType` ne garde que de vrais fichiers téléversés, reconnus par le gestionnaire de requête ; le reste est remplacé par `null`.
-  explanation: 'Exécuté : `submit([''brochure'' => ''evil.php''])` laisse le champ à `null`, et le formulaire reste valide.'
+  front: 'Symfony Forms : pourquoi une string postée dans un field FileType devient-elle null ?'
+  back: Un listener `PRE_SUBMIT` de `FileType` ne garde que de vrais files téléversés, reconnus par le handler de Request ; le reste est remplacé par `null`.
+  explanation: 'Exécuté : `submit([''brochure'' => ''evil.php''])` laisse le field à `null`, et le form reste valide.'
   memorization_justification: Protection intégrée contre une valeur forgée.
   verification_status: VERIFIED
   official_sources:
@@ -1661,8 +1661,8 @@ flashcards:
   language: fr
   level: RECALL
   front: 'Symfony Forms : que renvoie getData() d''un FileType avec multiple: true ?'
-  back: Un tableau de fichiers téléversés.
-  explanation: Sans fichier reçu, c'est la donnée vide configurée qui s'applique.
+  back: Un array de files téléversés.
+  explanation: Sans file reçu, c'est la donnée vide configurée qui s'applique.
   memorization_justification: Forme de la donnée selon l'option.
   verification_status: VERIFIED
   official_sources:
@@ -1676,8 +1676,8 @@ flashcards:
   official_item: OIT-j6tqs8s8f54f
   language: fr
   level: APPLICATION
-  front: 'Symfony Forms : sur un formulaire de modification, un nouveau fichier ne doit être traité que s''il a été envoyé. Quel code ?'
-  back: '`$file = $form->get(''brochure'')->getData(); if ($file) { … }`, avec le champ déclaré `required: false`.'
+  front: 'Symfony Forms : sur un form de modification, un nouveau file ne doit être traité que s''il a été envoyé. Quel code ?'
+  back: '`$file = $form->get(''brochure'')->getData(); if ($file) { … }`, avec le field déclaré `required: false`.'
   explanation: Sans envoi, `getData()` renvoie `null` ; l'absence signifie « garder l'existant ».
   memorization_justification: Motif du téléversement facultatif.
   verification_status: VERIFIED
@@ -1692,10 +1692,10 @@ flashcards:
   official_item: OIT-j6tqs8s8f54f
   language: fr
   level: RECALL
-  front: 'Symfony Forms : quel gestionnaire de requête reconnaît un objet UploadedFile comme fichier téléversé ?'
-  back: '`HttpFoundationRequestHandler`, celui du framework ; le gestionnaire natif attend le tableau de `$_FILES`.'
-  explanation: 'Observé : avec le gestionnaire natif, un `UploadedFile` passé à `submit()` n''est pas reconnu et le champ devient `null`.'
-  memorization_justification: Explique des tests de formulaire qui perdent leurs fichiers.
+  front: 'Symfony Forms : quel handler de Request reconnaît un object UploadedFile comme file téléversé ?'
+  back: '`HttpFoundationRequestHandler`, celui du framework ; le handler natif attend l''array de `$_FILES`.'
+  explanation: 'Observé : avec le handler natif, un `UploadedFile` passé à `submit()` n''est pas reconnu et le field devient `null`.'
+  memorization_justification: Explique des tests de form qui perdent leurs files.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Core/Type/FileType.php
@@ -1708,10 +1708,10 @@ flashcards:
   official_item: OIT-j6tqs8s8f54f
   language: fr
   level: APPLICATION
-  front: 'Symfony Forms : n''accepter que des PDF d''au plus 1 Mo dans le champ brochure.'
-  back: '`''constraints'' => [new Assert\File(maxSize: ''1024k'', extensions: [''pdf''])]` sur le champ, composant Mime installé.'
+  front: 'Symfony Forms : n''accepter que des PDF d''au plus 1 Mo dans le field brochure.'
+  back: '`''constraints'' => [new Assert\File(maxSize: ''1024k'', extensions: [''pdf''])]` sur le field, composant Mime installé.'
   explanation: 'Exécuté : `b.pdf` passe, `b.txt` échoue avec le message d''extension.'
-  memorization_justification: Mise en pratique de la contrainte File.
+  memorization_justification: Mise en pratique de la constraint File.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/upload_file.rst
@@ -1730,9 +1730,9 @@ flashcards:
   official_item: OIT-p810t98zedem
   language: fr
   level: TRAP
-  front: 'Symfony Forms : IntegerType est rangé parmi les champs texte de la documentation. Hérite-t-il de TextType ?'
+  front: 'Symfony Forms : IntegerType est rangé parmi les fields texte de la documentation. Hérite-t-il de TextType ?'
   back: 'Non : il hérite directement de `FormType`, comme `NumberType`, `MoneyType` et `PercentType`.'
-  explanation: 'Les familles rangent la documentation, `getParent()` décide de l''héritage. Exécuté : un bloc `text_widget` personnalisé ne change pas le rendu d''un `IntegerType`, qui reste `<input type="number">`.'
+  explanation: 'Les familles rangent la documentation, `getParent()` décide de l''inheritance. Exécuté : un block `text_widget` personnalisé ne change pas le rendu d''un `IntegerType`, qui reste `<input type="number">`.'
   memorization_justification: Confusion naturelle entre classement documentaire et lignée de types.
   verification_status: VERIFIED
   official_sources:
@@ -1791,8 +1791,8 @@ flashcards:
   language: fr
   level: TRAP
   front: 'Symfony Forms : avec choices égal à [''France'' => ''fr''], quelle valeur soumise est acceptée ?'
-  back: '`fr`. La clé est le libellé affiché, la valeur est la donnée.'
-  explanation: 'Exécuté : soumettre `fr` donne la donnée `''fr''` ; soumettre `France` rend le formulaire invalide, « The selected choice is invalid. ».'
+  back: '`fr`. La key est le libellé affiché, la valeur est la donnée.'
+  explanation: 'Exécuté : soumettre `fr` donne la donnée `''fr''` ; soumettre `France` rend le form invalide, « The selected choice is invalid. ».'
   memorization_justification: Sens de la table inversé par intuition.
   verification_status: VERIFIED
   official_sources:
@@ -1806,9 +1806,9 @@ flashcards:
   official_item: OIT-p810t98zedem
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony Forms : RepeatedType rend deux champs. Combien de valeurs sa donnée contient-elle ?'
-  back: 'Une seule : la valeur commune, quand les deux champs coïncident.'
-  explanation: 'Exécuté : `first` et `second` valant `a` donnent la donnée `''a''` ; des valeurs différentes donnent `null` et un formulaire invalide.'
+  front: 'Symfony Forms : RepeatedType rend deux fields. Combien de valeurs sa donnée contient-elle ?'
+  back: 'Une seule : la valeur commune, quand les deux fields coïncident.'
+  explanation: 'Exécuté : `first` et `second` valant `a` donnent la donnée `''a''` ; des valeurs différentes donnent `null` et un form invalide.'
   memorization_justification: 'Deux saisies, une donnée : la confirmation est absorbée par le type.'
   verification_status: VERIFIED
   official_sources:
@@ -1823,7 +1823,7 @@ flashcards:
   language: fr
   level: RECALL
   front: 'Symfony Forms : quels sont les noms par défaut des deux enfants d''un RepeatedType, et son message d''erreur ?'
-  back: '`first` et `second` ; « The values do not match. », porté par le champ répété lui-même.'
+  back: '`first` et `second` ; « The values do not match. », porté par le field répété lui-même.'
   explanation: Options `first_name`, `second_name` et `invalid_message` de `RepeatedType::configureOptions()` ; l'erreur n'est pas attachée à `second`, vérifié par exécution.
   memorization_justification: Noms à connaître pour les options par enfant et le rendu manuel.
   verification_status: VERIFIED
@@ -1838,10 +1838,10 @@ flashcards:
   official_item: OIT-p810t98zedem
   language: fr
   level: TRAP
-  front: 'Symfony Forms : une extension de type vise FormType. S''applique-t-elle aussi à un SubmitType ?'
+  front: 'Symfony Forms : une type extension vise FormType. S''applique-t-elle aussi à un SubmitType ?'
   back: 'Non. `ButtonType` n''a pas de parent : les boutons ne descendent pas de `FormType`.'
-  explanation: 'Exécuté : l''extension atteint le champ texte, pas le `SubmitType`, dont les préfixes de bloc sont `button`, `submit` puis le préfixe unique.'
-  memorization_justification: Les boutons s'ajoutent comme des champs, ce qui masque leur lignée à part.
+  explanation: 'Exécuté : l''extension atteint le field texte, pas le `SubmitType`, dont les préfixes de block sont `button`, `submit` puis le préfixe unique.'
+  memorization_justification: Les boutons s'ajoutent comme des fields, ce qui masque leur lignée à part.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Core/Type/ButtonType.php
@@ -1854,10 +1854,10 @@ flashcards:
   official_item: OIT-p810t98zedem
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony Forms : le bouton save apparaît-il dans getData() du formulaire soumis ?'
+  front: 'Symfony Forms : le bouton save apparaît-il dans getData() du form soumis ?'
   back: 'Non : un bouton ne porte pas de donnée. On lit `$form->get(''save'')->isClicked()` pour savoir s''il a servi.'
-  explanation: 'Exécuté : après soumission, la donnée ne contient que les champs ; `isClicked()` vaut `true` pour le bouton envoyé. L''objet est un `SubmitButton`.'
-  memorization_justification: Distingue un bouton d'un champ ordinaire.
+  explanation: 'Exécuté : après soumission, la donnée ne contient que les fields ; `isClicked()` vaut `true` pour le bouton envoyé. L''object est un `SubmitButton`.'
+  memorization_justification: Distingue un bouton d'un field ordinaire.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Core/Type/ButtonType.php
@@ -1870,7 +1870,7 @@ flashcards:
   official_item: OIT-p810t98zedem
   language: fr
   level: APPLICATION
-  front: 'Symfony Forms : ajouter un champ EnumType pour l''énumération Suit. Quelle option est obligatoire ?'
+  front: 'Symfony Forms : ajouter un field EnumType pour l''enum Suit. Quelle option est obligatoire ?'
   back: L'option `class`, par exemple `['class' => Suit::class]`.
   explanation: 'Exécuté sans elle : `MissingOptionsException`, « The required option "class" is missing. ».'
   memorization_justification: Seule option requise d'un type de choix courant.
@@ -1887,7 +1887,7 @@ flashcards:
   language: fr
   level: TRAP
   front: 'Symfony Forms : transform() d''un transformateur est-elle appelée par createView() ?'
-  back: Non. Elle est appelée quand les données sont posées sur le formulaire, par exemple à sa création avec des données initiales.
+  back: Non. Elle est appelée quand les données sont posées sur le form, par exemple à sa création avec des données initiales.
   explanation: 'Exécuté avec des transformateurs qui journalisent : `getForm()` les appelle, `createView()` n''appelle rien. Après une soumission réussie, les `transform()` des transformateurs de vue sont rappelées pour resynchroniser la vue.'
   memorization_justification: « Au rendu » est l'approximation courante, et elle est fausse.
   verification_status: VERIFIED
@@ -1909,9 +1909,9 @@ flashcards:
   language: fr
   level: TRAP
   front: 'Symfony Forms : M1 puis M2 sont ajoutés par addModelTransformer(). Lequel transforme la donnée du modèle en premier ?'
-  back: '`M2`, le dernier ajouté : `addModelTransformer()` insère en tête de la chaîne.'
+  back: '`M2`, le dernier ajouté : `addModelTransformer()` insère en tête de la string.'
   explanation: 'Exécuté avec `M1`, `M2`, `V1`, `V2` : données posées `M2 → M1 → V1 → V2`, soumission `V2 → V1 → M1 → M2`. `addViewTransformer()`, lui, ajoute à la fin.'
-  memorization_justification: Asymétrie de `FormConfigBuilder` entre les deux méthodes.
+  memorization_justification: Asymétrie de `FormConfigBuilder` entre les deux methods.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/FormConfigBuilder.php
@@ -1926,7 +1926,7 @@ flashcards:
   level: RECALL
   front: 'Symfony Forms : quelle exception un transformateur lève-t-il pour une valeur soumise qu''il ne peut pas convertir ?'
   back: '`TransformationFailedException`.'
-  explanation: Le formulaire la convertit en erreur sur le champ ; toute autre exception sort de `submit()`, vérifié avec une `InvalidArgumentException`.
+  explanation: Le form la convertit en erreur sur le field ; toute autre exception sort de `submit()`, vérifié avec une `InvalidArgumentException`.
   memorization_justification: Seul type d'exception absorbé par le composant.
   verification_status: VERIFIED
   official_sources:
@@ -1946,10 +1946,10 @@ flashcards:
   official_item: OIT-58r9dadx916v
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony Forms : après une TransformationFailedException sur le champ n, que valent isSynchronized(), getData() et getViewData() ?'
+  front: 'Symfony Forms : après une TransformationFailedException sur le field n, que valent isSynchronized(), getData() et getViewData() ?'
   back: '`false`, `null`, et la saisie d''origine, par exemple `''42''`.'
-  explanation: 'Exécuté : le champ garde la saisie en donnée de vue, pour que l''utilisateur la retrouve, et le formulaire est invalide.'
-  memorization_justification: Relie l'échec de conversion à l'état observable du champ.
+  explanation: 'Exécuté : le field garde la saisie en donnée de vue, pour que le user la retrouve, et le form est invalide.'
+  memorization_justification: Relie l'échec de conversion à l'état observable du field.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Form.php
@@ -1962,9 +1962,9 @@ flashcards:
   official_item: OIT-58r9dadx916v
   language: fr
   level: TRAP
-  front: 'Symfony Forms : le message passé au constructeur de TransformationFailedException est-il affiché à l''utilisateur ?'
-  back: Non. L'erreur affichée vient de l'option `invalid_message` du champ, « This value is not valid. » par défaut.
-  explanation: La documentation le précise ; exécuté, le message privé n'apparaît nulle part dans les erreurs du formulaire.
+  front: 'Symfony Forms : le message passé au constructeur de TransformationFailedException est-il affiché au user ?'
+  back: Non. L'erreur affichée vient de l'option `invalid_message` du field, « This value is not valid. » par défaut.
+  explanation: La documentation le précise ; exécuté, le message privé n'apparaît nulle part dans les erreurs du form.
   memorization_justification: Message d'exception et message d'erreur confondus.
   verification_status: VERIFIED
   official_sources:
@@ -1987,7 +1987,7 @@ flashcards:
   front: 'Symfony Forms : setInvalidMessage() sur TransformationFailedException change-t-il toujours le message affiché ?'
   back: 'Non : seulement quand l''extension Validator est active, car c''est `FormValidator` qui le lit.'
   explanation: 'Exécuté : sans l''extension, `TransformationFailureListener` applique l''option `invalid_message` ; avec elle, le message fixé par `setInvalidMessage()` s''affiche.'
-  memorization_justification: Dépendance non évidente entre deux extensions.
+  memorization_justification: Dependency non évidente entre deux extensions.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Validator/Constraints/FormValidator.php
@@ -2006,9 +2006,9 @@ flashcards:
   official_item: OIT-58r9dadx916v
   language: fr
   level: APPLICATION
-  front: 'Symfony Forms : un transformateur rend un numéro de ticket en chaîne. Que doit retourner sa méthode transform() quand elle reçoit null ?'
-  back: Une chaîne vide.
-  explanation: 'La documentation demande l''équivalent vide du type cible : `''''` pour une chaîne, `0` pour un entier, `0.0` pour un flottant.'
+  front: 'Symfony Forms : un transformateur rend un numéro de ticket en chaîne. Que doit retourner sa method transform() quand elle reçoit null ?'
+  back: Une string vide.
+  explanation: 'La documentation demande l''équivalent vide du type cible : `''''` pour une string, `0` pour un int, `0.0` pour un flottant.'
   memorization_justification: Application directe de la règle documentée.
   verification_status: VERIFIED
   official_sources:
@@ -2022,9 +2022,9 @@ flashcards:
   official_item: OIT-58r9dadx916v
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony Forms : un champ texte est soumis vide. Que reçoit reverseTransform() d''un transformateur de vue, et d''un transformateur de modèle ?'
+  front: 'Symfony Forms : un field texte est soumis vide. Que reçoit reverseTransform() d''un transformateur de vue, et d''un transformateur de modèle ?'
   back: Le transformateur de vue reçoit `''` ; le transformateur de modèle reçoit déjà `null`.
-  explanation: Exécuté avec `symfony/form` 8.0.15. La convention de l'interface est que `reverseTransform()` retourne `null` pour une chaîne vide.
+  explanation: Exécuté avec `symfony/form` 8.0.15. La convention de l'interface est que `reverseTransform()` retourne `null` pour une string vide.
   memorization_justification: La valeur vide change de forme d'une couche à l'autre.
   verification_status: VERIFIED
   official_sources:
@@ -2044,8 +2044,8 @@ flashcards:
   official_item: OIT-58r9dadx916v
   language: fr
   level: APPLICATION
-  front: 'Symfony Forms : convertir en une ligne une liste de tags entre tableau et chaîne séparée par des virgules, sans écrire de classe.'
-  back: Un `CallbackTransformer`, dont le constructeur prend la fonction `transform` puis la fonction `reverseTransform`, attaché par `addModelTransformer()`.
+  front: 'Symfony Forms : convertir en une ligne une liste de tags entre array et string séparée par des virgules, sans écrire de class.'
+  back: Un `CallbackTransformer`, dont le constructeur prend la function `transform` puis la function `reverseTransform`, attaché par `addModelTransformer()`.
   explanation: 'Exemple documenté : `implode('', '', …)` dans un sens, `explode('', '', …)` dans l''autre. Exécuté tel quel, il lève une `TypeError` quand les tags valent `null` : traiter le vide, `''''` dans un sens, `[]` dans l''autre.'
   memorization_justification: Raccourci standard pour une conversion simple.
   verification_status: VERIFIED
@@ -2076,10 +2076,10 @@ flashcards:
   official_item: OIT-v7zyhcm44m88
   language: fr
   level: TRAP
-  front: 'Symfony Forms : dans un écouteur PRE_SET_DATA, on appelle $event->getForm()->getData(). Que se passe-t-il ?'
+  front: 'Symfony Forms : dans un listener PRE_SET_DATA, on appelle $event->getForm()->getData(). Que se passe-t-il ?'
   back: 'Une `RuntimeException` : « A cycle was detected. Listeners to the PRE_SET_DATA event must not call getData() if the form data has not already been set. »'
-  explanation: Exécuté avec symfony/form 8.0.15. La donnée se lit sur l'événement, par `$event->getData()`.
-  memorization_justification: Réflexe naturel qui casse le formulaire à sa création.
+  explanation: Exécuté avec symfony/form 8.0.15. La donnée se lit sur l'event, par `$event->getData()`.
+  memorization_justification: Réflexe naturel qui casse le form à sa création.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Form.php
@@ -2092,9 +2092,9 @@ flashcards:
   official_item: OIT-v7zyhcm44m88
   language: fr
   level: TRAP
-  front: 'Symfony Forms : que retourne $event->getData() dans un écouteur POST_SUBMIT ?'
+  front: 'Symfony Forms : que retourne $event->getData() dans un listener POST_SUBMIT ?'
   back: La donnée de **vue**. La donnée du modèle se lit par `$event->getForm()->getData()`.
-  explanation: 'Exécuté sur un champ muni d''un transformateur de modèle entre `7` et `''n:7''` : l''événement porte `''n:7''`, le formulaire `7`. Le tableau de `events.rst` le confirme.'
+  explanation: 'Exécuté sur un field muni d''un transformateur de modèle entre `7` et `''n:7''` : l''event porte `''n:7''`, le form `7`. L''array de `events.rst` le confirme.'
   memorization_justification: On attend la donnée « entièrement transformée », donc le modèle.
   verification_status: VERIFIED
   official_sources:
@@ -2114,9 +2114,9 @@ flashcards:
   official_item: OIT-v7zyhcm44m88
   language: fr
   level: RECALL
-  front: 'Symfony Forms : quelle donnée porte chacun des cinq événements, dans l''ordre ?'
-  back: 'PRE_SET_DATA : modèle ; POST_SET_DATA : modèle ; PRE_SUBMIT : requête ; SUBMIT : normalisée ; POST_SUBMIT : vue.'
-  explanation: Tableau de `events.rst` (8.0), vérifié par exécution.
+  front: 'Symfony Forms : quelle donnée porte chacun des cinq events, dans l''ordre ?'
+  back: 'PRE_SET_DATA : modèle ; POST_SET_DATA : modèle ; PRE_SUBMIT : Request ; SUBMIT : normalisée ; POST_SUBMIT : vue.'
+  explanation: Array de `events.rst` (8.0), vérifié par exécution.
   memorization_justification: Grille de lecture de tout le cycle.
   verification_status: VERIFIED
   official_sources:
@@ -2132,7 +2132,7 @@ flashcards:
   level: UNDERSTANDING
   front: 'Symfony Forms : pourquoi add() lève-t-elle une exception à POST_SUBMIT mais pas à SUBMIT ?'
   back: '`Form::add()` ne teste que le marqueur « soumis », que `Form::submit()` pose après SUBMIT et avant POST_SUBMIT.'
-  explanation: 'À SUBMIT, les enfants sont déjà soumis : un champ ajouté est accepté mais jamais soumis. À POST_SUBMIT : `AlreadySubmittedException`, « You cannot add children to a submitted form. ».'
+  explanation: 'À SUBMIT, les enfants sont déjà soumis : un field ajouté est accepté mais jamais soumis. À POST_SUBMIT : `AlreadySubmittedException`, « You cannot add children to a submitted form. ».'
   memorization_justification: Explique le verrou silencieux puis bruyant.
   verification_status: VERIFIED
   official_sources:
@@ -2146,9 +2146,9 @@ flashcards:
   official_item: OIT-v7zyhcm44m88
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony Forms : dans l''écouteur POST_SUBMIT d''un champ enfant, les erreurs de validation existent-elles déjà ?'
-  back: Non. `ValidationListener` n'agit que sur le formulaire racine, dont le POST_SUBMIT vient après celui des enfants.
-  explanation: 'Exécuté : aucune erreur vue dans le POST_SUBMIT de l''enfant ; l''erreur `NotBlank` est là dans un écouteur POST_SUBMIT de la racine enregistré après `ValidationListener`.'
+  front: 'Symfony Forms : dans le listener POST_SUBMIT d''un field enfant, les erreurs de validation existent-elles déjà ?'
+  back: Non. `ValidationListener` n'agit que sur le form racine, dont le POST_SUBMIT vient après celui des enfants.
+  explanation: 'Exécuté : aucune erreur vue dans le POST_SUBMIT de l''enfant ; l''erreur `NotBlank` est là dans un listener POST_SUBMIT de la racine enregistré après `ValidationListener`.'
   memorization_justification: Situe la validation dans l'arbre, pas seulement dans le temps.
   verification_status: VERIFIED
   official_sources:
@@ -2162,10 +2162,10 @@ flashcards:
   official_item: OIT-v7zyhcm44m88
   language: fr
   level: RECALL
-  front: 'Symfony Forms : peut-on ajouter un écouteur d''événement à un formulaire déjà construit ?'
-  back: 'Non : son dispatcher est un `ImmutableEventDispatcher`. Les écouteurs se déclarent pendant `buildForm()`.'
+  front: 'Symfony Forms : peut-on ajouter un event listener à un form déjà construit ?'
+  back: 'Non : son dispatcher est un `ImmutableEventDispatcher`. Les listeners se déclarent pendant `buildForm()`.'
   explanation: Constaté par exécution sur `getConfig()->getEventDispatcher()`, et dit par `events.rst`.
-  memorization_justification: Borne le moment où un écouteur peut s'enregistrer.
+  memorization_justification: Borne le moment où un listener peut s'enregistrer.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/events.rst
@@ -2178,10 +2178,10 @@ flashcards:
   official_item: OIT-v7zyhcm44m88
   language: fr
   level: APPLICATION
-  front: 'Symfony Forms : afficher un champ « raison du changement » seulement quand l''objet édité existe déjà. Quel événement ?'
+  front: 'Symfony Forms : afficher un field « raison du changement » seulement quand l''object édité existe déjà. Quel event ?'
   back: PRE_SET_DATA, en testant `$event->getData()` ; POST_SET_DATA convient aussi, la documentation préfère PRE_SET_DATA.
-  explanation: La décision porte sur la donnée initiale, qui vient de l'objet.
-  memorization_justification: Cas type d'ajout de champ selon l'état de l'entité.
+  explanation: La décision porte sur la donnée initiale, qui vient de l'object.
+  memorization_justification: Cas type d'ajout de field selon l'état de l'entité.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/events.rst
@@ -2194,9 +2194,9 @@ flashcards:
   official_item: OIT-v7zyhcm44m88
   language: fr
   level: APPLICATION
-  front: 'Symfony Forms : retirer les espaces autour d''une valeur envoyée avant toute transformation. Quel événement, et comment ?'
-  back: 'PRE_SUBMIT : lire `$event->getData()`, modifier le tableau brut, puis `$event->setData()`.'
-  explanation: La donnée y est encore brute ; un transformateur de données est l'autre voie pour une conversion systématique.
+  front: 'Symfony Forms : retirer les espaces autour d''une valeur envoyée avant toute transformation. Quel event, et comment ?'
+  back: 'PRE_SUBMIT : lire `$event->getData()`, modifier l''array brut, puis `$event->setData()`.'
+  explanation: La donnée y est encore brute ; un data transformer est l'autre voie pour une conversion systématique.
   memorization_justification: Assainissement de la donnée soumise.
   verification_status: VERIFIED
   official_sources:
@@ -2210,9 +2210,9 @@ flashcards:
   official_item: OIT-v7zyhcm44m88
   language: fr
   level: APPLICATION
-  front: 'Symfony Forms : une liste de villes dépend du pays choisi. Depuis quel écouteur ajouter le champ ville ?'
-  back: Depuis le POST_SUBMIT du champ pays, en ajoutant `ville` au **parent**, `$event->getForm()->getParent()`.
-  explanation: 'Le formulaire du champ pays est déjà soumis : `add()` y lèverait `AlreadySubmittedException`. PRE_SUBMIT sur le parent est l''autre voie documentée.'
+  front: 'Symfony Forms : une liste de villes dépend du pays choisi. Depuis quel listener ajouter le field ville ?'
+  back: Depuis le POST_SUBMIT du field pays, en ajoutant `ville` au **parent**, `$event->getForm()->getParent()`.
+  explanation: 'Le form du field pays est déjà soumis : `add()` y lèverait `AlreadySubmittedException`. PRE_SUBMIT sur le parent est l''autre voie documentée.'
   memorization_justification: Motif des listes dépendantes, contre-intuitif.
   verification_status: VERIFIED
   official_sources:
@@ -2250,8 +2250,8 @@ flashcards:
   level: TRAP
   front: 'Symfony Forms : une extension de FormType s''applique-t-elle aux boutons ?'
   back: 'Non : `ButtonType::getParent()` retourne `null`, les boutons ne descendent pas de `FormType`.'
-  explanation: 'Exécuté : l''extension atteint le champ texte, pas le `SubmitType`.'
-  memorization_justification: « Tous les champs » ne veut pas dire « tout le formulaire ».
+  explanation: 'Exécuté : l''extension atteint le field texte, pas le `SubmitType`.'
+  memorization_justification: « Tous les fields » ne veut pas dire « tout le form ».
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Core/Type/ButtonType.php
@@ -2264,9 +2264,9 @@ flashcards:
   official_item: OIT-gcs0jathkv9b
   language: fr
   level: TRAP
-  front: 'Symfony : un attribut #[AsTaggedItem(priority: 10)] sur une extension autoconfigurée change-t-il son ordre ?'
-  back: Non. `FormPass` l'ignore ; la priorité se règle par l'attribut `priority` du tag, dans une déclaration explicite du service.
-  explanation: 'Exécuté avec `FormPass` et DependencyInjection 8.0.15 : l''ordre reste celui de l''enregistrement. La documentation l''annonce : l''attribut de tag exige la configuration explicite du service.'
+  front: 'Symfony : un attribute #[AsTaggedItem(priority: 10)] sur une extension autoconfigurée change-t-il son ordre ?'
+  back: Non. `FormPass` l'ignore ; la priorité se règle par l'attribute `priority` du tag, dans une déclaration explicite du service.
+  explanation: 'Exécuté avec `FormPass` et DependencyInjection 8.0.15 : l''ordre reste celui de l''enregistrement. La documentation l''annonce : l''attribute de tag exige la configuration explicite du service.'
   memorization_justification: Réflexe moderne qui ne fonctionne pas ici.
   verification_status: VERIFIED
   official_sources:
@@ -2309,9 +2309,9 @@ flashcards:
   language: fr
   level: RECALL
   front: 'Symfony : que se passe-t-il si getExtendedTypes() d''une extension ne retourne aucun type ?'
-  back: 'Une `InvalidArgumentException` à la compilation du conteneur : « The getExtendedTypes() method for service … does not return any extended types. »'
+  back: 'Une `InvalidArgumentException` à la compilation du container : « The getExtendedTypes() method for service … does not return any extended types. »'
   explanation: Levée par `FormPass`, reproduite par exécution.
-  memorization_justification: L'erreur survient au build, pas au rendu du formulaire.
+  memorization_justification: L'erreur survient au build, pas au rendu du form.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/DependencyInjection/FormPass.php
@@ -2324,9 +2324,9 @@ flashcards:
   official_item: OIT-gcs0jathkv9b
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony Forms : pour un champ EmailType, l''extension de FormType et celle de TextType : laquelle exécute buildForm() la première ?'
+  front: 'Symfony Forms : pour un field EmailType, l''extension de FormType et celle de TextType : laquelle exécute buildForm() la première ?'
   back: 'Celle de `FormType` : chaque extension s''exécute juste après le type qu''elle étend, en descendant la lignée.'
-  explanation: 'Exécuté : `FormType-ext` puis `TextType-ext` pour le champ e-mail. `ResolvedFormType` appelle le parent, puis le type, puis ses extensions.'
+  explanation: 'Exécuté : `FormType-ext` puis `TextType-ext` pour le field e-mail. `ResolvedFormType` appelle le parent, puis le type, puis ses extensions.'
   memorization_justification: Ordre utile quand deux extensions touchent la même chose.
   verification_status: VERIFIED
   official_sources:
@@ -2341,8 +2341,8 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony Forms : pourquoi écrire une extension plutôt qu''un type pour ajouter une option à FileType ?'
-  back: Une extension modifie le type existant partout où il sert ; un nouveau type ne toucherait que les formulaires qui l'utilisent.
-  explanation: 'C''est la distinction de la documentation : un type crée un champ, une extension modifie ceux qui existent.'
+  back: Une extension modifie le type existant partout où il sert ; un nouveau type ne toucherait que les forms qui l'utilisent.
+  explanation: 'C''est la distinction de la documentation : un type crée un field, une extension modifie ceux qui existent.'
   memorization_justification: Critère de choix posé à l'examen.
   verification_status: VERIFIED
   official_sources:
@@ -2356,7 +2356,7 @@ flashcards:
   official_item: OIT-gcs0jathkv9b
   language: fr
   level: APPLICATION
-  front: 'Symfony Forms : exposer au gabarit une variable image_url pour tous les FileType. Quelles méthodes redéfinir ?'
+  front: 'Symfony Forms : exposer au template une variable image_url pour tous les FileType. Quelles methods redéfinir ?'
   back: '`getExtendedTypes()` retournant `[FileType::class]`, `configureOptions()` rendant l''option `image_property` légale par `setDefined()`, et `buildView()` écrivant `$view->vars[''image_url'']`.'
   explanation: C'est l'exemple de la documentation ; l'extension est autoconfigurée.
   memorization_justification: Assemblage minimal d'une extension utile.
@@ -2372,7 +2372,7 @@ flashcards:
   official_item: OIT-gcs0jathkv9b
   language: fr
   level: APPLICATION
-  front: 'Symfony : vérifier qu''une extension de type est bien enregistrée. Quelle commande ?'
+  front: 'Symfony : vérifier qu''une type extension est bien enregistrée. Quelle command ?'
   back: '`php bin/console debug:form`.'
   explanation: Astuce de la documentation.
   memorization_justification: Diagnostic rapide.
@@ -2388,7 +2388,7 @@ flashcards:
   official_item: OIT-rj9web4whgmz
   language: fr
   level: TRAP
-  front: 'OptionsResolver : une option peut-elle être à la fois requise et pourvue d''une valeur par défaut ?'
+  front: 'OptionsResolver : une option peut-elle être à la fois requise et pourvue d''une default value ?'
   back: 'Oui. Elle reste requise (`isRequired()` vrai) mais n''est plus manquante (`isMissing()` faux) : le défaut la satisfait.'
   explanation: 'Exécuté : `setRequired(''a'')` puis `setDefault(''a'', 1)` résout `[''a'' => 1]`. La documentation montre le cas d''une sous-classe qui fournit l''option exigée par son parent.'
   memorization_justification: On croit les deux incompatibles.
@@ -2410,8 +2410,8 @@ flashcards:
   official_item: OIT-rj9web4whgmz
   language: fr
   level: TRAP
-  front: 'OptionsResolver : un défaut est une fermeture dont le paramètre n''est pas typé. Que vaut l''option résolue ?'
-  back: 'La fermeture elle-même, un objet `Closure` : seul un paramètre typé `Options` rend l''option paresseuse.'
+  front: 'OptionsResolver : un défaut est une closure dont le parameter n''est pas typé. Que vaut l''option résolue ?'
+  back: 'La closure elle-même, un object `Closure` : seul un parameter typé `Options` rend l''option paresseuse.'
   explanation: Avertissement de la documentation, confirmé par exécution.
   memorization_justification: Oubli de type qui change silencieusement la valeur.
   verification_status: VERIFIED
@@ -2432,9 +2432,9 @@ flashcards:
   official_item: OIT-rj9web4whgmz
   language: fr
   level: TRAP
-  front: 'OptionsResolver 8.0 : une fermeture typée OptionsResolver passée à setDefault() déclare-t-elle des options imbriquées ?'
-  back: 'Non : l''option vaut l''objet `Closure`. Les options imbriquées se déclarent par `setOptions()`.'
-  explanation: Exécuté avec options-resolver 8.0.8 ; `setOptions('db', …)` complète les clés manquantes et refuse une clé inconnue, « The option "db[nope]" does not exist. ».
+  front: 'OptionsResolver 8.0 : une closure typée OptionsResolver passée à setDefault() déclare-t-elle des options imbriquées ?'
+  back: 'Non : l''option vaut l''object `Closure`. Les options imbriquées se déclarent par `setOptions()`.'
+  explanation: Exécuté avec options-resolver 8.0.8 ; `setOptions('db', …)` complète les keys manquantes et refuse une key inconnue, « The option "db[nope]" does not exist. ».
   memorization_justification: Syntaxe d'imbrication changée en 8.0.
   verification_status: VERIFIED
   official_sources:
@@ -2488,7 +2488,7 @@ flashcards:
   level: UNDERSTANDING
   front: 'OptionsResolver : une option déclarée par setDefined() et non fournie apparaît-elle dans le tableau résolu ?'
   back: 'Non : elle est absente. `setDefined()` rend l''option acceptée, sans lui donner de valeur.'
-  explanation: 'Exécuté : `setDefined(''a'')` puis `resolve([])` donne un tableau vide ; `isDefined(''a'')` est vrai.'
+  explanation: 'Exécuté : `setDefined(''a'')` puis `resolve([])` donne un array vide ; `isDefined(''a'')` est vrai.'
   memorization_justification: Conséquence concrète de la distinction avec setDefaults().
   verification_status: VERIFIED
   official_sources:
@@ -2502,7 +2502,7 @@ flashcards:
   official_item: OIT-rj9web4whgmz
   language: fr
   level: UNDERSTANDING
-  front: 'OptionsResolver : un normalisateur convertit une chaîne en entier sur une option restreinte au type int. La chaîne ''5'' passe-t-elle ?'
+  front: 'OptionsResolver : un normalisateur convertit une string en entier sur une option restreinte au type int. La string ''5'' passe-t-elle ?'
   back: 'Non : la validation du type passe avant le normalisateur, et `''5''` est refusée par `InvalidOptionsException`.'
   explanation: Exécuté ; même résultat avec `setAllowedValues(['GET', 'POST'])` et un normalisateur `strtoupper()` sur `'post'`.
   memorization_justification: Le normalisateur ne répare pas une valeur refusée.
@@ -2526,7 +2526,7 @@ flashcards:
   level: APPLICATION
   front: 'OptionsResolver : le port vaut 465 si l''option encryption vaut ssl, 25 sinon. Comment l''écrire ?'
   back: '`setDefault(''port'', function (Options $options): int { return ''ssl'' === $options[''encryption''] ? 465 : 25; })`.'
-  explanation: Exemple de la documentation ; la fermeture n'est exécutée que si `port` n'est pas fourni.
+  explanation: Exemple de la documentation ; la closure n'est exécutée que si `port` n'est pas fourni.
   memorization_justification: Défaut paresseux dépendant d'une autre option.
   verification_status: VERIFIED
   official_sources:
@@ -2540,10 +2540,10 @@ flashcards:
   official_item: OIT-rj9web4whgmz
   language: fr
   level: APPLICATION
-  front: 'OptionsResolver : restreindre une option à un tableau d''objets DateTime.'
+  front: 'OptionsResolver : restreindre une option à un array d''objects DateTime.'
   back: '`setAllowedTypes(''dates'', ''DateTime[]'')`.'
-  explanation: 'Chaque élément est contrôlé : exécuté, un tableau contenant une chaîne est refusé.'
-  memorization_justification: Syntaxe des types de tableau.
+  explanation: 'Chaque élément est contrôlé : exécuté, un array contenant une string est refusé.'
+  memorization_justification: Syntaxe des types de array.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/options_resolver.rst

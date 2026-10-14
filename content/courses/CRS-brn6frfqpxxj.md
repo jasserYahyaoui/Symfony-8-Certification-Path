@@ -31,28 +31,28 @@ official_sources:
 
 ## Objectif
 
-Situer le composant, et connaître le contrat d'une commande — dont la valeur de
+Situer le composant, et connaître le contrat d'une command — dont la valeur de
 retour, qui n'est pas facultative, et le moment où elle peut poser des questions.
 
 ## Ce qu'il fait
 
-Le composant Console transforme une classe PHP en commande de terminal :
+Le composant Console transforme une class PHP en command de terminal :
 analyse des arguments, aide générée, sortie colorée, code de sortie. Il est
 **autonome** : `symfony/console` s'installe seul dans n'importe quel projet PHP.
 
-Dans une application Symfony, `bin/console` est le point d'entrée, et
-FrameworkBundle y branche les commandes du framework et celles de `src/`.
+Dans une application Symfony, `bin/console` est l'entry point, et
+FrameworkBundle y branche les commands du framework et celles de `src/`.
 
-## L'application et les commandes
+## L'application et les commands
 
-Une `Application` détient des commandes, les résout par leur nom, et exécute
+Une `Application` détient des commands, les résout par leur nom, et exécute
 celle qui correspond. Elle gère aussi ce qui est commun : `--help`, `--version`,
 `list`, les niveaux de verbosité, le code de sortie.
 
 ## Le code de retour
 
-Une commande **retourne un entier**, et cet entier devient le code de sortie du
-processus :
+Une command **retourne un int**, et cet int devient le code de sortie du
+process :
 
 ```php
 return Command::SUCCESS;   // 0
@@ -61,15 +61,15 @@ return Command::INVALID;   // 2
 ```
 
 C'est le point à retenir. Un script d'intégration continue ou un `cron` ne lit
-pas la sortie : il lit le code. Une commande qui échoue mais retourne `SUCCESS`
+pas l'output : il lit le code. Une command qui échoue mais retourne `SUCCESS`
 est un échec invisible.
 
 `INVALID` se distingue de `FAILURE` : elle signale une **mauvaise utilisation** —
 un argument aberrant — plutôt qu'un traitement qui a échoué.
 
-Exécuté avec Console 8.0.15, par un vrai processus :
+Exécuté avec Console 8.0.15, par un vrai process :
 
-| La commande… | Code de sortie |
+| La command… | Code de sortie |
 |---|---|
 | retourne `300` | **255** — plafonné par `Application::run()` |
 | lève une exception de code `3` | **3** |
@@ -83,22 +83,22 @@ rattrapée : `Application` n'attrape par défaut que les `Exception`, pas les
 
 ## Le cycle d'exécution
 
-La documentation nomme **trois** méthodes de cycle de vie, dans cet ordre :
+La documentation nomme **trois** methods de cycle de vie, dans cet ordre :
 
-| Méthode | Rôle | Obligatoire |
+| Method | Role | Obligatoire |
 |---|---|---|
 | `initialize()` | préparer, avant toute interaction | non |
-| `interact()` | demander à l'utilisateur ce qui manque | non |
+| `interact()` | demander au user ce qui manque | non |
 | `__invoke()` — ou `execute()` | faire le travail et retourner le code | **oui** |
 
 `configure()` n'appartient pas à cette liste : elle s'exécute **pendant le
 constructeur** — exécuté : `ctor-start`, `configure`, `ctor-end` — et elle ne
-concerne que le style classique (une classe qui étend `Command`).
+concerne que le style classique (une class qui étend `Command`).
 
-`initialize()` et `interact()` sont des méthodes de `Command`. Une commande
-invocable qui ne l'étend pas dispose d'équivalents par attributs : `#[Ask]` sur
-un paramètre de `__invoke()`, `#[Interact]` sur une méthode publique. Exécuté :
-la méthode `#[Interact]` tourne avant `__invoke()`, et elle est sautée comme
+`initialize()` et `interact()` sont des methods de `Command`. Une command
+invocable qui ne l'étend pas dispose d'équivalents par attributes : `#[Ask]` sur
+un parameter de `__invoke()`, `#[Interact]` sur une method publique. Exécuté :
+la method `#[Interact]` tourne avant `__invoke()`, et elle est sautée comme
 `interact()`.
 
 ## Quand `interact()` est sautée
@@ -109,12 +109,12 @@ la méthode `#[Interact]` tourne avant `__invoke()`, et elle est sautée comme
 
 **L'absence de terminal ne suffit pas.** Exécuté, sans TTY et entrée standard
 vide — la situation d'un `cron` : `interact()` **est appelée**, la question
-lit une fin de fichier et reçoit sa valeur par défaut. Seul `-n` (ou `-q`) l'a
+lit une fin de file et reçoit sa default value. Seul `-n` (ou `-q`) l'a
 évitée.
 
 | Lancement | `interact()` | Valeur obtenue |
 |---|---|---|
-| sans option, entrée standard vide | appelée | la valeur par défaut de la question |
+| sans option, entrée standard vide | appelée | la default value de la question |
 | sans option, entrée standard `bob` | appelée | `bob` |
 | `-n` | **sautée** | rien |
 | `-q` | **sautée** | rien |
@@ -124,21 +124,21 @@ Un script automatisé doit donc passer `-n`, et une valeur obtenue dans
 
 ## Pièges d'examen
 
-**La méthode d'exécution doit retourner un entier.** Ne rien retourner lève une
+**La method d'exécution doit retourner un int.** Ne rien retourner lève une
 `TypeError`, que l'application ne rattrape pas.
 
 **`SUCCESS` vaut 0**, comme la convention Unix ; un code au-delà de 255 sort à 255.
 
 **Un `cron` n'est pas un mode non interactif** : sans `-n`, `interact()` tourne.
 
-**`-q` coupe aussi l'interaction**, pas seulement la sortie.
+**`-q` coupe aussi l'interaction**, pas seulement l'output.
 
 ## Points clés
 
-- Composant autonome ; `bin/console` en est le point d'entrée dans le framework.
-- Trois méthodes de cycle de vie : `initialize()`, `interact()`, `__invoke()` ;
+- Composant autonome ; `bin/console` en est l'entry point dans le framework.
+- Trois methods de cycle de vie : `initialize()`, `interact()`, `__invoke()` ;
   `configure()` tourne dans le constructeur.
-- La commande retourne `SUCCESS` (0), `FAILURE` (1) ou `INVALID` (2) ; une
+- La command retourne `SUCCESS` (0), `FAILURE` (1) ou `INVALID` (2) ; une
   exception donne son code, ou 1.
 - `interact()` est sautée avec `-n`, `-q` ou `--silent` — pas faute de terminal.
 

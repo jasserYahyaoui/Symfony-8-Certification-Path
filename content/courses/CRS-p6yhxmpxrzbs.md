@@ -44,7 +44,7 @@ official_sources:
 ## Objectif
 
 Mettre en cache une valeur coûteuse à calculer, et savoir pourquoi l'API de
-Symfony n'a pas de méthode pour écrire.
+Symfony n'a pas de method pour écrire.
 
 ## Périmètre
 
@@ -52,27 +52,27 @@ Trois items voisins portent le mot « cache » et ne se recouvrent pas :
 
 | Item | Ce qu'il possède |
 |---|---|
-| *Caching* (HTTP) | les en-têtes du protocole |
-| *HTTP Caching* (Miscellaneous) | le proxy inverse de Symfony |
+| *Caching* (HTTP) | les headers du protocole |
+| *HTTP Caching* (Miscellaneous) | le reverse proxy de Symfony |
 | **cette page** | le **composant Cache** : mettre des valeurs en cache dans le code |
 
 ## Prérequis
 
-L'injection de dépendances et l'autocâblage.
+La dependency injection et l'autowiring.
 
 ## Quatre mots
 
-| Terme | Définition |
+| Terme | Definition |
 |---|---|
-| **Item** | une unité stockée : une clé, une valeur |
+| **Item** | une unité stockée : une key, une valeur |
 | **Pool** | un dépôt logique d'items ; toutes les opérations passent par lui |
-| **Adaptateur** | la classe qui implémente le stockage réel — fichiers, Redis… |
-| **Fournisseur** | le service de connexion au stockage, notion propre au framework |
+| **Adapter** | la class qui implémente le stockage réel — files, Redis… |
+| **Provider** | le service de connexion au stockage, notion propre au framework |
 
 Les pools du framework ne se heurtent pas, même sur un stockage partagé :
-chacun reçoit un **espace de noms** dérivé de son nom. Exécuté, deux
-`FilesystemAdapter` construits avec le même espace de noms et le même dossier
-**partagent** leurs clés.
+chacun reçoit un **namespace** dérivé de son nom. Exécuté, deux
+`FilesystemAdapter` construits avec le même namespace et le même dossier
+**partagent** leurs keys.
 
 ## Deux approches, une recommandée
 
@@ -82,14 +82,14 @@ Le composant en propose deux :
   documentation : moins de code, et **protection contre la ruée par défaut** ;
 - **PSR-6** — l'API générique à pools et items, utile quand une bibliothèque
   tierce l'exige ;
-- **PSR-16** — un cache « simple », sans objet item.
+- **PSR-16** — un cache « simple », sans object item.
 
-Les adaptateurs du composant parlent à la fois les Cache Contracts et PSR-6.
+Les adapters du composant parlent à la fois les Cache Contracts et PSR-6.
 On choisit l'API selon le **contrat qu'attend le code consommateur**.
 
 ## L'API qui surprend
 
-Les Cache Contracts ne définissent que **deux** méthodes : `get()` et
+Les Cache Contracts ne définissent que **deux** methods : `get()` et
 `delete()`.
 
 **Il n'y a pas de `set()`** — et ce n'est pas un oubli : `get()` lit *et* écrit.
@@ -106,18 +106,18 @@ $cache->delete('my_cache_key');
 ```
 
 Le second argument est un **appelable qui produit la valeur** : au manque, et
-aussi sur une clé **présente** quand le recalcul anticipé l'élit ou que `beta`
+aussi sur une key **présente** quand le recalcul anticipé l'élit ou que `beta`
 vaut `INF`. Un succès ordinaire le saute. D'où l'absence d'écriture séparée :
 la valeur et la façon de la produire sont déclarées au même endroit.
 
 Dans une application Symfony, typer un argument avec `CacheInterface` injecte le
-pool `cache.app` par autocâblage.
+pool `cache.app` par autowiring.
 
 Le rappel offre deux capacités que l'examen peut viser :
 
 - `$item->isHit()` **à l'intérieur** du rappel rend `true` lorsque la valeur est
   recalculée **en avance** sur son échéance, par le mécanisme anti-ruée ;
-- un second paramètre `bool &$save`, **passé par référence** : le mettre à
+- un second parameter `bool &$save`, **passé par référence** : le mettre à
   `false` empêche l'enregistrement de la valeur retournée. C'est la façon de ne
   pas cacher un résultat jugé douteux.
 
@@ -127,14 +127,14 @@ Ici, rien n'est écrit sans `save()`. Exécuté sur Cache 8.0.15, `FilesystemAda
 
 | Opération | Effet |
 |---|---|
-| `getItem('k')` sur une clé absente | `isHit()` faux, `get()` rend `null` |
+| `getItem('k')` sur une key absente | `isHit()` faux, `get()` rend `null` |
 | `$item->set('x')` sans `save()` | rien n'est stocké |
 | `set(null)` puis `save()` | `isHit()` **vrai**, `get()` rend `null` |
 | `saveDeferred()` | invisible d'un autre pool jusqu'au `commit()` |
 | `deleteItem('k')` | l'item disparaît |
 
 `null` ne dit donc pas « absent » : seul `isHit()` le dit. Piège exécuté : un
-`getItem()` du **même** pool sur une clé différée la valide aussitôt.
+`getItem()` du **même** pool sur une key différée la valide aussitôt.
 `ArrayAdapter`, lui, enregistre tout de suite : son `saveDeferred()` appelle
 `save()`.
 
@@ -148,15 +148,15 @@ stocké d'une absence. `Psr16Cache` fait d'un pool PSR-6 un cache PSR-16 ;
 
 ## La ruée sur le cache
 
-Quand une clé coûteuse expire, les requêtes simultanées la recalculent toutes.
+Quand une key coûteuse expire, les Requests simultanées la recalculent toutes.
 Les Cache Contracts l'évitent **sans configuration** :
 
-- un **verrou** : un seul processus PHP recalcule une clé donnée, par machine ;
+- un **verrou** : un seul process PHP recalcule une key donnée, par machine ;
 - une **expiration anticipée probabiliste** : au lieu d'attendre l'échéance, un
-  utilisateur au hasard se voit simuler un manque et recalcule, pendant que les
+  user au hasard se voit simuler un manque et recalcule, pendant que les
   autres continuent d'être servis depuis le cache.
 
-Le troisième paramètre de `get()`, le **`beta`**, règle ce second mécanisme :
+Le troisième parameter de `get()`, le **`beta`**, règle ce second mécanisme :
 `1.0` par défaut, une valeur plus haute recalcule plus tôt, **`0` le désactive**
 — sans désactiver le cache — et **`INF` force un recalcul immédiat**. Seul un
 item doté d'une échéance peut être élu en avance.
@@ -164,27 +164,27 @@ item doté d'une échéance peut être élu en avance.
 ## Les pools du framework
 
 Deux pools existent toujours, et les confondre a des conséquences au
-déploiement :
+deployment :
 
-| Pool | Usage | Adaptateur par défaut |
+| Pool | Usage | Adapter par défaut |
 |---|---|---|
 | `cache.app` | données applicatives générales | `cache.adapter.filesystem` |
 | `cache.system` | ce qui **dérive du code source** | `cache.adapter.system` |
 
 `cache.system` est réservé aux entrées régénérables au préchauffage et qui ne
-changent qu'avec le code — donc au déploiement, pas à l'exécution. `cache.app`
-n'a pas besoin d'être vidé au déploiement ; la documentation recommande d'y
+changent qu'avec le code — donc au deployment, pas à l'exécution. `cache.app`
+n'a pas besoin d'être vidé au deployment ; la documentation recommande d'y
 mettre Redis lorsque c'est possible, pour que les données survivent au
-déploiement et soient partagées entre plusieurs serveurs.
+deployment et soient partagées entre plusieurs serveurs.
 
 `cache.adapter.system` n'est pas un stockage : il **choisit** dynamiquement le
-meilleur disponible — fichiers PHP, chaînés derrière APCu quand il est là.
+meilleur disponible — files PHP, chaînés derrière APCu quand il est là.
 
-Les adaptateurs préconfigurés couvrent `apcu`, `array`, `filesystem`,
+Les adapters préconfigurés couvrent `apcu`, `array`, `filesystem`,
 `memcached`, `pdo`, `psr6`, `redis` et `valkey`, ces deux derniers ayant une
-variante optimisée pour les étiquettes.
+variante optimisée pour les tags.
 
-## Invalider par étiquette
+## Invalider par tag
 
 ```php
 $value = $pool->get('item_0', function (ItemInterface $item): string {
@@ -195,10 +195,10 @@ $value = $pool->get('item_0', function (ItemInterface $item): string {
 $pool->invalidateTags(['bar']);
 ```
 
-`ItemInterface::tag()` attache une étiquette ; `invalidateTags()`, de
+`ItemInterface::tag()` attache un tag ; `invalidateTags()`, de
 `TagAwareCacheInterface`, supprime **tous** les items qui la portent. C'est la
-réponse au besoin « effacer plusieurs clés d'un coup » quand on ne connaît pas
-la liste des clés.
+Response au besoin « effacer plusieurs keys d'un coup » quand on ne connaît pas
+la liste des keys.
 
 ## Pièges d'examen
 
@@ -211,19 +211,19 @@ la liste des clés.
 l'enregistrement.
 
 **Le rappel ne tourne pas qu'au manque.** Exécuté : avec `beta` à `INF`, il
-tourne sur une clé présente, et `isHit()` y rend `true`.
+tourne sur une key présente, et `isHit()` y rend `true`.
 
 **`cache.system` n'est pas un `cache.app` plus rapide** : il suppose des données
 dérivables du code source.
 
 ## Points clés
 
-- Item, pool, adaptateur, fournisseur ; un espace de noms isole chaque pool.
+- Item, pool, adapter, provider ; un namespace isole chaque pool.
 - Cache Contracts recommandés : `get()` et `delete()`, pas de `set()`.
 - Le rappel tourne au manque ou au recalcul anticipé, expose `isHit()` et `&$save`.
 - Anti-ruée intégré : verrou plus expiration anticipée réglée par `beta`.
 - `cache.app` pour les données, `cache.system` pour ce qui dérive du code.
-- `tag()` puis `invalidateTags()` pour effacer un groupe.
+- `tag()` puis `invalidateTags()` pour effacer un group.
 - PSR-6 : `save()`, `saveDeferred()` + `commit()` ; PSR-16 : défaut et `has()`.
 
 ## Sources officielles

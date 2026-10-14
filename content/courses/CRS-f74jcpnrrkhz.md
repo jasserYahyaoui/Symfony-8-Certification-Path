@@ -30,13 +30,13 @@ Savoir quelles recommandations du PHP-FIG Symfony **implémente**, lesquelles il
 
 ## Les PSR implémentées
 
-La clé `provide` du `composer.json` de `symfony/symfony` est la réponse
+La key `provide` du `composer.json` de `symfony/symfony` est la Response
 autoritative. Elle compte **quinze** entrées, et les PSR n'en sont qu'une part :
 **huit** `psr/*`, **cinq** contrats Symfony, **deux** HTTPlug.
 
-| PSR | Objet | Composant Symfony |
+| PSR | Object | Composant Symfony |
 |---|---|---|
-| **PSR-3** | Logger | intégration de journalisation |
+| **PSR-3** | Logger | intégration de logging |
 | **PSR-6** | Cache | Cache |
 | **PSR-11** | Container | DependencyInjection |
 | **PSR-13** | Link | WebLink |
@@ -45,10 +45,10 @@ autoritative. Elle compte **quinze** entrées, et les PSR n'en sont qu'une part 
 | **PSR-18** | HTTP Client | HttpClient |
 | **PSR-20** | Clock | Clock |
 
-Concrètement : le conteneur de services de Symfony **est** un
-`Psr\Container\ContainerInterface`, et son dispatcher d'événements **est** un
+Concrètement : le service container de Symfony **est** un
+`Psr\Container\ContainerInterface`, et son dispatcher d'events **est** un
 `Psr\EventDispatcher\EventDispatcherInterface`. Une bibliothèque tierce qui type
-contre ces interfaces fonctionne sans adaptateur.
+contre ces interfaces fonctionne sans adapter.
 
 ### Les versions déclarées ne sont pas les mêmes
 
@@ -68,10 +68,10 @@ Symfony satisfait. Elles diffèrent, et c'est vérifiable ligne à ligne :
 
 **Les contrats Symfony** — `symfony/cache-implementation`,
 `event-dispatcher`, `http-client`, `service`, `translation`. Ce sont des
-abstractions publiées à part, dans des paquets minuscules et sans dépendance.
+abstractions publiées à part, dans des packages minuscules et sans dependency.
 Une bibliothèque qui exige `symfony/service-implementation` fonctionne avec
-Symfony sans en dépendre — la même logique que le paquet de contrats qui porte
-`trigger_deprecation()`, traité dans la page sur les dépréciations.
+Symfony sans en dépendre — la même logique que le package de contrats qui porte
+`trigger_deprecation()`, traité dans la page sur les deprecations.
 
 **HTTPlug** — `php-http/client-implementation` et
 `php-http/async-client-implementation`, déclarés à `*`. C'est l'abstraction
@@ -108,11 +108,11 @@ que le pont ne fournit pas. Pour toutes les autres, Symfony *est*
 l'implémentation.
 
 **Implémentée et suivie ne sont pas la même chose.** PSR-4 et PSR-12 se
-respectent, elles ne s'implémentent pas : elles ne figurent pas dans la clé
+respectent, elles ne s'implémentent pas : elles ne figurent pas dans la key
 `provide`.
 
-**Le conteneur *est* un `Psr\Container\ContainerInterface`.** Il n'y a pas
-d'adaptateur à écrire pour une bibliothèque qui type contre PSR-11 ou PSR-14.
+**Le container *est* un `Psr\Container\ContainerInterface`.** Il n'y a pas
+d'adapter à écrire pour une bibliothèque qui type contre PSR-11 ou PSR-14.
 
 **`provide` ne contient pas que des PSR.** Sur quinze entrées, sept ne sont pas
 des `psr/*` : cinq contrats Symfony et deux HTTPlug.
@@ -126,7 +126,7 @@ seule pour PSR-20, PSR-14 et PSR-18.
 **Trois verbes pour trois statuts.** Symfony **implémente** (PSR-3, 6, 11, 13,
 14, 16, 18, 20), **suit** (PSR-4, PSR-12), **ponte** (PSR-7 / PSR-17).
 
-**Le nom du paquet virtuel donne la réponse.** `psr/<nom>-implementation` dans
+**Le nom du package virtuel donne la Response.** `psr/<nom>-implementation` dans
 `provide` ⇒ implémentée. Absent ⇒ pas implémentée, quoi qu'en dise l'intuition.
 
 ## Points clés
@@ -135,12 +135,12 @@ seule pour PSR-20, PSR-14 et PSR-18.
 - Suivies : PSR-4 (autoload) et PSR-12 (style).
 - PSR-7 / PSR-17 : **non natif**, via `symfony/psr-http-message-bridge` plus une
   implémentation tierce.
-- Le conteneur est PSR-11 ; le dispatcher est PSR-14.
+- Le container est PSR-11 ; le dispatcher est PSR-14.
 - `provide` : **15** entrées — 8 `psr/*`, 5 contrats Symfony, 2 HTTPlug.
 - Les versions déclarées diffèrent : `1.0|2.0|3.0` pour PSR-3, `1.0` seul pour
   PSR-20.
 
 ## Sources officielles
 
-- [composer.json de symfony/symfony, clé `provide`](https://github.com/symfony/symfony/blob/8.0/composer.json)
+- [composer.json de symfony/symfony, key `provide`](https://github.com/symfony/symfony/blob/8.0/composer.json)
 - [The PSR-7 Bridge](https://github.com/symfony/symfony-docs/blob/8.0/components/psr7.rst)

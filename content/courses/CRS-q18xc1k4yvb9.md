@@ -55,11 +55,11 @@ official_sources:
 
 ## Objectif
 
-Traduire depuis un gabarit, gérer le pluriel et savoir ce que le filtre et la
-balise font différemment. L'organisation des catalogues et la détection de la
+Traduire depuis un template, gérer le plural et savoir ce que le filter et la
+tag font différemment. L'organisation des catalogues et la détection de la
 locale appartiennent aux lots Internationalisation et Routing.
 
-## Le filtre
+## Le filter
 
 ```html
 <h1>{{ 'page.title'|trans }}</h1>
@@ -69,25 +69,25 @@ locale appartiennent aux lots Internationalisation et Routing.
 ```
 
 Dans le code de `TranslationExtension` (Twig Bridge 8.0), la signature est
-`trans(arguments = [], domain = null, locale = null, count = null)` : **paramètres,
+`trans(arguments = [], domain = null, locale = null, count = null)` : **parameters,
 domaine, locale**, puis un compte qui renseigne `%count%`. Un domaine omis vaut
 `messages`, une locale omise vaut la locale courante.
 
 Twig accepte les **arguments nommés** : `|trans(domain: 'store')` — ou
-`domain = 'store'`, l'autre séparateur admis par Twig 3.22 — évite le tableau
+`domain = 'store'`, l'autre séparateur admis par Twig 3.22 — évite l'array
 vide.
 
-Le deuxième argument doit être un tableau. Une chaîne n'y est admise que si le
-message est un objet traduisible : elle désigne alors la **locale**. Sur une
-chaîne ordinaire, `|trans('store')` lève une `TypeError`.
+Le deuxième argument doit être un array. Une string n'y est admise que si le
+message est un object traduisible : elle désigne alors la **locale**. Sur une
+string ordinaire, `|trans('store')` lève une `TypeError`.
 
 ## Les emplacements
 
 Symfony remplace les emplacements par `strtr()`. Les pourcents de `%name%` sont
 une **convention** : la documentation précise que `#name#` ou `{name}`
-fonctionnent aussi, pourvu que la clé du tableau corresponde exactement.
+fonctionnent aussi, pourvu que la key de l'array corresponde exactement.
 
-## La balise
+## Le tag
 
 ```html
 {% trans with {'%name%': 'Fabien'} from 'app' into 'fr' %}Hello %name%{% endtrans %}
@@ -95,57 +95,57 @@ fonctionnent aussi, pourvu que la clé du tableau corresponde exactement.
 
 - `count`, `with`, `from`, `into`, **dans cet ordre** : `TransTokenParser` les
   lit ainsi, et un mot hors de place est une erreur de syntaxe.
-- Dans la balise, la notation `%var%` est **obligatoire**. Un emplacement absent
+- Dans le tag, la notation `%var%` est **obligatoire**. Un emplacement absent
   de `with` est lu dans le **contexte** : `%name%` vaut la variable `name`
   (`TransNode`).
-- Le corps doit être du texte simple.
+- Le body doit être du texte simple.
 - Un pourcent littéral se double : `%percent%%%`.
 
-`{% trans_default_domain 'app' %}` fixe le domaine du gabarit courant — et de
-lui seul : un gabarit inclus garde `messages`, pour éviter les effets de bord.
+`{% trans_default_domain 'app' %}` fixe le domaine du template courant — et de
+lui seul : un template inclus garde `messages`, pour éviter les effets de bord.
 
 ## Échappé ou non
 
-La documentation le souligne : la sortie du **filtre** est échappée, celle de la
-**balise** ne l'est **pas**. Pour afficher du HTML traduit par le filtre, on
+La documentation le souligne : l'output du **filter** est échappé, celui du
+**tag** ne l'est **pas**. Pour afficher du HTML traduit par le filter, on
 ajoute `|raw` après `|trans`.
 
-## Le pluriel
+## Le plural
 
-La documentation 8.0 traite le pluriel — et le genre, et les formats propres à
+La documentation 8.0 traite le plural — et le genre, et les formats propres à
 une locale — par **ICU MessageFormat** :
 
-- le fichier de catalogue porte le suffixe `+intl-icu` —
+- le file de catalogue porte le suffixe `+intl-icu` —
   `messages+intl-icu.en.yaml` ;
 - les emplacements s'écrivent `{name}`, et `MessageFormatter` traite tous les
-  messages du fichier.
+  messages du file.
 
 La syntaxe à barres verticales — `'{0} Aucun résultat|one result|%count%
 results'` — sélectionne d'après `%count%`. La documentation la qualifie de
 syntaxe *legacy* ; elle fonctionne toujours et garde une chose qu'ICU n'a pas :
 les intervalles personnalisés, `]0,1000]`.
 
-## L'objet traduisible
+## L'object traduisible
 
 `t('notification.welcome', {…}, 'domaine')` construit un `TranslatableMessage`,
-qui transporte ses paramètres et son domaine et se traduit à l'affichage par
+qui transporte ses parameters et son domaine et se traduit à l'affichage par
 `|trans`, dans la locale courante — ou celle passée en deuxième argument.
-Retourner une clé brute, depuis une énumération par exemple, perd paramètres et
+Retourner une key brute, depuis une enum par exemple, perd parameters et
 domaine, et `translation:extract` ne la voit pas.
 
 ## Pièges d'examen
 
-**L'ordre des arguments du filtre est paramètres, domaine, locale.** Les
+**L'ordre des arguments du filter est parameters, domaine, locale.** Les
 arguments nommés évitent de le deviner.
 
-**Une chaîne en deuxième argument** n'est une locale que pour un objet
+**Une string en deuxième argument** n'est une locale que pour un object
 traduisible ; ailleurs, c'est une erreur.
 
-**Le filtre échappe, la balise non.**
+**Le filter échappe, le tag non.**
 
 **`trans_default_domain` ne traverse pas un `include`.**
 
-**Dans la balise, un emplacement non fourni vient du contexte.**
+**Dans le tag, un emplacement non fourni vient du contexte.**
 
 **Accolades et pluriel** : sans le suffixe `+intl-icu`, `{name}` n'est qu'un
 emplacement ordinaire — rien n'est pluralisé.
@@ -153,13 +153,13 @@ emplacement ordinaire — rien n'est pluralisé.
 ## Points clés
 
 - `|trans(paramètres, domaine, locale, count)` ; arguments nommés admis.
-- `%nom%` est une convention pour le filtre, une obligation pour la balise.
-- Balise : `count`, `with`, `from`, `into`, dans cet ordre ; sortie non échappée.
-- Pluriel : ICU, fichier suffixé `+intl-icu`, `{nom}` ; barres = *legacy*.
-- `t()` produit un objet traduit à l'affichage.
+- `%nom%` est une convention pour le filter, une obligation pour le tag.
+- Tag : `count`, `with`, `from`, `into`, dans cet ordre ; sortie non échappée.
+- Pluriel : ICU, file suffixé `+intl-icu`, `{nom}` ; barres = *legacy*.
+- `t()` produit un object traduit à l'affichage.
 
 ## Sources officielles
 
-- [Symfony Translation, traductions dans les gabarits](https://github.com/symfony/symfony-docs/blob/8.0/translation.rst) et [ICU MessageFormat](https://github.com/symfony/symfony-docs/blob/8.0/reference/formats/message_format.rst)
-- [Symfony Twig Reference, filtre `trans`](https://github.com/symfony/symfony-docs/blob/8.0/reference/twig_reference.rst)
+- [Symfony Translation, translations dans les templates](https://github.com/symfony/symfony-docs/blob/8.0/translation.rst) et [ICU MessageFormat](https://github.com/symfony/symfony-docs/blob/8.0/reference/formats/message_format.rst)
+- [Symfony Twig Reference, filter `trans`](https://github.com/symfony/symfony-docs/blob/8.0/reference/twig_reference.rst)
 - [Twig Bridge 8.0, `TranslationExtension`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/Extension/TranslationExtension.php), [`TransTokenParser`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/TokenParser/TransTokenParser.php) et [`TransNode`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/Node/TransNode.php)

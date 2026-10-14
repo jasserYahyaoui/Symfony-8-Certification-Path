@@ -10,10 +10,10 @@ flashcards:
   official_item: OIT-78k7kbfpgfxt
   language: fr
   level: UNDERSTANDING
-  front: Pourquoi les Cache Contracts n'ont-ils pas de méthode set() ?
-  back: 'Parce que get() lit et écrit : son second argument est un appelable qui produit la valeur et la stocke
-    — au manque, ou sur une clé présente élue pour un recalcul anticipé ou forcée par beta = INF.'
-  explanation: 'L''API ne définit que get() et delete(). Conséquence : on ne peut pas lire une clé sans déclarer
+  front: Pourquoi les Cache Contracts n'ont-ils pas de method set() ?
+  back: 'Parce que get() lit et écrit : son second argument est un callable qui produit la valeur et la stocke
+    — au manque, ou sur une key présente élue pour un recalcul anticipé ou forcée par beta = INF.'
+  explanation: 'L''API ne définit que get() et delete(). Conséquence : on ne peut pas lire une key sans déclarer
     comment la reconstruire.'
   memorization_justification: Toute autre API de cache expose un set() ; son absence ici surprend et s'oublie.
   verification_status: VERIFIED
@@ -33,7 +33,7 @@ flashcards:
   official_item: OIT-78k7kbfpgfxt
   language: fr
   level: RECALL
-  front: 'Symfony : quelles méthodes les Cache Contracts définissent-ils ?'
+  front: 'Symfony : quelles methods les Cache Contracts définissent-ils ?'
   back: '`get()` et `delete()` ; pas de `set()`.'
   explanation: Documentation *Cache*, branche 8.0.
   memorization_justification: Surface de l'API.
@@ -50,9 +50,9 @@ flashcards:
   language: fr
   level: RECALL
   front: 'Symfony : quelle valeur de beta force un recalcul immédiat ?'
-  back: '`INF` ; `0` désactive le recalcul anticipé, `1.0` est la valeur par défaut.'
-  explanation: 'Exécuté : avec `INF`, le rappel tourne sur une clé présente.'
-  memorization_justification: Paramètre beta.
+  back: '`INF` ; `0` désactive le recalcul anticipé, `1.0` est la default value.'
+  explanation: 'Exécuté : avec `INF`, le rappel tourne sur une key présente.'
+  memorization_justification: Parameter beta.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/cache.rst
@@ -71,7 +71,7 @@ flashcards:
   official_item: OIT-78k7kbfpgfxt
   language: fr
   level: RECALL
-  front: 'Symfony : quel pool est injecté par autocâblage sur CacheInterface ?'
+  front: 'Symfony : quel pool est injecté par autowiring sur CacheInterface ?'
   back: '`cache.app`.'
   explanation: Documentation *Cache*, branche 8.0.
   memorization_justification: Pool par défaut.
@@ -109,9 +109,9 @@ flashcards:
   official_item: OIT-78k7kbfpgfxt
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi deux pools peuvent-ils partager un stockage sans conflit de clés ?'
-  back: Parce que chaque pool préfixe ses clés par son espace de noms.
-  explanation: 'Exécuté : deux `FilesystemAdapter` sur un même répertoire, même clé, valeurs distinctes.'
+  front: 'Symfony : pourquoi deux pools peuvent-ils partager un stockage sans conflit de keys ?'
+  back: Parce que chaque pool préfixe ses keys par son namespace.
+  explanation: 'Exécuté : deux `FilesystemAdapter` sur un même directory, même key, valeurs distinctes.'
   memorization_justification: Étanchéité des pools.
   verification_status: VERIFIED
   official_sources:
@@ -126,9 +126,9 @@ flashcards:
   language: fr
   level: APPLICATION
   front: 'Symfony : ne pas mettre en cache un résultat douteux renvoyé par le rappel.'
-  back: Déclarer `bool &$save` en second paramètre du rappel et le mettre à `false`.
+  back: Déclarer `bool &$save` en second parameter du rappel et le mettre à `false`.
   explanation: 'Exécuté : `hasItem()` rend `false` ensuite.'
-  memorization_justification: Paramètre &$save.
+  memorization_justification: Parameter &$save.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/cache.rst
@@ -150,7 +150,7 @@ flashcards:
   front: 'Symfony : effacer d''un coup tous les items étiquetés bar.'
   back: '`$pool->invalidateTags([''bar''])` sur un pool `TagAwareCacheInterface`.'
   explanation: 'Exécuté : l''item étiqueté `bar` disparaît, l''item étiqueté seulement `foo` reste.'
-  memorization_justification: Invalidation par étiquette.
+  memorization_justification: Invalidation par tag.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Cache/Adapter/TagAwareAdapter.php
@@ -186,9 +186,9 @@ flashcards:
   language: fr
   level: TRAP
   front: 'Symfony : cache.system est-il un cache.app plus rapide ?'
-  back: 'Non : il est réservé aux données dérivées du code source, régénérées au déploiement.'
+  back: 'Non : il est réservé aux données dérivées du code source, régénérées au deployment.'
   explanation: Documentation *System Cache and Application Cache*.
-  memorization_justification: Rôle de cache.system.
+  memorization_justification: Role de cache.system.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/cache.rst
@@ -201,7 +201,7 @@ flashcards:
   official_item: OIT-78k7kbfpgfxt
   language: fr
   level: TRAP
-  front: 'Symfony : beta = 0 désactive-t-il la mise en cache de la clé ?'
+  front: 'Symfony : beta = 0 désactive-t-il la mise en cache de la key ?'
   back: 'Non : seulement le recalcul anticipé ; la valeur reste en cache.'
   explanation: Documentation *Preventing Cache Stampede*, branche 8.0.
   memorization_justification: Portée de beta.
@@ -217,7 +217,7 @@ flashcards:
   official_item: OIT-78k7kbfpgfxt
   language: fr
   level: TRAP
-  front: 'PSR-6 : getItem(''k'')->get() rend null. La clé est-elle absente ?'
+  front: 'PSR-6 : getItem(''k'')->get() rend null. La key est-elle absente ?'
   back: Pas forcément. Un null enregistré par save() rend aussi null, mais avec isHit() vrai. Seul isHit() dit « absent
     ». En PSR-16, c'est has().
   explanation: 'Exécuté sur Cache 8.0.15 : après set(null) puis save(), isHit() est vrai et get() rend null.'
@@ -240,10 +240,10 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'PSR-6 : quand un item passé à saveDeferred() devient-il visible d''un autre pool ?'
-  back: 'Au commit() — ou dès qu''un getItem() du même pool lit cette clé, ce qui la valide. Avec ArrayAdapter, tout de
+  back: 'Au commit() — ou dès qu''un getItem() du même pool lit cette key, ce qui la valide. Avec ArrayAdapter, tout de
     suite : son saveDeferred() appelle save().'
   explanation: Exécuté sur Cache 8.0.15 avec deux FilesystemAdapter sur le même dossier.
-  memorization_justification: Le différé dépend de l'adaptateur et d'un effet de bord de getItem() que rien n'annonce.
+  memorization_justification: Le différé dépend de l'adapter et d'un effet de bord de getItem() que rien n'annonce.
   verification_status: VERIFIED
   reviewed_at: '2026-10-14'
   official_sources:

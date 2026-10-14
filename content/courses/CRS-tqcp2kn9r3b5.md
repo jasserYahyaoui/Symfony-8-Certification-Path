@@ -30,12 +30,12 @@ official_sources:
 
 ## Objectif
 
-Déclarer un attribut, le poser correctement, et le lire par réflexion — le
+Déclarer un attribute, le poser correctement, et le lire par réflexion — le
 mécanisme sur lequel repose une grande partie de la configuration Symfony.
 
 ## Déclarer
 
-Un attribut est une classe ordinaire marquée par `#[Attribute]` :
+Un attribute est une class ordinaire marquée par `#[Attribute]` :
 
 ```php
 #[\Attribute(\Attribute::TARGET_METHOD | \Attribute::IS_REPEATABLE)]
@@ -63,14 +63,14 @@ Les arguments suivent les règles d'appel habituelles, et les deux syntaxes —
 positionnelle et nommée — sont acceptées. Ce qu'ils peuvent contenir est
 défini positivement : des **valeurs littérales ou des expressions
 constantes**. Sont donc admis un littéral, une constante, une constante de
-classe, un cas d'énumération, un tableau de ces éléments et, depuis PHP 8.1,
-une instanciation `new`, ce qui permet d'imbriquer des attributs — exécuté :
-`#[Outer([new Inner('a')])]`. En revanche, ni appel de fonction ni variable,
+class, un cas d'enum, un array de ces éléments et, depuis PHP 8.1,
+une instanciation `new`, ce qui permet d'imbriquer des attributes — exécuté :
+`#[Outer([new Inner('a')])]`. En revanche, ni appel de function ni variable,
 qui ne sont pas des expressions constantes.
 
 ## Lire
 
-C'est le point souvent négligé : **un attribut ne fait rien tout seul**.
+C'est le point souvent négligé : **un attribute ne fait rien tout seul**.
 
 ```php
 $reflection = new \ReflectionMethod($controller, 'list');
@@ -82,30 +82,30 @@ foreach ($reflection->getAttributes(Route::class) as $attribute) {
 ```
 
 `getAttributes()` renvoie des `ReflectionAttribute`, pas des instances.
-`newInstance()` est ce qui construit réellement l'objet — et donc ce qui peut
+`newInstance()` est ce qui construit réellement l'object — et donc ce qui peut
 lever si les arguments sont invalides.
 
 ## Pièges d'examen
 
-**Déclarer un attribut ne l'exécute pas.** Sans code de réflexion qui le lit,
-un attribut est inerte. En Symfony, c'est le framework qui lit.
+**Déclarer un attribute ne l'exécute pas.** Sans code de réflexion qui le lit,
+un attribute est inerte. En Symfony, c'est le framework qui lit.
 
 **`getAttributes()` ne construit rien.** Tant que `newInstance()` n'est pas
-appelé, la classe d'attribut n'est pas instanciée et ses erreurs n'apparaissent
+appelé, la class d'attribute n'est pas instanciée et ses erreurs n'apparaissent
 pas.
 
 **Les arguments sont des expressions constantes.** `#[Route(path: getPath())]`
 ne compile pas.
 
-**Sans `IS_REPEATABLE`, répéter un attribut est une erreur** au moment de la
+**Sans `IS_REPEATABLE`, répéter un attribute est une erreur** au moment de la
 lecture par réflexion.
 
 ## Points clés
 
 - `#[Attribute]` avec des drapeaux de cible ; `IS_REPEATABLE` pour répéter.
 - Arguments = expressions constantes, arguments nommés autorisés.
-- `getAttributes()` → `ReflectionAttribute` ; `newInstance()` construit l'objet.
-- Un attribut est de la donnée : sans lecteur, il ne produit aucun effet.
+- `getAttributes()` → `ReflectionAttribute` ; `newInstance()` construit l'object.
+- Un attribute est de la donnée : sans lecteur, il ne produit aucun effet.
 
 ## Sources officielles
 

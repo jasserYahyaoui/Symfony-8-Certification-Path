@@ -37,25 +37,25 @@ official_sources:
 
 ## Objectif
 
-Déclarer l'identité d'une commande — nom, description, aide, alias, visibilité —
+Déclarer l'identité d'une command — nom, description, aide, alias, visibilité —
 et savoir quand cette déclaration est lue.
 
 ## Prérequis
 
-L'écriture d'une commande personnalisée.
+L'écriture d'une command personnalisée.
 
-## Tout dans l'attribut
+## Tout dans l'attribute
 
-`#[AsCommand]` porte six paramètres :
+`#[AsCommand]` porte six parameters :
 
-| Paramètre | Rôle |
+| Parameter | Role |
 |---|---|
-| `name` | le nom tapé après `bin/console` — **seul paramètre obligatoire** |
+| `name` | le nom tapé après `bin/console` — **seul parameter obligatoire** |
 | `description` | la ligne affichée par `list` |
 | `help` | le texte long affiché par `--help` |
-| `usages` | des exemples d'utilisation, sans répéter le nom de la commande |
-| `aliases` | d'autres noms qui lancent la même commande |
-| `hidden` | retire la commande de `list` sans l'empêcher de tourner |
+| `usages` | des exemples d'utilisation, sans répéter le nom de la command |
+| `aliases` | d'autres noms qui lancent la même command |
+| `hidden` | retire la command de `list` sans l'empêcher de tourner |
 
 ```php
 #[AsCommand(
@@ -75,22 +75,22 @@ Ils s'écrivent aussi **dans le nom**, séparés par une barre verticale. Le
 #[AsCommand(name: 'app:create-user|app:add-user|app:new-user')]
 ```
 
-C'est la même chose que le paramètre `aliases` : le constructeur de l'attribut
-fusionne les deux dans une seule chaîne séparée par `|`.
+C'est la même chose que le parameter `aliases` : le constructeur de l'attribute
+fusionne les deux dans une seule string séparée par `|`.
 
-Un **premier segment vide** cache la commande : `name: '|app:secret'` équivaut
+Un **premier segment vide** cache la command : `name: '|app:secret'` équivaut
 à `hidden: true`. Lu dans le constructeur de `Command` (8.0), puis exécuté :
 `app:secret` absente de `list`, et exécutable (code 0).
 
 ## Pourquoi la description compte
 
-Renseigner la description **dans l'attribut** plutôt que par `setDescription()`
-permet à Symfony de la lire **sans instancier la classe**. `bin/console list`
-n'a alors pas à construire chaque commande de l'application pour afficher son
-tableau. Exécuté sur FrameworkBundle 8.0.15, deux commandes dont le
+Renseigner la description **dans l'attribute** plutôt que par `setDescription()`
+permet à Symfony de la lire **sans instancier la class**. `bin/console list`
+n'a alors pas à construire chaque command de l'application pour afficher son
+array. Exécuté sur FrameworkBundle 8.0.15, deux commands dont le
 constructeur se signale :
 
-| Description posée… | Classe construite par `list` |
+| Description posée… | Class construite par `list` |
 |---|---|
 | dans `#[AsCommand(description: …)]` | **non** |
 | dans `configure()`, par `setDescription()` | **oui** |
@@ -101,20 +101,20 @@ La documentation 8.0 montre `usages` dans `#[AsCommand]`. Le code de
 FrameworkBundle 8.0 ne transmet que `name`, `description` et `help` au tag
 `console.command`. Exécuté :
 
-| Commande | `getUsages()` |
+| Command | `getUsages()` |
 |---|---|
 | invocable, dans une application FrameworkBundle | `[]` — usages perdus |
 | invocable, `Application` autonome | `["app:usage bob", …]` |
 | sous-classe de `Command`, FrameworkBundle | `["app:usage-sub carol"]` |
 
-Le code l'emporte : dans une application Symfony, une commande invocable qui
-veut des usages ne peut pas compter sur l'attribut seul. Le nom de la commande
+Le code l'emporte : dans une application Symfony, une command invocable qui
+veut des usages ne peut pas compter sur l'attribute seul. Le nom de la command
 est préfixé automatiquement à chaque usage qui ne le porte pas
 (`Command::addUsage()`).
 
-## La méthode `configure()`
+## La method `configure()`
 
-Elle appartient au style classique — une classe qui étend `Command` :
+Elle appartient au style classique — une class qui étend `Command` :
 
 ```php
 protected function configure(): void
@@ -129,8 +129,8 @@ protected function configure(): void
 
 Le point que l'examen teste est **le moment de son appel** : `configure()` est
 appelée **à la fin du constructeur** de `Command`, pas au lancement de la
-commande — exécuté : `ctor-start`, `configure`, `ctor-end`. D'où la conséquence contre-intuitive : si la commande définit son
-propre constructeur, il faut affecter ses propriétés **avant** l'appel à
+command — exécuté : `ctor-start`, `configure`, `ctor-end`. D'où la conséquence contre-intuitive : si la command définit son
+propre constructeur, il faut affecter ses properties **avant** l'appel à
 `parent::__construct()`, sinon elles ne sont pas encore là quand `configure()`
 s'exécute :
 
@@ -144,26 +144,26 @@ public function __construct(bool $requirePassword = false)
 
 ## Pièges d'examen
 
-**`name` est le seul paramètre obligatoire de `#[AsCommand]`.**
+**`name` est le seul parameter obligatoire de `#[AsCommand]`.**
 
 **`configure()` s'exécute à la construction**, pas à l'exécution : elle ne voit
-pas l'entrée de l'utilisateur.
+pas l'entrée du user.
 
-**Propriétés avant `parent::__construct()`** quand `configure()` en dépend.
+**Properties avant `parent::__construct()`** quand `configure()` en dépend.
 
-**Une commande `hidden` reste exécutable** — elle disparaît de `list`, elle n'est
+**Une command `hidden` reste exécutable** — elle disparaît de `list`, elle n'est
 pas désactivée.
 
 **Le premier segment avant `|` est le nom**, le reste sont des alias ; un
-premier segment **vide** cache la commande.
+premier segment **vide** cache la command.
 
-**Des `usages` dans l'attribut d'une commande invocable sont ignorés** dans une
+**Des `usages` dans l'attribute d'une command invocable sont ignorés** dans une
 application FrameworkBundle 8.0.
 
 ## Points clés
 
 - `#[AsCommand]` : `name`, `description`, `help`, `usages`, `aliases`, `hidden`.
-- La description dans l'attribut est lue sans instancier la classe ; dans
+- La description dans l'attribute est lue sans instancier la class ; dans
   `configure()`, elle force la construction.
 - Les alias s'écrivent dans le nom avec `|`, ou par `aliases`.
 - `configure()` (style classique) est appelée à la fin du constructeur.

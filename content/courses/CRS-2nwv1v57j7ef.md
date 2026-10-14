@@ -50,24 +50,24 @@ traitée par l'item *Configuration (YAML and PHP attributes)*.
 ## Le composant
 
 Sa description officielle tient en une phrase : *« Maps an HTTP request to a set
-of configuration variables »*. Une route ne désigne pas un contrôleur au sens du
+of configuration variables »*. Une route ne désigne pas un controller au sens du
 composant ; elle produit un **jeu de variables**, dont `_controller` n'est
 qu'une parmi d'autres.
 
-Sa liste de dépendances tient en deux entrées : PHP 8.4 et un paquet de
+Sa liste de dependencies tient en deux entrées : PHP 8.4 et un package de
 contrats. **Aucun autre composant Symfony.** C'est ce qui
 permet de l'installer seul dans un projet qui n'utilise pas le framework.
 
 Ses classes centrales :
 
-| Classe | Rôle |
+| Class | Role |
 |---|---|
-| `Route` | une route : chemin, defaults, requirements, host, methods… |
+| `Route` | une route : path, defaults, requirements, host, methods… |
 | `RouteCollection` | l'ensemble ordonné des routes |
 | `UrlMatcher` | de l'URL vers les variables — le **matching** |
 | `UrlGenerator` | des variables vers l'URL — la **génération** |
-| `RequestContext` | hôte, schéma, méthode, port courants |
-| `Router` | assemble un chargeur, un matcher et un générateur |
+| `RequestContext` | hôte, schéma, method, port courants |
+| `Router` | assemble un loader, un matcher et un générateur |
 
 Les deux sens — apparier et générer — sont deux classes distinctes. C'est ce qui
 explique qu'une option puisse compter pour l'un et pas pour l'autre.
@@ -75,49 +75,49 @@ explique qu'une option puisse compter pour l'un et pas pour l'autre.
 ## Trois morceaux, trois origines
 
 Le découpage « composant / bundle » ne suffit pas : un troisième acteur tient
-l'écouteur.
+le listener.
 
-| Morceau | Classe fournie par | Ce que fait FrameworkBundle |
+| Morceau | Class fournie par | Ce que fait FrameworkBundle |
 |---|---|---|
 | `Router`, matcher, générateur | **Routing** | déclare `router.default` avec le matcher `RedirectableCompiledUrlMatcher` et le générateur `CompiledUrlGenerator`, compilés dans le cache |
 | `RouterListener` | **HttpKernel** | l'enregistre comme service `router_listener` |
-| chargeur `routing.controllers` | **Routing** (`AttributeServicesLoader`) | étiquette `routing.controller` toute classe portant `#[Route]` |
+| loader `routing.controllers` | **Routing** (`AttributeServicesLoader`) | tag `routing.controller` toute class portant `#[Route]` |
 
-Le `RouterListener` n'est donc **pas** une classe du bundle. Son espace de noms
+Le `RouterListener` n'est donc **pas** une class du bundle. Son namespace
 est `Symfony\Component\HttpKernel\EventListener` ; le bundle ne fait que le
 câbler.
 
-### Ce que fait l'écouteur
+### Ce que fait le listener
 
 Il écoute `kernel.request` à la priorité **32**, et :
 
-- **saute** le routage si la requête porte déjà `_controller` — c'est ce qui
-  évite de router à nouveau une sous-requête de `forward()` ;
+- **saute** le routage si la Request porte déjà `_controller` — c'est ce qui
+  évite de router à nouveau une sub-Request de `forward()` ;
 - dépose les variables trouvées dans `request->attributes`, et recopie dans
   `_route_params` toutes celles qui ne sont ni `_route` ni `_controller` ;
-- traduit « aucune route » en **404** et « mauvaise méthode » en **405**, avec
-  les méthodes admises dans l'en-tête `Allow`.
+- traduit « aucune route » en **404** et « mauvaise method » en **405**, avec
+  les methods admises dans le header `Allow`.
 
-### D'où viennent les routes d'attributs
+### D'où viennent les routes d'attributes
 
-La ressource `routing.controllers` ne parcourt pas un répertoire. Elle charge
-les classes **étiquetées** : toute classe de service qui porte `#[Route]` reçoit,
-par autoconfiguration, les étiquettes `routing.controller` et
+La ressource `routing.controllers` ne parcourt pas un directory. Elle charge
+les classes **étiquetées** : toute class de service qui porte `#[Route]` reçoit,
+par autoconfiguration, les tags `routing.controller` et
 `controller.service_arguments`. C'est l'enregistrement comme service qui compte,
 pas l'emplacement dans `src/Controller/`.
 
 ### Le matcher du bundle redirige
 
-`RedirectableCompiledUrlMatcher` sait répondre par une redirection plutôt que
-par un 404 : sa méthode `redirect()` renvoie vers
+`RedirectableCompiledUrlMatcher` sait répondre par un redirect plutôt que
+par un 404 : sa method `redirect()` renvoie vers
 `RedirectController::urlRedirectAction`, en **permanent**.
 
 ## Ce que FrameworkBundle ajoute encore
 
 - le chargement de `config/routes/` et de `config/routes.yaml` par
-  `MicroKernelTrait`, qui importe aussi les attributs du noyau lui-même ;
-- les commandes `debug:router` et `router:match` ;
-- les contrôleurs `RedirectController` et `TemplateController`.
+  `MicroKernelTrait`, qui importe aussi les attributes du kernel lui-même ;
+- les commands `debug:router` et `router:match` ;
+- les controllers `RedirectController` et `TemplateController`.
 
 ## Pièges d'examen
 
@@ -125,24 +125,24 @@ par un 404 : sa méthode `redirect()` renvoie vers
 l'enregistre ; il ne le définit pas.
 
 **Apparier et générer sont deux classes distinctes.** Le générateur ne voit pas
-la requête ; il ne peut pas évaluer ce qui en dépend.
+la Request ; il ne peut pas évaluer ce qui en dépend.
 
 **Le composant ne dépend d'aucun autre composant Symfony.**
 
-**Une route produit des variables, pas un contrôleur.**
+**Une route produit des variables, pas un controller.**
 
-**Une requête qui porte déjà `_controller` n'est pas routée.**
+**Une Request qui porte déjà `_controller` n'est pas routée.**
 
-**Les routes d'attributs viennent des services étiquetés**, pas d'un parcours
-de répertoire.
+**Les routes d'attributes viennent des services étiquetés**, pas d'un parcours
+de directory.
 
 ## Points clés
 
-- Le composant fait correspondre une requête à des **variables**.
-- Il est autonome : PHP et un paquet de contrats, rien d'autre.
+- Le composant fait correspondre une Request à des **variables**.
+- Il est autonome : PHP et un package de contrats, rien d'autre.
 - `UrlMatcher` et `UrlGenerator` sont deux classes séparées.
 - `RouterListener` : HttpKernel, `kernel.request` à 32 ; 404 et 405.
-- FrameworkBundle câble le routeur compilé, l'écouteur et le chargeur.
+- FrameworkBundle câble le router compilé, le listener et le loader.
 
 ## Sources officielles
 

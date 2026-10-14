@@ -29,7 +29,7 @@ official_sources:
 Consommer une file, comprendre pourquoi un worker doit s'arrêter tout seul, et
 ce qu'il garde — ou non — d'un message au suivant.
 
-## La commande
+## La command
 
 ```bash
 php bin/console messenger:consume async
@@ -49,10 +49,10 @@ Les options de `messenger:consume` en 8.0 : `--limit`, `--failure-limit`,
 `--memory-limit`, `--time-limit`, `--sleep`, `--bus`, `--queues`, `--no-reset`,
 `--all`, `--exclude-receivers`, `--keepalive`.
 
-## Un worker est un processus long
+## Un worker est un process long
 
-Et c'est là qu'est la difficulté. Un processus PHP qui tourne pendant des jours
-accumule de la mémoire et garde en cache des objets périmés. La réponse n'est
+Et c'est là qu'est la difficulté. Un process PHP qui tourne pendant des jours
+accumule de la mémoire et garde en cache des objects périmés. La Response n'est
 pas de corriger les fuites : c'est de **s'arrêter régulièrement**, et de laisser
 un superviseur relancer.
 
@@ -63,12 +63,12 @@ un superviseur relancer.
 --failure-limit=5   # après trop d'échecs
 ```
 
-Un superviseur — Supervisor, systemd — redémarre alors le processus. L'arrêt est
-**gracieux** : le message en cours est terminé avant la sortie.
+Un superviseur — Supervisor, systemd — redémarre alors le process. L'arrêt est
+**gracieux** : le message en cours est terminé avant l'output.
 
-## Le déploiement
+## Le deployment
 
-Un worker démarré avant un déploiement exécute **l'ancien code**. La commande
+Un worker démarré avant un deployment exécute **l'ancien code**. La command
 prévue pour cela :
 
 ```bash
@@ -85,7 +85,7 @@ mise en production.
 Le worker garde les **mêmes instances de services** d'un message à l'autre —
 mais entre deux messages, `ResetServicesListener` appelle le **réinitialiseur
 de services** : chaque service qui implémente `ResetInterface` (ou porte le tag
-`kernel.reset`) voit sa méthode `reset()` appelée. Exécuté, trois messages,
+`kernel.reset`) voit sa method `reset()` appelée. Exécuté, trois messages,
 deux services qui comptent ce qu'ils ont vu :
 
 | Worker | Service ordinaire | Service `ResetInterface` |
@@ -95,7 +95,7 @@ deux services qui comptent ce qu'ils ont vu :
 
 Un service qui garde de l'état sans implémenter `ResetInterface` contamine donc
 les messages suivants. C'est le pendant du point précédent : un worker n'est
-pas une requête.
+pas une Request.
 
 Effet de bord observé pendant ces exécutions : le transport `in-memory://`
 implémente lui-même `ResetInterface`. Consommé par un worker qui réinitialise
@@ -105,7 +105,7 @@ les services, il est **vidé** après le premier message — il sert aux tests, 
 ## Pièges d'examen
 
 **Un worker exécute le code chargé à son démarrage** : sans redémarrage, un
-déploiement ne l'atteint pas.
+deployment ne l'atteint pas.
 
 **`messenger:stop-workers` ne tue pas** : elle demande un arrêt après le message
 courant.
@@ -124,7 +124,7 @@ un worker.
   premier après chaque message.
 - `--limit`, `--memory-limit`, `--time-limit`, `--failure-limit` ; un superviseur
   relance.
-- `messenger:stop-workers` après un déploiement ; arrêt gracieux.
+- `messenger:stop-workers` après un deployment ; arrêt gracieux.
 - Entre deux messages, seuls les services `ResetInterface` sont remis à zéro.
 
 ## Sources officielles

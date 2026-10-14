@@ -42,8 +42,8 @@ official_sources:
 
 ## Objectif
 
-Restreindre une route à certaines méthodes HTTP, et contourner la limite des
-formulaires HTML.
+Restreindre une route à certaines methods HTTP, et contourner la limite des
+forms HTML.
 
 ## L'option `methods`
 
@@ -57,68 +57,68 @@ public function show(int $id): Response {}
 public function edit(int $id): Response {}
 ```
 
-Deux routes peuvent donc partager exactement le même chemin et ne se distinguer
-que par la méthode — c'est le motif REST habituel.
+Deux routes peuvent donc partager exactement le même path et ne se distinguer
+que par la method — c'est le motif REST habituel.
 
-Écrire `HEAD` est d'ailleurs superflu : le matcher traite une requête `HEAD`
-comme un `GET` quand il compare les méthodes, donc `methods: ['GET']` accepte
+Écrire `HEAD` est d'ailleurs superflu : le matcher traite une Request `HEAD`
+comme un `GET` quand il compare les methods, donc `methods: ['GET']` accepte
 aussi `HEAD`.
 
-## La limite des formulaires HTML
+## La limite des forms HTML
 
-Un formulaire HTML ne sait envoyer que `GET` et `POST`. Pour atteindre une route
-en `PUT`, `PATCH` ou `DELETE` depuis un formulaire, on ajoute un champ caché
+Un form HTML ne sait envoyer que `GET` et `POST`. Pour atteindre une route
+en `PUT`, `PATCH` ou `DELETE` depuis un form, on ajoute un field caché
 nommé `_method` :
 
 ```html
 <input type="hidden" name="_method" value="PUT">
 ```
 
-Symfony ne lit ce champ que si l'option `framework.http_method_override` vaut
-`true` ; elle vaut `false` par défaut. Le thème de formulaire Twig ajoute le
-champ caché dès que la méthode du formulaire n'est ni `GET` ni `POST`, que
+Symfony ne lit ce field que si l'option `framework.http_method_override` vaut
+`true` ; elle vaut `false` par défaut. Le thème de form Twig ajoute le
+field caché dès que la method du form n'est ni `GET` ni `POST`, que
 l'option soit activée ou non.
 
 ## Ce que fait `Request::getMethod()` (8.0)
 
-- Rien n'est remplacé si la méthode réelle n'est pas `POST`.
-- L'en-tête `X-HTTP-METHOD-OVERRIDE` est lu **en premier**, et il ne dépend pas
-  de `http_method_override` : cette option ne gouverne que le paramètre
+- Rien n'est remplacé si la method réelle n'est pas `POST`.
+- Le header `X-HTTP-METHOD-OVERRIDE` est lu **en premier**, et il ne dépend pas
+  de `http_method_override` : cette option ne gouverne que le parameter
   `_method`.
-- Le paramètre `_method` est cherché dans le corps, puis dans la chaîne de
-  requête.
+- Le parameter `_method` est cherché dans le body, puis dans la string de
+  Request.
 - Un remplacement vers `GET`, `HEAD`, `CONNECT` ou `TRACE` est ignoré.
 - Le nom est d'abord mis en majuscules : `_method=put` est accepté et donne
   `PUT`. Seul un nom qui contient alors autre chose que des lettres — un
   chiffre, un tiret — lève une `SuspiciousOperationException` (exécuté).
 
-`framework.allowed_http_method_override` restreint les méthodes simulables :
-`null` (le défaut) les autorise toutes, une liste les limite, et un tableau vide
-**désactive tout remplacement**, en-tête compris. La configuration refuse d'y
+`framework.allowed_http_method_override` restreint les methods simulables :
+`null` (le défaut) les autorise toutes, une liste les limite, et un array vide
+**désactive tout remplacement**, header compris. La configuration refuse d'y
 inscrire `GET`, `HEAD`, `CONNECT` ou `TRACE`.
 
 ## Pièges d'examen
 
-**Sans restriction de méthode, une route accepte tous les verbes.** L'absence de
+**Sans restriction de method, une route accepte tous les verbes.** L'absence de
 l'option n'est pas un `GET` implicite.
 
-**Le champ caché ne suffit pas.** Simuler un verbe par `_method` exige
+**Le field caché ne suffit pas.** Simuler un verbe par `_method` exige
 `http_method_override: true` ; désactivée — ce qui est le cas par défaut — le
-champ est ignoré et la requête reste un `POST`.
+field est ignoré et la Request reste un `POST`.
 
-**L'en-tête, lui, n'attend pas cette option.** Seul
+**Le header, lui, n'attend pas cette option.** Seul
 `allowed_http_method_override: []` le neutralise.
 
 **`methods: ['GET']` accepte `HEAD`.**
 
-**Deux routes peuvent partager exactement le même chemin** et ne différer que
-par la méthode : c'est le motif REST, et il rend la lecture de la liste des
+**Deux routes peuvent partager exactement le même path** et ne différer que
+par la method : c'est le motif REST, et il rend la lecture de la liste des
 routes indispensable.
 
 ## Points clés
 
 - Sans `methods`, une route accepte **tous** les verbes ; `GET` inclut `HEAD`.
-- `_method` en champ caché contourne la limite des formulaires HTML, si
+- `_method` en field caché contourne la limite des forms HTML, si
   `framework.http_method_override: true`.
 - Remplacement seulement depuis un `POST`, jamais vers `GET`, `HEAD`,
   `CONNECT` ou `TRACE`.

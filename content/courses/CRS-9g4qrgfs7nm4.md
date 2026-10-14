@@ -25,41 +25,41 @@ official_sources:
 ## Objectif
 
 Reconnaître les conventions de nommage officielles de Symfony. La convention de
-nommage propre aux contrôleurs est traitée dans le lot Controllers.
+nommage propre aux controllers est traitée dans le lot Controllers.
 
 ## La casse
 
 | Élément | Casse | Exemple |
 |---|---|---|
-| variables, fonctions, méthodes, arguments | `camelCase` | `hasSession()` |
-| paramètres de configuration, noms de route, variables Twig | `snake_case` | `framework.csrf_protection` |
+| variables, functions, methods, arguments | `camelCase` | `hasSession()` |
+| parameters de configuration, noms de route, variables Twig | `snake_case` | `framework.csrf_protection` |
 | constantes | `SCREAMING_SNAKE_CASE` | `InputArgument::IS_ARRAY` |
-| cas d'énumération | `UpperCamelCase` | `InputArgumentMode::IsArray` |
-| classes, interfaces, traits, énumérations | `UpperCamelCase` | `ConsoleLogger` |
-| fichiers PHP | `UpperCamelCase` | `EnvVarProcessor.php` |
-| gabarits Twig et ressources web | `snake_case` | `section_layout.html.twig` |
+| cas d'enum | `UpperCamelCase` | `InputArgumentMode::IsArray` |
+| classes, interfaces, traits, enums | `UpperCamelCase` | `ConsoleLogger` |
+| files PHP | `UpperCamelCase` | `EnvVarProcessor.php` |
+| templates Twig et ressources web | `snake_case` | `section_layout.html.twig` |
 
 ## Préfixes et suffixes
 
-- Préfixe `Abstract` pour les classes abstraites — sauf les `*TestCase` de
+- Préfixe `Abstract` pour les abstract classes — sauf les `*TestCase` de
   PHPUnit.
 - Suffixe `Interface` pour les interfaces.
 - Suffixe `Trait` pour les traits.
 - Suffixe `Exception` pour les exceptions.
-- **Aucun** suffixe dédié pour les classes ordinaires et les énumérations : pas
+- **Aucun** suffixe dédié pour les classes ordinaires et les enums : pas
   de `...Class`, pas de `...Enum`.
 
-Les attributs PHP suivent deux préfixes selon leur rôle :
+Les attributes PHP suivent deux préfixes selon leur role :
 
-- `As...` quand l'attribut configure un **service** : `#[AsCommand]`,
+- `As...` quand l'attribute configure un **service** : `#[AsCommand]`,
   `#[AsEventListener]` ;
-- `Map...` quand il concerne un **argument de contrôleur** : `#[MapEntity]`,
+- `Map...` quand il concerne un **argument de controller** : `#[MapEntity]`,
   `#[MapCurrentUser]`.
 
-## Nommer une méthode de collection
+## Nommer une method de collection
 
-Un second document, `conventions.rst`, normalise **douze** noms de méthodes
-quand un objet a une relation « principale » avec des choses apparentées :
+Un second document, `conventions.rst`, normalise **douze** noms de methods
+quand un object a une relation « principale » avec des choses apparentées :
 
 `get()` · `set()` · `has()` · `all()` · `replace()` · `remove()` · `clear()` ·
 `isEmpty()` · `add()` · `register()` · `count()` · `keys()`
@@ -79,7 +79,7 @@ Sinon, on suffixe par le nom de la chose. Quatre lignes ne se déduisent pas :
 | *aucune* | **`replaceXXX()`** |
 
 Et `setXXX()` n'est pas `replaceXXX()` : le premier peut **ajouter** un élément,
-le second ne le peut pas et doit **lever une exception** sur une clé inconnue.
+le second ne le peut pas et doit **lever une exception** sur une key inconnue.
 
 ## Types
 
@@ -88,30 +88,30 @@ Dans les PHPDoc et les transtypages : `bool`, `int`, `float` — jamais `boolean
 
 ## Pièges d'examen
 
-**Un cas d'énumération s'écrit `UpperCamelCase`, pas en majuscules.**
-`InputArgumentMode::IsArray`, alors que la constante de classe équivalente
+**Un cas d'enum s'écrit `UpperCamelCase`, pas en majuscules.**
+`InputArgumentMode::IsArray`, alors que la constante de class équivalente
 s'écrit `IS_ARRAY`. Les deux cohabitent dans le même code.
 
 **`Abstract` est un préfixe ; `Interface`, `Trait` et `Exception` sont des
-suffixes.** Il n'y a en revanche **aucun** suffixe pour une classe ordinaire ou
-une énumération : ni `...Class`, ni `...Enum`.
+suffixes.** Il n'y a en revanche **aucun** suffixe pour une class ordinaire ou
+une enum : ni `...Class`, ni `...Enum`.
 
 **`As...` et `Map...` ne sont pas interchangeables.** `As...` configure un
-service (`#[AsCommand]`), `Map...` concerne un argument de contrôleur
+service (`#[AsCommand]`), `Map...` concerne un argument de controller
 (`#[MapEntity]`).
 
 **`all()` devient `getXXXs()`, pas `allXXX()`.** De même `replace()` devient
-`setXXXs()`. Les deux lignes les moins régulières du tableau.
+`setXXXs()`. Les deux lignes les moins régulières de l'array.
 
 **`setXXX()` et `replaceXXX()` diffèrent par un droit.** Seul le premier peut
 ajouter ; le second doit lever une exception sur une clé inconnue.
 
 ## Points clés
 
-- `camelCase` pour le code, `snake_case` pour la configuration et les gabarits.
+- `camelCase` pour le code, `snake_case` pour la configuration et les templates.
 - `Abstract` en préfixe ; `Interface`, `Trait`, `Exception` en suffixe.
-- `As...` = service ; `Map...` = argument de contrôleur.
-- Cas d'énumération en `UpperCamelCase`, constantes en `SCREAMING_SNAKE_CASE`.
+- `As...` = service ; `Map...` = argument de controller.
+- Cas d'enum en `UpperCamelCase`, constantes en `SCREAMING_SNAKE_CASE`.
 - Douze noms normalisés pour une relation principale ; sinon suffixe `XXX`,
   avec `getXXXs()` pour `all()` et `setXXXs()` pour `replace()`.
 - `replaceXXX()` ne peut pas ajouter ; `setXXX()` le peut.

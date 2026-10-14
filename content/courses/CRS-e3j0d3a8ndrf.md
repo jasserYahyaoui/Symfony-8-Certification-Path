@@ -29,24 +29,24 @@ official_sources:
 
 ## Objectif
 
-Décrire la fraîcheur et la validation d'une réponse par ses en-têtes, et savoir
+Décrire la fraîcheur et la validation d'une Response par ses headers, et savoir
 lequel s'adresse à quel cache.
 
-> **Périmètre.** Cette page couvre les **en-têtes du protocole**. Le reverse
+> **Périmètre.** Cette page couvre les **headers du protocole**. Le reverse
 > proxy Symfony et les stratégies d'expiration et de validation qu'il implémente
 > appartiennent à l'item *HTTP Caching (reverse proxies, expiration,
 > validation)* du sujet Miscellaneous.
 
 ## Deux modèles
 
-**Expiration** — le cache sait pendant combien de temps la réponse reste
+**Expiration** — le cache sait pendant combien de temps la Response reste
 fraîche, et n'interroge pas le serveur avant échéance.
 
-**Validation** — le cache conserve la réponse et demande au serveur, à chaque
+**Validation** — le cache conserve la Response et demande au serveur, à chaque
 usage, si elle est toujours valable. Le serveur répond `304 Not Modified` sans
 corps si c'est le cas.
 
-L'expiration économise des requêtes ; la validation économise de la bande
+L'expiration économise des Requests ; la validation économise de la bande
 passante.
 
 ## Expiration
@@ -65,11 +65,11 @@ est ici redondant, car `setSharedMaxAge()` l'appelle lui-même — ce que
 
 **La documentation officielle recommande pourtant `setPublic()` + `setMaxAge()`**
 plutôt que `setSharedMaxAge()` : `s-maxage` interdit à un cache de servir une
-réponse périmée en scénario `stale-if-error`. Le raccourci est exact, il n'est
+Response périmée en scénario `stale-if-error`. Le raccourci est exact, il n'est
 pas conseillé.
 
 - `private` (défaut Symfony) : seul le cache du navigateur peut stocker. La
-  valeur réellement émise par une réponse à laquelle on n'a rien demandé est
+  valeur réellement émise par une Response à laquelle on n'a rien demandé est
   `no-cache, private` — ou `private, must-revalidate` dès qu'elle porte un
   `Last-Modified` ou un `Expires`.
 - `public` : les caches partagés — CDN, reverse proxy — peuvent stocker aussi.
@@ -94,19 +94,19 @@ Le client renvoie ensuite `If-None-Match` (contre l'ETag) ou
 `If-Modified-Since` (contre la date). Les deux ne sont **pas symétriques**, mais
 la condition est plus fine qu'il n'y paraît : la comparaison de dates est dans un
 `elseif` dont la branche `if` exige **deux** choses — un `If-None-Match` dans la
-requête **et** un ETag sur la réponse. Si la réponse ne porte pas d'ETag, la date
+Request **et** un ETag sur la Response. Si la Response ne porte pas d'ETag, la date
 est évaluée malgré `If-None-Match`, et peut produire un 304.
 
 RFC 9110 §13.1.3 est plus stricte : le destinataire **doit** ignorer
 `If-Modified-Since` dès que `If-None-Match` est présent, sans condition sur la
-réponse. Symfony s'en écarte ; c'est le code qui fait foi ici. `isNotModified()` compare et, en cas de
-correspondance, met le statut à 304 et vide le corps.
+Response. Symfony s'en écarte ; c'est le code qui fait foi ici. `isNotModified()` compare et, en cas de
+correspondance, met le statut à 304 et vide le body.
 
-**`isNotModified()` commence par une garde sur la méthode.** Son premier geste
-est `if (!$request->isMethodCacheable()) { return false; }` : sur une requête
+**`isNotModified()` commence par une garde sur la method.** Son premier geste
+est `if (!$request->isMethodCacheable()) { return false; }` : sur une Request
 qui n'est ni `GET`, ni `HEAD`, ni `QUERY`, elle rend `false` **avant même de
 comparer quoi que ce soit**, ETag correspondant ou non. La validation n'a de
-sens que pour les méthodes cacheables.
+sens que pour les methods cacheables.
 
 Un ETag **faible** (`W/"a1b2c3"`) déclare une équivalence sémantique plutôt
 qu'octet à octet : `setEtag('a1b2c3', true)`.
@@ -117,7 +117,7 @@ qu'octet à octet : `setEtag('a1b2c3', true)`.
 $response->setVary(['Accept-Language', 'Accept-Encoding']);
 ```
 
-`Vary` déclare les en-têtes de requête qui font varier la représentation. Sans
+`Vary` déclare les headers de Request qui font varier la représentation. Sans
 lui, un cache partagé peut servir la version française à un client anglophone —
 c'est le bug de cache classique.
 
@@ -125,28 +125,28 @@ c'est le bug de cache classique.
 
 | Directive | Effet |
 |---|---|
-| `must-revalidate` | interdit de servir une réponse périmée |
+| `must-revalidate` | interdit de servir une Response périmée |
 | `stale-while-revalidate=N` | autorise au contraire le périmé pendant `N` secondes, le temps de revalider en arrière-plan |
-| `immutable` | la réponse ne changera pas : ne pas revalider avant échéance |
+| `immutable` | la Response ne changera pas : ne pas revalider avant échéance |
 
 ## Pièges d'examen
 
-**`private` est le défaut de Symfony.** Une réponse n'est pas mise en cache
+**`private` est le défaut de Symfony.** Une Response n'est pas mise en cache
 partagé tant qu'on n'a pas appelé `setPublic()`.
 
 **`s-maxage` prime sur `max-age`, mais seulement pour les caches partagés.**
 
-**Négocier sans `Vary` casse le cache.** Toute réponse qui dépend d'un en-tête
-de requête doit le déclarer.
+**Négocier sans `Vary` casse le cache.** Toute Response qui dépend d'un header
+de Request doit le déclarer.
 
 **`no-cache` ne veut pas dire « ne pas stocker ».** Il impose une
 revalidation avant chaque usage. « Ne pas stocker » s'écrit `no-store`.
 
-**`isNotModified()` sur un `POST` renvoie `false`.** La garde de méthode passe
+**`isNotModified()` sur un `POST` renvoie `false`.** La garde de method passe
 avant la comparaison d'ETag : ce n'est pas « l'ETag ne correspond pas », c'est
 « la question n'est pas posée ».
 
-**`setSharedMaxAge()` rend la réponse publique** — mais la doc recommande
+**`setSharedMaxAge()` rend la Response publique** — mais la doc recommande
 `setPublic()` + `setMaxAge()`, à cause de `stale-if-error`.
 
 **`max-age` n'est pas « pour les caches privés ».** Un cache partagé l'utilise
@@ -156,8 +156,8 @@ dès que `s-maxage` est absent ; c'est bien pourquoi `s-maxage` « prime » sur 
 
 - Expiration (`max-age`, `s-maxage`) vs validation (`ETag`, `Last-Modified`).
 - `private` par défaut ; `setPublic()` pour les caches partagés.
-- `isNotModified()` produit le `304` et vide le corps — mais seulement si la
-  requête est cacheable ; sinon elle rend `false` d'emblée.
+- `isNotModified()` produit le `304` et vide le body — mais seulement si la
+  Request est cacheable ; sinon elle rend `false` d'emblée.
 - `setSharedMaxAge()` appelle `setPublic()` ; `setMaxAge()` non.
 - `Vary` est obligatoire dès qu'on négocie.
 - `no-cache` = revalider ; `no-store` = ne rien garder.

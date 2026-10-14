@@ -26,21 +26,21 @@ official_sources:
 
 ## Objectif
 
-Nommer un rôle correctement et connaître la seule règle que Symfony impose.
+Nommer un role correctement et connaître la seule règle que Symfony impose.
 
 ## La règle
 
-Un rôle est une chaîne libre, avec **une** contrainte : elle doit commencer par
+Un role est une string libre, avec **une** constraint : elle doit commencer par
 `ROLE_`. La documentation : « otherwise, things won't work as expected ». La
-raison est dans `RoleVoter` : il ne vote que sur les attributs qui commencent
+raison est dans `RoleVoter` : il ne vote que sur les attributes qui commencent
 par ce préfixe, et s'abstient sur les autres.
 
-Exécuté avec SecurityBundle 8.0.15, un utilisateur dont `getRoles()` rend
-`['ADMIN']` : `isGranted('ADMIN')` est **faux**, alors que la chaîne figure bien
-dans `getRoles()`. Aucun votant ne s'en charge, et l'abstention générale vaut
+Exécuté avec SecurityBundle 8.0.15, un user dont `getRoles()` rend
+`['ADMIN']` : `isGranted('ADMIN')` est **faux**, alors que la string figure bien
+dans `getRoles()`. Aucun voter ne s'en charge, et l'abstention générale vaut
 refus.
 
-`getRoles()` retourne le tableau des rôles de l'utilisateur ; la convention est
+`getRoles()` retourne le tableau des roles du user ; la convention est
 d'y garantir `ROLE_USER`.
 
 ## La hiérarchie
@@ -52,39 +52,39 @@ security:
         ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 ```
 
-Un `ROLE_ADMIN` obtient alors `ROLE_USER` sans qu'on l'écrive sur l'utilisateur.
-Exécuté, utilisateur portant `ROLE_ADMIN` seul :
+Un `ROLE_ADMIN` obtient alors `ROLE_USER` sans qu'on l'écrive sur le user.
+Exécuté, user portant `ROLE_ADMIN` seul :
 
 | Test | Résultat |
 |---|---|
 | `isGranted('ROLE_USER')` | vrai |
 | `in_array('ROLE_USER', $user->getRoles())` | **faux** |
 
-La hiérarchie est appliquée par le votant, pas par l'utilisateur.
+La hiérarchie est appliquée par le voter, pas par le user.
 
 Les **valeurs** de `role_hierarchy` sont statiques : la documentation précise
 qu'on ne peut pas y stocker une hiérarchie venue d'une base de données, et
 recommande un voter pour ce besoin. Ce n'est pas une impossibilité du
 framework : exécuté, un service qui décore `security.role_hierarchy` et
-implémente `RoleHierarchyInterface` ajoute un rôle calculé à l'exécution, et
+implémente `RoleHierarchyInterface` ajoute un role calculé à l'exécution, et
 `isGranted()` l'accorde.
 
 `php bin/console debug:security:role-hierarchy` affiche la hiérarchie
 configurée, au format Mermaid.
 
-## Les attributs qui ne sont pas des rôles
+## Les attributes qui ne sont pas des roles
 
-`AuthenticatedVoter` 8.0 traite six attributs : `IS_AUTHENTICATED_FULLY`,
+`AuthenticatedVoter` 8.0 traite six attributes : `IS_AUTHENTICATED_FULLY`,
 `IS_AUTHENTICATED_REMEMBERED`, `IS_AUTHENTICATED`, `IS_REMEMBERED`,
-`IS_IMPERSONATOR` et `PUBLIC_ACCESS`. Ils s'emploient comme des rôles dans
-`isGranted()`, mais décrivent l'**état de l'authentification**, pas
-l'utilisateur. `IS_AUTHENTICATED_FULLY` exige une connexion de cette session ;
+`IS_IMPERSONATOR` et `PUBLIC_ACCESS`. Ils s'emploient comme des roles dans
+`isGranted()`, mais décrivent l'**état de l'authentication**, pas
+le user. `IS_AUTHENTICATED_FULLY` exige une connexion de cette session ;
 `IS_AUTHENTICATED_REMEMBERED` accepte aussi un retour par cookie « se souvenir
 de moi ».
 
 ## Pièges d'examen
 
-**Un rôle sans `ROLE_` n'est jamais accordé**, même présent dans `getRoles()`.
+**Un role sans `ROLE_` n'est jamais accordé**, même présent dans `getRoles()`.
 
 **`in_array('ROLE_ADMIN', $user->getRoles())` ignore la hiérarchie.** La
 documentation marque cette ligne `BAD` et lui oppose `isGranted('ROLE_ADMIN')`.
@@ -92,16 +92,16 @@ documentation marque cette ligne `BAD` et lui oppose `isGranted('ROLE_ADMIN')`.
 **Les valeurs de `role_hierarchy` sont statiques** ; une hiérarchie en base
 demande du code — un voter, selon la documentation.
 
-**`IS_AUTHENTICATED_FULLY` n'est pas un rôle** et n'a rien à faire dans
+**`IS_AUTHENTICATED_FULLY` n'est pas un role** et n'a rien à faire dans
 `getRoles()`.
 
 ## Points clés
 
-- Un rôle doit commencer par `ROLE_` ; sans le préfixe, `RoleVoter` s'abstient.
-- `role_hierarchy` donne un rôle sans l'écrire sur l'utilisateur ; ses valeurs
+- Un role doit commencer par `ROLE_` ; sans le préfixe, `RoleVoter` s'abstient.
+- `role_hierarchy` donne un role sans l'écrire sur le user ; ses valeurs
   sont statiques.
 - `IS_AUTHENTICATED_*`, `IS_REMEMBERED`, `IS_IMPERSONATOR` et `PUBLIC_ACCESS`
-  décrivent l'état de l'authentification.
+  décrivent l'état de l'authentication.
 
 ## Sources officielles
 

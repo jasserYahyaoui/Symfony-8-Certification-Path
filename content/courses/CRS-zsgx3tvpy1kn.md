@@ -48,24 +48,24 @@ chacun hérite.
 | **Date et heure** | `DateType`, `DateTimeType`, `TimeType`, `DateIntervalType`, `BirthdayType`, `WeekType` |
 | **Autres** | `CheckboxType`, `RadioType`, `FileType` |
 | **UID** | `UuidType`, `UlidType` |
-| **Groupes** | `CollectionType`, `RepeatedType` |
+| **Groups** | `CollectionType`, `RepeatedType` |
 | **Caché** | `HiddenType` |
 | **Boutons** | `ButtonType`, `ResetType`, `SubmitType` |
 | **Base** | `FormType` |
 
-Les types UID exigent le composant Uid. Exécuté sans lui : le formulaire se
-construit et se rend, puis la soumission lève une `Error`, classe `Uuid`
+Les types UID exigent le composant Uid. Exécuté sans lui : le form se
+construit et se rend, puis la soumission lève une `Error`, class `Uuid`
 introuvable.
 
 ## Limites de périmètre
 
 Deux entrées du catalogue officiel sortent du périmètre de l'examen
 (`docs/syllabus/exclusions.yml`) : `EntityType`, qui relève de l'intégration
-avec une base de données, et les champs Symfony UX.
+avec une base de données, et les fields Symfony UX.
 
 ## Une famille n'est pas une lignée
 
-Les familles rangent la documentation ; `getParent()` décide de l'héritage.
+Les familles rangent la documentation ; `getParent()` décide de l'inheritance.
 Relevé sur les 38 types de `symfony/form` 8.0.15 :
 
 | Parent | Types |
@@ -78,7 +78,7 @@ Relevé sur les 38 types de `symfony/form` 8.0.15 :
 | aucun | `FormType`, `ButtonType` |
 
 Les quatre types numériques sont rangés sous « texte » mais n'héritent **pas**
-de `TextType`. Exécuté : un bloc `text_widget` personnalisé change le rendu d'un
+de `TextType`. Exécuté : un block `text_widget` personnalisé change le rendu d'un
 `TextType`, et laisse intact un `IntegerType`, rendu en
 `<input type="number">`.
 
@@ -95,9 +95,9 @@ réel :
 | `true` | `false` | `<select multiple>` |
 | `true` | `true` | cases à cocher |
 
-Dans `choices`, la **clé est le libellé**, la **valeur est la donnée**. Exécuté
+Dans `choices`, la **key est le libellé**, la **valeur est la donnée**. Exécuté
 avec `['France' => 'fr']` : soumettre `fr` donne la donnée `'fr'` ; soumettre
-`France` rend le formulaire invalide, « The selected choice is invalid. ».
+`France` rend le form invalide, « The selected choice is invalid. ».
 
 `EnumType` exige l'option `class` : sans elle, `MissingOptionsException`.
 
@@ -105,17 +105,17 @@ avec `['France' => 'fr']` : soumettre `fr` donne la donnée `'fr'` ; soumettre
 
 Il crée **deux enfants**, `first` et `second` par défaut, du type donné par
 l'option `type`. Exécuté : si les valeurs coïncident, la donnée est **une seule
-valeur** ; sinon le formulaire est invalide, avec « The values do not match. »
-porté par le champ répété lui-même, et la donnée est `null`.
+valeur** ; sinon le form est invalide, avec « The values do not match. »
+porté par le field répété lui-même, et la donnée est `null`.
 
 ## Les boutons
 
 `ButtonType` n'a **pas de parent** : les boutons ne descendent pas de
-`FormType`. Exécuté, avec une extension de type visant `FormType` : elle
-s'applique au champ texte, **pas** au `SubmitType`, dont les préfixes de bloc
+`FormType`. Exécuté, avec une type extension visant `FormType` : elle
+s'applique au field texte, **pas** au `SubmitType`, dont les préfixes de block
 sont `["button", "submit", …]`.
 
-Un bouton s'ajoute comme un champ, mais c'est un `SubmitButton` : il ne porte
+Un bouton s'ajoute comme un field, mais c'est un `SubmitButton` : il ne porte
 pas de donnée — absent de `getData()` — et `isClicked()` dit s'il a servi à
 soumettre.
 
@@ -126,20 +126,20 @@ numériques héritent directement de `FormType`.
 
 **Toute la famille des choix hérite de `ChoiceType`.**
 
-**Les clés de `choices` sont les libellés.**
+**Les keys de `choices` sont les libellés.**
 
 **Un bouton n'est pas un `FormType`** : une extension de `FormType` ne le
 touche pas.
 
-**`RepeatedType` rend deux champs mais une seule donnée.**
+**`RepeatedType` rend deux fields mais une seule donnée.**
 
 ## Points clés
 
-- Catalogue : texte, choix, date et heure, autres, UID, groupes, caché,
+- Catalogue : texte, choix, date et heure, autres, UID, groups, caché,
   boutons, base.
 - Famille documentaire ≠ parent ; `IntegerType` hérite de `FormType`.
 - `multiple` × `expanded` : quatre rendus ; `choices` : libellé ⇒ valeur.
-- `RepeatedType` : `first`, `second`, une donnée, erreur sur le champ répété.
+- `RepeatedType` : `first`, `second`, une donnée, erreur sur le field répété.
 - `ButtonType` sans parent ; `EntityType` et Symfony UX hors périmètre.
 
 ## Sources officielles

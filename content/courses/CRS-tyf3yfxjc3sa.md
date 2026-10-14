@@ -25,81 +25,81 @@ official_sources:
 
 ## Objectif
 
-Savoir ce qu'est Flex techniquement, ce qu'une recette fait, et quels fichiers
+Savoir ce qu'est Flex techniquement, ce qu'une recette fait, et quels files
 Flex écrit dans le projet.
 
 ## Ce que Flex est
 
-Flex est un **plugin Composer**, pas une commande Symfony ni un bundle. Il n'y a
+Flex est un **plugin Composer**, pas une command Symfony ni un bundle. Il n'y a
 donc rien à appeler : il modifie le comportement de `composer require`,
 `composer update` et `composer remove`. Sans lui, `composer require twig`
-échouerait, parce que `twig` n'est le nom d'aucun paquet Composer.
+échouerait, parce que `twig` n'est le nom d'aucun package Composer.
 
 ## Alias et recettes
 
 Flex ajoute deux mécanismes.
 
-Un **alias** est un nom court qui pointe vers un paquet réel : `twig` est résolu
+Un **alias** est un nom court qui pointe vers un package réel : `twig` est résolu
 en `symfony/twig-bundle`. C'est Flex qui fait la résolution, pas Composer.
 
-Une **recette** est la configuration par défaut que le paquet apporte avec lui.
-Elle peut activer le bundle dans `config/bundles.php`, déposer des fichiers de
-configuration dans `config/packages/`, créer des répertoires, ajouter des
+Une **recette** est la configuration par défaut que le package apporte avec lui.
+Elle peut activer le bundle dans `config/bundles.php`, déposer des files de
+configuration dans `config/packages/`, créer des directories, ajouter des
 variables dans `.env`. Installer une fonctionnalité et la configurer deviennent
-une seule commande.
+une seule command.
 
 ## symfony.lock
 
-Flex tient la liste des recettes appliquées dans un fichier `symfony.lock`, à la
-racine du projet. Ce fichier **doit être committé** : il est ce qui permet de
+Flex tient la liste des recettes appliquées dans un file `symfony.lock`, à la
+racine du projet. Ce file **doit être committé** : il est ce qui permet de
 savoir quelles recettes ont été installées, dans quelle version, et donc de
-détecter qu'une recette a évolué. Il joue pour les recettes le rôle que
-`composer.lock` joue pour les dépendances — ce sont deux fichiers distincts.
+détecter qu'une recette a évolué. Il joue pour les recettes le role que
+`composer.lock` joue pour les dependencies — ce sont deux files distincts.
 
 ## Les deux dépôts de recettes
 
 | Dépôt | Contenu | Comportement de Flex |
 |---|---|---|
-| `symfony/recipes` | liste **curée**, pour des paquets de qualité et maintenus | seul consulté par défaut |
+| `symfony/recipes` | liste **curée**, pour des packages de qualité et maintenus | seul consulté par défaut |
 | `symfony/recipes-contrib` | toutes les recettes de la communauté | demande votre permission avant d'installer |
 
 **Ce qui distingue les deux n'est pas la qualité de la recette.** La
 documentation est précise : les recettes contrib « are guaranteed to work » —
-c'est le **paquet associé** qui « could be unmaintained ». Les deux dépôts sont
+c'est le **package associé** qui « could be unmaintained ». Les deux dépôts sont
 alimentés par la communauté ; le principal est une liste *curée*, et c'est le
 seul que Flex consulte sans demander.
 
 ## Les packs
 
-Un *pack* est un paquet qui ne contient aucun code : seulement des dépendances,
-regroupées pour un usage (débogage, tests). Flex le **dépaquette** — il inscrit
-les dépendances réelles dans `composer.json` et retire le pack, pour que le
-fichier reste lisible.
+Un *pack* est un package qui ne contient aucun code : seulement des dependencies,
+regroupées pour un usage (debug, tests). Flex le **dépaquette** — il inscrit
+les dependencies réelles dans `composer.json` et retire le pack, pour que le
+file reste lisible.
 
 ## Ce qu'une recette fait, concrètement
 
-L'exemple de la documentation vaut mieux qu'une définition. `composer require
+L'exemple de la documentation vaut mieux qu'une definition. `composer require
 twig` installe `symfony/twig-bundle`, active le bundle dans
 `config/bundles.php`, et ajoute **trois** choses :
 
 - `config/packages/twig.yaml` — une configuration par défaut raisonnable ;
-- `config/packages/test/twig.yaml` — des options différentes en environnement de
+- `config/packages/test/twig.yaml` — des options différentes en environment de
   test ;
 - `templates/`, avec un `base.html.twig` déjà écrit.
 
-Une recette peut donc créer des fichiers, en modifier, créer des répertoires et
+Une recette peut donc créer des files, en modifier, créer des directories et
 ajouter des variables dans `.env`. La liste complète des recettes et des alias
 est publiée dans `RECIPES.md`, sur le dépôt des recettes.
 
 ## Les packs, et pourquoi ils disparaissent
 
-Un pack est un **métapaquet** Composer : aucun code, seulement des dépendances
+Un pack est un **métapaquet** Composer : aucun code, seulement des dependencies
 regroupées pour un usage. `composer require --dev debug` installe
 `symfony/debug-pack`, qui tire `symfony/debug-bundle`, `symfony/monolog-bundle`,
 `symfony/var-dumper`…
 
 Le pack ne reste pas dans `composer.json` : Flex le **dépaquette**, et ce sont
-les paquets réels qui apparaissent — `symfony/var-dumper` dans `require-dev`,
+les packages réels qui apparaissent — `symfony/var-dumper` dans `require-dev`,
 par exemple. Chercher `symfony/debug-pack` dans son `composer.json` après
 installation, c'est chercher ce que Flex a délibérément retiré.
 
@@ -110,19 +110,19 @@ recettes pour le configurer.
 ## Tips d'examen
 
 **Trois mots, trois choses distinctes.** Un **alias** est un nom court résolu
-par Flex. Une **recette** est la configuration qu'un paquet apporte. Un **pack**
-est un métapaquet sans code. Une seule commande peut mettre les trois en jeu.
+par Flex. Une **recette** est la configuration qu'un package apporte. Un **pack**
+est un métapaquet sans code. Une seule command peut mettre les trois en jeu.
 
 **`symfony.lock` recense les recettes ; `composer.lock` recense les
-dépendances.** Les deux se committent, pour deux raisons différentes.
+dependencies.** Les deux se committent, pour deux raisons différentes.
 
-**Le contrib demande la permission à cause du paquet, pas de la recette.**
+**Le contrib demande la permission à cause du package, pas de la recette.**
 
 ## Pièges d'examen
 
-**Flex est un plugin Composer, pas un bundle ni une commande.** Il n'y a rien à
+**Flex est un plugin Composer, pas un bundle ni une command.** Il n'y a rien à
 appeler : il modifie `composer require`, `update` et `remove`. C'est aussi
-pourquoi `composer require twig` fonctionne alors qu'aucun paquet ne s'appelle
+pourquoi `composer require twig` fonctionne alors qu'aucun package ne s'appelle
 `twig`.
 
 **`symfony.lock` n'est pas `composer.lock`.** Il recense les **recettes**
@@ -131,13 +131,13 @@ appliquées, et il se committe.
 **Les deux dépôts de recettes ne se comportent pas pareil.**
 `symfony/recipes` est appliqué sans question ; `symfony/recipes-contrib` demande
 une permission. La raison n'est pas que ses recettes seraient douteuses — la
-documentation les dit « guaranteed to work » — mais que les **paquets** qu'elles
+documentation les dit « guaranteed to work » — mais que les **packages** qu'elles
 configurent peuvent être abandonnés.
 
 ## Points clés
 
 - Flex est un plugin Composer qui détourne `require`, `update` et `remove`.
-- Un alias résout un nom court ; une recette configure le paquet installé.
+- Un alias résout un nom court ; une recette configure le package installé.
 - `symfony.lock` recense les recettes appliquées et se committe.
 - `symfony/recipes` est appliqué par défaut, `symfony/recipes-contrib` demande
   une confirmation.

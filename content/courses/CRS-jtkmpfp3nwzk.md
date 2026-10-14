@@ -36,10 +36,10 @@ celui dont on a besoin — sans apprendre de liste par cœur.
 
 ## D'où ils viennent
 
-Chaque bundle installé enregistre ses services dans le conteneur. FrameworkBundle
-en apporte le gros : routeur, dispatcher d'événements, HttpKernel, sérialiseur,
-validateur, client HTTP, cache, système de fichiers. TwigBundle ajoute Twig,
-SecurityBundle la sécurité, et ainsi de suite.
+Chaque bundle installé enregistre ses services dans le container. FrameworkBundle
+en apporte le gros : router, dispatcher d'events, HttpKernel, sérialiseur,
+validator, client HTTP, cache, système de files. TwigBundle ajoute Twig,
+SecurityBundle la security, et ainsi de suite.
 
 C'est pourquoi `composer require` suffit : la recette Flex active le bundle dans
 `config/bundles.php`, le bundle enregistre ses services, et ils deviennent
@@ -47,7 +47,7 @@ injectables.
 
 ## Comment les trouver
 
-Il n'y a rien à mémoriser ; il y a une commande :
+Il n'y a rien à mémoriser ; il y a une command :
 
 ```bash
 php bin/console debug:autowiring          # ce qui s'injecte par type-hint
@@ -61,9 +61,9 @@ type-hint, ce qui est exactement la question qu'on se pose en écrivant un
 constructeur. Chaque ligne donne le type et le service visé :
 `Psr\Log\LoggerInterface - alias:logger`.
 
-Son seul argument est un filtre de recherche partielle ; sans résultat, la
-commande répond « No autowirable classes or interfaces found matching … ».
-`--all` ajoute les services enregistrés sous leur nom de classe sans alias, comme
+Son seul argument est un filter de recherche partielle ; sans résultat, la
+command répond « No autowirable classes or interfaces found matching … ».
+`--all` ajoute les services enregistrés sous leur nom de class sans alias, comme
 `RedirectController`.
 
 ## Quelques types courants
@@ -73,7 +73,7 @@ commande répond « No autowirable classes or interfaces found matching … ».
 `LoggerInterface`, `TranslatorInterface`, `Environment` (Twig),
 `ParameterBagInterface`, `RequestStack`, `CacheInterface`, `Filesystem`.
 
-Tous figurent dans la sortie de `debug:autowiring` d'une application
+Tous figurent dans l'output de `debug:autowiring` d'une application
 FrameworkBundle + TwigBundle 8.0.15, exécutée.
 
 Le point commun se retient mieux que la liste : **on injecte le type que le
@@ -87,7 +87,7 @@ toujours : `RequestStack`, `Filesystem` et `Twig\Environment` sont des
 | Constructeur typé avec | Résultat |
 |---|---|
 | `Psr\Log\LoggerInterface` | injecté : alias vers `logger` |
-| `Symfony\Component\HttpKernel\Log\Logger`, la classe de `logger` | échec : « no such service exists. Try changing the type-hint to "Psr\Log\LoggerInterface" instead. » |
+| `Symfony\Component\HttpKernel\Log\Logger`, la class de `logger` | échec : « no such service exists. Try changing the type-hint to "Psr\Log\LoggerInterface" instead. » |
 | `Filesystem`, `RequestStack`, `Twig\Environment` | injectés |
 | `Twig\Environment`, sans TwigBundle | échec : « no such service exists » |
 
@@ -96,26 +96,26 @@ L'erreur d'autowiring suggère elle-même le bon type quand un alias existe.
 ## Pièges d'examen
 
 **`debug:container` et `debug:autowiring` ne répondent pas à la même
-question.** Le premier liste **tous** les identifiants du conteneur, le second
+question.** Le premier liste **tous** les identifiers du container, le second
 les types utilisables comme type-hint. Apparaître dans `debug:container` ne rend
-pas un service injectable par son type : `logger` y figure, sa classe concrète
+pas un service injectable par son type : `logger` y figure, sa class concrète
 ne s'injecte pas.
 
-**On type-hinte le type aliasé, pas la classe du service.** Viser la classe
+**On type-hinte le type aliasé, pas la class du service.** Viser la class
 concrète de `logger` échoue ; `LoggerInterface` fonctionne.
 
 **« Toujours une interface » est faux** : `RequestStack` ou `Filesystem`
-s'injectent par leur classe, parce que c'est elle que le bundle a aliasée.
+s'injectent par leur class, parce que c'est elle que le bundle a aliasée.
 
-**Un service intégré vient d'un bundle, pas du framework en bloc.** Retirer le
+**Un service intégré vient d'un bundle, pas du framework en block.** Retirer le
 bundle retire ses services : sans TwigBundle, pas d'`Environment` à injecter.
 
 ## Points clés
 
 - Les services intégrés viennent des bundles installés, FrameworkBundle en tête.
 - `debug:autowiring` répond à « que puis-je type-hinter ? » ; `debug:container`
-  liste les identifiants.
-- On injecte le type aliasé — le plus souvent une interface, parfois une classe.
+  liste les identifiers.
+- On injecte le type aliasé — le plus souvent une interface, parfois une class.
 
 ## Sources officielles
 

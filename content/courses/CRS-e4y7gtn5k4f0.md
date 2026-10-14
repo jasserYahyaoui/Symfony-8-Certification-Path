@@ -44,20 +44,20 @@ final class Article implements Cacheable, Stringable
 }
 ```
 
-- Toutes les méthodes sont **implicitement `public` et abstraites**.
-- Une classe peut implémenter **plusieurs** interfaces.
+- Toutes les methods sont **implicitement `public` et abstraites**.
+- Une class peut implémenter **plusieurs** interfaces.
 - Une interface peut **étendre plusieurs** interfaces (`extends A, B`).
 - Les constantes sont autorisées.
 
 ## Ce qu'elle ne contient pas
 
-Aucun corps de méthode, aucune méthode `private` ou `protected`, aucune
-propriété **porteuse d'état**.
+Aucun corps de method, aucune method `private` ou `protected`, aucune
+property **porteuse d'état**.
 
 ## Les constantes sont surchargeables — depuis PHP 8.1
 
 C'est le point que l'habitude fait rater. Avant PHP 8.1, une constante
-d'interface ne pouvait pas être redéfinie par la classe qui l'implémente.
+d'interface ne pouvait pas être redéfinie par la class qui l'implémente.
 Depuis 8.1, elle le peut — et Symfony 8.0 exige PHP 8.4 :
 
 ```php
@@ -77,9 +77,9 @@ class Article implements Cacheable
 C'est `final` sur la constante de l'interface qui interdit la surcharge, pas
 l'interface elle-même.
 
-## Les propriétés d'interface — depuis PHP 8.4
+## Les properties d'interface — depuis PHP 8.4
 
-Une interface peut déclarer une propriété, et doit dire si elle est **lisible,
+Une interface peut déclarer une property, et doit dire si elle est **lisible,
 écrivable, ou les deux**. La déclaration ne porte que sur l'accès public :
 
 ```php
@@ -90,43 +90,43 @@ interface Named
 }
 ```
 
-Plusieurs membres de classe satisfont une telle déclaration : une propriété
-publique ordinaire, ou une propriété virtuelle qui implémente le hook
+Plusieurs membres de class satisfont une telle déclaration : une property
+publique ordinaire, ou une property virtuelle qui implémente le hook
 correspondant.
 
-**Une propriété `readonly` ne peut pas satisfaire une propriété d'interface
+**Une property `readonly` ne peut pas satisfaire une property d'interface
 `set`** : la déclaration d'interface porte sur l'écriture **publique**, et une
-propriété `readonly` est implicitement `protected(set)` depuis PHP 8.4. Pour la
+property `readonly` est implicitement `protected(set)` depuis PHP 8.4. Pour la
 même raison, `public private(set)` ne la satisfait pas non plus. Exécuté :
 « Set access level of C::$name must be omitted (as in class I) » dans les deux
 cas. `readonly` convient en revanche pour un `get` seul.
 
 ## Pièges d'examen
 
-**La règle d'avant 8.1 est la réponse instinctive.** « Une constante d'interface
+**La règle d'avant 8.1 est la Response instinctive.** « Une constante d'interface
 ne se surcharge pas » a été vrai pendant des années ; sur PHP 8.4 c'est faux,
 sauf `final`.
 
-**Déclarer une propriété n'est pas porter un état.** L'interface impose un
-contrat d'accès ; c'est la classe qui décide s'il y a une valeur stockée
+**Déclarer une property n'est pas porter un état.** L'interface impose un
+contrat d'accès ; c'est la class qui décide s'il y a une valeur stockée
 derrière.
 
 **`readonly` ne satisfait pas un `set`.** Le réflexe « readonly est une
-propriété publique, donc ça passe » échoue précisément sur la moitié écriture.
+property publique, donc ça passe » échoue précisément sur la moitié écriture.
 
 ## Points clés
 
-- Méthodes implicitement publiques et abstraites, pas de corps.
-- Héritage multiple d'interfaces autorisé ; pas de propriété d'état.
+- Methods implicitement publiques et abstraites, pas de corps.
+- Inheritance multiple d'interfaces autorisé ; pas de property d'état.
 - Constantes autorisées **et surchargeables depuis 8.1**, sauf `final`.
-- Depuis 8.4, une interface déclare des propriétés en `get`, `set` ou les deux ;
-  une propriété `readonly` ne satisfait pas un `set`.
+- Depuis 8.4, une interface déclare des properties en `get`, `set` ou les deux ;
+  une property `readonly` ne satisfait pas un `set`.
 
-La comparaison avec les classes abstraites est traitée sous l'item
+La comparaison avec les abstract classes est traitée sous l'item
 *Abstract classes*, qui en est le propriétaire.
 
 ## Sources officielles
 
 - Manuel PHP — *Object Interfaces*, sections *Constants* et *Properties*
-- `php-src` branche `PHP-8.1`, fichier `UPGRADING` — modificateur `final` sur
-  les constantes de classe (RFC `final_class_const`)
+- `php-src` branche `PHP-8.1`, file `UPGRADING` — modificateur `final` sur
+  les constantes de class (RFC `final_class_const`)

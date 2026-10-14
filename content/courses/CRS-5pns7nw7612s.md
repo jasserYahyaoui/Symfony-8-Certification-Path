@@ -43,12 +43,12 @@ official_sources:
 
 ## Objectif
 
-Récupérer un fichier téléversé, le déplacer, et savoir quelles informations ne
+Récupérer un file téléversé, le déplacer, et savoir quelles informations ne
 doivent jamais être crues.
 
 ## Le récupérer
 
-Deux chemins :
+Deux paths :
 
 ```php
 $file = $request->files->get('brochure');            // sac files
@@ -59,22 +59,22 @@ public function upload(#[MapUploadedFile] UploadedFile $picture): Response
 ```
 
 Dans les deux cas on obtient un `UploadedFile`, une sous-classe de `File` qui
-enveloppe le fichier temporaire créé par PHP.
+enveloppe le file temporaire créé par PHP.
 
 ### Ce que fait `#[MapUploadedFile]`
 
-Le résolveur lit `$request->files` sous l'option `name` de l'attribut, et à
+Le resolver lit `$request->files` sous l'option `name` de l'attribute, et à
 défaut sous le **nom de l'argument**. Quand rien n'est envoyé :
 
 | Argument | Résultat |
 |---|---|
-| nullable, ou avec valeur par défaut | `null`, ou la valeur par défaut |
-| typé `array` | un tableau vide |
+| nullable, ou avec default value | `null`, ou la default value |
+| typé `array` | un array vide |
 | autre | une `HttpException` de statut **422** |
 
-Le 422 est la valeur par défaut de l'option `validationFailedStatusCode`, qui sert
-aussi quand les contraintes passées à l'attribut échouent. Sur un tableau de
-fichiers, ces contraintes sont appliquées à chaque fichier.
+Le 422 est la default value de l'option `validationFailedStatusCode`, qui sert
+aussi quand les constraints passées à l'attribute échouent. Sur un array de
+files, ces constraints sont appliquées à chaque file.
 
 ## Le déplacer
 
@@ -82,22 +82,22 @@ fichiers, ces contraintes sont appliquées à chaque fichier.
 $file->move($destinationDirectory, $newFilename);
 ```
 
-Le fichier temporaire disparaît à la fin de la requête : sans `move()`, rien
+Le file temporaire disparaît à la fin de la Request : sans `move()`, rien
 n'est conservé. `move()` retourne un `File` pointant vers la nouvelle place.
 
-Elle vérifie d'abord `isValid()` — téléversement sans erreur **et** fichier
+Elle vérifie d'abord `isValid()` — téléversement sans erreur **et** file
 réellement arrivé par HTTP. Sinon elle lève une exception propre à chaque code
 d'erreur de PHP : `IniSizeFileException` pour la limite de `php.ini`,
-`FormSizeFileException` pour celle du formulaire, `NoFileException`,
+`FormSizeFileException` pour celle du form, `NoFileException`,
 `PartialFileException`, etc.
 
 ## Ce qui vient du client n'est pas fiable
 
-C'est le cœur de l'item. Le code marque lui-même ces méthodes comme non sûres :
+C'est le cœur de l'item. Le code marque lui-même ces methods comme non sûres :
 
 - `getClientOriginalName()` — le nom d'origine ;
 - `getClientOriginalExtension()` — l'extension, tirée de ce nom ;
-- `getClientOriginalPath()` — le chemin d'origine, identique au nom sauf envoi
+- `getClientOriginalPath()` — le path d'origine, identique au nom sauf envoi
   d'un dossier ;
 - `getClientMimeType()` — le type MIME **annoncé** ; le fiable est `getMimeType()`,
   qui le devine d'après le contenu ;
@@ -116,31 +116,31 @@ $name = $safe.'-'.uniqid().'.'.$file->guessExtension();
 
 La documentation la range parmi les valeurs non sûres, comme « la taille
 d'origine ». **Le code dit autre chose** : ni `UploadedFile` ni `File` ne la
-définissent. Elle vient de `\SplFileInfo`, qui retourne la taille du fichier
-référencé — le fichier temporaire reçu par le serveur, pas une valeur déclarée
+définissent. Elle vient de `\SplFileInfo`, qui retourne la taille du file
+référencé — le file temporaire reçu par le serveur, pas une valeur déclarée
 par le client. Pour l'examen, retenir les deux : la documentation la liste, le
 code la mesure.
 
 ## Pièges d'examen
 
-**Rien de ce que le client annonce sur le fichier n'est fiable.** Nom, extension,
-chemin, type MIME annoncé : tout vient du navigateur.
+**Rien de ce que le client annonce sur le file n'est fiable.** Nom, extension,
+path, type MIME annoncé : tout vient du navigateur.
 
 **`guessClientExtension()` n'est pas `guessExtension()`.** La première part du
 type annoncé, la seconde du contenu.
 
-**Sans déplacement, il ne reste rien.** Le fichier temporaire disparaît à la fin
-de la requête.
+**Sans déplacement, il ne reste rien.** Le file temporaire disparaît à la fin
+de la Request.
 
-**Un fichier manquant donne 422, pas 400.** Sauf argument nullable, avec défaut,
-ou typé tableau.
+**Un file manquant donne 422, pas 400.** Sauf argument nullable, avec défaut,
+ou typé array.
 
 **`move()` lève une exception typée** selon l'erreur de téléversement.
 
 ## Points clés
 
 - `$request->files` ou `#[MapUploadedFile]`, qui lit `name`, sinon le nom d'argument.
-- Fichier absent : `null`, défaut, `[]` ou **422**.
+- File absent : `null`, défaut, `[]` ou **422**.
 - `move()` est obligatoire, retourne un `File`, lève une exception par code d'erreur.
 - Non fiables : les quatre `getClient…` et `guessClientExtension()`.
 - `guessExtension()` et `getMimeType()` partent du contenu.

@@ -6,9 +6,9 @@ flashcards:
   level: TRAP
   front: 'Validator : que retourne validate() quand tout est valide ?'
   back: Une ConstraintViolationListInterface vide — jamais true, jamais null.
-  explanation: 'Une liste vide reste un objet, donc une valeur vraie : le test doit porter sur count(),
+  explanation: 'Une liste vide reste un object, donc une valeur vraie : le test doit porter sur count(),
     pas sur la liste elle-même.'
-  memorization_justification: L'habitude des validateurs qui retournent un booléen fait écrire if ($violations),
+  memorization_justification: L'habitude des validators qui retournent un bool fait écrire if ($violations),
     qui est toujours vrai.
   verification_status: VERIFIED
   official_sources:
@@ -21,9 +21,9 @@ flashcards:
   official_item: OIT-d3yp0sq36xrx
   language: fr
   level: TRAP
-  front: Valider un objet valide-t-il les objets qu'il contient ?
-  back: "Non. Il faut poser `#[Assert\\Valid]` sur la propriété, ou `#[Assert\\Cascade]` sur la classe, pour cascader."
-  explanation: 'Sans la contrainte de cascade, l''objet imbriqué est ignoré en silence : aucune erreur,
+  front: Valider un object valide-t-il les objects qu'il contient ?
+  back: "Non. Il faut poser `#[Assert\\Valid]` sur la property, ou `#[Assert\\Cascade]` sur la class, pour cascader."
+  explanation: 'Sans la constraint de cascade, l''object imbriqué est ignoré en silence : aucune erreur,
     aucune violation.'
   memorization_justification: L'absence de cascade ne produit aucun signal ; le défaut se manifeste par
     une validation qui passe alors qu'elle ne devrait pas.
@@ -39,9 +39,9 @@ flashcards:
   language: fr
   level: TRAP
   front: Quelle est la différence entre NotBlank et NotNull ?
-  back: "NotNull refuse seulement null. NotBlank refuse aussi '', false et [] — mais laisse passer la chaîne '0', l'entier 0, 0.0 et une chaîne d'espaces."
-  explanation: Le validateur teste false === $value ou (!$value && '0' != $value), d'où le cas particulier
-    de la chaîne '0'.
+  back: "NotNull refuse seulement null. NotBlank refuse aussi '', false et [] — mais laisse passer la string '0', l'int 0, 0.0 et une string d'espaces."
+  explanation: Le validator teste false === $value ou (!$value && '0' != $value), d'où le cas particulier
+    de la string '0'.
   memorization_justification: Les deux noms se ressemblent et le choix change le comportement sur une
     valeur vide ou nulle.
   verification_status: VERIFIED
@@ -55,9 +55,9 @@ flashcards:
   official_item: OIT-ttwpe00f32q9
   language: fr
   level: RECALL
-  front: Quelles méthodes peuvent porter une contrainte de validation ?
+  front: Quelles methods peuvent porter une constraint de validation ?
   back: Celles dont le nom commence par get, is ou has, sans argument — quelle que soit la visibilité.
-  explanation: "La portée accesseur valide la valeur retournée, ce qui permet une règle calculée au moment de la validation. Un autre nom lève une MappingException."
+  explanation: "Le scope accesseur valide la valeur retournée, ce qui permet une règle calculée au moment de la validation. Un autre nom lève une MappingException."
   memorization_justification: La règle de nommage est arbitraire et ne se déduit pas ; la liberté de visibilité
     surprend.
   verification_status: VERIFIED
@@ -71,12 +71,12 @@ flashcards:
   official_item: OIT-kkhb3wd341ex
   language: fr
   level: RECALL
-  front: Sans groupe passé à validate(), quelles contraintes s'appliquent ?
-  back: Celles du groupe Default uniquement — pas toutes les contraintes de la classe.
-  explanation: Une contrainte étiquetée dans un groupe personnalisé reste donc inerte tant que personne
-    ne demande ce groupe.
+  front: Sans group passé à validate(), quelles constraints s'appliquent ?
+  back: Celles du group Default uniquement — pas toutes les constraints de la class.
+  explanation: Une constraint étiquetée dans un group personnalisé reste donc inerte tant que personne
+    ne demande ce group.
   memorization_justification: L'intuition dit « par défaut, tout est vérifié » ; c'est l'inverse pour
-    les contraintes groupées.
+    les constraints groupées.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/groups.rst
@@ -88,9 +88,9 @@ flashcards:
   official_item: OIT-rwavvsx2d7nq
   language: fr
   level: TRAP
-  front: Avec quel groupe déclare-t-on une séquence, et pourquoi pas Default ?
-  back: "Avec le nom de la classe, obligatoire. Sous séquence, Default désigne la séquence : l'y inclure lève une GroupDefinitionException, « The group \"Default\" is not allowed in group sequences. »"
-  explanation: "La documentation parle de récursion infinie ; le code 8.0 refuse la séquence avant. Hors séquence, Default et le nom de la classe ne diffèrent que sur les objets imbriqués."
+  front: Avec quel group déclare-t-on une séquence, et pourquoi pas Default ?
+  back: "Avec le nom de la class, obligatoire. Sous séquence, Default désigne la séquence : l'y inclure lève une GroupDefinitionException, « The group \"Default\" is not allowed in group sequences. »"
+  explanation: "La documentation parle de récursion infinie ; le code 8.0 refuse la séquence avant. Hors séquence, Default et le nom de la class ne diffèrent que sur les objects imbriqués."
   memorization_justification: "La règle d'écriture est connue, sa sanction réelle l'est moins : l'exécution contredit la documentation."
   verification_status: VERIFIED
   official_sources:
@@ -111,7 +111,7 @@ flashcards:
   level: RECALL
   front: 'Callback : quel est l''ordre des arguments, en instance et en statique ?'
   back: 'Instance : (context, payload). Statique : (value, context, payload) — la valeur passe devant.'
-  explanation: Une méthode statique n'a pas $this, donc l'objet valide lui est passé en premier argument.
+  explanation: Une method statique n'a pas $this, donc l'object valide lui est passé en premier argument.
   memorization_justification: Les deux signatures se ressemblent et l'inversion des deux premiers arguments
     est la seule différence.
   verification_status: VERIFIED
@@ -125,7 +125,7 @@ flashcards:
   official_item: OIT-0wnxbapegqhv
   language: fr
   level: TRAP
-  front: Que produit une chaîne buildViolation() qui ne finit pas par addViolation() ?
+  front: Que produit une string buildViolation() qui ne finit pas par addViolation() ?
   back: Rien. Le constructeur prépare la violation ; seule addViolation() l'enregistre.
   explanation: La validation passe alors sans erreur alors que la règle est violée, ce qui en fait un
     défaut silencieux.
@@ -141,10 +141,10 @@ flashcards:
   official_item: OIT-6wd8860brzfy
   language: fr
   level: TRAP
-  front: 'Validator hors framework : Validation::createValidator() valide un objet portant des contraintes en attributs, aux valeurs invalides. Combien de violations ?'
-  back: 'Zéro. Ce validateur ne lit pas les attributs : il faut `Validation::createValidatorBuilder()->enableAttributeMapping()->getValidator()`.'
-  explanation: '`ValidatorBuilder` démarre avec la lecture des attributs désactivée. Exécuté avec symfony/validator 8.0.15 : 0 violation, puis 2 avec `enableAttributeMapping()`.'
-  memorization_justification: 'Un oubli silencieux : l''objet paraît valide.'
+  front: 'Validator hors framework : Validation::createValidator() valide un object portant des constraints en attributes, aux valeurs invalides. Combien de violations ?'
+  back: 'Zéro. Ce validator ne lit pas les attributes : il faut `Validation::createValidatorBuilder()->enableAttributeMapping()->getValidator()`.'
+  explanation: '`ValidatorBuilder` démarre avec la lecture des attributes désactivée. Exécuté avec symfony/validator 8.0.15 : 0 violation, puis 2 avec `enableAttributeMapping()`.'
+  memorization_justification: 'Un oubli silencieux : l''object paraît valide.'
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/ValidatorBuilder.php
@@ -163,9 +163,9 @@ flashcards:
   official_item: OIT-6wd8860brzfy
   language: fr
   level: TRAP
-  front: 'Validator : que fait $validator->validate(''x'') sans contrainte ?'
+  front: 'Validator : que fait $validator->validate(''x'') sans constraint ?'
   back: 'Il lève une `RuntimeException` : « Cannot validate values of type "string" automatically. Please provide a constraint. »'
-  explanation: 'Exécuté : même chose pour un entier ou `null`. Un objet ou un tableau sans contrainte donne une liste vide.'
+  explanation: 'Exécuté : même chose pour un int ou `null`. Un object ou un array sans constraint donne une liste vide.'
   memorization_justification: Contredit l'idée que validate() ne lève jamais.
   verification_status: VERIFIED
   official_sources:
@@ -179,9 +179,9 @@ flashcards:
   official_item: OIT-6wd8860brzfy
   language: fr
   level: UNDERSTANDING
-  front: 'Validator : un tableau est validé contre Email. Exception ou violation ?'
+  front: 'Validator : un array est validé contre Email. Exception ou violation ?'
   back: 'Une violation : « This value should be of type string. »'
-  explanation: Exécuté ; de même pour un objet contre `Length`. Une donnée invalide, même mal typée, produit une violation.
+  explanation: Exécuté ; de même pour un object contre `Length`. Une donnée invalide, même mal typée, produit une violation.
   memorization_justification: Distingue donnée invalide et usage invalide.
   verification_status: VERIFIED
   official_sources:
@@ -196,8 +196,8 @@ flashcards:
   language: fr
   level: RECALL
   front: 'Validator : quand new Assert\Length() sans option lève-t-il une exception, et laquelle ?'
-  back: 'À la construction de la contrainte : `MissingOptionsException`, « Either option "min" or "max" must be given… ».'
-  explanation: Une contrainte mal configurée échoue avant toute validation. Exécuté.
+  back: 'À la construction de la constraint : `MissingOptionsException`, « Either option "min" or "max" must be given… ».'
+  explanation: Une constraint mal configurée échoue avant toute validation. Exécuté.
   memorization_justification: L'erreur de configuration n'attend pas la donnée.
   verification_status: VERIFIED
   official_sources:
@@ -211,8 +211,8 @@ flashcards:
   official_item: OIT-6wd8860brzfy
   language: fr
   level: RECALL
-  front: 'Validator : quelles sont les trois méthodes d''entrée de ValidatorInterface ?'
-  back: '`validate()`, `validateProperty()` et `validatePropertyValue()`, chacune avec les groupes en dernier argument.'
+  front: 'Validator : quelles sont les trois methods d''entrée de ValidatorInterface ?'
+  back: '`validate()`, `validateProperty()` et `validatePropertyValue()`, chacune avec les groups en dernier argument.'
   explanation: Toutes retournent une `ConstraintViolationListInterface`.
   memorization_justification: Surface de l'API.
   verification_status: VERIFIED
@@ -228,7 +228,7 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Validator : pourquoi if ($violations) ne dit-il pas si la validation a échoué ?'
-  back: 'Parce qu''une liste vide reste un objet : convertie en booléen, elle vaut `true`. Il faut tester `count($violations)`.'
+  back: 'Parce qu''une liste vide reste un object : convertie en booléen, elle vaut `true`. Il faut tester `count($violations)`.'
   explanation: 'Exécuté : `(bool)` d''une liste vide donne `true`.'
   memorization_justification: Erreur de test la plus fréquente.
   verification_status: VERIFIED
@@ -243,10 +243,10 @@ flashcards:
   official_item: OIT-6wd8860brzfy
   language: fr
   level: APPLICATION
-  front: 'Validator : tester un e-mail candidat contre les contraintes de User::$email, sans instance de User.'
+  front: 'Validator : tester un e-mail candidat contre les constraints de User::$email, sans instance de User.'
   back: '`$validator->validatePropertyValue(User::class, ''email'', $candidate)`.'
-  explanation: 'La méthode accepte un nom de classe et ne touche à aucun objet. Exécuté : une violation pour `''nope''`.'
-  memorization_justification: Cas d'usage typique d'un formulaire en plusieurs étapes.
+  explanation: 'La method accepte un nom de class et ne touche à aucun object. Exécuté : une violation pour `''nope''`.'
+  memorization_justification: Cas d'usage typique d'un form en plusieurs étapes.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Validator/ValidatorInterface.php
@@ -259,9 +259,9 @@ flashcards:
   official_item: OIT-6wd8860brzfy
   language: fr
   level: APPLICATION
-  front: 'OptionsResolver : restreindre l''option email aux adresses valides avec une contrainte du Validator.'
+  front: 'OptionsResolver : restreindre l''option email aux adresses valides avec une constraint du Validator.'
   back: '`$resolver->setAllowedValues(''email'', Validation::createIsValidCallable(new Assert\Email()))`.'
-  explanation: La fonction produite retourne `false` pour une valeur invalide. Exemple documenté dans `validation.rst` et `options_resolver.rst`.
+  explanation: La function produite retourne `false` pour une valeur invalide. Exemple documenté dans `validation.rst` et `options_resolver.rst`.
   memorization_justification: Pont entre deux composants.
   verification_status: VERIFIED
   official_sources:
@@ -281,7 +281,7 @@ flashcards:
   official_item: OIT-6wd8860brzfy
   language: fr
   level: RECALL
-  front: 'Validator : que fait la fonction produite par Validation::createCallable() pour une valeur invalide ?'
+  front: 'Validator : que fait la function produite par Validation::createCallable() pour une valeur invalide ?'
   back: Elle lève `ValidationFailedException`, alors que `createIsValidCallable()` retourne `false`.
   explanation: Exécuté avec `Email` sur `'x'`.
   memorization_justification: Deux raccourcis voisins aux comportements opposés.
@@ -299,8 +299,8 @@ flashcards:
   level: UNDERSTANDING
   front: 'Validator : que retourne getPropertyPath() pour une violation sur la ville d''une adresse imbriquée par #[Assert\Valid] ?'
   back: '`address.city`.'
-  explanation: 'Exécuté : le chemin suit la propriété de l''objet parent puis celle de l''objet imbriqué.'
-  memorization_justification: Lecture des violations d'un objet composé.
+  explanation: 'Exécuté : le path suit la property de l''object parent puis celle de l''object imbriqué.'
+  memorization_justification: Lecture des violations d'un object composé.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation.rst
@@ -313,9 +313,9 @@ flashcards:
   official_item: OIT-d3yp0sq36xrx
   language: fr
   level: TRAP
-  front: 'Validator : loadValidatorMetadata() est écrite comme méthode d''instance. Que se passe-t-il ?'
+  front: 'Validator : loadValidatorMetadata() est écrite comme method d''instance. Que se passe-t-il ?'
   back: 'Une `MappingException` : « The method "…::loadValidatorMetadata()" should be static. »'
-  explanation: Levée par `StaticMethodLoader`, exécuté avec symfony/validator 8.0.15 ; la méthode n'est pas ignorée en silence.
+  explanation: Levée par `StaticMethodLoader`, exécuté avec symfony/validator 8.0.15 ; la method n'est pas ignorée en silence.
   memorization_justification: On croit souvent qu'elle serait simplement ignorée.
   verification_status: VERIFIED
   official_sources:
@@ -329,10 +329,10 @@ flashcards:
   official_item: OIT-d3yp0sq36xrx
   language: fr
   level: TRAP
-  front: 'Validator : une propriété porte #[Assert\Valid] et vaut null. Y a-t-il une violation ?'
-  back: Non. `Valid` cascade dans l'objet présent ; il n'impose pas sa présence — `NotNull` s'en charge.
-  explanation: 'Exécuté : aucune violation pour une propriété à `null`.'
-  memorization_justification: Cascade et présence sont deux contraintes distinctes.
+  front: 'Validator : une property porte #[Assert\Valid] et vaut null. Y a-t-il une violation ?'
+  back: Non. `Valid` cascade dans l'object présent ; il n'impose pas sa présence — `NotNull` s'en charge.
+  explanation: 'Exécuté : aucune violation pour une property à `null`.'
+  memorization_justification: Cascade et présence sont deux constraints distinctes.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/Valid.rst
@@ -345,9 +345,9 @@ flashcards:
   official_item: OIT-d3yp0sq36xrx
   language: fr
   level: TRAP
-  front: 'Validator : la même contrainte NotBlank est déclarée sur une propriété du parent et redéclarée sur l''enfant. Combien de violations pour une valeur vide ?'
-  back: 'Deux, identiques : les contraintes du parent sont fusionnées avec celles de l''enfant, jamais remplacées.'
-  explanation: Exécuté. Le seul contournement documenté passe par des groupes de validation différents.
+  front: 'Validator : la même constraint NotBlank est déclarée sur une property du parent et redéclarée sur l''enfant. Combien de violations pour une valeur vide ?'
+  back: 'Deux, identiques : les constraints du parent sont fusionnées avec celles de l''enfant, jamais remplacées.'
+  explanation: Exécuté. Le seul contournement documenté passe par des validation groups différents.
   memorization_justification: Redéclarer ne remplace pas.
   verification_status: VERIFIED
   official_sources:
@@ -361,10 +361,10 @@ flashcards:
   official_item: OIT-d3yp0sq36xrx
   language: fr
   level: RECALL
-  front: 'Validator : quelle contrainte de classe cascade dans toutes les propriétés qui portent un objet ?'
-  back: '`#[Assert\Cascade]`, posée sur la classe.'
-  explanation: Elle évite d'écrire `#[Assert\Valid]` sur chaque propriété ; exécuté, elle produit la violation `address.zipCode`.
-  memorization_justification: Alternative à Valid propriété par propriété.
+  front: 'Validator : quelle constraint de class cascade dans toutes les properties qui portent un object ?'
+  back: '`#[Assert\Cascade]`, posée sur la class.'
+  explanation: Elle évite d'écrire `#[Assert\Valid]` sur chaque property ; exécuté, elle produit la violation `address.zipCode`.
+  memorization_justification: Alternative à Valid property par property.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/Cascade.rst
@@ -377,9 +377,9 @@ flashcards:
   official_item: OIT-d3yp0sq36xrx
   language: fr
   level: RECALL
-  front: 'Validator : quel chemin de propriété porte la violation d''une adresse d''un tableau validé par #[Assert\Valid] ?'
-  back: '`addresses[0].zipCode` — l''indice entre crochets, puis la propriété.'
-  explanation: 'Exécuté : `Valid` parcourt les tableaux d''objets.'
+  front: 'Validator : quel path de property porte la violation d''une adresse d''un array validé par #[Assert\Valid] ?'
+  back: '`addresses[0].zipCode` — l''indice entre crochets, puis la property.'
+  explanation: 'Exécuté : `Valid` parcourt les arrays d''objects.'
   memorization_justification: Lecture des violations d'une collection.
   verification_status: VERIFIED
   official_sources:
@@ -393,9 +393,9 @@ flashcards:
   official_item: OIT-d3yp0sq36xrx
   language: fr
   level: RECALL
-  front: 'Symfony 8.0 : quel attribut permet d''ajouter des contraintes à une classe tierce qu''on ne peut pas modifier ?'
-  back: '`#[ExtendsValidationFor(Product::class)]`, posé sur une classe séparée, souvent abstraite.'
-  explanation: Ses contraintes s'appliquent à `Product` comme si elles y étaient déclarées. Section « Extending Validation for a Class » de `validation.rst` (8.0).
+  front: 'Symfony 8.0 : quel attribute permet d''ajouter des constraints à une class tierce qu''on ne peut pas modifier ?'
+  back: '`#[ExtendsValidationFor(Product::class)]`, posé sur une class séparée, souvent abstraite.'
+  explanation: Ses constraints s'appliquent à `Product` comme si elles y étaient déclarées. Section « Extending Validation for a Class » de `validation.rst` (8.0).
   memorization_justification: Nouveauté documentée en 8.0.
   verification_status: VERIFIED
   official_sources:
@@ -416,7 +416,7 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Validator : pourquoi valider un Author ne signale-t-il rien sur son Address invalide ?'
-  back: Parce que la validation ne descend pas dans un objet imbriqué sans qu'on le demande, par `Valid` ou `Cascade`.
+  back: Parce que la validation ne descend pas dans un object imbriqué sans qu'on le demande, par `Valid` ou `Cascade`.
   explanation: 'Exécuté : aucune violation sans cascade, `address.zipCode` avec.'
   memorization_justification: Point central de l'item.
   verification_status: VERIFIED
@@ -431,9 +431,9 @@ flashcards:
   official_item: OIT-d3yp0sq36xrx
   language: fr
   level: UNDERSTANDING
-  front: 'Validator hors framework : #[ExtendsValidationFor] suffit-il à étendre la validation d''une classe ?'
+  front: 'Validator hors framework : #[ExtendsValidationFor] suffit-il à étendre la validation d''une class ?'
   back: 'Non : le composant seul a besoin de la correspondance, `addAttributeMappings([Product::class => [MyProductValidation::class]])`.'
-  explanation: 'Exécuté : l''attribut seul ne produit aucune violation ; avec la correspondance, la contrainte ajoutée s''applique.'
+  explanation: 'Exécuté : l''attribute seul ne produit aucune violation ; avec la correspondance, la constraint ajoutée s''applique.'
   memorization_justification: Ce que le framework fait à la place du développeur.
   verification_status: VERIFIED
   official_sources:
@@ -448,7 +448,7 @@ flashcards:
   language: fr
   level: APPLICATION
   front: 'Validator : faire échouer la validation d''un Author sans adresse, et valider l''adresse quand elle existe.'
-  back: '`#[Assert\NotNull]` et `#[Assert\Valid]` sur la propriété `address`.'
+  back: '`#[Assert\NotNull]` et `#[Assert\Valid]` sur la property `address`.'
   explanation: '`NotNull` impose la présence, `Valid` cascade ; l''une ne remplace pas l''autre.'
   memorization_justification: Combinaison courante.
   verification_status: VERIFIED
@@ -463,9 +463,9 @@ flashcards:
   official_item: OIT-d3yp0sq36xrx
   language: fr
   level: APPLICATION
-  front: 'Validator : déclarer en PHP, sans attribut, que Author::$name ne doit pas être vide.'
+  front: 'Validator : déclarer en PHP, sans attribute, que Author::$name ne doit pas être vide.'
   back: '`public static function loadValidatorMetadata(ClassMetadata $metadata): void { $metadata->addPropertyConstraint(''name'', new Assert\NotBlank()); }`'
-  explanation: Hors framework, le validateur doit être construit avec `addMethodMapping('loadValidatorMetadata')` ; exécuté.
+  explanation: Hors framework, le validator doit être construit avec `addMethodMapping('loadValidatorMetadata')` ; exécuté.
   memorization_justification: Format PHP, reconnu à l'examen.
   verification_status: VERIFIED
   official_sources:
@@ -479,8 +479,8 @@ flashcards:
   official_item: OIT-9x3strrjdng7
   language: fr
   level: TRAP
-  front: 'Validator : l''entier 0 passe-t-il la contrainte NotBlank ?'
-  back: Oui. Le validateur teste `false === $value || (!$value && '0' != $value)`, et en PHP 8 `'0' != 0` est faux.
+  front: 'Validator : l''entier 0 passe-t-il la constraint NotBlank ?'
+  back: Oui. Le validator teste `false === $value || (!$value && '0' != $value)`, et en PHP 8 `'0' != 0` est faux.
   explanation: 'Exécuté avec symfony/validator 8.0.15 : `0`, `0.0` et `''0''` passent `NotBlank`.'
   memorization_justification: 'Idée reçue : NotBlank refuserait toute valeur « falsy ».'
   verification_status: VERIFIED
@@ -495,9 +495,9 @@ flashcards:
   official_item: OIT-9x3strrjdng7
   language: fr
   level: TRAP
-  front: 'Validator : une chaîne d''espaces passe-t-elle NotBlank ?'
+  front: 'Validator : une string d''espaces passe-t-elle NotBlank ?'
   back: 'Oui, sauf avec `normalizer: ''trim''`, qui la ramène à `''''` avant le test.'
-  explanation: 'Exécuté : `'' ''` passe ; avec le normaliseur `trim`, une violation.'
+  explanation: 'Exécuté : `'' ''` passe ; avec le normalizer `trim`, une violation.'
   memorization_justification: Le vide visuel n'est pas le vide de PHP.
   verification_status: VERIFIED
   official_sources:
@@ -511,8 +511,8 @@ flashcards:
   official_item: OIT-9x3strrjdng7
   language: fr
   level: TRAP
-  front: 'Validator : dans quelle famille de la référence la contrainte DivisibleBy est-elle rangée ?'
-  back: Dans les contraintes de **comparaison**, pas dans les contraintes de nombres.
+  front: 'Validator : dans quelle famille de la référence la constraint DivisibleBy est-elle rangée ?'
+  back: Dans les constraints de **comparaison**, pas dans les constraints de nombres.
   explanation: '`map.rst.inc` (8.0) : comparaison `DivisibleBy`, `EqualTo`, `Range`, `Unique`… ; nombres `Positive`, `Negative` et leurs variantes « OrZero ».'
   memorization_justification: Rangement contre-intuitif.
   verification_status: VERIFIED
@@ -530,7 +530,7 @@ flashcards:
   front: 'Validator : quelles valeurs NotBlank refuse-t-il ?'
   back: '`null`, `''''`, `false` et `[]` ; avec `allowNull: true`, `null` est accepté.'
   explanation: Exécuté sur chaque valeur. `NotNull` ne refuse que `null`.
-  memorization_justification: Tableau de décision NotBlank / NotNull.
+  memorization_justification: Array de décision NotBlank / NotNull.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraints/NotBlankValidator.php
@@ -559,7 +559,7 @@ flashcards:
   official_item: OIT-9x3strrjdng7
   language: fr
   level: RECALL
-  front: 'Validator : citer trois contraintes de la famille financière.'
+  front: 'Validator : citer trois constraints de la famille financière.'
   back: Par exemple `Iban`, `Bic` et `CardScheme` ; aussi `Currency`, `Isbn`, `Isin`, `Issn`, `Luhn`.
   explanation: Famille « Financial and other Number Constraints » de la référence 8.0.
   memorization_justification: Famille souvent oubliée.
@@ -576,7 +576,7 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Validator : pourquoi Sequentially réduit-il le nombre de violations ?'
-  back: Parce qu'il s'arrête à la première contrainte violée ; sans lui, toutes s'exécutent et cumulent leurs violations.
+  back: Parce qu'il s'arrête à la première constraint violée ; sans lui, toutes s'exécutent et cumulent leurs violations.
   explanation: 'Exécuté : `''ab''` contre `Length(min: 5)` puis `Email` donne une violation avec `Sequentially`, deux sans.'
   memorization_justification: Ordre et arrêt, pas simple regroupement.
   verification_status: VERIFIED
@@ -591,10 +591,10 @@ flashcards:
   official_item: OIT-9x3strrjdng7
   language: fr
   level: UNDERSTANDING
-  front: 'Validator : combien de violations AtLeastOneOf produit-il quand toutes ses contraintes échouent ?'
-  back: Une seule, qui résume les contraintes non satisfaites.
+  front: 'Validator : combien de violations AtLeastOneOf produit-il quand toutes ses constraints échouent ?'
+  back: Une seule, qui résume les constraints non satisfaites.
   explanation: 'Exécuté avec `Length(min: 5)` et `Email` sur `''ab''`.'
-  memorization_justification: Lecture du résultat d'une contrainte composite.
+  memorization_justification: Lecture du résultat d'une constraint composite.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/AtLeastOneOf.rst
@@ -607,10 +607,10 @@ flashcards:
   official_item: OIT-9x3strrjdng7
   language: fr
   level: APPLICATION
-  front: 'Validator : un champ commentaire doit être envoyé, mais la chaîne vide y est légitime. Quelle contrainte ?'
+  front: 'Validator : un field commentaire doit être envoyé, mais la string vide y est légitime. Quelle constraint ?'
   back: '`NotNull` : elle ne refuse que `null`, alors que `NotBlank` refuserait `''''`.'
   explanation: 'Exécuté : `''''` passe `NotNull` et échoue à `NotBlank`.'
-  memorization_justification: Choix entre les deux contraintes basiques.
+  memorization_justification: Choix entre les deux constraints basiques.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraints/NotBlankValidator.php
@@ -623,10 +623,10 @@ flashcards:
   official_item: OIT-9x3strrjdng7
   language: fr
   level: APPLICATION
-  front: 'Validator : chaque adresse d''un tableau d''e-mails doit être valide. Comment l''écrire ?'
-  back: '`new Assert\All([new Assert\Email()])` : `All` applique la contrainte à chaque élément.'
-  explanation: '`Collection` servirait à décrire un tableau clé par clé.'
-  memorization_justification: Contrainte de structure la plus courante.
+  front: 'Validator : chaque adresse d''un array d''e-mails doit être valide. Comment l''écrire ?'
+  back: '`new Assert\All([new Assert\Email()])` : `All` applique la constraint à chaque élément.'
+  explanation: '`Collection` servirait à décrire un array key par key.'
+  memorization_justification: Constraint de structure la plus courante.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/map.rst.inc
@@ -639,9 +639,9 @@ flashcards:
   official_item: OIT-ttwpe00f32q9
   language: fr
   level: TRAP
-  front: 'Validator : #[Assert\IsTrue] est posé sur une méthode checkPasswordSafety(). Que se passe-t-il à la validation ?'
+  front: 'Validator : #[Assert\IsTrue] est posé sur une method checkPasswordSafety(). Que se passe-t-il à la validation ?'
   back: 'Une `MappingException` : « Constraints can only be added on methods beginning with "get", "is" or "has". »'
-  explanation: Levée par `AttributeLoader`, exécuté avec symfony/validator 8.0.15 ; la contrainte n'est pas ignorée en silence.
+  explanation: Levée par `AttributeLoader`, exécuté avec symfony/validator 8.0.15 ; la constraint n'est pas ignorée en silence.
   memorization_justification: On imagine un oubli silencieux.
   verification_status: VERIFIED
   official_sources:
@@ -671,10 +671,10 @@ flashcards:
   official_item: OIT-ttwpe00f32q9
   language: fr
   level: TRAP
-  front: 'Validator : quel chemin de propriété porte la violation d''une contrainte posée sur isPasswordSafe() ?'
+  front: 'Validator : quel path de property porte la violation d''une constraint posée sur isPasswordSafe() ?'
   back: '`passwordSafe` : le préfixe est retiré et la première lettre passe en minuscule.'
   explanation: Exécuté ; `getFullName()` donne `fullName`.
-  memorization_justification: Le chemin ne reprend pas le nom de la méthode.
+  memorization_justification: Le path ne reprend pas le nom de la method.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Mapping/Loader/AttributeLoader.php
@@ -687,8 +687,8 @@ flashcards:
   official_item: OIT-ttwpe00f32q9
   language: fr
   level: RECALL
-  front: 'Validator : sur quelles trois cibles une contrainte peut-elle être posée ?'
-  back: Une propriété, un accesseur (`get`, `is`, `has`), ou la classe entière.
+  front: 'Validator : sur quelles trois cibles une constraint peut-elle être posée ?'
+  back: Une property, un accesseur (`get`, `is`, `has`), ou la class entière.
   explanation: Section « Constraint Targets » de `validation.rst` (8.0).
   memorization_justification: Les trois portées de l'item.
   verification_status: VERIFIED
@@ -704,9 +704,9 @@ flashcards:
   language: fr
   level: RECALL
   front: 'Validator : que retourne getTargets() par défaut, et que couvre cette valeur ?'
-  back: '`Constraint::PROPERTY_CONSTRAINT` (`''property''`), qui couvre les propriétés et les accesseurs.'
+  back: '`Constraint::PROPERTY_CONSTRAINT` (`''property''`), qui couvre les properties et les accesseurs.'
   explanation: 'Exécuté : `NotBlank` retourne `''property''` ; `Callback` retourne les deux cibles.'
-  memorization_justification: Cible déclarée par la contrainte elle-même.
+  memorization_justification: Cible déclarée par la constraint elle-même.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraint.php
@@ -719,9 +719,9 @@ flashcards:
   official_item: OIT-ttwpe00f32q9
   language: fr
   level: UNDERSTANDING
-  front: 'Validator : pourquoi une règle « la date de fin suit la date de début » exige-t-elle la portée classe ?'
-  back: Parce qu'une contrainte de propriété ne reçoit que la valeur de sa propriété ; seule la portée classe voit l'objet entier.
-  explanation: Exécuté avec un `Callback` de classe qui rattache la violation à `end` par `atPath('end')`.
+  front: 'Validator : pourquoi une règle « la date de fin suit la date de début » exige-t-elle le scope class ?'
+  back: Parce qu'une constraint de property ne reçoit que la valeur de sa property ; seule le scope class voit l'object entier.
+  explanation: Exécuté avec un `Callback` de class qui rattache la violation à `end` par `atPath('end')`.
   memorization_justification: Choix de portée pour une règle croisée.
   verification_status: VERIFIED
   official_sources:
@@ -735,7 +735,7 @@ flashcards:
   official_item: OIT-ttwpe00f32q9
   language: fr
   level: UNDERSTANDING
-  front: 'Validator : une contrainte peut-elle être posée sur un accesseur privé ou statique ?'
+  front: 'Validator : une constraint peut-elle être posée sur un accesseur privé ou statique ?'
   back: 'Oui : la visibilité est libre, et un accesseur statique est accepté.'
   explanation: 'Exécuté : `private function isPasswordSafe()` et `public static function isOk()` produisent leur violation.'
   memorization_justification: Ni la visibilité ni le mot-clé static ne bloquent.
@@ -751,9 +751,9 @@ flashcards:
   official_item: OIT-ttwpe00f32q9
   language: fr
   level: APPLICATION
-  front: 'Validator : valider que le mot de passe ne reprend pas le prénom, sans propriété dédiée.'
-  back: '`#[Assert\IsTrue(message: ''…'')]` sur une méthode `isPasswordSafe(): bool` qui compare les deux valeurs.'
-  explanation: Exemple documenté de la portée accesseur ; la violation porte le chemin `passwordSafe`.
+  front: 'Validator : valider que le password ne reprend pas le prénom, sans property dédiée.'
+  back: '`#[Assert\IsTrue(message: ''…'')]` sur une method `isPasswordSafe(): bool` qui compare les deux valeurs.'
+  explanation: Exemple documenté du scope accesseur ; la violation porte le path `passwordSafe`.
   memorization_justification: Règle calculée au moment de la validation.
   verification_status: VERIFIED
   official_sources:
@@ -767,10 +767,10 @@ flashcards:
   official_item: OIT-ttwpe00f32q9
   language: fr
   level: APPLICATION
-  front: 'Validator : rendre une contrainte personnalisée applicable à la classe entière.'
+  front: 'Validator : rendre une constraint personnalisée applicable à la class entière.'
   back: Redéfinir `getTargets()` pour retourner `self::CLASS_CONSTRAINT`.
   explanation: Section « Class Constraint Validator » de `custom_constraint.rst`.
-  memorization_justification: Déclaration de la portée classe.
+  memorization_justification: Déclaration du scope class.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/custom_constraint.rst
@@ -791,7 +791,7 @@ flashcards:
   level: RECALL
   front: 'Validator : le préfixe get, is ou has d''un accesseur contraint est-il sensible à la casse ?'
   back: 'Non : `AttributeLoader` teste `/^(get|is|has)(.+)$/i`.'
-  explanation: 'Exécuté : une méthode `ISOK()` est acceptée, violation au chemin `oK`.'
+  explanation: 'Exécuté : une method `ISOK()` est acceptée, violation au path `oK`.'
   memorization_justification: Détail du motif de reconnaissance.
   verification_status: VERIFIED
   official_sources:
@@ -805,9 +805,9 @@ flashcards:
   official_item: OIT-kkhb3wd341ex
   language: fr
   level: TRAP
-  front: 'Validator : une contrainte déclarée groups: [''User''] dans la classe User s''exécute-t-elle quand on valide le groupe Default ?'
-  back: Non. Ses seuls groupes sont `["User"]` ; la documentation dit le contraire, le code l'emporte.
-  explanation: '`addImplicitGroupName()` ajoute le nom de la classe aux contraintes de `Default`, jamais l''inverse. Exécuté avec symfony/validator 8.0.15.'
+  front: 'Validator : une constraint déclarée groups: [''User''] dans la class User s''exécute-t-elle quand on valide le group Default ?'
+  back: Non. Ses seuls groups sont `["User"]` ; la documentation dit le contraire, le code l'emporte.
+  explanation: '`addImplicitGroupName()` ajoute le nom de la class aux constraints de `Default`, jamais l''inverse. Exécuté avec symfony/validator 8.0.15.'
   memorization_justification: Écart entre `groups.rst` (8.0) et le code.
   verification_status: VERIFIED
   official_sources:
@@ -827,10 +827,10 @@ flashcards:
   official_item: OIT-kkhb3wd341ex
   language: fr
   level: TRAP
-  front: 'Validator : User cascade vers Address par #[Assert\Valid]. Valider User dans le groupe User applique-t-il les contraintes Default de Address ?'
-  back: 'Non : seul le groupe `Default` les atteint ; avec `User`, le groupe transmis à `Address` reste `User`.'
+  front: 'Validator : User cascade vers Address par #[Assert\Valid]. Valider User dans le group User applique-t-il les constraints Default de Address ?'
+  back: 'Non : seul le group `Default` les atteint ; avec `User`, le group transmis à `Address` reste `User`.'
   explanation: 'Exécuté : `Default` donne `address.zip`, `User` ne le donne pas.'
-  memorization_justification: Seule différence entre Default et le nom de la classe hors séquence.
+  memorization_justification: Seule différence entre Default et le nom de la class hors séquence.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/groups.rst
@@ -843,10 +843,10 @@ flashcards:
   official_item: OIT-kkhb3wd341ex
   language: fr
   level: TRAP
-  front: 'Validator : sans groupe passé à validate(), une contrainte groups: [''registration''] s''exécute-t-elle ?'
+  front: 'Validator : sans group passé à validate(), une constraint groups: [''registration''] s''exécute-t-elle ?'
   back: 'Non : sans argument, seul `Default` est validé.'
-  explanation: Une contrainte d'un groupe personnalisé reste inerte tant que ce groupe n'est pas demandé.
-  memorization_justification: 'Idée reçue : « toutes les contraintes par défaut ».'
+  explanation: Une constraint d'un group personnalisé reste inerte tant que ce group n'est pas demandé.
+  memorization_justification: 'Idée reçue : « toutes les constraints par défaut ».'
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/groups.rst
@@ -859,10 +859,10 @@ flashcards:
   official_item: OIT-kkhb3wd341ex
   language: fr
   level: RECALL
-  front: 'Validator : quels groupes reçoit une contrainte sans groupe explicite de la classe User ?'
+  front: 'Validator : quels groups reçoit une constraint sans group explicite de la class User ?'
   back: '`Default` et `User`.'
-  explanation: 'Exécuté : `["Default", "User"]`, comme pour une contrainte déclarée `groups: [''Default'']`.'
-  memorization_justification: Groupes implicites.
+  explanation: 'Exécuté : `["Default", "User"]`, comme pour une constraint déclarée `groups: [''Default'']`.'
+  memorization_justification: Groups implicites.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraint.php
@@ -875,10 +875,10 @@ flashcards:
   official_item: OIT-kkhb3wd341ex
   language: fr
   level: RECALL
-  front: 'Validator : combien de groupes existent pour une classe User avec une contrainte sans groupe et une contrainte groups: [''registration''] ?'
+  front: 'Validator : combien de groups existent pour une class User avec une constraint sans group et une constraint groups: [''registration''] ?'
   back: 'Trois : `Default`, `User` et `registration`.'
-  explanation: Le nom de la classe est toujours un groupe ; un groupe nommé existe dès qu'une contrainte le cite.
-  memorization_justification: Groupes implicites et explicites.
+  explanation: Le nom de la class est toujours un group ; un group nommé existe dès qu'une constraint le cite.
+  memorization_justification: Groups implicites et explicites.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/groups.rst
@@ -891,10 +891,10 @@ flashcards:
   official_item: OIT-kkhb3wd341ex
   language: fr
   level: UNDERSTANDING
-  front: 'Validator : un groupe nommé traverse-t-il la cascade vers un objet imbriqué ?'
-  back: 'Oui : validé dans `registration`, `User` atteint aussi les contraintes `registration` de son `Address`.'
-  explanation: 'Exécuté : `email` et `address.street` pour le groupe `registration`.'
-  memorization_justification: La cascade transmet le groupe demandé.
+  front: 'Validator : un group nommé traverse-t-il la cascade vers un object imbriqué ?'
+  back: 'Oui : validé dans `registration`, `User` atteint aussi les constraints `registration` de son `Address`.'
+  explanation: 'Exécuté : `email` et `address.street` pour le group `registration`.'
+  memorization_justification: La cascade transmet le group demandé.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/groups.rst
@@ -907,9 +907,9 @@ flashcards:
   official_item: OIT-kkhb3wd341ex
   language: fr
   level: UNDERSTANDING
-  front: 'Validator : pourquoi dit-on que Default et le nom de la classe sont identiques pour la classe elle-même ?'
-  back: Parce que toute contrainte de `Default` reçoit aussi le nom de la classe ; ils ne diffèrent que sur les objets imbriqués et dans une séquence de groupes.
-  explanation: 'Exécuté : pour la classe seule, les deux groupes donnent les mêmes violations de premier niveau.'
+  front: 'Validator : pourquoi dit-on que Default et le nom de la class sont identiques pour la class elle-même ?'
+  back: Parce que toute constraint de `Default` reçoit aussi le nom de la class ; ils ne diffèrent que sur les objects imbriqués et dans une group sequence.
+  explanation: 'Exécuté : pour la class seule, les deux groups donnent les mêmes violations de premier niveau.'
   memorization_justification: Nuance centrale de l'item.
   verification_status: VERIFIED
   official_sources:
@@ -929,10 +929,10 @@ flashcards:
   official_item: OIT-kkhb3wd341ex
   language: fr
   level: APPLICATION
-  front: 'Validator : valider à la fois les contraintes par défaut et celles de l''inscription.'
+  front: 'Validator : valider à la fois les constraints par défaut et celles de l''inscription.'
   back: '`$validator->validate($user, null, [''Default'', ''registration''])`.'
-  explanation: 'Exécuté : `email`, `city` et les contraintes des deux groupes dans l''adresse.'
-  memorization_justification: Combinaison de groupes courante.
+  explanation: 'Exécuté : `email`, `city` et les constraints des deux groups dans l''adresse.'
+  memorization_justification: Combinaison de groups courante.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/groups.rst
@@ -945,10 +945,10 @@ flashcards:
   official_item: OIT-kkhb3wd341ex
   language: fr
   level: APPLICATION
-  front: 'Formulaire Symfony : n''appliquer que le groupe registration à la validation d''un formulaire.'
+  front: 'Form Symfony : n''appliquer que le group registration à la validation d''un form.'
   back: 'L''option `validation_groups` du type : `''validation_groups'' => [''registration'']`.'
-  explanation: C'est l'équivalent, dans un formulaire, du troisième argument de `validate()`.
-  memorization_justification: Pont entre formulaire et validateur.
+  explanation: C'est l'équivalent, dans un form, du troisième argument de `validate()`.
+  memorization_justification: Pont entre form et validator.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/groups.rst
@@ -961,8 +961,8 @@ flashcards:
   official_item: OIT-kkhb3wd341ex
   language: fr
   level: RECALL
-  front: 'Validator : le troisième argument de validate() accepte-t-il une chaîne seule ?'
-  back: 'Oui : `validate($user, null, ''registration'')` équivaut au tableau `[''registration'']`.'
+  front: 'Validator : le troisième argument de validate() accepte-t-il une string seule ?'
+  back: 'Oui : `validate($user, null, ''registration'')` équivaut à l''array `[''registration'']`.'
   explanation: 'Exécuté : mêmes violations dans les deux écritures.'
   memorization_justification: Forme courte à reconnaître.
   verification_status: VERIFIED
@@ -977,8 +977,8 @@ flashcards:
   official_item: OIT-rwavvsx2d7nq
   language: fr
   level: TRAP
-  front: 'Validator : une séquence de classe omet le nom de la classe, par exemple [''Strict'']. Que se passe-t-il ?'
-  back: 'Une `GroupDefinitionException` : « The group "…" is missing in the group sequence. » Le nom de la classe est obligatoire.'
+  front: 'Validator : une séquence de class omet le nom de la class, par exemple [''Strict'']. Que se passe-t-il ?'
+  back: 'Une `GroupDefinitionException` : « The group "…" is missing in the group sequence. » Le nom de la class est obligatoire.'
   explanation: Contrôle de `ClassMetadata::setGroupSequence()`, exécuté avec symfony/validator 8.0.15.
   memorization_justification: Règle d'écriture sanctionnée par une exception.
   verification_status: VERIFIED
@@ -993,10 +993,10 @@ flashcards:
   official_item: OIT-rwavvsx2d7nq
   language: fr
   level: TRAP
-  front: 'Validator : valider explicitement le groupe portant le nom de la classe déroule-t-il la séquence ?'
-  back: 'Non : seul `Default`, ou l''absence de groupe, déroule la séquence ; le nom de la classe n''applique que ses propres contraintes.'
-  explanation: 'Exécuté : `[''Seq'']` donne la seule violation de ce groupe, sans passer à `Strict`.'
-  memorization_justification: On croirait le nom de classe équivalent à Default.
+  front: 'Validator : valider explicitement le group portant le nom de la class déroule-t-il la séquence ?'
+  back: 'Non : seul `Default`, ou l''absence de group, déroule la séquence ; le nom de la class n''applique que ses propres constraints.'
+  explanation: 'Exécuté : `[''Seq'']` donne la seule violation de ce group, sans passer à `Strict`.'
+  memorization_justification: On croirait le nom de class équivalent à Default.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/sequence_provider.rst
@@ -1009,9 +1009,9 @@ flashcards:
   official_item: OIT-rwavvsx2d7nq
   language: fr
   level: RECALL
-  front: 'Validator : qu''arrête une séquence de groupes ?'
-  back: Le premier groupe — ou la première étape — qui produit au moins une violation ; les suivants ne sont pas validés.
-  explanation: 'Exécuté : `username` vide, seule sa violation ; rempli, la violation du groupe `Strict` apparaît.'
+  front: 'Validator : qu''arrête une group sequence ?'
+  back: Le premier group — ou la première étape — qui produit au moins une violation ; les suivants ne sont pas validés.
+  explanation: 'Exécuté : `username` vide, seule sa violation ; rempli, la violation du group `Strict` apparaît.'
   memorization_justification: Condition d'arrêt de la séquence.
   verification_status: VERIFIED
   official_sources:
@@ -1025,9 +1025,9 @@ flashcards:
   official_item: OIT-rwavvsx2d7nq
   language: fr
   level: RECALL
-  front: 'Validator : quelle interface et quel attribut rendent une séquence dépendante de l''objet ?'
-  back: '`GroupSequenceProviderInterface`, avec sa méthode `getGroupSequence()`, et l''attribut `#[Assert\GroupSequenceProvider]` sur la classe.'
-  explanation: La méthode retourne un tableau ou un objet `GroupSequence`.
+  front: 'Validator : quelle interface et quel attribute rendent une séquence dépendante de l''object ?'
+  back: '`GroupSequenceProviderInterface`, avec sa method `getGroupSequence()`, et l''attribute `#[Assert\GroupSequenceProvider]` sur la class.'
+  explanation: La method retourne un array ou un object `GroupSequence`.
   memorization_justification: Séquence dynamique.
   verification_status: VERIFIED
   official_sources:
@@ -1042,9 +1042,9 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Validator : pourquoi un provider qui retourne [[''User'', ''Premium''], ''Api''] rapporte-t-il aussi les violations de Premium quand User échoue ?'
-  back: 'Parce qu''un sous-tableau est une seule étape : ses groupes sont validés ensemble. La séquence s''arrête ensuite, `Api` n''est pas validé.'
+  back: 'Parce qu''un sous-tableau est une seule étape : ses groups sont validés ensemble. La séquence s''arrête ensuite, `Api` n''est pas validé.'
   explanation: 'Exécuté : à plat, seules les violations de `User` ; imbriqué, celles de `User` et de `Premium`.'
-  memorization_justification: Forme du tableau et comportement.
+  memorization_justification: Forme de l'array et comportement.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/sequence_provider.rst
@@ -1057,8 +1057,8 @@ flashcards:
   official_item: OIT-rwavvsx2d7nq
   language: fr
   level: UNDERSTANDING
-  front: 'Validator : pourquoi une séquence de classe ne peut-elle pas contenir Default ?'
-  back: Parce que `Default` y désigne la séquence elle-même ; le code refuse donc ce groupe par une `GroupDefinitionException`.
+  front: 'Validator : pourquoi une séquence de class ne peut-elle pas contenir Default ?'
+  back: Parce que `Default` y désigne la séquence elle-même ; le code refuse donc ce group par une `GroupDefinitionException`.
   explanation: La documentation décrit la récursion que cela provoquerait ; `ClassMetadata` l'empêche avant qu'elle commence.
   memorization_justification: Sens de Default sous séquence.
   verification_status: VERIFIED
@@ -1079,9 +1079,9 @@ flashcards:
   official_item: OIT-rwavvsx2d7nq
   language: fr
   level: APPLICATION
-  front: 'Validator : n''exécuter la vérification coûteuse du groupe Strict que si les contraintes ordinaires de User passent.'
-  back: '`#[Assert\GroupSequence([''User'', ''Strict''])]` sur la classe `User`.'
-  explanation: Le nom de la classe ouvre la séquence ; `Strict` n'est atteint que si `User` ne produit aucune violation.
+  front: 'Validator : n''exécuter la vérification coûteuse du group Strict que si les constraints ordinaires de User passent.'
+  back: '`#[Assert\GroupSequence([''User'', ''Strict''])]` sur la class `User`.'
+  explanation: Le nom de la class ouvre la séquence ; `Strict` n'est atteint que si `User` ne produit aucune violation.
   memorization_justification: Usage type de la séquence.
   verification_status: VERIFIED
   official_sources:
@@ -1095,10 +1095,10 @@ flashcards:
   official_item: OIT-rwavvsx2d7nq
   language: fr
   level: APPLICATION
-  front: 'Validator : appliquer une séquence ponctuelle sans la déclarer sur la classe.'
+  front: 'Validator : appliquer une séquence ponctuelle sans la déclarer sur la class.'
   back: '`$validator->validate($user, null, new GroupSequence([''Default'', ''Strict'']))`.'
-  explanation: 'Exécuté : même arrêt au premier groupe en échec ; `Default` est accepté dans une séquence passée ainsi.'
-  memorization_justification: Séquence à l'appel plutôt qu'à la classe.
+  explanation: 'Exécuté : même arrêt au premier group en échec ; `Default` est accepté dans une séquence passée ainsi.'
+  memorization_justification: Séquence à l'appel plutôt qu'à la class.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/sequence_provider.rst
@@ -1111,8 +1111,8 @@ flashcards:
   official_item: OIT-rwavvsx2d7nq
   language: fr
   level: RECALL
-  front: 'Validator : un provider retourne [''Premium'', ''Api''], sans le nom de la classe. Exception ?'
-  back: 'Non : le contrôle du nom de la classe ne porte que sur la séquence statique ; le provider est appliqué tel quel.'
+  front: 'Validator : un provider retourne [''Premium'', ''Api''], sans le nom de la class. Exception ?'
+  back: 'Non : le contrôle du nom de la class ne porte que sur la séquence statique ; le provider est appliqué tel quel.'
   explanation: 'Exécuté : les violations de `Premium` seules, sans erreur.'
   memorization_justification: Différence entre séquence statique et dynamique.
   verification_status: VERIFIED
@@ -1127,9 +1127,9 @@ flashcards:
   official_item: OIT-hcdrp2y7kbct
   language: fr
   level: TRAP
-  front: 'Validator : une méthode Callback statique est écrite avec la signature d''instance (context, payload). Que se passe-t-il ?'
-  back: 'Une `TypeError` : le validateur lui passe l''objet en premier argument, là où elle attend le contexte.'
-  explanation: '`CallbackValidator` appelle `invoke(null, $object, $context, $payload)` pour une méthode statique. Exécuté avec symfony/validator 8.0.15.'
+  front: 'Validator : une method Callback statique est écrite avec la signature d''instance (context, payload). Que se passe-t-il ?'
+  back: 'Une `TypeError` : le validator lui passe l''object en premier argument, là où elle attend le contexte.'
+  explanation: '`CallbackValidator` appelle `invoke(null, $object, $context, $payload)` pour une method statique. Exécuté avec symfony/validator 8.0.15.'
   memorization_justification: Inversion des deux premiers arguments.
   verification_status: VERIFIED
   official_sources:
@@ -1145,7 +1145,7 @@ flashcards:
   level: TRAP
   front: 'Validator : un callback détecte l''erreur et retourne false. La validation échoue-t-elle ?'
   back: 'Non : le retour est ignoré. Seule une violation ajoutée au contexte signale l''erreur.'
-  explanation: 'Exécuté : aucune violation pour une méthode qui retourne `false`.'
+  explanation: 'Exécuté : aucune violation pour une method qui retourne `false`.'
   memorization_justification: Réflexe booléen hérité d'autres API.
   verification_status: VERIFIED
   official_sources:
@@ -1159,7 +1159,7 @@ flashcards:
   official_item: OIT-hcdrp2y7kbct
   language: fr
   level: TRAP
-  front: 'Validator : #[Assert\Callback(''nope'')] vise une méthode inexistante. Que se passe-t-il ?'
+  front: 'Validator : #[Assert\Callback(''nope'')] vise une method inexistante. Que se passe-t-il ?'
   back: 'Une `ConstraintDefinitionException` : « Method "nope" targeted by Callback constraint does not exist in class … ».'
   explanation: Levée par `CallbackValidator` à la validation, exécuté.
   memorization_justification: Erreur de configuration, pas violation.
@@ -1175,9 +1175,9 @@ flashcards:
   official_item: OIT-hcdrp2y7kbct
   language: fr
   level: RECALL
-  front: 'Validator : quelle est la signature d''une méthode Callback d''instance, puis statique ?'
+  front: 'Validator : quelle est la signature d''une method Callback d''instance, puis statique ?'
   back: 'Instance : `(ExecutionContextInterface $context, mixed $payload)`. Statique : `(mixed $value, ExecutionContextInterface $context, mixed $payload)`.'
-  explanation: Référence de la contrainte `Callback`.
+  explanation: Référence de la constraint `Callback`.
   memorization_justification: Signatures à restituer.
   verification_status: VERIFIED
   official_sources:
@@ -1191,9 +1191,9 @@ flashcards:
   official_item: OIT-hcdrp2y7kbct
   language: fr
   level: RECALL
-  front: 'Validator : où est cherchée la méthode d''un Callback déclaré par un simple nom ?'
-  back: 'Sur la classe de l''objet validé : `method_exists($object, $method)`.'
-  explanation: Pour une méthode ailleurs, on passe un tableau `[Classe::class, 'méthode']`.
+  front: 'Validator : où est cherchée la method d''un Callback déclaré par un simple nom ?'
+  back: 'Sur la class de l''object validé : `method_exists($object, $method)`.'
+  explanation: Pour une method ailleurs, on passe un array `[Classe::class, 'méthode']`.
   memorization_justification: Résolution du nom.
   verification_status: VERIFIED
   official_sources:
@@ -1207,10 +1207,10 @@ flashcards:
   official_item: OIT-hcdrp2y7kbct
   language: fr
   level: RECALL
-  front: 'Validator : que reçoit le troisième argument d''une méthode Callback ?'
-  back: La valeur de l'option `payload` de la contrainte, que le validateur ne lit pas lui-même.
+  front: 'Validator : que reçoit le troisième argument d''une method Callback ?'
+  back: La valeur de l'option `payload` de la constraint, que le validator ne lit pas lui-même.
   explanation: 'Exécuté : `payload: [''severity'' => ''warning'']` arrive tel quel.'
-  memorization_justification: Rôle du payload.
+  memorization_justification: Role du payload.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/Callback.rst
@@ -1223,8 +1223,8 @@ flashcards:
   official_item: OIT-hcdrp2y7kbct
   language: fr
   level: UNDERSTANDING
-  front: 'Validator : pourquoi une méthode Callback statique reçoit-elle l''objet en premier argument ?'
-  back: 'Parce qu''elle n''a pas `$this` : sans cet argument, elle n''aurait aucun accès à l''objet validé.'
+  front: 'Validator : pourquoi une method Callback statique reçoit-elle l''object en premier argument ?'
+  back: 'Parce qu''elle n''a pas `$this` : sans cet argument, elle n''aurait aucun accès à l''object validé.'
   explanation: La forme d'instance, qui dispose de `$this`, commence directement par le contexte.
   memorization_justification: Raison de la différence de signature.
   verification_status: VERIFIED
@@ -1239,9 +1239,9 @@ flashcards:
   official_item: OIT-hcdrp2y7kbct
   language: fr
   level: UNDERSTANDING
-  front: 'Validator : pourquoi un Callback de classe utilise-t-il souvent atPath() ?'
-  back: Parce qu'une contrainte de classe rattache sa violation à l'objet ; `atPath('firstName')` l'attribue au champ concerné.
-  explanation: Utile pour qu'un formulaire affiche l'erreur sous le bon champ.
+  front: 'Validator : pourquoi un Callback de class utilise-t-il souvent atPath() ?'
+  back: Parce qu'une constraint de class rattache sa violation à l'object ; `atPath('firstName')` l'attribue au field concerné.
+  explanation: Utile pour qu'un form affiche l'erreur sous le bon field.
   memorization_justification: Attribution de l'erreur.
   verification_status: VERIFIED
   official_sources:
@@ -1255,10 +1255,10 @@ flashcards:
   official_item: OIT-hcdrp2y7kbct
   language: fr
   level: APPLICATION
-  front: 'Validator : placer la règle de validation dans une classe utilitaire statique Ext::validate().'
-  back: '`#[Assert\Callback([Ext::class, ''validate''])]` sur la classe, avec `public static function validate(mixed $value, ExecutionContextInterface $context, mixed $payload)`.'
+  front: 'Validator : placer la règle de validation dans une class utilitaire statique Ext::validate().'
+  back: '`#[Assert\Callback([Ext::class, ''validate''])]` sur la class, avec `public static function validate(mixed $value, ExecutionContextInterface $context, mixed $payload)`.'
   explanation: 'Exécuté : la violation de l''appelable externe remonte.'
-  memorization_justification: Callback hors de la classe validée.
+  memorization_justification: Callback hors de la class validée.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/Callback.rst
@@ -1279,8 +1279,8 @@ flashcards:
   level: APPLICATION
   front: 'Validator : valider une valeur nue avec une règle écrite à la volée.'
   back: '`$validator->validate($value, new Assert\Callback(function (mixed $value, ExecutionContextInterface $context) { … }))`.'
-  explanation: 'Exécuté : la fermeture reçoit la valeur et le contexte ; une violation ajoutée remonte.'
-  memorization_justification: Forme fermeture, hors attribut.
+  explanation: 'Exécuté : la closure reçoit la valeur et le contexte ; une violation ajoutée remonte.'
+  memorization_justification: Forme closure, hors attribute.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraints/CallbackValidator.php
@@ -1293,10 +1293,10 @@ flashcards:
   official_item: OIT-0wnxbapegqhv
   language: fr
   level: TRAP
-  front: 'Validator : dans un Callback de classe, atPath(''email'') change-t-il la valeur fautive de la violation ?'
-  back: 'Non : seul le chemin change ; la valeur fautive reste l''objet entier. Il faut `setInvalidValue()` pour la corriger.'
-  explanation: 'Exécuté avec symfony/validator 8.0.15 : chemin `email`, valeur fautive = l''objet validé.'
-  memorization_justification: On suppose que le chemin entraîne la valeur.
+  front: 'Validator : dans un Callback de class, atPath(''email'') change-t-il la valeur fautive de la violation ?'
+  back: 'Non : seul le path change ; la valeur fautive reste l''object entier. Il faut `setInvalidValue()` pour la corriger.'
+  explanation: 'Exécuté avec symfony/validator 8.0.15 : path `email`, valeur fautive = l''object validé.'
+  memorization_justification: On suppose que le path entraîne la valeur.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Violation/ConstraintViolationBuilderInterface.php
@@ -1309,8 +1309,8 @@ flashcards:
   official_item: OIT-0wnxbapegqhv
   language: fr
   level: TRAP
-  front: 'Validator : $context->addViolation() accepte-t-il des paramètres de message ?'
-  back: 'Oui : `addViolation(string $message, array $params = [])`. Seuls le chemin, le code et la valeur fautive exigent le constructeur.'
+  front: 'Validator : $context->addViolation() accepte-t-il des parameters de message ?'
+  back: 'Oui : `addViolation(string $message, array $params = [])`. Seuls le path, le code et la valeur fautive exigent le constructeur.'
   explanation: 'Signature de `ExecutionContextInterface` (8.0) ; exécuté : `''direct {{ v }}''` devient `''direct p''`.'
   memorization_justification: On croit la forme directe sans réglage possible.
   verification_status: VERIFIED
@@ -1325,9 +1325,9 @@ flashcards:
   official_item: OIT-0wnxbapegqhv
   language: fr
   level: RECALL
-  front: 'Validator : quelles méthodes offre ConstraintViolationBuilderInterface ?'
+  front: 'Validator : quelles methods offre ConstraintViolationBuilderInterface ?'
   back: '`atPath`, `setParameter`, `setParameters`, `setTranslationDomain`, `disableTranslation`, `setInvalidValue`, `setPlural`, `setCode`, `setCause`, et `addViolation` pour terminer.'
-  explanation: Dix méthodes dans l'interface 8.0.
+  explanation: Dix methods dans l'interface 8.0.
   memorization_justification: Surface du constructeur.
   verification_status: VERIFIED
   official_sources:
@@ -1343,7 +1343,7 @@ flashcards:
   level: RECALL
   front: 'Validator : que retournent getMessageTemplate() et getMessage() pour ''built {{ v }}'' avec {{ v }} = x ?'
   back: '`getMessageTemplate()` : `''built {{ v }}''` ; `getMessage()` : `''built x''`.'
-  explanation: 'Exécuté : la violation garde le gabarit et le texte rempli.'
+  explanation: 'Exécuté : la violation garde le template et le texte rempli.'
   memorization_justification: Deux formes du message.
   verification_status: VERIFIED
   official_sources:
@@ -1357,10 +1357,10 @@ flashcards:
   official_item: OIT-0wnxbapegqhv
   language: fr
   level: RECALL
-  front: 'Validator : quel chemin porte une violation créée par buildViolation()->atPath(''address.city'') depuis un Callback de classe ?'
-  back: '`address.city` : le chemin s''ajoute au chemin courant, vide pour une contrainte de classe.'
+  front: 'Validator : quel path porte une violation créée par buildViolation()->atPath(''address.city'') depuis un Callback de class ?'
+  back: '`address.city` : le path s''ajoute au path courant, vide pour une constraint de class.'
   explanation: Exécuté.
-  memorization_justification: Composition des chemins.
+  memorization_justification: Composition des paths.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Violation/ConstraintViolationBuilderInterface.php
@@ -1374,9 +1374,9 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Validator : pourquoi préférer setCode() au texte du message pour reconnaître une erreur dans le code ?'
-  back: Parce que le code est stable, alors que le message change avec la traduction ; `getCode()` le relit sur la violation.
+  back: Parce que le code est stable, alors que le message change avec la translation ; `getCode()` le relit sur la violation.
   explanation: 'Exécuté : `setCode(''MY_CODE'')` donne `getCode() === ''MY_CODE''`.'
-  memorization_justification: Identifiant machine contre texte humain.
+  memorization_justification: Identifier machine contre texte humain.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Violation/ConstraintViolationBuilderInterface.php
@@ -1389,9 +1389,9 @@ flashcards:
   official_item: OIT-0wnxbapegqhv
   language: fr
   level: UNDERSTANDING
-  front: 'Validator : pourquoi une chaîne buildViolation()->setParameter() sans fin ne signale-t-elle rien ?'
+  front: 'Validator : pourquoi une string buildViolation()->setParameter() sans fin ne signale-t-elle rien ?'
   back: Parce que `buildViolation()` ne fait que préparer un constructeur ; seul son `addViolation()` enregistre la violation.
-  explanation: 'Exécuté : aucune violation pour une chaîne non terminée.'
+  explanation: 'Exécuté : aucune violation pour une string non terminée.'
   memorization_justification: Défaut silencieux central de l'item.
   verification_status: VERIFIED
   official_sources:
@@ -1411,10 +1411,10 @@ flashcards:
   official_item: OIT-0wnxbapegqhv
   language: fr
   level: APPLICATION
-  front: 'Validator : depuis un Callback de classe, signaler une adresse e-mail refusée sur le champ email, avec un code stable et la valeur du champ.'
+  front: 'Validator : depuis un Callback de class, signaler une adresse e-mail refusée sur le field email, avec un code stable et la valeur du field.'
   back: '`$context->buildViolation(''La valeur {{ value }} est refusée.'')->setParameter(''{{ value }}'', $this->email)->atPath(''email'')->setInvalidValue($this->email)->setCode(''EMAIL_REFUSED'')->addViolation();`'
   explanation: '`atPath()` place l''erreur, `setInvalidValue()` corrige la valeur fautive, `setCode()` l''identifie.'
-  memorization_justification: Chaîne complète typique.
+  memorization_justification: String complète typique.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Violation/ConstraintViolationBuilderInterface.php
@@ -1433,9 +1433,9 @@ flashcards:
   official_item: OIT-0wnxbapegqhv
   language: fr
   level: APPLICATION
-  front: 'Validator : signaler une violation simple, sans chemin ni code, avec un paramètre.'
+  front: 'Validator : signaler une violation simple, sans path ni code, avec un parameter.'
   back: '`$context->addViolation(''Valeur {{ v }} refusée.'', [''{{ v }}'' => $value]);`'
-  explanation: La forme directe suffit quand le chemin courant convient.
+  explanation: La forme directe suffit quand le path courant convient.
   memorization_justification: Choisir la forme la plus courte.
   verification_status: VERIFIED
   official_sources:
@@ -1450,9 +1450,9 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Validator : que fait setPlural(2) sur une violation ?'
-  back: Il fixe le nombre qui sert à choisir la forme plurielle du message à la traduction ; la violation le rend par `getPlural()`.
+  back: Il fixe le nombre qui sert à choisir la forme plurielle du message à la translation ; la violation le rend par `getPlural()`.
   explanation: 'Exécuté : `getPlural()` vaut `2`.'
-  memorization_justification: Rôle d'une méthode rarement utilisée.
+  memorization_justification: Role d'une method rarement utilisée.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Violation/ConstraintViolationBuilderInterface.php

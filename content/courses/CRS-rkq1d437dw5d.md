@@ -18,26 +18,26 @@ official_sources:
 
 ## Objectif
 
-Savoir quand une fonctionnalité peut être dépréciée, comment la dépréciation est
+Savoir quand une fonctionnalité peut être dépréciée, comment la deprecation est
 signalée, et quand le code déprécié disparaît.
 
 ## La fenêtre
 
 Deux règles encadrent le calendrier, et elles sont symétriques :
 
-- une dépréciation ne peut être introduite que dans la **prochaine version
+- une deprecation ne peut être introduite que dans la **prochaine version
   mineure** du composant concerné — exceptionnellement dans une version
   antérieure encore maintenue, si elle est critique ;
 - du code déprécié ne peut être **supprimé que dans la prochaine version
   majeure**, donc environ tous les deux ans.
 
-Deux interdits en découlent : une **nouvelle** classe ne peut pas être
-introduite dépréciée ni contenir des méthodes dépréciées, et une **nouvelle**
-méthode ne peut pas être introduite dépréciée.
+Deux interdits en découlent : une **nouvelle** class ne peut pas être
+introduite dépréciée ni contenir des methods dépréciées, et une **nouvelle**
+method ne peut pas être introduite dépréciée.
 
 ## Les deux signaux
 
-Une dépréciation se déclare deux fois, à deux publics différents.
+Une deprecation se déclare deux fois, à deux publics différents.
 
 **Pour le lecteur**, une annotation PHPDoc, qui doit indiquer la version et,
 autant que possible, le remplacement :
@@ -48,11 +48,11 @@ autant que possible, le remplacement :
  */
 ```
 
-Si le remplacement est dans un autre espace de noms, son nom pleinement qualifié
+Si le remplacement est dans un autre namespace, son nom pleinement qualifié
 est obligatoire.
 
-**Pour le code qui tourne**, un appel à `trigger_deprecation()`. La fonction
-n'est pas dans le framework : elle est fournie par un paquet de contrats
+**Pour le code qui tourne**, un appel à `trigger_deprecation()`. La function
+n'est pas dans le framework : elle est fournie par un package de contrats
 minuscule, que toute bibliothèque peut ajouter sans dépendre de Symfony.
 
 ```bash
@@ -63,17 +63,17 @@ composer require symfony/deprecation-contracts
 trigger_deprecation('symfony/routing', '4.4', 'The "%s" class is deprecated, use "%s" instead.', Old::class, New::class);
 ```
 
-Le premier argument est le paquet, le deuxième la version d'introduction, le
-troisième un message formaté. Lorsque c'est une classe entière qui est
-dépréciée, l'appel se place **après les déclarations `use`**, avant la classe.
+Le premier argument est le package, le deuxième la version d'introduction, le
+troisième un message formaté. Lorsque c'est une class entière qui est
+dépréciée, l'appel se place **après les déclarations `use`**, avant la class.
 
 ## La trace écrite
 
-Une dépréciation n'est complète que si elle est documentée aux trois endroits,
+Une deprecation n'est complète que si elle est documentée aux trois endroits,
 **dans la même pull request** :
 
 1. le `CHANGELOG.md` du composant concerné ;
-2. le `UPGRADE-<version mineure>.md` — la dépréciation ;
+2. le `UPGRADE-<version mineure>.md` — la deprecation ;
 3. le `UPGRADE-<version majeure>.md` — la suppression à venir.
 
 ## Le `CHANGELOG.md` a ses propres règles
@@ -98,14 +98,14 @@ CHANGELOG
  * Add `MagicConfig` that allows configuring things
 ```
 
-Le fichier concerné est celui **du composant, du bridge ou du bundle modifié**.
+Le file concerné est celui **du composant, du bridge ou du bundle modifié**.
 Les `CHANGELOG-*` à la racine de `symfony/symfony` sont **générés
 automatiquement** à la préparation des versions et ne doivent jamais être
 modifiés à la main.
 
 ## La suppression a sa propre trace
 
-La trace écrite ci-dessus accompagne la **dépréciation**. La **suppression**,
+La trace écrite ci-dessus accompagne la **deprecation**. La **suppression**,
 deux ans plus tard, en exige une quatrième : les conséquences doivent être
 ajoutées au `CHANGELOG.md` du composant, dans la même pull request que la
 suppression.
@@ -121,20 +121,20 @@ suppression.
 
 Cette mécanique a une conséquence pratique directe : monter d'abord jusqu'à la
 **dernière version mineure** d'une branche majeure, y corriger toutes les
-dépréciations signalées, puis passer à la majeure suivante — qui ne diffère que
+deprecations signalées, puis passer à la majeure suivante — qui ne diffère que
 par la suppression de ce qui était déprécié.
 
 ## Pièges d'examen
 
 **`trigger_deprecation()` n'appartient pas au framework.** Elle vient d'un
-paquet de contrats dédié, installé à part — précisément pour qu'une bibliothèque
-puisse l'appeler sans dépendre de Symfony. Chercher la fonction dans un
+package de contrats dédié, installé à part — précisément pour qu'une bibliothèque
+puisse l'appeler sans dépendre de Symfony. Chercher la function dans un
 composant, c'est ne pas la trouver.
 
-**Rien ne naît déprécié.** Une nouvelle classe ne peut pas être introduite
-dépréciée, ni contenir des méthodes dépréciées ; une nouvelle méthode non plus.
+**Rien ne naît déprécié.** Une nouvelle class ne peut pas être introduite
+dépréciée, ni contenir des methods dépréciées ; une nouvelle method non plus.
 
-**Déprécier et supprimer ne se font pas dans la même version.** Dépréciation en
+**Déprécier et supprimer ne se font pas dans la même version.** Deprecation en
 mineure, suppression en majeure suivante — et la trace écrite va aux trois
 endroits (`CHANGELOG.md`, les deux `UPGRADE-*.md`) dans la même pull request.
 
@@ -155,10 +155,10 @@ capitalisé, sans point final. Une proposition qui en viole un est fausse.
 
 ## Points clés
 
-- Dépréciation en mineure, suppression en majeure suivante.
-- Une nouvelle classe ou méthode ne peut pas naître dépréciée.
+- Deprecation en mineure, suppression en majeure suivante.
+- Une nouvelle class ou method ne peut pas naître dépréciée.
 - `@deprecated` pour le lecteur, `trigger_deprecation()` pour l'exécution.
-- `trigger_deprecation()` vient d'un paquet de contrats dédié, pas du framework.
+- `trigger_deprecation()` vient d'un package de contrats dédié, pas du framework.
 - CHANGELOG + les deux UPGRADE, dans la même pull request ; et une quatrième
   entrée de CHANGELOG au moment de la suppression.
 - `CHANGELOG.md` : titre `CHANGELOG`, sections de version mineure, pas de

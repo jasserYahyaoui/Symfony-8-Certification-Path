@@ -11,9 +11,9 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: Qu'apporte dumpFile() qu'une écriture ordinaire n'apporte pas ?
-  back: 'L''atomicité : elle écrit un fichier temporaire puis le déplace, si bien qu''un lecteur simultané voit
-    l''ancien fichier complet ou le nouveau complet, jamais un fichier à moitié écrit.'
-  explanation: Elle crée aussi le fichier et son répertoire au besoin. appendToFile(), elle, n'est pas atomique.
+  back: 'L''atomicité : elle écrit un file temporaire puis le déplace, si bien qu''un lecteur simultané voit
+    l''ancien file complet ou le nouveau complet, jamais un file à moitié écrit.'
+  explanation: Elle crée aussi le file et son directory au besoin. appendToFile(), elle, n'est pas atomique.
   memorization_justification: L'atomicité ne se voit pas à l'usage courant ; elle ne se remarque que sous lecture
     concurrente.
   verification_status: VERIFIED
@@ -28,9 +28,9 @@ flashcards:
   language: fr
   level: TRAP
   front: 'Deux appels successifs à name() sur le même Finder : que cherche-t-on au final ?'
-  back: 'Les deux motifs à la fois. Le Finder est à état : un appel de méthode s''ajoute à la configuration au lieu
+  back: 'Les deux motifs à la fois. Le Finder est à état : un appel de method s''ajoute à la configuration au lieu
     de la remplacer.'
-  explanation: Pour plusieurs recherches partageant une base commune, il faut cloner l'objet.
+  explanation: Pour plusieurs recherches partageant une base commune, il faut cloner l'object.
   memorization_justification: On attend d'un setter qu'il écrase la valeur précédente ; ici il l'accumule.
   verification_status: VERIFIED
   official_sources:
@@ -81,10 +81,10 @@ flashcards:
   official_item: OIT-tjn6kyvyc2h9
   language: fr
   level: RECALL
-  front: 'Symfony : quelle méthode d''IOExceptionInterface donne le chemin fautif ?'
+  front: 'Symfony : quelle method d''IOExceptionInterface donne le path fautif ?'
   back: '`getPath()`.'
   explanation: Documentation *Error Handling*, branche 8.0.
-  memorization_justification: Accesseur du chemin.
+  memorization_justification: Accesseur du path.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/filesystem.rst
@@ -97,10 +97,10 @@ flashcards:
   official_item: OIT-tjn6kyvyc2h9
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi Path::canonicalize() ne garantit-il pas que le chemin existe ?'
-  back: Parce que `Path` ne manipule que des chaînes, sans toucher au disque.
+  front: 'Symfony : pourquoi Path::canonicalize() ne garantit-il pas que le path existe ?'
+  back: Parce que `Path` ne manipule que des strings, sans toucher au disque.
   explanation: 'Exécuté : `/var/www/../lib/./x/` donne `/var/lib/x`, qui n''existe pas.'
-  memorization_justification: Chaîne contre disque.
+  memorization_justification: String contre disque.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/filesystem.rst
@@ -113,7 +113,7 @@ flashcards:
   official_item: OIT-tjn6kyvyc2h9
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi appeler mkdir() sur un répertoire existant est-il sûr ?'
+  front: 'Symfony : pourquoi appeler mkdir() sur un directory existant est-il sûr ?'
   back: 'Parce que l''existant est ignoré : aucune exception.'
   explanation: 'Exécuté : second `mkdir()` sans erreur.'
   memorization_justification: Idempotence de mkdir().
@@ -129,8 +129,8 @@ flashcards:
   official_item: OIT-tjn6kyvyc2h9
   language: fr
   level: APPLICATION
-  front: 'Symfony : écrire un fichier de configuration lu par d''autres processus pendant l''écriture.'
-  back: '`$filesystem->dumpFile($path, $content)` : écriture atomique, fichier temporaire puis déplacement.'
+  front: 'Symfony : écrire un file de configuration lu par d''autres process pendant l''écriture.'
+  back: '`$filesystem->dumpFile($path, $content)` : écriture atomique, file temporaire puis déplacement.'
   explanation: Documentation *dumpFile*, branche 8.0.
   memorization_justification: Écriture atomique.
   verification_status: VERIFIED
@@ -151,7 +151,7 @@ flashcards:
   official_item: OIT-tjn6kyvyc2h9
   language: fr
   level: APPLICATION
-  front: 'Symfony : savoir sur quel chemin une opération a échoué.'
+  front: 'Symfony : savoir sur quel path une opération a échoué.'
   back: Attraper `IOExceptionInterface` et lire `$e->getPath()`.
   explanation: Documentation *Error Handling*.
   memorization_justification: Diagnostic d'échec.
@@ -167,10 +167,10 @@ flashcards:
   official_item: OIT-tjn6kyvyc2h9
   language: fr
   level: TRAP
-  front: 'Symfony : getPath() rend-il toujours le chemin fautif ?'
-  back: 'Non : `readFile()` sur un répertoire lève une `IOException` sans chemin — `getPath()` rend `null`.'
+  front: 'Symfony : getPath() rend-il toujours le path fautif ?'
+  back: 'Non : `readFile()` sur un directory lève une `IOException` sans path — `getPath()` rend `null`.'
   explanation: Lu dans `Filesystem::readFile()` (8.0) et exécuté.
-  memorization_justification: Exception sans chemin.
+  memorization_justification: Exception sans path.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Filesystem/Filesystem.php
@@ -183,7 +183,7 @@ flashcards:
   official_item: OIT-tjn6kyvyc2h9
   language: fr
   level: TRAP
-  front: 'Symfony : dumpFile() échoue-t-il si le répertoire parent n''existe pas ?'
+  front: 'Symfony : dumpFile() échoue-t-il si le directory parent n''existe pas ?'
   back: 'Non : il le crée.'
   explanation: 'Exécuté : `x/y` créé par `dumpFile(''x/y/f.txt'', …)`.'
   memorization_justification: Création du parent.
@@ -200,7 +200,7 @@ flashcards:
   language: fr
   level: TRAP
   front: 'Symfony : appendToFile() est-il atomique comme dumpFile() ?'
-  back: Non ; il peut seulement verrouiller le fichier pendant l'écriture, par son troisième argument.
+  back: Non ; il peut seulement verrouiller le file pendant l'écriture, par son troisième argument.
   explanation: Documentation *appendToFile*, branche 8.0.
   memorization_justification: Atomicité et verrou.
   verification_status: VERIFIED
@@ -237,10 +237,10 @@ flashcards:
   official_item: OIT-a1anzcv85my3
   language: fr
   level: RECALL
-  front: 'Symfony : quelle classe a chaque résultat d''un Finder ?'
+  front: 'Symfony : quelle class a chaque résultat d''un Finder ?'
   back: '`Symfony\Component\Finder\SplFileInfo`, qui étend celle de PHP et ajoute `getRelativePathname()`.'
   explanation: Documentation *Usage*, branche 8.0.
-  memorization_justification: Classe des résultats.
+  memorization_justification: Class des résultats.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/finder.rst
@@ -270,9 +270,9 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony : pourquoi cloner un Finder avant chaque recherche partagée ?'
-  back: 'Parce que l''objet est à état : chaque critère s''ajoute aux précédents.'
-  explanation: 'Exécuté : 1 fichier après un `name()`, 2 après un second.'
-  memorization_justification: Objet à état.
+  back: 'Parce que l''object est à état : chaque critère s''ajoute aux précédents.'
+  explanation: 'Exécuté : 1 file après un `name()`, 2 après un second.'
+  memorization_justification: Object à état.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/finder.rst
@@ -286,9 +286,9 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony : pourquoi iterator_to_array() perd-il des entrées après deux in() qui se recouvrent ?'
-  back: 'Parce que la clé est le chemin : le même fichier atteint deux fois s''écrase.'
+  back: 'Parce que la key est le path : le même file atteint deux fois s''écrase.'
   explanation: 'Exécuté : 5 comptés, 4 dans le tableau, 5 avec `false`.'
-  memorization_justification: Clés de résultats.
+  memorization_justification: Keys de résultats.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/finder.rst
@@ -302,7 +302,7 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony : pourquoi ignoreVCSIgnored(true) peut-il différer de Git ?'
-  back: Parce que Symfony part du répertoire de recherche, là où Git part de la racine du dépôt.
+  back: Parce que Symfony part du directory de recherche, là où Git part de la racine du dépôt.
   explanation: Documentation *Version Control Files*.
   memorization_justification: Point de départ des .gitignore.
   verification_status: VERIFIED
@@ -317,7 +317,7 @@ flashcards:
   official_item: OIT-a1anzcv85my3
   language: fr
   level: APPLICATION
-  front: 'Symfony : chercher les gabarits partial_* puis plugin_* avec une base commune.'
+  front: 'Symfony : chercher les templates partial_* puis plugin_* avec une base commune.'
   back: Configurer `files()->in()` une fois, puis `(clone $finder)->name(...)` pour chaque recherche.
   explanation: Documentation, avertissement sur l'état.
   memorization_justification: Réutilisation correcte.
@@ -333,7 +333,7 @@ flashcards:
   official_item: OIT-a1anzcv85my3
   language: fr
   level: APPLICATION
-  front: 'Symfony : convertir en tableau les résultats d''une recherche sur plusieurs emplacements.'
+  front: 'Symfony : convertir en array les résultats d''une recherche sur plusieurs emplacements.'
   back: '`iterator_to_array($finder, false)`.'
   explanation: Documentation *Transforming Results into Arrays*.
   memorization_justification: Conversion sûre.
@@ -349,10 +349,10 @@ flashcards:
   official_item: OIT-a1anzcv85my3
   language: fr
   level: TRAP
-  front: 'Symfony : un Finder sans files() rend-il seulement des fichiers ?'
-  back: 'Non : fichiers et répertoires.'
-  explanation: 'Exécuté : 5 résultats sans filtre, 4 fichiers, 1 répertoire.'
-  memorization_justification: Défaut fichiers et répertoires.
+  front: 'Symfony : un Finder sans files() rend-il seulement des files ?'
+  back: 'Non : files et directories.'
+  explanation: 'Exécuté : 5 résultats sans filter, 4 files, 1 directory.'
+  memorization_justification: Défaut files et directories.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/finder.rst
@@ -365,8 +365,8 @@ flashcards:
   official_item: OIT-a1anzcv85my3
   language: fr
   level: TRAP
-  front: 'Symfony : deux a.txt dans deux répertoires distincts se heurtent-ils dans iterator_to_array() ?'
-  back: 'Non : leurs chemins diffèrent ; seule la même cible atteinte deux fois collisionne.'
+  front: 'Symfony : deux a.txt dans deux directories distincts se heurtent-ils dans iterator_to_array() ?'
+  back: 'Non : leurs paths diffèrent ; seule la même cible atteinte deux fois collisionne.'
   explanation: Exécuté sur Finder 8.0.14.
   memorization_justification: Collision réelle.
   verification_status: VERIFIED

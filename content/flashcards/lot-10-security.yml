@@ -4,11 +4,11 @@ flashcards:
   official_item: OIT-942znmbjwvad
   language: fr
   level: TRAP
-  front: Hacher un mot de passe exige-t-il le système de sécurité complet ?
+  front: Hacher un password exige-t-il le système de sécurité complet ?
   back: Non. symfony/password-hasher s'installe et s'utilise seul ; il ne dépend de rien.
-  explanation: 'Les responsabilités sont séparées, pas les paquets : security-core dépend de password-hasher,
+  explanation: 'Les responsabilités sont séparées, pas les packages : security-core dépend de password-hasher,
     et security-csrf de security-core.'
-  memorization_justification: Le nom « Security » laisse croire à un bloc indivisible.
+  memorization_justification: Le nom « Security » laisse croire à un block indivisible.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/passwords.rst
@@ -20,10 +20,10 @@ flashcards:
   official_item: OIT-z9c24d68et6w
   language: fr
   level: RECALL
-  front: Où vit l'utilisateur courant pendant la requête ?
-  back: Dans le TokenStorage, sous forme de jeton. getUser() n'est qu'un raccourci vers lui.
-  explanation: 'C''est aussi ce que stateless: true empêche de conserver d''une requête à l''autre.'
-  memorization_justification: On confond le jeton, l'utilisateur et la session.
+  front: Où vit le user courant pendant la Request ?
+  back: Dans le TokenStorage, sous forme de token. getUser() n'est qu'un raccourci vers lui.
+  explanation: 'C''est aussi ce que stateless: true empêche de conserver d''une Request à l''autre.'
+  memorization_justification: On confond le token, le user et la session.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/Authentication/Token/Storage/TokenStorageInterface.php
@@ -36,8 +36,8 @@ flashcards:
   language: fr
   level: TRAP
   front: Un accès refusé produit-il toujours un 403 ?
-  back: Non. 403 si l'utilisateur est connu ; s'il est anonyme, le pare-feu déclenche l'entrée en authentification.
-  explanation: Le code de statut dépend donc de l'authentification, pas de l'autorisation.
+  back: Non. 403 si le user est connu ; s'il est anonyme, le firewall déclenche l'entrée en authentication.
+  explanation: Le status code dépend donc de l'authentication, pas de l'authorization.
   memorization_justification: L'intuition associe refus et 403 de façon systématique.
   verification_status: VERIFIED
   official_sources:
@@ -71,10 +71,10 @@ flashcards:
   official_item: OIT-45p7535dk4s2
   language: fr
   level: RECALL
-  front: Quelle méthode du fournisseur s'exécute à chaque requête d'un pare-feu avec état ?
+  front: Quelle method du provider s'exécute à chaque Request d'un firewall avec état ?
   back: refreshUser(). loadUserByIdentifier() ne sert qu'à la connexion.
-  explanation: C'est pourquoi un utilisateur supprimé en base est déconnecté dès la requête suivante.
-  memorization_justification: On croit l'utilisateur conservé tel quel entre deux requêtes.
+  explanation: C'est pourquoi un user supprimé en base est déconnecté dès la Request suivante.
+  memorization_justification: On croit le user conservé tel quel entre deux Requests.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/user_providers.rst
@@ -86,10 +86,10 @@ flashcards:
   official_item: OIT-rwa6m06crs1h
   language: fr
   level: RECALL
-  front: Combien de pare-feux traitent une requête donnée ?
+  front: Combien de firewalls traitent une Request donnée ?
   back: 'Un seul : le premier dont le pattern correspond. Les suivants ne sont jamais consultés.'
-  explanation: Un pare-feu sans pattern attrape tout et doit donc être déclaré en dernier.
-  memorization_justification: On imagine des pare-feux cumulatifs, comme des middlewares.
+  explanation: Un firewall sans pattern attrape tout et doit donc être déclaré en dernier.
+  memorization_justification: On imagine des firewalls cumulatifs, comme des middlewares.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
@@ -101,9 +101,9 @@ flashcards:
   official_item: OIT-gkh08ztwdme1
   language: fr
   level: RECALL
-  front: Combien de méthodes UserInterface déclare-t-elle en Symfony 8.0 ?
+  front: Combien de methods UserInterface déclare-t-elle en Symfony 8.0 ?
   back: 'Deux : getRoles() et getUserIdentifier(). eraseCredentials() a été retirée.'
-  explanation: Le mot de passe relève de PasswordAuthenticatedUserInterface, pas de UserInterface.
+  explanation: Le password relève de PasswordAuthenticatedUserInterface, pas de UserInterface.
   memorization_justification: Les versions antérieures en déclaraient davantage ; le souvenir est faux
     pour 8.0.
   verification_status: VERIFIED
@@ -117,7 +117,7 @@ flashcards:
   official_item: OIT-ta627mbwfz7m
   language: fr
   level: TRAP
-  front: Changer algorithm en cours de route casse-t-il les mots de passe existants ?
+  front: Changer algorithm en cours de route casse-t-il les passwords existants ?
   back: 'Pas s''ils sont en bcrypt, argon2 ou pbkdf2 par défaut : `auto` sait les vérifier. Un condensat maison, `sha256` par exemple, est refusé sans `migrate_from`.'
   explanation: 'Exécuté avec SecurityBundle 8.0.15 : condensat `sha256` hexadécimal, `auto` sans `migrate_from`, connexion refusée en 401 ; avec `migrate_from`, 200.'
   memorization_justification: Limite du hachage auto-descriptif.
@@ -132,10 +132,10 @@ flashcards:
   official_item: OIT-fw6db7ryrk4q
   language: fr
   level: RECALL
-  front: Quelle est la seule contrainte sur le nom d'un rôle ?
+  front: Quelle est la seule constraint sur le nom d'un role ?
   back: Il doit commencer par ROLE_. Le reste est libre.
-  explanation: IS_AUTHENTICATED_FULLY et PUBLIC_ACCESS s'emploient comme des rôles mais décrivent l'état
-    de l'authentification.
+  explanation: IS_AUTHENTICATED_FULLY et PUBLIC_ACCESS s'emploient comme des roles mais décrivent l'état
+    de l'authentication.
   memorization_justification: La règle est arbitraire et ne se déduit pas.
   verification_status: VERIFIED
   official_sources:
@@ -151,7 +151,7 @@ flashcards:
   front: 'Plusieurs règles access_control correspondent : lesquelles s''appliquent ?'
   back: Seulement la première. Les suivantes sont ignorées, même si elles correspondent aussi.
   explanation: 'D''où l''ordre à respecter : du plus spécifique au plus général.'
-  memorization_justification: On attend un cumul des contraintes, qui n'a pas lieu.
+  memorization_justification: On attend un cumul des constraints, qui n'a pas lieu.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/access_control.rst
@@ -163,7 +163,7 @@ flashcards:
   official_item: OIT-kqm5mxq4jnkj
   language: fr
   level: RECALL
-  front: 'Un votant accorde, un autre refuse : quelle est la décision ?'
+  front: 'Un voter accorde, un autre refuse : quelle est la décision ?'
   back: 'Avec affirmative, la stratégie par défaut : accorde. Avec unanimous : refuse.'
   explanation: 'unanimous signifie « aucun refus », pas « tous accordent » : les abstentions n''empêchent
     rien.'
@@ -179,10 +179,10 @@ flashcards:
   official_item: OIT-942znmbjwvad
   language: fr
   level: RECALL
-  front: 'Symfony : quel paquet de sécurité ne dépend d''aucun autre ?'
+  front: 'Symfony : quel package de sécurité ne dépend d''aucun autre ?'
   back: '`symfony/password-hasher` : son `require` ne contient que PHP.'
   explanation: 'Exécuté : `composer require symfony/password-hasher` n''installe que lui.'
-  memorization_justification: Seul paquet réellement isolé.
+  memorization_justification: Seul package réellement isolé.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/PasswordHasher/composer.json
@@ -201,9 +201,9 @@ flashcards:
   official_item: OIT-942znmbjwvad
   language: fr
   level: RECALL
-  front: 'Symfony : quel paquet fournit UserInterface, les jetons, les votants et la hiérarchie des rôles ?'
+  front: 'Symfony : quel package fournit UserInterface, les tokens, les voters et la hiérarchie des roles ?'
   back: '`symfony/security-core`.'
-  explanation: Le hachage est dans `password-hasher`, les pare-feux dans `security-http`.
+  explanation: Le hachage est dans `password-hasher`, les firewalls dans `security-http`.
   memorization_justification: Contenu de security-core.
   verification_status: VERIFIED
   official_sources:
@@ -217,9 +217,9 @@ flashcards:
   official_item: OIT-942znmbjwvad
   language: fr
   level: RECALL
-  front: 'Symfony : quel paquet contient les pare-feux et les authenticators ?'
+  front: 'Symfony : quel package contient les firewalls et les authenticators ?'
   back: '`symfony/security-http`, qui dépend de `security-core`, `http-foundation` et `http-kernel`.'
-  explanation: C'est lui qui traduit une requête en tentative d'authentification.
+  explanation: C'est lui qui traduit une Request en tentative d'authentication.
   memorization_justification: Frontière modèle / HTTP.
   verification_status: VERIFIED
   official_sources:
@@ -236,7 +236,7 @@ flashcards:
   front: 'Symfony : pourquoi security-csrf installe-t-il security-core ?'
   back: 'Parce qu''il lève les exceptions de `security-core` (`RuntimeException`, `InvalidArgumentException`) : c''est son seul `require`.'
   explanation: 'Exécuté : `composer require symfony/security-csrf` tire `security-core` et `password-hasher`.'
-  memorization_justification: Dépendance modeste mais réelle.
+  memorization_justification: Dependency modeste mais réelle.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Csrf/composer.json
@@ -251,8 +251,8 @@ flashcards:
   level: UNDERSTANDING
   front: 'Symfony : pourquoi dit-on que security-core ne dépend pas de HTTP alors que certaines de ses classes citent HttpFoundation ?'
   back: 'Parce que `http-foundation` n''est qu''en `require-dev` : quelques classes optionnelles (`UsageTrackingTokenStorage`, `ExpressionVoter`) s''en servent quand il est présent.'
-  explanation: La traduction requête → authentification appartient à `security-http`.
-  memorization_justification: Nuance dépendance / usage optionnel.
+  explanation: La translation Request → authentication appartient à `security-http`.
+  memorization_justification: Nuance dependency / usage optionnel.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/composer.json
@@ -265,9 +265,9 @@ flashcards:
   official_item: OIT-942znmbjwvad
   language: fr
   level: APPLICATION
-  front: 'Symfony : un script CLI doit hacher des mots de passe, sans utilisateurs ni pare-feu. Que requérir ?'
+  front: 'Symfony : un script CLI doit hacher des passwords, sans users ni firewall. Que requérir ?'
   back: '`composer require symfony/password-hasher`, puis `PasswordHasherFactory` avec l''algorithme `auto`.'
-  explanation: 'Exécuté : hachage `$2y$13$…`, `verify()` vrai pour le bon mot de passe, faux sinon.'
+  explanation: 'Exécuté : hachage `$2y$13$…`, `verify()` vrai pour le bon password, faux sinon.'
   memorization_justification: Usage autonome.
   verification_status: VERIFIED
   official_sources:
@@ -287,10 +287,10 @@ flashcards:
   official_item: OIT-942znmbjwvad
   language: fr
   level: APPLICATION
-  front: 'Symfony : protéger un formulaire par CSRF dans une application sans sécurité configurée. De quoi a-t-on besoin ?'
-  back: '`symfony/security-csrf` — aucun pare-feu, aucune clé `security:` ; le paquet installe `security-core` au passage.'
-  explanation: C'est ainsi que le composant Form protège ses formulaires.
-  memorization_justification: CSRF sans authentification.
+  front: 'Symfony : protéger un form par CSRF dans une application sans security configurée. De quoi a-t-on besoin ?'
+  back: '`symfony/security-csrf` — aucun firewall, aucune key `security:` ; le package installe `security-core` au passage.'
+  explanation: C'est ainsi que le composant Form protège ses forms.
+  memorization_justification: CSRF sans authentication.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/csrf.rst
@@ -312,7 +312,7 @@ flashcards:
   front: 'Symfony : security-csrf s''installe-t-il seul ?'
   back: 'Non : il requiert `security-core`, qui requiert `password-hasher`. Seul `password-hasher` s''installe seul.'
   explanation: Lu dans les `composer.json` 8.0 et confirmé par une résolution Composer.
-  memorization_justification: Indépendance fonctionnelle confondue avec indépendance des paquets.
+  memorization_justification: Indépendance fonctionnelle confondue avec indépendance des packages.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Csrf/composer.json
@@ -333,8 +333,8 @@ flashcards:
   level: TRAP
   front: 'Symfony : le hachage vit-il dans security-core ?'
   back: 'Non : dans `password-hasher` — mais `security-core` en **dépend**.'
-  explanation: Deux paquets distincts, reliés par un `require`.
-  memorization_justification: Paquet confondu avec dépendance.
+  explanation: Deux packages distincts, reliés par un `require`.
+  memorization_justification: Package confondu avec dependency.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/composer.json
@@ -353,10 +353,10 @@ flashcards:
   official_item: OIT-942znmbjwvad
   language: fr
   level: TRAP
-  front: 'Symfony : faut-il un pare-feu pour utiliser un jeton CSRF ?'
-  back: 'Non : `security-csrf` ne demande ni pare-feu ni authentification.'
+  front: 'Symfony : faut-il un firewall pour utiliser un token CSRF ?'
+  back: 'Non : `security-csrf` ne demande ni firewall ni authentication.'
   explanation: Le composant Form s'en sert dans des applications sans aucune configuration de sécurité.
-  memorization_justification: CSRF lié à tort à l'authentification.
+  memorization_justification: CSRF lié à tort à l'authentication.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/csrf.rst
@@ -369,10 +369,10 @@ flashcards:
   official_item: OIT-z9c24d68et6w
   language: fr
   level: RECALL
-  front: 'Symfony : que rend getToken() pour une requête anonyme ?'
-  back: '`null` : il n''existe plus de jeton anonyme. Exécuté avec SecurityBundle 8.0.15, `/public` sans identifiants.'
+  front: 'Symfony : que rend getToken() pour une Request anonyme ?'
+  back: '`null` : il n''existe plus de token anonyme. Exécuté avec SecurityBundle 8.0.15, `/public` sans identifiers.'
   explanation: '`getUser()` rend `null` aussi.'
-  memorization_justification: Disparition du jeton anonyme.
+  memorization_justification: Disparition du token anonyme.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/SecurityBundle/Security.php
@@ -391,8 +391,8 @@ flashcards:
   official_item: OIT-z9c24d68et6w
   language: fr
   level: RECALL
-  front: 'Symfony : quelle est la valeur par défaut de session_fixation_strategy ?'
-  back: '`migrate` : l''identifiant de session change à la connexion.'
+  front: 'Symfony : quelle est la default value de session_fixation_strategy ?'
+  back: '`migrate` : l''identifier de session change à la connexion.'
   explanation: 'Exécuté : une connexion portant un cookie de session existant en reçoit un nouveau.'
   memorization_justification: Protection contre la fixation.
   verification_status: VERIFIED
@@ -407,10 +407,10 @@ flashcards:
   official_item: OIT-z9c24d68et6w
   language: fr
   level: RECALL
-  front: 'Symfony : que renvoie une route exigeant ROLE_USER à une requête sans identifiants, sous http_basic ?'
-  back: '**401** : le pare-feu appelle son point d''entrée, « the user is not fully authenticated ».'
+  front: 'Symfony : que renvoie une route exigeant ROLE_USER à une Request sans identifiers, sous http_basic ?'
+  back: '**401** : le firewall appelle son entry point, « the user is not fully authenticated ».'
   explanation: Exécuté avec SecurityBundle 8.0.15.
-  memorization_justification: Comportement du point d'entrée.
+  memorization_justification: Comportement de l'entry point.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
@@ -423,10 +423,10 @@ flashcards:
   official_item: OIT-z9c24d68et6w
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : que devient un utilisateur connecté dont on modifie les rôles en base ?'
-  back: 'Il est **déconnecté** : rechargé puis comparé, il n''a plus les rôles du jeton, et le jeton est abandonné.'
-  explanation: 'Exécuté avec SecurityBundle 8.0.15 : `ROLE_EDITOR` ajouté à `alice` en cours de session, la requête suivante a un jeton `null`. Le nouveau rôle ne s''obtient qu''en se reconnectant.'
-  memorization_justification: Effet du rechargement sur un utilisateur modifié.
+  front: 'Symfony : que devient un user connecté dont on modifie les roles en base ?'
+  back: 'Il est **déconnecté** : rechargé puis comparé, il n''a plus les roles du token, et le token est abandonné.'
+  explanation: 'Exécuté avec SecurityBundle 8.0.15 : `ROLE_EDITOR` ajouté à `alice` en cours de session, la Request suivante a un token `null`. Le nouveau role ne s''obtient qu''en se reconnectant.'
+  memorization_justification: Effet du rechargement sur un user modifié.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Http/Firewall/ContextListener.php
@@ -440,7 +440,7 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony : pourquoi getUser() à null ne signifie-t-il pas « accès refusé » ?'
-  back: Parce qu'il répond à l'authentification ; le refus est une décision d'autorisation, rendue par `isGranted()` ou `access_control`.
+  back: Parce qu'il répond à l'authentication ; le refus est une décision d'authorization, rendue par `isGranted()` ou `access_control`.
   explanation: 'Exécuté : `alice`, authentifiée, a `isGranted(''ROLE_ADMIN'')` faux.'
   memorization_justification: Deux questions distinctes.
   verification_status: VERIFIED
@@ -455,10 +455,10 @@ flashcards:
   official_item: OIT-z9c24d68et6w
   language: fr
   level: APPLICATION
-  front: 'Symfony : une API authentifie chaque requête par un en-tête. Que déclarer sur son pare-feu ?'
-  back: '`stateless: true` : le jeton n''est jamais écrit en session.'
-  explanation: 'Exécuté : aucun cookie après une connexion réussie ; la requête suivante sans identifiants reçoit 401.'
-  memorization_justification: Pare-feu d'API.
+  front: 'Symfony : une API authentifie chaque Request par un header. Que déclarer sur son firewall ?'
+  back: '`stateless: true` : le token n''est jamais écrit en session.'
+  explanation: 'Exécuté : aucun cookie après une connexion réussie ; la Request suivante sans identifiers reçoit 401.'
+  memorization_justification: Firewall d'API.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
@@ -471,10 +471,10 @@ flashcards:
   official_item: OIT-z9c24d68et6w
   language: fr
   level: APPLICATION
-  front: 'Symfony : lire l''utilisateur courant dans un service, hors contrôleur.'
+  front: 'Symfony : lire le user courant dans un service, hors controller.'
   back: Injecter `Symfony\Bundle\SecurityBundle\Security` et appeler `getUser()`.
   explanation: C'est un raccourci vers le `TokenStorage`.
-  memorization_justification: Accès à l'utilisateur hors contrôleur.
+  memorization_justification: Accès au user hors controller.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/SecurityBundle/Security.php
@@ -487,10 +487,10 @@ flashcards:
   official_item: OIT-z9c24d68et6w
   language: fr
   level: TRAP
-  front: 'Symfony : un jeton existe-t-il pour une requête anonyme sur un pare-feu ?'
-  back: 'Non : `getToken()` rend `null`. Le jeton n''apparaît qu''après une authentification réussie.'
-  explanation: 'Exécuté : `/public` sans identifiants, jeton `null`.'
-  memorization_justification: Souvenir du jeton anonyme d'avant Symfony 6.
+  front: 'Symfony : un token existe-t-il pour une Request anonyme sur un firewall ?'
+  back: 'Non : `getToken()` rend `null`. Le token n''apparaît qu''après une authentication réussie.'
+  explanation: 'Exécuté : `/public` sans identifiers, token `null`.'
+  memorization_justification: Souvenir du token anonyme d'avant Symfony 6.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/SecurityBundle/Security.php
@@ -510,8 +510,8 @@ flashcards:
   language: fr
   level: TRAP
   front: 'Symfony : stateless: true supprime-t-il la session ?'
-  back: 'Non : il empêche seulement d''y stocker le jeton de sécurité ; d''autres usages de la session restent possibles.'
-  explanation: 'Exécuté sur un pare-feu sans état : aucun cookie de session posé par l''authentification.'
+  back: 'Non : il empêche seulement d''y stocker le token de sécurité ; d''autres usages de la session restent possibles.'
+  explanation: 'Exécuté sur un firewall sans état : aucun cookie de session posé par l''authentication.'
   memorization_justification: Portée exacte de stateless.
   verification_status: VERIFIED
   official_sources:
@@ -525,10 +525,10 @@ flashcards:
   official_item: OIT-z9c24d68et6w
   language: fr
   level: TRAP
-  front: 'Symfony : le jeton lu en session fige-t-il l''utilisateur de la connexion ?'
-  back: 'Non : l''utilisateur est rechargé par le fournisseur à chaque requête.'
+  front: 'Symfony : le token lu en session fige-t-il le user de la connexion ?'
+  back: 'Non : le user est rechargé par le provider à chaque Request.'
   explanation: 'Exécuté : « Read existing security token from the session » puis « User was reloaded from a user provider ».'
-  memorization_justification: Session supposée figer l'utilisateur.
+  memorization_justification: Session supposée figer le user.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Http/Firewall/ContextListener.php
@@ -541,7 +541,7 @@ flashcards:
   official_item: OIT-3qgn13f7zvqx
   language: fr
   level: RECALL
-  front: 'Symfony : quelles sont les trois valeurs qu''un votant peut rendre ?'
+  front: 'Symfony : quelles sont les trois valeurs qu''un voter peut rendre ?'
   back: '`ACCESS_GRANTED`, `ACCESS_DENIED`, `ACCESS_ABSTAIN`.'
   explanation: Constantes de `VoterInterface` ; la stratégie transforme ces votes en décision.
   memorization_justification: Vocabulaire des votes.
@@ -558,8 +558,8 @@ flashcards:
   language: fr
   level: RECALL
   front: 'Symfony : quelle exception lève denyAccessUnlessGranted() ?'
-  back: '`AccessDeniedException`, que le pare-feu transforme selon que l''utilisateur est connu ou non.'
-  explanation: 'Exécuté : 403 pour un utilisateur connu, réponse du point d''entrée pour un anonyme.'
+  back: '`AccessDeniedException`, que le firewall transforme selon que le user est connu ou non.'
+  explanation: 'Exécuté : 403 pour un user connu, Response de l''entry point pour un anonyme.'
   memorization_justification: Mécanisme du refus.
   verification_status: VERIFIED
   official_sources:
@@ -573,10 +573,10 @@ flashcards:
   official_item: OIT-3qgn13f7zvqx
   language: fr
   level: RECALL
-  front: 'Symfony : quelle fonction Twig teste un attribut d''autorisation ?'
+  front: 'Symfony : quelle function Twig teste un attribute d''authorization ?'
   back: '`is_granted(''ROLE_ADMIN'')`, éventuellement avec un sujet.'
-  explanation: 'Même chemin que `isGranted()` : l''`AccessDecisionManager`.'
-  memorization_justification: Autorisation dans les gabarits.
+  explanation: 'Même path que `isGranted()` : l''`AccessDecisionManager`.'
+  memorization_justification: Authorization dans les templates.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
@@ -589,9 +589,9 @@ flashcards:
   official_item: OIT-3qgn13f7zvqx
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi ROLE_ADMIN n''est-il pas comparé directement aux rôles de l''utilisateur ?'
-  back: 'Parce que l''`AccessDecisionManager` ne connaît aucun attribut : un rôle est jugé par un votant, comme `EDIT`.'
-  explanation: Seul le votant qui répond change d'un attribut à l'autre.
+  front: 'Symfony : pourquoi ROLE_ADMIN n''est-il pas comparé directement aux roles du user ?'
+  back: 'Parce que l''`AccessDecisionManager` ne connaît aucun attribute : un role est jugé par un voter, comme `EDIT`.'
+  explanation: Seul le voter qui répond change d'un attribute à l'autre.
   memorization_justification: Uniformité du mécanisme.
   verification_status: VERIFIED
   official_sources:
@@ -605,10 +605,10 @@ flashcards:
   official_item: OIT-3qgn13f7zvqx
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi un anonyme et un utilisateur connu n''obtiennent-ils pas le même code sur la même page ?'
-  back: Parce que le refus d'un anonyme passe par le **point d'entrée** du pare-feu, celui d'un utilisateur connu donne 403.
+  front: 'Symfony : pourquoi un anonyme et un user connu n''obtiennent-ils pas le même code sur la même page ?'
+  back: Parce que le refus d'un anonyme passe par le **entry point** du firewall, celui d'un user connu donne 403.
   explanation: 'Exécuté : 401 en `http_basic`, 302 en `form_login`, 403 pour `alice` sans `ROLE_ADMIN`.'
-  memorization_justification: Statut lié à l'authentification.
+  memorization_justification: Statut lié à l'authentication.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
@@ -621,9 +621,9 @@ flashcards:
   official_item: OIT-3qgn13f7zvqx
   language: fr
   level: APPLICATION
-  front: 'Symfony : n''autoriser la modification d''un article qu''à son auteur. Quel appel dans le contrôleur ?'
-  back: '`$this->denyAccessUnlessGranted(''POST_EDIT'', $post)` — le sujet permet au votant de comparer l''auteur.'
-  explanation: Un rôle ne peut pas exprimer une règle qui dépend de l'objet.
+  front: 'Symfony : n''autoriser la modification d''un article qu''à son auteur. Quel appel dans le controller ?'
+  back: '`$this->denyAccessUnlessGranted(''POST_EDIT'', $post)` — le sujet permet au voter de comparer l''auteur.'
+  explanation: Un role ne peut pas exprimer une règle qui dépend de l'object.
   memorization_justification: Verbe métier et sujet.
   verification_status: VERIFIED
   official_sources:
@@ -637,10 +637,10 @@ flashcards:
   official_item: OIT-3qgn13f7zvqx
   language: fr
   level: APPLICATION
-  front: 'Symfony : un anonyme doit être redirigé vers /login quand l''accès lui est refusé. Que doit porter le pare-feu ?'
-  back: Un point d'entrée qui redirige, par exemple `form_login` avec `login_path`.
+  front: 'Symfony : un anonyme doit être redirigé vers /login quand l''accès lui est refusé. Que doit porter le firewall ?'
+  back: Un entry point qui redirige, par exemple `form_login` avec `login_path`.
   explanation: 'Exécuté : `form_login` donne 302 vers la connexion ; `http_basic` donnerait 401.'
-  memorization_justification: Choix du point d'entrée.
+  memorization_justification: Choix de l'entry point.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
@@ -653,8 +653,8 @@ flashcards:
   official_item: OIT-3qgn13f7zvqx
   language: fr
   level: TRAP
-  front: 'Symfony : sous la stratégie affirmative, tous les votants sont-ils consultés ?'
-  back: 'Non : le premier vote favorable arrête la consultation. Exécuté, le second votant n''est même pas interrogé sur `supports()`.'
+  front: 'Symfony : sous la stratégie affirmative, tous les voters sont-ils consultés ?'
+  back: 'Non : le premier vote favorable arrête la consultation. Exécuté, le second voter n''est même pas interrogé sur `supports()`.'
   explanation: L'`AccessDecisionManager` rend les votes un par un ; `AffirmativeStrategy` rend `true` au premier `ACCESS_GRANTED`.
   memorization_justification: Consultation supposée exhaustive.
   verification_status: VERIFIED
@@ -675,10 +675,10 @@ flashcards:
   official_item: OIT-3qgn13f7zvqx
   language: fr
   level: TRAP
-  front: 'Symfony : un accès refusé à un anonyme donne-t-il toujours une redirection vers la connexion ?'
-  back: 'Non : cela dépend du point d''entrée — 302 pour `form_login`, 401 avec `WWW-Authenticate` pour `http_basic`.'
+  front: 'Symfony : un accès refusé à un anonyme donne-t-il toujours un redirect vers la connexion ?'
+  back: 'Non : cela dépend de l''entry point — 302 pour `form_login`, 401 avec `WWW-Authenticate` pour `http_basic`.'
   explanation: Exécuté avec SecurityBundle 8.0.15.
-  memorization_justification: Généralisation du cas formulaire.
+  memorization_justification: Généralisation du cas form.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
@@ -691,8 +691,8 @@ flashcards:
   official_item: OIT-3qgn13f7zvqx
   language: fr
   level: TRAP
-  front: 'Symfony : un votant d''objet appelé sans sujet refuse-t-il l''accès ?'
-  back: 'Non : s''il ne supporte pas l''attribut et le sujet, il **s''abstient** ; la décision revient à la stratégie.'
+  front: 'Symfony : un voter d''object appelé sans sujet refuse-t-il l''accès ?'
+  back: 'Non : s''il ne supporte pas l''attribute et le sujet, il **s''abstient** ; la décision revient à la stratégie.'
   explanation: '`Voter::vote()` rend `ACCESS_ABSTAIN` quand `supports()` est faux.'
   memorization_justification: Abstention confondue avec refus.
   verification_status: VERIFIED
@@ -709,8 +709,8 @@ flashcards:
   level: RECALL
   front: 'Symfony : quelles sont les quatre sections principales de security.yaml ?'
   back: '`password_hashers`, `providers`, `firewalls`, `access_control` — plus `role_hierarchy`.'
-  explanation: Hachage, origine des utilisateurs, manière de s'authentifier, conditions d'accès.
-  memorization_justification: Plan du fichier.
+  explanation: Hachage, origine des users, manière de s'authentifier, conditions d'accès.
+  memorization_justification: Plan du file.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
@@ -723,9 +723,9 @@ flashcards:
   official_item: OIT-xh63g15rz6n3
   language: fr
   level: RECALL
-  front: 'Symfony : quelle commande liste les pare-feux et détaille l''un d''eux ?'
+  front: 'Symfony : quelle command liste les firewalls et détaille l''un d''eux ?'
   back: '`php bin/console debug:firewall` ; avec un nom, `debug:firewall main`.'
-  explanation: 'Exécuté : sans argument, la commande liste `main` et `api`.'
+  explanation: 'Exécuté : sans argument, la command liste `main` et `api`.'
   memorization_justification: Outil de diagnostic.
   verification_status: VERIFIED
   official_sources:
@@ -739,9 +739,9 @@ flashcards:
   official_item: OIT-xh63g15rz6n3
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi access_control ne s''applique-t-il pas sous un pare-feu security: false ?'
-  back: 'Parce que c''est l''`AccessListener` du pare-feu qui l''applique, et qu''un pare-feu `security: false` n''a aucun écouteur.'
-  explanation: '`SecurityExtension` rend une liste d''écouteurs vide pour `security: false`.'
+  front: 'Symfony : pourquoi access_control ne s''applique-t-il pas sous un firewall security: false ?'
+  back: 'Parce que c''est l''`AccessListener` du firewall qui l''applique, et qu''un firewall `security: false` n''a aucun listener.'
+  explanation: '`SecurityExtension` rend une liste de listeners vide pour `security: false`.'
   memorization_justification: Où vit access_control.
   verification_status: VERIFIED
   official_sources:
@@ -755,8 +755,8 @@ flashcards:
   official_item: OIT-xh63g15rz6n3
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi l''erreur d''un pare-feu fourre-tout déclaré en premier est-elle difficile à voir ?'
-  back: 'Parce qu''elle est silencieuse : la configuration est acceptée, et le pare-feu suivant n''est jamais atteint.'
+  front: 'Symfony : pourquoi l''erreur d''un firewall fourre-tout déclaré en premier est-elle difficile à voir ?'
+  back: 'Parce qu''elle est silencieuse : la configuration est acceptée, et le firewall suivant n''est jamais atteint.'
   explanation: 'Exécuté : `main` sans motif avant `api` — `/api/fw` pris par `main`, cookie de session posé.'
   memorization_justification: Erreur d'ordre silencieuse.
   verification_status: VERIFIED
@@ -771,10 +771,10 @@ flashcards:
   official_item: OIT-xh63g15rz6n3
   language: fr
   level: APPLICATION
-  front: 'Symfony : deux fournisseurs sont déclarés. Que faut-il ajouter à chaque pare-feu ?'
-  back: 'La clé `provider: nom_du_fournisseur`.'
+  front: 'Symfony : deux providers sont déclarés. Que faut-il ajouter à chaque firewall ?'
+  back: 'La key `provider: nom_du_fournisseur`.'
   explanation: 'Exécuté, sans elle : « … is ambiguous as there is more than one registered provider ».'
-  memorization_justification: Choix explicite du fournisseur.
+  memorization_justification: Choix explicite du provider.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
@@ -787,10 +787,10 @@ flashcards:
   official_item: OIT-xh63g15rz6n3
   language: fr
   level: APPLICATION
-  front: 'Symfony : laisser passer /_profiler et /_wdt sans aucune sécurité.'
-  back: 'Un pare-feu `dev` en premier : `pattern: ^/(_profiler|_wdt)/` et `security: false`.'
+  front: 'Symfony : laisser passer /_profiler et /_wdt sans aucune security.'
+  back: 'Un firewall `dev` en premier : `pattern: ^/(_profiler|_wdt)/` et `security: false`.'
   explanation: C'est la configuration par défaut documentée.
-  memorization_justification: Pare-feu de développement.
+  memorization_justification: Firewall de développement.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
@@ -803,9 +803,9 @@ flashcards:
   official_item: OIT-xh63g15rz6n3
   language: fr
   level: APPLICATION
-  front: 'Symfony : voir la configuration de sécurité réellement appliquée, valeurs par défaut comprises.'
+  front: 'Symfony : voir la configuration de sécurité réellement appliquée, default values comprises.'
   back: '`php bin/console debug:config security`.'
-  explanation: Le fichier seul ne montre pas les valeurs remplies par défaut.
+  explanation: Le file seul ne montre pas les valeurs remplies par défaut.
   memorization_justification: Configuration résolue.
   verification_status: VERIFIED
   official_sources:
@@ -819,9 +819,9 @@ flashcards:
   official_item: OIT-xh63g15rz6n3
   language: fr
   level: TRAP
-  front: 'Symfony : un pare-feu security: false laisse-t-il access_control en vigueur ?'
-  back: 'Non : aucun écouteur, donc aucune règle. Exécuté, `/free/page` sous `ROLE_ADMIN` répond 200 à un anonyme.'
-  explanation: 'Lu dans `SecurityExtension` : retour anticipé avec une liste d''écouteurs vide.'
+  front: 'Symfony : un firewall security: false laisse-t-il access_control en vigueur ?'
+  back: 'Non : aucun listener, donc aucune règle. Exécuté, `/free/page` sous `ROLE_ADMIN` répond 200 à un anonyme.'
+  explanation: 'Lu dans `SecurityExtension` : retour anticipé avec une liste de listeners vide.'
   memorization_justification: Croyance en deux mécanismes indépendants.
   verification_status: VERIFIED
   official_sources:
@@ -851,8 +851,8 @@ flashcards:
   official_item: OIT-xh63g15rz6n3
   language: fr
   level: TRAP
-  front: 'Symfony : un pare-feu sans pattern déclaré en premier provoque-t-il une erreur de configuration ?'
-  back: 'Non : il capte toutes les requêtes et les pare-feux suivants ne sont jamais utilisés, sans message.'
+  front: 'Symfony : un firewall sans pattern déclaré en premier provoque-t-il une erreur de configuration ?'
+  back: 'Non : il capte toutes les Requests et les firewalls suivants ne sont jamais utilisés, sans message.'
   explanation: Exécuté avec SecurityBundle 8.0.15.
   memorization_justification: Erreur supposée détectée.
   verification_status: VERIFIED
@@ -867,10 +867,10 @@ flashcards:
   official_item: OIT-45p7535dk4s2
   language: fr
   level: RECALL
-  front: 'Symfony : quelles clés de fournisseur SecurityBundle 8.0 définit-il à lui seul ?'
+  front: 'Symfony : quelles keys de provider SecurityBundle 8.0 définit-il à lui seul ?'
   back: '`chain`, `id`, `ldap`, `memory`.'
-  explanation: 'Exécuté avec SecurityBundle seul : un fournisseur `entity` est refusé avec cette liste d''options.'
-  memorization_justification: Liste exacte des clés.
+  explanation: 'Exécuté avec SecurityBundle seul : un provider `entity` est refusé avec cette liste d''options.'
+  memorization_justification: Liste exacte des keys.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/SecurityBundle/SecurityBundle.php
@@ -883,10 +883,10 @@ flashcards:
   official_item: OIT-45p7535dk4s2
   language: fr
   level: RECALL
-  front: 'Symfony : à quoi sert la clé id sous security.providers ?'
+  front: 'Symfony : à quoi sert la key id sous security.providers ?'
   back: À brancher un **service** maison qui implémente `UserProviderInterface`.
   explanation: 'Exécuté avec `id: App\P13\FileUserProvider`.'
-  memorization_justification: Fournisseur sur mesure.
+  memorization_justification: Provider sur mesure.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/User/UserProviderInterface.php
@@ -899,8 +899,8 @@ flashcards:
   official_item: OIT-45p7535dk4s2
   language: fr
   level: RECALL
-  front: 'Symfony : quelle interface permet à un fournisseur de recevoir un mot de passe réencodé ?'
-  back: '`PasswordUpgraderInterface`, méthode `upgradePassword()`.'
+  front: 'Symfony : quelle interface permet à un provider de recevoir un password réencodé ?'
+  back: '`PasswordUpgraderInterface`, method `upgradePassword()`.'
   explanation: C'est ce qui rend la migration de hachage transparente.
   memorization_justification: Migration du hachage.
   verification_status: VERIFIED
@@ -915,9 +915,9 @@ flashcards:
   official_item: OIT-45p7535dk4s2
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi l''utilisateur est-il rechargé à chaque requête avec état plutôt que repris du jeton ?'
-  back: 'Pour le **comparer** à la source : supprimé, ou avec un mot de passe, des rôles ou un identifiant différents, il perd son jeton.'
-  explanation: Lu dans `ContextListener::refreshUser()` et `hasUserChanged()` ; exécuté avec `refreshUser(alice)` à chaque requête.
+  front: 'Symfony : pourquoi le user est-il rechargé à chaque Request avec état plutôt que repris du token ?'
+  back: 'Pour le **comparer** à la source : supprimé, ou avec un password, des roles ou un identifier différents, il perd son token.'
+  explanation: Lu dans `ContextListener::refreshUser()` et `hasUserChanged()` ; exécuté avec `refreshUser(alice)` à chaque Request.
   memorization_justification: Utilité du rechargement.
   verification_status: VERIFIED
   official_sources:
@@ -937,9 +937,9 @@ flashcards:
   official_item: OIT-45p7535dk4s2
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi refreshUser() n''est-il jamais appelé sur un pare-feu sans état ?'
-  back: 'Parce qu''aucun jeton n''est conservé en session : chaque requête s''authentifie par `loadUserByIdentifier()`.'
-  explanation: 'Exécuté : deux requêtes sans état, deux `loadUserByIdentifier`, aucun `refreshUser`.'
+  front: 'Symfony : pourquoi refreshUser() n''est-il jamais appelé sur un firewall sans état ?'
+  back: 'Parce qu''aucun token n''est conservé en session : chaque Request s''authentifie par `loadUserByIdentifier()`.'
+  explanation: 'Exécuté : deux Requests sans état, deux `loadUserByIdentifier`, aucun `refreshUser`.'
   memorization_justification: Lien état / rechargement.
   verification_status: VERIFIED
   official_sources:
@@ -953,10 +953,10 @@ flashcards:
   official_item: OIT-45p7535dk4s2
   language: fr
   level: APPLICATION
-  front: 'Symfony : déclarer deux utilisateurs de test directement dans la configuration.'
+  front: 'Symfony : déclarer deux users de test directement dans la configuration.'
   back: '`providers: { test_users: { memory: { users: { alice: { password: pw, roles: [''ROLE_USER''] }, bob: { password: pw2, roles: ''ROLE_USER, ROLE_ADMIN'' } } } } }`'
-  explanation: 'Exécuté : `alice` et `bob` s''authentifient ; `roles` accepte aussi une chaîne séparée par des virgules (`InMemoryFactory`).'
-  memorization_justification: Fournisseur memory.
+  explanation: 'Exécuté : `alice` et `bob` s''authentifient ; `roles` accepte aussi une string séparée par des virgules (`InMemoryFactory`).'
+  memorization_justification: Provider memory.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/user_providers.rst
@@ -975,10 +975,10 @@ flashcards:
   official_item: OIT-45p7535dk4s2
   language: fr
   level: APPLICATION
-  front: 'Symfony : essayer deux fournisseurs l''un après l''autre.'
-  back: 'Un fournisseur `chain` qui les liste, désigné par le pare-feu : `both: { chain: { providers: [a, b] } }` puis `provider: both`.'
-  explanation: 'Exécuté : `bob`, connu du seul fournisseur `b`, s''authentifie par la chaîne.'
-  memorization_justification: Chaîne de fournisseurs.
+  front: 'Symfony : essayer deux providers l''un après l''autre.'
+  back: 'Un provider `chain` qui les liste, désigné par le firewall : `both: { chain: { providers: [a, b] } }` puis `provider: both`.'
+  explanation: 'Exécuté : `bob`, connu du seul provider `b`, s''authentifie par la string.'
+  memorization_justification: Chaîne de providers.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/user_providers.rst
@@ -991,8 +991,8 @@ flashcards:
   official_item: OIT-45p7535dk4s2
   language: fr
   level: TRAP
-  front: 'Symfony : un utilisateur supprimé en cours de session provoque-t-il une erreur 500 ?'
-  back: 'Non : `refreshUser()` lève `UserNotFoundException`, le `ContextListener` retire le jeton, la requête suivante reçoit 401.'
+  front: 'Symfony : un user supprimé en cours de session provoque-t-il une erreur 500 ?'
+  back: 'Non : `refreshUser()` lève `UserNotFoundException`, le `ContextListener` retire le token, la Request suivante reçoit 401.'
   explanation: 'Exécuté ; journal : « Username could not be found in the selected user provider ».'
   memorization_justification: Erreur supposée non gérée.
   verification_status: VERIFIED
@@ -1008,9 +1008,9 @@ flashcards:
   language: fr
   level: TRAP
   front: 'Symfony : un rechargement raté invalide-t-il la session ?'
-  back: 'Non : seule la clé du jeton est retirée (`$session->remove($this->sessionKey)`) ; les autres données restent.'
+  back: 'Non : seule la key du token est retirée (`$session->remove($this->sessionKey)`) ; les autres données restent.'
   explanation: Lu dans `ContextListener` (8.0.15).
-  memorization_justification: Session confondue avec jeton.
+  memorization_justification: Session confondue avec token.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Http/Firewall/ContextListener.php
@@ -1023,10 +1023,10 @@ flashcards:
   official_item: OIT-45p7535dk4s2
   language: fr
   level: TRAP
-  front: 'Symfony : le fournisseur entity fait-il partie de SecurityBundle ?'
+  front: 'Symfony : le provider entity fait-il partie de SecurityBundle ?'
   back: 'Non : un autre bundle l''enregistre ; sans lui, `entity` est une option inconnue.'
   explanation: 'Exécuté : « Unrecognized option "entity" … Available options are "chain", "id", "ldap", "memory" ».'
-  memorization_justification: Origine du fournisseur entity.
+  memorization_justification: Origine du provider entity.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/SecurityBundle/SecurityBundle.php
@@ -1045,8 +1045,8 @@ flashcards:
   official_item: OIT-rwa6m06crs1h
   language: fr
   level: RECALL
-  front: 'Symfony : quelle clé partage l''authentification entre deux pare-feux ?'
-  back: '`context`, avec la même valeur sur les deux pare-feux.'
+  front: 'Symfony : quelle key partage l''authentication entre deux firewalls ?'
+  back: '`context`, avec la même valeur sur les deux firewalls.'
   explanation: 'Exécuté : sans `context`, `alice` connectée sur `main` est `null` sur `admin` ; avec `context: shared`, elle y est connue.'
   memorization_justification: Partage du contexte.
   verification_status: VERIFIED
@@ -1067,9 +1067,9 @@ flashcards:
   official_item: OIT-rwa6m06crs1h
   language: fr
   level: RECALL
-  front: 'Symfony : que désactive security: false sur un pare-feu ?'
-  back: 'Tous ses écouteurs : l''authentification **et** l''`AccessListener`, donc `access_control`.'
-  explanation: '`SecurityExtension` rend une liste d''écouteurs vide.'
+  front: 'Symfony : que désactive security: false sur un firewall ?'
+  back: 'Tous ses listeners : l''authentication **et** l''`AccessListener`, donc `access_control`.'
+  explanation: '`SecurityExtension` rend une liste de listeners vide.'
   memorization_justification: 'Portée de security: false.'
   verification_status: VERIFIED
   official_sources:
@@ -1083,9 +1083,9 @@ flashcards:
   official_item: OIT-rwa6m06crs1h
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : que gagne-t-on à déclarer un pare-feu lazy ?'
-  back: Le jeton et l'utilisateur ne sont chargés que si la page les demande ; sinon, aucun appel au fournisseur.
-  explanation: 'Exécuté : sur `/plain` avec cookie, aucun appel en `lazy`, `refreshUser()` à chaque requête sans `lazy`.'
+  front: 'Symfony : que gagne-t-on à déclarer un firewall lazy ?'
+  back: Le token et le user ne sont chargés que si la page les demande ; sinon, aucun appel au provider.
+  explanation: 'Exécuté : sur `/plain` avec cookie, aucun appel en `lazy`, `refreshUser()` à chaque Request sans `lazy`.'
   memorization_justification: Effet mesurable de lazy.
   verification_status: VERIFIED
   official_sources:
@@ -1105,9 +1105,9 @@ flashcards:
   official_item: OIT-rwa6m06crs1h
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi un pare-feu dev mal placé désactiverait-il la sécurité de l''application ?'
-  back: 'Parce que le premier pare-feu correspondant prend la requête : un `security: false` trop large capte les URL et n''applique rien.'
-  explanation: Ni authentification ni `access_control` n'y tournent.
+  front: 'Symfony : pourquoi un firewall dev mal placé désactiverait-il la security de l''application ?'
+  back: 'Parce que le premier firewall correspondant prend la Request : un `security: false` trop large capte les URL et n''applique rien.'
+  explanation: Ni authentication ni `access_control` n'y tournent.
   memorization_justification: Ordre et désactivation.
   verification_status: VERIFIED
   official_sources:
@@ -1121,7 +1121,7 @@ flashcards:
   official_item: OIT-rwa6m06crs1h
   language: fr
   level: APPLICATION
-  front: 'Symfony : une API à jetons et un site à formulaire dans la même application. Comment ordonner les pare-feux ?'
+  front: 'Symfony : une API à tokens et un site à form dans la même application. Comment ordonner les firewalls ?'
   back: '`dev` (`security: false`), puis `api` (`pattern: ^/api`, `stateless: true`), puis `main` sans pattern, en dernier.'
   explanation: Le fourre-tout se déclare en dernier.
   memorization_justification: Configuration type.
@@ -1137,10 +1137,10 @@ flashcards:
   official_item: OIT-rwa6m06crs1h
   language: fr
   level: APPLICATION
-  front: 'Symfony : un back-office sur ^/admin doit reconnaître l''utilisateur connecté sur main. Que configurer ?'
+  front: 'Symfony : un back-office sur ^/admin doit reconnaître le user connecté sur main. Que configurer ?'
   back: '`context: shared` (même valeur) sur `admin` et sur `main`.'
   explanation: Exécuté avec SecurityBundle 8.0.15.
-  memorization_justification: Authentification partagée.
+  memorization_justification: Authentication partagée.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
@@ -1154,9 +1154,9 @@ flashcards:
   language: fr
   level: TRAP
   front: 'Symfony : security: false laisse-t-il access_control protéger ces URL ?'
-  back: 'Non : aucun écouteur ne tourne. Exécuté, une règle `ROLE_ADMIN` sur ces URL laisse un anonyme obtenir 200.'
+  back: 'Non : aucun listener ne tourne. Exécuté, une règle `ROLE_ADMIN` sur ces URL laisse un anonyme obtenir 200.'
   explanation: C'est bien « tout le monde passe ».
-  memorization_justification: Croyance en une autorisation indépendante.
+  memorization_justification: Croyance en une authorization indépendante.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/SecurityBundle/DependencyInjection/SecurityExtension.php
@@ -1169,10 +1169,10 @@ flashcards:
   official_item: OIT-rwa6m06crs1h
   language: fr
   level: TRAP
-  front: 'Symfony : se connecter sur le pare-feu main connecte-t-il sur le pare-feu admin ?'
-  back: 'Non, par défaut chaque pare-feu a son propre contexte de session : l''utilisateur y est anonyme.'
-  explanation: Il faut une clé `context` commune.
-  memorization_justification: Authentification supposée globale.
+  front: 'Symfony : se connecter sur le firewall main connecte-t-il sur le firewall admin ?'
+  back: 'Non, par défaut chaque firewall a son propre contexte de session : le user y est anonyme.'
+  explanation: Il faut une key `context` commune.
+  memorization_justification: Authentication supposée globale.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
@@ -1185,8 +1185,8 @@ flashcards:
   official_item: OIT-rwa6m06crs1h
   language: fr
   level: TRAP
-  front: 'Symfony : un pare-feu sans pattern déclaré en premier est-il refusé par la configuration ?'
-  back: 'Non : il est accepté et capte toutes les requêtes ; les pare-feux suivants ne servent plus.'
+  front: 'Symfony : un firewall sans pattern déclaré en premier est-il refusé par la configuration ?'
+  back: 'Non : il est accepté et capte toutes les Requests ; les firewalls suivants ne servent plus.'
   explanation: 'Exécuté : `/api/...` pris par `main`, qui pose un cookie de session.'
   memorization_justification: Erreur supposée détectée.
   verification_status: VERIFIED
@@ -1201,10 +1201,10 @@ flashcards:
   official_item: OIT-rwa6m06crs1h
   language: fr
   level: TRAP
-  front: 'Symfony : sans lazy, une page qui n''utilise pas l''utilisateur recharge-t-elle celui-ci ?'
-  back: 'Oui, si la requête porte un cookie de session : `refreshUser()` est appelé à chaque requête.'
-  explanation: Exécuté avec un fournisseur qui compte ses appels.
-  memorization_justification: Coût caché d'un pare-feu non paresseux.
+  front: 'Symfony : sans lazy, une page qui n''utilise pas le user recharge-t-elle celui-ci ?'
+  back: 'Oui, si la Request porte un cookie de session : `refreshUser()` est appelé à chaque Request.'
+  explanation: Exécuté avec un provider qui compte ses appels.
+  memorization_justification: Coût caché d'un firewall non paresseux.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Http/Firewall/ContextListener.php
@@ -1218,9 +1218,9 @@ flashcards:
   language: fr
   level: RECALL
   front: 'Symfony : que recommande le CHANGELOG 8.0 pour effacer les données sensibles, à la place d''eraseCredentials() ?'
-  back: Les effacer lors de la sérialisation, « e.g. using `__serialize()` ».
+  back: Les effacer lors de la serialization, « e.g. using `__serialize()` ».
   explanation: '`eraseCredentials()` est retirée de `UserInterface` et de `TokenInterface` en 8.0.'
-  memorization_justification: Remplaçant d'une méthode retirée.
+  memorization_justification: Remplaçant d'une method retirée.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/CHANGELOG.md
@@ -1233,8 +1233,8 @@ flashcards:
   official_item: OIT-gkh08ztwdme1
   language: fr
   level: RECALL
-  front: 'Symfony : sur quels critères hasUserChanged() compare-t-il l''utilisateur rechargé, sans EquatableInterface ?'
-  back: Le **mot de passe**, les **rôles** et l'**identifiant**.
+  front: 'Symfony : sur quels critères hasUserChanged() compare-t-il le user rechargé, sans EquatableInterface ?'
+  back: Le **password**, les **roles** et l'**identifier**.
   explanation: Lu dans `ContextListener::hasUserChanged()` (8.0).
   memorization_justification: Règle de comparaison par défaut.
   verification_status: VERIFIED
@@ -1249,10 +1249,10 @@ flashcards:
   official_item: OIT-gkh08ztwdme1
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi un rôle ajouté n''est-il pas accordé, même quand isEqualTo() garde l''utilisateur connecté ?'
-  back: Parce que le **jeton** garde les rôles de la connexion, et que ce sont eux que les votants lisent.
+  front: 'Symfony : pourquoi un role ajouté n''est-il pas accordé, même quand isEqualTo() garde le user connecté ?'
+  back: Parce que le **token** garde les roles de la connexion, et que ce sont eux que les voters lisent.
   explanation: 'Exécuté : `getUser()->getRoles()` contient `ROLE_EDITOR`, `isGranted(''ROLE_EDITOR'')` est faux.'
-  memorization_justification: Rôles figés dans le jeton.
+  memorization_justification: Roles figés dans le token.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Http/Firewall/ContextListener.php
@@ -1265,10 +1265,10 @@ flashcards:
   official_item: OIT-gkh08ztwdme1
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi checkPreAuth() est-il appelé même quand le mot de passe est faux ?'
-  back: Parce qu'il écoute `CheckPassportEvent` en priorité 256, avant la vérification des identifiants.
-  explanation: 'Exécuté : `alice` avec un mauvais mot de passe passe par `checkPreAuth()`, puis reçoit 401.'
-  memorization_justification: Ordre des écouteurs.
+  front: 'Symfony : pourquoi checkPreAuth() est-il appelé même quand le password est faux ?'
+  back: Parce qu'il écoute `CheckPassportEvent` en priorité 256, avant la vérification des identifiers.
+  explanation: 'Exécuté : `alice` avec un mauvais password passe par `checkPreAuth()`, puis reçoit 401.'
+  memorization_justification: Ordre des listeners.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Http/EventListener/UserCheckerListener.php
@@ -1281,9 +1281,9 @@ flashcards:
   official_item: OIT-gkh08ztwdme1
   language: fr
   level: APPLICATION
-  front: 'Symfony : garder l''utilisateur connecté quand seuls ses rôles changent en base.'
-  back: Implémenter `EquatableInterface` et un `isEqualTo()` qui ignore les rôles — sachant que les nouveaux rôles n'entreront en vigueur qu'à la prochaine connexion.
-  explanation: 'Exécuté : l''utilisateur reste connecté, le jeton garde `ROLE_USER` seul.'
+  front: 'Symfony : garder le user connecté quand seuls ses roles changent en base.'
+  back: Implémenter `EquatableInterface` et un `isEqualTo()` qui ignore les roles — sachant que les nouveaux roles n'entreront en vigueur qu'à la prochaine connexion.
+  explanation: 'Exécuté : le user reste connecté, le token garde `ROLE_USER` seul.'
   memorization_justification: Usage d'EquatableInterface.
   verification_status: VERIFIED
   official_sources:
@@ -1298,7 +1298,7 @@ flashcards:
   language: fr
   level: APPLICATION
   front: 'Symfony : refuser la connexion d''un compte désactivé, avec un message dédié.'
-  back: Un user checker déclaré par `user_checker:` sur le pare-feu, dont `checkPreAuth()` lève `CustomUserMessageAccountStatusException`.
+  back: Un user checker déclaré par `user_checker:` sur le firewall, dont `checkPreAuth()` lève `CustomUserMessageAccountStatusException`.
   explanation: 'Exécuté : le compte refusé reçoit 401.'
   memorization_justification: User checker.
   verification_status: VERIFIED
@@ -1319,8 +1319,8 @@ flashcards:
   official_item: OIT-gkh08ztwdme1
   language: fr
   level: TRAP
-  front: 'Symfony : getRoles() doit-il obligatoirement retourner au moins un rôle ?'
-  back: 'Non : un utilisateur sans rôle est authentifié. `ROLE_USER` est une convention de la classe.'
+  front: 'Symfony : getRoles() doit-il obligatoirement retourner au moins un role ?'
+  back: 'Non : un user sans role est authentifié. `ROLE_USER` est une convention de la class.'
   explanation: 'Exécuté : `getRoles()` rend `[]`, `IS_AUTHENTICATED_FULLY` vrai, `ROLE_USER` faux.'
   memorization_justification: Convention prise pour une règle.
   verification_status: VERIFIED
@@ -1335,10 +1335,10 @@ flashcards:
   official_item: OIT-gkh08ztwdme1
   language: fr
   level: TRAP
-  front: 'Symfony : faut-il EquatableInterface pour déconnecter un utilisateur dont les rôles changent ?'
+  front: 'Symfony : faut-il EquatableInterface pour déconnecter un user dont les roles changent ?'
   back: 'Non : c''est le comportement **par défaut** ; `EquatableInterface` sert à changer la règle.'
-  explanation: 'Exécuté sans `EquatableInterface` : `ROLE_EDITOR` ajouté, l''utilisateur est déconnecté.'
-  memorization_justification: Rôle inversé d'EquatableInterface.
+  explanation: 'Exécuté sans `EquatableInterface` : `ROLE_EDITOR` ajouté, le user est déconnecté.'
+  memorization_justification: Role inversé d'EquatableInterface.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Http/Firewall/ContextListener.php
@@ -1351,8 +1351,8 @@ flashcards:
   official_item: OIT-gkh08ztwdme1
   language: fr
   level: TRAP
-  front: 'Symfony : le user checker est-il appelé à chaque requête d''une session ?'
-  back: 'Non : à la connexion seulement. Les requêtes suivantes portant le cookie ne l''appellent pas.'
+  front: 'Symfony : le user checker est-il appelé à chaque Request d''une session ?'
+  back: 'Non : à la connexion seulement. Les Requests suivantes portant le cookie ne l''appellent pas.'
   explanation: Exécuté avec un checker qui journalise ses appels.
   memorization_justification: Portée du user checker.
   verification_status: VERIFIED
@@ -1367,10 +1367,10 @@ flashcards:
   official_item: OIT-gkh08ztwdme1
   language: fr
   level: TRAP
-  front: 'Symfony : une classe utilisateur qui déclare encore eraseCredentials() casse-t-elle en 8.0 ?'
+  front: 'Symfony : une class user qui déclare encore eraseCredentials() casse-t-elle en 8.0 ?'
   back: 'Non : aucune erreur, mais plus rien ne l''appelle.'
   explanation: Aucun appel dans Security Core, Security HTTP ni SecurityBundle 8.0.
-  memorization_justification: Méthode morte.
+  memorization_justification: Method morte.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/CHANGELOG.md
@@ -1405,9 +1405,9 @@ flashcards:
   official_item: OIT-ta627mbwfz7m
   language: fr
   level: RECALL
-  front: 'Symfony : quelles méthodes UserPasswordHasherInterface déclare-t-elle ?'
-  back: '`hashPassword()`, `isPasswordValid()` et `needsRehash()`, chacune recevant l''utilisateur.'
-  explanation: L'utilisateur détermine le hacheur configuré.
+  front: 'Symfony : quelles methods UserPasswordHasherInterface déclare-t-elle ?'
+  back: '`hashPassword()`, `isPasswordValid()` et `needsRehash()`, chacune recevant le user.'
+  explanation: Le user détermine le hasher configuré.
   memorization_justification: Contrat du service de hachage.
   verification_status: VERIFIED
   official_sources:
@@ -1421,7 +1421,7 @@ flashcards:
   official_item: OIT-ta627mbwfz7m
   language: fr
   level: RECALL
-  front: 'Symfony : quels authentificateurs fournis ajoutent un PasswordUpgradeBadge ?'
+  front: 'Symfony : quels authenticators fournis ajoutent un PasswordUpgradeBadge ?'
   back: '`form_login`, `json_login` et `http_basic`.'
   explanation: Sans ce badge, `PasswordMigratingListener` ne fait rien.
   memorization_justification: Condition de la migration.
@@ -1438,9 +1438,9 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony : pourquoi auto vérifie-t-il un hachage argon2id sans le produire lui-même ?'
-  back: 'Parce qu''`auto` est une **chaîne** : `native` hache, `sodium` et `pbkdf2` ne servent qu''à vérifier.'
+  back: 'Parce qu''`auto` est une **string** : `native` hache, `sodium` et `pbkdf2` ne servent qu''à vérifier.'
   explanation: 'Exécuté : argon2id accepté, `needsRehash()` vrai, puis rehaché en `$2y$13$` à la connexion.'
-  memorization_justification: Chaîne de hacheurs.
+  memorization_justification: Chaîne de hashers.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/PasswordHasher/Hasher/PasswordHasherFactory.php
@@ -1469,8 +1469,8 @@ flashcards:
   official_item: OIT-ta627mbwfz7m
   language: fr
   level: APPLICATION
-  front: 'Symfony : migrer des mots de passe stockés en sha256 hexadécimal (une itération) vers auto.'
-  back: 'Déclarer `legacy: { algorithm: sha256, encode_as_base64: false, iterations: 1 }`, puis `algorithm: auto` et `migrate_from: [legacy]` sur la classe utilisateur ; un fournisseur `PasswordUpgraderInterface` enregistre le nouveau hachage.'
+  front: 'Symfony : migrer des passwords stockés en sha256 hexadécimal (une itération) vers auto.'
+  back: 'Déclarer `legacy: { algorithm: sha256, encode_as_base64: false, iterations: 1 }`, puis `algorithm: auto` et `migrate_from: [legacy]` sur la class user ; un provider `PasswordUpgraderInterface` enregistre le nouveau hachage.'
   explanation: 'Exécuté : 200, `upgradePassword()` reçoit un `$2y$13$…`.'
   memorization_justification: Configuration de migration.
   verification_status: VERIFIED
@@ -1491,8 +1491,8 @@ flashcards:
   official_item: OIT-ta627mbwfz7m
   language: fr
   level: APPLICATION
-  front: 'Symfony : accélérer les tests qui hachent des mots de passe.'
-  back: 'Sous `when@test`, `cost: 4` sur le hacheur — « lowest possible value for bcrypt ».'
+  front: 'Symfony : accélérer les tests qui hachent des passwords.'
+  back: 'Sous `when@test`, `cost: 4` sur le hasher — « lowest possible value for bcrypt ».'
   explanation: 'Exécuté : préfixe `$2y$04$`.'
   memorization_justification: Configuration de test.
   verification_status: VERIFIED
@@ -1531,7 +1531,7 @@ flashcards:
   level: TRAP
   front: 'Symfony : migrate_from sans PasswordUpgraderInterface échoue-t-il bruyamment ?'
   back: 'Non : la connexion réussit (200) et le hachage reste l''ancien, sans message.'
-  explanation: Exécuté avec un fournisseur qui n'implémente pas l'interface.
+  explanation: Exécuté avec un provider qui n'implémente pas l'interface.
   memorization_justification: Échec silencieux.
   verification_status: VERIFIED
   official_sources:
@@ -1546,9 +1546,9 @@ flashcards:
   language: fr
   level: TRAP
   front: 'Symfony : migrate_from ne sert-il qu''à réencoder, pas à vérifier ?'
-  back: 'Non : il fournit aussi les hacheurs capables de **vérifier** l''ancien format ; sans lui, un condensat maison est refusé.'
+  back: 'Non : il fournit aussi les hashers capables de **vérifier** l''ancien format ; sans lui, un condensat maison est refusé.'
   explanation: 'Exécuté : 401 sans `migrate_from`, 200 avec.'
-  memorization_justification: Rôle de migrate_from.
+  memorization_justification: Role de migrate_from.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/passwords.rst
@@ -1567,7 +1567,7 @@ flashcards:
   official_item: OIT-fw6db7ryrk4q
   language: fr
   level: RECALL
-  front: 'Symfony : quelle commande affiche la hiérarchie des rôles configurée ?'
+  front: 'Symfony : quelle command affiche la hiérarchie des roles configurée ?'
   back: '`php bin/console debug:security:role-hierarchy`, au format Mermaid.'
   explanation: Lu dans `SecurityRoleHierarchyDumpCommand` (SecurityBundle 8.0).
   memorization_justification: Outil de diagnostic.
@@ -1589,10 +1589,10 @@ flashcards:
   official_item: OIT-fw6db7ryrk4q
   language: fr
   level: RECALL
-  front: 'Symfony : quels attributs AuthenticatedVoter traite-t-il en 8.0 ?'
+  front: 'Symfony : quels attributes AuthenticatedVoter traite-t-il en 8.0 ?'
   back: '`IS_AUTHENTICATED_FULLY`, `IS_AUTHENTICATED_REMEMBERED`, `IS_AUTHENTICATED`, `IS_REMEMBERED`, `IS_IMPERSONATOR`, `PUBLIC_ACCESS`.'
   explanation: Constantes de `AuthenticatedVoter`.
-  memorization_justification: Attributs d'état.
+  memorization_justification: Attributes d'état.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/Authorization/Voter/AuthenticatedVoter.php
@@ -1605,8 +1605,8 @@ flashcards:
   official_item: OIT-fw6db7ryrk4q
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi un rôle sans préfixe ROLE_ n''est-il jamais accordé ?'
-  back: Parce que `RoleVoter` ne vote que sur les attributs commençant par `ROLE_` ; sur les autres il s'abstient, et l'abstention générale vaut refus.
+  front: 'Symfony : pourquoi un role sans préfixe ROLE_ n''est-il jamais accordé ?'
+  back: Parce que `RoleVoter` ne vote que sur les attributes commençant par `ROLE_` ; sur les autres il s'abstient, et l'abstention générale vaut refus.
   explanation: 'Exécuté : `getRoles()` rend `[''ADMIN'']`, `isGranted(''ADMIN'')` est faux.'
   memorization_justification: Raison du préfixe.
   verification_status: VERIFIED
@@ -1622,9 +1622,9 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony : pourquoi in_array(''ROLE_USER'', $user->getRoles()) peut-il être faux pour un ROLE_ADMIN ?'
-  back: Parce que `getRoles()` ne rend que les rôles écrits sur l'utilisateur ; la hiérarchie est appliquée par le votant.
+  back: Parce que `getRoles()` ne rend que les roles écrits sur le user ; la hiérarchie est appliquée par le voter.
   explanation: 'Exécuté : `isGranted(''ROLE_USER'')` vrai, `in_array` faux.'
-  memorization_justification: Hiérarchie hors de l'utilisateur.
+  memorization_justification: Hiérarchie hors du user.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst
@@ -1637,7 +1637,7 @@ flashcards:
   official_item: OIT-fw6db7ryrk4q
   language: fr
   level: APPLICATION
-  front: 'Symfony : donner ROLE_USER à tout ROLE_ADMIN sans l''écrire sur l''utilisateur.'
+  front: 'Symfony : donner ROLE_USER à tout ROLE_ADMIN sans l''écrire sur le user.'
   back: '`role_hierarchy: { ROLE_ADMIN: ROLE_USER }` dans `security.yaml`.'
   explanation: Vérifier ensuite avec `isGranted()`, jamais avec `getRoles()`.
   memorization_justification: Configuration de hiérarchie.
@@ -1653,8 +1653,8 @@ flashcards:
   official_item: OIT-fw6db7ryrk4q
   language: fr
   level: APPLICATION
-  front: 'Symfony : une hiérarchie des rôles stockée en base de données. Quelle solution la documentation recommande-t-elle ?'
-  back: Un **voter** personnalisé qui lit les rôles en base ; les valeurs de `role_hierarchy` sont statiques.
+  front: 'Symfony : une hiérarchie des roles stockée en base de données. Quelle solution la documentation recommande-t-elle ?'
+  back: Un **voter** personnalisé qui lit les roles en base ; les valeurs de `role_hierarchy` sont statiques.
   explanation: 'Exécuté : décorer `security.role_hierarchy` avec un `RoleHierarchyInterface` fonctionne aussi.'
   memorization_justification: Hiérarchie dynamique.
   verification_status: VERIFIED
@@ -1672,7 +1672,7 @@ flashcards:
   front: 'Symfony : role_hierarchy est-il toujours actif, même vide ?'
   back: 'Non : sans `role_hierarchy`, SecurityBundle retire `RoleHierarchyVoter` et garde le simple `RoleVoter`.'
   explanation: Lu dans `SecurityExtension::createRoleHierarchy()`.
-  memorization_justification: Votant réellement enregistré.
+  memorization_justification: Voter réellement enregistré.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/SecurityBundle/DependencyInjection/SecurityExtension.php
@@ -1685,9 +1685,9 @@ flashcards:
   official_item: OIT-fw6db7ryrk4q
   language: fr
   level: TRAP
-  front: 'Symfony : un rôle doit-il être déclaré quelque part dans security.yaml ?'
+  front: 'Symfony : un role doit-il être déclaré quelque part dans security.yaml ?'
   back: 'Non : il vient de `getRoles()` ; seule la hiérarchie se déclare, et elle est facultative.'
-  explanation: La seule contrainte est le préfixe `ROLE_`.
+  explanation: La seule constraint est le préfixe `ROLE_`.
   memorization_justification: Déclaration supposée.
   verification_status: VERIFIED
   official_sources:
@@ -1702,9 +1702,9 @@ flashcards:
   language: fr
   level: TRAP
   front: 'Symfony : faut-il mettre IS_AUTHENTICATED_FULLY dans getRoles() pour l''utiliser dans isGranted() ?'
-  back: 'Non : c''est un attribut traité par `AuthenticatedVoter`, qui décrit l''état de l''authentification, pas un rôle.'
-  explanation: Il s'emploie seulement comme attribut.
-  memorization_justification: Attribut pris pour un rôle.
+  back: 'Non : c''est un attribute traité par `AuthenticatedVoter`, qui décrit l''état de l''authentication, pas un role.'
+  explanation: Il s'emploie seulement comme attribute.
+  memorization_justification: Attribute pris pour un role.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/Authorization/Voter/AuthenticatedVoter.php
@@ -1717,9 +1717,9 @@ flashcards:
   official_item: OIT-fw6db7ryrk4q
   language: fr
   level: TRAP
-  front: 'Symfony : un rôle calculé à l''exécution est-il impossible dans Symfony ?'
+  front: 'Symfony : un role calculé à l''exécution est-il impossible dans Symfony ?'
   back: 'Non : seules les **valeurs** de `role_hierarchy` sont statiques ; un voter, ou un service `RoleHierarchyInterface` décorant `security.role_hierarchy`, peut le faire.'
-  explanation: 'Exécuté : le rôle ajouté par le service décoré est accordé par `isGranted()`.'
+  explanation: 'Exécuté : le role ajouté par le service décoré est accordé par `isGranted()`.'
   memorization_justification: Portée de « statique ».
   verification_status: VERIFIED
   official_sources:
@@ -1741,7 +1741,7 @@ flashcards:
   level: RECALL
   front: 'Symfony : quelles options d''une règle access_control imposent l''accès, une fois la règle choisie ?'
   back: '`roles`, `allow_if` et `requires_channel`.'
-  explanation: Les autres clés — `path`, `host`, `ips`, `port`, `methods`, `route`, `attributes`, `request_matcher` — servent à choisir la règle.
+  explanation: Les autres keys — `path`, `host`, `ips`, `port`, `methods`, `route`, `attributes`, `request_matcher` — servent à choisir la règle.
   memorization_justification: Correspondance contre exigence.
   verification_status: VERIFIED
   official_sources:
@@ -1755,8 +1755,8 @@ flashcards:
   official_item: OIT-cwfr5t1ngj23
   language: fr
   level: RECALL
-  front: 'Symfony : que fait requires_channel: https sur une requête http ?'
-  back: Une redirection **301** vers la même URL en `https`.
+  front: 'Symfony : que fait requires_channel: https sur une Request http ?'
+  back: Un redirect **301** vers la même URL en `https`.
   explanation: Exécuté avec SecurityBundle 8.0.15.
   memorization_justification: Effet de requires_channel.
   verification_status: VERIFIED
@@ -1771,8 +1771,8 @@ flashcards:
   official_item: OIT-cwfr5t1ngj23
   language: fr
   level: RECALL
-  front: 'Symfony : quel sujet les votants reçoivent-ils pour une règle access_control ?'
-  back: La **requête** (`Request`), les `roles` servant d'attributs.
+  front: 'Symfony : quel sujet les voters reçoivent-ils pour une règle access_control ?'
+  back: La **Request** (`Request`), les `roles` servant d'attributes.
   explanation: 'Lu dans `AccessListener` : `decide($token, $attributes, $request)`.'
   memorization_justification: Sujet d'access_control.
   verification_status: VERIFIED
@@ -1794,9 +1794,9 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony : pourquoi roles: [ROLE_ADMIN, ROLE_EDITOR] vaut-il « l''un ou l''autre » même en stratégie unanimous ?'
-  back: Parce qu'un seul votant, celui des rôles, examine les deux attributs et accorde dès que l'utilisateur en a un.
+  back: Parce qu'un seul voter, celui des roles, examine les deux attributes et accorde dès que le user en a un.
   explanation: 'Exécuté : `ROLE_EDITOR` seul obtient 200 en `affirmative` comme en `unanimous`.'
-  memorization_justification: Un votant, plusieurs attributs.
+  memorization_justification: Un voter, plusieurs attributes.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Http/Firewall/AccessListener.php
@@ -1810,7 +1810,7 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony : pourquoi roles + allow_if accorde-t-il l''accès dès qu''une seule condition est vraie ?'
-  back: Parce que `allow_if` est ajouté aux attributs et jugé par un autre votant ; la stratégie `affirmative` accorde au premier vote favorable.
+  back: Parce que `allow_if` est ajouté aux attributes et jugé par un autre voter ; la stratégie `affirmative` accorde au premier vote favorable.
   explanation: 'Exécuté : expression vraie, sans `ROLE_ADMIN`, 200 ; en `unanimous`, 403.'
   memorization_justification: Combinaison par la stratégie.
   verification_status: VERIFIED
@@ -1849,7 +1849,7 @@ flashcards:
   level: APPLICATION
   front: 'Symfony : exiger à la fois ROLE_ADMIN et une condition allow_if.'
   back: Changer la stratégie de décision, en `unanimous` par exemple — comme le conseille la documentation ; elle vaut alors pour toute l'application.
-  explanation: 'Exécuté : en `unanimous`, la même règle refuse (403) l''utilisateur qui n''a que l''expression vraie.'
+  explanation: 'Exécuté : en `unanimous`, la même règle refuse (403) le user qui n''a que l''expression vraie.'
   memorization_justification: Obtenir un « et ».
   verification_status: VERIFIED
   official_sources:
@@ -1879,8 +1879,8 @@ flashcards:
   official_item: OIT-cwfr5t1ngj23
   language: fr
   level: TRAP
-  front: 'Symfony : un paramètre de requête comme ?admin=1 peut-il servir dans path ?'
-  back: 'Non : la correspondance se fait sans la chaîne de requête ; il faut refuser dans le code PHP.'
+  front: 'Symfony : un parameter de Request comme ?admin=1 peut-il servir dans path ?'
+  back: 'Non : la correspondance se fait sans la chaîne de Request ; il faut refuser dans le code PHP.'
   explanation: Avertissement de la documentation 8.0.
   memorization_justification: Portée de path.
   verification_status: VERIFIED
@@ -1911,7 +1911,7 @@ flashcards:
   official_item: OIT-s3jh7wg5km19
   language: fr
   level: RECALL
-  front: 'Symfony : quelles sont les cinq méthodes d''AuthenticatorInterface en 8.0 ?'
+  front: 'Symfony : quelles sont les cinq methods d''AuthenticatorInterface en 8.0 ?'
   back: '`supports()`, `authenticate()`, `createToken()`, `onAuthenticationSuccess()`, `onAuthenticationFailure()`.'
   explanation: '`AbstractAuthenticator` fournit `createToken()`.'
   memorization_justification: Contrat de l'authenticator.
@@ -1928,7 +1928,7 @@ flashcards:
   language: fr
   level: RECALL
   front: 'Symfony : que signifie supports() qui rend null ?'
-  back: '`authenticate()` peut être appelé **paresseusement**, quand quelque chose lit le stockage du jeton.'
+  back: '`authenticate()` peut être appelé **paresseusement**, quand quelque chose lit le stockage du token.'
   explanation: Docblock de `AuthenticatorInterface::supports()`.
   memorization_justification: Troisième état de supports().
   verification_status: VERIFIED
@@ -1944,9 +1944,9 @@ flashcards:
   language: fr
   level: RECALL
   front: 'Symfony : quelle exception UserBadge lève-t-il quand son user loader rend null ?'
-  back: '`UserNotFoundException`, avec l''identifiant renseigné.'
+  back: '`UserNotFoundException`, avec l''identifier renseigné.'
   explanation: Lu dans `UserBadge::getUser()` (security-http 8.0).
-  memorization_justification: Échec du chargement de l'utilisateur.
+  memorization_justification: Échec du chargement du user.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Http/Authenticator/Passport/Badge/UserBadge.php
@@ -1959,9 +1959,9 @@ flashcards:
   official_item: OIT-s3jh7wg5km19
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi un authenticator lazy appelle-t-il quand même authenticate() sur un pare-feu stateless ?'
-  back: 'Parce que `SecurityExtension` ne crée un contexte paresseux que si le pare-feu **n''est pas** sans état : `lazy` y est ignoré.'
-  explanation: 'Exécuté : `supports()` à `null`, `stateless: true`, `authenticate()` appelé sur une page qui ne lit pas l''utilisateur.'
+  front: 'Symfony : pourquoi un authenticator lazy appelle-t-il quand même authenticate() sur un firewall stateless ?'
+  back: 'Parce que `SecurityExtension` ne crée un contexte paresseux que si le firewall **n''est pas** sans état : `lazy` y est ignoré.'
+  explanation: 'Exécuté : `supports()` à `null`, `stateless: true`, `authenticate()` appelé sur une page qui ne lit pas le user.'
   memorization_justification: Interaction lazy / stateless.
   verification_status: VERIFIED
   official_sources:
@@ -1976,7 +1976,7 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony : pourquoi le cookie remember-me est-il posé après onAuthenticationSuccess() ?'
-  back: Parce qu'il est traité sur `LoginSuccessEvent`, distribué après la réponse de l'authenticator.
+  back: Parce qu'il est traité sur `LoginSuccessEvent`, distribué après la Response de l'authenticator.
   explanation: 'Lu dans `AuthenticatorManager` : `onAuthenticationSuccess()` puis `LoginSuccessEvent`.'
   memorization_justification: Ordre du flux.
   verification_status: VERIFIED
@@ -1991,9 +1991,9 @@ flashcards:
   official_item: OIT-s3jh7wg5km19
   language: fr
   level: APPLICATION
-  front: 'Symfony : authentifier par un en-tête de jeton d''API déjà vérifié en amont.'
+  front: 'Symfony : authentifier par un header de token d''API déjà vérifié en amont.'
   back: '`return new SelfValidatingPassport(new UserBadge($token));` dans `authenticate()`.'
-  explanation: 'Aucun identifiant à vérifier : pas de `PasswordCredentials`.'
+  explanation: 'Aucun identifier à vérifier : pas de `PasswordCredentials`.'
   memorization_justification: Passport sans credentials.
   verification_status: VERIFIED
   official_sources:
@@ -2014,8 +2014,8 @@ flashcards:
   language: fr
   level: APPLICATION
   front: 'Symfony : un authenticator maison doit poser le cookie remember-me sans case à cocher.'
-  back: Ajouter `(new RememberMeBadge())->enable()` au passport, avec `remember_me` configuré sur le pare-feu.
-  explanation: 'Exécuté : badge activé, sans paramètre `_remember_me`, cookie posé.'
+  back: Ajouter `(new RememberMeBadge())->enable()` au passport, avec `remember_me` configuré sur le firewall.
+  explanation: 'Exécuté : badge activé, sans parameter `_remember_me`, cookie posé.'
   memorization_justification: Activation du badge.
   verification_status: VERIFIED
   official_sources:
@@ -2046,7 +2046,7 @@ flashcards:
   language: fr
   level: TRAP
   front: 'Symfony : un badge non résolu est-il simplement ignoré ?'
-  back: 'Non : l''authentification échoue, « Security badge … is not resolved, did you forget to register the correct listeners? ».'
+  back: 'Non : l''authentication échoue, « Security badge … is not resolved, did you forget to register the correct listeners? ».'
   explanation: 'Exécuté : 401.'
   memorization_justification: Échec silencieux supposé.
   verification_status: VERIFIED
@@ -2061,7 +2061,7 @@ flashcards:
   official_item: OIT-s3jh7wg5km19
   language: fr
   level: TRAP
-  front: 'Symfony : un callable CustomCredentials qui rend 1 valide-t-il l''identifiant ?'
+  front: 'Symfony : un callable CustomCredentials qui rend 1 valide-t-il l''identifier ?'
   back: 'Non : seul `true` strict passe ; sinon `BadCredentialsException`.'
   explanation: 'Lu dans `CustomCredentials::executeCustomChecker()` : `true !== …`.'
   memorization_justification: Comparaison stricte.
@@ -2079,7 +2079,7 @@ flashcards:
   level: RECALL
   front: 'Symfony : quelle est la signature de voteOnAttribute() en 8.0 ?'
   back: '`voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token, ?Vote $vote = null): bool`.'
-  explanation: Le paramètre `$vote` est ajouté en 8.0 (CHANGELOG de Security Core).
+  explanation: Le parameter `$vote` est ajouté en 8.0 (CHANGELOG de Security Core).
   memorization_justification: Signature 8.0.
   verification_status: VERIFIED
   official_sources:
@@ -2115,8 +2115,8 @@ flashcards:
   official_item: OIT-kqm5mxq4jnkj
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi un votant qui garde l''ancienne signature de voteOnAttribute() casse-t-il en 8.0 ?'
-  back: 'Parce qu''une méthode redéfinie ne peut pas retirer un paramètre de la méthode parente : PHP lève une erreur fatale de compatibilité.'
+  front: 'Symfony : pourquoi un voter qui garde l''ancienne signature de voteOnAttribute() casse-t-il en 8.0 ?'
+  back: 'Parce qu''une method redéfinie ne peut pas retirer un parameter de la method parente : PHP lève une erreur fatale de compatibilité.'
   explanation: 'Exécuté : « Declaration of PostVoter::voteOnAttribute(...) must be compatible with Voter::voteOnAttribute(..., ?Vote $vote = null) ».'
   memorization_justification: Compatibilité des signatures.
   verification_status: VERIFIED
@@ -2131,9 +2131,9 @@ flashcards:
   official_item: OIT-kqm5mxq4jnkj
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi seule la stratégie consensus interroge-t-elle tous les votants ?'
+  front: 'Symfony : pourquoi seule la stratégie consensus interroge-t-elle tous les voters ?'
   back: Parce qu'elle compte les voix ; `affirmative` s'arrête au premier accord, `unanimous` au premier refus, `priority` au premier vote non abstenu.
-  explanation: Exécuté avec un journal des votants interrogés.
+  explanation: Exécuté avec un journal des voters interrogés.
   memorization_justification: Consultation paresseuse.
   verification_status: VERIFIED
   official_sources:
@@ -2153,7 +2153,7 @@ flashcards:
   official_item: OIT-kqm5mxq4jnkj
   language: fr
   level: APPLICATION
-  front: 'Symfony : expliquer pourquoi un votant refuse l''édition d''un article.'
+  front: 'Symfony : expliquer pourquoi un voter refuse l''édition d''un article.'
   back: Dans `voteOnAttribute()`, appeler `$vote?->addReason('Only the author may edit this post.')` avant de rendre `false`.
   explanation: 'Exécuté : 403, « Access Denied. Only the author may edit this post. ».'
   memorization_justification: Raison de refus.
@@ -2175,7 +2175,7 @@ flashcards:
   official_item: OIT-kqm5mxq4jnkj
   language: fr
   level: APPLICATION
-  front: 'Symfony : exiger qu''aucun votant ne refuse, avec au moins un accord.'
+  front: 'Symfony : exiger qu''aucun voter ne refuse, avec au moins un accord.'
   back: '`security.access_decision_manager.strategy: unanimous`.'
   explanation: 'Tous abstenus : `allow_if_all_abstain` décide, `false` par défaut.'
   memorization_justification: Choix de stratégie.
@@ -2197,7 +2197,7 @@ flashcards:
   official_item: OIT-kqm5mxq4jnkj
   language: fr
   level: TRAP
-  front: 'Symfony : en unanimous, trois votants s''abstiennent et aucun ne refuse. L''accès est-il accordé ?'
+  front: 'Symfony : en unanimous, trois voters s''abstiennent et aucun ne refuse. L''accès est-il accordé ?'
   back: 'Non : sans aucun accord, `allow_if_all_abstain` décide, et il vaut `false` par défaut.'
   explanation: 'Exécuté sur `AccessDecisionManager` 8.0.15 : refusé.'
   memorization_justification: unanimous mal lu.
@@ -2213,7 +2213,7 @@ flashcards:
   official_item: OIT-kqm5mxq4jnkj
   language: fr
   level: TRAP
-  front: 'Symfony : tous les votants sont-ils toujours interrogés ?'
+  front: 'Symfony : tous les voters sont-ils toujours interrogés ?'
   back: 'Non : ils le sont un par un, et la stratégie s''arrête dès que sa décision est acquise ; seul `consensus` les interroge tous.'
   explanation: 'Exécuté : en `affirmative`, un premier accord laisse les suivants sans être interrogés.'
   memorization_justification: Consultation supposée totale.
@@ -2236,9 +2236,9 @@ flashcards:
   language: fr
   level: TRAP
   front: 'Symfony : priority et affirmative donnent-elles toujours le même résultat ?'
-  back: 'Non : votes « refusé puis accordé » — `affirmative` accorde, `priority` refuse, car le premier votant non abstenu tranche.'
+  back: 'Non : votes « refusé puis accordé » — `affirmative` accorde, `priority` refuse, car le premier voter non abstenu tranche.'
   explanation: Exécuté sur `AccessDecisionManager` 8.0.15.
-  memorization_justification: Dépendance à l'ordre.
+  memorization_justification: Dependency à l'ordre.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/Authorization/Strategy/PriorityStrategy.php
@@ -2251,9 +2251,9 @@ flashcards:
   official_item: OIT-kqm5mxq4jnkj
   language: fr
   level: TRAP
-  front: 'Symfony : faut-il déclarer un votant dans services.yaml ?'
+  front: 'Symfony : faut-il déclarer un voter dans services.yaml ?'
   back: 'Non : l''autoconfiguration lui donne le tag `security.voter`.'
-  explanation: 'Exécuté : le votant a voté sans configuration de service.'
+  explanation: 'Exécuté : le voter a voté sans configuration de service.'
   memorization_justification: Déclaration supposée.
   verification_status: VERIFIED
   official_sources:

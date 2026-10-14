@@ -22,16 +22,16 @@ official_sources:
 
 ## Objectif
 
-Lire les données du profileur depuis un test, pour vérifier une métrique que la
-réponse ne montre pas.
+Lire les données du profiler depuis un test, pour vérifier une métrique que la
+Response ne montre pas.
 
 ## Prérequis
 
-L'objet client.
+L'object client.
 
 ## Deux réglages, pas un
 
-En environnement de test, le profileur est **activé mais ne collecte rien** :
+En environment de test, le profiler est **activé mais ne collecte rien** :
 
 ```yaml
 when@test:
@@ -47,36 +47,36 @@ $crawler = $client->request('GET', '/lucky/number');
 $profile = $client->getProfile();
 ```
 
-Le point que l'examen teste : **`enableProfiler()` n'active pas le profileur**,
+Le point que l'examen teste : **`enableProfiler()` n'active pas le profiler**,
 qui doit déjà l'être par configuration. Elle active seulement la **collecte**,
-et seulement **pour la requête suivante** — une deuxième requête exige un
+et seulement **pour la Request suivante** — une deuxième Request exige un
 nouvel appel. Lu dans `KernelBrowser::enableProfiler()` : sans service
 `profiler`, l'appel ne fait rien.
 
 Exécuté avec FrameworkBundle 8.0.15, `GET /hello` sous trois configurations :
 
-| Configuration | Requête | `getProfile()` |
+| Configuration | Request | `getProfile()` |
 |---|---|---|
-| aucune clé `profiler` | après `enableProfiler()` | `false` |
+| aucune key `profiler` | après `enableProfiler()` | `false` |
 | `enabled: true, collect: false` | sans `enableProfiler()` | `null` |
 | idem | juste après `enableProfiler()` | un `Profile` |
-| idem | la requête suivante | `null` |
+| idem | la Request suivante | `null` |
 | `enabled: true, collect: true` | chacune | un `Profile` |
 
-`false` signifie « pas de profileur » ; `null`, « profileur présent, rien
-collecté pour cette réponse ». Lu dans `KernelBrowser::getProfile()`.
+`false` signifie « pas de profiler » ; `null`, « profiler présent, rien
+collecté pour cette Response ». Lu dans `KernelBrowser::getProfile()`.
 
-## Lire un collecteur
+## Lire un collector
 
 ```php
 $profile->getCollector('time')->getDuration();
 $profile->getToken();
 ```
 
-Exécuté : le profil liste notamment les collecteurs `request`, `command`,
+Exécuté : le profil liste notamment les collectors `request`, `command`,
 `time`, `memory` ; `getCollector('request')->getRoute()` rend `hello`.
 
-`getProfile()` rend `false` ou `null` si le profileur n'est pas disponible, d'où
+`getProfile()` rend `false` ou `null` si le profiler n'est pas disponible, d'où
 l'idiome de la documentation :
 
 ```php
@@ -85,30 +85,30 @@ if ($profile = $client->getProfile()) {
 }
 ```
 
-`getToken()` sert à retrouver la requête dans le profileur web après coup, en
+`getToken()` sert à retrouver la Request dans le profiler web après coup, en
 l'incluant dans le message d'échec de l'assertion.
 
 ## Le cadre d'usage
 
-La documentation est nette : un test fonctionnel devrait **tester la réponse**.
-Le profileur sert aux cas où la métrique est l'objet du test — un budget de
-requêtes, un temps passé dans le framework.
+La documentation est nette : un functional test devrait **tester la Response**.
+Le profiler sert aux cas où la métrique est l'object du test — un budget de
+Requests, un temps passé dans le framework.
 
 ## Pièges d'examen
 
-**`enableProfiler()` n'active pas le profileur** ; elle active la collecte.
+**`enableProfiler()` n'active pas le profiler** ; elle active la collecte.
 
-**Elle ne vaut que pour la requête suivante.**
+**Elle ne vaut que pour la Request suivante.**
 
 **`getProfile()` peut rendre `false` ou `null`** — le tester. `false` : pas
-de profileur ; `null` : rien collecté.
+de profiler ; `null` : rien collecté.
 
-**`collect: true` collecte à chaque requête**, sans `enableProfiler()`.
+**`collect: true` collecte à chaque Request**, sans `enableProfiler()`.
 
 ## Points clés
 
 - En test : `enabled: true`, `collect: false`.
-- `enableProfiler()` avant la requête, `getProfile()` après.
+- `enableProfiler()` avant la Request, `getProfile()` après.
 - `getCollector('…')` pour une métrique, `getToken()` pour retrouver la trace.
 
 ## Sources officielles

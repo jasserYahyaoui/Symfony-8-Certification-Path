@@ -18,13 +18,13 @@ flashcards:
     front: "Twig : dans quel ordre {{ foo.bar }} est-il résolu ?"
     back: "foo['bar'], puis foo->bar, la constante Foo::bar, foo->bar(), getBar(), isBar(), hasBar(), __call(), sinon null."
     explanation: >-
-      Le tableau est essayé en premier, avant la propriété : un objet qui
-      implémente ArrayAccess verra donc l'accès tableau gagner. La dernière
+      L'array est essayé en premier, avant la property : un object qui
+      implémente ArrayAccess verra donc l'accès array gagner. La dernière
       étape lève une Twig\Error\RuntimeError au lieu de retourner null si
       l'option strict_variables est active.
     memorization_justification: >-
       Séquence ordonnée de six tentatives dont l'ordre décide du résultat, et
-      dont rien dans la syntaxe du gabarit ne donne d'indice.
+      dont rien dans la syntaxe du template ne donne d'indice.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst"
@@ -41,10 +41,10 @@ flashcards:
     back: "Une TypeError. Le + est l'addition ; la concaténation s'écrit ~."
     explanation: >-
       Twig compile + vers le + de PHP. Sur PHP 8.4, la version exigée par
-      Symfony 8.0, additionner deux chaînes non numériques lève une TypeError.
+      Symfony 8.0, additionner deux strings non numériques lève une TypeError.
     memorization_justification: >-
       L'habitude de PHP et de JavaScript pousse à écrire +, et l'erreur ne se
-      voit qu'au rendu du gabarit.
+      voit qu'au rendu du template.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst"
@@ -58,13 +58,13 @@ flashcards:
     language: fr
     level: RECALL
     front: "Twig : quelle stratégie d'échappement pour data-x={{ v }}, sans guillemets ?"
-    back: "html_attr. La stratégie html ne couvre que le corps HTML et les attributs entre guillemets."
+    back: "html_attr. La stratégie html ne couvre que le body HTML et les attributes entre guillemets."
     explanation: >-
       Les cinq stratégies sont html, js, css, url et html_attr. url ne vaut que
       pour un sous-composant d'URI, jamais pour une URI entière.
     memorization_justification: >-
       La stratégie par défaut semble suffire partout ; la faille ouverte par un
-      attribut sans guillemets ne produit aucun signe visible.
+      attribute sans guillemets ne produit aucun signe visible.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/filters/escape.rst"
@@ -77,11 +77,11 @@ flashcards:
     official_item: OIT-g3p8wdtww344
     language: fr
     level: RECALL
-    front: "Twig : que devient le contenu écrit hors d'un bloc dans un gabarit qui étend un parent ?"
+    front: "Twig : que devient le contenu écrit hors d'un block dans un template qui étend un parent ?"
     back: "Une Twig\\Error\\SyntaxError en Twig 3.22 : content outside Twig blocks. Seuls les blancs sont tolérés."
     explanation: >-
       Parser::filterBodyNodes() rejette tout texte non blanc et tout {{ }} hors
-      bloc dans un gabarit enfant ; une balise qui n'affiche rien, comme set,
+      block dans un template enfant ; un tag qui n'affiche rien, comme set,
       reste permise.
     memorization_justification: >-
       On croit le contenu silencieusement perdu ; Twig 3.22 refuse de compiler.
@@ -97,8 +97,8 @@ flashcards:
     official_item: OIT-84j0qwkbcgq6
     language: fr
     level: RECALL
-    front: "Twig : loop.index commence à quelle valeur, et quelles variables de loop exigent un tableau ?"
-    back: "loop.index commence à 1. length, revindex, revindex0 et last exigent un tableau ou un Countable."
+    front: "Twig : loop.index commence à quelle valeur, et quelles variables de loop exigent un array ?"
+    back: "loop.index commence à 1. length, revindex, revindex0 et last exigent un array ou un Countable."
     explanation: >-
       loop.index0 commence à 0. Sur un itérateur ordinaire, Twig ne peut pas
       connaître la taille sans consommer la séquence, donc ces quatre variables
@@ -138,14 +138,14 @@ flashcards:
     official_item: OIT-sd08j04k60m0
     language: fr
     level: RECALL
-    front: "Twig : quel est l'ordre des arguments du filtre trans ?"
-    back: "trans(paramètres, domaine, locale). Domaine par défaut : messages."
+    front: "Twig : quel est l'ordre des arguments du filter trans ?"
+    back: "trans(parameters, domaine, locale). Domaine par défaut : messages."
     explanation: >-
-      Les paramètres classiques s'écrivent %nom% ; ICU utilise {nom} et exige un
-      fichier suffixé +intl-icu.
+      Les parameters classiques s'écrivent %nom% ; ICU utilise {nom} et exige un
+      file suffixé +intl-icu.
     memorization_justification: >-
       Trois arguments positionnels dont deux facultatifs ; inverser domaine et
-      locale produit une traduction manquante plutôt qu'une erreur.
+      locale produit une translation manquante plutôt qu'une erreur.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/twig_reference.rst"
@@ -158,13 +158,13 @@ flashcards:
     official_item: OIT-30gnb617ksex
     language: fr
     level: RECALL
-    front: "Twig : dans quel type de chaîne l'interpolation #{…} fonctionne-t-elle ?"
-    back: "Uniquement dans une chaîne à guillemets doubles. En guillemets simples, c'est du texte littéral."
+    front: "Twig : dans quel type de string l'interpolation #{…} fonctionne-t-elle ?"
+    back: "Uniquement dans une string à guillemets doubles. En guillemets simples, c'est du texte littéral."
     explanation: >-
       Le choix des guillemets n'a aucun effet sur les performances : il ne décide
       que de cela. Une barre oblique inverse échappe l'interpolation.
     memorization_justification: >-
-      Contrainte arbitraire, sans erreur à la clé : la chaîne s'affiche
+      Constraint arbitraire, sans erreur à la key : la string s'affiche
       littéralement, ce qui se remarque tard.
     verification_status: VERIFIED
     official_sources:
@@ -179,13 +179,13 @@ flashcards:
     language: fr
     level: RECALL
     front: "Twig : où s'affiche {% dump x %}, et où {{ dump(x) }} ?"
-    back: "La balise envoie à la barre de débogage ; la fonction affiche dans la page."
+    back: "Le tag envoie à la debug toolbar ; la function affiche dans la page."
     explanation: >-
-      Les deux ne sont disponibles qu'en environnement dev et test. En prod,
+      Les deux ne sont disponibles qu'en environment dev et test. En prod,
       l'appel produit une erreur PHP, ce qui est délibéré.
     memorization_justification: >-
       Deux écritures du même nom pour deux destinations opposées ; se tromper
-      casse la mise en page ou fait chercher une sortie qui n'apparaît pas.
+      casse la mise en page ou fait chercher un output qui n'apparaît pas.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst"
@@ -197,11 +197,11 @@ flashcards:
     official_item: OIT-b9x8az2bx4t8
     language: fr
     level: RECALL
-    front: 'Twig dans Symfony : lequel des trois paquets rend Twig configurable ?'
+    front: 'Twig dans Symfony : lequel des trois packages rend Twig configurable ?'
     back: TwigBundle — c'est lui qui tire le moteur et le pont, et lui seul qui apporte la configuration.
     explanation: Le moteur (`twig/twig`), le pont et le bundle sont distincts. Chercher la configuration
       dans le moteur, c'est ne pas la trouver.
-    memorization_justification: Partage arbitraire entre trois paquets dont un seul s'installe.
+    memorization_justification: Partage arbitraire entre trois packages dont un seul s'installe.
     verification_status: VERIFIED
     official_sources:
     - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst
@@ -213,11 +213,11 @@ flashcards:
     official_item: OIT-dp7w7s85wxjg
     language: fr
     level: RECALL
-    front: 'Twig : que vaut `app.user` sur une page publique sans authentification ?'
-    back: '`null`. Lire une de ses propriétés lève une RuntimeError en mode strict — dev par défaut — et rend null sinon.'
+    front: 'Twig : que vaut `app.user` sur une page publique sans authentication ?'
+    back: '`null`. Lire une de ses properties lève une RuntimeError en mode strict — dev par défaut — et rend null sinon.'
     explanation: '`app.session` peut de même valoir `null`, et la lire démarre la session, avec l''effet
       que cela a sur la cachabilité de la page.'
-    memorization_justification: La même ligne de gabarit échoue en dev et passe en silence en prod, selon strict_variables.
+    memorization_justification: La même ligne de template échoue en dev et passe en silence en prod, selon strict_variables.
     verification_status: VERIFIED
     official_sources:
     - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst
@@ -229,11 +229,11 @@ flashcards:
     official_item: OIT-sqekx9pkbe5v
     language: fr
     level: UNDERSTANDING
-    front: 'Twig : qu''est-ce qui décide qu''un élément est un filtre plutôt qu''une fonction ?'
-    back: 'La source de la valeur : on part d''une valeur existante, c''est un filtre ; on part de rien,
-      c''est une fonction.'
+    front: 'Twig : qu''est-ce qui décide qu''un élément est un filter plutôt qu''une function ?'
+    back: 'La source de la valeur : on part d''une valeur existante, c''est un filter ; on part de rien,
+      c''est une function.'
     explanation: 'Le même mot peut exister sous les deux formes. Les ajouts de Symfony — route, asset,
-      traduction, formulaire — viennent du pont, pas du moteur : ils n''existent pas dans un Twig installé
+      translation, form — viennent du pont, pas du moteur : ils n''existent pas dans un Twig installé
       seul.'
     memorization_justification: 'Critère de classement plutôt qu''une liste à apprendre : c''est lui
       qui tranche pour un nom jamais vu.'
@@ -248,10 +248,10 @@ flashcards:
     official_item: OIT-ds2p5d4eg0pq
     language: fr
     level: TRAP
-    front: 'Twig : par défaut, un gabarit inclus voit-il le contexte de l''appelant ?'
+    front: 'Twig : par défaut, un template inclus voit-il le contexte de l''appelant ?'
     back: Oui, tout le contexte. Le mot `only` est ce qui le restreint.
     explanation: 'C''est un piège : le fragment marche par accident tant que l''appelant possède la
-      variable, puis casse ailleurs. Un gabarit absent fait par ailleurs échouer l''inclusion, sauf
+      variable, puis casse ailleurs. Un template absent fait par ailleurs échouer l''inclusion, sauf
       mention explicite l''autorisant.'
     memorization_justification: Défaut permissif qui produit une panne différée, loin du code fautif.
     verification_status: VERIFIED
@@ -265,12 +265,12 @@ flashcards:
     official_item: OIT-yh6zx9shv9vs
     language: fr
     level: TRAP
-    front: 'Twig : la fonction `path()` peut-elle retourner une URL absolue ?'
-    back: Oui — si la route exige un schéma différent de celui de la requête courante, la sortie devient
+    front: 'Twig : la function `path()` peut-elle retourner une URL absolue ?'
+    back: Oui — si la route exige un schéma différent de celui de la Request courante, l'output devient
       absolue.
     explanation: >-
-      `UrlGenerator` force une URL absolue quand le schéma exigé diffère, et une référence `//hôte/…` quand l'hôte de la route diffère. Les deux fonctions partagent le nom de route et les paramètres, mais pas le sens de leur troisième argument.
-    memorization_justification: Exception au comportement que le nom de la fonction annonce.
+      `UrlGenerator` force une URL absolue quand le schéma exigé diffère, et une référence `//hôte/…` quand l'hôte de la route diffère. Les deux functions partagent le nom de route et les parameters, mais pas le sens de leur troisième argument.
+    memorization_justification: Exception au comportement que le nom de la function annonce.
     verification_status: VERIFIED
     official_sources:
     - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/twig_reference.rst
@@ -282,11 +282,11 @@ flashcards:
     official_item: OIT-c34hn4px3czj
     language: fr
     level: TRAP
-    front: 'Twig : rendre un contrôleur depuis un gabarit, est-ce un appel de fonction ?'
-    back: 'Non — cela déclenche une sous-requête : le noyau retraverse son cycle pour chaque fragment.'
+    front: 'Twig : rendre un controller depuis un template, est-ce un appel de function ?'
+    back: 'Non — cela déclenche une sub-Request : le kernel retraverse son cycle pour chaque fragment.'
     explanation: En semer partout se paie. Les fragments passent par une URL interne réservée, configurable,
       qui n'est pas une route ordinaire de l'application.
-    memorization_justification: Coût invisible à la lecture du gabarit, et qui décide les questions
+    memorization_justification: Coût invisible à la lecture du template, et qui décide les questions
       de performance.
     verification_status: VERIFIED
     official_sources:
@@ -299,12 +299,12 @@ flashcards:
     official_item: OIT-tw3xaqbz8xjy
     language: fr
     level: TRAP
-    front: 'Twig : le chemin donné à `asset()` doit-il commencer par une barre ?'
-    back: Non — il est relatif au répertoire public. Une barre en tête casse le préfixe de base.
+    front: 'Twig : le path donné à `asset()` doit-il commencer par une barre ?'
+    back: Non — il est relatif au directory public. Une barre en tête casse le préfixe de base.
     explanation: 'Le site cesse alors de fonctionner dès qu''il n''est pas servi à la racine du domaine.
-      La fonction applique le préfixe *et* la stratégie de version : un chemin écrit en dur perd les
+      La function applique le préfixe *et* la stratégie de version : un path écrit en dur perd les
       deux.'
-    memorization_justification: Détail de syntaxe dont l'effet ne se voit qu'en déploiement sous-répertoire.
+    memorization_justification: Détail de syntaxe dont l'effet ne se voit qu'en deployment sous-répertoire.
     verification_status: VERIFIED
     official_sources:
     - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/twig_reference.rst
@@ -317,12 +317,12 @@ flashcards:
     official_item: OIT-b9x8az2bx4t8
     language: fr
     level: RECALL
-    front: "Symfony 8.0 : quelle est la valeur par défaut de twig.strict_variables ?"
+    front: "Symfony 8.0 : quelle est la default value de twig.strict_variables ?"
     back: "%kernel.debug% : stricte en dev, permissive en prod."
     explanation: >-
       Une variable absente lève une RuntimeError en développement et rend null en production si l'option n'est pas fixée.
     memorization_justification: >-
-      Une valeur par défaut qui change d'un environnement à l'autre se retient à part.
+      Une default value qui change d'un environment à l'autre se retient à part.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/TwigBundle/DependencyInjection/Configuration.php"
@@ -336,10 +336,10 @@ flashcards:
     official_item: OIT-b9x8az2bx4t8
     language: fr
     level: RECALL
-    front: "Symfony : dans quel répertoire surcharger le gabarit user/profile.html.twig d'AcmeBlogBundle ?"
+    front: "Symfony : dans quel directory surcharger le template user/profile.html.twig d'AcmeBlogBundle ?"
     back: "templates/bundles/AcmeBlogBundle/user/profile.html.twig"
     explanation: >-
-      Le répertoire de surcharge garde le suffixe Bundle, contrairement à l'espace de noms @AcmeBlog.
+      Le directory de surcharge garde le suffixe Bundle, contrairement au namespace @AcmeBlog.
     memorization_justification: >-
       Deux conventions de nommage voisines, faciles à croiser.
     verification_status: VERIFIED
@@ -355,10 +355,10 @@ flashcards:
     official_item: OIT-b9x8az2bx4t8
     language: fr
     level: RECALL
-    front: "Symfony : sous quel espace de noms atteindre le gabarit d'origine d'un bundle dont on a surchargé un fichier ?"
-    back: "@!AcmeBlog — le point d'exclamation désigne le répertoire du bundle seul."
+    front: "Symfony : sous quel namespace atteindre le template d'origine d'un bundle dont on a surchargé un file ?"
+    back: "@!AcmeBlog — le point d'exclamation désigne le directory du bundle seul."
     explanation: >-
-      TwigExtension enregistre le répertoire du bundle une seconde fois sous !Nom, ce qui permet à la surcharge d'étendre l'original.
+      TwigExtension enregistre le directory du bundle une seconde fois sous !Nom, ce qui permet à la surcharge d'étendre l'original.
     memorization_justification: >-
       Syntaxe rare, qu'aucun autre mécanisme n'utilise.
     verification_status: VERIFIED
@@ -374,12 +374,12 @@ flashcards:
     official_item: OIT-b9x8az2bx4t8
     language: fr
     level: UNDERSTANDING
-    front: "Symfony : une variable mal orthographiée lève une erreur en dev mais rend une chaîne vide en prod. Pourquoi ?"
+    front: "Symfony : une variable mal orthographiée lève une erreur en dev mais rend une string vide en prod. Pourquoi ?"
     back: "strict_variables vaut %kernel.debug% par défaut : vraie en dev, fausse en prod."
     explanation: >-
       Sans mode strict, Twig retourne null pour une variable absente, et null s'affiche vide.
     memorization_justification: >-
-      Relier un symptôme d'environnement à la valeur par défaut qui l'explique.
+      Relier un symptôme d'environment à la default value qui l'explique.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/TwigBundle/DependencyInjection/Configuration.php"
@@ -393,10 +393,10 @@ flashcards:
     official_item: OIT-b9x8az2bx4t8
     language: fr
     level: UNDERSTANDING
-    front: "Symfony : comment Twig choisit-il entre templates/bundles/AcmeBlogBundle/ et le répertoire du bundle ?"
+    front: "Symfony : comment Twig choisit-il entre templates/bundles/AcmeBlogBundle/ et le directory du bundle ?"
     back: "Le premier, s'il existe, est enregistré avant le second pour l'espace @AcmeBlog : il gagne."
     explanation: >-
-      Le répertoire du bundle reste consulté pour les fichiers non surchargés, et seul sous @!AcmeBlog.
+      Le directory du bundle reste consulté pour les files non surchargés, et seul sous @!AcmeBlog.
     memorization_justification: >-
       L'ordre d'enregistrement explique la surcharge sans toucher au bundle.
     verification_status: VERIFIED
@@ -412,12 +412,12 @@ flashcards:
     official_item: OIT-b9x8az2bx4t8
     language: fr
     level: UNDERSTANDING
-    front: "Symfony : que fait une entrée de twig.paths sans espace de noms ?"
-    back: "Elle ajoute le répertoire à l'espace principal, à côté de templates/."
+    front: "Symfony : que fait une entrée de twig.paths sans namespace ?"
+    back: "Elle ajoute le directory à l'espace principal, à côté de templates/."
     explanation: >-
-      La clé est le chemin, la valeur l'espace de noms ; une valeur absente laisse le gabarit accessible sans préfixe @.
+      La key est le path, la valeur le namespace ; une valeur absente laisse le template accessible sans préfixe @.
     memorization_justification: >-
-      On croit l'espace de noms obligatoire parce que les exemples en montrent toujours un.
+      On croit le namespace obligatoire parce que les exemples en montrent toujours un.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/TwigBundle/DependencyInjection/Configuration.php"
@@ -432,9 +432,9 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "Symfony : que signifie twig.globals: { mailer: '@app.mailer' } ?"
-    back: "La globale mailer est le service app.mailer, pas la chaîne @app.mailer."
+    back: "La globale mailer est le service app.mailer, pas la string @app.mailer."
     explanation: >-
-      Un @ en tête désigne un service ; @@ l'échappe et produit une chaîne qui commence par @.
+      Un @ en tête désigne un service ; @@ l'échappe et produit une string qui commence par @.
     memorization_justification: >-
       La même valeur change de nature selon son premier caractère.
     verification_status: VERIFIED
@@ -450,7 +450,7 @@ flashcards:
     official_item: OIT-b9x8az2bx4t8
     language: fr
     level: APPLICATION
-    front: "Symfony : dans la surcharge d'un gabarit de bundle, écrivez l'héritage de l'original."
+    front: "Symfony : dans la surcharge d'un template de bundle, écrivez l'inheritance de l'original."
     back: "{% extends '@!AcmeBlog/user/profile.html.twig' %}"
     explanation: >-
       Sans le point d'exclamation, @AcmeBlog désignerait la surcharge elle-même, qui s'étendrait en boucle.
@@ -469,10 +469,10 @@ flashcards:
     official_item: OIT-b9x8az2bx4t8
     language: fr
     level: APPLICATION
-    front: "Symfony : quel fichier fournit réellement le gabarit @AcmeBlog/user/profile.html.twig ?"
+    front: "Symfony : quel file fournit réellement le template @AcmeBlog/user/profile.html.twig ?"
     back: "php bin/console debug:twig @AcmeBlog/user/profile.html.twig"
     explanation: >-
-      Avec un nom de gabarit en argument, debug:twig indique le fichier qui le fournit parmi les chemins enregistrés.
+      Avec un nom de template en argument, debug:twig indique le file qui le fournit parmi les paths enregistrés.
     memorization_justification: >-
       Diagnostiquer une surcharge qui ne prend pas.
     verification_status: VERIFIED
@@ -491,9 +491,9 @@ flashcards:
     front: "Piège : « strict_variables est désactivée par défaut dans Symfony »."
     back: "Faux : elle vaut %kernel.debug%, donc activée en dev."
     explanation: >-
-      C'est Twig seul qui la désactive par défaut ; TwigBundle la lie au mode debug du noyau.
+      C'est Twig seul qui la désactive par défaut ; TwigBundle la lie au mode debug du kernel.
     memorization_justification: >-
-      La valeur par défaut du moteur et celle du bundle diffèrent.
+      La default value du moteur et celle du bundle diffèrent.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/TwigBundle/DependencyInjection/Configuration.php"
@@ -513,10 +513,10 @@ flashcards:
     official_item: OIT-b9x8az2bx4t8
     language: fr
     level: TRAP
-    front: "Piège : « le répertoire de surcharge d'un bundle s'écrit comme son espace de noms, templates/bundles/AcmeBlog/ »."
+    front: "Piège : « le directory de surcharge d'un bundle s'écrit comme son namespace, templates/bundles/AcmeBlog/ »."
     back: "Faux : il garde le suffixe, templates/bundles/AcmeBlogBundle/."
     explanation: >-
-      L'espace de noms retire Bundle ; le répertoire de surcharge prend le nom complet du bundle.
+      Le namespace retire Bundle ; le directory de surcharge prend le nom complet du bundle.
     memorization_justification: >-
       La proximité des deux formes induit l'erreur.
     verification_status: VERIFIED
@@ -532,7 +532,7 @@ flashcards:
     official_item: OIT-vhd83fn6w9wy
     language: fr
     level: RECALL
-    front: "Twig 3.22 : comment lire un attribut dont le nom est dans une variable, sans la fonction attribute() ?"
+    front: "Twig 3.22 : comment lire un attribute dont le nom est dans une variable, sans la function attribute() ?"
     back: "{{ user.(name) }} — une expression entre parenthèses après le point, depuis Twig 3.15."
     explanation: >-
       attribute() est dépréciée depuis 3.15 ; la même syntaxe sert pour un nom à tiret : user.('first-name').
@@ -557,12 +557,12 @@ flashcards:
     official_item: OIT-vhd83fn6w9wy
     language: fr
     level: RECALL
-    front: "Twig 3.22 : depuis quelle version le filtre spaceless est-il déprécié ?"
+    front: "Twig 3.22 : depuis quelle version le filter spaceless est-il déprécié ?"
     back: "Twig 3.12."
     explanation: >-
-      La documentation renvoie aux modificateurs de blanc - et ~ des balises.
+      La documentation renvoie aux modificateurs de blanc - et ~ des tags.
     memorization_justification: >-
-      Un filtre encore très présent dans les exemples anciens.
+      Un filter encore très présent dans les exemples anciens.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/filters/spaceless.rst"
@@ -576,12 +576,12 @@ flashcards:
     official_item: OIT-vhd83fn6w9wy
     language: fr
     level: RECALL
-    front: "Twig : quels opérateurs testent une chaîne par son début, sa fin, ou une expression régulière ?"
+    front: "Twig : quels opérateurs testent une string par son début, sa fin, ou une expression régulière ?"
     back: "starts with, ends with et matches."
     explanation: >-
       Ils s'écrivent en mots, comme and, or et not.
     memorization_justification: >-
-      Trois opérateurs en mots qu'on remplace à tort par des fonctions.
+      Trois opérateurs en mots qu'on remplace à tort par des functions.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst"
@@ -595,7 +595,7 @@ flashcards:
     official_item: OIT-vhd83fn6w9wy
     language: fr
     level: UNDERSTANDING
-    front: "Twig : que fait {{ foo.bar }} sur un objet sans propriété, constante ni méthode bar, mais qui déclare __call() ?"
+    front: "Twig : que fait {{ foo.bar }} sur un object sans property, constante ni method bar, mais qui déclare __call() ?"
     back: "Il appelle __call('bar') au lieu de retourner null."
     explanation: >-
       CoreExtension::getAttribute() se rabat sur __call() après les get, is et has, avant l'échec final.
@@ -614,12 +614,12 @@ flashcards:
     official_item: OIT-vhd83fn6w9wy
     language: fr
     level: UNDERSTANDING
-    front: "Twig : une classe a isActive() et hasActive(). Laquelle {{ user.active }} appelle-t-il ?"
+    front: "Twig : une class a isActive() et hasActive(). Laquelle {{ user.active }} appelle-t-il ?"
     back: "isActive() : un hasser est écarté quand un isser du même nom existe."
     explanation: >-
       La précédence du moteur est get, puis is, puis has.
     memorization_justification: >-
-      Deux méthodes candidates, un seul gagnant.
+      Deux methods candidates, un seul gagnant.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/src/Extension/CoreExtension.php"
@@ -633,10 +633,10 @@ flashcards:
     official_item: OIT-vhd83fn6w9wy
     language: fr
     level: UNDERSTANDING
-    front: "Twig : quelle différence entre les modificateurs - et ~ d'une balise ?"
+    front: "Twig : quelle différence entre les modificateurs - et ~ d'un tag ?"
     back: "- supprime tout le blanc, sauts de ligne compris ; ~ garde les sauts de ligne."
     explanation: >-
-      Placé à droite, ~ désactive aussi le retrait automatique du premier saut de ligne qui suit une balise.
+      Placé à droite, ~ désactive aussi le retrait automatique du premier saut de ligne qui suit un tag.
     memorization_justification: >-
       Deux caractères voisins, deux portées différentes.
     verification_status: VERIFIED
@@ -674,9 +674,9 @@ flashcards:
     front: "Twig : testez si une des tailles de sizes dépasse 38."
     back: "{% if sizes has some v => v > 38 %}"
     explanation: >-
-      has some prend une fonction fléchée qui reçoit chaque valeur.
+      has some prend une function fléchée qui reçoit chaque valeur.
     memorization_justification: >-
-      Combiner opérateur d'itérable et fonction fléchée.
+      Combiner opérateur d'itérable et function fléchée.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst"
@@ -693,7 +693,7 @@ flashcards:
     front: "Twig : fusionnez la séquence more à la fin de [1, 2]."
     back: "{% set numbers = [1, 2, ...more] %}"
     explanation: >-
-      L'opérateur ... étend une séquence ou un tableau associatif depuis Twig
+      L'opérateur ... étend une séquence ou un array associatif depuis Twig
       3.7 (CHANGELOG 3.7.0) ; Twig 3.15 l'a étendu aux arguments d'un appel.
     memorization_justification: >-
       Syntaxe récente, empruntée à PHP.
@@ -716,10 +716,10 @@ flashcards:
     official_item: OIT-vhd83fn6w9wy
     language: fr
     level: TRAP
-    front: "Piège : « en Twig 3.22, attribute(object, name) est la façon recommandée de lire un attribut dynamique »."
+    front: "Piège : « en Twig 3.22, attribute(object, name) est la façon recommandée de lire un attribute dynamique »."
     back: "Faux : attribute() est dépréciée depuis 3.15, au profit de object.(name)."
     explanation: >-
-      La fonction restera disponible en Twig 4.0 pour faciliter la migration, mais la documentation 3.22 la marque dépréciée.
+      La function restera disponible en Twig 4.0 pour faciliter la migration, mais la documentation 3.22 la marque dépréciée.
     memorization_justification: >-
       Les ressources anciennes la présentent encore comme la solution.
     verification_status: VERIFIED
@@ -736,7 +736,7 @@ flashcards:
     language: fr
     level: RECALL
     front: "Symfony : sur quelle valeur TwigBundle règle-t-il l'option autoescape de Twig ?"
-    back: "'name' : la stratégie est choisie d'après l'extension du gabarit."
+    back: "'name' : la stratégie est choisie d'après l'extension du template."
     explanation: >-
       Twig traduit 'name' en FileExtensionEscapingStrategy::guess(), qui lit l'extension après avoir retiré .twig.
     memorization_justification: >-
@@ -760,7 +760,7 @@ flashcards:
     official_item: OIT-ns36thqnh2jk
     language: fr
     level: RECALL
-    front: "Twig : quelle stratégie d'échappement s'applique par défaut à un gabarit data.json.twig ?"
+    front: "Twig : quelle stratégie d'échappement s'applique par défaut à un template data.json.twig ?"
     back: "js."
     explanation: >-
       Les extensions js et json donnent js, css donne css, txt n'échappe pas, toutes les autres donnent html.
@@ -779,12 +779,12 @@ flashcards:
     official_item: OIT-ns36thqnh2jk
     language: fr
     level: RECALL
-    front: "Twig : quelle méthode enregistre une stratégie d'échappement personnalisée ?"
+    front: "Twig : quelle method enregistre une stratégie d'échappement personnalisée ?"
     back: "EscaperRuntime::setEscaper(), depuis Twig 3.10."
     explanation: >-
-      Elle reçoit le nom de la stratégie et un callable qui prend la chaîne et le jeu de caractères.
+      Elle reçoit le nom de la stratégie et un callable qui prend la string et le jeu de caractères.
     memorization_justification: >-
-      Nom de classe précis, introduit récemment.
+      Nom de class précis, introduit récemment.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/filters/escape.rst"
@@ -799,7 +799,7 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "Symfony : pourquoi une variable affichée dans email.txt.twig n'est-elle pas échappée ?"
-    back: "L'extension txt désactive l'échappement automatique avec la stratégie 'name'."
+    back: "L'extension txt désactive l'auto-escaping avec la stratégie 'name'."
     explanation: >-
       Un courriel texte n'est pas du HTML : échapper y ferait apparaître des entités comme &amp;.
     memorization_justification: >-
@@ -826,7 +826,7 @@ flashcards:
     front: "Twig : {{ \u0022<strong>world</strong>\u0022 }} s'affiche-t-il échappé ?"
     back: "Non : Twig n'échappe pas les expressions statiques."
     explanation: >-
-      La documentation de la balise autoescape en donne l'exemple ; seules les valeurs dynamiques sont échappées.
+      La documentation du tag autoescape en donne l'exemple ; seules les valeurs dynamiques sont échappées.
     memorization_justification: >-
       On croit que tout ce qui passe par {{ }} est échappé.
     verification_status: VERIFIED
@@ -842,8 +842,8 @@ flashcards:
     official_item: OIT-ns36thqnh2jk
     language: fr
     level: UNDERSTANDING
-    front: "Twig : pourquoi var|escape(strategy) est-il échappé deux fois dans un bloc autoescape html, alors que var|escape('html') ne l'est pas ?"
-    back: "Twig n'évite le double échappement que si la stratégie du filtre est écrite en dur et identique."
+    front: "Twig : pourquoi var|escape(strategy) est-il échappé deux fois dans un block autoescape html, alors que var|escape('html') ne l'est pas ?"
+    back: "Twig n'évite le double échappement que si la stratégie du filter est écrite en dur et identique."
     explanation: >-
       Avec une variable, la stratégie n'est connue qu'à l'exécution ; la documentation conseille d'ajouter |raw.
     memorization_justification: >-
@@ -862,11 +862,11 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "Twig : {{ var|raw|upper }} affiche-t-il var sans l'échapper ?"
-    back: "Non : raw n'agit que s'il est le dernier filtre appliqué."
+    back: "Non : raw n'agit que s'il est le dernier filter appliqué."
     explanation: >-
-      Un filtre appliqué après raw produit une nouvelle valeur, de nouveau soumise à l'échappement.
+      Un filter appliqué après raw produit une nouvelle valeur, de nouveau soumise à l'échappement.
     memorization_justification: >-
-      L'ordre des filtres décide du résultat.
+      L'ordre des filters décide du résultat.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/filters/raw.rst"
@@ -880,12 +880,12 @@ flashcards:
     official_item: OIT-ns36thqnh2jk
     language: fr
     level: APPLICATION
-    front: "Twig : échappez en JavaScript tout le contenu d'un bloc."
+    front: "Twig : échappez en JavaScript tout le contenu d'un block."
     back: "{% autoescape 'js' %} … {% endautoescape %}"
     explanation: >-
-      Sans argument, la balise applique la stratégie html ; autoescape false coupe l'échappement.
+      Sans argument, le tag applique la stratégie html ; autoescape false coupe l'échappement.
     memorization_justification: >-
-      Appliquer une stratégie à un bloc plutôt qu'à chaque variable.
+      Appliquer une stratégie à un block plutôt qu'à chaque variable.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/autoescape.rst"
@@ -899,7 +899,7 @@ flashcards:
     official_item: OIT-ns36thqnh2jk
     language: fr
     level: APPLICATION
-    front: "Twig : insérez content dans l'attribut data-content de la façon que recommande la documentation."
+    front: "Twig : insérez content dans l'attribute data-content de la façon que recommande la documentation."
     back: "<p data-content=\u0022{{ content|e('html') }}\u0022> — entre guillemets, stratégie html."
     explanation: >-
       html_attr sur une valeur sans guillemets fonctionne aussi, mais la documentation la dit moins performante.
@@ -918,8 +918,8 @@ flashcards:
     official_item: OIT-ns36thqnh2jk
     language: fr
     level: TRAP
-    front: "Piège : « dans Symfony, l'échappement automatique utilise toujours la stratégie html »."
-    back: "Faux : elle dépend de l'extension du gabarit ; un .txt.twig n'est pas échappé."
+    front: "Piège : « dans Symfony, l'auto-escaping utilise toujours la stratégie html »."
+    back: "Faux : elle dépend de l'extension du template ; un .txt.twig n'est pas échappé."
     explanation: >-
       TwigBundle règle autoescape sur 'name'.
     memorization_justification: >-
@@ -946,7 +946,7 @@ flashcards:
     front: "Piège : « une macro qui retourne du HTML est échappée à l'affichage »."
     back: "Faux : les macros et parent() retournent un contenu considéré comme sûr."
     explanation: >-
-      La documentation de la balise autoescape l'énonce pour les fonctions qui retournent du gabarit.
+      La documentation du tag autoescape l'énonce pour les functions qui retournent du template.
     memorization_justification: >-
       On applique à une macro la règle des variables.
     verification_status: VERIFIED
@@ -962,10 +962,10 @@ flashcards:
     official_item: OIT-g3p8wdtww344
     language: fr
     level: RECALL
-    front: "Twig 3.22 : que lève une seconde balise extends dans le même gabarit ?"
+    front: "Twig 3.22 : que lève une seconde tag extends dans le même template ?"
     back: "Une SyntaxError : Multiple extends tags are forbidden."
     explanation: >-
-      L'héritage est simple ; extends est aussi refusée dans un bloc ou une macro.
+      L'inheritance est simple ; extends est aussi refusée dans un block ou une macro.
     memorization_justification: >-
       Message d'erreur exact, que le code fixe.
     verification_status: VERIFIED
@@ -981,12 +981,12 @@ flashcards:
     official_item: OIT-g3p8wdtww344
     language: fr
     level: RECALL
-    front: "Twig : quelle fonction réaffiche un bloc déjà rendu par sa balise ?"
+    front: "Twig : quelle function réaffiche un block déjà rendu par son tag ?"
     back: "block('nom') — par exemple {{ block('title') }} dans un h1."
     explanation: >-
-      La balise block n'affiche qu'une fois ; la fonction peut aussi lire un bloc d'un autre gabarit, block('title', 'common.html.twig').
+      Le tag block n'affiche qu'une fois ; la function peut aussi lire un block d'un autre template, block('title', 'common.html.twig').
     memorization_justification: >-
-      Balise et fonction portent le même nom, mais n'ont pas le même rôle.
+      Tag et function portent le même nom, mais n'ont pas le même role.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/functions/block.rst"
@@ -1007,9 +1007,9 @@ flashcards:
     language: fr
     level: RECALL
     front: "Twig : avec {% extends ['layout.html.twig', 'base.html.twig'] %}, quel parent est retenu ?"
-    back: "Le premier gabarit de la liste qui existe."
+    back: "Le premier template de la liste qui existe."
     explanation: >-
-      C'est l'une des formes de l'héritage dynamique, avec la variable et le ternaire.
+      C'est l'une des formes de l'inheritance dynamique, avec la variable et le ternaire.
     memorization_justification: >-
       Une liste ne signifie pas plusieurs parents.
     verification_status: VERIFIED
@@ -1025,10 +1025,10 @@ flashcards:
     official_item: OIT-g3p8wdtww344
     language: fr
     level: UNDERSTANDING
-    front: "Twig : un bloc est placé dans {% if posts is empty %}. Est-il défini seulement quand la condition est vraie ?"
-    back: "Non : le bloc est toujours défini ; seul son affichage suit la condition."
+    front: "Twig : un block est placé dans {% if posts is empty %}. Est-il défini seulement quand la condition est vraie ?"
+    back: "Non : le block est toujours défini ; seul son affichage suit la condition."
     explanation: >-
-      La documentation recommande de mettre le if dans le bloc pour conditionner le contenu.
+      La documentation recommande de mettre le if dans le block pour conditionner le contenu.
     memorization_justification: >-
       Le piège que la documentation illustre expressément.
     verification_status: VERIFIED
@@ -1044,10 +1044,10 @@ flashcards:
     official_item: OIT-g3p8wdtww344
     language: fr
     level: UNDERSTANDING
-    front: "Twig : pourquoi deux blocs de même nom sont-ils interdits dans un gabarit ?"
-    back: "Un bloc est à la fois le trou à remplir et son contenu ; deux blocs de même nom rendraient l'héritage ambigu."
+    front: "Twig : pourquoi deux blocks de même nom sont-ils interdits dans un template ?"
+    back: "Un block est à la fois le trou à remplir et son contenu ; deux blocks de même nom rendraient l'inheritance ambigu."
     explanation: >-
-      La documentation explique la limite par ce double rôle ; block() permet d'afficher plusieurs fois le même bloc.
+      La documentation explique la limite par ce double role ; block() permet d'afficher plusieurs fois le même block.
     memorization_justification: >-
       Comprendre la raison donne la solution de contournement.
     verification_status: VERIFIED
@@ -1063,10 +1063,10 @@ flashcards:
     official_item: OIT-g3p8wdtww344
     language: fr
     level: UNDERSTANDING
-    front: "Twig : que fait {% use 'blocks.html.twig' %} des blocs importés ?"
-    back: "Il les rend disponibles comme s'ils étaient définis dans le gabarit, sans les afficher."
+    front: "Twig : que fait {% use 'blocks.html.twig' %} des blocks importés ?"
+    back: "Il les rend disponibles comme s'ils étaient définis dans le template, sans les afficher."
     explanation: >-
-      Un bloc du gabarit courant de même nom l'emporte ; with ... as renomme à l'import.
+      Un block du template courant de même nom l'emporte ; with ... as renomme à l'import.
     memorization_justification: >-
       On confond use avec include, qui, lui, affiche.
     verification_status: VERIFIED
@@ -1082,12 +1082,12 @@ flashcards:
     official_item: OIT-g3p8wdtww344
     language: fr
     level: UNDERSTANDING
-    front: "Twig : un {% set %} écrit hors bloc dans un gabarit enfant lève-t-il une erreur ?"
-    back: "Non : seules les sorties hors bloc sont refusées, texte non blanc ou {{ }}."
+    front: "Twig : un {% set %} écrit hors block dans un template enfant lève-t-il une erreur ?"
+    back: "Non : seules les outputs hors block sont refusées, texte non blanc ou {{ }}."
     explanation: >-
       Parser::filterBodyNodes() ne rejette que les nœuds d'affichage ; une affectation n'affiche rien.
     memorization_justification: >-
-      Nuance de la règle hors bloc.
+      Nuance de la règle hors block.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/src/Parser.php"
@@ -1106,7 +1106,7 @@ flashcards:
     explanation: >-
       Le parent est une expression, donc un ternaire convient.
     memorization_justification: >-
-      Héritage conditionnel en une ligne.
+      Inheritance conditionnel en une ligne.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/extends.rst"
@@ -1120,12 +1120,12 @@ flashcards:
     official_item: OIT-g3p8wdtww344
     language: fr
     level: APPLICATION
-    front: "Twig : affichez le pied de page seulement si le bloc footer existe."
+    front: "Twig : affichez le pied de page seulement si le block footer existe."
     back: "{% if block('footer') is defined %} … {% endif %}"
     explanation: >-
-      Le test defined appliqué à la fonction block() vérifie l'existence du bloc dans le gabarit courant.
+      Le test defined appliqué à la function block() vérifie l'existence du block dans le template courant.
     memorization_justification: >-
-      Tester un bloc avant de l'afficher.
+      Tester un block avant de l'afficher.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/functions/block.rst"
@@ -1139,12 +1139,12 @@ flashcards:
     official_item: OIT-g3p8wdtww344
     language: fr
     level: TRAP
-    front: "Piège : « on peut placer {% extends %} dans un bloc pour changer de parent selon la section »."
+    front: "Piège : « on peut placer {% extends %} dans un block pour changer de parent selon la section »."
     back: "Faux : SyntaxError, Cannot use extend in a block."
     explanation: >-
       Pour choisir le parent selon une condition, extends accepte une expression : variable, liste ou ternaire.
     memorization_justification: >-
-      L'envie de conditionner l'héritage mène au mauvais outil.
+      L'envie de conditionner l'inheritance mène au mauvais outil.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/src/TokenParser/ExtendsTokenParser.php"
@@ -1163,12 +1163,12 @@ flashcards:
     official_item: OIT-g3p8wdtww344
     language: fr
     level: TRAP
-    front: "Piège : « {% extends ['a.html.twig', 'b.html.twig'] %} hérite des deux gabarits »."
-    back: "Faux : seul le premier gabarit existant devient le parent."
+    front: "Piège : « {% extends ['a.html.twig', 'b.html.twig'] %} hérite des deux templates »."
+    back: "Faux : seul le premier template existant devient le parent."
     explanation: >-
-      Twig ne connaît pas l'héritage multiple ; use répond à ce besoin.
+      Twig ne connaît pas l'inheritance multiple ; use répond à ce besoin.
     memorization_justification: >-
-      La syntaxe de liste suggère un héritage multiple.
+      La syntaxe de liste suggère un inheritance multiple.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/extends.rst"
@@ -1189,7 +1189,7 @@ flashcards:
     language: fr
     level: RECALL
     front: "Twig : quelles sont les trois variables globales fournies par Twig lui-même ?"
-    back: "_self (nom du gabarit), _context (le contexte courant) et _charset (le jeu de caractères)."
+    back: "_self (nom du template), _context (le contexte courant) et _charset (le jeu de caractères)."
     explanation: >-
       Elles existent sans Symfony ; app est la globale ajoutée par TwigBundle.
     memorization_justification: >-
@@ -1207,12 +1207,12 @@ flashcards:
     official_item: OIT-dp7w7s85wxjg
     language: fr
     level: RECALL
-    front: "Symfony : quel attribut de requête app.current_route_parameters lit-il ?"
-    back: "_route_params — et rend un tableau vide s'il manque."
+    front: "Symfony : quel attribute de Request app.current_route_parameters lit-il ?"
+    back: "_route_params — et rend un array vide s'il manque."
     explanation: >-
-      app.current_route lit de même l'attribut _route de la requête courante.
+      app.current_route lit de même l'attribute _route de la Request courante.
     memorization_justification: >-
-      Nom d'attribut exact, distinct de _route.
+      Nom d'attribute exact, distinct de _route.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/AppVariable.php"
@@ -1226,10 +1226,10 @@ flashcards:
     official_item: OIT-dp7w7s85wxjg
     language: fr
     level: RECALL
-    front: "Symfony : quelle classe se cache derrière la variable Twig app ?"
+    front: "Symfony : quelle class se cache derrière la variable Twig app ?"
     back: "Symfony\\Bridge\\Twig\\AppVariable, enregistrée comme globale app par TwigBundle."
     explanation: >-
-      Chaque propriété de app est une méthode get de cette classe : getUser(), getFlashes(), getCurrent_route()…
+      Chaque property de app est une method get de cette class : getUser(), getFlashes(), getCurrent_route()…
     memorization_justification: >-
       Savoir où lire le comportement réel de app.
     verification_status: VERIFIED
@@ -1276,12 +1276,12 @@ flashcards:
     official_item: OIT-dp7w7s85wxjg
     language: fr
     level: UNDERSTANDING
-    front: "Symfony : {{ app.user.email }} sur une page publique, sans utilisateur connecté. Que se passe-t-il ?"
+    front: "Symfony : {{ app.user.email }} sur une page publique, sans user connecté. Que se passe-t-il ?"
     back: "RuntimeError en mode strict — dev par défaut — et null sinon."
     explanation: >-
-      app.user vaut null ; lire un attribut sur null est refusé par getAttribute() seulement quand strict_variables est actif.
+      app.user vaut null ; lire un attribute sur null est refusé par getAttribute() seulement quand strict_variables est actif.
     memorization_justification: >-
-      Le comportement change d'un environnement à l'autre.
+      Le comportement change d'un environment à l'autre.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/src/Extension/CoreExtension.php"
@@ -1302,11 +1302,11 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "Twig : une macro voit-elle une globale déclarée dans twig.globals ?"
-    back: "Oui : les globales sont visibles dans les macros, contrairement aux variables du gabarit appelant."
+    back: "Oui : les globales sont visibles dans les macros, contrairement aux variables du template appelant."
     explanation: >-
       Une macro ne reçoit que ses arguments et les globales ; pour lui passer tout le contexte, on transmet _context.
     memorization_justification: >-
-      La portée des macros est la source de la confusion.
+      Le scope des macros est la source de la confusion.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/macro.rst"
@@ -1327,9 +1327,9 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "Symfony : que renvoie app.flashes(['notice', 'error']) ?"
-    back: "Un tableau type => messages, et les messages lus sont consommés."
+    back: "Un array type => messages, et les messages lus sont consommés."
     explanation: >-
-      Sans argument, tous les types ; avec une chaîne, la liste d'un seul type ; sans session compatible, un tableau vide.
+      Sans argument, tous les types ; avec une string, la liste d'un seul type ; sans session compatible, un array vide.
     memorization_justification: >-
       Trois formes d'appel, trois formes de retour.
     verification_status: VERIFIED
@@ -1345,12 +1345,12 @@ flashcards:
     official_item: OIT-dp7w7s85wxjg
     language: fr
     level: APPLICATION
-    front: "Symfony : rendez le service app.mailer disponible dans tous les gabarits sous le nom mailer."
+    front: "Symfony : rendez le service app.mailer disponible dans tous les templates sous le nom mailer."
     back: "twig: { globals: { mailer: '@app.mailer' } }"
     explanation: >-
-      Un @ en tête désigne un service ; @@ produirait une chaîne commençant par @.
+      Un @ en tête désigne un service ; @@ produirait une string commençant par @.
     memorization_justification: >-
-      Déclarer une globale de service, pas une chaîne.
+      Déclarer une globale de service, pas une string.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/TwigBundle/DependencyInjection/Configuration.php"
@@ -1367,9 +1367,9 @@ flashcards:
     front: "Twig : transmettez tout le contexte courant à une macro."
     back: "{{ forms.row(_context) }} — la variable _context contient toutes les variables visibles."
     explanation: >-
-      La documentation de la balise macro le recommande, puisqu'une macro ne voit pas les variables du gabarit.
+      La documentation du tag macro le recommande, puisqu'une macro ne voit pas les variables du template.
     memorization_justification: >-
-      Utiliser une globale de Twig pour contourner la portée des macros.
+      Utiliser une globale de Twig pour contourner le scope des macros.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/macro.rst"
@@ -1390,9 +1390,9 @@ flashcards:
     language: fr
     level: TRAP
     front: "Piège : « app.user vaut null quand le composant Security n'est pas installé »."
-    back: "Faux : app.user lève une RuntimeException ; null signifie qu'aucun utilisateur n'est authentifié."
+    back: "Faux : app.user lève une RuntimeException ; null signifie qu'aucun user n'est authentifié."
     explanation: >-
-      Seul app.flashes retombe sur un tableau vide quand son service manque.
+      Seul app.flashes retombe sur un array vide quand son service manque.
     memorization_justification: >-
       Deux absences différentes, deux résultats différents.
     verification_status: VERIFIED
@@ -1411,7 +1411,7 @@ flashcards:
     front: "Piège : « _self, _context et _charset sont fournies par Symfony »."
     back: "Faux : ce sont les globales de Twig lui-même ; Symfony ajoute app."
     explanation: >-
-      La documentation de Twig les liste comme toujours disponibles dans les gabarits.
+      La documentation de Twig les liste comme toujours disponibles dans les templates.
     memorization_justification: >-
       On attribue tout ce qui est global au framework.
     verification_status: VERIFIED
@@ -1427,12 +1427,12 @@ flashcards:
     official_item: OIT-sqekx9pkbe5v
     language: fr
     level: RECALL
-    front: "Twig 3.22 : existe-t-il un filtre truncate dans le cœur de Twig ?"
+    front: "Twig 3.22 : existe-t-il un filter truncate dans le cœur de Twig ?"
     back: "Non. On tronque avec slice, ou avec u.truncate() de twig/string-extra."
     explanation: >-
-      Le filtre u fait partie de StringExtension, à installer ; dans Symfony, twig/extra-bundle l'active.
+      Le filter u fait partie de StringExtension, à installer ; dans Symfony, twig/extra-bundle l'active.
     memorization_justification: >-
-      Un nom de filtre qu'on croit universel.
+      Un nom de filter qu'on croit universel.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/filters/index.rst"
@@ -1452,12 +1452,12 @@ flashcards:
     official_item: OIT-sqekx9pkbe5v
     language: fr
     level: RECALL
-    front: "Twig : depuis quelle version les attributs #[AsTwigFilter] et #[AsTwigFunction] existent-ils ?"
-    back: "Twig 3.21, dans l'espace de noms Twig\\Attribute, avec #[AsTwigTest]."
+    front: "Twig : depuis quelle version les attributes #[AsTwigFilter] et #[AsTwigFunction] existent-ils ?"
+    back: "Twig 3.21, dans le namespace Twig\\Attribute, avec #[AsTwigTest]."
     explanation: >-
-      TwigBundle 8.0 les enregistre par autoconfiguration sur les méthodes publiques d'un service.
+      TwigBundle 8.0 les enregistre par autoconfiguration sur les methods publiques d'un service.
     memorization_justification: >-
-      Version et espace de noms précis.
+      Version et namespace précis.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/advanced.rst"
@@ -1477,7 +1477,7 @@ flashcards:
     official_item: OIT-sqekx9pkbe5v
     language: fr
     level: RECALL
-    front: "Twig : quels sont les noms des arguments du filtre number_format ?"
+    front: "Twig : quels sont les noms des arguments du filter number_format ?"
     back: "decimal, decimal_point et thousand_sep."
     explanation: >-
       Ils permettent l'appel nommé : price|number_format(decimal: 2).
@@ -1496,10 +1496,10 @@ flashcards:
     official_item: OIT-sqekx9pkbe5v
     language: fr
     level: RECALL
-    front: "Twig : comment s'appliquent les tests, par opposition aux filtres et aux fonctions ?"
+    front: "Twig : comment s'appliquent les tests, par opposition aux filters et aux functions ?"
     back: "Par is : is defined, is empty, is iterable."
     explanation: >-
-      Un filtre s'applique par |, une fonction s'appelle ; un test renvoie un booléen après is.
+      Un filter s'applique par |, une function s'appelle ; un test renvoie un bool après is.
     memorization_justification: >-
       Troisième famille, souvent oubliée.
     verification_status: VERIFIED
@@ -1518,7 +1518,7 @@ flashcards:
     front: "Twig : sur '  abcdef', pourquoi |slice(0, 5)|trim et |trim|slice(0, 5) diffèrent-ils ?"
     back: "La coupe garde les espaces avant de les retirer : abc contre abcde."
     explanation: >-
-      Les filtres s'enchaînent de gauche à droite ; l'ordre compte quand ils ne commutent pas.
+      Les filters s'enchaînent de gauche à droite ; l'ordre compte quand ils ne commutent pas.
     memorization_justification: >-
       Un exemple qui rend l'ordre visible.
     verification_status: VERIFIED
@@ -1537,7 +1537,7 @@ flashcards:
     front: "Twig : |trim|lower et |lower|trim donnent-ils des résultats différents ?"
     back: "Non : trim ne touche que les espaces, lower que la casse ; ils commutent."
     explanation: >-
-      L'ordre ne compte que pour des filtres qui ne commutent pas, comme slice et trim.
+      L'ordre ne compte que pour des filters qui ne commutent pas, comme slice et trim.
     memorization_justification: >-
       Contre-exemple fréquemment cité à tort.
     verification_status: VERIFIED
@@ -1554,9 +1554,9 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "Symfony : pourquoi |u.truncate(50) lève-t-il une erreur dans une application qui n'a que TwigBundle ?"
-    back: "Le filtre u vient de StringExtension, du paquet twig/string-extra, non installé."
+    back: "Le filter u vient de StringExtension, du package twig/string-extra, non installé."
     explanation: >-
-      La documentation de Twig liste aussi les filtres des paquets extra ; dans Symfony, twig/extra-bundle les active une fois installés.
+      La documentation de Twig liste aussi les filters des packages extra ; dans Symfony, twig/extra-bundle les active une fois installés.
     memorization_justification: >-
       La présence dans la documentation ne garantit pas la présence dans l'application.
     verification_status: VERIFIED
@@ -1572,12 +1572,12 @@ flashcards:
     official_item: OIT-sqekx9pkbe5v
     language: fr
     level: APPLICATION
-    front: "Twig : n'affichez que les noms des utilisateurs actifs, séparés par des virgules."
+    front: "Twig : n'affichez que les noms des users actifs, séparés par des virgules."
     back: "{{ users|filter(u => u.active)|map(u => u.name)|join(', ') }}"
     explanation: >-
-      filter et map prennent une fonction fléchée ; join assemble le résultat.
+      filter et map prennent une function fléchée ; join assemble le résultat.
     memorization_justification: >-
-      Chaîner des filtres à fonctions fléchées.
+      Chaîner des filters à functions fléchées.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/filters/filter.rst"
@@ -1597,10 +1597,10 @@ flashcards:
     official_item: OIT-sqekx9pkbe5v
     language: fr
     level: APPLICATION
-    front: "Twig : déclarez un filtre rot13 sans écrire de classe AbstractExtension."
-    back: "#[AsTwigFilter('rot13')] sur une méthode publique d'un service."
+    front: "Twig : déclarez un filter rot13 sans écrire de class AbstractExtension."
+    back: "#[AsTwigFilter('rot13')] sur une method publique d'un service."
     explanation: >-
-      L'attribut vient de Twig\\Attribute (Twig 3.21) ; TwigBundle l'autoconfigure.
+      L'attribute vient de Twig\\Attribute (Twig 3.21) ; TwigBundle l'autoconfigure.
     memorization_justification: >-
       Voie courte pour étendre Twig.
     verification_status: VERIFIED
@@ -1623,7 +1623,7 @@ flashcards:
     language: fr
     level: TRAP
     front: "Piège : « text|truncate(50) tronque un texte avec Twig 3.22 »."
-    back: "Faux : aucun filtre truncate dans le cœur ; slice ou u.truncate()."
+    back: "Faux : aucun filter truncate dans le cœur ; slice ou u.truncate()."
     explanation: >-
       u.truncate() exige twig/string-extra.
     memorization_justification: >-
@@ -1647,7 +1647,7 @@ flashcards:
     official_item: OIT-sqekx9pkbe5v
     language: fr
     level: TRAP
-    front: "Piège : « path() et asset() sont des fonctions de Twig »."
+    front: "Piège : « path() et asset() sont des functions de Twig »."
     back: "Faux : elles viennent du bridge Twig de Symfony."
     explanation: >-
       Un Twig installé seul ne les connaît pas ; debug:twig montre ce que l'application expose réellement.
@@ -1667,9 +1667,9 @@ flashcards:
     language: fr
     level: RECALL
     front: "Twig 3.22 : quelle forme d'inclusion la documentation recommande-t-elle ?"
-    back: "La fonction `include()`, plutôt que la balise `{% include %}`."
+    back: "La function `include()`, plutôt que le tag `{% include %}`."
     explanation: >-
-      La note de la balise include renvoie vers la fonction, qui offre les mêmes possibilités avec plus de souplesse.
+      La note du tag include renvoie vers la function, qui offre les mêmes possibilités avec plus de souplesse.
     memorization_justification: >-
       Choix de forme que la documentation tranche explicitement.
     verification_status: VERIFIED
@@ -1685,10 +1685,10 @@ flashcards:
     official_item: OIT-ds2p5d4eg0pq
     language: fr
     level: UNDERSTANDING
-    front: "Twig : pourquoi la fonction `include()` est-elle préférée à la balise ?"
-    back: "Elle est sémantiquement plus juste (une balise ne devrait rien afficher), elle se compose (affectation, filtre) et ses arguments nommés n'imposent aucun ordre."
+    front: "Twig : pourquoi la function `include()` est-elle préférée au tag ?"
+    back: "Elle est sémantiquement plus juste (un tag ne devrait rien afficher), elle se compose (affectation, filter) et ses arguments nommés n'imposent aucun ordre."
     explanation: >-
-      Exemple de composition : `{% set content = include('x.html.twig') %}` ou `{{ include('x.html.twig')|upper }}` — la balise exige un `set` bloc ou un `apply`.
+      Exemple de composition : `{% set content = include('x.html.twig') %}` ou `{{ include('x.html.twig')|upper }}` — le tag exige un `set` block ou un `apply`.
     memorization_justification: >-
       Les trois raisons données par la documentation, dans l'ordre.
     verification_status: VERIFIED
@@ -1704,10 +1704,10 @@ flashcards:
     official_item: OIT-ds2p5d4eg0pq
     language: fr
     level: RECALL
-    front: "Twig : quel argument de la fonction `include()` empêche le gabarit inclus de voir le contexte de l'appelant ?"
+    front: "Twig : quel argument de la function `include()` empêche le template inclus de voir le contexte de l'appelant ?"
     back: "`with_context: false`."
     explanation: >-
-      C'est l'équivalent, en fonction, du mot-clé `only` de la balise. Les variables passées explicitement restent visibles.
+      C'est l'équivalent, en function, du mot-clé `only` du tag. Les variables passées explicitement restent visibles.
     memorization_justification: >-
       Même idée, deux écritures : confusion classique entre les formes.
     verification_status: VERIFIED
@@ -1723,8 +1723,8 @@ flashcards:
     official_item: OIT-ds2p5d4eg0pq
     language: fr
     level: RECALL
-    front: "Twig : quel argument de la fonction `include()` tolère un gabarit absent, et que rend-elle alors ?"
-    back: "`ignore_missing: true` ; la fonction rend une chaîne vide."
+    front: "Twig : quel argument de la function `include()` tolère un template absent, et que rend-elle alors ?"
+    back: "`ignore_missing: true` ; la function rend une string vide."
     explanation: >-
       `CoreExtension::include()` retourne `''` quand le chargement échoue et que `ignoreMissing` vaut vrai ; sinon l'erreur de chargement est relancée.
     memorization_justification: >-
@@ -1749,9 +1749,9 @@ flashcards:
     language: fr
     level: TRAP
     front: "Twig : {% include 'x.html.twig' with {a: 1} ignore missing %} est-il valide ?"
-    back: "Non : `ignore missing` doit suivre immédiatement le nom du gabarit. Cet ordre est une erreur de syntaxe."
+    back: "Non : `ignore missing` doit suivre immédiatement le nom du template. Cet ordre est une erreur de syntaxe."
     explanation: >-
-      `IncludeTokenParser::parseArguments()` lit, dans cet ordre, `ignore missing`, puis `with`, puis `only`, puis attend la fin de balise : un `ignore` après `with` n'est plus attendu.
+      `IncludeTokenParser::parseArguments()` lit, dans cet ordre, `ignore missing`, puis `with`, puis `only`, puis attend la fin de tag : un `ignore` après `with` n'est plus attendu.
     memorization_justification: >-
       Ordre imposé par l'analyseur, facile à inverser de mémoire.
     verification_status: VERIFIED
@@ -1773,10 +1773,10 @@ flashcards:
     official_item: OIT-ds2p5d4eg0pq
     language: fr
     level: APPLICATION
-    front: "Twig : la balise `include` reçoit la liste `['page_detailed.html.twig', 'page.html.twig']` et seul `page.html.twig` existe. Que se passe-t-il ?"
-    back: "`page.html.twig` est inclus : c'est le premier gabarit existant de la liste."
+    front: "Twig : le tag `include` reçoit la liste `['page_detailed.html.twig', 'page.html.twig']` et seul `page.html.twig` existe. Que se passe-t-il ?"
+    back: "`page.html.twig` est inclus : c'est le premier template existant de la liste."
     explanation: >-
-      Une liste de noms n'inclut qu'un seul gabarit, le premier qui existe ; l'ordre de la liste est donc un ordre de préférence.
+      Une liste de noms n'inclut qu'un seul template, le premier qui existe ; l'ordre de la liste est donc un ordre de préférence.
     memorization_justification: >-
       Mécanisme de repli souvent confondu avec une inclusion multiple.
     verification_status: VERIFIED
@@ -1792,10 +1792,10 @@ flashcards:
     official_item: OIT-ds2p5d4eg0pq
     language: fr
     level: TRAP
-    front: "Twig : une liste de gabarits dont aucun n'existe est passée à `include`. Que se passe-t-il ?"
+    front: "Twig : une liste de templates dont aucun n'existe est passée à `include`. Que se passe-t-il ?"
     back: "Une exception, sauf avec `ignore missing` (ou `ignore_missing: true`) : rien n'est alors rendu."
     explanation: >-
-      La documentation de la balise comme celle de la fonction le disent dans les mêmes termes.
+      La documentation du tag comme celle de la function le disent dans les mêmes termes.
     memorization_justification: >-
       La liste donne un repli, pas une tolérance à l'absence.
     verification_status: VERIFIED
@@ -1817,12 +1817,12 @@ flashcards:
     official_item: OIT-ds2p5d4eg0pq
     language: fr
     level: RECALL
-    front: "Twig : quel argument de `include()` la documentation conseille-t-elle pour un gabarit écrit par un utilisateur final ?"
-    back: "`sandboxed: true`, qui place le gabarit inclus dans le bac à sable."
+    front: "Twig : quel argument de `include()` la documentation conseille-t-elle pour un template écrit par un user final ?"
+    back: "`sandboxed: true`, qui place le template inclus dans le bac à sable."
     explanation: >-
-      La fonction accepte quatre arguments après le nom : `variables`, `with_context`, `ignore_missing`, `sandboxed`. `CoreExtension::include()` n'active le bac à sable que si l'extension `SandboxExtension` est enregistrée.
+      La function accepte quatre arguments après le nom : `variables`, `with_context`, `ignore_missing`, `sandboxed`. `CoreExtension::include()` n'active le bac à sable que si l'extension `SandboxExtension` est enregistrée.
     memorization_justification: >-
-      Argument propre à la fonction, rarement vu mais documenté.
+      Argument propre à la function, rarement vu mais documenté.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/functions/include.rst"
@@ -1842,10 +1842,10 @@ flashcards:
     official_item: OIT-ds2p5d4eg0pq
     language: fr
     level: UNDERSTANDING
-    front: "Twig : la balise `embed` accepte-t-elle `with`, `only` et `ignore missing` ?"
-    back: "Oui : elle prend exactement les mêmes arguments que la balise `include`."
+    front: "Twig : le tag `embed` accepte-t-il `with`, `only` et `ignore missing` ?"
+    back: "Oui : elle prend exactement les mêmes arguments que le tag `include`."
     explanation: >-
-      `embed` combine `include` et `extends` ; la partie inclusion garde toute sa syntaxe, la partie héritage ajoute la redéfinition de blocs.
+      `embed` combine `include` et `extends` ; la partie inclusion garde toute sa syntaxe, la partie inheritance ajoute la redéfinition de blocks.
     memorization_justification: >-
       Parité d'arguments que la documentation affirme explicitement.
     verification_status: VERIFIED
@@ -1861,8 +1861,8 @@ flashcards:
     official_item: OIT-ds2p5d4eg0pq
     language: fr
     level: TRAP
-    front: "Twig : pourquoi l'échappement par nom de fichier ne marche-t-il pas comme attendu avec `embed` ?"
-    back: "Un gabarit embarqué n'a pas de nom ; embarquer du CSS ou du JavaScript dans du HTML demande de fixer la stratégie avec la balise `autoescape`."
+    front: "Twig : pourquoi l'échappement par nom de file ne marche-t-il pas comme attendu avec `embed` ?"
+    back: "Un template embarqué n'a pas de nom ; embarquer du CSS ou du JavaScript dans du HTML demande de fixer la stratégie avec le tag `autoescape`."
     explanation: >-
       Avertissement de la documentation d'`embed`. Dans Symfony, TwigBundle choisit la stratégie d'après l'extension du nom — précisément ce qui manque ici.
     memorization_justification: >-
@@ -1881,11 +1881,11 @@ flashcards:
     language: fr
     level: APPLICATION
     front: "Twig : un encart est répété sur plusieurs pages, seul son titre change à chaque appel. `include` ou `embed` ?"
-    back: "`embed` : il insère le gabarit et permet de redéfinir son bloc de titre au point d'insertion."
+    back: "`embed` : il insère le template et permet de redéfinir son block de titre au point d'insertion."
     explanation: >-
       Critère : identique à chaque appel, `include` ; une partie à changer, `embed` — le « micro squelette de mise en page » de la documentation.
     memorization_justification: >-
-      Choix de balise directement interrogeable.
+      Choix de tag directement interrogeable.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/embed.rst"
@@ -1899,8 +1899,8 @@ flashcards:
     official_item: OIT-ds2p5d4eg0pq
     language: fr
     level: RECALL
-    front: "Symfony : le préfixe `_` d'un fragment de gabarit (`_card.html.twig`) est-il obligatoire ?"
-    back: "Non : il est facultatif, c'est une convention qui distingue un fragment d'un gabarit complet."
+    front: "Symfony : le préfixe `_` d'un fragment de template (`_card.html.twig`) est-il obligatoire ?"
+    back: "Non : il est facultatif, c'est une convention qui distingue un fragment d'un template complet."
     explanation: >-
       La documentation Symfony le dit en toutes lettres : « the `_` prefix is optional, but it's a convention ».
     memorization_justification: >-
@@ -1938,7 +1938,7 @@ flashcards:
     language: fr
     level: RECALL
     front: "Twig : que parcourt for i in 0..10, et comment changer le pas ?"
-    back: "Les entiers de 0 à 10 inclus ; pour un pas différent de 1, la fonction `range()`."
+    back: "Les ints de 0 à 10 inclus ; pour un pas différent de 1, la function `range()`."
     explanation: >-
       L'opérateur `..` accepte toute expression de part et d'autre, lettres comprises : `'a'..'z'`.
     memorization_justification: >-
@@ -1956,7 +1956,7 @@ flashcards:
     official_item: OIT-84j0qwkbcgq6
     language: fr
     level: APPLICATION
-    front: "Twig : une variable est créée par set dans le corps d'une boucle for. Existe-t-elle après endfor ?"
+    front: "Twig : une variable est créée par set dans le body d'une boucle for. Existe-t-elle après endfor ?"
     back: "Non : la boucle a sa propre portée. Pour la lire après, on la déclare avant la boucle."
     explanation: >-
       La documentation de `set` le note : « loops are scoped in Twig ». Déclarée avant, elle garde la dernière valeur reçue dans la boucle.
@@ -1982,9 +1982,9 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "Twig : pourquoi une variable déclarée avant la boucle garde-t-elle la valeur reçue dedans, alors qu'une variable créée dedans disparaît ?"
-    back: "À la sortie, `ForNode` ne conserve que les clés du contexte d'avant la boucle, avec leurs valeurs courantes."
+    back: "À l'output, `ForNode` ne conserve que les keys du contexte d'avant la boucle, avec leurs valeurs courantes."
     explanation: >-
-      Le code compilé fait `array_intersect_key($context, $_parent) + $_parent` : une clé nouvelle est écartée, une clé ancienne garde sa valeur modifiée.
+      Le code compilé fait `array_intersect_key($context, $_parent) + $_parent` : une key nouvelle est écartée, une key ancienne garde sa valeur modifiée.
     memorization_justification: >-
       Le mécanisme explique les deux comportements d'un coup.
     verification_status: VERIFIED
@@ -2003,7 +2003,7 @@ flashcards:
     front: "Twig : 0 is empty vaut-il true ?"
     back: "Non. `0` n'est pas vide pour Twig 3.22, même s'il est faux dans un if ; `'0'` non plus."
     explanation: >-
-      `CoreExtension::testEmpty()` rend vrai pour `''`, `[]`, `null`, `false`, un `Countable` de taille zéro, un `Traversable` sans élément et un objet dont la chaîne est vide — pas pour `0`.
+      `CoreExtension::testEmpty()` rend vrai pour `''`, `[]`, `null`, `false`, un `Countable` de taille zéro, un `Traversable` sans élément et un object dont la string est vide — pas pour `0`.
     memorization_justification: >-
       Confusion fréquente entre « faux » et « vide ».
     verification_status: VERIFIED
@@ -2026,9 +2026,9 @@ flashcards:
     language: fr
     level: TRAP
     front: "Twig : une collection Countable vide est testée par un if nu, puis par is empty. Résultats ?"
-    back: "Le if nu la juge vraie (tout objet est vrai) ; is empty la juge vide."
+    back: "Le if nu la juge vraie (tout object est vrai) ; is empty la juge vide."
     explanation: >-
-      La condition nue suit les règles de PHP, où un objet est vrai ; `testEmpty()` compte les éléments d'un `Countable`. Pour tester une collection, `is empty` ou `|length`.
+      La condition nue suit les règles de PHP, où un object est vrai ; `testEmpty()` compte les éléments d'un `Countable`. Pour tester une collection, `is empty` ou `|length`.
     memorization_justification: >-
       Divergence directe entre deux écritures qui semblent équivalentes.
     verification_status: VERIFIED
@@ -2076,7 +2076,7 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "Twig : pourquoi loop.last n'existe-t-il pas quand on parcourt un générateur ?"
-    back: "Twig ne peut pas connaître la taille sans consommer la séquence ; `ForNode` ne pose length, revindex, revindex0 et last que pour un tableau ou un `Countable`."
+    back: "Twig ne peut pas connaître la taille sans consommer la séquence ; `ForNode` ne pose length, revindex, revindex0 et last que pour un array ou un `Countable`."
     explanation: >-
       `loop.index` et `loop.first` n'ont pas besoin de la taille et fonctionnent toujours.
     memorization_justification: >-
@@ -2100,7 +2100,7 @@ flashcards:
     official_item: OIT-84j0qwkbcgq6
     language: fr
     level: APPLICATION
-    front: "Twig : on saute les utilisateurs inactifs par un if dans le corps de la boucle. Quel effet sur loop.index et loop.last ?"
+    front: "Twig : on saute les users inactifs par un if dans le body de la boucle. Quel effet sur loop.index et loop.last ?"
     back: "loop.index compte aussi les éléments sautés, et loop.last peut tomber sur un élément non affiché. Filtrer la séquence avec filter évite les deux."
     explanation: >-
       Les variables de loop suivent la séquence parcourue, pas ce qui est affiché.
@@ -2125,10 +2125,10 @@ flashcards:
     official_item: OIT-84j0qwkbcgq6
     language: fr
     level: RECALL
-    front: "Twig : dans un if, la chaîne '0' et une chaîne d'espaces sont-elles vraies ?"
-    back: "'0' est faux ; une chaîne d'espaces est vraie."
+    front: "Twig : dans un if, la string '0' et une string d'espaces sont-elles vraies ?"
+    back: "'0' est faux ; une string d'espaces est vraie."
     explanation: >-
-      Tableau des cas limites de la documentation de `if` : chaîne vide, zéro numérique, `'0'`, séquence et mapping vides, `null` sont faux ; `NAN`, `INF`, chaîne d'espaces et objet sont vrais.
+      Tableau des cas limites de la documentation de `if` : string vide, zéro numérique, `'0'`, séquence et mapping vides, `null` sont faux ; `NAN`, `INF`, string d'espaces et object sont vrais.
     memorization_justification: >-
       Cas limites explicitement tabulés par la documentation.
     verification_status: VERIFIED
@@ -2170,9 +2170,9 @@ flashcards:
     language: fr
     level: RECALL
     front: "Twig : que rend path() par défaut ?"
-    back: "Un chemin absolu, sans schéma ni hôte : `/blog/mon-article` (type `ABSOLUTE_PATH`)."
+    back: "Un path absolu, sans schéma ni hôte : `/blog/mon-article` (type `ABSOLUTE_PATH`)."
     explanation: >-
-      `RoutingExtension::getPath()` passe `ABSOLUTE_PATH` au générateur quand son troisième argument vaut `false`, sa valeur par défaut.
+      `RoutingExtension::getPath()` passe `ABSOLUTE_PATH` au générateur quand son troisième argument vaut `false`, sa default value.
     memorization_justification: >-
       Forme la plus utilisée ; base de toutes les comparaisons.
     verification_status: VERIFIED
@@ -2197,7 +2197,7 @@ flashcards:
     front: "Twig : que rend url() par défaut ?"
     back: "Une URL absolue, avec schéma et hôte : `https://example.com/blog/mon-article` (type `ABSOLUTE_URL`)."
     explanation: >-
-      À réserver aux liens qui quittent la page : e-mails, flux, balises de partage.
+      À réserver aux liens qui quittent la page : e-mails, flux, tags de partage.
     memorization_justification: >-
       Pendant direct de path().
     verification_status: VERIFIED
@@ -2220,9 +2220,9 @@ flashcards:
     language: fr
     level: TRAP
     front: "Twig : que change le troisième argument true dans path(), puis dans url() ?"
-    back: "path(…, true) rend un chemin relatif à la page courante ; url(…, true) rend une URL sans schéma, `//example.com/…`."
+    back: "path(…, true) rend un path relatif à la page courante ; url(…, true) rend une URL sans schéma, `//example.com/…`."
     explanation: >-
-      Les paramètres s'appellent `relative` et `schemeRelative` : `RELATIVE_PATH` d'un côté, `NETWORK_PATH` de l'autre.
+      Les parameters s'appellent `relative` et `schemeRelative` : `RELATIVE_PATH` d'un côté, `NETWORK_PATH` de l'autre.
     memorization_justification: >-
       Même position, même booléen, deux sens différents.
     verification_status: VERIFIED
@@ -2245,7 +2245,7 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "Twig : pourquoi path() peut-il rendre une référence commençant par // ?"
-    back: "Quand la route est liée à un autre hôte que celui de la requête : un chemin seul pointerait vers le mauvais hôte, le générateur passe donc en `NETWORK_PATH`."
+    back: "Quand la route est liée à un autre hôte que celui de la Request : un path seul pointerait vers le mauvais hôte, le générateur passe donc en `NETWORK_PATH`."
     explanation: >-
       `UrlGenerator::doGenerate()` élargit le type demandé ; si le schéma exigé diffère, il va jusqu'à l'URL absolue.
     memorization_justification: >-
@@ -2263,12 +2263,12 @@ flashcards:
     official_item: OIT-yh6zx9shv9vs
     language: fr
     level: APPLICATION
-    front: "Twig : il faut l'URL absolue d'une image publique pour une balise de partage. Quelle écriture ?"
+    front: "Twig : il faut l'URL absolue d'une image publique pour un tag de partage. Quelle écriture ?"
     back: "`absolute_url(asset('images/logo.png'))`."
     explanation: >-
-      `asset()` produit le chemin public, `absolute_url()` y ajoute schéma et hôte. La documentation de `absolute_url` recommande cette combinaison.
+      `asset()` produit le path public, `absolute_url()` y ajoute schéma et hôte. La documentation de `absolute_url` recommande cette combinaison.
     memorization_justification: >-
-      Combinaison documentée, fréquente dans les gabarits d'e-mail.
+      Combinaison documentée, fréquente dans les templates d'e-mail.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/twig_reference.rst"
@@ -2289,7 +2289,7 @@ flashcards:
     language: fr
     level: TRAP
     front: "Twig : absolute_url('blog_show') rend-il l'URL de la route blog_show ?"
-    back: "Non : `absolute_url()` prend un chemin, pas un nom de route. `blog_show` est traité comme un chemin relatif à la page courante."
+    back: "Non : `absolute_url()` prend un path, pas un nom de route. `blog_show` est traité comme un path relatif à la page courante."
     explanation: >-
       `UrlHelper::getAbsoluteUrl()` ne consulte aucune route ; pour une route, c'est `url('blog_show')`.
     memorization_justification: >-
@@ -2318,7 +2318,7 @@ flashcards:
     explanation: >-
       Fourni, comme `absolute_url()`, par `HttpFoundationExtension` du Twig Bridge.
     memorization_justification: >-
-      Fonction peu vue, facile à confondre avec le troisième argument de path().
+      Function peu vue, facile à confondre avec le troisième argument de path().
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/twig_reference.rst"
@@ -2338,10 +2338,10 @@ flashcards:
     official_item: OIT-yh6zx9shv9vs
     language: fr
     level: UNDERSTANDING
-    front: "Twig : la sortie de path() est-elle échappée comme une variable ?"
-    back: "Elle en est dispensée seulement sans paramètres, ou avec un seul paramètre à valeur littérale ; sinon elle est échappée, et le `&` d'une chaîne de requête devient `&amp;`."
+    front: "Twig : l'output de path() est-il échappé comme une variable ?"
+    back: "Elle en est dispensée seulement sans parameters, ou avec un seul parameter à valeur littérale ; sinon elle est échappée, et le `&` d'une chaîne de Request devient `&amp;`."
     explanation: >-
-      C'est le rôle de `RoutingExtension::isUrlGenerationSafe()`, déclaré comme `is_safe_callback` des deux fonctions.
+      C'est le role de `RoutingExtension::isUrlGenerationSafe()`, déclaré comme `is_safe_callback` des deux functions.
     memorization_justification: >-
       Explique un `&amp;` inattendu dans le HTML rendu.
     verification_status: VERIFIED
@@ -2358,11 +2358,11 @@ flashcards:
     language: fr
     level: APPLICATION
     front: "Twig : une page servie en http appelle path() vers une route qui exige https. Que rend l'appel ?"
-    back: "Une URL absolue en `https://…` : le générateur change de schéma, donc il ne peut plus rendre un simple chemin."
+    back: "Une URL absolue en `https://…` : le générateur change de schéma, donc il ne peut plus rendre un simple path."
     explanation: >-
       `UrlGenerator::doGenerate()` force `ABSOLUTE_URL` quand le schéma courant n'est pas dans les schémas exigés.
     memorization_justification: >-
-      Cas où la sortie de path() change de forme sans qu'on l'ait demandé.
+      Cas où l'output de path() change de forme sans qu'on l'ait demandé.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
@@ -2379,9 +2379,9 @@ flashcards:
     front: "Symfony : quelles extensions du Twig Bridge fournissent path(), url(), absolute_url() et relative_path() ?"
     back: "`RoutingExtension` pour path() et url() ; `HttpFoundationExtension` pour absolute_url() et relative_path()."
     explanation: >-
-      Les deux premières dépendent du générateur d'URL, les deux autres de `UrlHelper`, qui part de la requête courante.
+      Les deux premières dépendent du générateur d'URL, les deux autres de `UrlHelper`, qui part de la Request courante.
     memorization_justification: >-
-      Situe chaque fonction dans le composant qui la sert.
+      Situe chaque function dans le composant qui la sert.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Extension/RoutingExtension.php"
@@ -2401,10 +2401,10 @@ flashcards:
     official_item: OIT-c34hn4px3czj
     language: fr
     level: RECALL
-    front: "Twig : comment exécuter depuis un gabarit un contrôleur qui n'a pas de route ?"
+    front: "Twig : comment exécuter depuis un template un controller qui n'a pas de route ?"
     back: "`render(controller('App\\\\Controller\\\\BlogController::recentArticles', {max: 3}))`."
     explanation: >-
-      Pour un contrôleur routé, `render(path(...))` ou `render(url(...))` suffisent ; `controller()` évite d'exposer une URL publique.
+      Pour un controller routé, `render(path(...))` ou `render(url(...))` suffisent ; `controller()` évite d'exposer une URL publique.
     memorization_justification: >-
       Les deux modes d'adressage de render().
     verification_status: VERIFIED
@@ -2421,7 +2421,7 @@ flashcards:
     language: fr
     level: TRAP
     front: "Twig : que fait controller() à lui seul, sans render() ?"
-    back: "Il construit une `ControllerReference` (contrôleur, attributs, query) et n'exécute rien."
+    back: "Il construit une `ControllerReference` (controller, attributes, query) et n'exécute rien."
     explanation: >-
       `HttpKernelExtension::controller()` se contente de `new ControllerReference(...)` ; l'exécution appartient à `render()`.
     memorization_justification: >-
@@ -2440,9 +2440,9 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "Twig : pourquoi render(controller(...)) coûte-t-il plus cher qu'un include ?"
-    back: "Chaque appel lance une sous-requête GET complète dans le noyau (`SUB_REQUEST`) : écouteurs, contrôleur, rendu."
+    back: "Chaque appel lance une sub-Request GET complète dans le kernel (`SUB_REQUEST`) : listeners, controller, rendu."
     explanation: >-
-      Un include rend un gabarit avec le contexte courant ; un fragment refait le cycle requête-réponse. La documentation avertit de l'impact sur les performances.
+      Un include rend un template avec le contexte courant ; un fragment refait le cycle requête-réponse. La documentation avertit de l'impact sur les performances.
     memorization_justification: >-
       Fonde le choix entre include et fragment.
     verification_status: VERIFIED
@@ -2465,9 +2465,9 @@ flashcards:
     language: fr
     level: RECALL
     front: "Twig : quelle stratégie render() utilise-t-il par défaut, et comment en choisir une autre ?"
-    back: "`inline` ; l'option `strategy`, ou les fonctions `render_esi()`, `render_ssi()`, `render_hinclude()`."
+    back: "`inline` ; l'option `strategy`, ou les functions `render_esi()`, `render_ssi()`, `render_hinclude()`."
     explanation: >-
-      `HttpKernelRuntime::renderFragment()` lit `$options['strategy'] ?? 'inline'` ; la fonction dynamique `render_*` passe le suffixe comme stratégie.
+      `HttpKernelRuntime::renderFragment()` lit `$options['strategy'] ?? 'inline'` ; la function dynamique `render_*` passe le suffixe comme stratégie.
     memorization_justification: >-
       Nomenclature directement interrogeable.
     verification_status: VERIFIED
@@ -2489,12 +2489,12 @@ flashcards:
     official_item: OIT-c34hn4px3czj
     language: fr
     level: TRAP
-    front: "Symfony : le contrôleur d'un fragment rendu par render() lève une exception. Que se passe-t-il en dev, puis en prod ?"
+    front: "Symfony : le controller d'un fragment rendu par render() lève une exception. Que se passe-t-il en dev, puis en prod ?"
     back: "En dev, l'exception remonte ; en prod, elle est ignorée et le fragment est vide. `ignore_errors` vaut par défaut `!kernel.debug`."
     explanation: >-
-      `FragmentHandler::render()` fixe l'option quand l'appel ne la donne pas ; l'exception ignorée passe quand même par l'événement `kernel.exception`, pour la journalisation.
+      `FragmentHandler::render()` fixe l'option quand l'appel ne la donne pas ; l'exception ignorée passe quand même par l'event `kernel.exception`, pour le logging.
     memorization_justification: >-
-      Même code, deux comportements selon l'environnement.
+      Même code, deux comportements selon l'environment.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Fragment/FragmentHandler.php"
@@ -2514,12 +2514,12 @@ flashcards:
     official_item: OIT-c34hn4px3czj
     language: fr
     level: TRAP
-    front: "Symfony : le contrôleur d'un fragment retourne une redirection. Que produit render() ?"
-    back: "Une `RuntimeException` : toute réponse non 2xx, redirection comprise, fait échouer le fragment, même avec `ignore_errors`."
+    front: "Symfony : le controller d'un fragment retourne un redirect. Que produit render() ?"
+    back: "Une `RuntimeException` : toute Response non 2xx, redirect comprise, fait échouer le fragment, même avec `ignore_errors`."
     explanation: >-
-      `FragmentHandler::deliver()` teste `isSuccessful()` sur la réponse ; `ignore_errors` ne couvre que les exceptions levées.
+      `FragmentHandler::deliver()` teste `isSuccessful()` sur la Response ; `ignore_errors` ne couvre que les exceptions levées.
     memorization_justification: >-
-      Un contrôleur de fragment ne peut pas rediriger.
+      Un controller de fragment ne peut pas rediriger.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Fragment/FragmentHandler.php"
@@ -2533,8 +2533,8 @@ flashcards:
     official_item: OIT-c34hn4px3czj
     language: fr
     level: RECALL
-    front: "Symfony : framework.fragments est-il activé par défaut, et quel est son chemin ?"
-    back: "Non, l'option est désactivée par défaut ; son chemin par défaut est `/_fragment`."
+    front: "Symfony : framework.fragments est-il activé par défaut, et quel est son path ?"
+    back: "Non, l'option est désactivée par défaut ; son path par défaut est `/_fragment`."
     explanation: >-
       `Configuration::addFragmentsSection()` la déclare `canBeEnabled()` avec `path` à `/_fragment`. L'activer charge le `FragmentListener`.
     memorization_justification: >-
@@ -2559,9 +2559,9 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "Symfony : pourquoi render(controller(...)) en inline fonctionne-t-il sans activer framework.fragments ?"
-    back: "La sous-requête porte déjà l'attribut `_controller`, et le `RouterListener` ne route pas une requête qui en a un."
+    back: "La sub-Request porte déjà l'attribute `_controller`, et le `RouterListener` ne route pas une Request qui en a un."
     explanation: >-
-      Le `FragmentListener` sert `/_fragment` aux requêtes venues de l'extérieur (ESI, hinclude) et y vérifie la signature ; l'inline n'en a pas besoin.
+      Le `FragmentListener` sert `/_fragment` aux Requests venues de l'extérieur (ESI, hinclude) et y vérifie la signature ; l'inline n'en a pas besoin.
     memorization_justification: >-
       Sépare deux mécanismes que la documentation présente ensemble.
     verification_status: VERIFIED
@@ -2583,10 +2583,10 @@ flashcards:
     official_item: OIT-c34hn4px3czj
     language: fr
     level: APPLICATION
-    front: "Symfony : il faut passer un objet, et non un identifiant, au contrôleur d'un fragment rendu en inline. Est-ce possible ?"
-    back: "Oui : les attributs de `controller()` sont posés directement sur la sous-requête, objets compris."
+    front: "Symfony : il faut passer un object, et non un identifier, au controller d'un fragment rendu en inline. Est-ce possible ?"
+    back: "Oui : les attributes de `controller()` sont posés directement sur la sub-Request, objects compris."
     explanation: >-
-      `InlineFragmentRenderer` retire les attributs de l'URI générée et les ajoute ensuite à la sous-requête, précisément parce qu'ils peuvent être des objets.
+      `InlineFragmentRenderer` retire les attributes de l'URI générée et les ajoute ensuite à la sub-Request, précisément parce qu'ils peuvent être des objects.
     memorization_justification: >-
       Particularité de l'inline, absente des stratégies qui passent par une URL.
     verification_status: VERIFIED
@@ -2621,12 +2621,12 @@ flashcards:
     official_item: OIT-c34hn4px3czj
     language: fr
     level: RECALL
-    front: "Symfony : que la sous-requête d'un fragment inline reprend-elle de la requête courante ?"
-    back: "Les cookies, les variables serveur et la session, plus `_format` et la locale ; pas les en-têtes `If-Modified-Since` ni `If-None-Match`."
+    front: "Symfony : que la sub-Request d'un fragment inline reprend-elle de la Request courante ?"
+    back: "Les cookies, les variables serveur et la session, plus `_format` et la locale ; pas les headers `If-Modified-Since` ni `If-None-Match`."
     explanation: >-
-      `InlineFragmentRenderer::createSubRequest()` crée une requête GET avec ces éléments et retire les deux en-têtes conditionnels.
+      `InlineFragmentRenderer::createSubRequest()` crée une Request GET avec ces éléments et retire les deux headers conditionnels.
     memorization_justification: >-
-      Explique pourquoi un fragment voit l'utilisateur connecté.
+      Explique pourquoi un fragment voit le user connecté.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Fragment/InlineFragmentRenderer.php"
@@ -2641,7 +2641,7 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "Symfony 8.0 : quand la documentation préfère-t-elle les Twig Components à render(controller(...)) ?"
-    back: "Pour une unité d'interface réutilisable ; intégrer un contrôleur se justifie quand il faut vraiment une sous-requête, par exemple pour un cache ESI séparé."
+    back: "Pour une unité d'interface réutilisable ; intégrer un controller se justifie quand il faut vraiment une sub-Request, par exemple pour un cache ESI séparé."
     explanation: >-
       Note en tête de la section « Embedding Controllers » de `templates.rst` (8.0).
     memorization_justification: >-
@@ -2659,12 +2659,12 @@ flashcards:
     official_item: OIT-sd08j04k60m0
     language: fr
     level: APPLICATION
-    front: "Twig : comment passer seulement le domaine store au filtre trans, sans écrire de tableau vide ?"
+    front: "Twig : comment passer seulement le domaine store au filter trans, sans écrire de array vide ?"
     back: "Avec un argument nommé : `'checkout.total'|trans(domain: 'store')`."
     explanation: >-
       Twig 3.22 accepte `:` et `=` comme séparateurs d'argument nommé ; la forme positionnelle équivalente est `trans({}, 'store')`.
     memorization_justification: >-
-      Évite l'erreur d'ordre la plus fréquente sur ce filtre.
+      Évite l'erreur d'ordre la plus fréquente sur ce filter.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/src/ExpressionParser/Infix/ArgumentsTrait.php"
@@ -2685,9 +2685,9 @@ flashcards:
     language: fr
     level: TRAP
     front: "Twig : que produit 'checkout.total'|trans('fr') ?"
-    back: "Une `TypeError` : sur une chaîne, le deuxième argument doit être un tableau de paramètres."
+    back: "Une `TypeError` : sur une string, le deuxième argument doit être un array de parameters."
     explanation: >-
-      Une chaîne n'y est admise que si le message est un objet traduisible ; elle est alors prise comme locale : `t('x')|trans('fr')`.
+      Une string n'y est admise que si le message est un object traduisible ; elle est alors prise comme locale : `t('x')|trans('fr')`.
     memorization_justification: >-
       Même écriture, valide ou fatale selon le type du message.
     verification_status: VERIFIED
@@ -2703,8 +2703,8 @@ flashcards:
     official_item: OIT-sd08j04k60m0
     language: fr
     level: RECALL
-    front: "Twig : quel est le cinquième argument du filtre trans dans Symfony 8.0 ?"
-    back: "`count` : s'il est fourni, il renseigne le paramètre `%count%`."
+    front: "Twig : quel est le cinquième argument du filter trans dans Symfony 8.0 ?"
+    back: "`count` : s'il est fourni, il renseigne le parameter `%count%`."
     explanation: >-
       Signature de `TranslationExtension::trans()` : message, arguments, domain, locale, count.
     memorization_justification: >-
@@ -2722,10 +2722,10 @@ flashcards:
     official_item: OIT-sd08j04k60m0
     language: fr
     level: TRAP
-    front: "Symfony : la sortie de la balise trans est-elle échappée comme celle du filtre ?"
-    back: "Non : le filtre échappe, la balise n'échappe pas."
+    front: "Symfony : l'output du tag trans est-il échappé comme celui du filter ?"
+    back: "Non : le filter échappe, le tag n'échappe pas."
     explanation: >-
-      Avertissement de `translation.rst` (8.0). Pour afficher du HTML traduit par le filtre, on ajoute `|raw` après `|trans`.
+      Avertissement de `translation.rst` (8.0). Pour afficher du HTML traduit par le filter, on ajoute `|raw` après `|trans`.
     memorization_justification: >-
       Différence de sécurité entre deux écritures présentées comme équivalentes.
     verification_status: VERIFIED
@@ -2744,9 +2744,9 @@ flashcards:
     front: "Twig : dans {% trans %}Hello %name%{% endtrans %} sans with, d'où vient la valeur de %name% ?"
     back: "De la variable `name` du contexte : `TransNode` ajoute chaque emplacement non fourni en le lisant dans le contexte."
     explanation: >-
-      C'est pourquoi la balise exige la notation `%var%` : le nom entre pourcents est aussi le nom de la variable.
+      C'est pourquoi le tag exige la notation `%var%` : le nom entre pourcents est aussi le nom de la variable.
     memorization_justification: >-
-      Comportement implicite de la balise, absent du filtre.
+      Comportement implicite du tag, absent du filter.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Node/TransNode.php"
@@ -2769,7 +2769,7 @@ flashcards:
     front: "Twig : {% trans from 'app' with vars %}…{% endtrans %} est-il valide ?"
     back: "Non : les mots se lisent dans l'ordre `count`, `with`, `from`, `into` ; un mot hors de place est une erreur de syntaxe."
     explanation: >-
-      `TransTokenParser::parse()` teste les mots dans cet ordre, puis attend la fin de balise.
+      `TransTokenParser::parse()` teste les mots dans cet ordre, puis attend la fin de tag.
     memorization_justification: >-
       Ordre imposé par l'analyseur, facile à inverser.
     verification_status: VERIFIED
@@ -2785,10 +2785,10 @@ flashcards:
     official_item: OIT-sd08j04k60m0
     language: fr
     level: RECALL
-    front: "Symfony : les pourcents de %name% sont-ils obligatoires dans un message traduit par le filtre ?"
-    back: "Non : c'est une convention. `strtr()` remplace n'importe quel emplacement, `#name#` ou `{name}`, si la clé correspond exactement."
+    front: "Symfony : les pourcents de %name% sont-ils obligatoires dans un message traduit par le filter ?"
+    back: "Non : c'est une convention. `strtr()` remplace n'importe quel emplacement, `#name#` ou `{name}`, si la key correspond exactement."
     explanation: >-
-      Dans la balise, en revanche, la notation `%var%` est obligatoire.
+      Dans le tag, en revanche, la notation `%var%` est obligatoire.
     memorization_justification: >-
       Distingue convention et règle.
     verification_status: VERIFIED
@@ -2804,8 +2804,8 @@ flashcards:
     official_item: OIT-sd08j04k60m0
     language: fr
     level: UNDERSTANDING
-    front: "Symfony : qu'apporte le suffixe +intl-icu d'un fichier de catalogue ?"
-    back: "Tous les messages du fichier passent par `MessageFormatter` : emplacements `{name}`, pluriel, genre, règles propres à la locale."
+    front: "Symfony : qu'apporte le suffixe +intl-icu d'un file de catalogue ?"
+    back: "Tous les messages du file passent par `MessageFormatter` : emplacements `{name}`, pluriel, genre, règles propres à la locale."
     explanation: >-
       Sans le suffixe, `{name}` n'est qu'un emplacement ordinaire remplacé par `strtr()` : rien n'est pluralisé.
     memorization_justification: >-
@@ -2832,7 +2832,7 @@ flashcards:
     front: "Symfony : que la syntaxe de pluriel à barres permet-elle qu'ICU ne permet pas ?"
     back: "Les intervalles personnalisés, comme `]0,1000]` ; la documentation qualifie cette syntaxe de *legacy*."
     explanation: >-
-      Avec ICU, la logique de plage se déplace dans le code PHP, qui choisit la clé du message.
+      Avec ICU, la logique de plage se déplace dans le code PHP, qui choisit la key du message.
     memorization_justification: >-
       Seul avantage documenté de l'ancienne syntaxe.
     verification_status: VERIFIED
@@ -2848,8 +2848,8 @@ flashcards:
     official_item: OIT-sd08j04k60m0
     language: fr
     level: APPLICATION
-    front: "Twig : un gabarit fixe trans_default_domain 'admin' puis inclut _menu.html.twig. Quel domaine le menu utilise-t-il ?"
-    back: "`messages` : la balise n'influe que sur le gabarit courant, pas sur les gabarits inclus."
+    front: "Twig : un template fixe trans_default_domain 'admin' puis inclut _menu.html.twig. Quel domaine le menu utilise-t-il ?"
+    back: "`messages` : le tag n'influe que sur le template courant, pas sur les templates inclus."
     explanation: >-
       La documentation le justifie par l'absence d'effets de bord ; le menu doit poser son propre `trans_default_domain`.
     memorization_justification: >-
@@ -2867,10 +2867,10 @@ flashcards:
     official_item: OIT-sd08j04k60m0
     language: fr
     level: RECALL
-    front: "Twig : que construit la fonction t() ?"
-    back: "Un `TranslatableMessage` avec son message, ses paramètres et son domaine, traduit plus tard par `|trans`."
+    front: "Twig : que construit la function t() ?"
+    back: "Un `TranslatableMessage` avec son message, ses parameters et son domaine, traduit plus tard par `|trans`."
     explanation: >-
-      `TranslationExtension::createTranslatable()` ; une clé brute, elle, perd paramètres et domaine et échappe à `translation:extract`.
+      `TranslationExtension::createTranslatable()` ; une key brute, elle, perd parameters et domaine et échappe à `translation:extract`.
     memorization_justification: >-
       Base des messages traduisibles transmis entre couches.
     verification_status: VERIFIED
@@ -2893,7 +2893,7 @@ flashcards:
     language: fr
     level: RECALL
     front: 'Twig : que peut contenir le marqueur d''interpolation #{…} ?'
-    back: 'N''importe quelle expression valide : variable, calcul, appel de filtre. Son résultat est inséré dans la chaîne.'
+    back: 'N''importe quelle expression valide : variable, calcul, appel de filter. Son résultat est inséré dans la string.'
     explanation: 'Exemple de la documentation : `"first #{1 + 2} last"`.'
     memorization_justification: Lève la fausse restriction aux seuls noms de variables.
     verification_status: VERIFIED
@@ -2908,10 +2908,10 @@ flashcards:
     official_item: OIT-30gnb617ksex
     language: fr
     level: TRAP
-    front: 'Twig : que contient la chaîne ''a\nb'', écrite entre guillemets simples ?'
+    front: 'Twig : que contient la string ''a\nb'', écrite entre guillemets simples ?'
     back: 'Un vrai saut de ligne entre a et b : Twig traite les séquences d''échappement dans les deux sortes de guillemets, à l''inverse de PHP.'
-    explanation: Le `Lexer` passe toute chaîne littérale par sa fonction `stripcslashes()`, qui reconnaît `\n`, `\t`, `\r`, `\v`, `\f`, les formes hexadécimale et octale.
-    memorization_justification: Réflexe PHP qui trompe dans un gabarit.
+    explanation: Le `Lexer` passe toute string littérale par sa function `stripcslashes()`, qui reconnaît `\n`, `\t`, `\r`, `\v`, `\f`, les formes hexadécimale et octale.
+    memorization_justification: Réflexe PHP qui trompe dans un template.
     verification_status: VERIFIED
     official_sources:
     - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/src/Lexer.php
@@ -2930,9 +2930,9 @@ flashcards:
     official_item: OIT-30gnb617ksex
     language: fr
     level: RECALL
-    front: 'Twig : comment afficher littéralement le marqueur d''interpolation dans une chaîne à guillemets doubles ?'
+    front: 'Twig : comment afficher littéralement le marqueur d''interpolation dans une string à guillemets doubles ?'
     back: 'En le précédant d''une barre oblique inverse : `"premier \#{1 + 2} dernier"`.'
-    explanation: Passer en guillemets simples marche aussi, mais supprime l'interpolation dans toute la chaîne.
+    explanation: Passer en guillemets simples marche aussi, mais supprime l'interpolation dans toute la string.
     memorization_justification: Échappement propre à l'interpolation.
     verification_status: VERIFIED
     official_sources:
@@ -2948,7 +2948,7 @@ flashcards:
     level: UNDERSTANDING
     front: 'Twig : le choix entre guillemets simples et doubles a-t-il un coût en performance ?'
     back: 'Non : la documentation le dit explicitement. La seule différence est que l''interpolation n''existe qu''entre guillemets doubles.'
-    explanation: Sans interpolation, les deux formes produisent le même jeton de chaîne dans le `Lexer`.
+    explanation: Sans interpolation, les deux formes produisent le même token de string dans le `Lexer`.
     memorization_justification: Contredit un argument de performance souvent avancé.
     verification_status: VERIFIED
     official_sources:
@@ -2968,9 +2968,9 @@ flashcards:
     official_item: OIT-30gnb617ksex
     language: fr
     level: TRAP
-    front: 'Twig 3.22 : que produit la chaîne ''c:\Program Files'' ?'
-    back: 'Une dépréciation : `\P` n''est pas une séquence reconnue ; la barre est ignorée en Twig 3 et ne le sera plus en Twig 4. On écrit `''c:\\Program Files''`.'
-    explanation: Depuis Twig 3.12, une barre oblique inverse devant un caractère non reconnu déclenche une dépréciation dans le `Lexer`.
+    front: 'Twig 3.22 : que produit la string ''c:\Program Files'' ?'
+    back: 'Une deprecation : `\P` n''est pas une séquence reconnue ; la barre est ignorée en Twig 3 et ne le sera plus en Twig 4. On écrit `''c:\\Program Files''`.'
+    explanation: Depuis Twig 3.12, une barre oblique inverse devant un caractère non reconnu déclenche une deprecation dans le `Lexer`.
     memorization_justification: Piège de migration explicitement annoncé.
     verification_status: VERIFIED
     official_sources:
@@ -2990,9 +2990,9 @@ flashcards:
     official_item: OIT-30gnb617ksex
     language: fr
     level: APPLICATION
-    front: 'Twig : écrire en une chaîne le total d''un article, prix fois quantité, suivi du mot euros.'
+    front: 'Twig : écrire en une string le total d''un article, prix fois quantité, suivi du mot euros.'
     back: '`{{ "Total : #{price * qty} euros" }}` — l''expression calculée est interpolée.'
-    explanation: Entre guillemets simples, la même chaîne s'afficherait telle quelle, marqueur compris.
+    explanation: Entre guillemets simples, la même string s'afficherait telle quelle, marqueur compris.
     memorization_justification: Mise en pratique directe de l'interpolation d'une expression.
     verification_status: VERIFIED
     official_sources:
@@ -3006,7 +3006,7 @@ flashcards:
     official_item: OIT-30gnb617ksex
     language: fr
     level: APPLICATION
-    front: 'Twig : afficher Bonjour suivi du nom de l''utilisateur, sans interpolation.'
+    front: 'Twig : afficher Bonjour suivi du nom du user, sans interpolation.'
     back: 'Par concaténation : `{{ ''Bonjour '' ~ user.name }}`. L''opérateur `+` additionne des nombres, il ne concatène pas.'
     explanation: '`~` convertit ses opérandes en chaînes ; il fonctionne quels que soient les guillemets.'
     memorization_justification: Alternative à l'interpolation, et piège de l'opérateur d'addition.
@@ -3024,7 +3024,7 @@ flashcards:
     level: RECALL
     front: 'Twig : un caractère # seul, entre guillemets doubles, déclenche-t-il quelque chose ?'
     back: 'Non : seul `#` suivi de `{` ouvre une interpolation ; un `#` isolé reste du texte.'
-    explanation: L'expression régulière du `Lexer` pour les parties de chaîne double exclut précisément `#` suivi de `{`.
+    explanation: L'expression régulière du `Lexer` pour les parties de string double exclut précisément `#` suivi de `{`.
     memorization_justification: 'Évite d''échapper un # inutilement.'
     verification_status: VERIFIED
     official_sources:
@@ -3039,10 +3039,10 @@ flashcards:
     official_item: OIT-tw3xaqbz8xjy
     language: fr
     level: RECALL
-    front: 'Twig : quelle est la signature de la fonction asset() ?'
-    back: '`asset(path, packageName = null)` : le chemin relatif à `public/`, puis le nom du paquet, facultatif.'
-    explanation: Sans second argument, c'est le paquet par défaut de `framework.assets` qui répond.
-    memorization_justification: Base de toute question sur la fonction.
+    front: 'Twig : quelle est la signature de la function asset() ?'
+    back: '`asset(path, packageName = null)` : le path relatif à `public/`, puis le nom du package, facultatif.'
+    explanation: Sans second argument, c'est le package par défaut de `framework.assets` qui répond.
+    memorization_justification: Base de toute question sur la function.
     verification_status: VERIFIED
     official_sources:
     - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Extension/AssetExtension.php
@@ -3061,7 +3061,7 @@ flashcards:
     official_item: OIT-tw3xaqbz8xjy
     language: fr
     level: UNDERSTANDING
-    front: 'Symfony : dans quel ordre PathPackage::getUrl() traite-t-il un chemin ?'
+    front: 'Symfony : dans quel ordre PathPackage::getUrl() traite-t-il un path ?'
     back: URL absolue rendue telle quelle ; sinon version appliquée ; résultat commençant par / rendu tel quel ; sinon préfixé par la base.
     explanation: C'est cet ordre qui explique qu'une barre initiale garde la version mais perd le préfixe.
     memorization_justification: Un mécanisme qui explique plusieurs pièges à la fois.
@@ -3101,7 +3101,7 @@ flashcards:
     level: RECALL
     front: 'Symfony : avec framework.assets.version: ''v2'' et le format par défaut, que devient css/app.css ?'
     back: '`css/app.css?v2` : `StaticVersionStrategy` applique le format `%s?%s`, modifiable par `version_format`.'
-    explanation: La base du paquet s'ajoute ensuite si le chemin ne commence pas par une barre.
+    explanation: La base du package s'ajoute ensuite si le path ne commence pas par une barre.
     memorization_justification: Forme exacte de la version statique.
     verification_status: VERIFIED
     official_sources:
@@ -3124,7 +3124,7 @@ flashcards:
     front: 'Symfony : peut-on déclarer à la fois version et json_manifest_path sous framework.assets ?'
     back: 'Non : `version`, `version_strategy` et `json_manifest_path` s''excluent deux à deux ; la configuration est refusée.'
     explanation: '`Configuration::addAssetsSection()` porte une règle de validation pour chaque paire.'
-    memorization_justification: Contrainte de configuration explicitement codée.
+    memorization_justification: Constraint de configuration explicitement codée.
     verification_status: VERIFIED
     official_sources:
     - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/Configuration.php
@@ -3137,9 +3137,9 @@ flashcards:
     official_item: OIT-tw3xaqbz8xjy
     language: fr
     level: APPLICATION
-    front: 'Symfony : un chemin absent du manifeste JSON doit faire échouer le rendu au lieu de passer inaperçu. Quel réglage ?'
-    back: '`strict_mode: true` : le chemin manquant lève une `AssetNotFoundException`, avec des alternatives proposées.'
-    explanation: Sans mode strict, `JsonManifestVersionStrategy` rend le chemin inchangé quand il n'est pas dans le manifeste.
+    front: 'Symfony : un path absent du manifeste JSON doit faire échouer le rendu au lieu de passer inaperçu. Quel réglage ?'
+    back: '`strict_mode: true` : le path manquant lève une `AssetNotFoundException`, avec des alternatives proposées.'
+    explanation: Sans mode strict, `JsonManifestVersionStrategy` rend le path inchangé quand il n'est pas dans le manifeste.
     memorization_justification: Transforme une erreur silencieuse en erreur visible.
     verification_status: VERIFIED
     official_sources:
@@ -3159,9 +3159,9 @@ flashcards:
     official_item: OIT-tw3xaqbz8xjy
     language: fr
     level: APPLICATION
-    front: 'Twig : les images sont servies par un paquet nommé images. Comment l''appeler ?'
-    back: '`asset(''logo.png'', ''images'')` : le second argument choisit le paquet déclaré sous `framework.assets.packages`.'
-    explanation: Chaque paquet a sa propre base et sa propre version ; `asset_version('logo.png', 'images')` lit la sienne.
+    front: 'Twig : les images sont servies par un package nommé images. Comment l''appeler ?'
+    back: '`asset(''logo.png'', ''images'')` : le second argument choisit le package déclaré sous `framework.assets.packages`.'
+    explanation: Chaque package a sa propre base et sa propre version ; `asset_version('logo.png', 'images')` lit la sienne.
     memorization_justification: Usage direct du second argument.
     verification_status: VERIFIED
     official_sources:
@@ -3181,10 +3181,10 @@ flashcards:
     official_item: OIT-tw3xaqbz8xjy
     language: fr
     level: RECALL
-    front: 'Symfony : un paquet d''assets peut-il avoir à la fois base_path et base_urls ?'
-    back: 'Non : `FrameworkExtension` lève une `LogicException`. Avec `base_urls`, le paquet est un `UrlPackage` ; sinon un `PathPackage`.'
-    explanation: Un `UrlPackage` ajoute lui-même la barre initiale, donc une barre dans le chemin ne lui fait rien perdre.
-    memorization_justification: Relie la configuration à la classe de paquet utilisée.
+    front: 'Symfony : un package d''assets peut-il avoir à la fois base_path et base_urls ?'
+    back: 'Non : `FrameworkExtension` lève une `LogicException`. Avec `base_urls`, le package est un `UrlPackage` ; sinon un `PathPackage`.'
+    explanation: Un `UrlPackage` ajoute lui-même la barre initiale, donc une barre dans le path ne lui fait rien perdre.
+    memorization_justification: Relie la configuration à la class de package utilisée.
     verification_status: VERIFIED
     official_sources:
     - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php
@@ -3198,9 +3198,9 @@ flashcards:
     language: fr
     level: RECALL
     front: 'Twig : que retourne asset_version() ?'
-    back: 'La version que le paquet appliquerait au chemin donné : `asset_version(path, packageName = null)`.'
-    explanation: Le versionnement est configuré ; le gabarit se contente de le lire.
-    memorization_justification: Fonction voisine, souvent confondue avec un réglage.
+    back: 'La version que le package appliquerait au path donné : `asset_version(path, packageName = null)`.'
+    explanation: Le versionnement est configuré ; le template se contente de le lire.
+    memorization_justification: Function voisine, souvent confondue avec un réglage.
     verification_status: VERIFIED
     official_sources:
     - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Extension/AssetExtension.php
@@ -3220,9 +3220,9 @@ flashcards:
     official_item: OIT-3r7rp470754w
     language: fr
     level: RECALL
-    front: 'Twig : que sort dump() appelé sans argument, ou la balise dump seule ?'
-    back: Tout le contexte du gabarit, macros exclues.
-    explanation: '`DumpExtension::dump()` et `DumpNode` parcourent le contexte et écartent les objets `Template`, c''est-à-dire les macros importées.'
+    front: 'Twig : que sort dump() appelé sans argument, ou le tag dump seule ?'
+    back: Tout le contexte du template, macros exclues.
+    explanation: '`DumpExtension::dump()` et `DumpNode` parcourent le contexte et écartent les objects `Template`, c''est-à-dire les macros importées.'
     memorization_justification: Sortie volumineuse à reconnaître.
     verification_status: VERIFIED
     official_sources:
@@ -3244,7 +3244,7 @@ flashcards:
     level: TRAP
     front: 'Twig 3.22 : dump(blog_posts: articles) fonctionne-t-il avec la DumpExtension de Symfony 8.0 ?'
     back: 'Non : la compilation lève `SyntaxError: Unknown arguments`, bien que la documentation montre cet exemple. Les arguments positionnels passent.'
-    explanation: '`DumpExtension` déclare `dump(Environment $env, array $context)` sans argument variadique ; `CallableArgumentsExtractor` refuse alors tout nom inconnu. Vérifié en exécutant Twig 3.22 avec une fonction déclarée à l''identique.'
+    explanation: '`DumpExtension` déclare `dump(Environment $env, array $context)` sans argument variadique ; `CallableArgumentsExtractor` refuse alors tout nom inconnu. Vérifié en exécutant Twig 3.22 avec une function déclarée à l''identique.'
     memorization_justification: Écart entre un exemple documenté et le code.
     verification_status: VERIFIED
     official_sources:
@@ -3270,9 +3270,9 @@ flashcards:
     official_item: OIT-3r7rp470754w
     language: fr
     level: APPLICATION
-    front: 'Twig : envoyer articles et user à la barre de débogage, chacun étiqueté par son nom.'
-    back: '`{% dump articles, user %}` : la balise compile un tableau `nom => valeur`.'
-    explanation: '`DumpNode` produit `VarDumper::dump(["articles" => …, "user" => …])` quand la balise reçoit plusieurs variables.'
+    front: 'Twig : envoyer articles et user à la debug toolbar, chacun étiqueté par son nom.'
+    back: '`{% dump articles, user %}` : le tag compile un array `nom => valeur`.'
+    explanation: '`DumpNode` produit `VarDumper::dump(["articles" => …, "user" => …])` quand le tag reçoit plusieurs variables.'
     memorization_justification: Étiquetage sans argument nommé.
     verification_status: VERIFIED
     official_sources:
@@ -3286,8 +3286,8 @@ flashcards:
     official_item: OIT-3r7rp470754w
     language: fr
     level: UNDERSTANDING
-    front: 'Symfony : pourquoi la balise dump ne modifie-t-elle pas la page, contrairement à la fonction ?'
-    back: La balise compile un appel à `VarDumper::dump()`, que DebugBundle collecte pour la barre ; la fonction rend du HTML inséré dans la page.
+    front: 'Symfony : pourquoi le tag dump ne modifie-t-il pas la page, contrairement à la function ?'
+    back: Le tag compile un appel à `VarDumper::dump()`, que DebugBundle collecte pour la barre ; la function rend du HTML inséré dans la page.
     explanation: '`DumpExtension::dump()` écrit dans un flux mémoire et retourne son contenu, marqué sûr pour le HTML.'
     memorization_justification: Explique la différence de destination au lieu de l'apprendre par cœur.
     verification_status: VERIFIED
@@ -3308,9 +3308,9 @@ flashcards:
     official_item: OIT-3r7rp470754w
     language: fr
     level: TRAP
-    front: 'Symfony : un gabarit contenant dump() est déployé en prod, DebugBundle n''y étant pas activé. Que se passe-t-il ?'
-    back: 'La compilation échoue : `SyntaxError: Unknown "dump" function`. Ce n''est ni un avertissement ni une sortie vide.'
-    explanation: La fonction n'existe que si DebugBundle enregistre `twig.extension.dump`. La documentation parle d'une erreur PHP en `prod`.
+    front: 'Symfony : un template contenant dump() est déployé en prod, DebugBundle n''y étant pas activé. Que se passe-t-il ?'
+    back: 'La compilation échoue : `SyntaxError: Unknown "dump" function`. Ce n''est ni un avertissement ni un output vide.'
+    explanation: La function n'existe que si DebugBundle enregistre `twig.extension.dump`. La documentation parle d'une erreur PHP en `prod`.
     memorization_justification: Un oubli qui casse la page en production.
     verification_status: VERIFIED
     official_sources:
@@ -3330,8 +3330,8 @@ flashcards:
     official_item: OIT-3r7rp470754w
     language: fr
     level: UNDERSTANDING
-    front: 'Symfony : que font dump() et la balise dump si l''extension est chargée mais kernel.debug vaut false ?'
-    back: 'Rien : la fonction rend `null`, la balise n''exécute pas son corps. Les deux testent `isDebug()`.'
+    front: 'Symfony : que font dump() et le tag dump si l''extension est chargée mais kernel.debug vaut false ?'
+    back: 'Rien : la function rend `null`, le tag n''exécute pas son body. Les deux testent `isDebug()`.'
     explanation: Cas distinct de l'extension absente, qui échoue à la compilation.
     memorization_justification: Distingue deux causes d'absence de sortie.
     verification_status: VERIFIED
@@ -3353,8 +3353,8 @@ flashcards:
     language: fr
     level: RECALL
     front: 'Symfony : quel bundle enregistre l''extension Twig qui fournit dump() ?'
-    back: DebugBundle, sous l'identifiant `twig.extension.dump` (classe `DumpExtension`).
-    explanation: La documentation fait installer `symfony/debug-bundle` avant d'utiliser la fonction ou la balise.
+    back: DebugBundle, sous l'identifier `twig.extension.dump` (class `DumpExtension`).
+    explanation: La documentation fait installer `symfony/debug-bundle` avant d'utiliser la function ou le tag.
     memorization_justification: Relie la disponibilité de dump() à un bundle.
     verification_status: VERIFIED
     official_sources:
@@ -3374,10 +3374,10 @@ flashcards:
     official_item: OIT-3r7rp470754w
     language: fr
     level: APPLICATION
-    front: 'Symfony : lister seulement les fonctions et filtres Twig dont le nom contient date.'
+    front: 'Symfony : lister seulement les functions et filters Twig dont le nom contient date.'
     back: '`php bin/console debug:twig --filter=date`.'
-    explanation: Sans option, `debug:twig` liste fonctions, filtres, tests et globales ; avec un nom de gabarit, il montre le fichier réellement chargé.
-    memorization_justification: Usage ciblé de la commande d'inventaire.
+    explanation: Sans option, `debug:twig` liste functions, filters, tests et globales ; avec un nom de template, il montre le file réellement chargé.
+    memorization_justification: Usage ciblé de la command d'inventaire.
     verification_status: VERIFIED
     official_sources:
     - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Command/DebugCommand.php
@@ -3390,7 +3390,7 @@ flashcards:
     official_item: OIT-3r7rp470754w
     language: fr
     level: RECALL
-    front: 'Symfony : quelle option de lint:twig traite les dépréciations comme des erreurs ?'
+    front: 'Symfony : quelle option de lint:twig traite les deprecations comme des erreurs ?'
     back: '`--show-deprecations`.'
     explanation: '`lint:twig` vérifie la syntaxe sans rendre ; il accepte aussi `--format` et `--excludes`.'
     memorization_justification: Option utile en intégration continue.

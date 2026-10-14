@@ -10,10 +10,10 @@ flashcards:
   official_item: OIT-481gmkgbksnr
   language: fr
   level: RECALL
-  front: Que doit retourner la méthode d'exécution d'une commande ?
-  back: 'Un entier, qui devient le code de sortie du processus : Command::SUCCESS (0), FAILURE (1) ou INVALID (2).'
-  explanation: Un script d'intégration continue ou un cron lit ce code, jamais la sortie texte.
-  memorization_justification: On retient le nom des constantes sans retenir que la valeur de retour est obligatoire.
+  front: Que doit retourner la method d'exécution d'une command ?
+  back: 'Un int, qui devient le code de sortie du process : Command::SUCCESS (0), FAILURE (1) ou INVALID (2).'
+  explanation: Un script d'intégration continue ou un cron lit ce code, jamais l'output texte.
+  memorization_justification: On retient le nom des constantes sans retenir que la return value est obligatoire.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Command/Command.php
@@ -25,7 +25,7 @@ flashcards:
   official_item: OIT-zgq6w4jqamvb
   language: fr
   level: RECALL
-  front: Jusqu'où un nom de commande peut-il être abrégé ?
+  front: Jusqu'où un nom de command peut-il être abrégé ?
   back: 'Jusqu''à ce qu''il reste non ambigu : c:c suffit pour cache:clear. Une abréviation ambiguë provoque une
     erreur listant les candidats.'
   explanation: L'abréviation porte sur chaque segment du nom, pas seulement sur le début.
@@ -42,12 +42,12 @@ flashcards:
   official_item: OIT-kbg00jqxxwhq
   language: fr
   level: TRAP
-  front: Une commande Symfony 8.0 doit-elle étendre Command ?
-  back: 'Non. La forme recommandée est une classe ordinaire portant #[AsCommand] avec une méthode __invoke(): int.
+  front: Une command Symfony 8.0 doit-elle étendre Command ?
+  back: 'Non. La forme recommandée est une class ordinaire portant #[AsCommand] avec une method __invoke(): int.
     Étendre Command reste supporté, et nécessaire pour initialize() ; l''interaction passe aussi par #[Ask] et
     #[Interact].'
-  explanation: 'L''attribut suffit à l''autoconfiguration : le conteneur pose le tag console.command.'
-  memorization_justification: L'héritage était obligatoire dans les versions antérieures ; le réflexe survit à la
+  explanation: 'L''attribute suffit à l''autoconfiguration : le container pose le tag console.command.'
+  memorization_justification: L'inheritance était obligatoire dans les versions antérieures ; le réflexe survit à la
     version.
   verification_status: VERIFIED
   official_sources:
@@ -61,7 +61,7 @@ flashcards:
   language: fr
   level: RECALL
   front: À quel moment configure() est-elle appelée ?
-  back: 'À la fin du constructeur de Command, pas au lancement de la commande. D''où la règle : affecter ses propriétés
+  back: 'À la fin du constructeur de Command, pas au lancement de la command. D''où la règle : affecter ses properties
     avant parent::__construct() si configure() en dépend.'
   explanation: C'est le seul endroit de la documentation Symfony où l'on est invité à ne pas appeler le constructeur
     parent en premier.
@@ -77,10 +77,10 @@ flashcards:
   official_item: OIT-nr9m883d15qq
   language: fr
   level: TRAP
-  front: 'Que se passe-t-il si un paramètre #[Option] n''a pas de valeur par défaut ?'
-  back: 'La commande lève une LogicException au démarrage. Une option est facultative par nature : elle doit toujours
+  front: 'Que se passe-t-il si un parameter #[Option] n''a pas de default value ?'
+  back: 'La command lève une LogicException au démarrage. Une option est facultative par nature : elle doit toujours
     avoir une valeur en l''absence de saisie.'
-  explanation: C'est une erreur de définition, pas une erreur d'exécution — elle survient avant tout traitement.
+  explanation: C'est une erreur de definition, pas une erreur d'exécution — elle survient avant tout traitement.
   memorization_justification: On transpose la règle des arguments, où l'absence de défaut signifie « requis ».
   verification_status: VERIFIED
   official_sources:
@@ -93,11 +93,11 @@ flashcards:
   official_item: OIT-65sswf0qhw6c
   language: fr
   level: APPLICATION
-  front: Comment écrire sur STDERR depuis une commande ?
+  front: Comment écrire sur STDERR depuis une command ?
   back: Par getErrorOutput(), qui appartient à ConsoleOutputInterface et non à OutputInterface — d'où le test de
     type préalable sur $output.
-  explanation: Cela évite de mélanger les diagnostics aux données quand la sortie est redirigée vers un fichier.
-  memorization_justification: On cherche la méthode sur OutputInterface, où elle n'est pas.
+  explanation: Cela évite de mélanger les diagnostics aux données quand l'output est redirigé vers un file.
+  memorization_justification: On cherche la method sur OutputInterface, où elle n'est pas.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Output/ConsoleOutputInterface.php
@@ -110,7 +110,7 @@ flashcards:
   language: fr
   level: RECALL
   front: Que rend une question interactive lancée avec --no-interaction ?
-  back: Sa valeur par défaut, sans rien demander et sans avertissement.
+  back: Sa default value, sans rien demander et sans avertissement.
   explanation: C'est pourquoi une valeur obtenue par question doit toujours avoir un repli utilisable.
   memorization_justification: On s'attend à une erreur ou à un blocage ; le silence est le comportement réel.
   verification_status: VERIFIED
@@ -124,11 +124,11 @@ flashcards:
   official_item: OIT-cqs3m73y3rpy
   language: fr
   level: RECALL
-  front: Combien d'événements ConsoleEvents déclare-t-il, et lesquels ?
+  front: Combien d'events ConsoleEvents déclare-t-il, et lesquels ?
   back: 'Quatre : COMMAND, SIGNAL, ERROR, TERMINATE.'
   explanation: 'TERMINATE est atteint dans tous les cas, y compris après une erreur : c''est le seul point de sortie
     fiable.'
-  memorization_justification: Par analogie avec le noyau HTTP, on en invente un cinquième.
+  memorization_justification: Par analogie avec le kernel HTTP, on en invente un cinquième.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/ConsoleEvents.php
@@ -141,7 +141,7 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: Quelle différence entre --quiet et --silent ?
-  back: --quiet supprime la sortie normale mais laisse passer les erreurs ; --silent supprime tout, erreurs comprises.
+  back: --quiet supprime l'output normal mais laisse passer les erreurs ; --silent supprime tout, erreurs comprises.
     --silent est le niveau le plus bas.
   explanation: 'VERBOSITY_SILENT vaut 8, VERBOSITY_QUIET vaut 16 : silent est bien en dessous.'
   memorization_justification: Les deux drapeaux se ressemblent et sont couramment confondus.
@@ -162,7 +162,7 @@ flashcards:
   official_item: OIT-481gmkgbksnr
   language: fr
   level: RECALL
-  front: 'Symfony : quelles options rendent l''entrée d''une commande non interactive ?'
+  front: 'Symfony : quelles options rendent l''entrée d''une command non interactive ?'
   back: '`--no-interaction` (`-n`), et aussi `--quiet` (`-q`) et `--silent`.'
   explanation: Lu dans `Application::configureIO()` (8.0) ; exécuté avec `-n` et `-q`.
   memorization_justification: Options non interactives.
@@ -178,9 +178,9 @@ flashcards:
   official_item: OIT-481gmkgbksnr
   language: fr
   level: RECALL
-  front: 'Symfony : quel code de sortie donne une commande qui lève une exception de code 3 ?'
+  front: 'Symfony : quel code de sortie donne une command qui lève une exception de code 3 ?'
   back: 3 ; une exception de code 0 ou négatif donne 1.
-  explanation: Exécuté avec Console 8.0.15, dans un vrai processus.
+  explanation: Exécuté avec Console 8.0.15, dans un vrai process.
   memorization_justification: Code de sortie d'une exception.
   verification_status: VERIFIED
   official_sources:
@@ -196,7 +196,7 @@ flashcards:
   level: UNDERSTANDING
   front: 'Symfony : pourquoi interact() est-elle appelée sous cron, sans -n ?'
   back: Parce que seule une option (`-n`, `-q`, `--silent`) rend l'entrée non interactive ; l'absence de terminal ne suffit pas.
-  explanation: 'Exécuté sans TTY, entrée standard vide : `interact()` appelée, la question reçoit sa valeur par défaut.'
+  explanation: 'Exécuté sans TTY, entrée standard vide : `interact()` appelée, la question reçoit sa default value.'
   memorization_justification: Cron et interactivité.
   verification_status: VERIFIED
   official_sources:
@@ -216,7 +216,7 @@ flashcards:
   official_item: OIT-481gmkgbksnr
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi configure() n''est-elle pas une étape du lancement d''une commande ?'
+  front: 'Symfony : pourquoi configure() n''est-elle pas une étape du lancement d''une command ?'
   back: Parce qu'elle s'exécute dans le constructeur de `Command`, avant tout lancement.
   explanation: 'Exécuté : `ctor-start`, `configure`, `ctor-end`.'
   memorization_justification: Place de configure().
@@ -232,9 +232,9 @@ flashcards:
   official_item: OIT-481gmkgbksnr
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi une commande dont __invoke() ne retourne rien sort-elle avec le code 255 ?'
+  front: 'Symfony : pourquoi une command dont __invoke() ne retourne rien sort-elle avec le code 255 ?'
   back: 'Parce qu''elle lève une `TypeError`, qu''`Application` ne rattrape pas par défaut : PHP termine sur une erreur fatale.'
-  explanation: 'Exécuté : `TypeError`, la commande « must return an integer value », puis code 255.'
+  explanation: 'Exécuté : `TypeError`, la command « must return an integer value », puis code 255.'
   memorization_justification: Retour manquant.
   verification_status: VERIFIED
   official_sources:
@@ -254,7 +254,7 @@ flashcards:
   official_item: OIT-481gmkgbksnr
   language: fr
   level: APPLICATION
-  front: 'Symfony : lancer une commande depuis un cron sans qu''elle pose de question.'
+  front: 'Symfony : lancer une command depuis un cron sans qu''elle pose de question.'
   back: Passer `--no-interaction` (`-n`) ; prévoir un repli pour toute valeur obtenue dans `interact()`.
   explanation: Sans `-n`, `interact()` tourne même sans terminal.
   memorization_justification: Exécution automatisée.
@@ -276,9 +276,9 @@ flashcards:
   official_item: OIT-481gmkgbksnr
   language: fr
   level: APPLICATION
-  front: 'Symfony : poser une question dans une commande invocable qui n''étend pas Command.'
-  back: '`#[Ask]` sur le paramètre de `__invoke()`, ou une méthode publique marquée `#[Interact]`.'
-  explanation: 'Exécuté : la méthode `#[Interact]` tourne avant `__invoke()`, et elle est sautée avec `-n`.'
+  front: 'Symfony : poser une question dans une command invocable qui n''étend pas Command.'
+  back: '`#[Ask]` sur le parameter de `__invoke()`, ou une method publique marquée `#[Interact]`.'
+  explanation: 'Exécuté : la method `#[Interact]` tourne avant `__invoke()`, et elle est sautée avec `-n`.'
   memorization_justification: Interaction sans Command.
   verification_status: VERIFIED
   official_sources:
@@ -292,9 +292,9 @@ flashcards:
   official_item: OIT-481gmkgbksnr
   language: fr
   level: TRAP
-  front: 'Symfony : une commande qui retourne 300 sort-elle avec le code 300 ?'
+  front: 'Symfony : une command qui retourne 300 sort-elle avec le code 300 ?'
   back: 'Non : 255. `Application::run()` plafonne le code avant `exit()`.'
-  explanation: Exécuté dans un vrai processus.
+  explanation: Exécuté dans un vrai process.
   memorization_justification: Code hors plage.
   verification_status: VERIFIED
   official_sources:
@@ -308,7 +308,7 @@ flashcards:
   official_item: OIT-481gmkgbksnr
   language: fr
   level: TRAP
-  front: 'Symfony : -q ne fait-il que couper la sortie ?'
+  front: 'Symfony : -q ne fait-il que couper l''output ?'
   back: 'Non : il rend aussi l''entrée non interactive, donc `interact()` est sautée.'
   explanation: Exécuté avec Console 8.0.15.
   memorization_justification: Effet caché de -q.
@@ -324,7 +324,7 @@ flashcards:
   official_item: OIT-481gmkgbksnr
   language: fr
   level: TRAP
-  front: 'Symfony : une commande invocable peut-elle interagir sans étendre Command ?'
+  front: 'Symfony : une command invocable peut-elle interagir sans étendre Command ?'
   back: 'Oui : `#[Ask]` et `#[Interact]` en 8.0.'
   explanation: La documentation 8.0 les décrit dans « Interactive Input ».
   memorization_justification: Interaction réservée à Command.
@@ -340,10 +340,10 @@ flashcards:
   official_item: OIT-zgq6w4jqamvb
   language: fr
   level: RECALL
-  front: 'Symfony : quelle commande bin/console exécute-t-il sans argument ?'
-  back: '`list`, la commande par défaut de l''`Application`.'
-  explanation: 'Exécuté : la sortie commence par la version et la liste des commandes.'
-  memorization_justification: Commande par défaut.
+  front: 'Symfony : quelle command bin/console exécute-t-il sans argument ?'
+  back: '`list`, la command par défaut de l''`Application`.'
+  explanation: 'Exécuté : l''output commence par la version et la liste des commands.'
+  memorization_justification: Command par défaut.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Application.php
@@ -362,10 +362,10 @@ flashcards:
   official_item: OIT-zgq6w4jqamvb
   language: fr
   level: RECALL
-  front: 'Symfony : quelles options globales changent l''environnement d''un lancement de commande ?'
+  front: 'Symfony : quelles options globales changent l''environment d''un lancement de command ?'
   back: '`--env` (`-e`) et `--no-debug`.'
   explanation: Sans elles, `APP_ENV`, et `dev` par défaut.
-  memorization_justification: Environnement d'une commande.
+  memorization_justification: Environment d'une command.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Runtime/SymfonyRuntime.php
@@ -379,7 +379,7 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony : pourquoi deb:c échoue-t-il alors que c:c fonctionne ?'
-  back: Parce que `deb:c` correspond à deux commandes (`debug:config`, `debug:container`) ; `c:c` à une seule (`cache:clear`).
+  back: Parce que `deb:c` correspond à deux commands (`debug:config`, `debug:container`) ; `c:c` à une seule (`cache:clear`).
   explanation: 'Exécuté : « Command "deb:c" is ambiguous. »'
   memorization_justification: Abréviation ambiguë.
   verification_status: VERIFIED
@@ -395,7 +395,7 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony : pourquoi lint:xliff peut-il manquer dans bin/console list ?'
-  back: Parce que FrameworkBundle retire la commande quand le composant Translation n'est pas installé.
+  back: Parce que FrameworkBundle retire la command quand le composant Translation n'est pas installé.
   explanation: 'Exécuté : `lint:container`, `lint:twig`, `lint:yaml` seulement, sans Translation.'
   memorization_justification: Liste dépendante des composants.
   verification_status: VERIFIED
@@ -410,10 +410,10 @@ flashcards:
   official_item: OIT-zgq6w4jqamvb
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi debug:container renseigne-t-il mieux qu''une relecture des fichiers de configuration ?'
-  back: 'Parce qu''il lit le conteneur compilé : ce que Symfony a retenu, pas ce qu''on croit avoir écrit.'
+  front: 'Symfony : pourquoi debug:container renseigne-t-il mieux qu''une relecture des files de configuration ?'
+  back: 'Parce qu''il lit le container compilé : ce que Symfony a retenu, pas ce qu''on croit avoir écrit.'
   explanation: C'est l'intérêt de toute la famille `debug:*`.
-  memorization_justification: Rôle des commandes debug.
+  memorization_justification: Role des commands debug.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst
@@ -428,8 +428,8 @@ flashcards:
   level: APPLICATION
   front: 'Symfony : vider le cache de prod depuis un poste où APP_ENV vaut dev.'
   back: '`php bin/console cache:clear --env=prod`.'
-  explanation: Sans `--env`, la commande vise `dev`.
-  memorization_justification: Cible d'environnement.
+  explanation: Sans `--env`, la command vise `dev`.
+  memorization_justification: Cible d'environment.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Runtime/SymfonyRuntime.php
@@ -442,9 +442,9 @@ flashcards:
   official_item: OIT-zgq6w4jqamvb
   language: fr
   level: APPLICATION
-  front: 'Symfony : lister seulement les commandes d''inspection.'
+  front: 'Symfony : lister seulement les commands d''inspection.'
   back: '`php bin/console list debug`.'
-  explanation: '`list` accepte un espace de noms en argument.'
+  explanation: '`list` accepte un namespace en argument.'
   memorization_justification: Filtrer la liste.
   verification_status: VERIFIED
   official_sources:
@@ -458,7 +458,7 @@ flashcards:
   official_item: OIT-zgq6w4jqamvb
   language: fr
   level: TRAP
-  front: 'Symfony : le préfixe d''une commande indique-t-il le bundle qui l''a enregistrée ?'
+  front: 'Symfony : le préfixe d''une command indique-t-il le bundle qui l''a enregistrée ?'
   back: 'Non : il nomme le domaine sur lequel elle agit — `cache`, `debug`, `lint`.'
   explanation: '`debug:firewall` vient de SecurityBundle, `debug:router` de FrameworkBundle.'
   memorization_justification: Préfixe mal lu.
@@ -493,7 +493,7 @@ flashcards:
   front: 'Symfony : un cache:clear lancé sans option vide-t-il le cache de prod ?'
   back: 'Non, pas si `APP_ENV` vaut `dev` ou n''est pas défini : il vise `dev`.'
   explanation: '`SymfonyRuntime` retient `dev` par défaut.'
-  memorization_justification: Environnement implicite.
+  memorization_justification: Environment implicite.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Runtime/SymfonyRuntime.php
@@ -506,10 +506,10 @@ flashcards:
   official_item: OIT-kbg00jqxxwhq
   language: fr
   level: RECALL
-  front: 'Symfony : quel est le seul paramètre obligatoire de #[AsCommand] ?'
+  front: 'Symfony : quel est le seul parameter obligatoire de #[AsCommand] ?'
   back: '`name` ; `description`, `aliases`, `hidden`, `help` et `usages` sont facultatifs.'
   explanation: Lu dans le constructeur de `AsCommand` (8.0).
-  memorization_justification: Paramètres de l'attribut.
+  memorization_justification: Parameters de l'attribute.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Attribute/AsCommand.php
@@ -522,10 +522,10 @@ flashcards:
   official_item: OIT-kbg00jqxxwhq
   language: fr
   level: RECALL
-  front: 'Symfony : quel tag fait d''un service une commande de console ?'
+  front: 'Symfony : quel tag fait d''un service une command de console ?'
   back: '`console.command`.'
   explanation: L'autoconfiguration le pose pour `#[AsCommand]` et pour toute sous-classe de `Command`.
-  memorization_justification: Tag des commandes.
+  memorization_justification: Tag des commands.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php
@@ -538,10 +538,10 @@ flashcards:
   official_item: OIT-kbg00jqxxwhq
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi une classe qui étend Command, sans #[AsCommand], apparaît-elle quand même dans la liste ?'
+  front: 'Symfony : pourquoi une class qui étend Command, sans #[AsCommand], apparaît-elle quand même dans la liste ?'
   back: Parce que l'autoconfiguration pose `console.command` sur toute sous-classe de `Command`.
   explanation: 'Exécuté : enregistrée et exécutable, nom posé dans `configure()`.'
-  memorization_justification: Autoconfiguration par héritage.
+  memorization_justification: Autoconfiguration par inheritance.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php
@@ -554,10 +554,10 @@ flashcards:
   official_item: OIT-kbg00jqxxwhq
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi une classe invocable sans #[AsCommand] n''est-elle pas une commande ?'
-  back: 'Parce que rien ne lui pose le tag `console.command` : elle n''étend pas `Command` et ne porte pas l''attribut.'
+  front: 'Symfony : pourquoi une class invocable sans #[AsCommand] n''est-elle pas une command ?'
+  back: 'Parce que rien ne lui pose le tag `console.command` : elle n''étend pas `Command` et ne porte pas l''attribute.'
   explanation: 'Exécuté : absente de l''application.'
-  memorization_justification: Invocable sans attribut.
+  memorization_justification: Invocable sans attribute.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php
@@ -571,9 +571,9 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony : pourquoi étendre Command reste-t-il utile en 8.0 ?'
-  back: Pour `initialize()`, qui n'a pas d'équivalent par attribut ; l'interaction, elle, a `#[Ask]` et `#[Interact]`.
-  explanation: 'Lu dans les attributs de Console 8.0 : `Argument`, `AsCommand`, `Ask`, `Interact`, `MapInput`, `Option`.'
-  memorization_justification: Ce que l'héritage apporte encore.
+  back: Pour `initialize()`, qui n'a pas d'équivalent par attribute ; l'interaction, elle, a `#[Ask]` et `#[Interact]`.
+  explanation: 'Lu dans les attributes de Console 8.0 : `Argument`, `AsCommand`, `Ask`, `Interact`, `MapInput`, `Option`.'
+  memorization_justification: Ce que l'inheritance apporte encore.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console/input.rst
@@ -592,10 +592,10 @@ flashcards:
   official_item: OIT-kbg00jqxxwhq
   language: fr
   level: APPLICATION
-  front: 'Symfony : demander un argument manquant dans une commande invocable.'
-  back: '`#[Argument, Ask(''Name?'')] string $name` sur le paramètre de `__invoke()`.'
+  front: 'Symfony : demander un argument manquant dans une command invocable.'
+  back: '`#[Argument, Ask(''Name?'')] string $name` sur le parameter de `__invoke()`.'
   explanation: 'Exécuté : question posée si l''argument manque, sautée s''il est fourni ; avec `-n`, « Not enough arguments ».'
-  memorization_justification: Question sans héritage.
+  memorization_justification: Question sans inheritance.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console/input.rst
@@ -608,10 +608,10 @@ flashcards:
   official_item: OIT-kbg00jqxxwhq
   language: fr
   level: APPLICATION
-  front: 'Symfony : rendre disponible une commande invocable venue d''une bibliothèque, sans attribut.'
+  front: 'Symfony : rendre disponible une command invocable venue d''une bibliothèque, sans attribute.'
   back: La déclarer comme service avec le tag `console.command`.
   explanation: La ressource `src/` ne la charge pas, et rien ne lui pose le tag.
-  memorization_justification: Commande de bibliothèque.
+  memorization_justification: Command de bibliothèque.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst
@@ -631,9 +631,9 @@ flashcards:
   language: fr
   level: TRAP
   front: 'Symfony : sans #[AsCommand], faut-il toujours poser le tag console.command à la main ?'
-  back: 'Non : une sous-classe de `Command` l''obtient par autoconfiguration ; seule une classe invocable en a besoin.'
+  back: 'Non : une sous-classe de `Command` l''obtient par autoconfiguration ; seule une class invocable en a besoin.'
   explanation: Exécuté avec FrameworkBundle 8.0.15.
-  memorization_justification: Attribut supposé indispensable.
+  memorization_justification: Attribute supposé indispensable.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php
@@ -646,10 +646,10 @@ flashcards:
   official_item: OIT-kbg00jqxxwhq
   language: fr
   level: TRAP
-  front: 'Symfony : hidden: true retire-t-il la commande de l''application ?'
+  front: 'Symfony : hidden: true retire-t-il la command de l''application ?'
   back: 'Non : seulement de `list` ; elle s''exécute par son nom et par ses alias.'
   explanation: 'Exécuté : `app:hidden` et `app:h` répondent, absents de `list`.'
-  memorization_justification: Commande cachée.
+  memorization_justification: Command cachée.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Attribute/AsCommand.php
@@ -662,10 +662,10 @@ flashcards:
   official_item: OIT-kbg00jqxxwhq
   language: fr
   level: TRAP
-  front: 'Symfony : poser une question à l''utilisateur oblige-t-il à étendre Command ?'
-  back: 'Non : `#[Ask]` et `#[Interact]` le font sur une commande invocable.'
+  front: 'Symfony : poser une question au user oblige-t-il à étendre Command ?'
+  back: 'Non : `#[Ask]` et `#[Interact]` le font sur une command invocable.'
   explanation: Seul `initialize()` reste propre à `Command`.
-  memorization_justification: Interaction réservée à l'héritage.
+  memorization_justification: Interaction réservée à l'inheritance.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console/input.rst
@@ -678,10 +678,10 @@ flashcards:
   official_item: OIT-1hdmw4gm819r
   language: fr
   level: RECALL
-  front: 'Symfony : comment cacher une commande par son seul nom dans #[AsCommand] ?'
+  front: 'Symfony : comment cacher une command par son seul nom dans #[AsCommand] ?'
   back: 'En commençant le nom par un segment vide : `name: ''|app:secret''`.'
   explanation: 'Équivaut à `hidden: true` ; exécuté : absente de `list`, exécutable.'
-  memorization_justification: Commande cachée par le nom.
+  memorization_justification: Command cachée par le nom.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/DependencyInjection/AddConsoleCommandPass.php
@@ -700,7 +700,7 @@ flashcards:
   official_item: OIT-1hdmw4gm819r
   language: fr
   level: RECALL
-  front: 'Symfony : quels paramètres de #[AsCommand] FrameworkBundle 8.0 transmet-il au tag console.command ?'
+  front: 'Symfony : quels parameters de #[AsCommand] FrameworkBundle 8.0 transmet-il au tag console.command ?'
   back: '`name`, `description` et `help`.'
   explanation: Lu dans `FrameworkExtension` (8.0) ; `usages` n'y figure pas.
   memorization_justification: Contenu du tag.
@@ -717,8 +717,8 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony : pourquoi poser la description dans #[AsCommand] plutôt que dans configure() ?'
-  back: Parce que `list` la lit alors sans construire la classe ; dans `configure()`, il doit instancier la commande.
-  explanation: 'Exécuté : seule la commande décrite dans `configure()` a été construite par `list`.'
+  back: Parce que `list` la lit alors sans construire la class ; dans `configure()`, il doit instancier la command.
+  explanation: 'Exécuté : seule la command décrite dans `configure()` a été construite par `list`.'
   memorization_justification: Chargement paresseux.
   verification_status: VERIFIED
   official_sources:
@@ -738,7 +738,7 @@ flashcards:
   official_item: OIT-1hdmw4gm819r
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi les usages d''une commande invocable n''apparaissent-ils pas dans --help d''une application Symfony ?'
+  front: 'Symfony : pourquoi les usages d''une command invocable n''apparaissent-ils pas dans --help d''une application Symfony ?'
   back: Parce que FrameworkBundle ne transmet pas `usages` au tag `console.command` ; une sous-classe de `Command` les lit dans son propre constructeur.
   explanation: 'Exécuté : `[]` pour l''invocable, `["app:usage-sub carol"]` pour la sous-classe.'
   memorization_justification: Divergence documentation / code.
@@ -760,7 +760,7 @@ flashcards:
   official_item: OIT-1hdmw4gm819r
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi affecter ses propriétés avant parent::__construct() quand configure() les lit ?'
+  front: 'Symfony : pourquoi affecter ses properties avant parent::__construct() quand configure() les lit ?'
   back: Parce que `configure()` est appelée à la fin du constructeur de `Command`.
   explanation: 'Exécuté : `ctor-start`, `configure`, `ctor-end`.'
   memorization_justification: Ordre de construction.
@@ -776,9 +776,9 @@ flashcards:
   official_item: OIT-1hdmw4gm819r
   language: fr
   level: APPLICATION
-  front: 'Symfony : donner deux alias à app:create-user dans l''attribut.'
-  back: '`#[AsCommand(name: ''app:create-user|app:add-user|app:new-user'')]`, ou le paramètre `aliases`.'
-  explanation: Le constructeur de l'attribut fusionne les deux formes.
+  front: 'Symfony : donner deux alias à app:create-user dans l''attribute.'
+  back: '`#[AsCommand(name: ''app:create-user|app:add-user|app:new-user'')]`, ou le parameter `aliases`.'
+  explanation: Le constructeur de l'attribute fusionne les deux formes.
   memorization_justification: Alias.
   verification_status: VERIFIED
   official_sources:
@@ -798,10 +798,10 @@ flashcards:
   official_item: OIT-1hdmw4gm819r
   language: fr
   level: APPLICATION
-  front: 'Symfony : garder une commande de maintenance exécutable mais absente de list.'
+  front: 'Symfony : garder une command de maintenance exécutable mais absente de list.'
   back: '`#[AsCommand(name: ''app:purge'', hidden: true)]`.'
   explanation: Elle reste exécutable par son nom et ses alias.
-  memorization_justification: Commande interne.
+  memorization_justification: Command interne.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Attribute/AsCommand.php
@@ -814,7 +814,7 @@ flashcards:
   official_item: OIT-1hdmw4gm819r
   language: fr
   level: TRAP
-  front: 'Symfony : hidden: true désactive-t-il une commande ?'
+  front: 'Symfony : hidden: true désactive-t-il une command ?'
   back: 'Non : elle disparaît de `list`, mais s''exécute toujours.'
   explanation: 'Exécuté : code 0.'
   memorization_justification: Cachée n'est pas désactivée.
@@ -830,7 +830,7 @@ flashcards:
   official_item: OIT-1hdmw4gm819r
   language: fr
   level: TRAP
-  front: 'Symfony : un usage doit-il répéter le nom de la commande ?'
+  front: 'Symfony : un usage doit-il répéter le nom de la command ?'
   back: 'Non : `addUsage()` le préfixe à tout usage qui ne commence pas par lui.'
   explanation: 'Exécuté : `bob` devient `app:usage bob`.'
   memorization_justification: Préfixe des usages.
@@ -846,8 +846,8 @@ flashcards:
   official_item: OIT-1hdmw4gm819r
   language: fr
   level: TRAP
-  front: 'Symfony : configure() voit-elle l''entrée tapée par l''utilisateur ?'
-  back: 'Non : elle s''exécute à la construction de la commande, avant tout lancement.'
+  front: 'Symfony : configure() voit-elle l''entrée tapée par le user ?'
+  back: 'Non : elle s''exécute à la construction de la command, avant tout lancement.'
   explanation: C'est `initialize()` qui reçoit l'entrée en premier.
   memorization_justification: Moment de configure().
   verification_status: VERIFIED
@@ -862,7 +862,7 @@ flashcards:
   official_item: OIT-nr9m883d15qq
   language: fr
   level: RECALL
-  front: 'Symfony : quels types un paramètre #[Option] accepte-t-il ?'
+  front: 'Symfony : quels types un parameter #[Option] accepte-t-il ?'
   back: '`string`, `bool`, `int`, `float`, `array` et les `BackedEnum` ; en union, seulement `bool|string`, `bool|int`, `bool|float`.'
   explanation: 'Exécuté : `DateTimeImmutable` et `int|string` lèvent une `LogicException`.'
   memorization_justification: Types admis.
@@ -878,8 +878,8 @@ flashcards:
   official_item: OIT-nr9m883d15qq
   language: fr
   level: RECALL
-  front: 'Symfony : quel nom d''option donne le paramètre $maxRetries ?'
-  back: '`--max-retries` : le nom du paramètre en kebab-case.'
+  front: 'Symfony : quel nom d''option donne le parameter $maxRetries ?'
+  back: '`--max-retries` : le nom du parameter en kebab-case.'
   explanation: 'Exécuté : `$maxRetries` devient `max-retries`.'
   memorization_justification: Nom par défaut.
   verification_status: VERIFIED
@@ -900,10 +900,10 @@ flashcards:
   official_item: OIT-nr9m883d15qq
   language: fr
   level: RECALL
-  front: 'Symfony : quels paramètres partagent #[Argument] et #[Option] ?'
+  front: 'Symfony : quels parameters partagent #[Argument] et #[Option] ?'
   back: '`description`, `name` et `suggestedValues` ; `#[Option]` ajoute `shortcut`.'
-  explanation: Lu dans les constructeurs des deux attributs (8.0).
-  memorization_justification: Paramètres des attributs.
+  explanation: Lu dans les constructeurs des deux attributes (8.0).
+  memorization_justification: Parameters des attributes.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Attribute/Option.php
@@ -923,7 +923,7 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony : pourquoi #[Option] bool $loud = true accepte-t-il --no-loud ?'
-  back: Parce qu'un booléen dont le défaut n'est pas `false` devient négociable (`VALUE_NEGATABLE`).
+  back: Parce qu'un bool dont le défaut n'est pas `false` devient négociable (`VALUE_NEGATABLE`).
   explanation: 'Exécuté : `true` sans option, `false` avec `--no-loud`.'
   memorization_justification: Option négociable.
   verification_status: VERIFIED
@@ -954,10 +954,10 @@ flashcards:
   official_item: OIT-nr9m883d15qq
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi aucun argument ne peut-il suivre un argument tableau ?'
-  back: Parce que l'argument tableau absorbe toutes les valeurs positionnelles restantes.
+  front: 'Symfony : pourquoi aucun argument ne peut-il suivre un argument array ?'
+  back: Parce que l'argument array absorbe toutes les valeurs positionnelles restantes.
   explanation: 'Exécuté : même un argument optionnel est refusé, message « Cannot add a required argument ».'
-  memorization_justification: Argument tableau en dernier.
+  memorization_justification: Argument array en dernier.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Input/InputDefinition.php
@@ -970,8 +970,8 @@ flashcards:
   official_item: OIT-nr9m883d15qq
   language: fr
   level: APPLICATION
-  front: 'Symfony : une option --output utilisable seule ou avec un fichier.'
-  back: '`#[Option] string|bool $output = false` : `--output` donne `true`, `--output=f.txt` la chaîne.'
+  front: 'Symfony : une option --output utilisable seule ou avec un file.'
+  back: '`#[Option] string|bool $output = false` : `--output` donne `true`, `--output=f.txt` la string.'
   explanation: Exécuté avec Console 8.0.15.
   memorization_justification: Valeur optionnelle.
   verification_status: VERIFIED
@@ -986,7 +986,7 @@ flashcards:
   official_item: OIT-nr9m883d15qq
   language: fr
   level: APPLICATION
-  front: 'Symfony : une option --fmt limitée aux cas d''une énumération Fmt.'
+  front: 'Symfony : une option --fmt limitée aux cas d''une enum Fmt.'
   back: '`#[Option] Fmt $fmt = Fmt::Json` avec `enum Fmt: string`.'
   explanation: 'Exécuté : `--fmt=csv` donne `Fmt::Csv` ; `--fmt=xml` échoue en listant les valeurs valides.'
   memorization_justification: Option énumérée.
@@ -1002,8 +1002,8 @@ flashcards:
   official_item: OIT-nr9m883d15qq
   language: fr
   level: TRAP
-  front: 'Symfony : un argument optionnel peut-il suivre un argument tableau ?'
-  back: 'Non : tout argument est refusé après un argument tableau, optionnel compris.'
+  front: 'Symfony : un argument optionnel peut-il suivre un argument array ?'
+  back: 'Non : tout argument est refusé après un argument array, optionnel compris.'
   explanation: Le message parle pourtant d'« argument requis ».
   memorization_justification: Ordre des arguments.
   verification_status: VERIFIED
@@ -1021,7 +1021,7 @@ flashcards:
   front: 'Symfony : #[Option] array $roles = [] a-t-il pour seul mode VALUE_IS_ARRAY ?'
   back: 'Non : `VALUE_REQUIRED` + `VALUE_IS_ARRAY` ; une valeur doit suivre chaque `--roles`.'
   explanation: 'Exécuté : `accepts-value`, `VALUE_REQUIRED`, `IS_ARRAY`.'
-  memorization_justification: Mode d'une option tableau.
+  memorization_justification: Mode d'une option array.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Attribute/Option.php
@@ -1034,7 +1034,7 @@ flashcards:
   official_item: OIT-65sswf0qhw6c
   language: fr
   level: RECALL
-  front: 'Symfony : quelles sont les quatre balises de style définies par défaut ?'
+  front: 'Symfony : quelles sont les quatre tags de style définies par défaut ?'
   back: '`info` (vert), `comment` (jaune), `question` (noir sur cyan), `error` (blanc sur rouge).'
   explanation: Lu dans le constructeur d'`OutputFormatter` (8.0).
   memorization_justification: Styles par défaut.
@@ -1051,8 +1051,8 @@ flashcards:
   language: fr
   level: RECALL
   front: 'Symfony : quelles sont les trois implémentations courantes d''InputInterface ?'
-  back: '`ArgvInput` (la ligne de commande), `ArrayInput` (un tableau), `StringInput` (une chaîne).'
-  explanation: 'Même contrat : une commande écrite contre l''interface fonctionne avec les trois.'
+  back: '`ArgvInput` (la ligne de command), `ArrayInput` (un array), `StringInput` (une string).'
+  explanation: 'Même contrat : une command écrite contre l''interface fonctionne avec les trois.'
   memorization_justification: Sources d'entrée.
   verification_status: VERIFIED
   official_sources:
@@ -1066,8 +1066,8 @@ flashcards:
   official_item: OIT-65sswf0qhw6c
   language: fr
   level: RECALL
-  front: 'Symfony : quelle méthode de SymfonyStyle écrit sur STDERR ?'
-  back: '`getErrorStyle()`, qui rend la même API branchée sur la sortie d''erreur.'
+  front: 'Symfony : quelle method de SymfonyStyle écrit sur STDERR ?'
+  back: '`getErrorStyle()`, qui rend la même API branchée sur l''output d''erreur.'
   explanation: Documentation 8.0, « How to Style a Console Command ».
   memorization_justification: Sortie d'erreur stylée.
   verification_status: VERIFIED
@@ -1082,10 +1082,10 @@ flashcards:
   official_item: OIT-65sswf0qhw6c
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi hasOption(''dry-run'') vaut-il true même sans --dry-run sur la ligne de commande ?'
-  back: 'Parce qu''il interroge la définition : l''option est déclarée. La valeur se lit avec `getOption()`.'
+  front: 'Symfony : pourquoi hasOption(''dry-run'') vaut-il true même sans --dry-run sur la ligne de command ?'
+  back: 'Parce qu''il interroge la definition : l''option est déclarée. La valeur se lit avec `getOption()`.'
   explanation: 'Exécuté : `hasOption` `true`, `getOption` `false` sans l''option.'
-  memorization_justification: Définition ou ligne de commande.
+  memorization_justification: Definition ou ligne de command.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Input/Input.php
@@ -1098,8 +1098,8 @@ flashcards:
   official_item: OIT-65sswf0qhw6c
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi OUTPUT_PLAIN laisse-t-il des couleurs sur une sortie décorée ?'
-  back: 'Parce qu''il formate d''abord le message, puis applique `strip_tags()` : les codes de couleur ne sont pas des balises.'
+  front: 'Symfony : pourquoi OUTPUT_PLAIN laisse-t-il des couleurs sur un output décoré ?'
+  back: 'Parce qu''il formate d''abord le message, puis applique `strip_tags()` : les codes de couleur ne sont pas des tags.'
   explanation: 'Exécuté : `ok` toujours en vert, `<script>x</script>` réduit à `x`.'
   memorization_justification: Mode de rendu PLAIN.
   verification_status: VERIFIED
@@ -1114,8 +1114,8 @@ flashcards:
   official_item: OIT-65sswf0qhw6c
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi échapper une chaîne venue de l''utilisateur avant de l''écrire ?'
-  back: 'Parce qu''une balise connue qu''elle contiendrait serait interprétée : `<info>x</info>` s''afficherait `x`.'
+  front: 'Symfony : pourquoi échapper une string venue du user avant de l''écrire ?'
+  back: 'Parce qu''un tag connu qu''elle contiendrait serait interprété : `<info>x</info>` s''afficherait `x`.'
   explanation: Exécuté ; `OutputFormatter::escape()` l'affiche telle quelle.
   memorization_justification: Échappement.
   verification_status: VERIFIED
@@ -1130,10 +1130,10 @@ flashcards:
   official_item: OIT-65sswf0qhw6c
   language: fr
   level: APPLICATION
-  front: 'Symfony : lire --env avant que l''option soit déclarée dans une définition.'
+  front: 'Symfony : lire --env avant que l''option soit déclarée dans une definition.'
   back: '`$input->hasParameterOption(''--env'')` puis `getParameterOption(''--env'')` sur un `ArgvInput`.'
-  explanation: 'Exécuté sans définition : `true`, puis `''prod''`.'
-  memorization_justification: Ligne de commande brute.
+  explanation: 'Exécuté sans definition : `true`, puis `''prod''`.'
+  memorization_justification: Ligne de command brute.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Input/ArgvInput.php
@@ -1164,7 +1164,7 @@ flashcards:
   level: TRAP
   front: 'Symfony : getErrorOutput() fait-il partie d''OutputInterface ?'
   back: 'Non : de `ConsoleOutputInterface` ; d''où le test `instanceof` avant l''appel.'
-  explanation: '`ConsoleOutput` l''implémente ; une sortie de test peut ne pas l''implémenter.'
+  explanation: '`ConsoleOutput` l''implémente ; un output de test peut ne pas l''implémenter.'
   memorization_justification: Interface supposée.
   verification_status: VERIFIED
   official_sources:
@@ -1178,10 +1178,10 @@ flashcards:
   official_item: OIT-65sswf0qhw6c
   language: fr
   level: TRAP
-  front: 'Symfony : une balise inconnue comme <script> disparaît-elle de la sortie normale ?'
-  back: 'Non : le formateur ne touche qu''aux balises qu''il connaît ; `<script>` passe intacte.'
+  front: 'Symfony : un tag inconnu comme <script> disparaît-il de l''output normal ?'
+  back: 'Non : le formateur ne touche qu''aux tags qu''il connaît ; `<script>` passe intacte.'
   explanation: Exécuté en `OUTPUT_NORMAL`.
-  memorization_justification: Balise inconnue.
+  memorization_justification: Tag inconnu.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Formatter/OutputFormatter.php
@@ -1210,7 +1210,7 @@ flashcards:
   official_item: OIT-v6wxp78gk42c
   language: fr
   level: RECALL
-  front: 'Symfony : quelle méthode change le total d''une ProgressBar en cours de route ?'
+  front: 'Symfony : quelle method change le total d''une ProgressBar en cours de route ?'
   back: '`setMaxSteps()`.'
   explanation: La documentation 8.0 la montre pour un total découvert en cours de tâche.
   memorization_justification: Total ajustable.
@@ -1227,7 +1227,7 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony : pourquoi « yeti » confirme-t-il une ConfirmationQuestion ?'
-  back: 'Parce que l''expression par défaut est `/^y/i` : toute réponse commençant par y, quelle que soit la casse.'
+  back: 'Parce que l''expression par défaut est `/^y/i` : toute Response commençant par y, quelle que soit la casse.'
   explanation: 'Exécuté : `yeti` et `Yes` donnent `true`.'
   memorization_justification: Expression de confirmation.
   verification_status: VERIFIED
@@ -1242,7 +1242,7 @@ flashcards:
   official_item: OIT-v6wxp78gk42c
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi une question sans défaut peut-elle arrêter une commande lancée par cron sans -n ?'
+  front: 'Symfony : pourquoi une question sans défaut peut-elle arrêter une command lancée par cron sans -n ?'
   back: Parce que l'entrée reste interactive, la question est posée, et la fin de l'entrée vide lève `MissingInputException` (« Aborted. »).
   explanation: Exécuté avec Console 8.0.15.
   memorization_justification: Entrée vide.
@@ -1290,7 +1290,7 @@ flashcards:
   official_item: OIT-v6wxp78gk42c
   language: fr
   level: APPLICATION
-  front: 'Symfony : demander un environnement parmi dev et prod, dev par défaut.'
+  front: 'Symfony : demander un environment parmi dev et prod, dev par défaut.'
   back: '`new ChoiceQuestion(''Environnement ?'', [''dev'', ''prod''], 0)`.'
   explanation: 'Exécuté en non interactif : `''dev''`, la valeur et non l''index.'
   memorization_justification: Choix avec défaut.
@@ -1322,7 +1322,7 @@ flashcards:
   official_item: OIT-v6wxp78gk42c
   language: fr
   level: TRAP
-  front: 'Symfony : ConfirmationQuestion(''Continuer ?'') vaut-elle false sur une réponse vide ?'
+  front: 'Symfony : ConfirmationQuestion(''Continuer ?'') vaut-elle false sur une Response vide ?'
   back: 'Non : `true`, son défaut quand le second argument est omis.'
   explanation: Exécuté avec Console 8.0.15.
   memorization_justification: Défaut de confirmation.
@@ -1354,7 +1354,7 @@ flashcards:
   official_item: OIT-cqs3m73y3rpy
   language: fr
   level: RECALL
-  front: 'Symfony : quel code de sortie donne une commande désactivée par disableCommand() ?'
+  front: 'Symfony : quel code de sortie donne une command désactivée par disableCommand() ?'
   back: 113, `ConsoleCommandEvent::RETURN_CODE_DISABLED`.
   explanation: 'Exécuté : 113, et `TERMINATE` dispatché avec ce code.'
   memorization_justification: Code de désactivation.
@@ -1370,8 +1370,8 @@ flashcards:
   official_item: OIT-cqs3m73y3rpy
   language: fr
   level: RECALL
-  front: 'Symfony : quelle constante de ConsoleEvents n''est pas un événement ?'
-  back: '`ALIASES`, qui associe chaque classe d''événement à son nom.'
+  front: 'Symfony : quelle constante de ConsoleEvents n''est pas un event ?'
+  back: '`ALIASES`, qui associe chaque class d''event à son nom.'
   explanation: Lu dans `ConsoleEvents` (8.0).
   memorization_justification: Constante annexe.
   verification_status: VERIFIED
@@ -1386,10 +1386,10 @@ flashcards:
   official_item: OIT-cqs3m73y3rpy
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi mesurer la durée d''une commande sur TERMINATE plutôt que sur ERROR ?'
-  back: Parce que `TERMINATE` est dispatché dans tous les cas — succès, erreur, commande désactivée.
+  front: 'Symfony : pourquoi mesurer la durée d''une command sur TERMINATE plutôt que sur ERROR ?'
+  back: Parce que `TERMINATE` est dispatché dans tous les cas — succès, erreur, command désactivée.
   explanation: 'Exécuté : `TERMINATE` après succès, après exception et après `disableCommand()`.'
-  memorization_justification: Événement final.
+  memorization_justification: Event final.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Application.php
@@ -1402,7 +1402,7 @@ flashcards:
   official_item: OIT-cqs3m73y3rpy
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi une Application construite à la main n''émet-elle aucun événement de console ?'
+  front: 'Symfony : pourquoi une Application construite à la main n''émet-elle aucun event de console ?'
   back: Parce qu'elle n'a pas de dispatcher tant qu'on n'a pas appelé `setDispatcher()` ; FrameworkBundle le lui donne.
   explanation: 'Exécuté : sans dispatcher, l''exception sort avec 1, sans `ERROR` ni `TERMINATE`.'
   memorization_justification: Dispatcher absent.
@@ -1434,7 +1434,7 @@ flashcards:
   official_item: OIT-cqs3m73y3rpy
   language: fr
   level: APPLICATION
-  front: 'Symfony : transformer une erreur attendue en succès du processus.'
+  front: 'Symfony : transformer une erreur attendue en succès du process.'
   back: Écouter `ConsoleEvents::ERROR` et appeler `$event->setExitCode(0)`.
   explanation: 'Exécuté : `TERMINATE:0`, sortie 0, l''exception n''est pas relancée.'
   memorization_justification: Erreur absorbée.
@@ -1456,10 +1456,10 @@ flashcards:
   official_item: OIT-cqs3m73y3rpy
   language: fr
   level: APPLICATION
-  front: 'Symfony : empêcher l''exécution d''une commande depuis un écouteur.'
+  front: 'Symfony : empêcher l''exécution d''une command depuis un listener.'
   back: Sur `ConsoleEvents::COMMAND`, appeler `$event->disableCommand()`.
-  explanation: La commande ne tourne pas ; sortie 113.
-  memorization_justification: Commande refusée.
+  explanation: La command ne tourne pas ; sortie 113.
+  memorization_justification: Command refusée.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Event/ConsoleCommandEvent.php
@@ -1472,9 +1472,9 @@ flashcards:
   official_item: OIT-cqs3m73y3rpy
   language: fr
   level: TRAP
-  front: 'Symfony : le code retourné par la commande est-il forcément le code de sortie final ?'
-  back: 'Non : un écouteur de `TERMINATE` peut le remplacer par `setExitCode()`.'
-  explanation: 'Exécuté : commande à 0, `setExitCode(1)` sur `TERMINATE`, sortie 1.'
+  front: 'Symfony : le code retourné par la command est-il forcément le code de sortie final ?'
+  back: 'Non : un listener de `TERMINATE` peut le remplacer par `setExitCode()`.'
+  explanation: 'Exécuté : command à 0, `setExitCode(1)` sur `TERMINATE`, sortie 1.'
   memorization_justification: Code final.
   verification_status: VERIFIED
   official_sources:
@@ -1510,7 +1510,7 @@ flashcards:
   official_item: OIT-cqs3m73y3rpy
   language: fr
   level: TRAP
-  front: 'Symfony : une TypeError dans une commande saute-t-elle les événements ERROR et TERMINATE ?'
+  front: 'Symfony : une TypeError dans une command saute-t-elle les events ERROR et TERMINATE ?'
   back: 'Non : les deux sont dispatchés, puis l''erreur est relancée.'
   explanation: 'Exécuté : `ERROR` (`TypeError`), `TERMINATE:1`, puis `TypeError` remontée.'
   memorization_justification: Erreurs PHP.
@@ -1542,10 +1542,10 @@ flashcards:
   official_item: OIT-dv5400dtksfg
   language: fr
   level: RECALL
-  front: 'Symfony : quelle méthode d''OutputInterface teste le niveau --silent ?'
+  front: 'Symfony : quelle method d''OutputInterface teste le niveau --silent ?'
   back: '`isSilent()`, à côté de `isQuiet()`, `isVerbose()`, `isVeryVerbose()`, `isDebug()`.'
   explanation: Lu dans `OutputInterface` (8.0).
-  memorization_justification: Méthodes de test.
+  memorization_justification: Methods de test.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Output/OutputInterface.php
@@ -1560,7 +1560,7 @@ flashcards:
   level: RECALL
   front: 'Symfony : à quelle position writeln() reçoit-il le niveau de verbosité ?'
   back: En second argument, `$options` ; c'est le troisième de `write()`.
-  explanation: '`writeln()` n''a que deux paramètres.'
+  explanation: '`writeln()` n''a que deux parameters.'
   memorization_justification: Signature de writeln().
   verification_status: VERIFIED
   official_sources:
@@ -1638,9 +1638,9 @@ flashcards:
   official_item: OIT-dv5400dtksfg
   language: fr
   level: TRAP
-  front: 'Symfony : -q masque-t-il le message d''erreur d''une commande qui échoue ?'
+  front: 'Symfony : -q masque-t-il le message d''erreur d''une command qui échoue ?'
   back: 'Non : l''erreur reste affichée sur STDERR ; seul `--silent` la masque.'
-  explanation: Exécuté dans un vrai processus.
+  explanation: Exécuté dans un vrai process.
   memorization_justification: Quiet et erreurs.
   verification_status: VERIFIED
   official_sources:
@@ -1657,7 +1657,7 @@ flashcards:
   front: 'Symfony : --silent perd-il les erreurs ?'
   back: 'Non : elles ne s''affichent pas, mais restent journalisées par le logger Symfony.'
   explanation: Documentation 8.0, note sur `silent`.
-  memorization_justification: Silence et journalisation.
+  memorization_justification: Silence et logging.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console/verbosity.rst
@@ -1670,7 +1670,7 @@ flashcards:
   official_item: OIT-dv5400dtksfg
   language: fr
   level: TRAP
-  front: 'Symfony : -q ne touche-t-il qu''à la sortie ?'
+  front: 'Symfony : -q ne touche-t-il qu''à l''output ?'
   back: 'Non : il rend aussi l''entrée non interactive ; `interact()` est sautée.'
   explanation: Lu dans `configureIO()` ; exécuté à la page *Console component*.
   memorization_justification: Effet de -q sur l'entrée.

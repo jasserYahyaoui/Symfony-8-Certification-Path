@@ -31,22 +31,22 @@ les écritures de l'option `factory`.
 
 ## Quand c'est nécessaire
 
-Le conteneur sait faire `new Classe(...)`. Il ne sait pas choisir entre deux
+Le container sait faire `new Classe(...)`. Il ne sait pas choisir entre deux
 implémentations selon la configuration, ni appeler `Connection::fromDsn()`, ni
-demander un objet à un client tiers. Une **fabrique** couvre ces cas : le
-conteneur appelle un appelable, et enregistre ce qu'il retourne.
+demander un object à un client tiers. Une **fabrique** couvre ces cas : le
+container appelle un callable, et enregistre ce qu'il retourne.
 
 ## Les écritures
 
 | Forme | Écriture YAML | Ce qui est appelé |
 |---|---|---|
-| méthode statique d'une autre classe | `factory: ['App\Factory', 'create']` | `App\Factory::create()` |
-| méthode statique de la classe créée | `factory: [null, 'create']` | `self::create()` |
-| méthode d'un **service** | `factory: ['@app.factory', 'create']` | `$factory->create()` |
+| method statique d'une autre class | `factory: ['App\Factory', 'create']` | `App\Factory::create()` |
+| method statique de la class créée | `factory: [null, 'create']` | `self::create()` |
+| method d'un **service** | `factory: ['@app.factory', 'create']` | `$factory->create()` |
 | service **invocable** | `factory: '@app.factory'` | `$factory->__invoke()` |
-| fonction PHP | `factory: 'make_newsletter'` | la fonction |
+| function PHP | `factory: 'make_newsletter'` | la function |
 
-Le `null` de la deuxième ligne est le point à connaître : il signifie « la classe
+Le `null` de la deuxième ligne est le point à connaître : il signifie « la class
 du service lui-même », ce qui évite de répéter son nom.
 
 ```yaml
@@ -57,60 +57,60 @@ services:
 ```
 
 Exécuté avec `symfony/dependency-injection` 8.0.15 dans une application
-FrameworkBundle : les cinq formes produisent le service, chacune par son chemin.
+FrameworkBundle : les cinq formes produisent le service, chacune par son path.
 
-## Un service est un objet
+## Un service est un object
 
-La fonction doit **retourner un objet**. Exécuté, `factory: 'strtoupper'` —
-qui rend une chaîne — échoue au premier `get()` : `TypeError`,
+La function doit **retourner un object**. Exécuté, `factory: 'strtoupper'` —
+qui rend une string — échoue au premier `get()` : `TypeError`,
 « Container::make(): Return value must be of type ?object, string returned ».
-Le mécanisme accepte n'importe quel appelable ; le conteneur, lui, n'enregistre
-que des objets.
+Le mécanisme accepte n'importe quel callable ; le container, lui, n'enregistre
+que des objects.
 
 ## Les arguments
 
-`arguments` est passé **à la fabrique**, pas au constructeur — puisque le
+`arguments` est passé **à la factory**, pas au constructeur — puisque le
 constructeur n'est pas appelé. C'est la confusion la plus fréquente.
 
-Exécuté : avec `factory: [null, 'create']`, le constructeur de la classe est
-appelé **0** fois, `create()` **1** fois, et deux `get()` rendent le même objet
-— un service issu d'une fabrique reste partagé.
+Exécuté : avec `factory: [null, 'create']`, le constructeur de la class est
+appelé **0** fois, `create()` **1** fois, et deux `get()` rendent le même object
+— un service issu d'une factory reste partagé.
 
-## Depuis la classe
+## Depuis la class
 
-`#[Autoconfigure(constructor: 'create')]` désigne une méthode statique de la
-classe elle-même comme fabrique, sans toucher à `services.yaml`. Exécuté : le
-service est construit par la méthode, le constructeur n'est pas appelé.
+`#[Autoconfigure(constructor: 'create')]` désigne une method statique de la
+class elle-même comme fabrique, sans toucher à `services.yaml`. Exécuté : le
+service est construit par la method, le constructeur n'est pas appelé.
 
-## Ce que le conteneur retient
+## Ce que le container retient
 
-La valeur **retournée** par la fabrique devient le service. Le type déclaré de
-la classe reste utilisé pour l'autowiring, et **rien ne vérifie** que la
-fabrique le respecte. Exécuté : une fabrique déclarée pour la classe `Liar` qui
+La valeur **retournée** par la factory devient le service. Le type déclaré de
+la class reste utilisé pour l'autowiring, et **rien ne vérifie** que la
+fabrique le respecte. Exécuté : une factory déclarée pour la class `Liar` qui
 rend un `stdClass` passe la compilation ; `get()` rend le `stdClass`, et le
 service qui attend `Liar` échoue — `TypeError`, « must be of type App\P9\Liar,
 stdClass given ».
 
 ## Pièges d'examen
 
-**Les arguments vont à la fabrique.** Le constructeur du service n'est pas
+**Les arguments vont à la factory.** Le constructeur du service n'est pas
 appelé du tout.
 
-**`[null, 'create']` désigne la classe du service**, pas une fonction globale.
+**`[null, 'create']` désigne la class du service**, pas une function globale.
 
-**Une fabrique de service utilise `@`** ; une fabrique statique nomme la classe ;
+**Une factory de service utilise `@`** ; une factory statique nomme la class ;
 `'@service'` seul appelle `__invoke()`.
 
-**Le conteneur ne contrôle pas le type retourné** : l'erreur arrive chez le
+**Le container ne contrôle pas le type retourné** : l'erreur arrive chez le
 consommateur.
 
 ## Points clés
 
-- Une fabrique construit le service à la place du constructeur.
-- Cinq écritures : classe statique, `null` pour soi-même, `@service` + méthode,
-  `@service` invocable, fonction.
-- `arguments` alimente la fabrique ; le service reste partagé.
-- `#[Autoconfigure(constructor: '…')]` fait la même chose depuis la classe.
+- Une factory construit le service à la place du constructeur.
+- Cinq écritures : class statique, `null` pour soi-même, `@service` + method,
+  `@service` invocable, function.
+- `arguments` alimente la factory ; le service reste partagé.
+- `#[Autoconfigure(constructor: '…')]` fait la même chose depuis la class.
 
 ## Sources officielles
 

@@ -42,23 +42,23 @@ sources la définissent, et comment une expression peut la calculer.
 
 ## Prérequis
 
-Les environnements Symfony, et les paramètres du conteneur.
+Les environments Symfony, et les parameters du container.
 
 ## Deux mécanismes, deux moments
 
 C'est la distinction qui structure tout l'item :
 
-| | Paramètre | Variable d'environnement |
+| | Parameter | Variable d'environment |
 |---|---|---|
-| Écrit dans | `config/services.yaml`, clé `parameters` | un fichier `.env`, ou le système |
+| Écrit dans | `config/services.yaml`, key `parameters` | un file `.env`, ou le système |
 | Référencé par | `%app.admin_email%` | `%env(DATABASE_URL)%` |
-| Résolu | **à la compilation** du conteneur | **à l'exécution** |
+| Résolu | **à la compilation** du container | **à l'exécution** |
 
-Un paramètre est figé dans le conteneur compilé ; une variable d'environnement
-ne l'est pas, et c'est précisément ce qui permet de déployer le même conteneur
+Un parameter est figé dans le container compilé ; une variable d'environment
+ne l'est pas, et c'est précisément ce qui permet de déployer le même container
 sur plusieurs machines.
 
-## Les paramètres
+## Les parameters
 
 ```yaml
 parameters:
@@ -69,36 +69,36 @@ parameters:
 ```
 
 Le préfixe `app.` est une convention, non une obligation : il distingue les
-paramètres de l'application de ceux de Symfony.
+parameters de l'application de ceux de Symfony.
 
 Un `%` littéral se **double** : `%%s` produit `%s`. Sans cela, Symfony y verrait
-un nom de paramètre. Exécuté : `'a %%s b'` est lu `a %s b`.
+un nom de parameter. Exécuté : `'a %%s b'` est lu `a %s b`.
 
 ## La cascade `.env`
 
-Quatre fichiers, du plus général au plus spécifique :
+Quatre files, du plus général au plus spécifique :
 
-| Fichier | Portée | Versionné |
+| File | Portée | Versionné |
 |---|---|---|
-| `.env` | valeurs par défaut, tous environnements | **oui** |
-| `.env.local` | cette machine, tous environnements | non |
-| `.env.<env>` | un environnement, toutes machines | **oui** |
-| `.env.<env>.local` | cette machine, un environnement | non |
+| `.env` | default values, tous environments | **oui** |
+| `.env.local` | cette machine, tous environments | non |
+| `.env.<env>` | un environment, toutes machines | **oui** |
+| `.env.<env>.local` | cette machine, un environment | non |
 
 Deux règles décident du reste, et ce sont elles que l'examen interroge :
 
-- **`.env.local` est ignoré dans l'environnement `test`** — délibérément, pour
+- **`.env.local` est ignoré dans l'environment `test`** — délibérément, pour
   que les tests donnent le même résultat pour tout le monde ;
-- **une vraie variable d'environnement l'emporte** sur les fichiers `.env`,
+- **une vraie variable d'environment l'emporte** sur les files `.env`,
   qui ajoutent seulement ce qui manque — sauf si Dotenv est appelé avec
   `overrideExistingVars: true` (exécuté). Condition documentée :
   `variables_order` doit contenir `E`, pour exposer `$_ENV`.
 
-Entre les fichiers eux-mêmes, **le dernier chargé gagne**, dans l'ordre du
-tableau. Exécuté avec Dotenv 8.0.15, une même clé définie dans plusieurs
-fichiers :
+Entre les files eux-mêmes, **le dernier chargé gagne**, dans l'ordre du
+array. Exécuté avec Dotenv 8.0.15, une même key définie dans plusieurs
+files :
 
-| Clé définie dans | En `dev` | En `test` |
+| Key définie dans | En `dev` | En `test` |
 |---|---|---|
 | `.env`, `.env.local`, `.env.dev` | `.env.dev` | `.env` |
 | `.env`, `.env.local` | `.env.local` | `.env` |
@@ -106,12 +106,12 @@ fichiers :
 
 Le piège est la première ligne : **`.env.dev` l'emporte sur `.env.local`**.
 
-Le fichier `.env` est lu et analysé **à chaque requête**, en production comme
+Le file `.env` est lu et analysé **à chaque Request**, en production comme
 ailleurs. Il n'y a donc pas de cache à vider après l'avoir modifié.
 
-En production, `composer dump-env prod` ou la commande `dotenv:dump` écrivent
-les valeurs finales dans `.env.local.php` ; **s'il existe, les fichiers `.env`
-ne sont plus analysés**. Exécuté avec `Dotenv::bootEnv()` : une clé absente du
+En production, `composer dump-env prod` ou la command `dotenv:dump` écrivent
+les valeurs finales dans `.env.local.php` ; **s'il existe, les files `.env`
+ne sont plus analysés**. Exécuté avec `Dotenv::bootEnv()` : une key absente du
 `.env.local.php` n'est plus définie.
 
 Sa syntaxe accepte des commentaires (`#`), l'interpolation (`${AUTRE_VAR}`), une
@@ -119,9 +119,9 @@ valeur de repli (`${VAR:-defaut}`), les guillemets simples pour un littéral et
 les doubles pour interpoler — exécuté : avec `E=x`, `'${E}'` reste littéral et
 `"${E}"` donne `x`.
 
-## Les processeurs d'environnement
+## Les processeurs d'environment
 
-Une variable d'environnement est toujours une chaîne. Un processeur la convertit
+Une variable d'environment est toujours une string. Un processeur la convertit
 au moment de la lecture :
 
 ```yaml
@@ -134,13 +134,13 @@ parameters:
 Ils se **chaînent**, et se lisent de droite à gauche :
 `%env(json:base64:CONFIG)%` décode d'abord la base64, puis lit le JSON.
 
-Exécuté sur un conteneur compilé (DependencyInjection 8.0.15) :
+Exécuté sur un container compilé (DependencyInjection 8.0.15) :
 
 | Référence | Valeur |
 |---|---|
 | `%env(bool:APP_DEBUG)%`, avec `0` | `false` |
-| `%env(RAW)%`, sans processeur | la chaîne brute |
-| `%env(json:base64:CONFIG)%` | le tableau décodé |
+| `%env(RAW)%`, sans processeur | la string brute |
+| `%env(json:base64:CONFIG)%` | l'array décodé |
 | `%env(base64:json:CONFIG)%` — ordre inversé | `RuntimeException` : *Invalid JSON in env var "CONFIG"* |
 
 ## ExpressionLanguage
@@ -168,23 +168,23 @@ $el->compile('1 + 2');    // '(1 + 2)' — compilé en PHP, donc cachable
 
 Dans le framework, ce composant est ce qui rend possible une condition écrite en
 configuration plutôt qu'en PHP — une condition de route, une règle
-d'autorisation.
+d'authorization.
 
 ## Pièges d'examen
 
-**Un paramètre est résolu à la compilation, une variable d'environnement à
+**Un parameter est résolu à la compilation, une variable d'environment à
 l'exécution.**
 
-**La vraie variable d'environnement gagne** contre les fichiers `.env`, sauf
+**La vraie variable d'environment gagne** contre les files `.env`, sauf
 avec `overrideExistingVars: true`.
 
 **`.env.local` ne s'applique pas en `test`.**
 
-**`.env.<env>` l'emporte sur `.env.local`** : le dernier fichier chargé gagne.
+**`.env.<env>` l'emporte sur `.env.local`** : le dernier file chargé gagne.
 
-**Avec un `.env.local.php`, les fichiers `.env` ne sont plus lus.**
+**Avec un `.env.local.php`, les files `.env` ne sont plus lus.**
 
-**`.env` est relu à chaque requête** — aucun cache à vider.
+**`.env` est relu à chaque Request** — aucun cache à vider.
 
 **Les processeurs se chaînent de droite à gauche.**
 
@@ -192,7 +192,7 @@ avec `overrideExistingVars: true`.
 
 ## Points clés
 
-- Paramètre = compilation ; variable d'environnement = exécution.
+- Parameter = compilation ; variable d'environment = exécution.
 - Cascade `.env` → `.env.local` → `.env.<env>` → `.env.<env>.local`, le dernier
   chargé gagnant ; la vraie variable système au-dessus, par défaut.
 - Processeurs typés, chaînables de droite à gauche.

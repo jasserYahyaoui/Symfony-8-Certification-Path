@@ -32,10 +32,10 @@ official_sources:
 ## Objectif
 
 Déclarer une valeur de configuration et l'injecter. *Quelle* valeur mérite un
-paramètre plutôt qu'une variable d'environnement ou une constante est traité
+parameter plutôt qu'une variable d'environment ou une constante est traité
 dans *Official best practices* (lot Symfony Architecture).
 
-## Le paramètre
+## Le parameter
 
 ```yaml
 parameters:
@@ -46,13 +46,13 @@ services:
         arguments: ['%app.contents_dir%']
 ```
 
-Un paramètre est une **valeur figée à la compilation** : chaîne, nombre,
-booléen, tableau. Les pourcents ne sont pas de l'interpolation à l'exécution,
-ils sont résolus une fois pour toutes dans le conteneur compilé. Exécuté avec
-`symfony/dependency-injection` 8.0.15 : dans le conteneur PHP généré, la valeur
-du paramètre est écrite en dur.
+Un parameter est une **valeur figée à la compilation** : string, nombre,
+booléen, array. Les pourcents ne sont pas de l'interpolation à l'exécution,
+ils sont résolus une fois pour toutes dans le container compilé. Exécuté avec
+`symfony/dependency-injection` 8.0.15 : dans le container PHP généré, la valeur
+du parameter est écrite en dur.
 
-En PHP, l'accès passe par `ParameterBagInterface` — ou, dans un contrôleur, par
+En PHP, l'accès passe par `ParameterBagInterface` — ou, dans un controller, par
 `getParameter()` d'`AbstractController`.
 
 ## Le pourcent littéral
@@ -69,7 +69,7 @@ exécutés :
 
 La règle sûre reste de **doubler** tout pourcent littéral : `%%`.
 
-## La variable d'environnement
+## La variable d'environment
 
 Une valeur qui dépend de l'endroit où tourne l'application ne peut pas être
 figée à la compilation. `%env(...)%` diffère sa lecture à l'exécution :
@@ -79,17 +79,17 @@ parameters:
     app.dsn: '%env(DATABASE_URL)%'
 ```
 
-C'est la différence à retenir : **un paramètre est résolu à la compilation, une
-variable d'environnement est lue à l'exécution**. Exécuté : un même conteneur
+C'est la différence à retenir : **un parameter est résolu à la compilation, une
+variable d'environment est lue à l'exécution**. Exécuté : un même container
 compilé et généré en PHP, instancié deux fois avec deux valeurs de `DSN`, rend
 les deux valeurs. Changer la variable ne demande donc pas de recompiler.
 
-Une variable absente, sans valeur par défaut, lève une `EnvNotFoundException` —
+Une variable absente, sans default value, lève une `EnvNotFoundException` —
 à l'exécution, quand on la lit.
 
 ## Les processeurs
 
-Une variable d'environnement est toujours une chaîne — exécuté, `%env(PORT)%`
+Une variable d'environment est toujours une string — exécuté, `%env(PORT)%`
 rend `'6379'`. Un **processeur** la convertit :
 
 ```yaml
@@ -105,11 +105,11 @@ Symfony 8.0 en fournit **vingt et un** — exécuté,
 `EnvVarProcessor::getProvidedTypes()` en compte 21. Ceux qui reviennent : `int`,
 `bool`, `not`, `json`, `csv`, `const`, `default`, `resolve` et `enum`.
 
-`default:app.fallback:UNSET_VAR` rend le **paramètre** `app.fallback` si la
+`default:app.fallback:UNSET_VAR` rend le **parameter** `app.fallback` si la
 variable manque ; `default::UNSET_VAR`, sans nom, rend `null`.
 
 Ils se **composent**, de droite à gauche : `%env(json:base64:SECRETS)%` décode
-d'abord le base64, puis lit le JSON. Exécuté : cet ordre rend le tableau,
+d'abord le base64, puis lit le JSON. Exécuté : cet ordre rend l'array,
 l'ordre inverse lève « Invalid JSON in env var "SECRETS" ».
 
 ## `bind` et `#[Autowire]`
@@ -125,7 +125,7 @@ services:
             string $projectDir: '%kernel.project_dir%'
 ```
 
-Depuis PHP, l'attribut `#[Autowire]` fait la même chose sur un seul argument :
+Depuis PHP, l'attribute `#[Autowire]` fait la même chose sur un seul argument :
 `#[Autowire('%kernel.debug%')]`, `#[Autowire(param: 'kernel.environment')]`,
 `#[Autowire(env: 'int:REDIS_PORT')]`. Exécuté dans une application
 FrameworkBundle 8.0.15 : les trois formes et le `bind` injectent leur valeur.
@@ -138,7 +138,7 @@ removed, or it may have a typo. »
 ## Pièges d'examen
 
 **`%param%` est résolu à la compilation**, `%env(VAR)%` à l'exécution. Une
-valeur qui doit changer sans redéploiement est une variable d'environnement.
+valeur qui doit changer sans redéploiement est une variable d'environment.
 
 **Les processeurs se lisent de droite à gauche** : le plus proche de la
 variable s'applique en premier.
@@ -150,9 +150,9 @@ pourcents encadrant un mot sans espace sont lus comme une référence.
 
 ## Points clés
 
-- Paramètre : figé à la compilation, injecté par `%nom%`, doublé en `%%`.
-- Variable d'environnement : lue à l'exécution par `%env(VAR)%`, toujours une
-  chaîne avant processeur.
+- Parameter : figé à la compilation, injecté par `%nom%`, doublé en `%%`.
+- Variable d'environment : lue à l'exécution par `%env(VAR)%`, toujours une
+  string avant processeur.
 - Vingt et un processeurs, composables de droite à gauche.
 - `bind` et `#[Autowire]` injectent les scalaires ; un `bind` orphelin échoue.
 

@@ -11,10 +11,10 @@ flashcards:
   official_item: OIT-tvc5rjv6qvse
   language: fr
   level: TRAP
-  front: Une vraie variable d'environnement et un fichier .env définissent la même clé. Laquelle gagne ?
-  back: 'La vraie variable d''environnement, par défaut : les fichiers .env n''ajoutent que ce qui manque. Seul
+  front: Une vraie variable d'environment et un file .env définissent la même key. Laquelle gagne ?
+  back: 'La vraie variable d''environment, par défaut : les files .env n''ajoutent que ce qui manque. Seul
     `overrideExistingVars: true`, passé à loadEnv(), bootEnv() ou populate(), les laisse l''écraser.'
-  explanation: 'C''est ce qui permet à un hébergeur de fixer une valeur qu''aucun fichier versionné ne contredit — tant
+  explanation: 'C''est ce qui permet à un hébergeur de fixer une valeur qu''aucun file versionné ne contredit — tant
     que l''application n''appelle pas Dotenv avec `overrideExistingVars: true`. Exécuté avec K=fromshell : la valeur
     du shell par défaut, celle du .env avec l''option.'
   memorization_justification: L'ordre de la cascade .env est bien retenu, mais on oublie ce qui la surplombe.
@@ -40,8 +40,8 @@ flashcards:
   official_item: OIT-kv7mbksn7m8v
   language: fr
   level: RECALL
-  front: D'où vient le code de statut HTTP d'une page d'erreur ?
-  back: De l'exception — HttpExceptionInterface, attribut WithHttpStatus, RequestExceptionInterface (400) — ou de
+  front: D'où vient le status code HTTP d'une page d'erreur ?
+  back: De l'exception — HttpExceptionInterface, attribute WithHttpStatus, RequestExceptionInterface (400) — ou de
     la configuration framework.exceptions. Une exception ordinaire donne 500.
   explanation: 'C''est pourquoi createNotFoundException() existe : lever une RuntimeException ordinaire donnerait
     un 500. Exécuté sur Symfony 8.0.15 ; la documentation ne cite que l''interface, le code connaît les quatre.'
@@ -63,12 +63,12 @@ flashcards:
   language: fr
   level: TRAP
   front: Que se passe-t-il si un dump() reste dans du code déployé en production ?
-  back: 'Pas d''erreur : la fonction existe, car ErrorHandler exige VarDumper. Le dump est écrit avant la réponse,
-    qui perd ses en-têtes.'
+  back: 'Pas d''erreur : la function existe, car ErrorHandler exige VarDumper. Le dump est écrit avant la Response,
+    qui perd ses headers.'
   explanation: 'Exécuté en prod sans DebugBundle : 200, le dump HTML avant le contenu, Cache-Control de Symfony
     absent. La documentation installe VarDumper en --dev, mais FrameworkBundle le tire quand même.'
-  memorization_justification: L'installation en --dev fait croire la fonction absente en production ; la chaîne
-    de dépendances la rend présente.
+  memorization_justification: L'installation en --dev fait croire la function absente en production ; la string
+    de dependencies la rend présente.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/var_dumper.rst
@@ -85,7 +85,7 @@ flashcards:
   official_item: OIT-tvc5rjv6qvse
   language: fr
   level: RECALL
-  front: 'Symfony : dans quel ordre les fichiers .env sont-ils chargés ?'
+  front: 'Symfony : dans quel ordre les files .env sont-ils chargés ?'
   back: '`.env`, `.env.local`, `.env.<env>`, `.env.<env>.local` ; le dernier chargé gagne.'
   explanation: Exécuté avec Dotenv 8.0.15.
   memorization_justification: Ordre de la cascade.
@@ -107,10 +107,10 @@ flashcards:
   official_item: OIT-tvc5rjv6qvse
   language: fr
   level: RECALL
-  front: 'Symfony : quel fichier écrivent composer dump-env prod et dotenv:dump ?'
-  back: '`.env.local.php`, avec les valeurs finales de tous les fichiers `.env`.'
+  front: 'Symfony : quel file écrivent composer dump-env prod et dotenv:dump ?'
+  back: '`.env.local.php`, avec les valeurs finales de tous les files `.env`.'
   explanation: '*Configuring Environment Variables in Production*, branche 8.0.'
-  memorization_justification: Fichier compilé des variables.
+  memorization_justification: File compilé des variables.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration.rst
@@ -126,7 +126,7 @@ flashcards:
   front: 'Symfony : que rendent parse() et lint() d''ExpressionLanguage ?'
   back: '`parse()` rend un `ParsedExpression` ; `lint()` ne rend rien et lève une `SyntaxError` si l''expression est invalide.'
   explanation: Exécuté sur ExpressionLanguage 8.0.15.
-  memorization_justification: Valeurs de retour.
+  memorization_justification: Return values.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/ExpressionLanguage/ExpressionLanguage.php
@@ -146,8 +146,8 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony : pourquoi .env.dev l''emporte-t-il sur .env.local en dev ?'
-  back: 'Parce qu''il est chargé après : entre fichiers `.env`, le dernier chargé gagne.'
-  explanation: 'Exécuté : une clé dans `.env`, `.env.local` et `.env.dev` vaut la valeur de `.env.dev`.'
+  back: 'Parce qu''il est chargé après : entre files `.env`, le dernier chargé gagne.'
+  explanation: 'Exécuté : une key dans `.env`, `.env.local` et `.env.dev` vaut la valeur de `.env.dev`.'
   memorization_justification: Le local n'est pas le plus fort.
   verification_status: VERIFIED
   official_sources:
@@ -184,9 +184,9 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony : pourquoi modifier .env ne demande-t-il pas de vider le cache ?'
-  back: Parce que le fichier est lu et analysé à chaque requête, hors du conteneur compilé.
+  back: Parce que le file est lu et analysé à chaque Request, hors du container compilé.
   explanation: Documentation 8.0 ; sauf si un `.env.local.php` existe.
-  memorization_justification: Lecture à chaque requête.
+  memorization_justification: Lecture à chaque Request.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration.rst
@@ -199,7 +199,7 @@ flashcards:
   official_item: OIT-tvc5rjv6qvse
   language: fr
   level: APPLICATION
-  front: 'Symfony : lire la variable PORT comme un entier dans un paramètre.'
+  front: 'Symfony : lire la variable PORT comme un int dans un parameter.'
   back: '`''%env(int:PORT)%''`.'
   explanation: 'Exécuté : `8080` entier.'
   memorization_justification: Processeur typé.
@@ -237,10 +237,10 @@ flashcards:
   official_item: OIT-tvc5rjv6qvse
   language: fr
   level: TRAP
-  front: 'Symfony : un .env.local.php existe. Une clé ajoutée à .env est-elle lue ?'
-  back: 'Non : avec `.env.local.php`, les fichiers `.env` ne sont plus analysés.'
+  front: 'Symfony : un .env.local.php existe. Une key ajoutée à .env est-elle lue ?'
+  back: 'Non : avec `.env.local.php`, les files `.env` ne sont plus analysés.'
   explanation: Exécuté avec `Dotenv::bootEnv()`.
-  memorization_justification: Fichier compilé prioritaire.
+  memorization_justification: File compilé prioritaire.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Dotenv/Dotenv.php
@@ -260,7 +260,7 @@ flashcards:
   language: fr
   level: TRAP
   front: 'Symfony : lint(''1 +'', null) en 8.0 ?'
-  back: '`TypeError` : le paramètre `$names` est un `array`, `null` n''est pas accepté.'
+  back: '`TypeError` : le parameter `$names` est un `array`, `null` n''est pas accepté.'
   explanation: Exécuté sur ExpressionLanguage 8.0.15.
   memorization_justification: Signature 8.0.
   verification_status: VERIFIED
@@ -275,10 +275,10 @@ flashcards:
   official_item: OIT-kv7mbksn7m8v
   language: fr
   level: RECALL
-  front: 'Symfony : quel attribut donne un code HTTP à une classe d''exception ?'
+  front: 'Symfony : quel attribute donne un code HTTP à une class d''exception ?'
   back: '`#[WithHttpStatus(404)]`, de HttpKernel.'
   explanation: 'Exécuté : une exception ainsi marquée produit un 404.'
-  memorization_justification: Attribut de statut.
+  memorization_justification: Attribute de statut.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php
@@ -291,7 +291,7 @@ flashcards:
   official_item: OIT-kv7mbksn7m8v
   language: fr
   level: RECALL
-  front: 'Symfony : quelle valeur par défaut a framework.php_errors.throw ?'
+  front: 'Symfony : quelle default value a framework.php_errors.throw ?'
   back: '`%kernel.debug%` : les erreurs PHP deviennent des `ErrorException` en debug seulement.'
   explanation: Référence de configuration, branche 8.0.
   memorization_justification: Défaut de php_errors.throw.
@@ -324,9 +324,9 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony : pourquoi sa page error.html.twig ne s''affiche-t-elle pas en dev ?'
-  back: Parce qu'en debug, `TwigErrorRenderer` rend la page d'exception et ignore les gabarits ; on prévisualise par les routes `/_error`.
-  explanation: 'Exécuté : les gabarits ne s''appliquent que sans debug.'
-  memorization_justification: Debug contre gabarits.
+  back: Parce qu'en debug, `TwigErrorRenderer` rend la page d'exception et ignore les templates ; on prévisualise par les routes `/_error`.
+  explanation: 'Exécuté : les templates ne s''appliquent que sans debug.'
+  memorization_justification: Debug contre templates.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/ErrorRenderer/TwigErrorRenderer.php
@@ -345,7 +345,7 @@ flashcards:
   official_item: OIT-kv7mbksn7m8v
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi un utilisateur connecté paraît-il déconnecté sur une page 404 ?'
+  front: 'Symfony : pourquoi un user connecté paraît-il déconnecté sur une page 404 ?'
   back: Parce que, vu l'ordre de chargement du routage et de la sécurité, l'information de sécurité n'est pas disponible sur une 404.
   explanation: '*Security & 404 Pages*, documentation 8.0.'
   memorization_justification: Ordre routage-sécurité.
@@ -361,8 +361,8 @@ flashcards:
   official_item: OIT-kv7mbksn7m8v
   language: fr
   level: APPLICATION
-  front: 'Symfony : faire répondre 418 à App\TeapotException sans modifier la classe.'
-  back: 'Sous `framework.exceptions`, déclarer la classe avec `status_code: 418`.'
+  front: 'Symfony : faire répondre 418 à App\TeapotException sans modifier la class.'
+  back: 'Sous `framework.exceptions`, déclarer la class avec `status_code: 418`.'
   explanation: 'Exécuté : 418.'
   memorization_justification: Statut par configuration.
   verification_status: VERIFIED
@@ -386,7 +386,7 @@ flashcards:
   front: 'Symfony : une page dédiée aux 404, une générique pour le reste.'
   back: '`templates/bundles/TwigBundle/Exception/error404.html.twig` et `error.html.twig`.'
   explanation: 'Exécuté sans debug : 404 sur la première, 500, 400 et 418 sur la seconde.'
-  memorization_justification: Gabarits d'erreur.
+  memorization_justification: Templates d'erreur.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/ErrorRenderer/TwigErrorRenderer.php
@@ -422,9 +422,9 @@ flashcards:
   language: fr
   level: TRAP
   front: 'Symfony : #[WithHttpStatus(404)] s''applique-t-il à une exception qui implémente déjà HttpExceptionInterface ?'
-  back: 'Non : l''attribut est ignoré, c''est `getStatusCode()` qui compte.'
+  back: 'Non : l''attribute est ignoré, c''est `getStatusCode()` qui compte.'
   explanation: Lu dans `ErrorListener::logKernelException()`.
-  memorization_justification: Priorité de l'interface sur l'attribut.
+  memorization_justification: Priorité de l'interface sur l'attribute.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php
@@ -454,9 +454,9 @@ flashcards:
   language: fr
   level: RECALL
   front: 'Symfony : que rend dump($x) ?'
-  back: 'La valeur reçue, `$x` : on peut l''insérer dans une chaîne d''appels.'
-  explanation: 'Exécuté : `$v = dump([''k'' => 1])` rend le tableau.'
-  memorization_justification: Valeur de retour de dump().
+  back: 'La valeur reçue, `$x` : on peut l''insérer dans une string d''appels.'
+  explanation: 'Exécuté : `$v = dump([''k'' => 1])` rend l''array.'
+  memorization_justification: Return value de dump().
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/var_dumper.rst
@@ -469,7 +469,7 @@ flashcards:
   official_item: OIT-xgrbftkj67ds
   language: fr
   level: RECALL
-  front: 'Symfony : quelle commande envoie les dumps hors de la réponse ?'
+  front: 'Symfony : quelle command envoie les dumps hors de la Response ?'
   back: '`php bin/console server:dump`, éventuellement avec `--format=html`.'
   explanation: Documentation VarDumper 8.0.
   memorization_justification: Serveur de dump.
@@ -485,7 +485,7 @@ flashcards:
   official_item: OIT-xgrbftkj67ds
   language: fr
   level: RECALL
-  front: 'Symfony : quelle commande dit quelle route répond à une URL ?'
+  front: 'Symfony : quelle command dit quelle route répond à une URL ?'
   back: '`router:match /chemin`.'
   explanation: Elle montre les routes essayées et la raison de leur échec.
   memorization_justification: Diagnostic d'un 404.
@@ -502,9 +502,9 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony : pourquoi dump() existe-t-il en production malgré un VarDumper installé en --dev ?'
-  back: Parce que FrameworkBundle exige ErrorHandler, qui exige VarDumper en dépendance ordinaire.
+  back: Parce que FrameworkBundle exige ErrorHandler, qui exige VarDumper en dependency ordinaire.
   explanation: 'Lu dans les `composer.json` 8.0 ; exécuté : `function_exists(''dump'')` vaut `true`.'
-  memorization_justification: Chaîne de dépendances.
+  memorization_justification: Chaîne de dependencies.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/ErrorHandler/composer.json
@@ -523,10 +523,10 @@ flashcards:
   official_item: OIT-xgrbftkj67ds
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi un dump() en prod fait-il perdre les en-têtes de la réponse ?'
-  back: 'Parce que le dump sort avant la réponse : PHP envoie ses propres en-têtes, et Symfony ne peut plus envoyer les siens.'
+  front: 'Symfony : pourquoi un dump() en prod fait-il perdre les headers de la Response ?'
+  back: 'Parce que le dump sort avant la Response : PHP envoie ses propres headers, et Symfony ne peut plus envoyer les siens.'
   explanation: 'Exécuté : `Cache-Control` de Symfony absent, `Content-type` de PHP présent.'
-  memorization_justification: Sortie avant en-têtes.
+  memorization_justification: Sortie avant headers.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/var_dumper.rst
@@ -539,8 +539,8 @@ flashcards:
   official_item: OIT-xgrbftkj67ds
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi DebugBundle envoie-t-il les dumps vers la barre de débogage ?'
-  back: Pour ne pas écrire du HTML au milieu de la réponse ; si la barre ne peut pas s'afficher, le dump repart sur la sortie.
+  front: 'Symfony : pourquoi DebugBundle envoie-t-il les dumps vers la debug toolbar ?'
+  back: Pour ne pas écrire du HTML au milieu de la Response ; si la barre ne peut pas s'afficher, le dump repart sur l'output.
   explanation: Documentation VarDumper 8.0.
   memorization_justification: Destination des dumps.
   verification_status: VERIFIED
@@ -555,7 +555,7 @@ flashcards:
   official_item: OIT-xgrbftkj67ds
   language: fr
   level: APPLICATION
-  front: 'Symfony : déboguer une API JSON sans casser ses réponses.'
+  front: 'Symfony : déboguer une API JSON sans casser ses Responses.'
   back: 'Lancer `server:dump` : les dumps lui sont envoyés au lieu d''être imprimés.'
   explanation: Documentation VarDumper 8.0.
   memorization_justification: Dump et API.
@@ -573,7 +573,7 @@ flashcards:
   level: APPLICATION
   front: 'Symfony : vérifier la configuration réellement retenue pour twig, après fusion.'
   back: '`php bin/console debug:config twig`.'
-  explanation: 'Exécuté : les clés non écrites apparaissent avec leur valeur par défaut.'
+  explanation: 'Exécuté : les keys non écrites apparaissent avec leur default value.'
   memorization_justification: Configuration fusionnée.
   verification_status: VERIFIED
   official_sources:
@@ -588,9 +588,9 @@ flashcards:
   language: fr
   level: TRAP
   front: 'Symfony : sans DebugBundle, en prod, un dump() provoque-t-il une erreur fatale ?'
-  back: 'Non : 200, et le dump HTML est écrit avant le contenu de la réponse.'
-  explanation: Exécuté sur un serveur web PHP, noyau en `prod`.
-  memorization_justification: Pas d'erreur, une réponse corrompue.
+  back: 'Non : 200, et le dump HTML est écrit avant le contenu de la Response.'
+  explanation: Exécuté sur un serveur web PHP, kernel en `prod`.
+  memorization_justification: Pas d'erreur, une Response corrompue.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/ErrorHandler/composer.json

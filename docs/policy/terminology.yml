@@ -1,0 +1,166 @@
+# Terminology: Symfony, PHP and HTTP terms stay in English in French prose.
+#
+# Owner decision, 2026-10-14 (verbatim): « utilise le jargon symfony toujours et
+# les mots techniques dans toute la doc et ne les traduisent pas en fr. Par exp
+# j'attend compiler pass, ou service container ». Asked to settle the edges, the
+# owner chose « Request / Response » for requête / réponse, and « tout en
+# anglais » for the generic words (argument, option, attribut, valeur par
+# défaut). Master Plan §5 already says technical terms remain in English.
+#
+# One list drives two things:
+#   - tools/terminology/apply.py rewrites the French prose (courses, French
+#     flashcards, the French fields of the matrix, the « what's new » pages);
+#   - tests/Integration/TerminologyTest.php fails when a listed French form is
+#     back in that prose, outside code.
+#
+# Fields:
+#   fr       French forms, singular first then plural, lower case.
+#   en, en_plural   The English term; capitalised when it is a class name.
+#   gender   m | f — the gender French prose gives the English term. Where it
+#            differs from the French word's, determiners are rewritten and the
+#            sentence is listed for review: an adjective after the noun may
+#            still need its agreement fixed by hand.
+#   fr_gender   gender of the French word (defaults to gender).
+#   elide    true when the English term takes l' / d' (vowel sound).
+#   keep     regexes of contexts where the French word is ordinary French, not
+#            the technical term; matched against the 40 characters around it.
+#   needs_determiner   only replace after a determiner (the word is also an
+#            adjective or a verb form).
+#
+# Not listed on purpose, because the French word is ordinary prose as often as
+# a term and no context rule separates the two reliably: entrée, modèle, vue,
+# rappel (« Rappel : » is a heading), surcharge, accès, lot (this project's own
+# unit), journal. They are handled by hand where they mean the term, or left.
+schema_version: 1
+terms:
+  # ---------------- compounds first (the script sorts by length) --------------
+  - {fr: [conteneur de services, conteneurs de services], en: service container, en_plural: service containers, gender: m, elide: false}
+  - {fr: [passe de compilation, passes de compilation], en: compiler pass, en_plural: compiler passes, gender: m, fr_gender: f, elide: false}
+  - {fr: [injection de dépendances, injection de dépendance], en: dependency injection, en_plural: dependency injection, gender: f, elide: false}
+  - {fr: [écouteur d'événement, écouteurs d'événements, écouteur d'événements], en: event listener, en_plural: event listeners, gender: m, elide: true}
+  - {fr: [abonné aux événements, abonnés aux événements, abonné d'événements], en: event subscriber, en_plural: event subscribers, gender: m, elide: true}
+  - {fr: [fournisseur d'utilisateurs, fournisseurs d'utilisateurs, fournisseur d'utilisateur], en: user provider, en_plural: user providers, gender: m, elide: false}
+  - {fr: [hacheur de mot de passe, hacheurs de mots de passe, hacheur de mots de passe], en: password hasher, en_plural: password hashers, gender: m, elide: false}
+  - {fr: [gestionnaire de messages, gestionnaires de messages, gestionnaire de message], en: message handler, en_plural: message handlers, gender: m, elide: false}
+  - {fr: [résolveur d'arguments, résolveurs d'arguments, résolveur d'argument], en: argument resolver, en_plural: argument resolvers, gender: m, elide: true}
+  - {fr: [transformateur de données, transformateurs de données], en: data transformer, en_plural: data transformers, gender: m, elide: false}
+  - {fr: [collecteur de données, collecteurs de données], en: data collector, en_plural: data collectors, gender: m, elide: false}
+  - {fr: [type de formulaire, types de formulaire, types de formulaires], en: form type, en_plural: form types, gender: m, elide: false}
+  - {fr: [extension de type, extensions de type], en: type extension, en_plural: type extensions, gender: f, elide: false}
+  - {fr: [contrôleur frontal, contrôleurs frontaux], en: front controller, en_plural: front controllers, gender: m, elide: false}
+  - {fr: [requête principale, requêtes principales], en: main Request, en_plural: main Requests, gender: f, elide: false}
+  - {fr: [sous-requête, sous-requêtes], en: sub-Request, en_plural: sub-Requests, gender: f, elide: false}
+  - {fr: [code de statut, codes de statut], en: status code, en_plural: status codes, gender: m, elide: false}
+  - {fr: [test fonctionnel, tests fonctionnels], en: functional test, en_plural: functional tests, gender: m, elide: false}
+  - {fr: [test unitaire, tests unitaires], en: unit test, en_plural: unit tests, gender: m, elide: false}
+  - {fr: [classe abstraite, classes abstraites], en: abstract class, en_plural: abstract classes, gender: f, elide: true}
+  - {fr: [proxy inverse, proxys inverses, proxies inverses], en: reverse proxy, en_plural: reverse proxies, gender: m, elide: false}
+  - {fr: [négociation de contenu], en: content negotiation, en_plural: content negotiation, gender: f, elide: false}
+  - {fr: [méthode sûre, méthodes sûres], en: safe method, en_plural: safe methods, gender: f, elide: false}
+  - {fr: [configuration sémantique], en: semantic configuration, en_plural: semantic configuration, gender: f, elide: false}
+  - {fr: [séquence de groupes, séquences de groupes], en: group sequence, en_plural: group sequences, gender: f, elide: false}
+  - {fr: [groupe de validation, groupes de validation], en: validation group, en_plural: validation groups, gender: m, elide: false}
+  - {fr: [message flash, messages flash], en: flash message, en_plural: flash messages, gender: m, elide: false}
+  - {fr: [échappement automatique], en: auto-escaping, en_plural: auto-escaping, gender: m, elide: true}
+  - {fr: [promesse de rétrocompatibilité], en: backward compatibility promise, en_plural: backward compatibility promises, gender: f, elide: false}
+  - {fr: [valeur par défaut, valeurs par défaut], en: default value, en_plural: default values, gender: f, elide: false}
+  - {fr: [mot de passe, mots de passe], en: password, en_plural: passwords, gender: m, elide: false}
+  - {fr: [espace de noms, espaces de noms], en: namespace, en_plural: namespaces, gender: m, elide: false}
+  - {fr: [fonction de rappel, fonctions de rappel], en: callback, en_plural: callbacks, gender: m, fr_gender: f, elide: false}
+  - {fr: [barre de débogage, barres de débogage], en: debug toolbar, en_plural: debug toolbars, gender: f, elide: false}
+  - {fr: [chaîne de caractères, chaînes de caractères], en: string, en_plural: strings, gender: f, elide: false}
+  - {fr: [file d'attente, files d'attente], en: queue, en_plural: queues, gender: f, elide: false}
+  - {fr: [point d'entrée, points d'entrée], en: entry point, en_plural: entry points, gender: m, elide: true}
+  - {fr: [valeur de retour, valeurs de retour], en: return value, en_plural: return values, gender: f, elide: false}
+  # ---------------- Symfony concepts -----------------------------------------
+  - {fr: [écouteur, écouteurs], en: listener, en_plural: listeners, gender: m, elide: false}
+  - {fr: [abonné, abonnés], en: subscriber, en_plural: subscribers, gender: m, elide: false, needs_determiner: true, keep: ['abonnés? (à|aux|au)\b']}
+  - {fr: [événement, événements, évènement, évènements], en: event, en_plural: events, gender: m, elide: true}
+  - {fr: [noyau, noyaux], en: kernel, en_plural: kernels, gender: m, elide: false}
+  - {fr: [contrôleur, contrôleurs], en: controller, en_plural: controllers, gender: m, elide: false}
+  - {fr: [conteneur, conteneurs], en: container, en_plural: containers, gender: m, elide: false}
+  - {fr: [normaliseur, normaliseurs], en: normalizer, en_plural: normalizers, gender: m, elide: false}
+  - {fr: [dénormaliseur, dénormaliseurs], en: denormalizer, en_plural: denormalizers, gender: m, elide: false}
+  - {fr: [encodeur, encodeurs], en: encoder, en_plural: encoders, gender: m, elide: true}
+  - {fr: [décodeur, décodeurs], en: decoder, en_plural: decoders, gender: m, elide: false}
+  - {fr: [adaptateur, adaptateurs], en: adapter, en_plural: adapters, gender: m, elide: true}
+  - {fr: [fournisseur, fournisseurs], en: provider, en_plural: providers, gender: m, elide: false}
+  - {fr: [gestionnaire, gestionnaires], en: handler, en_plural: handlers, gender: m, elide: false}
+  - {fr: [résolveur, résolveurs], en: resolver, en_plural: resolvers, gender: m, elide: false}
+  - {fr: [chargeur, chargeurs], en: loader, en_plural: loaders, gender: m, elide: false}
+  - {fr: [extracteur, extracteurs], en: extractor, en_plural: extractors, gender: m, elide: true}
+  - {fr: [hacheur, hacheurs], en: hasher, en_plural: hashers, gender: m, elide: false}
+  - {fr: [décorateur, décorateurs], en: decorator, en_plural: decorators, gender: m, elide: false}
+  - {fr: [validateur, validateurs], en: validator, en_plural: validators, gender: m, elide: false}
+  - {fr: [votant, votants], en: voter, en_plural: voters, gender: m, elide: false}
+  - {fr: [authentificateur, authentificateurs], en: authenticator, en_plural: authenticators, gender: m, elide: true}
+  - {fr: [passeport, passeports], en: passport, en_plural: passports, gender: m, elide: false}
+  - {fr: [pare-feu, pare-feux], en: firewall, en_plural: firewalls, gender: m, elide: false}
+  - {fr: [jeton, jetons], en: token, en_plural: tokens, gender: m, elide: false}
+  - {fr: [gabarit, gabarits], en: template, en_plural: templates, gender: m, elide: false}
+  - {fr: [étiquette, étiquettes], en: tag, en_plural: tags, gender: m, fr_gender: f, elide: false}
+  - {fr: [balise, balises], en: tag, en_plural: tags, gender: m, fr_gender: f, elide: false}
+  - {fr: [contrainte, contraintes], en: constraint, en_plural: constraints, gender: f, elide: false}
+  - {fr: [fabrique, fabriques], en: factory, en_plural: factories, gender: f, elide: false, needs_determiner: true}
+  - {fr: [redirection, redirections], en: redirect, en_plural: redirects, gender: m, fr_gender: f, elide: false}
+  - {fr: [routeur, routeurs], en: router, en_plural: routers, gender: m, elide: false}
+  - {fr: [formulaire, formulaires], en: form, en_plural: forms, gender: m, elide: false}
+  - {fr: [champ, champs], en: field, en_plural: fields, gender: m, elide: false, keep: ['champs? d.application', 'champ libre']}
+  - {fr: [enveloppe, enveloppes], en: Envelope, en_plural: Envelopes, gender: f, elide: true, needs_determiner: true}
+  - {fr: [autocâblage], en: autowiring, en_plural: autowiring, gender: m, elide: true}
+  - {fr: [profileur, profileurs], en: profiler, en_plural: profilers, gender: m, elide: false}
+  - {fr: [collecteur, collecteurs], en: collector, en_plural: collectors, gender: m, elide: false}
+  - {fr: [traducteur, traducteurs], en: translator, en_plural: translators, gender: m, elide: false}
+  - {fr: [traduction, traductions], en: translation, en_plural: translations, gender: f, elide: false}
+  - {fr: [horloge, horloges], en: clock, en_plural: clocks, gender: f, elide: false}
+  - {fr: [réessai, réessais], en: retry, en_plural: retries, gender: m, elide: false}
+  - {fr: [dépréciation, dépréciations], en: deprecation, en_plural: deprecations, gender: f, elide: false}
+  - {fr: [authentification], en: authentication, en_plural: authentication, gender: f, elide: true}
+  - {fr: [autorisation, autorisations], en: authorization, en_plural: authorizations, gender: f, elide: true}
+  - {fr: [débogage], en: debug, en_plural: debug, gender: m, elide: false}
+  - {fr: [déploiement, déploiements], en: deployment, en_plural: deployments, gender: m, elide: false}
+  - {fr: [sérialisation], en: serialization, en_plural: serialization, gender: f, elide: false}
+  - {fr: [normalisation], en: normalization, en_plural: normalization, gender: f, elide: false}
+  - {fr: [journalisation], en: logging, en_plural: logging, gender: m, elide: false}
+  - {fr: [paquet, paquets], en: package, en_plural: packages, gender: m, elide: false}
+  - {fr: [bloc, blocs], en: block, en_plural: blocks, gender: m, elide: false}
+  - {fr: [filtre, filtres], en: filter, en_plural: filters, gender: m, elide: false}
+  - {fr: [commande, commandes], en: command, en_plural: commands, gender: f, elide: false}
+  - {fr: [groupe, groupes], en: group, en_plural: groups, gender: m, elide: false}
+  - {fr: [requête, requêtes], en: Request, en_plural: Requests, gender: f, elide: false}
+  - {fr: [réponse, réponses], en: Response, en_plural: Responses, gender: f, elide: false, keep: ['(bonnes?|mauvaises?|seules?) réponses?', 'réponses? (correcte|juste|fausse|attendue|exacte)s?', 'la réponse est (oui|non)', 'question', 'réponses? \(', 'en réponse à']}
+  - {fr: [en-tête, en-têtes], en: header, en_plural: headers, gender: m, elide: false}
+  - {fr: [corps], en: body, en_plural: body, gender: m, elide: false, needs_determiner: true}
+  - {fr: [sortie, sorties], en: output, en_plural: outputs, gender: m, fr_gender: f, elide: true, needs_determiner: true, keep: ['sortie de (la )?boucle', 'à la sortie de']}
+  # ---------------- PHP and general terms (owner: « tout en anglais ») ---------
+  - {fr: [classe, classes], en: class, en_plural: classes, gender: f, elide: false}
+  - {fr: [méthode, méthodes], en: method, en_plural: methods, gender: f, elide: false}
+  - {fr: [propriété, propriétés], en: property, en_plural: properties, gender: f, elide: false}
+  - {fr: [objet, objets], en: object, en_plural: objects, gender: m, elide: true, keep: ['(fait|faire|font|faisant) l.objet', 'objet de (la|ce|cette)']}
+  - {fr: [paramètre, paramètres], en: parameter, en_plural: parameters, gender: m, elide: false}
+  - {fr: [attribut, attributs], en: attribute, en_plural: attributes, gender: m, elide: true}
+  - {fr: [fonction, fonctions], en: function, en_plural: functions, gender: f, elide: false, keep: ['en fonction d', 'fonction(ne|nement)']}
+  - {fr: [entier, entiers], en: int, en_plural: ints, gender: m, elide: true, needs_determiner: true}
+  - {fr: [booléen, booléens], en: bool, en_plural: bools, gender: m, elide: false, needs_determiner: true}
+  - {fr: [énumération, énumérations], en: enum, en_plural: enums, gender: f, elide: true}
+  - {fr: [fermeture, fermetures], en: closure, en_plural: closures, gender: f, elide: false}
+  - {fr: [chaîne, chaînes], en: string, en_plural: strings, gender: f, elide: false, keep: ['chaînes? de (?!caractères)', 'en chaîne', 'chaîn(é|er|age)']}
+  - {fr: [tableau, tableaux], en: array, en_plural: arrays, gender: m, elide: true, keep: ['tableaux? (ci-dessous|suivants?|des |récapitul|précédent|ci-contre)', '(ce|ces|le|un) tableaux? (montre|résume|donne|liste|compare|ci-)', 'dans (le|ce) tableau', 'du tableau (ci|suivant|précédent)']}
+  - {fr: [fichier, fichiers], en: file, en_plural: files, gender: m, elide: false}
+  - {fr: [répertoire, répertoires], en: directory, en_plural: directories, gender: m, elide: false}
+  - {fr: [chemin, chemins], en: path, en_plural: paths, gender: m, elide: false, keep: ['chemin minimal', 'à mi-chemin', 'en chemin', 'chemin faisant']}
+  - {fr: [utilisateur, utilisateurs], en: user, en_plural: users, gender: m, elide: false}
+  - {fr: [rôle, rôles], en: role, en_plural: roles, gender: m, elide: false, keep: ['(jouer|joue|jouent|a|ont) (un|le|ce) rôle', 'rôle (de|du|des) (chaque|ce|cette|la|le)']}
+  - {fr: [identifiant, identifiants], en: identifier, en_plural: identifiers, gender: m, elide: true}
+  - {fr: [environnement, environnements], en: environment, en_plural: environments, gender: m, elide: true}
+  - {fr: [dépendance, dépendances], en: dependency, en_plural: dependencies, gender: f, elide: false}
+  - {fr: [définition, définitions], en: definition, en_plural: definitions, gender: f, elide: false}
+  - {fr: [héritage], en: inheritance, en_plural: inheritance, gender: m, elide: true}
+  - {fr: [portée, portées], en: scope, en_plural: scopes, gender: m, fr_gender: f, elide: false, needs_determiner: true, keep: ['à (la )?portée', 'portée de main']}
+  - {fr: [appelable, appelables], en: callable, en_plural: callables, gender: m, elide: false, needs_determiner: true}
+  - {fr: [clé, clés, clef, clefs], en: key, en_plural: keys, gender: f, elide: false, keep: ['clés? en main', 'mot-clé', 'clé de voûte', 'idée clé', 'points? clés?', 'notions? clés?', 'chiffres? clés?']}
+  - {fr: [processus], en: process, en_plural: processes, gender: m, elide: false}
+  - {fr: [tampon, tampons], en: buffer, en_plural: buffers, gender: m, elide: false}
+  - {fr: [liaison, liaisons], en: binding, en_plural: bindings, gender: m, fr_gender: f, elide: false}
+  - {fr: [pluriel, pluriels], en: plural, en_plural: plurals, gender: m, elide: false, needs_determiner: true}
+  - {fr: [sécurité], en: security, en_plural: security, gender: f, elide: false, keep: ['de sécurité', 'en sécurité', 'sécurité (informatique|du)']}

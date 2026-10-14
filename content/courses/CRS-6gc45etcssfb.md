@@ -50,8 +50,8 @@ official_sources:
 
 ## Objectif
 
-Décrire le flux d'authentification de Symfony 8.0 en nommant correctement
-chaque objet, savoir lequel construire selon qu'il y a ou non des identifiants
+Décrire le flux d'authentication de Symfony 8.0 en nommant correctement
+chaque object, savoir lequel construire selon qu'il y a ou non des identifiers
 à vérifier, et diagnostiquer un badge qui n'a pas l'effet attendu.
 
 ## Prérequis
@@ -61,21 +61,21 @@ chaque objet, savoir lequel construire selon qu'il y a ou non des identifiants
 
 ## Explication pour débuter
 
-Trois objets, trois rôles distincts :
+Trois objects, trois roles distincts :
 
-- **Authenticator** — le *processus*. Il décide s'il prend la requête en charge
+- **Authenticator** — le *process*. Il décide s'il prend la Request en charge
   et en extrait ce qu'il faut.
 - **Passport** — le *dossier* qu'il constitue : qui prétend se connecter, et
   avec quelle preuve.
 - **Badge** — une *pièce* de ce dossier. Chaque badge porte une information ou
   déclenche une vérification.
 
-L'authenticator ne valide rien lui-même. Il remplit un dossier ; des écouteurs
+L'authenticator ne valide rien lui-même. Il remplit un dossier ; des listeners
 vérifient ensuite chaque pièce.
 
 ## Explication technique
 
-`AuthenticatorInterface` définit exactement cinq méthodes :
+`AuthenticatorInterface` définit exactement cinq methods :
 
 ```php
 public function supports(Request $request): ?bool;
@@ -85,23 +85,23 @@ public function onAuthenticationSuccess(Request $request, TokenInterface $token,
 public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response;
 ```
 
-`authenticate()` ne renvoie pas un utilisateur ni un booléen : il renvoie un
+`authenticate()` ne renvoie pas un user ni un bool : il renvoie un
 **Passport**. `AbstractAuthenticator` fournit `createToken()` ; l'ancien nom
 `createAuthenticatedToken()` n'existe plus.
 
-## `supports()` : trois réponses
+## `supports()` : trois Responses
 
-- `true` — l'authenticator prend la requête, `authenticate()` est appelé ;
+- `true` — l'authenticator prend la Request, `authenticate()` est appelé ;
 - `false` — il est ignoré ;
 - `null` — la documentation de l'interface : « authenticate() can be called
   **lazily** when accessing the token storage ».
 
 `null` ne veut donc pas dire « redemande-moi » : il veut dire « authentifie
-seulement si quelqu'un lit le jeton ». Exécuté avec SecurityBundle 8.0.15, un
+seulement si quelqu'un lit le token ». Exécuté avec SecurityBundle 8.0.15, un
 authenticator qui journalise ses appels, et `/plain`, une page qui ne lit pas
-l'utilisateur :
+le user :
 
-| Pare-feu | `supports()` | `/plain` | `/whoami` (lit le jeton) |
+| Firewall | `supports()` | `/plain` | `/whoami` (lit le token) |
 |---|---|---|---|
 | `lazy: true`, avec état | `null` | **`authenticate()` jamais appelé** | appelé |
 | `lazy: true`, avec état | `true` | appelé | appelé |
@@ -109,7 +109,7 @@ l'utilisateur :
 | `lazy: true`, **`stateless: true`** | `null` | **appelé** | appelé |
 
 La dernière ligne s'explique dans `SecurityExtension` :
-`$isLazy = !$firewall['stateless'] && $firewall['lazy']`. Sur un pare-feu sans
+`$isLazy = !$firewall['stateless'] && $firewall['lazy']`. Sur un firewall sans
 état, `lazy` est ignoré sans avertissement.
 
 ## Le flux
@@ -122,10 +122,10 @@ title: executeAuthenticator(), succès et échec
 ---
 flowchart TD
   accTitle: Le flux d'un authenticator dans Symfony 8.0
-  accDescr: supports() décide si l'authenticator prend la requête. authenticate() construit le Passport. CheckPassportEvent fait résoudre les badges, utilisateur, mot de passe, CSRF et user checker avant authentification. Une AuthenticationException, ou un badge non résolu, mène à onAuthenticationFailure() puis LoginFailureEvent. Sinon createToken() crée le jeton, AuthenticationSuccessEvent passe le user checker après authentification, onAuthenticationSuccess() rend la réponse, puis LoginSuccessEvent déclenche remember-me et la migration du mot de passe.
+  accDescr: supports() décide si l'authenticator prend la Request. authenticate() construit le Passport. CheckPassportEvent fait résoudre les badges, user, password, CSRF et user checker avant authentication. Une AuthenticationException, ou un badge non résolu, mène à onAuthenticationFailure() puis LoginFailureEvent. Sinon createToken() crée le token, AuthenticationSuccessEvent passe le user checker après authentication, onAuthenticationSuccess() rend la Response, puis LoginSuccessEvent déclenche remember-me et la migration du password.
   SUP{"supports()"} -->|"false"| SKIP(["ignoré"])
   SUP -->|"true ou null"| AUTH["authenticate() : le Passport"]
-  AUTH --> CHECK["CheckPassportEvent : utilisateur, mot de passe, CSRF, user checker"]
+  AUTH --> CHECK["CheckPassportEvent : user, password, CSRF, user checker"]
   CHECK --> RES{"tous les badges résolus ?"}
   CHECK -->|"exception"| FAIL["onAuthenticationFailure()"]
   RES -->|"non"| FAIL
@@ -133,7 +133,7 @@ flowchart TD
   TOK --> ASE["AuthenticationSuccessEvent : user checker, après"]
   ASE -->|"exception"| FAIL
   ASE --> OK["onAuthenticationSuccess()"]
-  OK --> LSE["LoginSuccessEvent : remember-me, migration du mot de passe"]
+  OK --> LSE["LoginSuccessEvent : remember-me, migration du password"]
   FAIL --> LFE["LoginFailureEvent"]
 ```
 
@@ -153,45 +153,45 @@ vérifier — jeton d'API déjà digne de confiance, en-tête signé en amont �
 `UserBadge` et les badges.
 
 ```php
-// Mot de passe à vérifier
+// Password à vérifier
 return new Passport(
     new UserBadge($email),
     new PasswordCredentials($plaintextPassword),
 );
 
-// Rien à vérifier : le porteur du jeton est déjà authentifié
+// Rien à vérifier : le porteur du token est déjà authentifié
 return new SelfValidatingPassport(new UserBadge($apiToken));
 ```
 
 ## Les badges
 
-| Badge | Rôle |
+| Badge | Role |
 |---|---|
-| `UserBadge` | Porte l'identifiant utilisateur. **Obligatoire.** |
-| `PasswordCredentials` | Mot de passe en clair, à vérifier par le hasher |
+| `UserBadge` | Porte l'identifier user. **Obligatoire.** |
+| `PasswordCredentials` | Password en clair, à vérifier par le hasher |
 | `CustomCredentials` | Vérification par un callable, qui doit rendre exactement `true` |
-| `PasswordUpgradeBadge` | Autorise le réencodage du mot de passe |
+| `PasswordUpgradeBadge` | Autorise le réencodage du password |
 | `RememberMeBadge` | Demande le cookie « se souvenir de moi » |
-| `CsrfTokenBadge` | Fait vérifier un jeton CSRF |
-| `PreAuthenticatedUserBadge` | Utilisateur déjà authentifié en amont : `checkPreAuth()` n'est pas appelé |
+| `CsrfTokenBadge` | Fait vérifier un token CSRF |
+| `PreAuthenticatedUserBadge` | User déjà authentifié en amont : `checkPreAuth()` n'est pas appelé |
 
 `UserBadge` accepte un *user loader* en second argument, quand le chargement ne
-doit pas passer par le fournisseur configuré. S'il rend `null`, `UserBadge`
-lève `UserNotFoundException`. Un identifiant vide, ou de plus de 4096 octets,
+doit pas passer par le provider configuré. S'il rend `null`, `UserBadge`
+lève `UserNotFoundException`. Un identifier vide, ou de plus de 4096 octets,
 est refusé dès la construction (`BadCredentialsException`).
 
 ## Diagnostiquer un badge
 
-**Un badge non résolu fait échouer l'authentification.** Exécuté, un badge
+**Un badge non résolu fait échouer l'authentication.** Exécuté, un badge
 maison dont `isResolved()` rend `false` : **401**, « Authentication failed:
 Security badge "App\…\UnresolvedBadge" is not resolved, did you forget to
 register the correct listeners? ».
 
 **`RememberMeBadge` est désactivé à sa création.** Il faut à la fois le badge,
-la clé `remember_me` sur le pare-feu, et son activation : paramètre
-`_remember_me` dans la requête, `always_remember_me`, ou `enable()`. Exécuté :
+la key `remember_me` sur le firewall, et son activation : parameter
+`_remember_me` dans la Request, `always_remember_me`, ou `enable()`. Exécuté :
 
-| Pare-feu | Badge | `_remember_me` | Cookie `REMEMBERME` |
+| Firewall | Badge | `_remember_me` | Cookie `REMEMBERME` |
 |---|---|---|---|
 | sans `remember_me` | `enable()` | — | aucun |
 | `remember_me` | non activé | absent | **effacé** |
@@ -201,8 +201,8 @@ la clé `remember_me` sur le pare-feu, et son activation : paramètre
 
 ## Pièges d'examen
 
-**`supports()` = `null` n'est pas « redemande-moi »** : c'est l'authentification
-paresseuse, et seulement sur un pare-feu `lazy` avec état.
+**`supports()` = `null` n'est pas « redemande-moi »** : c'est l'authentication
+paresseuse, et seulement sur un firewall `lazy` avec état.
 
 **`RememberMeBadge` n'active rien à lui seul** : sans `remember_me` ni
 activation, aucun cookie.
@@ -216,8 +216,8 @@ erreur de programmation, pas échec de connexion.
 
 ## Points clés
 
-- `authenticate()` renvoie un `Passport`, jamais un utilisateur.
-- `supports()` : `true`, `false`, ou `null` pour l'authentification paresseuse.
+- `authenticate()` renvoie un `Passport`, jamais un user.
+- `supports()` : `true`, `false`, ou `null` pour l'authentication paresseuse.
 - `Passport` exige des credentials ; sans credentials, `SelfValidatingPassport`.
 - `UserBadge` est le seul badge obligatoire.
 - Un badge exprime une demande ; un badge non résolu fait échouer.

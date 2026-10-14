@@ -62,8 +62,8 @@ toute enum implémente `UnitEnum`.
 
 ## Ce qu'une enum peut faire
 
-Méthodes, méthodes statiques, constantes, implémentation d'interfaces, et
-attributs. Une constante peut désigner un cas, créant un alias.
+Methods, methods statiques, constantes, implémentation d'interfaces, et
+attributes. Une constante peut désigner un cas, créant un alias.
 
 ```php
 enum Suit: string implements Colorful
@@ -85,21 +85,21 @@ enum Suit: string implements Colorful
 
 ## Ce qu'elle ne peut pas faire
 
-**Aucun état.** Une enum n'a pas de propriétés d'instance : ses cas sont des
+**Aucun état.** Une enum n'a pas de properties d'instance : ses cas sont des
 singletons. `$suit->value` est en lecture seule : toute modification, directe ou
 indirecte, lève une `Error` — « Cannot modify readonly property », exécuté.
 
-**Pas de constructeur**, pas d'héritage (`extends` interdit), pas
+**Pas de constructeur**, pas d'inheritance (`extends` interdit), pas
 d'instanciation par `new`.
 
 ## Pièges d'examen
 
-**`from()` lève, `tryFrom()` renvoie `null`.** Sur une entrée utilisateur,
+**`from()` lève, `tryFrom()` renvoie `null`.** Sur une entrée user,
 `from()` produit une `\ValueError` non rattrapée. C'est la distinction la plus
 testée.
 
 **Redéfinir `from()` ou `tryFrom()` sur une enum adossée est une erreur
-fatale.** Ces méthodes sont fournies par le moteur.
+fatale.** Ces methods sont fournies par le moteur.
 
 **`cases()` sur une enum adossée renvoie les cas, pas les valeurs.** Pour les
 valeurs : `array_column(Suit::cases(), 'value')`.
@@ -111,7 +111,7 @@ avertissement « Undefined property » et rend `null` — exécuté.
 
 - Pure = pas de valeur ; adossée = `int` ou `string`, unique et constante.
 - `from()` lève `\ValueError` ; `tryFrom()` renvoie `null`.
-- Méthodes, constantes et interfaces autorisées ; état, héritage et `new` non.
+- Methods, constantes et interfaces autorisées ; état, inheritance et `new` non.
 - `name` et `value` sont en lecture seule.
 
 ## Sources officielles

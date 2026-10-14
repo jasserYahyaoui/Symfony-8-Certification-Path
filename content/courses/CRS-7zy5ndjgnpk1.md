@@ -36,17 +36,17 @@ official_sources:
 
 ## Objectif
 
-Rediriger le navigateur depuis un contrôleur, et connaître le danger attaché à
-l'une des deux méthodes.
+Rediriger le navigateur depuis un controller, et connaître le danger attaché à
+l'une des deux methods.
 
-## Les deux méthodes
+## Les deux methods
 
 ```php
 return $this->redirectToRoute('homepage');        // vers une route
 return $this->redirect('https://symfony.com/doc'); // vers une URL
 ```
 
-Les deux retournent une `RedirectResponse`, donc une vraie réponse HTTP : le
+Les deux retournent une `RedirectResponse`, donc une vraie Response HTTP : le
 navigateur fait un second aller-retour et **l'URL affichée change**.
 
 ### L'une est bâtie sur l'autre
@@ -64,7 +64,7 @@ protected function redirectToRoute(string $route, array $parameters = [], int $s
 ```
 
 `generateUrl()` est appelée **sans** type de référence, donc avec sa valeur par
-défaut, le chemin absolu : l'en-tête `Location` porte `/accueil`, pas
+défaut, le path absolu : le header `Location` porte `/accueil`, pas
 `https://exemple.com/accueil`. `redirectToRoute()` n'a pas de quatrième
 argument pour changer cela ; une URL complète se demande en construisant soi-même
 l'URL puis en appelant `redirect()`.
@@ -81,7 +81,7 @@ return $this->redirectToRoute('homepage', [], Response::HTTP_MOVED_PERMANENTLY);
 Un 301 est mis en cache par le navigateur, parfois durablement. C'est la raison
 de ne l'employer que pour un déplacement réellement permanent. Le constructeur y
 contribue : sur un 301, si l'appelant n'a fourni aucun `Cache-Control`, il
-**retire** cet en-tête.
+**retire** ce header.
 
 ### Tous les 3xx ne sont pas acceptés
 
@@ -90,20 +90,20 @@ Le constructeur vérifie le statut par `isRedirect()`, qui n'admet que
 `InvalidArgumentException` — y compris **304**, pourtant dans la plage 3xx, et
 200. À l'inverse, 201 passe. Une URL vide lève aussi.
 
-## Paramètres utiles
+## Parameters utiles
 
-- `$this->redirectToRoute('app_lucky_number', ['max' => 10])` — paramètres de route ;
-- un paramètre qui n'est **pas** une variable du chemin part en chaîne de
-  requête : `redirectToRoute('blog_show', $request->query->all())` conserve la
+- `$this->redirectToRoute('app_lucky_number', ['max' => 10])` — parameters de route ;
+- un parameter qui n'est **pas** une variable du path part en chaîne de
+  Request : `redirectToRoute('blog_show', $request->query->all())` conserve la
   query string d'origine ;
-- la clé spéciale `_fragment` ajoute une ancre à l'URL générée ;
+- la key spéciale `_fragment` ajoute une ancre à l'URL générée ;
 - `$this->redirectToRoute($request->attributes->get('_route'))` redirige vers la
   route courante, ce qui sert le motif *Post / Redirect / Get*.
 
 ## Le danger de `redirect()`
 
 `redirect()` **ne vérifie pas sa destination**. Passer une valeur venue de
-l'utilisateur y ouvre une redirection non validée : un attaquant fabrique un
+le user y ouvre un redirect non validé : un attaquant fabrique un
 lien vers votre domaine qui renvoie vers le sien. Toute URL redirigée doit être
 validée, ou provenir d'une route.
 
@@ -113,26 +113,26 @@ validée, ou provenir d'une route.
 explicitement, par le troisième argument — et un 301 mis en cache par le
 navigateur est difficile à reprendre.
 
-**304 n'est pas un statut de redirection valide.** Il est dans la plage 3xx,
-mais la réponse de redirection le refuse et lève.
+**304 n'est pas un statut de redirect valide.** Il est dans la plage 3xx,
+mais la Response de redirect le refuse et lève.
 
-**`redirectToRoute()` produit un chemin, pas une URL complète.** Le type de
+**`redirectToRoute()` produit un path, pas une URL complète.** Le type de
 référence n'est pas exposé.
 
 **Rediriger vers une URL ne valide pas cette URL.** Une destination construite
-depuis une entrée utilisateur ouvre une redirection non validée.
+depuis une entrée user ouvre un redirect non validé.
 
-**Une redirection est une vraie réponse HTTP.** Le navigateur repart, l'URL
-affichée change, et le contrôleur d'arrivée s'exécute dans une seconde requête —
+**Un redirect est une vraie Response HTTP.** Le navigateur repart, l'URL
+affichée change, et le controller d'arrivée s'exécute dans une seconde Request —
 ce n'est pas un appel interne.
 
 ## Points clés
 
-- `redirectToRoute()` appelle `redirect()` avec un chemin absolu.
+- `redirectToRoute()` appelle `redirect()` avec un path absolu.
 - Statut **302** par défaut ; troisième argument pour 301.
 - Statuts admis : 201, 301, 302, 303, 307, 308 — le reste lève.
-- Paramètre hors chemin → query string ; `_fragment` → ancre.
-- `redirect()` ne valide rien : jamais d'entrée utilisateur telle quelle.
+- Parameter hors path → query string ; `_fragment` → ancre.
+- `redirect()` ne valide rien : jamais d'entrée user telle quelle.
 
 ## Sources officielles
 

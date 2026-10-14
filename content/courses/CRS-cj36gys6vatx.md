@@ -41,16 +41,16 @@ niveau. Les trois couches sont définies dans l'item *Form component*.
 
 ## L'interface
 
-`DataTransformerInterface` a deux méthodes, et leurs noms se lisent depuis le
+`DataTransformerInterface` a deux methods, et leurs noms se lisent depuis le
 **modèle** :
 
-| Méthode | Sens | Appelée |
+| Method | Sens | Appelée |
 |---|---|---|
-| `transform()` | modèle → vue | quand les données sont posées sur le formulaire |
+| `transform()` | modèle → vue | quand les données sont posées sur le form |
 | `reverseTransform()` | vue → modèle | à la soumission |
 
 C'est l'erreur classique : `reverseTransform()` n'est pas « l'inverse de ce qu'on
-veut », c'est le chemin de retour, celui qui traite la donnée du navigateur.
+veut », c'est le path de retour, celui qui traite la donnée du navigateur.
 
 `transform()` n'est **pas** appelée au rendu. Exécuté avec `symfony/form`
 8.0.15 et des transformateurs qui journalisent : `getForm()` sur des données
@@ -65,16 +65,16 @@ $builder->get('issue')->addModelTransformer($transformer);
 $builder->get('issue')->addViewTransformer($transformer);
 ```
 
-| Méthode | Convertit entre |
+| Method | Convertit entre |
 |---|---|
 | `addModelTransformer()` | donnée du **modèle** et donnée normalisée |
 | `addViewTransformer()` | donnée **normalisée** et donnée de vue |
 
-Le choix dépend de ce que l'on convertit. Transformer un numéro saisi en objet
+Le choix dépend de ce que l'on convertit. Transformer un numéro saisi en object
 métier est une affaire de modèle ; changer le format d'affichage d'une valeur
 déjà normalisée est une affaire de vue.
 
-## L'ordre d'une chaîne
+## L'ordre d'une string
 
 `FormConfigBuilder::addViewTransformer()` **ajoute à la fin** ;
 `addModelTransformer()` **insère en tête**. Exécuté avec `M1`, `M2`, `V1`, `V2`
@@ -90,12 +90,12 @@ Le dernier transformateur de modèle ajouté est donc le plus proche du modèle.
 ## Signaler un échec
 
 Quand la valeur soumise ne peut pas être convertie, le transformateur lève
-`TransformationFailedException`. Exécuté : le champ n'est plus
+`TransformationFailedException`. Exécuté : le field n'est plus
 **synchronisé** (`isSynchronized()` à `false`), sa donnée vaut `null`, sa donnée
-de vue garde la saisie `'42'`, et le formulaire est invalide avec
+de vue garde la saisie `'42'`, et le form est invalide avec
 « This value is not valid. ».
 
-Ce message vient de l'option **`invalid_message`** du champ ; celui de
+Ce message vient de l'option **`invalid_message`** du field ; celui de
 l'exception n'est jamais montré. `setInvalidMessage()` sur l'exception fixe un
 message public, mais seulement quand l'extension Validator est active — c'est
 `FormValidator` qui le lit. Exécuté sans elle : l'option `invalid_message`
@@ -107,20 +107,20 @@ Toute autre exception **sort** de `submit()` : exécuté, une
 ## Valeurs vides
 
 La documentation demande que `transform()` rende, pour `null`, l'équivalent vide
-du type **cible** : chaîne vide, `0` pour un entier, `0.0` pour un flottant. Un
-transformateur qui produit une chaîne rend donc `''`. Retourner `null` quand
-même ne casse pas un champ texte : exécuté, sa variable de vue `value` vaut
+du type **cible** : string vide, `0` pour un int, `0.0` pour un flottant. Un
+transformateur qui produit une string rend donc `''`. Retourner `null` quand
+même ne casse pas un field texte : exécuté, sa variable de vue `value` vaut
 `''`.
 
 Dans l'autre sens, la convention de l'interface est que `reverseTransform()`
-retourne `null` pour une chaîne vide. Exécuté sur un champ texte laissé vide :
+retourne `null` pour une string vide. Exécuté sur un field texte laissé vide :
 un transformateur de **vue** reçoit `''`, un transformateur de **modèle** reçoit
 déjà `null`.
 
 ## Le raccourci
 
-`CallbackTransformer` prend les deux fonctions en arguments de constructeur —
-`transform` puis `reverseTransform` — et évite d'écrire une classe pour une
+`CallbackTransformer` prend les deux functions en arguments de constructeur —
+`transform` puis `reverseTransform` — et évite d'écrire une class pour une
 conversion d'une ligne.
 
 ## Un exemple documenté qui ignore le vide
@@ -133,17 +133,17 @@ avec PHP 8.4 :
 |---|---|
 | tags `['a', 'b']` posés | vue `'a, b'` |
 | tags `null` posés | `TypeError` levée par `implode()` |
-| champ soumis vide | dépréciation d'`explode()` sur `null`, donnée `['']` |
+| field soumis vide | deprecation d'`explode()` sur `null`, donnée `['']` |
 
-Traiter le vide dans chaque fonction suffit : `null` donne `''` dans un sens,
+Traiter le vide dans chaque function suffit : `null` donne `''` dans un sens,
 `[]` dans l'autre.
 
 ## Pièges d'examen
 
 **`transform()` s'exécute quand les données sont posées, pas au rendu.**
 
-**Le sens des deux méthodes se lit depuis le modèle.** L'une va vers la vue,
-l'autre fait le chemin de retour à la soumission.
+**Le sens des deux methods se lit depuis le modèle.** L'une va vers la vue,
+l'autre fait le path de retour à la soumission.
 
 **Modèle et vue ne s'attachent pas au même endroit**, et les transformateurs de
 modèle s'empilent en tête.
@@ -151,7 +151,7 @@ modèle s'empilent en tête.
 **Un échec se signale par l'exception dédiée** ; tout autre type sort de
 `submit()`. Le message affiché est `invalid_message`, pas celui de l'exception.
 
-**Pour `null`, la valeur rendue suit le type cible** : `''` pour une chaîne.
+**Pour `null`, la valeur rendue suit le type cible** : `''` pour une string.
 
 **L'exemple documenté des tags échoue sur `null`** : `TypeError`.
 
@@ -161,7 +161,7 @@ modèle s'empilent en tête.
   retour, à la soumission.
 - `addModelTransformer()` insère en tête ; `addViewTransformer()` ajoute à la
   fin.
-- `TransformationFailedException` : champ non synchronisé, erreur
+- `TransformationFailedException` : field non synchronisé, erreur
   `invalid_message`.
 - `setInvalidMessage()` exige l'extension Validator.
 - `CallbackTransformer` pour les cas courts.

@@ -41,8 +41,8 @@ connaisse nommément.
 
 ## Ce qu'un tag fait
 
-Un tag est une **étiquette sur une définition**. Il ne fait rien par lui-même :
-quelque chose doit le lire — une passe de compilation, ou l'injection d'un
+Un tag est une **tag sur une definition**. Il ne fait rien par lui-même :
+quelque chose doit le lire — un compiler pass, ou l'injection d'un
 itérateur de services tagués.
 
 ```yaml
@@ -51,7 +51,7 @@ services:
         tags: ['app.handler']
 ```
 
-C'est le mécanisme d'extension du framework tout entier :
+C'est le mécanisme d'extension du framework tout int :
 `kernel.event_listener`, `controller.argument_value_resolver`,
 `form.type_extension`, `twig.extension` sont des tags.
 
@@ -81,14 +81,14 @@ class HandlerChain
 
 L'argument reçoit un itérable **paresseux** : les services tagués ne sont
 instanciés qu'à l'itération. Exécuté avec `symfony/dependency-injection`
-8.0.15 : après construction de `HandlerChain`, aucun gestionnaire n'est
+8.0.15 : après construction de `HandlerChain`, aucun handler n'est
 construit. L'option `exclude` en retire certains — exécuté,
 `exclude: [FaxHandler::class]` rend les trois autres.
 
 ## Les poser sans configuration
 
 `#[AutoconfigureTag]` sur une **interface** tague toutes les classes qui
-l'implémentent. L'attribut est répétable.
+l'implémentent. L'attribute est répétable.
 
 ```php
 #[AutoconfigureTag('app.handler')]
@@ -102,36 +102,36 @@ moyen : `FrameworkExtension` appelle
 
 ## Ordonner et nommer
 
-Un tag porte des attributs, dont deux sont conventionnels :
+Un tag porte des attributes, dont deux sont conventionnels :
 
 - **`priority`** — l'ordre dans l'itérateur ; **la plus haute passe en premier** ;
-- **`index`** — la clé sous laquelle le service apparaît.
+- **`index`** — la key sous laquelle le service apparaît.
 
-`#[AsTaggedItem]` les pose depuis la classe :
+`#[AsTaggedItem]` les pose depuis la class :
 
 ```php
 #[AsTaggedItem(index: 'sms', priority: 10)]
 class SmsHandler implements HandlerInterface {}
 ```
 
-La clé ne sert que si quelque chose la demande. Exécuté, avec `SmsHandler`
+La key ne sert que si quelque chose la demande. Exécuté, avec `SmsHandler`
 indexé `sms` :
 
-| Injection | Clés obtenues |
+| Injection | Keys obtenues |
 |---|---|
 | `#[AutowireIterator('app.handler')]` | `0, 1, 2, 3` — l'index est ignoré |
-| `#[AutowireIterator('app.handler', indexAttribute: 'key')]` | `sms`, puis les noms de classe |
-| `#[AutowireLocator('app.handler')]` | `sms`, puis les noms de classe |
+| `#[AutowireIterator('app.handler', indexAttribute: 'key')]` | `sms`, puis les noms de class |
+| `#[AutowireLocator('app.handler')]` | `sms`, puis les noms de class |
 
 Un itérateur simple reste une **liste** ; c'est `indexAttribute` — `index_by` en
 YAML — ou un localisateur qui en fait une table de correspondance.
 
-Une méthode statique peut fournir les valeurs par défaut. `getDefaultPriority()`
-donne la priorité : exécuté, 5 place le service juste après `sms`. Pour la clé,
-le nom de la méthode **dérive de l'attribut d'index** : avec `index_by: key`,
+Une method statique peut fournir les default values. `getDefaultPriority()`
+donne la priorité : exécuté, 5 place le service juste après `sms`. Pour la key,
+le nom de la method **dérive de l'attribute d'index** : avec `index_by: key`,
 c'est `getDefaultKeyName()`, sauf si `default_index_method` en nomme une autre.
-Exécuté : une méthode `getDefaultIndexName()` n'est appelée que si on la nomme.
-La priorité suit la même règle : sous `index_by: key`, la méthode attendue
+Exécuté : une method `getDefaultIndexName()` n'est appelée que si on la nomme.
+La priorité suit la même règle : sous `index_by: key`, la method attendue
 devient `getDefaultKeyPriority()` (`TaggedIteratorArgument`), et le
 `getDefaultPriority()` du service est ignoré — exécuté, il perd sa place.
 
@@ -148,20 +148,20 @@ php bin/console debug:container --tag=app.handler
 passe ne collecte ne produit rien — aucune erreur, au mieux une ligne de journal
 en debug.
 
-**`priority` haute = appelé en premier**, comme pour les écouteurs d'événements.
+**`priority` haute = appelé en premier**, comme pour les event listeners.
 
 **L'itérateur est paresseux** : les services ne sont pas construits tant qu'on
 n'itère pas.
 
-**Un itérateur sans `index_by` a des clés entières**, même si les services
+**Un itérateur sans `index_by` a des keys entières**, même si les services
 déclarent un `index`.
 
 ## Points clés
 
-- Un tag étiquette une définition ; un lecteur — passe ou itérateur — lui donne un sens.
+- Un tag tag une definition ; un lecteur — passe ou itérateur — lui donne un sens.
 - `!tagged_iterator` et `#[AutowireIterator]` injectent la collection, paresseuse.
 - `#[AutoconfigureTag]` sur une interface tague ses implémentations.
-- `priority` ordonne (haute d'abord) ; `index` ne donne une clé que sous
+- `priority` ordonne (haute d'abord) ; `index` ne donne une key que sous
   `index_by` ou dans un localisateur.
 
 ## Sources officielles

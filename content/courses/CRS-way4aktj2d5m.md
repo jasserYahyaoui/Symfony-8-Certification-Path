@@ -34,13 +34,13 @@ official_sources:
 ## Objectif
 
 Savoir ce que le composant valide, comment on l'appelle, et ce qu'il retourne.
-Les contraintes elles-mêmes appartiennent aux items *Built-in validation
+Les constraints elles-mêmes appartiennent aux items *Built-in validation
 constraints* et *Custom callback validators*.
 
 ## Ce qu'il valide
 
-Le Validator confronte une **valeur** à des **contraintes**. Le cas courant est
-un objet dont les propriétés portent des contraintes, mais l'entrée peut aussi
+Le Validator confronte une **valeur** à des **constraints**. Le cas courant est
+un object dont les properties portent des constraints, mais l'entrée peut aussi
 être une valeur nue :
 
 ```php
@@ -48,23 +48,23 @@ $violations = $validator->validate($email, new Assert\Email());
 ```
 
 Dans une application Symfony, on injecte `ValidatorInterface` par autowiring ;
-le framework configure la lecture des contraintes.
+le framework configure la lecture des constraints.
 
-## Hors framework : le piège des attributs
+## Hors framework : le piège des attributes
 
 C'est un composant **autonome**, mais `Validation::createValidator()` construit
-un validateur **qui ne lit pas les attributs** : `ValidatorBuilder` démarre avec
-la lecture des attributs désactivée. Exécuté avec `symfony/validator` 8.0.15,
-sur un objet portant `#[Assert\NotBlank]` et `#[Assert\Email]` avec des valeurs
+un validator **qui ne lit pas les attributes** : `ValidatorBuilder` démarre avec
+la lecture des attributes désactivée. Exécuté avec `symfony/validator` 8.0.15,
+sur un object portant `#[Assert\NotBlank]` et `#[Assert\Email]` avec des valeurs
 invalides :
 
-| Validateur | Violations |
+| Validator | Violations |
 |---|---|
 | `Validation::createValidator()` | **0** |
 | `Validation::createValidatorBuilder()->enableAttributeMapping()->getValidator()` | 2 |
 
-Aucune erreur ne signale l'oubli : l'objet paraît simplement valide. Les
-contraintes passées en argument, elles, s'appliquent dans les deux cas.
+Aucune erreur ne signale l'oubli : l'object paraît simplement valide. Les
+constraints passées en argument, elles, s'appliquent dans les deux cas.
 
 ## Les trois manières de valider
 
@@ -75,20 +75,20 @@ $validator->validatePropertyValue(User::class, 'email', $value); // une valeur c
 ```
 
 La troisième mérite d'être connue : elle valide une valeur **contre les
-contraintes déclarées** pour cette propriété, **sans que l'objet la porte**.
-Elle accepte d'ailleurs un nom de classe à la place d'une instance.
+constraints déclarées** pour cette property, **sans que l'object la porte**.
+Elle accepte d'ailleurs un nom de class à la place d'une instance.
 
-Chaque méthode accepte en dernier argument les groupes à appliquer.
+Chaque method accepte en dernier argument les groups à appliquer.
 
-Exécuté : `validateProperty()` sur une propriété **inexistante** ne lève rien et
+Exécuté : `validateProperty()` sur une property **inexistante** ne lève rien et
 retourne une liste vide.
 
 ## Ce qu'il retourne
 
-Toujours une `ConstraintViolationListInterface` — **jamais un booléen**. Une
-validation réussie retourne une liste **vide**. La classe concrète est
+Toujours une `ConstraintViolationListInterface` — **jamais un bool**. Une
+validation réussie retourne une liste **vide**. La class concrète est
 `ConstraintViolationList` : `Countable`, parcourable, accessible par indice
-(`$violations[0]`), et convertible en chaîne pour le débogage.
+(`$violations[0]`), et convertible en chaîne pour le debug.
 
 ```php
 if (0 !== count($violations)) {
@@ -101,7 +101,7 @@ if (0 !== count($violations)) {
 }
 ```
 
-Exécuté : la violation d'un objet imbriqué par `#[Assert\Valid]` porte le chemin
+Exécuté : la violation d'un object imbriqué par `#[Assert\Valid]` porte le path
 `address.city` ; le code d'`Email` est `bd79c0ab-ddba-46cc-a703-a7a4b08de310`.
 
 Tester `if ($violations)` est faux : exécuté, une liste vide convertie en booléen
@@ -110,49 +110,49 @@ vaut `true`. Le test correct porte sur `count()`.
 ## Donnée invalide ou configuration invalide
 
 Une **donnée** invalide ne lève rien, même quand son type ne convient pas.
-Exécuté : un tableau soumis à `Email`, ou un objet soumis à `Length`, produit la
+Exécuté : un array soumis à `Email`, ou un object soumis à `Length`, produit la
 violation « This value should be of type string. ».
 
 Deux cas lèvent, en revanche :
 
-- une **contrainte** mal configurée, dès sa construction : `new
+- une **constraint** mal configurée, dès sa construction : `new
   Assert\Length()` sans `min` ni `max` lève `MissingOptionsException` ;
-- une valeur **scalaire ou `null` sans contrainte** : `validate('x')` lève une
+- une valeur **scalaire ou `null` sans constraint** : `validate('x')` lève une
   `RuntimeException`, « Cannot validate values of type "string" automatically.
-  Please provide a constraint. ». Un objet ou un tableau sans contrainte donne,
+  Please provide a constraint. ». Un object ou un array sans constraint donne,
   lui, une liste vide.
 
 ## Deux raccourcis de `Validation`
 
-| Méthode | Retour pour une valeur invalide |
+| Method | Retour pour une valeur invalide |
 |---|---|
-| `Validation::createIsValidCallable(...)` | une fonction qui retourne `false` |
-| `Validation::createCallable(...)` | une fonction qui **lève** `ValidationFailedException` |
+| `Validation::createIsValidCallable(...)` | une function qui retourne `false` |
+| `Validation::createCallable(...)` | une function qui **lève** `ValidationFailedException` |
 
-Exécuté avec `Email` sur `'x'`. Ils servent là où l'on attend une fonction, par
+Exécuté avec `Email` sur `'x'`. Ils servent là où l'on attend une function, par
 exemple `setAllowedValues()` d'OptionsResolver.
 
 ## Pièges d'examen
 
 **`validate()` ne lève rien pour une donnée invalide**, même mal typée ; une
-contrainte mal configurée ou un scalaire sans contrainte, si.
+constraint mal configurée ou un scalaire sans constraint, si.
 
-**Une liste vide est un objet.** Seul `count()` dit si la validation a réussi.
+**Une liste vide est un object.** Seul `count()` dit si la validation a réussi.
 
-**`createValidator()` ignore les attributs** : il faut
+**`createValidator()` ignore les attributes** : il faut
 `enableAttributeMapping()`.
 
-**`validatePropertyValue()` n'a pas besoin de l'objet peuplé** : elle teste une
-valeur candidate contre les contraintes de la propriété.
+**`validatePropertyValue()` n'a pas besoin de l'object peuplé** : elle teste une
+valeur candidate contre les constraints de la property.
 
 ## Points clés
 
-- Le composant confronte une valeur à des contraintes ; il est autonome.
-- Hors framework, `enableAttributeMapping()` pour lire les attributs.
+- Le composant confronte une valeur à des constraints ; il est autonome.
+- Hors framework, `enableAttributeMapping()` pour lire les attributes.
 - `validate()`, `validateProperty()`, `validatePropertyValue()`.
 - Retour : une `ConstraintViolationListInterface`, vide si tout est valide.
-- Donnée invalide : violation ; contrainte invalide ou scalaire sans
-  contrainte : exception.
+- Donnée invalide : violation ; constraint invalide ou scalaire sans
+  constraint : exception.
 
 ## Sources officielles
 

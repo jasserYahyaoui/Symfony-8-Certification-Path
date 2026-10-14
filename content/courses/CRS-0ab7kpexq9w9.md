@@ -31,9 +31,9 @@ official_sources:
 
 ## Objectif
 
-Lire l'entrée et écrire la sortie par les deux abstractions du composant, sans
+Lire l'entrée et écrire l'output par les deux abstractions du composant, sans
 jamais toucher `$argv`, `echo` ni `STDOUT` directement. C'est ce découplage qui
-rend une commande testable.
+rend une command testable.
 
 ## Prérequis
 
@@ -54,11 +54,11 @@ complète une valeur manquante avant l'exécution.
 
 Deux distinctions à ne pas confondre :
 
-- `hasOption('x')` demande si l'option est **déclarée** dans la définition ;
-  `getOption('x')` rend sa valeur, éventuellement la valeur par défaut.
-- `hasParameterOption('--x')` regarde la **ligne de commande brute**, avant
+- `hasOption('x')` demande si l'option est **déclarée** dans la definition ;
+  `getOption('x')` rend sa valeur, éventuellement la default value.
+- `hasParameterOption('--x')` regarde la **ligne de command brute**, avant
   toute analyse. C'est ce qu'il faut quand l'option n'est pas encore déclarée —
-  le cas de `--env` lu avant la construction du noyau.
+  le cas de `--env` lu avant la construction du kernel.
 
 Exécuté avec Console 8.0.15, une option `--dry-run` déclarée :
 
@@ -67,7 +67,7 @@ Exécuté avec Console 8.0.15, une option `--dry-run` déclarée :
 | `--dry-run` | `true` | `true` |
 | rien | **`true`** | `false` |
 
-Et `ArgvInput(['bin', '--env=prod'])` **sans définition** :
+Et `ArgvInput(['bin', '--env=prod'])` **sans definition** :
 `hasParameterOption('--env')` vaut `true`, `getParameterOption('--env')` vaut
 `'prod'`.
 
@@ -76,13 +76,13 @@ qu'avec `-n`, `-q` ou `--silent` (voir *Console component*).
 
 ## Les implémentations
 
-| Classe | Source des valeurs |
+| Class | Source des valeurs |
 |---|---|
 | `ArgvInput` | `$argv` — l'exécution réelle en terminal |
-| `ArrayInput` | un tableau PHP — les tests, et l'appel d'une commande depuis une autre |
-| `StringInput` | une chaîne analysée comme une ligne de commande |
+| `ArrayInput` | un array PHP — les tests, et l'appel d'une command depuis une autre |
+| `StringInput` | une string analysée comme une ligne de command |
 
-Une commande écrite contre `InputInterface` fonctionne avec les trois. C'est
+Une command écrite contre `InputInterface` fonctionne avec les trois. C'est
 exactement ce que `CommandTester` exploite.
 
 ## `OutputInterface` — écrire
@@ -93,7 +93,7 @@ $output->writeln('avec retour à la ligne');
 $output->writeln(['plusieurs', 'lignes']);
 ```
 
-Trois modes de rendu contrôlent l'interprétation des balises :
+Trois modes de rendu contrôlent l'interprétation des tags :
 `OUTPUT_NORMAL` les interprète, `OUTPUT_RAW` les laisse telles quelles,
 `OUTPUT_PLAIN` les interprète **puis** applique `strip_tags()` au résultat.
 Exécuté, `'<info>ok</info> <script>x</script>'` :
@@ -104,14 +104,14 @@ Exécuté, `'<info>ok</info> <script>x</script>'` :
 | `OUTPUT_PLAIN` | `ok` **toujours en vert**, puis `x` | `ok x` |
 | `OUTPUT_RAW` | `<info>ok</info>` tel quel | — |
 
-`OUTPUT_PLAIN` ne retire donc pas les couleurs d'une sortie décorée : il
-retire les balises qui restent après le formatage.
+`OUTPUT_PLAIN` ne retire donc pas les couleurs d'un output décoré : il
+retire les tags qui restent après le formatage.
 
-## Les balises de style
+## Les tags de style
 
 Le formateur en définit quatre par défaut :
 
-| Balise | Rendu |
+| Tag | Rendu |
 |---|---|
 | `<info>` | vert |
 | `<comment>` | jaune |
@@ -122,12 +122,12 @@ Le formateur en définit quatre par défaut :
 $output->writeln('<info>terminé</info>');
 ```
 
-Une chaîne venant de l'utilisateur ou d'une base doit passer par
+Une string venant du user ou d'une base doit passer par
 `OutputFormatter::escape()`. Exécuté : sans échappement, `<info>x</info>` venu
-de l'utilisateur s'affiche `x`, la balise interprétée ; échappé, il s'affiche
-tel quel. Une balise inconnue — `<script>` — passe intacte dans les deux cas.
+du user s'affiche `x`, le tag interprété ; échappé, il s'affiche
+tel quel. Un tag inconnu — `<script>` — passe intacte dans les deux cas.
 
-## La sortie d'erreur
+## L'output d'erreur
 
 `ConsoleOutput` implémente `ConsoleOutputInterface`, qui ajoute
 `getErrorOutput()`. Ce second flux écrit sur **`STDERR`** :
@@ -143,7 +143,7 @@ mélanger les messages de diagnostic aux données redirigées.
 
 ## `SymfonyStyle`, la façade
 
-`SymfonyStyle` enveloppe l'entrée et la sortie et fournit une présentation
+`SymfonyStyle` enveloppe l'entrée et l'output et fournit une présentation
 conforme aux conventions Symfony :
 
 ```php
@@ -159,27 +159,27 @@ Elle expose aussi `getErrorStyle()`, qui rend la même API branchée sur `STDERR
 
 ## Pièges d'examen
 
-**Ne jamais utiliser `echo`** : la sortie échapperait à la verbosité, au
+**Ne jamais utiliser `echo`** : l'output échapperait à la verbosité, au
 formateur et aux tests.
 
 **`getErrorOutput()` n'appartient pas à `OutputInterface`** mais à
 `ConsoleOutputInterface` — d'où le test de type.
 
-**`hasOption()` interroge la définition**, pas la ligne de commande : il vaut
+**`hasOption()` interroge la definition**, pas la ligne de command : il vaut
 `true` même quand l'option n'a pas été passée. C'est `hasParameterOption()`
 qui lit la ligne brute.
 
-**`OUTPUT_PLAIN` garde les couleurs** d'une sortie décorée.
+**`OUTPUT_PLAIN` garde les couleurs** d'un output décoré.
 
 **Le nom passé à `getArgument()` est le nom kebab-case** déclaré, pas celui du
-paramètre PHP.
+parameter PHP.
 
 ## Points clés
 
 - `InputInterface` : `getArgument`, `getOption`, `hasOption`, `isInteractive`.
 - `ArgvInput`, `ArrayInput`, `StringInput` — même contrat, sources différentes.
 - `OutputInterface` : `write`, `writeln`, verbosité, formateur.
-- Quatre balises par défaut ; échapper ce qui vient de l'extérieur.
+- Quatre tags par défaut ; échapper ce qui vient de l'extérieur.
 - `getErrorOutput()` pour `STDERR` ; `SymfonyStyle` pour tout le reste.
 
 ## Sources officielles

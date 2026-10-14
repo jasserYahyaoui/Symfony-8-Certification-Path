@@ -55,7 +55,7 @@ official_sources:
 
 ## Objectif
 
-Produire un 404 depuis un contrôleur, savoir quel statut produit une exception,
+Produire un 404 depuis un controller, savoir quel statut produit une exception,
 et personnaliser la page affichée.
 
 ## Produire le 404
@@ -66,10 +66,10 @@ throw $this->createNotFoundException('The product does not exist');
 
 Le mot important est `throw`. `createNotFoundException()` **construit et
 retourne** une `NotFoundHttpException` ; elle ne la lève pas. Oublier le `throw`
-est une erreur silencieuse : le contrôleur continue, et la page s'affiche
+est une erreur silencieuse : le controller continue, et la page s'affiche
 normalement.
 
-La méthode est un simple raccourci pour `new NotFoundHttpException($message,
+La method est un simple raccourci pour `new NotFoundHttpException($message,
 $previous)`. Sans argument, le message vaut `'Not Found'`.
 
 ## Quel statut pour quelle exception
@@ -87,28 +87,28 @@ La deuxième ligne est celle que la documentation omet : elle dit « sinon 500 �
 Cinq exceptions de HttpFoundation implémentent cette interface et donnent donc
 un 400 sans être des exceptions HTTP — exécuté : `BadRequestException`,
 `SuspiciousOperationException`, `ConflictingHeadersException`, `JsonException`,
-que lève `getPayload()` sur un corps invalide, et `SessionNotFoundException`.
+que lève `getPayload()` sur un body invalide, et `SessionNotFoundException`.
 
 ## Personnaliser la page
 
 En production, Symfony affiche une page d'erreur générique. Pour la remplacer,
-on surcharge les gabarits de TwigBundle, dans
+on surcharge les templates de TwigBundle, dans
 `templates/bundles/TwigBundle/Exception/`.
 
 Le `TwigErrorRenderer` cherche, dans l'ordre :
 
-1. un gabarit portant le code de statut — `error404.html.twig` ;
-2. à défaut, le gabarit générique `error.html.twig` ;
+1. un template portant le status code — `error404.html.twig` ;
+2. à défaut, le template générique `error.html.twig` ;
 3. si aucun n'existe, il passe la main au rendu HTML intégré, `HtmlErrorRenderer`.
 
-Il n'y a donc pas besoin d'un fichier par statut : `error.html.twig` couvre tout
-le reste, 500 compris. Ces gabarits ne servent qu'au HTML ; une autre sortie
+Il n'y a donc pas besoin d'un file par statut : `error.html.twig` couvre tout
+le reste, 500 compris. Ces templates ne servent qu'au HTML ; une autre sortie
 passe par le Serializer.
 
-### Ce que reçoit le gabarit
+### Ce que reçoit le template
 
 Trois variables : `status_code`, `status_text`, et `exception`. La documentation
-présente `exception` comme l'objet `HttpException`. **Le code passe autre
+présente `exception` comme l'object `HttpException`. **Le code passe autre
 chose** :
 
 ```php
@@ -119,44 +119,44 @@ return $flattenException->setAsString($this->twig->render($template, [
 ]));
 ```
 
-C'est une `FlattenException`, une classe autonome qui n'étend pas `Exception`.
+C'est une `FlattenException`, une class autonome qui n'étend pas `Exception`.
 `exception.message` fonctionne parce qu'elle expose `getMessage()`, mais un test
-`instanceof` sur la classe d'origine échouerait. Ne jamais afficher
-`exception.traceAsString` à un utilisateur final.
+`instanceof` sur la class d'origine échouerait. Ne jamais afficher
+`exception.traceAsString` à un user final.
 
 ## Deux pièges
 
 **En développement**, la grande page d'exception s'affiche à la place de votre
-page d'erreur. Le mode debug fait sauter le gabarit Twig. Pour prévisualiser, on
+page d'erreur. Le mode debug fait sauter le template Twig. Pour prévisualiser, on
 importe en `when@dev` les routes de FrameworkBundle sous le préfixe `/_error` :
 `/_error/{statusCode}`, et `/_error/{statusCode}.{format}` pour les autres
-formats. La prévisualisation fonctionne parce qu'elle lance une sous-requête avec
-l'attribut `showException` à `false`, ce qui désactive le debug pour ce rendu.
+formats. La prévisualisation fonctionne parce qu'elle lance une sub-Request avec
+l'attribute `showException` à `false`, ce qui désactive le debug pour ce rendu.
 
-**La sécurité n'est pas disponible sur une page 404.** À cause de l'ordre de
-chargement du routage et de la sécurité, l'utilisateur y apparaît déconnecté.
+**La security n'est pas disponible sur une page 404.** À cause de l'ordre de
+chargement du routage et de la security, le user y apparaît déconnecté.
 Cela fonctionne en test et échoue en production.
 
 ## Pièges d'examen
 
-**La méthode d'aide construit l'exception, elle ne la lève pas.** Sans `throw`,
-le contrôleur poursuit et la page s'affiche normalement.
+**La method d'aide construit l'exception, elle ne la lève pas.** Sans `throw`,
+le controller poursuit et la page s'affiche normalement.
 
 **Toute exception non HTTP ne donne pas 500.** Celles qui implémentent
 `RequestExceptionInterface` donnent 400.
 
-**`exception` dans le gabarit n'est pas l'exception levée.** C'est sa version
+**`exception` dans le template n'est pas l'exception levée.** C'est sa version
 aplatie.
 
-**Il n'y a pas besoin d'un gabarit par statut.** Le rendu retombe sur le gabarit
+**Il n'y a pas besoin d'un template par statut.** Le rendu retombe sur le template
 générique, puis sur le rendu intégré.
 
-**La sécurité n'est pas disponible sur une page 404.** Une page d'erreur ne peut
-pas afficher le nom de l'utilisateur.
+**La security n'est pas disponible sur une page 404.** Une page d'erreur ne peut
+pas afficher le nom du user.
 
 ## Points clés
 
-- `throw $this->createNotFoundException()` — la méthode ne lève pas.
+- `throw $this->createNotFoundException()` — la method ne lève pas.
 - Statut : celui de l'exception HTTP, 400 pour `RequestExceptionInterface`, sinon 500.
 - `error<code>.html.twig`, puis `error.html.twig`, puis le rendu intégré.
 - `exception` est une `FlattenException`.

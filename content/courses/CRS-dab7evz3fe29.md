@@ -23,7 +23,7 @@ official_sources:
 
 ## Objectif
 
-Choisir la représentation d'une ressource à partir des en-têtes `Accept*`, et
+Choisir la représentation d'une ressource à partir des headers `Accept*`, et
 signaler ce choix correctement.
 
 ## Le principe
@@ -32,9 +32,9 @@ Une ressource a plusieurs **représentations** — JSON ou HTML, français ou
 anglais, compressée ou non. Le client décrit ses préférences ; le serveur
 choisit. C'est la *négociation proactive*, celle que l'examen vise.
 
-## Les en-têtes de requête
+## Les headers de Request
 
-| En-tête | Dimension négociée |
+| Header | Dimension négociée |
 |---|---|
 | `Accept` | Type de média |
 | `Accept-Language` | Langue |
@@ -61,7 +61,7 @@ $request->getPreferredFormat();     // 'html', 'json'…
 $request->getRequestFormat();       // format demandé, 'html' par défaut
 ```
 
-## Les en-têtes de réponse
+## Les headers de Response
 
 Le serveur annonce son choix et déclare ce dont il a dépendu :
 
@@ -84,7 +84,7 @@ items `q=0`. La règle de spécificité ci-dessus est celle de la RFC ; elle ne
 s'applique pas à cet accesseur.
 
 `getPreferredFormat()` ne commence pas par négocier : il consulte d'abord
-`getRequestFormat()`, donc l'attribut `_format` de la route ou un
+`getRequestFormat()`, donc l'attribute `_format` de la route ou un
 `setRequestFormat()` explicite. `Accept` n'est consulté qu'à défaut — un
 `_format=xml` l'emporte sur un `Accept: application/json`.
 
@@ -94,7 +94,7 @@ RFC 9110 définit **deux** négociations, et l'examen ne vise que la première.
 
 - **Proactive** (§12.1), dite aussi *server-driven* : le client envoie ses
   préférences, un algorithme côté serveur choisit. La sélection s'appuie sur les
-  en-têtes `Accept*` **et** sur des caractéristiques implicites que le texte
+  headers `Accept*` **et** sur des caractéristiques implicites que le texte
   nomme — l'adresse réseau du client, des morceaux de `User-Agent`.
 - **Réactive** (§12.2), dite aussi *agent-driven* : le serveur renvoie une
   **liste d'alternatives**, et le client choisit puis redemande. Le code `300
@@ -107,7 +107,7 @@ serveur décide seul et doit dire sur quoi il s'est fondé — d'où `Vary`.
 
 §12.4.2 fixe quatre choses qu'on croit savoir :
 
-- le nom du paramètre `q` est **insensible à la casse** ;
+- le nom du parameter `q` est **insensible à la casse** ;
 - l'échelle va de `0` à `1`, où **`0.001` est la préférence la plus faible** et
   `0` signifie *not acceptable* ;
 - la grammaire n'autorise que **trois décimales** — `q=0.3333` est mal formé ;
@@ -119,7 +119,7 @@ valeurs de même qualité, « however, this behavior cannot be relied upon ».
 
 ## `Vary: *`
 
-La valeur `*` est légale et signifie que d'autres aspects de la requête ont pu
+La valeur `*` est légale et signifie que d'autres aspects de la Request ont pu
 compter, « possibly including aspects outside the message syntax ». Un cache ne
 peut alors rien réutiliser sans revalider. Un **proxy**, lui, n'a pas le droit
 d'en générer : « A proxy MUST NOT generate `*` in a Vary field value ».
@@ -135,19 +135,19 @@ par la position.
 **Oublier `Vary` est le bug de cache classique** et n'a aucun symptôme
 localement, où il n'y a pas de cache partagé.
 
-**`Accept` est une préférence, pas une contrainte.** Un serveur peut répondre
+**`Accept` est une préférence, pas une constraint.** Un serveur peut répondre
 autre chose ; il l'annonce par `Content-Type`.
 
 ## Tips d'examen
 
-**Lire l'en-tête, pas la position.** Sans `q`, c'est `1.0` — pas « moins que le
-précédent ». Seul `q` classe.
+**Lire le header, pas la position.** Sans `q`, c'est `1.0` — pas « moins que le
+précédent ». Seul `q` class.
 
 **`q=0` est un refus, pas une préférence faible.** La préférence faible, c'est
 `q=0.001`.
 
 **Proactive = le serveur choisit ; réactive = le client choisit** dans une liste.
-Le mot *driven* du synonyme donne la réponse : *server-driven* contre
+Le mot *driven* du synonyme donne la Response : *server-driven* contre
 *agent-driven*.
 
 **Côté Symfony, deux accesseurs ne négocient pas ce qu'on croit.**
@@ -159,7 +159,7 @@ ni sur la spécificité, ni en retirant les `q=0`. `getPreferredFormat()` consul
 
 - Une ressource, plusieurs représentations ; le client préfère, le serveur choisit.
 - `q` par défaut `1.0` ; `q=0` refuse ; la spécificité choisit le motif qui
-  fixe le `q` d'un type, elle ne classe pas deux types entre eux.
+  fixe le `q` d'un type, elle ne class pas deux types entre eux.
 - `getAcceptableContentTypes()` renvoie une liste déjà triée.
 - Négocier impose `Vary` ; `406` si rien ne convient.
 

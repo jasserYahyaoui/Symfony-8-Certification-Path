@@ -10,13 +10,13 @@ flashcards:
   official_item: OIT-r3qcmsehzex1
   language: fr
   level: TRAP
-  front: Combien de fois le script d'entrée s'exécute-t-il, et quelle contrainte cela impose-t-il ?
+  front: Combien de fois le script d'entrée s'exécute-t-il, et quelle constraint cela impose-t-il ?
   back: 'Deux fois pour ce qui précède le require_once de autoload_runtime.php, une fois pour ce qui le suit : le
-    runtime inclut le script à nouveau, et la première exécution se termine dans ce fichier. D''où la règle : aucun
+    runtime inclut le script à nouveau, et la première exécution se termine dans ce file. D''où la règle : aucun
     effet de bord avant ce require.'
   explanation: La documentation décrit la réinclusion ; exécuté sur Runtime 8.0.14, une ligne placée au-dessus du
     require a tourné deux fois, une ligne placée au-dessous une seule.
-  memorization_justification: Rien dans le fichier ne laisse deviner qu'il sera réexécuté ; on l'écrit naturellement
+  memorization_justification: Rien dans le file ne laisse deviner qu'il sera réexécuté ; on l'écrit naturellement
     comme un script joué une seule fois.
   verification_status: VERIFIED
   reviewed_at: '2026-10-03'
@@ -30,10 +30,10 @@ flashcards:
   official_item: OIT-r3qcmsehzex1
   language: fr
   level: RECALL
-  front: 'Symfony Runtime : quel fichier le contrôleur frontal charge-t-il, et qui le produit ?'
+  front: 'Symfony Runtime : quel file le front controller charge-t-il, et qui le produit ?'
   back: '`vendor/autoload_runtime.php`, produit par le plugin Composer du composant.'
   explanation: 'Section *Usage*, branche 8.0 ; exécuté : `composer dump-autoload --no-plugins` ne le recrée pas.'
-  memorization_justification: Origine du fichier.
+  memorization_justification: Origine du file.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/runtime.rst
@@ -46,7 +46,7 @@ flashcards:
   official_item: OIT-r3qcmsehzex1
   language: fr
   level: RECALL
-  front: 'Symfony Runtime : quelle variable d''environnement choisit la classe de runtime ?'
+  front: 'Symfony Runtime : quelle variable d''environment choisit la class de runtime ?'
   back: '`APP_RUNTIME` ; à défaut, `extra.runtime.class` dans `composer.json`.'
   explanation: Section *Selecting Runtimes*, branche 8.0.
   memorization_justification: Choix du runtime.
@@ -65,7 +65,7 @@ flashcards:
   front: 'Symfony Runtime : quels arguments de type array les deux runtimes résolvent-ils ?'
   back: '`array $context`, `array $argv` et `array $request`.'
   explanation: Section *Resolvable Arguments*, branche 8.0, et `GenericRuntime::getArgument()`.
-  memorization_justification: Trois tableaux.
+  memorization_justification: Trois arrays.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/runtime.rst
@@ -107,7 +107,7 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony Runtime : pourquoi une ligne placée sous le require_once du runtime ne s''exécute-t-elle qu''une fois ?'
-  back: Parce que la première exécution se termine dans `autoload_runtime.php`, par `exit` ; seule la seconde, qui trouve le fichier déjà chargé, atteint cette ligne.
+  back: Parce que la première exécution se termine dans `autoload_runtime.php`, par `exit` ; seule la seconde, qui trouve le file déjà chargé, atteint cette ligne.
   explanation: Lu dans `autoload_runtime.template` (8.0) et exécuté.
   memorization_justification: Deux passes inégales.
   verification_status: VERIFIED
@@ -122,10 +122,10 @@ flashcards:
   official_item: OIT-r3qcmsehzex1
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony Runtime : pourquoi composer install --no-plugins casse-t-il les contrôleurs frontaux ?'
-  back: 'Parce que `autoload_runtime.php` est écrit par le plugin Composer du composant : sans plugin, le fichier requis n''existe pas.'
+  front: 'Symfony Runtime : pourquoi composer install --no-plugins casse-t-il les front controllers ?'
+  back: 'Parce que `autoload_runtime.php` est écrit par le plugin Composer du composant : sans plugin, le file requis n''existe pas.'
   explanation: Avertissement de *Usage*, branche 8.0, et exécuté.
-  memorization_justification: Dépendance au plugin.
+  memorization_justification: Dependency au plugin.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/runtime.rst
@@ -138,7 +138,7 @@ flashcards:
   official_item: OIT-r3qcmsehzex1
   language: fr
   level: APPLICATION
-  front: 'Symfony Runtime : démarrer SymfonyRuntime sans fichier .env.'
+  front: 'Symfony Runtime : démarrer SymfonyRuntime sans file .env.'
   back: Passer l'option `disable_dotenv`, par exemple `APP_RUNTIME_OPTIONS='{"disable_dotenv":true}'`.
   explanation: 'Section *Using Options* ; exécuté : sans `.env` ni option, `PathException`.'
   memorization_justification: Désactiver Dotenv.
@@ -154,9 +154,9 @@ flashcards:
   official_item: OIT-r3qcmsehzex1
   language: fr
   level: APPLICATION
-  front: 'Symfony Runtime : faire exécuter une application console par le même mécanisme qu''un noyau HTTP.'
-  back: Faire rendre à la fonction une `Application` de console au lieu du noyau.
-  explanation: 'Section *Usage*, branche 8.0 : c''est l''objet retourné qui choisit l''exécuteur.'
+  front: 'Symfony Runtime : faire exécuter une application console par le même mécanisme qu''un kernel HTTP.'
+  back: Faire rendre à la function une `Application` de console au lieu du kernel.
+  explanation: 'Section *Usage*, branche 8.0 : c''est l''object retourné qui choisit l''exécuteur.'
   memorization_justification: Choix par le retour.
   verification_status: VERIFIED
   official_sources:

@@ -26,27 +26,27 @@ official_sources:
 
 ## Objectif
 
-Comprendre ce que le conteneur contient, pourquoi il est compilé, et ce que
+Comprendre ce que le container contient, pourquoi il est compilé, et ce que
 « privé » veut dire ici. La déclaration des services est traitée dans *Services
 registration*.
 
-## Une définition, pas un objet
+## Une definition, pas un object
 
-Le conteneur ne contient pas des objets : il contient des **définitions** — la
-classe, les arguments, les appels de méthode, les tags. L'objet n'est construit
+Le container ne contient pas des objects : il contient des **definitions** — la
+class, les arguments, les appels de method, les tags. L'object n'est construit
 qu'au premier `get()`, puis réutilisé. Un service est donc, par défaut, un
-**singleton** dans le conteneur : deux injections du même service donnent la
+**singleton** dans le container : deux injections du même service donnent la
 même instance. Exécuté avec `symfony/dependency-injection` 8.0.15 : deux
-`get()` rendent le même objet ; `setShared(false)` — `shared: false` en
+`get()` rendent le même object ; `setShared(false)` — `shared: false` en
 configuration — en donne deux.
 
-Chaque définition a un **identifiant**. Par convention, c'est le nom pleinement
-qualifié de la classe — `App\Mailer\Mailer` — ce qui rend l'autowiring possible.
+Chaque definition a un **identifier**. Par convention, c'est le nom pleinement
+qualifié de la class — `App\Mailer\Mailer` — ce qui rend l'autowiring possible.
 
 ## Public ou privé
 
 **Privé est le défaut**, et c'est la décision structurante. Exécuté : une
-définition créée par `register()` a `isPublic()` à `false`.
+definition créée par `register()` a `isPublic()` à `false`.
 
 | | Privé | Public |
 |---|---|---|
@@ -55,16 +55,16 @@ définition créée par `register()` a `isPublic()` à `false`.
 | Peut être supprimé s'il n'est utilisé nulle part | **oui** | non |
 
 Un service privé n'est pas caché : il est simplement **inaccessible depuis
-l'extérieur du conteneur**. Exécuté après `compile()` : `get()` sur un service
+l'extérieur du container**. Exécuté après `compile()` : `get()` sur un service
 privé lève une `ServiceNotFoundException`, « removed or inlined when the
 container was compiled ». L'intérêt est double — le compilateur peut l'inliner
 ou le retirer s'il n'est référencé nulle part, et une référence vers un service
 inexistant produit une erreur claire dès la compilation.
 
 On rend un service public par `public: true` dans la configuration, ou par
-`#[Autoconfigure(public: true)]` sur sa classe.
+`#[Autoconfigure(public: true)]` sur sa class.
 
-Dans un test fonctionnel, `static::getContainer()` donne accès à un conteneur
+Dans un functional test, `static::getContainer()` donne accès à un container
 spécial qui expose les services publics et les services privés **non retirés**.
 Un service privé retiré, parce que rien ne l'utilise, reste inaccessible : la
 documentation conseille alors de le déclarer public dans
@@ -72,7 +72,7 @@ documentation conseille alors de le déclarer public dans
 
 ## L'alias
 
-Un **alias** est un second identifiant pointant vers une définition :
+Un **alias** est un second identifier pointant vers une definition :
 
 ```yaml
 services:
@@ -84,13 +84,13 @@ avec l'interface, l'alias dit quelle implémentation utiliser.
 
 ## La compilation
 
-Au premier chargement, le conteneur est **compilé** en une classe PHP écrite
-dans `var/cache/`. Les paramètres sont résolus, les passes de compilation
+Au premier chargement, le container est **compilé** en une class PHP écrite
+dans `var/cache/`. Les parameters sont résolus, les compiler passes
 s'exécutent, les services inutilisés disparaissent.
 
-Conséquence pratique : le conteneur d'exécution ne relit aucune configuration.
+Conséquence pratique : le container d'exécution ne relit aucune configuration.
 Modifier `services.yaml` sans vider le cache n'a aucun effet en production ; en
-développement, le conteneur est reconstruit quand ses sources changent.
+développement, le container est reconstruit quand ses sources changent.
 
 ## Inspecter
 
@@ -101,7 +101,7 @@ php bin/console debug:container Mailer       # recherche partielle
 php bin/console debug:autowiring Logger      # ce qui est autowirable
 ```
 
-`--show-hidden` affiche les services **internes**, ceux dont l'identifiant
+`--show-hidden` affiche les services **internes**, ceux dont l'identifier
 commence par un point. Il n'existe pas d'option `--show-private` dans
 `ContainerDebugCommand` (8.0) : les services privés sont listés par défaut.
 
@@ -112,7 +112,7 @@ commence par un point. Il n'existe pas d'option `--show-private` dans
 **Privé ne veut pas dire « non injectable »** : cela ne concerne que l'accès
 depuis l'extérieur.
 
-**Le conteneur compilé est du PHP en cache** : la configuration n'est pas relue
+**Le container compilé est du PHP en cache** : la configuration n'est pas relue
 à l'exécution.
 
 **`debug:container` n'a pas d'option `--show-private`** ; `--show-hidden`
@@ -120,9 +120,9 @@ montre les services internes.
 
 ## Points clés
 
-- Le conteneur porte des définitions ; l'instance est créée à la demande, une fois.
+- Le container porte des definitions ; l'instance est créée à la demande, une fois.
 - Privé par défaut : injectable, non récupérable, supprimable si inutilisé.
-- Un alias donne un second identifiant — c'est ce qui rend une interface autowirable.
+- Un alias donne un second identifier — c'est ce qui rend une interface autowirable.
 - Compilation en PHP dans `var/cache/` ; `debug:container` pour inspecter.
 
 ## Sources officielles

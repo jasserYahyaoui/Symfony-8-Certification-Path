@@ -107,6 +107,13 @@ jobs:
           composer install --working-dir=tools/behavior --prefer-dist --no-interaction --no-progress
           php tools/behavior/run.php
 
+      # Owner decision of 2026-10-14: Symfony, PHP and HTTP terms stay in
+      # English in French prose (listener, compiler pass, service container).
+      # docs/policy/terminology.yml lists them; --check fails if a listed French
+      # form is back, and running the script without --check is the fix.
+      - name: Technical terms stay in English
+        run: python3 tools/terminology/apply.py --check
+
       - name: Revision plan is deterministic and up to date
         run: |
           set -o pipefail

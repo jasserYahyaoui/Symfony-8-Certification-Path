@@ -28,19 +28,19 @@ official_sources:
 ## Objectif
 
 Lire ce que le client a réellement envoyé et reçu. La difficulté tient à ce que
-**deux couches** existent, avec deux objets pour la requête et deux pour la
-réponse.
+**deux couches** existent, avec deux objects pour la Request et deux pour la
+Response.
 
 ## Prérequis
 
-L'objet client, et les objets `Request` et `Response` de HttpFoundation.
+L'object client, et les objects `Request` et `Response` de HttpFoundation.
 
 ## Les deux couches
 
 BrowserKit simule le navigateur ; HttpKernel exécute l'application. Le client
-expose les objets des deux côtés, et l'examen teste qu'on ne les confonde pas :
+expose les objects des deux côtés, et l'examen teste qu'on ne les confonde pas :
 
-| Méthode | Classe rendue (exécuté, 8.0) | Couche |
+| Method | Class rendue (exécuté, 8.0) | Couche |
 |---|---|---|
 | `getRequest()` | `HttpFoundation\Request` | application |
 | `getInternalRequest()` | `BrowserKit\Request` | navigateur simulé |
@@ -51,11 +51,11 @@ La règle de lecture : **`internal` désigne le navigateur**, pas l'application.
 L'intuition inverse — « interne, donc plus proche du framework » — est
 exactement ce sur quoi la question porte.
 
-En pratique, c'est `getResponse()` qu'on utilise : c'est l'objet
-`HttpFoundation\Response` que le contrôleur a produit, avec son code, ses
-en-têtes et son contenu.
+En pratique, c'est `getResponse()` qu'on utilise : c'est l'object
+`HttpFoundation\Response` que le controller a produit, avec son code, ses
+headers et son contenu.
 
-## Les autres objets internes
+## Les autres objects internes
 
 ```php
 $history   = $client->getHistory();     // l'historique de navigation
@@ -63,7 +63,7 @@ $cookieJar = $client->getCookieJar();   // les cookies accumulés
 $crawler   = $client->getCrawler();     // le crawler de la dernière requête
 ```
 
-| Méthode | Classe rendue (exécuté, 8.0) |
+| Method | Class rendue (exécuté, 8.0) |
 |---|---|
 | `getHistory()` | `BrowserKit\History` |
 | `getCookieJar()` | `BrowserKit\CookieJar` |
@@ -72,13 +72,13 @@ $crawler   = $client->getCrawler();     // le crawler de la dernière requête
 `getCrawler()` évite de conserver la valeur rendue par `request()` quand on en a
 besoin plus loin dans le test.
 
-## Avant la première requête
+## Avant la première Request
 
-Les quatre objets de requête et de réponse, ainsi que le crawler, n'existent pas
+Les quatre objects de Request et de Response, ainsi que le crawler, n'existent pas
 encore. Le client ne rend pas `null` : il **lève une exception**. Exécuté sur
 BrowserKit 8.0.14 :
 
-| Appel avant toute requête | Résultat |
+| Appel avant toute Request | Résultat |
 |---|---|
 | `getRequest()`, `getResponse()` | `BadMethodCallException` |
 | `getInternalRequest()`, `getInternalResponse()` | `BadMethodCallException` |
@@ -86,11 +86,11 @@ BrowserKit 8.0.14 :
 | `getHistory()` | un historique vide |
 | `getCookieJar()` | un pot utilisable : on peut y poser un cookie |
 
-Le message nomme la méthode fautive : *The "request()" method must be called
+Le message nomme la method fautive : *The "request()" method must be called
 before …*. L'historique et le pot de cookies, eux, existent dès la création du
-client — c'est ce qui permet de poser un cookie avant la première requête.
+client — c'est ce qui permet de poser un cookie avant la première Request.
 
-## Introspecter la réponse
+## Introspecter la Response
 
 ```php
 $response = $client->getResponse();
@@ -99,20 +99,20 @@ $response->headers->get('content-type');
 $response->getContent();
 ```
 
-L'objet est un `HttpFoundation\Response` ordinaire : son code, ses en-têtes et
+L'object est un `HttpFoundation\Response` ordinaire : son code, ses headers et
 son contenu se lisent comme partout ailleurs.
 
 Ces lectures directes ont leur place, mais les assertions de Symfony sont
-préférables pour ce qu'on affirme. Exécuté sur une réponse 200 :
+préférables pour ce qu'on affirme. Exécuté sur une Response 200 :
 
 | Assertion qui échoue | Message d'échec |
 |---|---|
-| `assertSame()` sur le code de statut brut | deux nombres : 200 contre 404 |
-| `assertResponseStatusCodeSame(404)` | le code attendu, puis la réponse entière : statut, en-têtes, corps |
+| `assertSame()` sur le status code brut | deux nombres : 200 contre 404 |
+| `assertResponseStatusCodeSame(404)` | le code attendu, puis la Response entière : statut, headers, corps |
 
-La seconde montre **pourquoi** la réponse n'est pas celle attendue.
+La seconde montre **pourquoi** la Response n'est pas celle attendue.
 
-## Introspecter la requête
+## Introspecter la Request
 
 ```php
 $request = $client->getRequest();
@@ -121,17 +121,17 @@ $request->attributes->get('_route');
 $request->getPathInfo();
 ```
 
-L'attribut `_route` dit **quelle route a répondu**. C'est ce que vérifie
+L'attribute `_route` dit **quelle route a répondu**. C'est ce que vérifie
 `assertRouteSame()`, et c'est une information qu'aucune inspection du HTML ne
 donne : deux routes différentes peuvent rendre la même page.
 
-Le nom de la route est sous `_route` ; le contrôleur appelé est sous
-`_controller`, au format `Classe::méthode` pour une route posée par attribut
-sur une méthode. Pour un contrôleur invocable, la valeur est la classe seule :
-`AttributeRouteControllerLoader` omet le nom de la méthode. Exécuté :
-`…\Pages::hello` pour la méthode, `…\Inv` pour la classe invocable.
+Le nom de la route est sous `_route` ; le controller appelé est sous
+`_controller`, au format `Classe::méthode` pour une route posée par attribute
+sur une method. Pour un controller invocable, la valeur est la class seule :
+`AttributeRouteControllerLoader` omet le nom de la method. Exécuté :
+`…\Pages::hello` pour la method, `…\Inv` pour la class invocable.
 
-Les deux requêtes n'exposent pas l'adresse de la même façon. Exécuté sur
+Les deux Requests n'exposent pas l'adresse de la même façon. Exécuté sur
 `/hello` :
 
 | Lecture | Valeur |
@@ -140,10 +140,10 @@ Les deux requêtes n'exposent pas l'adresse de la même façon. Exécuté sur
 | `getRequest()->getPathInfo()` | `/hello` |
 | `getRequest()->getUri()` | `http://localhost/hello` |
 
-## Après une redirection
+## Après un redirect
 
-Le client ne suit pas les redirections par défaut. Après une requête sur une
-route qui redirige, `getRequest()` est **la requête qui a redirigé**, pas sa
+Le client ne suit pas les redirects par défaut. Après une Request sur une
+route qui redirige, `getRequest()` est **la Request qui a redirigé**, pas sa
 cible. Exécuté :
 
 | Étape | `getResponse()` | `_route` |
@@ -156,15 +156,15 @@ L'historique conserve les deux adresses : `current()` rend la cible,
 
 ## Pièges d'examen
 
-**`getInternalRequest()` est l'objet BrowserKit**, pas celui de l'application.
+**`getInternalRequest()` est l'object BrowserKit**, pas celui de l'application.
 
-**`getRequest()` et `getResponse()` sont les objets HttpFoundation** — ceux que
-le contrôleur a vus et produits.
+**`getRequest()` et `getResponse()` sont les objects HttpFoundation** — ceux que
+le controller a vus et produits.
 
-**Avant toute requête, ils lèvent `BadMethodCallException`** — ils ne rendent pas
+**Avant toute Request, ils lèvent `BadMethodCallException`** — ils ne rendent pas
 `null`. L'historique et les cookies, eux, existent déjà.
 
-**Une redirection non suivie** laisse `_route` sur la route qui a redirigé.
+**Un redirect non suivi** laisse `_route` sur la route qui a redirigé.
 
 **Préférer les assertions Symfony** aux lectures brutes, pour le message
 d'échec.
@@ -174,9 +174,9 @@ d'échec.
 - Deux couches : BrowserKit (navigateur) et HttpKernel (application).
 - `internal` = BrowserKit ; sans préfixe = HttpFoundation.
 - `getHistory()`, `getCookieJar()`, `getCrawler()` pour le reste.
-- Avant la première requête : exception, sauf historique et cookies.
-- L'attribut `_route` identifie la route qui a répondu ; `_controller`, le
-  contrôleur.
+- Avant la première Request : exception, sauf historique et cookies.
+- L'attribute `_route` identifie la route qui a répondu ; `_controller`, le
+  controller.
 
 ## Sources officielles
 

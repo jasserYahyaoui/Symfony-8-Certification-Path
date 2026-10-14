@@ -37,7 +37,7 @@ progression ni une saisie interactive à la main.
 
 ## Prérequis
 
-Les objets d'entrée et de sortie.
+Les objects d'entrée et de sortie.
 
 ## Le catalogue
 
@@ -45,14 +45,14 @@ La documentation 8.0 en recense neuf :
 
 | Helper | Ce qu'il fait |
 |---|---|
-| `QuestionHelper` | poser une question à l'utilisateur |
+| `QuestionHelper` | poser une question au user |
 | `ProgressBar` | une barre de progression sur une tâche de longueur connue |
 | `ProgressIndicator` | un indicateur d'activité quand la longueur est inconnue |
-| `Table` | afficher des données en tableau |
+| `Table` | afficher des données en array |
 | `Tree` | afficher une arborescence |
-| `FormatterHelper` | blocs et sections colorés |
-| `ProcessHelper` | lancer un processus externe en affichant son déroulé |
-| `DebugFormatterHelper` | mettre en forme la sortie de ce processus |
+| `FormatterHelper` | blocks et sections colorés |
+| `ProcessHelper` | lancer un process externe en affichant son déroulé |
+| `DebugFormatterHelper` | mettre en forme l'output de ce process |
 | `Cursor` | déplacer le curseur dans le terminal |
 
 Aucun n'est à connaître dans le détail. Ce qui compte à l'examen est de savoir
@@ -60,7 +60,7 @@ Aucun n'est à connaître dans le détail. Ce qui compte à l'examen est de savo
 
 ## Les questions
 
-`QuestionHelper::ask()` prend l'entrée, la sortie et un objet question. Trois
+`QuestionHelper::ask()` prend l'entrée, l'output et un object question. Trois
 types de questions existent :
 
 ```php
@@ -69,12 +69,12 @@ new ConfirmationQuestion('Continuer ?', false);
 new ChoiceQuestion('Environnement ?', ['dev', 'prod'], 0);
 ```
 
-`ConfirmationQuestion` accepte toute réponse commençant par `y` — donc `yeti`
-répond « oui ». Son second argument est la valeur rendue quand l'utilisateur ne
-saisit rien ; en son absence, la réponse par défaut est `true`.
+`ConfirmationQuestion` accepte toute Response commençant par `y` — donc `yeti`
+répond « oui ». Son second argument est la valeur rendue quand le user ne
+saisit rien ; en son absence, la Response par défaut est `true`.
 
 Le point structurant : une question n'a de sens que si l'entrée est
-**interactive**. Avec `--no-interaction`, la valeur par défaut est retenue sans
+**interactive**. Avec `--no-interaction`, la default value est retenue sans
 rien demander. C'est pourquoi la documentation place les questions dans
 `interact()`, et pourquoi une valeur obtenue ainsi doit toujours avoir un repli.
 
@@ -82,14 +82,14 @@ Exécuté avec Console 8.0.15 :
 
 | Situation | Résultat |
 |---|---|
-| `ConfirmationQuestion('?', false)`, réponse `yeti` ou `Yes` | `true` |
-| `ConfirmationQuestion('?')`, réponse vide | `true` |
+| `ConfirmationQuestion('?', false)`, Response `yeti` ou `Yes` | `true` |
+| `ConfirmationQuestion('?')`, Response vide | `true` |
 | non interactive, `ChoiceQuestion(…, ['dev', 'prod'], 0)` | `'dev'` — la valeur, pas l'index |
 | non interactive, `Question('?')` sans défaut | `null` |
 | interactive, `Question('?')` sans défaut, fin de l'entrée | `MissingInputException` : « Aborted. » |
 
 La dernière ligne est le cas d'un `cron` lancé sans `-n` : la question est
-posée, l'entrée standard est vide, et la commande s'arrête.
+posée, l'entrée standard est vide, et la command s'arrête.
 
 ## La progression
 
@@ -104,9 +104,9 @@ Le total est **facultatif**. Sans lui, la barre s'affiche en mode
 *throbber* — un compteur sans pourcentage ; exécuté : `0 [>---…]` au lieu de
 `0/3 [>---…]   0%`. `setMaxSteps()` fixe ou corrige le total en cours de
 route. `ProgressIndicator`, lui, n'a pas de compteur du tout : il anime une
-attente — une réponse réseau — sans unité de progression.
+attente — une Response réseau — sans unité de progression.
 
-## Le tableau
+## L'array
 
 ```php
 (new Table($output))
@@ -137,18 +137,18 @@ pour ce qu'elle n'expose pas.
 
 ## Y accéder sans `SymfonyStyle`
 
-Une commande qui étend `Command` dispose du `HelperSet` :
+Une command qui étend `Command` dispose du `HelperSet` :
 
 ```php
 $helper = $this->getHelper('question');
 ```
 
-Une commande invocable, qui n'étend rien, n'a pas cette méthode : elle instancie
+Une command invocable, qui n'étend rien, n'a pas cette method : elle instancie
 le helper (`new QuestionHelper()`) ou passe par `SymfonyStyle`.
 
 ## Pièges d'examen
 
-**Sans interaction, aucune question n'est posée** : la valeur par défaut
+**Sans interaction, aucune question n'est posée** : la default value
 s'applique silencieusement.
 
 **`ConfirmationQuestion` vaut `true` par défaut** si le second argument est omis.
@@ -159,7 +159,7 @@ pourcentage. `ProgressIndicator` sert quand il n'y a rien à compter.
 **Une question sans défaut, en interactif, sur une entrée vide** lève
 `MissingInputException`.
 
-**`getHelper()` vient de `Command`** — indisponible dans une commande invocable
+**`getHelper()` vient de `Command`** — indisponible dans une command invocable
 qui ne l'étend pas.
 
 ## Points clés

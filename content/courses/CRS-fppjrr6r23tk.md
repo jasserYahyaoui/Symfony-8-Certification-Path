@@ -42,7 +42,7 @@ qu'on veut changer.
 
 ## Prérequis
 
-Le cycle requête-réponse et l'événement `kernel.exception`.
+Le cycle requête-réponse et l'event `kernel.exception`.
 
 ## Tout est une exception
 
@@ -51,7 +51,7 @@ exceptions**, qu'il s'agisse d'un 404 ou d'une erreur fatale levée dans le code
 
 Les erreurs PHP non fatales — un avertissement, une notice — ne sont converties
 en `ErrorException` que si l'option `framework.php_errors.throw` est vraie. Sa
-valeur par défaut est `%kernel.debug%`. Exécuté sur une clé de tableau absente
+default value est `%kernel.debug%`. Exécuté sur une key de array absente
 (Symfony 8.0.15) :
 
 | Mode | Résultat |
@@ -61,9 +61,9 @@ valeur par défaut est `%kernel.debug%`. Exécuté sur une clé de tableau absen
 
 De là découle un mécanisme unique, et donc un seul endroit à comprendre.
 
-## Deux affichages, selon l'environnement
+## Deux affichages, selon l'environment
 
-| Environnement | Ce que voit l'utilisateur |
+| Environment | Ce que voit le user |
 |---|---|
 | `dev` | la **page d'exception** : message, trace complète, journaux |
 | `prod` | une **page d'erreur** minimale et générique |
@@ -76,30 +76,30 @@ Conséquence pratique : en développement, on ne voit pas sa propre page d'erreu
 personnalisée. Pour la prévisualiser, FrameworkBundle fournit des routes
 chargées sous `when@dev`, préfixées par `/_error`.
 
-## Le code de statut
+## Le status code
 
 La documentation 8.0 (*How to Customize Error Pages*) n'en donne qu'une source :
 implémenter **`HttpExceptionInterface`**, dont `getStatusCode()` fournit le code ;
 sinon **500**. Le code de la branche 8.0 en connaît davantage — `ErrorListener`
-et `FlattenException`. Exécuté, une exception levée par contrôleur, avec et sans
+et `FlattenException`. Exécuté, une exception levée par controller, avec et sans
 debug :
 
 | Exception levée | Statut |
 |---|---|
 | `RuntimeException` ordinaire | **500** |
-| classe marquée `#[WithHttpStatus(404)]` | 404 |
+| class marquée `#[WithHttpStatus(404)]` | 404 |
 | `BadRequestException` de HttpFoundation (`RequestExceptionInterface`) | 400 |
-| classe déclarée sous `framework.exceptions` avec `status_code: 418` | 418 |
+| class déclarée sous `framework.exceptions` avec `status_code: 418` | 418 |
 | `NotFoundHttpException` d'une route absente (`HttpExceptionInterface`) | 404 |
 
 L'ordre, lu dans `ErrorListener` : la configuration `framework.exceptions`
-d'abord — elle s'impose même à une `HttpExceptionInterface` ; puis l'attribut
+d'abord — elle s'impose même à une `HttpExceptionInterface` ; puis l'attribute
 `#[WithHttpStatus]`, ignoré si l'exception implémente déjà l'interface ; puis
 `getStatusCode()` ; puis 400 pour une `RequestExceptionInterface` ; sinon 500.
 
 La règle à retenir reste celle-ci : une exception métier ordinaire — une
 `RuntimeException` — produit un 500, même si le développeur pensait à un 404.
-**Le message n'est jamais lu.** Les raccourcis du contrôleur, comme
+**Le message n'est jamais lu.** Les raccourcis du controller, comme
 `createNotFoundException()`, existent pour lever une exception qui porte le bon
 statut.
 
@@ -109,42 +109,42 @@ La documentation les ordonne du plus léger au plus complet :
 
 | Besoin | Intervention |
 |---|---|
-| changer l'apparence de la page | **surcharger les gabarits** d'erreur |
-| changer une sortie non-HTML (JSON, XML) | écrire un **normaliseur** |
-| changer la logique de génération | **surcharger le contrôleur d'erreur** |
+| changer l'apparence de la page | **surcharger les templates** d'erreur |
+| changer un output non-HTML (JSON, XML) | écrire un **normalizer** |
+| changer la logique de génération | **surcharger le controller d'erreur** |
 | maîtriser entièrement le traitement | écouter **`kernel.exception`** |
 
 Le principe : prendre le niveau le plus bas qui suffit. Écouter
-`kernel.exception` pour changer une couleur est une réponse disproportionnée.
+`kernel.exception` pour changer une couleur est une Response disproportionnée.
 
-## Surcharger un gabarit
+## Surcharger un template
 
-Le rendu passe par `TwigErrorRenderer`, qui choisit le fichier en deux temps :
+Le rendu passe par `TwigErrorRenderer`, qui choisit le file en deux temps :
 
-1. un gabarit pour ce code précis — `error404.html.twig` ;
-2. sinon, le gabarit générique — `error.html.twig`.
+1. un template pour ce code précis — `error404.html.twig` ;
+2. sinon, le template générique — `error.html.twig`.
 
 Sans aucun des deux, la page minimale par défaut s'affiche. En mode debug, les
-gabarits sont ignorés : c'est la page d'exception. Exécuté sans debug, avec les
-deux fichiers présents : un 404 rend `error404.html.twig`, un 500, un 400 et un
+templates sont ignorés : c'est la page d'exception. Exécuté sans debug, avec les
+deux files présents : un 404 rend `error404.html.twig`, un 500, un 400 et un
 418 rendent `error.html.twig`.
 
-Ils se placent dans `templates/bundles/TwigBundle/Exception/`. Le gabarit
+Ils se placent dans `templates/bundles/TwigBundle/Exception/`. Le template
 reçoit `status_code` et `status_text`. La variable
 `exception` est disponible : `{{ exception.message }}`, et
-`{{ exception.traceAsString }}` — que l'on ne montre jamais à un utilisateur
+`{{ exception.traceAsString }}` — que l'on ne montre jamais à un user
 final, la trace contenant des données sensibles.
 
 ## Un piège d'ordre
 
-**La sécurité n'est pas disponible sur une page 404.** L'ordre de chargement du
-routage et de la sécurité fait que l'utilisateur y apparaît déconnecté. Le
+**La security n'est pas disponible sur une page 404.** L'ordre de chargement du
+routage et de la security fait que le user y apparaît déconnecté. Le
 symptôme est déroutant : cela fonctionne en test et échoue en production.
 
 ## Pièges d'examen
 
 **Une exception ordinaire donne 500**, quel que soit son message. Ce qui change
-le statut : l'interface, l'attribut `#[WithHttpStatus]`, la configuration
+le statut : l'interface, l'attribute `#[WithHttpStatus]`, la configuration
 `framework.exceptions`, ou une `RequestExceptionInterface` (400).
 
 **Un avertissement PHP n'est une exception qu'en debug**, par défaut.
@@ -162,9 +162,9 @@ le statut : l'interface, l'attribut `#[WithHttpStatus]`, la configuration
 
 - Toute erreur est une exception, erreurs PHP comprises.
 - `dev` montre la trace, `prod` une page générique — par défaut.
-- Le statut vient de la configuration, de l'attribut, de l'interface ou d'une
+- Le statut vient de la configuration, de l'attribute, de l'interface ou d'une
   `RequestExceptionInterface` ; sinon 500.
-- Quatre niveaux : gabarit, normaliseur, contrôleur d'erreur, `kernel.exception`.
+- Quatre niveaux : template, normalizer, controller d'erreur, `kernel.exception`.
 
 ## Sources officielles
 

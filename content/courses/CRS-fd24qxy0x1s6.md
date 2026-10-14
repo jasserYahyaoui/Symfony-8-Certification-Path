@@ -37,8 +37,8 @@ official_sources:
 
 ## Objectif
 
-Distinguer une redirection interne d'une redirection HTTP, savoir ce que la
-sous-requête garde et ce qu'elle perd, et connaître les effets de bord.
+Distinguer un redirect interne d'un redirect HTTP, savoir ce que la
+sub-Request garde et ce qu'elle perd, et connaître les effets de bord.
 
 ## Ce que fait `forward()`
 
@@ -49,9 +49,9 @@ $response = $this->forward('App\Controller\OtherController::fancy', [
 ]);
 ```
 
-Le noyau exécute une **sous-requête** : il appelle l'autre contrôleur dans le
-même cycle PHP et rend la `Response` que *ce* contrôleur retourne. Le navigateur
-n'en sait rien. La réponse peut encore être modifiée avant d'être retournée.
+Le kernel exécute une **sub-Request** : il appelle l'autre controller dans le
+même cycle PHP et rend la `Response` que *ce* controller retourne. Le navigateur
+n'en sait rien. La Response peut encore être modifiée avant d'être retournée.
 
 ## Le contraste
 
@@ -59,13 +59,13 @@ C'est la comparaison que l'examen pose :
 
 | | `redirectToRoute()` | `forward()` |
 |---|---|---|
-| Réponse envoyée | une `RedirectResponse` 3xx | la réponse du contrôleur cible |
+| Response envoyée | une `RedirectResponse` 3xx | la Response du controller cible |
 | Aller-retour navigateur | oui | **non** |
 | URL affichée | change | **inchangée** |
-| Nombre de requêtes HTTP | deux | une |
-| Type de requête noyau | requête principale | **sous-requête** |
+| Nombre de Requests HTTP | deux | une |
+| Type de Request kernel | main Request | **sub-Request** |
 
-Une redirection dit au client d'aller ailleurs ; un *forward* va chercher le
+Un redirect dit au client d'aller ailleurs ; un *forward* va chercher le
 contenu sans le lui dire.
 
 ## Le mécanisme, en quatre lignes
@@ -82,63 +82,63 @@ protected function forward(string $controller, array $path = [], array $query = 
 ```
 
 Tout le comportement se lit dans l'appel à `duplicate()`, dont les trois
-premiers paramètres sont la query string, le corps POST et les **attributs**.
-Un paramètre `null` garde la valeur d'origine ; un tableau la **remplace**.
+premiers parameters sont la query string, le body POST et les **attributes**.
+Un parameter `null` garde la valeur d'origine ; un array la **remplace**.
 
-### Ce que la sous-requête perd
+### Ce que la sub-Request perd
 
-- **Les attributs.** Le tableau `$path` devient les attributs de la sous-requête
+- **Les attributes.** L'array `$path` devient les attributes de la sub-Request
   et les remplace entièrement — seul `_format` est reporté s'il manque. Voilà
   pourquoi `_route` et `_route_params` disparaissent : ce n'est pas un oubli du
-  routeur, c'est un remplacement.
+  router, c'est un remplacement.
 - **La query string.** Le troisième argument vaut `[]` par défaut, pas `null` :
-  les paramètres GET d'origine sont remplacés par un tableau vide. Pour les
+  les parameters GET d'origine sont remplacés par un array vide. Pour les
   transmettre, il faut les passer : `forward($ctrl, [], $request->query->all())`.
 
 ### Ce qu'elle garde
 
-- **Le corps POST**, passé à `null`, donc conservé.
-- **Les cookies, les en-têtes, les variables serveur** : non passés, conservés.
-- **La session**, qui n'est pas clonée : la sous-requête partage celle de la
-  requête en cours.
+- **Le body POST**, passé à `null`, donc conservé.
+- **Les cookies, les headers, les variables serveur** : non passés, conservés.
+- **La session**, qui n'est pas clonée : la sub-Request partage celle de la
+  Request en cours.
 
 ## Les arguments passent par leur nom
 
-Puisque le tableau devient les attributs, il fournit les arguments du
-contrôleur cible par le même mécanisme qu'une route : `RequestAttributeValueResolver`
-cherche dans les attributs une clé portant le **nom** de l'argument. L'ordre ne
+Puisque l'array devient les attributes, il fournit les arguments du
+controller cible par le même mécanisme qu'une route : `RequestAttributeValueResolver`
+cherche dans les attributes une key portant le **nom** de l'argument. L'ordre ne
 compte pas ; réordonner la signature de la cible ne casse rien.
 
 ## L'effet de bord à connaître
 
 Après un `forward()`, `app.current_route`, `app.current_route_parameters` et
-`_route_params` sont **vides** dans le gabarit rendu par la cible. On peut les
-fournir soi-même en ajoutant les clés `_route` et `_route_params` au tableau
-passé à `forward()` — ce sont des attributs comme les autres.
+`_route_params` sont **vides** dans le template rendu par la cible. On peut les
+fournir soi-même en ajoutant les keys `_route` et `_route_params` à l'array
+passé à `forward()` — ce sont des attributes comme les autres.
 
 ## Pièges d'examen
 
-**Un *forward* n'est pas une redirection.** Il n'y a qu'une requête HTTP,
-l'URL affichée ne bouge pas, et c'est la réponse du contrôleur cible qui part au
+**Un *forward* n'est pas un redirect.** Il n'y a qu'une Request HTTP,
+l'URL affichée ne bouge pas, et c'est la Response du controller cible qui part au
 navigateur. Aucun 3xx n'est émis.
 
 **La query string d'origine n'arrive pas à la cible.** Le défaut du troisième
-argument est un tableau vide, qui remplace ; il faut la transmettre
+argument est un array vide, qui remplace ; il faut la transmettre
 explicitement.
 
-**Le corps POST, lui, arrive.** L'asymétrie avec la query string vient de ce que
+**Le body POST, lui, arrive.** L'asymétrie avec la query string vient de ce que
 l'un est passé à `null` et l'autre à `[]`.
 
-**Après un forward, la route courante est vide dans le gabarit.** Les attributs
+**Après un forward, la route courante est vide dans le template.** Les attributes
 ont été remplacés ; `_route` n'est renseigné que si on le passe soi-même.
 
-**Les arguments du contrôleur cible s'apparient par nom**, comme pour une route.
+**Les arguments du controller cible s'apparient par nom**, comme pour une route.
 
 ## Points clés
 
-- `forward()` exécute une sous-requête et retourne la réponse de la cible.
-- L'URL du navigateur ne change pas ; il n'y a qu'une requête HTTP.
-- Le tableau devient les **attributs** et remplace ceux d'origine.
+- `forward()` exécute une sub-Request et retourne la Response de la cible.
+- L'URL du navigateur ne change pas ; il n'y a qu'une Request HTTP.
+- L'array devient les **attributes** et remplace ceux d'origine.
 - Query string perdue par défaut ; corps POST, cookies et session conservés.
 - `app.current_route` est vide après un forward, sauf à passer `_route`.
 
