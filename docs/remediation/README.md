@@ -55,8 +55,8 @@ an idea: it stops the old sentence returning, not every way of being wrong.
 | F4 | HOLDOUT length bias not measured on its own | **BLOQUÉ** (rewrite) — control ready | see P0.4 |
 | F5 | Content metrics read as candidate mastery | **VÉRIFIÉ** (local) | see P1.7 |
 | F6 | Roadmap / mock texts out of sync | **VÉRIFIÉ** (local) — mock texts derived; comprehension load budgeted, exam moved to 29 Dec by owner decision | see P2.5 |
-| F7 | Too few multiple-answer questions | **EN COURS** — +1 LEARNING, +1 COMPREHENSION (P1.5); VALIDATION still 0 | P1.6 |
-| F8 | Unsourced "not examinable" restrictions | **EN COURS** — Serializer extended (P1.5, VÉRIFIÉ local); P1.1–P1.4, P2.7 À FAIRE | see P1.5 |
+| F7 | Too few multiple-answer questions | **EN COURS** — +2 LEARNING, +2 COMPREHENSION (P1.5, P1.4); VALIDATION still 0 | P1.6 |
+| F8 | Unsourced "not examinable" restrictions | **EN COURS** — Serializer (P1.5) and Cache (P1.4) extended, VÉRIFIÉ; P1.1–P1.3, P2.7 À FAIRE | see P1.5 |
 | F9 | PHP source 404 and mutable branch URLs | **BLOQUÉ** (the last 404 is in a HOLDOUT question) — pinning À FAIRE | see P2.6 |
 | F10 | No per-card recall record; comprehension stores nothing | **EN COURS** — comprehension recorded (P2.4, VÉRIFIÉ local); per-card recall À FAIRE (P2.3) | see P2.4 |
 
@@ -176,6 +176,37 @@ date taken by ObjectNormalizer), not fenced to pass. Published figures moved
 with the bank: language policy 731 questions / 710 English / 274 of 275 hard in
 English; Mock 5 universe 656.
 
+### P1.4 — Cache: PSR-6 and PSR-16 (F8, part)
+
+Executed first, on Cache 8.0.15 (`tools/behavior/checks/cache.php`, four new
+checks, 18 facts in all; `psr/simple-cache` added to `tools/behavior`):
+
+| Behaviour | Result |
+|---|---|
+| PSR-6 miss / `set()` without `save()` / saved `null` | `isHit()` false · nothing stored · `isHit()` **true** with `get()` null |
+| `saveDeferred()` (FilesystemAdapter) | invisible to another pool until `commit()`; a `getItem()` of the key on the deferring pool commits it |
+| `saveDeferred()` (ArrayAdapter) | stored at once: it calls `save()` |
+| PSR-16 | default on a miss; `has()` true for a stored null |
+| Bridges | `Psr16Cache` = PSR-16 over a pool; `Psr16Adapter` = pool (and Contracts) over PSR-16 |
+
+Not taught, and why: reserved key characters `{}()/\@:`. `ArrayAdapter` and
+`Psr16Cache` check them only inside `assert()`, so the result depends on
+`zend.assertions`; executed here, `a{b}` was accepted. A rule that holds only
+in some runtimes is not stated as one.
+
+**Level: STANDARD → DEEP**, on the item (three access contracts that diverge
+where a question can bite). Recorded with the Serializer promotion in
+`docs/policy/revision-budget.md`, which says plainly that two promotions in one
+day is the pattern the policy warns about, and why these are not that. Corpus
+ceiling 27/122/14 = 145 500; the test holds the counts equal to the matrix.
+
+Content: two course sections (« PSR-6 : écrire soi-même », « PSR-16 et les
+ponts »), two outcomes (`OUT-wq0bg1r133y3`, `OUT-8h04z2xxjp34`), two flashcards,
+two LEARNING questions (one `hard` code question, one multiple-answer), two
+COMPREHENSION questions (one multiple-answer). Figures: language policy 733 /
+712 English / 275 of 276 hard; Mock 5 universe 658; plan regenerated (all items
+in 10 Dec, Mock 4 on 26 Dec, 34 reviews after the exam).
+
 ### P1.7 — Content metrics are not the learner (F5)
 
 Already in place before this work, and kept: the introduction separates
@@ -265,6 +296,8 @@ citation, so a format change has to be designed with it, not applied in bulk.
 | Lot | PR | Merge | Deployment |
 |---|---|---|---|
 | P0.1–P0.3 | #394, CI green | squash `fdf4035` | Pages run 38450923116 — Deploy success; job « Production smoke test » 115482864576 success, log read (1117 comprehension questions served). Direct fetch of the site from this session is refused by the egress proxy. |
+| Exam date (owner option B) | #397 | squash `c4c5348` | smoke 115538068644 success, log read |
+| P1.5 Serializer | #398 | squash `afe8926` | smoke 115735269277 success, log read (519 LEARNING, 615 outcomes, lot-26 comprehension 18) |
 | P1.7, P2.4, P2.5 (part) | #395, CI green | squash `6c1448c` | job « Production smoke test » 115498368380 success, log read. It checks served pages and payloads, not the client-side progression table, which the CI a11y audit renders. |
 
 ## Next action

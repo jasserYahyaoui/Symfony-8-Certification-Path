@@ -47,13 +47,13 @@ for the refinement work to come. The constraint that bounds them from above is
 the **full-corpus revision pass**:
 
 ```
-27 × 700  +  123 × 900  +  13 × 1200  =  145 200 body words
-145 200 / 250 words per minute        ≈  9.7 hours
+27 × 700  +  122 × 900  +  14 × 1200  =  145 500 body words
+145 500 / 250 words per minute        ≈  9.7 hours
 ```
 
 The counts moved twice by promotion, never by a raise: *HTTP request* on
-2026-09-16 (27/124/12, 144 900) and *Serializer* on 2026-10-14 (27/123/13,
-145 200) — see below.
+2026-09-16 (27/124/12, 144 900), then *Serializer* and *Cache* on 2026-10-14
+(27/123/13, 145 200, then 27/122/14, 145 500) — see below.
 
 ### Why MINIMAL was raised on 2026-09-16 (ADR-0008)
 
@@ -118,8 +118,21 @@ says the errors come from their combinations; it reads the same with the word
 counts removed, which is the test of good faith stated above. The budget was
 not touched; the course stayed at 900 words as STANDARD until the promotion.
 
+**A third promotion, the same day: *Cache*, `STANDARD` → `DEEP`** (P1.4). The
+remediation of F2 had corrected when the `get()` callback runs; P1.4 added
+PSR-6 (`save()`, `saveDeferred()` and `commit()`, a stored `null` against a
+miss) and PSR-16 with the bridges between the two. The matrix justification
+names three access contracts over the same adapters that diverge where a
+question can bite, and the side effect of `getItem()` on a deferred key that
+`ArrayAdapter` does not share. Executed in `tools/behavior/checks/cache.php`.
+Two promotions in one day is exactly the pattern this policy warns about, so it
+is stated rather than left to be noticed: both followed a correction of a false
+rule on the same item and an extension the remediation asked for by name, and
+neither was made to fit a number — each course sat under its STANDARD budget
+until the new material was written.
+
 `RefinementFrameworkRuleTest::testThePublishedCorpusCeilingMatchesTheBudgets`
-asserts the 145 200 figure against the rule's own constants, so this document
+asserts the 145 500 figure against the rule's own constants, so this document
 and the code cannot drift apart.
 
 The corpus measured **65 477 body words** on 2026-09-08 — about 4.4 hours. On

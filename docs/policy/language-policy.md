@@ -37,22 +37,23 @@ Quoted from the Master Plan:
   above bind. Translating a compliant French question buys nothing and is
   forbidden by §1.4's net-value gate.
 
-## Measured state (2026-10-14, 731 questions)
+## Measured state (2026-10-14, 733 questions)
 
 | §5 requirement | Measured | Verdict |
 |---|---|---|
-| ≥ 50% of advanced (`hard`) questions in English | 274 of 275 = **99.6%** | **PASS** |
+| ≥ 50% of advanced (`hard`) questions in English | 275 of 276 = **99.6%** | **PASS** |
 | Mock 3 primarily English (`VALIDATION`) | 137 of 137 = **100%** | **PASS** |
 | Mock 4 100% English (`HOLDOUT`) | 75 of 75 = **100%** | **PASS** |
 | Beginner practice may be French (`LEARNING`) | 21 French, all `LEARNING` (7 `easy`, 13 `medium`, 1 `hard`) | **PASS** — permitted |
 | French-to-English certification glossary | 81 entries, `docs/syllabus/glossary.yml`, rendered at `/docs/syllabus/glossary` | **PASS** |
 | Acceptable timed performance in English | not yet exercised | **NOT_APPLICABLE** until the mocks are sat |
 
-Whole corpus: **710 English, 21 French**.
+Whole corpus: **712 English, 21 French**.
 
 The remediation of 2026-10-14 (P1.5, Serializer) added three English `LEARNING`
 questions, two of them `hard`, taking the corpus to 731 and the advanced
-denominator to 275. Comprehension questions are not part of these figures: they
+denominator to 275. P1.4 (Cache) then added two more, one of them `hard`,
+taking the corpus to 733 and the denominator to 276. Comprehension questions are not part of these figures: they
 live in their own pool and banks (ADR-0010).
 
 The corpus grew by eleven since the Lot 07 reading, across two units refined back to

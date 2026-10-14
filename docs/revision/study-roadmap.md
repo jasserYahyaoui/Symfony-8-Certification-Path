@@ -14,12 +14,13 @@ maximal.
 > comptées, le plan ne tenait plus au 15 décembre au même rythme (160 min en
 > semaine, 220 le week-end). Le rythme est **inchangé**, la date recule.
 >
-> Plan régénéré le 13 octobre par `build_roadmap.py` : **111 276 mots, 653
-> questions hors HOLDOUT, 1 117 questions de compréhension, 1 909 cartes** ;
-> première passe **86,3 h** (cours 18,3 · questions 16,4 · cartes 25,2 ·
-> compréhension 26,4) ; tous les items introduits le **9 décembre** ; Mocks 1 et
-> 2 les 12–13 déc., 3 et 5 les 19–20 déc., **Mock 4 le 26 décembre** ;
-> 30 révisions perdues après l'examen (1,6 h). Le détail jour par jour est dans
+> Plan régénéré le 14 octobre par `build_roadmap.py` : **111 742 mots, 658
+> questions hors HOLDOUT, 1 122 questions de compréhension, 1 914 cartes** ;
+> première passe **86,7 h** (cours 18,3 · questions 16,6 · cartes 25,3 ·
+> compréhension 26,5) ; tous les items introduits le **10 décembre** ; Mocks 1
+> et 2 les 12–13 déc., 3 et 5 les 19–20 déc., **Mock 4 le 26 décembre** ;
+> 34 révisions perdues après l'examen (1,9 h). Ces chiffres bougent avec le
+> corpus ; le calendrier généré fait foi. Le détail jour par jour est dans
 > [`study-calendar.md`](study-calendar.md), généré.
 >
 > **Le reste de ce document est l'analyse du 11 septembre**, écrite pour le

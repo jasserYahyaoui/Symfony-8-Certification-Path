@@ -2,10 +2,10 @@
 id: CRS-p6yhxmpxrzbs
 official_item: OIT-78k7kbfpgfxt
 title: "Cache"
-content_level: STANDARD
+content_level: DEEP
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-13"
+reviewed_at: "2026-10-14"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/cache.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/cache.rst"
@@ -29,6 +29,16 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "createSystemCache(): PhpFilesAdapter alone, or ChainAdapter([ApcuAdapter, PhpFilesAdapter]) when APCu is supported"
     verified_at: "2026-10-09"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Cache/Traits/AbstractAdapterTrait.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Cache/Traits/AbstractAdapterTrait.php"
+    branch: "8.0"
+    symbol_or_lines: "getItem(): commits a deferred item of the same key; saveDeferred(); commit()"
+    verified_at: "2026-10-14"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Cache/Psr16Cache.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Cache/Psr16Cache.php"
+    branch: "8.0"
+    symbol_or_lines: "Psr16Cache: PSR-16 over a PSR-6 pool; Adapter/Psr16Adapter the reverse"
+    verified_at: "2026-10-14"
 ---
 
 ## Objectif
@@ -71,7 +81,11 @@ Le composant en propose deux :
 - les **Cache Contracts** — un rappel de recalcul, recommandé par la
   documentation : moins de code, et **protection contre la ruée par défaut** ;
 - **PSR-6** — l'API générique à pools et items, utile quand une bibliothèque
-  tierce l'exige.
+  tierce l'exige ;
+- **PSR-16** — un cache « simple », sans objet item.
+
+Les adaptateurs du composant parlent à la fois les Cache Contracts et PSR-6.
+On choisit l'API selon le **contrat qu'attend le code consommateur**.
 
 ## L'API qui surprend
 
@@ -106,6 +120,31 @@ Le rappel offre deux capacités que l'examen peut viser :
 - un second paramètre `bool &$save`, **passé par référence** : le mettre à
   `false` empêche l'enregistrement de la valeur retournée. C'est la façon de ne
   pas cacher un résultat jugé douteux.
+
+## PSR-6 : écrire soi-même
+
+Ici, rien n'est écrit sans `save()`. Exécuté sur Cache 8.0.15, `FilesystemAdapter` :
+
+| Opération | Effet |
+|---|---|
+| `getItem('k')` sur une clé absente | `isHit()` faux, `get()` rend `null` |
+| `$item->set('x')` sans `save()` | rien n'est stocké |
+| `set(null)` puis `save()` | `isHit()` **vrai**, `get()` rend `null` |
+| `saveDeferred()` | invisible d'un autre pool jusqu'au `commit()` |
+| `deleteItem('k')` | l'item disparaît |
+
+`null` ne dit donc pas « absent » : seul `isHit()` le dit. Piège exécuté : un
+`getItem()` du **même** pool sur une clé différée la valide aussitôt.
+`ArrayAdapter`, lui, enregistre tout de suite : son `saveDeferred()` appelle
+`save()`.
+
+`expiresAfter()` et `expiresAt()` fixent l'échéance d'un item.
+
+## PSR-16 et les ponts
+
+`get('k', 'défaut')` rend le défaut au manque ; `has()` distingue un `null`
+stocké d'une absence. `Psr16Cache` fait d'un pool PSR-6 un cache PSR-16 ;
+`Psr16Adapter` fait l'inverse, et son résultat parle aussi les Cache Contracts.
 
 ## La ruée sur le cache
 
@@ -163,7 +202,10 @@ la liste des clés.
 
 ## Pièges d'examen
 
-**Il n'existe pas de `set()`** dans les Cache Contracts.
+**Il n'existe pas de `set()`** dans les Cache Contracts ; en PSR-6, `set()` sans
+`save()` n'écrit rien.
+
+**`null` n'est pas une absence** : `isHit()` en PSR-6, `has()` en PSR-16.
 
 **`$save` est passé par référence** ; le mettre à `false` empêche
 l'enregistrement.
@@ -182,6 +224,7 @@ dérivables du code source.
 - Anti-ruée intégré : verrou plus expiration anticipée réglée par `beta`.
 - `cache.app` pour les données, `cache.system` pour ce qui dérive du code.
 - `tag()` puis `invalidateTags()` pour effacer un groupe.
+- PSR-6 : `save()`, `saveDeferred()` + `commit()` ; PSR-16 : défaut et `has()`.
 
 ## Sources officielles
 

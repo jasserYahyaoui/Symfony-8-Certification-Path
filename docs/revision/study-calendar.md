@@ -15,11 +15,11 @@ après l'épreuve, et celles-là ne peuvent pas être faites. Elles sont compté
 plutôt qu'effacées — c'est le coût de la date choisie, pas un détail de mise en
 page.
 
-| Révisions perdues après le 29 décembre 2026 | 32 (106 min) |
+| Révisions perdues après le 29 décembre 2026 | 34 (115 min) |
 |---|---|
 | dont J+30 | 22 |
-| dont J+45 | 3 |
-| dont J+60 | 7 |
+| dont J+45 | 4 |
+| dont J+60 | 8 |
 
 Les **J+30** pèsent le plus lourd : ce sont des révisions d'items vus en
 novembre, pas des rappels lointains. Si vous gagnez du temps, c'est là qu'il
@@ -905,21 +905,21 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Jeudi 3 décembre 2026
 
 - NOUVEAU · **Miscellaneous : HTTP Caching (reverse proxies, expiration, validation) Note: ESI (Edge Side Includes) is not included** (STANDARD) — 46 min · 899 mots · 3 questions, 18 questions de compréhension, 11 flashcards
-- NOUVEAU · **Miscellaneous : Cache** (STANDARD) — 42 min · 891 mots · 4 questions, 14 questions de compréhension, 11 flashcards
+- NOUVEAU · **Miscellaneous : Cache** (DEEP) — 51 min · 1117 mots · 6 questions, 16 questions de compréhension, 13 flashcards
 - Révision **J+1** (18 min) — Miscellaneous : Deployment best practices · Miscellaneous : Web Profiler, Web Debug Toolbar and Data collectors · Miscellaneous : Internationalization and localization (Note: Intl component utilities to access ICU data are not included)
 - Révision **J+3** (11 min) — Automated Tests : Client configuration · Automated Tests : Request and response objects introspection · Automated Tests : Handling legacy deprecated code
 - Révision **J+7** (8 min) — Automated Tests : Functional tests with PHPUnit · Automated Tests : Client object
 - Révision **J+14** (8 min) — Templating with Twig : Loops and conditions · Templating with Twig : URLs generation · Templating with Twig : Controller rendering
 - Révision **J+30** (9 min) — Forms : Form component · Forms : Forms creation · Forms : Forms handling
 
-*Budget du jour : 142 / 160 min*
+*Budget du jour : 151 / 160 min*
 
 ### Vendredi 4 décembre 2026
 
 - NOUVEAU · **Miscellaneous : Clock** (STANDARD) — 41 min · 882 mots · 4 questions, 13 questions de compréhension, 11 flashcards
 - NOUVEAU · **Miscellaneous : EventDispatcher** (STANDARD) — 32 min · 705 mots · 3 questions, 9 questions de compréhension, 11 flashcards
-- NOUVEAU · **Miscellaneous : Event** (STANDARD) — 27 min · 519 mots · 3 questions, 6 questions de compréhension, 11 flashcards
-- Révision **J+1** (12 min) — Miscellaneous : HTTP Caching (reverse proxies, expiration, validation) Note: ESI (Edge Side Includes) is not included · Miscellaneous : Cache
+- NOUVEAU · **Miscellaneous : Event** (STANDARD) — 25 min · 519 mots · 3 questions, 6 questions de compréhension, 11 flashcards
+- Révision **J+1** (14 min) — Miscellaneous : HTTP Caching (reverse proxies, expiration, validation) Note: ESI (Edge Side Includes) is not included · Miscellaneous : Cache
 - Révision **J+3** (12 min) — Miscellaneous : Configuration (including DotEnv and ExpressionLanguage components) · Miscellaneous : Error handling · Miscellaneous : Code debugging
 - Révision **J+7** (11 min) — Automated Tests : Crawler object (CssSelector and DomCrawler components) · Automated Tests : Profiler object (WebProfiler bundle) · Automated Tests : Framework objects access
 - Révision **J+14** (9 min) — Templating with Twig : Translations and pluralization · Templating with Twig : String interpolation · Templating with Twig : Assets management · Templating with Twig : Debugging variables
@@ -949,7 +949,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
   - Miscellaneous : EventDispatcher
   - Miscellaneous : Event
   - méthode : ouvrir les `official_sources` de chaque item dans `docs/syllabus/syllabus-matrix.yml`, lire le code ou la doc ancrée sur `8.0`, reproduire le comportement décrit
-- Révision **J+1** (18 min) — Miscellaneous : Clock · Miscellaneous : EventDispatcher · Miscellaneous : Event
+- Révision **J+1** (12 min) — Miscellaneous : Clock · Miscellaneous : EventDispatcher
 - Révision **J+3** (12 min) — Miscellaneous : Deployment best practices · Miscellaneous : Web Profiler, Web Debug Toolbar and Data collectors · Miscellaneous : Internationalization and localization (Note: Intl component utilities to access ICU data are not included)
 - Révision **J+30** (10 min) — Forms : CSRF protection · Forms : Handling file upload · Forms : Built-in form types · Forms : Data transformers
 - Révision **J+60** (4 min) — HTTP : HTTP request
@@ -964,7 +964,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - **Assessment lot-16 — Miscellaneous** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
 - **Assessment lot-17 — Miscellaneous** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
 - **Assessment lot-18 — Miscellaneous** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
-- Révision **J+3** (8 min) — Miscellaneous : HTTP Caching (reverse proxies, expiration, validation) Note: ESI (Edge Side Includes) is not included · Miscellaneous : Cache
+- Révision **J+3** (9 min) — Miscellaneous : HTTP Caching (reverse proxies, expiration, validation) Note: ESI (Edge Side Includes) is not included · Miscellaneous : Cache
 - Révision **J+30** (9 min) — Forms : Form events · Forms : Form type extensions · Forms : Form options (OptionsResolver component)
 - Consolidation : reprendre les questions ratées de la semaine, rattrapage de ce qui a débordé
 
@@ -972,22 +972,23 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Lundi 7 décembre 2026
 
+- NOUVEAU (suite) · **Miscellaneous : Event** (STANDARD) — 2 min · 519 mots · 3 questions, 6 questions de compréhension, 11 flashcards
 - NOUVEAU · **Miscellaneous : Filesystem** (STANDARD) — 34 min · 689 mots · 3 questions, 10 questions de compréhension, 11 flashcards
 - NOUVEAU · **Miscellaneous : Finder** (STANDARD) — 32 min · 629 mots · 4 questions, 8 questions de compréhension, 11 flashcards
 - NOUVEAU · **Miscellaneous : Mailer** (STANDARD) — 39 min · 676 mots · 5 questions, 13 questions de compréhension, 11 flashcards
-- Révision **J+3** (12 min) — Miscellaneous : Clock · Miscellaneous : EventDispatcher · Miscellaneous : Event
+- Révision **J+3** (8 min) — Miscellaneous : Clock · Miscellaneous : EventDispatcher
 - Révision **J+7** (11 min) — Automated Tests : Client configuration · Automated Tests : Request and response objects introspection · Automated Tests : Handling legacy deprecated code
 - Révision **J+14** (8 min) — Console : Console component · Console : Built-in commands · Console : Custom commands
 - Révision **J+60** (7 min) — Symfony Architecture : HttpFoundation component · Symfony Architecture : Symfony Flex · Symfony Architecture : License
 
-*Budget du jour : 143 / 160 min*
+*Budget du jour : 141 / 160 min*
 
 ### Mardi 8 décembre 2026
 
 - NOUVEAU · **Miscellaneous : Mime** (STANDARD) — 35 min · 610 mots · 4 questions, 11 questions de compréhension, 11 flashcards
 - NOUVEAU · **Miscellaneous : Process** (STANDARD) — 45 min · 863 mots · 5 questions, 16 questions de compréhension, 11 flashcards
-- NOUVEAU · **Miscellaneous : PropertyAccess** (STANDARD) — 35 min · 795 mots · 4 questions, 15 questions de compréhension, 11 flashcards
-- Révision **J+1** (18 min) — Miscellaneous : Filesystem · Miscellaneous : Finder · Miscellaneous : Mailer
+- NOUVEAU · **Miscellaneous : PropertyAccess** (STANDARD) — 29 min · 795 mots · 4 questions, 15 questions de compréhension, 11 flashcards
+- Révision **J+1** (24 min) — Miscellaneous : Event · Miscellaneous : Filesystem · Miscellaneous : Finder · Miscellaneous : Mailer
 - Révision **J+7** (12 min) — Miscellaneous : Configuration (including DotEnv and ExpressionLanguage components) · Miscellaneous : Error handling · Miscellaneous : Code debugging
 - Révision **J+14** (9 min) — Console : Configuration · Console : Options and arguments (using PHP attributes) · Console : Input and Output objects
 - Révision **J+60** (6 min) — Symfony Architecture : Components and Bridges · Symfony Architecture : Code organization
@@ -996,44 +997,46 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Mercredi 9 décembre 2026
 
-- NOUVEAU (suite) · **Miscellaneous : PropertyAccess** (STANDARD) — 8 min · 795 mots · 4 questions, 15 questions de compréhension, 11 flashcards
+- NOUVEAU (suite) · **Miscellaneous : PropertyAccess** (STANDARD) — 14 min · 795 mots · 4 questions, 15 questions de compréhension, 11 flashcards
 - NOUVEAU · **Miscellaneous : Runtime** (STANDARD) — 41 min · 770 mots · 4 questions, 14 questions de compréhension, 11 flashcards
-- NOUVEAU · **Miscellaneous : Serializer** (DEEP) — 60 min · 1130 mots · 8 questions, 18 questions de compréhension, 14 flashcards
+- NOUVEAU · **Miscellaneous : Serializer** (DEEP) — 58 min · 1130 mots · 8 questions, 18 questions de compréhension, 14 flashcards
 - Révision **J+1** (12 min) — Miscellaneous : Mime · Miscellaneous : Process
 - Révision **J+7** (12 min) — Miscellaneous : Deployment best practices · Miscellaneous : Web Profiler, Web Debug Toolbar and Data collectors · Miscellaneous : Internationalization and localization (Note: Intl component utilities to access ICU data are not included)
 - Révision **J+14** (11 min) — Console : Built-in helpers · Console : Console events · Console : Verbosity levels · Automated Tests : Unit tests with PHPUnit
 - Révision **J+30** (12 min) — Security : Security Core, CSRF and PasswordHasher components · Security : Authentication · Security : Authorization · Security : Configuration
 
-*Budget du jour : 156 / 160 min*
+*Budget du jour : 160 / 160 min*
 
 ### Jeudi 10 décembre 2026
 
 - **Assessment lot-19 — Miscellaneous** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
-- **Assessment lot-20 — Miscellaneous** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
-- Révision **J+1** (20 min) — Miscellaneous : PropertyAccess · Miscellaneous : Runtime · Miscellaneous : Serializer
-- Révision **J+3** (12 min) — Miscellaneous : Filesystem · Miscellaneous : Finder · Miscellaneous : Mailer
-- Révision **J+7** (8 min) — Miscellaneous : HTTP Caching (reverse proxies, expiration, validation) Note: ESI (Edge Side Includes) is not included · Miscellaneous : Cache
+- NOUVEAU (suite) · **Miscellaneous : Serializer** (DEEP) — 2 min · 1130 mots · 8 questions, 18 questions de compréhension, 14 flashcards
+- Révision **J+1** (12 min) — Miscellaneous : PropertyAccess · Miscellaneous : Runtime
+- Révision **J+3** (16 min) — Miscellaneous : Event · Miscellaneous : Filesystem · Miscellaneous : Finder · Miscellaneous : Mailer
+- Révision **J+7** (9 min) — Miscellaneous : HTTP Caching (reverse proxies, expiration, validation) Note: ESI (Edge Side Includes) is not included · Miscellaneous : Cache
 - Révision **J+14** (6 min) — Automated Tests : Functional tests with PHPUnit · Automated Tests : Client object
 - Révision **J+30** (12 min) — Security : Providers · Security : Firewalls · Security : Users · Security : Password hashers
 - Révision **J+45** (6 min) — Dependency Injection : Dependency Injection component · Dependency Injection : Service container
 
-*Budget du jour : 124 / 160 min*
+*Budget du jour : 93 / 160 min*
 
 ### Vendredi 11 décembre 2026
 
+- Révision **J+1** (8 min) — Miscellaneous : Serializer
 - Révision **J+3** (8 min) — Miscellaneous : Mime · Miscellaneous : Process
-- Révision **J+7** (12 min) — Miscellaneous : Clock · Miscellaneous : EventDispatcher · Miscellaneous : Event
+- Révision **J+7** (8 min) — Miscellaneous : Clock · Miscellaneous : EventDispatcher
 - Révision **J+14** (8 min) — Automated Tests : Crawler object (CssSelector and DomCrawler components) · Automated Tests : Profiler object (WebProfiler bundle) · Automated Tests : Framework objects access
 - Révision **J+30** (9 min) — Security : Roles · Security : Access Control Rules · Security : Authenticators, Passports and Badges
 - Révision **J+45** (11 min) — Dependency Injection : Built-in services · Dependency Injection : Configuration parameters · Dependency Injection : Services registration (YAML and PHP attributes) · Dependency Injection : Service decoration
 - Révision **J+60** (14 min) — Symfony Architecture : Request handling · Symfony Architecture : Exception handling · Symfony Architecture : Event dispatcher and kernel events · Symfony Architecture : Official best practices
 
-*Budget du jour : 62 / 160 min*
+*Budget du jour : 66 / 160 min*
 
 ### Samedi 12 décembre 2026
 
 - **Mock 1** — premier étalonnage, sans enjeu — 41 questions / 42 min, tirées d'une banque de 62
-- **Source tour et mise en pratique** sur les 9 items de la semaine :
+- **Source tour et mise en pratique** sur les 11 items de la semaine :
+  - Miscellaneous : Event
   - Miscellaneous : Filesystem
   - Miscellaneous : Finder
   - Miscellaneous : Mailer
@@ -1043,8 +1046,9 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
   - Miscellaneous : PropertyAccess
   - Miscellaneous : Runtime
   - Miscellaneous : Serializer
+  - Miscellaneous : Serializer
   - méthode : ouvrir les `official_sources` de chaque item dans `docs/syllabus/syllabus-matrix.yml`, lire le code ou la doc ancrée sur `8.0`, reproduire le comportement décrit
-- Révision **J+3** (13 min) — Miscellaneous : PropertyAccess · Miscellaneous : Runtime · Miscellaneous : Serializer
+- Révision **J+3** (8 min) — Miscellaneous : PropertyAccess · Miscellaneous : Runtime
 - Révision **J+30** (10 min) — Security : Voters and voting strategies · Messenger : Messenger component · Messenger : Transports
 - Révision **J+45** (9 min) — Dependency Injection : Tags · Dependency Injection : Semantic configuration · Dependency Injection : Factories
 - Révision **J+60** (6 min) — Symfony Architecture : Backward compatibility promise · Symfony Architecture : Deprecations best practices
@@ -1054,9 +1058,10 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Dimanche 13 décembre 2026
 
 - **Mock 2** — 52 questions / 60 min, tirées d'une banque de 84
+- **Assessment lot-20 — Miscellaneous** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
 - **Assessment lot-21 — Miscellaneous** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
 - **Assessment lot-22 — Miscellaneous** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
-- **Assessment lot-23 — Miscellaneous** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
+- Révision **J+3** (5 min) — Miscellaneous : Serializer
 - Révision **J+30** (6 min) — Messenger : Messages and handlers · Messenger : Workers
 - Révision **J+45** (11 min) — Dependency Injection : Compiler passes · Dependency Injection : Services autowiring · Dependency Injection : Service locators
 - Révision **J+60** (11 min) — Symfony Architecture : Framework overloading · Symfony Architecture : Release management and roadmap schedule · Symfony Architecture : Framework interoperability and PSRs · Symfony Architecture : Naming conventions
@@ -1066,44 +1071,46 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Lundi 14 décembre 2026
 
 - **Correction Mock 1** — analyse par item, plan de correction, re-révision ciblée
+- **Assessment lot-23 — Miscellaneous** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
 - **Assessment lot-24 — Miscellaneous** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
-- **Assessment lot-25 — Miscellaneous** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
-- Révision **J+7** (12 min) — Miscellaneous : Filesystem · Miscellaneous : Finder · Miscellaneous : Mailer
+- Révision **J+7** (16 min) — Miscellaneous : Event · Miscellaneous : Filesystem · Miscellaneous : Finder · Miscellaneous : Mailer
 - Révision **J+14** (8 min) — Automated Tests : Client configuration · Automated Tests : Request and response objects introspection · Automated Tests : Handling legacy deprecated code
 
-*Budget du jour : 140 / 160 min*
+*Budget du jour : 144 / 160 min*
 
 ### Mardi 15 décembre 2026
 
 - **Correction Mock 2** — analyse par item, plan de correction, re-révision ciblée
+- **Assessment lot-25 — Miscellaneous** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
 - **Assessment lot-26 — Miscellaneous** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
 - Révision **J+7** (8 min) — Miscellaneous : Mime · Miscellaneous : Process
 - Révision **J+14** (9 min) — Miscellaneous : Configuration (including DotEnv and ExpressionLanguage components) · Miscellaneous : Error handling · Miscellaneous : Code debugging
 
-*Budget du jour : 107 / 160 min*
+*Budget du jour : 137 / 160 min*
 
 ### Mercredi 16 décembre 2026
 
-- Révision **J+7** (13 min) — Miscellaneous : PropertyAccess · Miscellaneous : Runtime · Miscellaneous : Serializer
+- Révision **J+7** (8 min) — Miscellaneous : PropertyAccess · Miscellaneous : Runtime
 - Révision **J+14** (9 min) — Miscellaneous : Deployment best practices · Miscellaneous : Web Profiler, Web Debug Toolbar and Data collectors · Miscellaneous : Internationalization and localization (Note: Intl component utilities to access ICU data are not included)
 - Révision **J+30** (13 min) — Messenger : Retries and failures · Messenger : Middleware · Messenger : Events · Templating with Twig : TwigBundle
 
-*Budget du jour : 35 / 160 min*
+*Budget du jour : 30 / 160 min*
 
 ### Jeudi 17 décembre 2026
 
-- Révision **J+14** (6 min) — Miscellaneous : HTTP Caching (reverse proxies, expiration, validation) Note: ESI (Edge Side Includes) is not included · Miscellaneous : Cache
+- Révision **J+7** (5 min) — Miscellaneous : Serializer
+- Révision **J+14** (7 min) — Miscellaneous : HTTP Caching (reverse proxies, expiration, validation) Note: ESI (Edge Side Includes) is not included · Miscellaneous : Cache
 - Révision **J+30** (7 min) — Templating with Twig : Twig syntax up to 3.22 version · Templating with Twig : Auto escaping
 - Révision **J+45** (4 min) — Data Validation : Group sequence
 
-*Budget du jour : 17 / 160 min*
+*Budget du jour : 23 / 160 min*
 
 ### Vendredi 18 décembre 2026
 
-- Révision **J+14** (9 min) — Miscellaneous : Clock · Miscellaneous : EventDispatcher · Miscellaneous : Event
+- Révision **J+14** (6 min) — Miscellaneous : Clock · Miscellaneous : EventDispatcher
 - Révision **J+30** (12 min) — Templating with Twig : Template inheritance · Templating with Twig : Global variables · Templating with Twig : Filters and functions · Templating with Twig : Template includes
 
-*Budget du jour : 21 / 160 min*
+*Budget du jour : 18 / 160 min*
 
 ### Samedi 19 décembre 2026
 
@@ -1115,7 +1122,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Dimanche 20 décembre 2026
 
-- **Mock 5** — variable : de 10 à 40, borné par le nombre d'items faibles réellement constatés dans vos réponses ; univers de 656 questions hors holdout
+- **Mock 5** — variable : de 10 à 40, borné par le nombre d'items faibles réellement constatés dans vos réponses ; univers de 658 questions hors holdout
 - Révision **J+30** (9 min) — Templating with Twig : Translations and pluralization · Templating with Twig : String interpolation · Templating with Twig : Assets management · Templating with Twig : Debugging variables
 
 *Budget du jour : 220 / 220 min*
@@ -1123,10 +1130,10 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Lundi 21 décembre 2026
 
 - **Correction Mock 3** — analyse par item, plan de correction, re-révision ciblée
-- Révision **J+14** (9 min) — Miscellaneous : Filesystem · Miscellaneous : Finder · Miscellaneous : Mailer
+- Révision **J+14** (12 min) — Miscellaneous : Event · Miscellaneous : Filesystem · Miscellaneous : Finder · Miscellaneous : Mailer
 - Révision **J+45** (4 min) — Forms : Form events
 
-*Budget du jour : 73 / 160 min*
+*Budget du jour : 76 / 160 min*
 
 ### Mardi 22 décembre 2026
 
@@ -1137,16 +1144,17 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Mercredi 23 décembre 2026
 
-- Révision **J+14** (10 min) — Miscellaneous : PropertyAccess · Miscellaneous : Runtime · Miscellaneous : Serializer
+- Révision **J+14** (6 min) — Miscellaneous : PropertyAccess · Miscellaneous : Runtime
 - Révision **J+30** (8 min) — Console : Console component · Console : Built-in commands · Console : Custom commands
 
-*Budget du jour : 18 / 160 min*
+*Budget du jour : 14 / 160 min*
 
 ### Jeudi 24 décembre 2026
 
+- Révision **J+14** (4 min) — Miscellaneous : Serializer
 - Révision **J+30** (9 min) — Console : Configuration · Console : Options and arguments (using PHP attributes) · Console : Input and Output objects
 
-*Budget du jour : 9 / 160 min*
+*Budget du jour : 13 / 160 min*
 
 ### Vendredi 25 décembre 2026
 

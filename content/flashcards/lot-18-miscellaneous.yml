@@ -213,3 +213,47 @@ flashcards:
     branch: '8.0'
     symbol_or_lines: Basic Usage; Preventing Cache Stampede; System Cache and Application Cache; Using Cache Tags
     verified_at: '2026-10-02'
+- id: FLC-zh5xzmekgemg
+  official_item: OIT-78k7kbfpgfxt
+  language: fr
+  level: TRAP
+  front: 'PSR-6 : getItem(''k'')->get() rend null. La clé est-elle absente ?'
+  back: Pas forcément. Un null enregistré par save() rend aussi null, mais avec isHit() vrai. Seul isHit() dit « absent
+    ». En PSR-16, c'est has().
+  explanation: 'Exécuté sur Cache 8.0.15 : après set(null) puis save(), isHit() est vrai et get() rend null.'
+  memorization_justification: null ressemble à « rien », et l'on teste la valeur au lieu de isHit().
+  verification_status: VERIFIED
+  reviewed_at: '2026-10-14'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Cache/Traits/AbstractAdapterTrait.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Cache/Traits/AbstractAdapterTrait.php
+    branch: '8.0'
+    symbol_or_lines: 'getItem(): commits a deferred item of the same key; save(); saveDeferred(); commit()'
+    verified_at: '2026-10-14'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Cache/Psr16Cache.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Cache/Psr16Cache.php
+    branch: '8.0'
+    symbol_or_lines: get($key, $default); has(); PSR-16 over a PSR-6 pool
+    verified_at: '2026-10-14'
+- id: FLC-qcvd0xvack55
+  official_item: OIT-78k7kbfpgfxt
+  language: fr
+  level: UNDERSTANDING
+  front: 'PSR-6 : quand un item passé à saveDeferred() devient-il visible d''un autre pool ?'
+  back: 'Au commit() — ou dès qu''un getItem() du même pool lit cette clé, ce qui la valide. Avec ArrayAdapter, tout de
+    suite : son saveDeferred() appelle save().'
+  explanation: Exécuté sur Cache 8.0.15 avec deux FilesystemAdapter sur le même dossier.
+  memorization_justification: Le différé dépend de l'adaptateur et d'un effet de bord de getItem() que rien n'annonce.
+  verification_status: VERIFIED
+  reviewed_at: '2026-10-14'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Cache/Traits/AbstractAdapterTrait.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Cache/Traits/AbstractAdapterTrait.php
+    branch: '8.0'
+    symbol_or_lines: 'getItem(): commits a deferred item of the same key; save(); saveDeferred(); commit()'
+    verified_at: '2026-10-14'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Cache/Adapter/ArrayAdapter.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Cache/Adapter/ArrayAdapter.php
+    branch: '8.0'
+    symbol_or_lines: saveDeferred() returns $this->save($item)
+    verified_at: '2026-10-14'

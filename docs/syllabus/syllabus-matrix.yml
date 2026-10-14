@@ -8786,11 +8786,16 @@ items:
     lot: lot-18
     chapter: null
     classification: OFFICIAL
-    content_level: STANDARD
+    content_level: DEEP
     content_level_justification: >-
-      Une API dont l'absence de set() ne se comprend qu'en saisissant le rôle du rappel, un mécanisme
-      anti-ruée réglable, et deux pools aux contraintes différentes. Le candidat doit raisonner sur un
-      cas.
+      Promu STANDARD -> DEEP le 2026-10-14 (remédiation P1.4), sur les mécanismes et non sur un compteur.
+      Trois contrats d'accès — Cache Contracts, PSR-6, PSR-16 — servent les mêmes adaptateurs et divergent
+      là où une question peut porter : écriture implicite par le rappel contre save() explicite ;
+      saveDeferred() qu'un getItem() du même pool valide aussitôt, sauf ArrayAdapter qui n'ajourne rien ;
+      null stocké contre absence, que seuls isHit() et has() distinguent ; rappel exécuté sur une clé
+      présente par le recalcul anticipé ou forcé. S'y ajoutent deux pools aux contraintes de déploiement
+      opposées. Choisir l'API suit le contrat attendu par le code consommateur, ce qui suppose de les
+      tenir ensemble.
     learning_outcomes:
       - id: OUT-rmv013ank5zr
         outcome: Nommer item, pool, adaptateur et fournisseur
@@ -8798,12 +8803,16 @@ items:
         outcome: Expliquer pourquoi get() suffit et quand le rappel s'exécute
       - id: OUT-jvfb807ka1q6
         outcome: Distinguer cache.app de cache.system et invalider par étiquette
+      - id: OUT-wq0bg1r133y3
+        outcome: Écrire en PSR-6 — save, saveDeferred et commit — et distinguer un null stocké d'un manque
+      - id: OUT-8h04z2xxjp34
+        outcome: Utiliser PSR-16 et passer d'un contrat à l'autre selon ce qu'attend le code consommateur
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
     minimum_evidence: >-
-      Niveau STANDARD : 2 questions uniques minimum couvrant la distinction ET l'application, réussies
-      sur 2 sessions distinctes, dont une en mode examen.
+      Niveau DEEP : 2 questions uniques minimum réussies sur 2 sessions distinctes, dont une en mode examen,
+      et prévision sans support d'un cas qui combine deux contrats d'accès.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -8817,9 +8826,13 @@ items:
       - "CRS-p6yhxmpxrzbs"
     flashcard_refs:
       - "FLC-5ph49r9vszd1"
+      - "FLC-zh5xzmekgemg"
+      - "FLC-qcvd0xvack55"
     question_refs:
       - "QST-ch9mc2vedk60"
       - "QST-w6g2sgj7apm1"
+      - "QST-eakh06qrdwz5"
+      - "QST-gfe8kk8nxsgf"
     exercise_refs: []
     exam_refs:
       - "QST-jr033rm9hfx5"
