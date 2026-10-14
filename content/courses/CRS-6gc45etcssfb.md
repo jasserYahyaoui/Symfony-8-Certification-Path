@@ -46,6 +46,12 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "$isLazy = !stateless && lazy"
     verified_at: "2026-10-01"
+outcome_sections:
+  OUT-hqgj8aj8agf2: "Explication technique"
+  OUT-pg8zhgwny9pq: "`supports()` : trois Responses"
+  OUT-a4y23xrqfy6h: "Passport ou SelfValidatingPassport"
+  OUT-g6cf8ka3a9ym: "Les badges"
+  OUT-jrwcwkmfp4x1: "Diagnostiquer un badge"
 ---
 
 ## Objectif

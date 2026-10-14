@@ -51,6 +51,12 @@ official_sources:
     branch: "v3.22.0"
     symbol_or_lines: "named arguments"
     verified_at: "2026-09-24"
+outcome_sections:
+  OUT-p436jre6f29p: "Le filter"
+  OUT-eh8yg0599jp9: "Le tag"
+  OUT-ke17qw8mxwms: "Les emplacements"
+  OUT-km38p3n24htq: "Le plural"
+  OUT-txry0vy6q09r: "L'object traduisible"
 ---
 
 ## Objectif

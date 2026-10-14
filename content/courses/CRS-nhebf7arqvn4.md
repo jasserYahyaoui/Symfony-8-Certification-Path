@@ -62,6 +62,11 @@ official_sources:
     repository: "php/php-src"
     branch: "PHP-8.4"
     verified_at: "2026-09-24"
+outcome_sections:
+  OUT-zsdbtcwh25g5: "Les cinq parameters réservés"
+  OUT-zg0vs74c3yef: "Les cinq parameters réservés"
+  OUT-4k0zcm86nfkk: "Les formes courtes"
+  OUT-8f5nc3sevst2: "La limite documentée : `_fragment` et les imports"
 ---
 
 ## Objectif

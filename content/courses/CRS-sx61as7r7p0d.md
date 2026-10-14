@@ -33,6 +33,11 @@ official_sources:
     repository: "symfony/symfony"
     branch: "8.0"
     verified_at: "2026-09-24"
+outcome_sections:
+  OUT-t5wbk2v6vn3y: "Où et comment"
+  OUT-5t7q7sa1385e: "Les quatre types de référence"
+  OUT-dqnskk31jve5: "Les parameters en trop"
+  OUT-hz0pwe66gz3a: "Route absente"
 ---
 
 ## Objectif

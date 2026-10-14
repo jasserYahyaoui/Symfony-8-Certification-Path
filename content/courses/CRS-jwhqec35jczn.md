@@ -18,6 +18,11 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "getIterator(): LogicException without in() or append()"
     verified_at: "2026-10-02"
+outcome_sections:
+  OUT-9rc3vz43p7t0: "L'usage de base"
+  OUT-0gd4a3m5v66c: "L'object est à état — le piège central"
+  OUT-xntxjbxkapfz: "Quoi chercher"
+  OUT-e7krb61ejhf9: "Récupérer les résultats"
 ---
 
 ## Objectif

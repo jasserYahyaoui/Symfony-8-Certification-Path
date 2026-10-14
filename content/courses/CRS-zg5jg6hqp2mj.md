@@ -28,6 +28,10 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "Forms — filter(...)->form()"
     verified_at: "2026-10-02"
+outcome_sections:
+  OUT-01wet8kg01yc: "Deux composants, un role chacun"
+  OUT-0cm314bnvwqx: "Parcourir"
+  OUT-3vvzqtq2z234: "Cliquer et soumettre"
 ---
 
 ## Objectif

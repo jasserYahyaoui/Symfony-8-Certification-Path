@@ -33,6 +33,11 @@ official_sources:
     repository: "symfony/symfony"
     branch: "8.0"
     verified_at: "2026-09-24"
+outcome_sections:
+  OUT-bpvmhcnp7akr: "Le principe"
+  OUT-b7ntcrpknmjw: "`TemplateController`"
+  OUT-mh1c4db9g0en: "`RedirectController`"
+  OUT-xs0zdk3dz20y: "`RedirectController`"
 ---
 
 ## Objectif

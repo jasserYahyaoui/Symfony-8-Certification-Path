@@ -19,6 +19,10 @@ official_sources:
     branch: "master"
     symbol_or_lines: '"Static closures cannot have any bound object ..., but this method can nevertheless be used to change their class scope"'
     verified_at: "2026-10-09"
+outcome_sections:
+  OUT-kspe7vnxkqe2: "Function fléchée"
+  OUT-2y15r5yjgcdv: "Function anonyme classique"
+  OUT-pj3m73g0x58y: "Binding de `$this`"
 ---
 
 ## Objectif

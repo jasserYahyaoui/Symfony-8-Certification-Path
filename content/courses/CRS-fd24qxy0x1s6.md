@@ -33,6 +33,11 @@ official_sources:
     repository: "symfony/symfony"
     branch: "8.0"
     verified_at: "2026-09-24"
+outcome_sections:
+  OUT-rwcxavb94b2x: "Ce que fait `forward()`"
+  OUT-kbajzz4zg5nn: "Le contraste"
+  OUT-7any6zqhanpk: "Les arguments passent par leur nom"
+  OUT-dpjz6mhjj9g1: "L'effet de bord à connaître"
 ---
 
 ## Objectif

@@ -25,6 +25,10 @@ official_sources:
     branch: "master"
     symbol_or_lines: 'Readonly properties — "As of PHP 8.4.0, readonly properties are implicitly protected(set), so may be set from child classes"'
     verified_at: "2026-10-09"
+outcome_sections:
+  OUT-zqwbp11av4pr: "`self` contre `static`"
+  OUT-qcb24vqg8pkt: "Visibilité"
+  OUT-2tvh0svv8jhg: "Promotion de constructeur"
 ---
 
 ## Objectif

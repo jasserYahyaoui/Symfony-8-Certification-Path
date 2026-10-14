@@ -39,6 +39,11 @@ official_sources:
     repository: "symfony/symfony"
     branch: "8.0"
     verified_at: "2026-09-24"
+outcome_sections:
+  OUT-f2tn472mwm2p: "Les deux formes"
+  OUT-jjd0fkj8bsy5: "Le piège : l'ordre d'évaluation"
+  OUT-tkq7ea4zgfd1: "Le piège : l'ordre d'évaluation"
+  OUT-zmrs1nv9vh0d: "Le namespace de l'attribute"
 ---
 
 ## Objectif

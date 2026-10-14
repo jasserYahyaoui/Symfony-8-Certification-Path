@@ -82,6 +82,39 @@ final class ExamSeriesPayloadTest extends TestCase
         }
     }
 
+    /** Both kinds the official exam asks — one answer, several answers — in every exam, evenly. */
+    public function testEveryExamAsksMultipleAnswerQuestionsEvenly(): void
+    {
+        [$payload] = $this->fixture();
+
+        $mode = array_column($payload['questions'], 'answer_mode', 'id');
+        $counts = [];
+        foreach ($payload['exams'] as $exam) {
+            $n = \count(array_filter($exam['question_ids'], static fn (string $id): bool => 'multiple' === $mode[$id]));
+            self::assertSame($n, $exam['multiple_answer_count']);
+            self::assertGreaterThanOrEqual(1, $n, 'exam '.$exam['number'].' asks no multiple-answer question');
+            $counts[] = $n;
+        }
+        self::assertLessThanOrEqual(1, max($counts) - min($counts));
+    }
+
+    /** …and refuses an exam left with single-answer questions only. */
+    public function testTheBuildCheckRefusesAnExamWithoutMultipleAnswer(): void
+    {
+        [$payload, $content] = $this->fixture();
+        $first = array_flip($payload['exams'][0]['question_ids']);
+        foreach ($payload['questions'] as $i => $q) {
+            if (isset($first[$q['id']])) {
+                $payload['questions'][$i]['answer_mode'] = 'single';
+            }
+        }
+        $payload['exams'][0]['multiple_answer_count'] = 0;
+
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessageMatches('/not spread over every exam/');
+        PayloadBuilder::assertExamSeries($payload, $content);
+    }
+
     /** The build-time check refuses a series in which two exams share a question. */
     public function testTheBuildCheckRefusesASharedQuestion(): void
     {

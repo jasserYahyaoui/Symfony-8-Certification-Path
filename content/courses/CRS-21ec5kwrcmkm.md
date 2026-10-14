@@ -14,6 +14,12 @@ official_sources:
     branch: "8.0"
     commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
     verified_at: "2026-09-01"
+outcome_sections:
+  OUT-bmtapjwv4je4: "Utiliser, étendre, implémenter"
+  OUT-z81y6z00tr3t: "Utiliser, étendre, implémenter"
+  OUT-92tk3wgmcgkc: "Le piège des arguments nommés"
+  OUT-4x6dvn65hj5v: "Les trois exclusions"
+  OUT-xh1k5wmbaqwa: "final et @final"
 ---
 
 ## Objectif

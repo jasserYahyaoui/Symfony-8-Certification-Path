@@ -14,6 +14,12 @@ official_sources:
     branch: "8.0"
     commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
     verified_at: "2026-09-01"
+outcome_sections:
+  OUT-fe71pjx6g6a2: "Le modèle temporel"
+  OUT-r00p8959jcpp: "Les six mois d'une version"
+  OUT-bcjh1p7m06v1: "LTS et durées de maintenance"
+  OUT-gz76fhvfsxy3: "LTS et durées de maintenance"
+  OUT-1q68f4h4bdny: "Le développement en double"
 ---
 
 ## Objectif

@@ -33,6 +33,10 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "ConfigDebugCommand"
     verified_at: "2026-10-02"
+outcome_sections:
+  OUT-ck41dmqysxwe: "`dump()` plutôt que `var_dump()`"
+  OUT-7zqhdcxxen5v: "Un `dump()` oublié en production"
+  OUT-cfyrgc2t8f2q: "Interroger l'application"
 ---
 
 ## Objectif

@@ -18,6 +18,11 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "ClassMetadata::setGroupSequence(), Default not allowed"
     verified_at: "2026-09-29"
+outcome_sections:
+  OUT-xyz5371z2twb: "Le mécanisme"
+  OUT-b5t21ax5y3aq: "Le premier effet de bord : `Default` change de sens"
+  OUT-w45gx8dhzkr1: "Le deuxième : valider un group de la séquence la contourne"
+  OUT-kbx7xfhhm46j: "Le troisième : la séquence peut être dynamique"
 ---
 
 ## Objectif

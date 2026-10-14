@@ -13,6 +13,10 @@ official_sources:
     branch: "master"
     symbol_or_lines: "sections Precedence and Conflict Resolution"
     verified_at: "2026-09-01"
+outcome_sections:
+  OUT-xk68jha9m4nk: "L'ordre de précédence"
+  OUT-w9w3hpwesby1: "Résolution de conflit"
+  OUT-x8c9nce1wqh5: "Ce qu'un trait apporte"
 ---
 
 ## Objectif

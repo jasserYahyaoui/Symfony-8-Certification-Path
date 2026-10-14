@@ -14,6 +14,11 @@ official_sources:
     branch: "8.0"
     commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
     verified_at: "2026-09-01"
+outcome_sections:
+  OUT-yqb3s91g64f7: "La fenêtre"
+  OUT-8dx7erg8d1eb: "Les deux signaux"
+  OUT-crtr1pmq22t7: "Pièges d'examen"
+  OUT-0j2bgvnbyj7p: "La trace écrite"
 ---
 
 ## Objectif

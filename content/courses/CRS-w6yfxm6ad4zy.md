@@ -22,6 +22,12 @@ official_sources:
     symbol_or_lines: "Target::getParsedName() — camelCase normalization"
     branch: "8.0"
     verified_at: "2026-09-30"
+outcome_sections:
+  OUT-7k7n0avtawev: "La règle, en une phrase"
+  OUT-h9f0rmgswrcz: "Pourquoi une interface a besoin d'un alias"
+  OUT-5sh0v9zbqw10: "Trois façons de départager"
+  OUT-06wrfq0kv0v0: "Ce que dit la documentation, ce que fait le code"
+  OUT-6j9rnmzbnkzn: "Câbler ce qui n'est pas un service"
 ---
 
 ## Objectif

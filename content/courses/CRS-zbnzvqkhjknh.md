@@ -51,6 +51,12 @@ official_sources:
     branch: "v3.22.0"
     symbol_or_lines: "IfNode::__construct(), TrueTest"
     verified_at: "2026-09-24"
+outcome_sections:
+  OUT-n2sny821kd8p: "La boucle"
+  OUT-16dbq9y7rz76: "La variable `loop`"
+  OUT-rjj1wzpn63ph: "La variable `loop`"
+  OUT-d2d8w5y3z51h: "Filtrer et découper"
+  OUT-j1qtw6ccaxqg: "Les conditions"
 ---
 
 ## Objectif

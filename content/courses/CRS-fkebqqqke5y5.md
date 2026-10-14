@@ -22,6 +22,10 @@ official_sources:
     symbol_or_lines: "DecoratorServicePass::process()"
     branch: "8.0"
     verified_at: "2026-09-29"
+outcome_sections:
+  OUT-tv6pkb930kss: "`.inner`"
+  OUT-gxkp3y83mp10: "Le mécanisme"
+  OUT-7mpy7kfscvv1: "Empiler des decorators"
 ---
 
 ## Objectif

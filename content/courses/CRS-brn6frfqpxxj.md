@@ -27,6 +27,10 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "Interactive Input — #[Ask], #[Interact]"
     verified_at: "2026-10-02"
+outcome_sections:
+  OUT-b3610kc2cj3b: "Ce qu'il fait"
+  OUT-jc4865ayfy98: "Le cycle d'exécution"
+  OUT-a1qc1gqac172: "Le code de retour"
 ---
 
 ## Objectif

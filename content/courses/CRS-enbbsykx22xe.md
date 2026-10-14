@@ -32,6 +32,11 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "EntityFactory implements UserProviderFactoryInterface"
     verified_at: "2026-09-30"
+outcome_sections:
+  OUT-58qtgyk785j9: "Le contrat"
+  OUT-km3tbkkw36s3: "Ce que l'exécution montre"
+  OUT-18068akbjm47: "Les providers fournis"
+  OUT-sy6g8zgjqqpj: "Provider et firewall"
 ---
 
 ## Objectif

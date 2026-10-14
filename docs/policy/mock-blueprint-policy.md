@@ -121,3 +121,26 @@ refuses a build whose exams share a question, miss the count, leave English or
 break the spread (`ExamSeriesPayloadTest` shows it refusing two broken series);
 `website/tools/verify-exams.mjs` checks the menu's recommendation and draws;
 the production smoke test checks `exams.json` again.
+
+### Answer format and correction — owner's request, 2026-10-14
+
+Verbatim: « garantie que l'examen est comme symfony c'est-à-dire QCM et checkbox
+multiple etc. Finalement le résultat en fin doit donner les bonnes réponses ;
+pour les mauvaises réponses il doit pointer exactement sur la section de cours
+en question ».
+
+| | |
+|---|---|
+| Answer modes | single answer (radio buttons) and multiple answers (checkboxes, with the number expected). The official exam asks both; **the share of each is not published**, so the series guarantees only that every exam asks both, spread evenly (`dealExams` deals the multiple-answer questions first, `assertExamSeries` refuses an exam without one or a spread wider than one) |
+| Measured on 2026-10-14 | **12** of the 637 eligible questions are multiple-answer: **2 per exam**. That is a floor, not a target: remediation item F7 / P1.6 owes more, written and verified like any question |
+| Correction | after submission only: every question with its right answers beside the learner's, the canonical explanation, and for a question missed or left blank a link to the course section teaching each outcome it assesses — `ExamSitting`'s `Correction`, also Mocks 1 to 3 |
+| Section links | each course maps every outcome of its item to a `## ` heading (`outcome_sections`, 617 outcomes, read section by section when written); the generator writes `CourseUrl::sectionAnchor` on the heading and the payload links to it. Rule **SEC-001** refuses a missing outcome, a heading that does not exist, an outcome of another item or a framing section (aim, key points, sources) as target |
+
+Evidence: `OutcomeSectionTest` (the rule refusing four broken maps, every exam
+question resolving), `ExamSeriesPayloadTest` (both kinds in every exam, and the
+check refusing an exam without), three SEC-001 cases in
+`prove_framework_rules_fail.py`, `website/tools/verify-exam-correction.mjs` (an
+exam sat in a browser, the correction read back, every section anchor of
+`exams.json` and `practice.json` found in the built pages, a link followed),
+and the production smoke test (anchors on a deployed course, counts in
+`exams.json`).

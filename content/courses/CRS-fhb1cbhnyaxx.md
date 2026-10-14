@@ -23,6 +23,10 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "stopPropagation(); isPropagationStopped()"
     verified_at: "2026-10-02"
+outcome_sections:
+  OUT-90fn81pm7q7x: "Une class de base délibérément pauvre"
+  OUT-ck4dc8hb0b3j: "Arrêter la propagation"
+  OUT-2e82py415svq: "`GenericEvent`, quand une sous-classe ne se justifie pas"
 ---
 
 ## Objectif

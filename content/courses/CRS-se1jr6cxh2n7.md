@@ -17,6 +17,11 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "registerMessengerConfiguration() — Invalid Messenger routing configuration"
     verified_at: "2026-10-01"
+outcome_sections:
+  OUT-d34tvv7rydk9: "Router"
+  OUT-sz3q1tm5smja: "Non routé : traité tout de suite"
+  OUT-961gweegp990: "Déclarer"
+  OUT-25tacm3ebgk7: "Router"
 ---
 
 ## Objectif

@@ -191,6 +191,14 @@ budget. Each arrow is a claim, verified against the 8.0 code like a sentence.
 Mermaid draws in the browser: the accessibility audit waits for the SVGs, and a
 curl-based smoke test can only see the section around them.
 
+**A course maps each outcome to the section teaching it (owner, 2026-10-14, rule `SEC-001`).**
+A mock's correction links a missed question to the `## ` heading named for its
+outcome in the course's `outcome_sections`. Renaming or removing a heading, or
+adding an outcome to the matrix, means updating that map in the same change —
+by reading the section, never by pointing at « Points clés » to make the rule
+pass. The generator writes the anchor (`CourseUrl::sectionAnchor`); do not
+hand-write `{#…}` ids in a course.
+
 **Technical terms stay in English in French prose (owner, 2026-10-14).**
 Write `listener`, `compiler pass`, `service container`, `Request`, `Response`,
 `attribute`, never écouteur, passe de compilation, conteneur de services,

@@ -22,6 +22,12 @@ official_sources:
     symbol_or_lines: "addCompilerPass($this, PassConfig::TYPE_BEFORE_OPTIMIZATION, -10000)"
     branch: "8.0"
     verified_at: "2026-09-29"
+outcome_sections:
+  OUT-cqnfv3m8fn8q: "Ce qu'une passe est"
+  OUT-gx5971krje0a: "Où l'enregistrer"
+  OUT-avkzmraeybbg: "Les cinq étapes"
+  OUT-5d052fcbnf0g: "Ce que l'étape rend visible"
+  OUT-mpb2peyp9993: "Passe ou configuration"
 ---
 
 ## Objectif

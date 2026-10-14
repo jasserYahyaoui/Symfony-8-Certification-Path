@@ -17,6 +17,11 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "addViolation, buildViolation"
     verified_at: "2026-09-01"
+outcome_sections:
+  OUT-x2rv3kwasf88: "Les deux façons"
+  OUT-y8sak1s2672z: "Le constructeur n'écrit rien tout seul"
+  OUT-eq4vjk7mmyxm: "Ce que l'on peut régler"
+  OUT-nb6w1gbs0ndt: "Les emplacements du message"
 ---
 
 ## Objectif

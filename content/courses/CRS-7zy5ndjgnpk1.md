@@ -32,6 +32,10 @@ official_sources:
     repository: "symfony/symfony"
     branch: "8.0"
     verified_at: "2026-09-24"
+outcome_sections:
+  OUT-gzgd3nv5dqsb: "Les deux methods"
+  OUT-v6qwe7g2fz54: "Le statut"
+  OUT-2n6hy6wr111b: "Le danger de `redirect()`"
 ---
 
 ## Objectif

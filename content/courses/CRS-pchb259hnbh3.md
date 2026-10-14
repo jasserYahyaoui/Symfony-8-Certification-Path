@@ -20,6 +20,12 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "OptionsResolver::setDefault(), setOptions(), resolve()"
     verified_at: "2026-09-29"
+outcome_sections:
+  OUT-whjhhhcq1kg3: "Les methods"
+  OUT-m9sv8pew063t: "Validation, puis normalization"
+  OUT-jc8c1h1nznhd: "Validation, puis normalization"
+  OUT-rz5njbv8fvrm: "Options paresseuses"
+  OUT-c7879v7m2pqb: "Le problème résolu"
 ---
 
 ## Objectif

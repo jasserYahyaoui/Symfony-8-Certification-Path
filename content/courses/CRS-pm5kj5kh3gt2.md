@@ -29,6 +29,12 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "getArgument(): $context is $_SERVER, plus $_ENV only when $_SERVER has no PATH"
     verified_at: "2026-10-09"
+outcome_sections:
+  OUT-87xc26yncsb7: "Le file d'entrée ne lance rien"
+  OUT-07vqtcfmbfnc: "Les cinq étapes"
+  OUT-nt4s3vj5727z: "Les cinq étapes"
+  OUT-awqwz26y52yr: "Les arguments sont résolus par type *et* par nom"
+  OUT-3n7fcpgc1j29: "Choisir le runtime"
 ---
 
 ## Objectif

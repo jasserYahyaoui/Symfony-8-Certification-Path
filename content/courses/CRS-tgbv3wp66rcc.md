@@ -50,6 +50,11 @@ official_sources:
     anchor: "status.301"
     branch: "master"
     verified_at: "2026-09-24"
+outcome_sections:
+  OUT-35a9hesk4cpd: "La barre oblique finale"
+  OUT-5kd3xgw0a686: "La barre oblique finale"
+  OUT-615hjenzhh66: "Le schéma"
+  OUT-khhjkt6203k6: "Depuis une route"
 ---
 
 ## Objectif

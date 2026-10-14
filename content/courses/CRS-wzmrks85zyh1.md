@@ -23,6 +23,10 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "AttributeLoader, get|is|has method constraints"
     verified_at: "2026-09-29"
+outcome_sections:
+  OUT-tgzkeywcr2c5: "Les trois cibles"
+  OUT-wdhsjrrpmggk: "L'accesseur"
+  OUT-v2t6031e9x7s: "La class"
 ---
 
 ## Objectif

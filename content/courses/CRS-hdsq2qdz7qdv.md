@@ -20,6 +20,11 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "run(): send(false) ligne 36, terminate() ligne 48"
     verified_at: "2026-09-16"
+outcome_sections:
+  OUT-yq2nzprwr82v: "La class de base"
+  OUT-2ekazygpee7h: "`isRedirect()` contre `isRedirection()`"
+  OUT-p5kb8nhzd8hm: "Autres methods de test"
+  OUT-gkcvmpt5dwz6: "L'émission : `send()`, et qui l'appelle"
 ---
 
 ## Objectif

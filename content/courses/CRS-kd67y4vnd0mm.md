@@ -26,6 +26,11 @@ official_sources:
     repository: "symfony/symfony"
     branch: "8.0"
     verified_at: "2026-09-18"
+outcome_sections:
+  OUT-9f4yqqyqwecq: "Le choix du status code"
+  OUT-wbfptxs3qm46: "HttpExceptionInterface"
+  OUT-dbm0023ax4bv: "Le choix du status code"
+  OUT-9gyxnzp7ngzp: "Le mécanisme"
 ---
 
 ## Objectif

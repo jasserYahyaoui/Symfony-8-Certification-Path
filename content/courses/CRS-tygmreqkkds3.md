@@ -33,6 +33,11 @@ official_sources:
     repository: "symfony/symfony"
     branch: "8.0"
     verified_at: "2026-09-22"
+outcome_sections:
+  OUT-dvn4fe5a95kf: "Ce que FrameworkBundle ajoute"
+  OUT-9n7kqntbxaap: "Trois interfaces, et ce que chacune apporte"
+  OUT-wtvmvsdmdz41: "Ce que FrameworkBundle ajoute"
+  OUT-8a4ygtt2rwe5: "Ce que le composant fournit"
 ---
 
 ## Objectif

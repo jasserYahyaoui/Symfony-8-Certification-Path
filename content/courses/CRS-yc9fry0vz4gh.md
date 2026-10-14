@@ -13,6 +13,11 @@ official_sources:
     repository: "php/doc-en"
     branch: "master"
     verified_at: "2026-09-01"
+outcome_sections:
+  OUT-xwdtmfm9hzsc: "La hiérarchie"
+  OUT-c799q9ew2xxg: "La conséquence pratique"
+  OUT-km64zadyg6pf: "Écrire ses propres exceptions"
+  OUT-xrckdfqa6x5n: "Multi-catch et finally"
 ---
 
 ## Objectif

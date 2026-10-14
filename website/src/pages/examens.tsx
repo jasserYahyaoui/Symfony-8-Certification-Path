@@ -136,6 +136,7 @@ function Menu({
             <tr>
               <th scope="col">Examen</th>
               <th scope="col">Difficulté estimée</th>
+              <th scope="col">Réponses multiples</th>
               <th scope="col">Dernier résultat</th>
               <th scope="col">Action</th>
             </tr>
@@ -143,6 +144,7 @@ function Menu({
           <tbody>
             {rows.map(({number, last}) => {
               const mix = difficultyMix(fixedExam(payload, number));
+              const multiple = payload.exams.find((exam) => exam.number === number)?.multiple_answer_count ?? 0;
               return (
                 <tr key={number}>
                   <th scope="row">
@@ -151,6 +153,9 @@ function Menu({
                   </th>
                   <td>
                     {mix.easy} faciles, {mix.medium} moyennes, {mix.hard} difficiles
+                  </td>
+                  <td>
+                    {multiple} sur {payload.question_count}
                   </td>
                   <td>
                     {last
@@ -190,6 +195,11 @@ function Menu({
       <h2>À savoir</h2>
       <ul>
         <li>{payload.format_note}</li>
+        <li>{payload.answer_modes_note}</li>
+        <li>
+          Après la soumission, chaque question est corrigée : bonnes réponses, explication et, pour
+          une erreur, le lien vers la section du cours qui l'enseigne.
+        </li>
         <li>
           Répartition par sujet (<code>{payload.distribution_label}</code>) : {payload.distribution_note}
         </li>

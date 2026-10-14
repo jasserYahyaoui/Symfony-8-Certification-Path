@@ -27,6 +27,10 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "hasParameterOption(), getParameterOption() — raw tokens"
     verified_at: "2026-10-02"
+outcome_sections:
+  OUT-eea5s77r44aw: "`InputInterface` — lire"
+  OUT-b3v4c3hz8gha: "`OutputInterface` — écrire"
+  OUT-8pz0624za51p: "L'output d'erreur"
 ---
 
 ## Objectif

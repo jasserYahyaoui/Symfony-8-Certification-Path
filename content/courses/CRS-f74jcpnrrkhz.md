@@ -21,6 +21,11 @@ official_sources:
     branch: "8.0"
     commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
     verified_at: "2026-09-01"
+outcome_sections:
+  OUT-t5v0mavn0je1: "Les PSR implémentées"
+  OUT-3we3dc646hxk: "Les PSR suivies"
+  OUT-sqrkr5sjqqz1: "Le cas PSR-7"
+  OUT-tga0d0zxwpvv: "Les PSR implémentées"
 ---
 
 ## Objectif

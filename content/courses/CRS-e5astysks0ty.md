@@ -22,6 +22,11 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "resetServices() on WorkerRunningEvent"
     verified_at: "2026-10-01"
+outcome_sections:
+  OUT-n57edsf6gz2k: "La command"
+  OUT-k3t8watc85cw: "Un worker est un process long"
+  OUT-d5r5yrf58x1s: "Le deployment"
+  OUT-q8eq8avwpyh2: "L'état entre deux messages"
 ---
 
 ## Objectif

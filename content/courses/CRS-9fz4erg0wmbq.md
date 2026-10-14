@@ -39,6 +39,10 @@ official_sources:
     repository: "symfony/symfony-docs"
     branch: "8.0"
     verified_at: "2026-09-22"
+outcome_sections:
+  OUT-kym7hw6vad3k: "Rien n'est imposé, presque"
+  OUT-fzeda7ytt9hf: "Le format `_controller`"
+  OUT-j9vdv1qav4by: "Le nom de route, et qui la factory"
 ---
 
 ## Objectif

@@ -33,6 +33,12 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "@throws de getStatusCode(), getHeaders(), getContent(), toArray()"
     verified_at: "2026-09-16"
+outcome_sections:
+  OUT-9vyq57j7gj6b: "L'interface"
+  OUT-81pzmq0sf6k9: "Le point central : les Responses sont paresseuses"
+  OUT-t602yfbqy21b: "Le point central : les Responses sont paresseuses"
+  OUT-9bcphcvp1dp0: "La Response"
+  OUT-a0z9e1zqpyxy: "La hiérarchie d'exceptions"
 ---
 
 ## Objectif

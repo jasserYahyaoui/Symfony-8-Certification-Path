@@ -38,6 +38,11 @@ official_sources:
     repository: "twigphp/Twig"
     branch: "v3.22.0"
     verified_at: "2026-09-24"
+outcome_sections:
+  OUT-r9kjw1fha5yx: "La variable `app`"
+  OUT-5z9qxkyjy0yc: "La variable `app`"
+  OUT-thnmr95cr5f4: "Déclarer ses propres globales"
+  OUT-zn59vbr2pzhs: "Le piège"
 ---
 
 ## Objectif

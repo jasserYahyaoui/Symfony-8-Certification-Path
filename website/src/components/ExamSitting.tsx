@@ -1,7 +1,10 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
+import Link from '@docusaurus/Link';
 import type {ItemIndexEntry, Question} from '@site/src/lib/types';
 import {isCorrect, recordAttempt, recordSession, type ExamSession} from '@site/src/lib/storage';
+import {sectionsFor} from '@site/src/lib/courseSections';
 import QuestionCard from '@site/src/components/QuestionCard';
+import RichText from '@site/src/components/RichText';
 
 const WARNING_SECONDS = 300;
 
@@ -22,6 +25,14 @@ interface WeakItem {
   outcomes: string[];
 }
 
+/** One question as sat, kept for the correction shown after submission. */
+interface Reviewed {
+  number: number;
+  question: Question;
+  chosen: string[];
+  ok: boolean;
+}
+
 interface Result {
   total: number;
   correct: number;
@@ -32,6 +43,7 @@ interface Result {
   byTopic: TopicResult[];
   weakTopics: TopicResult[];
   weakItems: WeakItem[];
+  review: Reviewed[];
 }
 
 /**
@@ -75,14 +87,16 @@ export default function ExamSitting({
 
       const topics = new Map<string, TopicResult>();
       const weak = new Map<string, WeakItem>();
+      const review: Reviewed[] = [];
 
-      for (const question of questions) {
+      for (const [position, question] of questions.entries()) {
         const chosen = answers.get(question.id) ?? [];
         if (chosen.length === 0) {
           unanswered += 1;
         }
 
         const ok = isCorrect(question, chosen);
+        review.push({number: position + 1, question, chosen, ok});
         if (ok) {
           correct += 1;
         } else {
@@ -146,6 +160,7 @@ export default function ExamSitting({
           weakItems: [...weak.values()].sort(
             (a, b) => a.topic.localeCompare(b.topic) || a.label.localeCompare(b.label),
           ),
+          review,
         },
       });
     },
@@ -224,7 +239,13 @@ export default function ExamSitting({
 
 
       {phase.name === 'finished' && (
-        <Results result={phase.result} scoringPolicy={scoringPolicy} onRestart={onRestart} restartLabel={restartLabel} />
+        <Results
+          result={phase.result}
+          items={items}
+          scoringPolicy={scoringPolicy}
+          onRestart={onRestart}
+          restartLabel={restartLabel}
+        />
       )}
     </>
   );
@@ -240,11 +261,13 @@ function formatTime(seconds: number): string {
 /** §10: everything a mock must report once it has been submitted. */
 function Results({
   result,
+  items,
   scoringPolicy,
   onRestart,
   restartLabel,
 }: {
   result: Result;
+  items: Record<string, ItemIndexEntry>;
   scoringPolicy: string;
   onRestart: () => void;
   restartLabel: string;
@@ -352,6 +375,8 @@ function Results({
         </ol>
       )}
 
+      <Correction review={result.review} items={items} />
+
       <h3>Ce que ce résultat démontre — et ce qu'il ne démontre pas</h3>
       <ul>
         <li>
@@ -371,5 +396,130 @@ function Results({
         </button>
       </div>
     </section>
+  );
+}
+
+
+/**
+ * The correction, shown only once the sitting is submitted (owner's request of
+ * 2026-10-14): for every question, the right answer(s) beside the learner's,
+ * the canonical explanation and, for a question missed or left blank, a link to
+ * the exact course section that teaches what it assesses.
+ *
+ * Questions missed come first and open; questions answered correctly are
+ * folded, since they are read only to check a lucky guess. Every fact here
+ * comes from the payload: this component states nothing about Symfony.
+ */
+function Correction({review, items}: {review: Reviewed[]; items: Record<string, ItemIndexEntry>}): React.JSX.Element {
+  const missed = review.filter((r) => !r.ok);
+  const passed = review.filter((r) => r.ok);
+
+  return (
+    <section aria-labelledby="correction-heading">
+      <h3 id="correction-heading">Correction détaillée</h3>
+
+      <h4>
+        À revoir : {missed.length} question{missed.length > 1 ? 's' : ''}
+      </h4>
+      {missed.length === 0 ? (
+        <p>Aucune question manquée.</p>
+      ) : (
+        <ol className="certpath-review">
+          {missed.map((r) => (
+            <ReviewEntry key={r.question.id} entry={r} item={items[r.question.official_item]} />
+          ))}
+        </ol>
+      )}
+
+      {passed.length > 0 && (
+        <details className="certpath-review-passed">
+          <summary>
+            Voir les {passed.length} question{passed.length > 1 ? 's' : ''} réussie{passed.length > 1 ? 's' : ''}
+          </summary>
+          <ol className="certpath-review">
+            {passed.map((r) => (
+              <ReviewEntry key={r.question.id} entry={r} item={items[r.question.official_item]} />
+            ))}
+          </ol>
+        </details>
+      )}
+    </section>
+  );
+}
+
+function ReviewEntry({entry, item}: {entry: Reviewed; item: ItemIndexEntry | undefined}): React.JSX.Element {
+  const {number, question, chosen, ok} = entry;
+  const verdict = ok ? '✔ Correcte' : chosen.length === 0 ? '— Sans réponse' : '✘ Incorrecte';
+  const sections = sectionsFor(question, item);
+  const multiple = question.answer_mode === 'multiple';
+
+  return (
+    <li className="certpath-review-entry" data-result={ok ? 'correct' : 'incorrect'} value={number}>
+      <p className="certpath-review-title">
+        <strong>
+          Question {number} — {verdict}
+        </strong>
+        <span className="certpath-note">
+          {' '}
+          · {question.official_topic}
+          {multiple ? ` · réponses multiples (${question.required_answer_count} attendues)` : ' · réponse unique'}
+        </span>
+      </p>
+
+      <RichText className="certpath-prompt" language={question.code_language}>
+        {question.question}
+      </RichText>
+
+      <ul className="certpath-review-choices">
+        {question.choices.map((choice) => {
+          const picked = chosen.includes(choice.id);
+          return (
+            <li key={choice.id} data-correct={choice.correct ? 'yes' : 'no'} data-chosen={picked ? 'yes' : 'no'}>
+              <RichText as="span" language={question.code_language}>
+                {choice.text}
+              </RichText>
+              {(choice.correct || picked) && (
+                <strong className="certpath-review-mark">
+                  {' '}
+                  —{' '}
+                  {choice.correct && picked
+                    ? 'bonne réponse, votre choix'
+                    : choice.correct
+                      ? 'bonne réponse'
+                      : 'votre choix, incorrect'}
+                </strong>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+
+      <RichText className="certpath-explanation" language={question.code_language}>
+        {question.explanation}
+      </RichText>
+
+      {!ok && (
+        <div className="certpath-review-links">
+          <strong>Revoir dans le cours :</strong>
+          {sections.length > 0 ? (
+            <ul>
+              {sections.map((section) => (
+                <li key={section.url}>
+                  <Link to={section.url}>
+                    {item?.official_item ?? question.official_item} — § {section.title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            item && (
+              <p>
+                <Link to={item.course_url}>{item.official_item}</Link>
+              </p>
+            )
+          )}
+        </div>
+      )}
+    </li>
   );
 }

@@ -19,6 +19,12 @@ official_sources:
     branch: "main"
     symbol_or_lines: "exigences serveur lignes 842-893 ; exigences navigateur « Cookie Name Prefixes » lignes 1245-1288 et storage model etapes 20-21 lignes 1817-1831"
     verified_at: "2026-09-16"
+outcome_sections:
+  OUT-sh5sn773tmkx: "Lire et écrire"
+  OUT-v9x1yyn34t4x: "Les attributes de sécurité"
+  OUT-z584m37h6jj1: "Les trois valeurs de SameSite"
+  OUT-d3rkaszp9nga: "Pièges d'examen"
+  OUT-mgpn4708q6rn: "Les préfixes `__Secure-` et `__Host-`"
 ---
 
 ## Objectif

@@ -12,6 +12,14 @@ official_sources:
     branch: "master"
     symbol_or_lines: "Abstract ; section 1.4 Specifications Obsoleted by This Document ; section 3 Terminology ; section 6 Message Abstraction"
     verified_at: "2026-09-01"
+outcome_sections:
+  OUT-6w2h5pvzsg06: "Ce que RFC 9110 remplace"
+  OUT-tv622sx0szjv: "Vocabulaire imposé"
+  OUT-y8177jvv3m21: "Vocabulaire imposé"
+  OUT-b4zep1k4shd7: "Ce que RFC 9110 remplace"
+  OUT-rvm0f266br2d: "Ce que RFC 9110 remplace"
+  OUT-5qj9w53751fy: "Vocabulaire imposé"
+  OUT-rgdrqp8pe47j: "Vocabulaire imposé"
 ---
 
 ## Objectif

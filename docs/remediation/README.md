@@ -55,7 +55,7 @@ an idea: it stops the old sentence returning, not every way of being wrong.
 | F4 | HOLDOUT length bias not measured on its own | **BLOQUÉ** (rewrite) — control ready | see P0.4 |
 | F5 | Content metrics read as candidate mastery | **VÉRIFIÉ** (local) | see P1.7 |
 | F6 | Roadmap / mock texts out of sync | **VÉRIFIÉ** (local) — mock texts derived; comprehension load budgeted, exam moved to 29 Dec by owner decision | see P2.5 |
-| F7 | Too few multiple-answer questions | **EN COURS** — +2 LEARNING, +2 COMPREHENSION (P1.5, P1.4); VALIDATION still 0 | P1.6 |
+| F7 | Too few multiple-answer questions | **EN COURS** — +2 LEARNING, +2 COMPREHENSION (P1.5, P1.4); VALIDATION still 0; every mock exam now asks both kinds, spread evenly (2 per exam, a floor) | P1.6 |
 | F8 | Unsourced "not examinable" restrictions | **EN COURS** — Serializer (P1.5) and Cache (P1.4) extended, VÉRIFIÉ; P1.1–P1.3, P2.7 À FAIRE | see P1.5 |
 | F9 | PHP source 404 and mutable branch URLs | **BLOQUÉ** (the last 404 is in a HOLDOUT question) — pinning À FAIRE | see P2.6 |
 | F10 | No per-card recall record; comprehension stores nothing | **EN COURS** — comprehension recorded (P2.4, VÉRIFIÉ local); per-card recall À FAIRE (P2.3) | see P2.4 |

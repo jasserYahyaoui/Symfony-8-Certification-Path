@@ -26,6 +26,10 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "FileValidator::validate(), Mime requirement"
     verified_at: "2026-09-25"
+outcome_sections:
+  OUT-9qanndr176yx: "Le field"
+  OUT-zd387nyydnm7: "Le field"
+  OUT-2swcsdfcjqwc: "Récupérer le file"
 ---
 
 ## Objectif

@@ -33,6 +33,10 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "Parsing and Linting Expressions"
     verified_at: "2026-10-02"
+outcome_sections:
+  OUT-tgt66re62pkz: "Deux mécanismes, deux moments"
+  OUT-zbp5kh2xgz63: "La cascade `.env`"
+  OUT-xrdyp9pn9ffe: "ExpressionLanguage"
 ---
 
 ## Objectif

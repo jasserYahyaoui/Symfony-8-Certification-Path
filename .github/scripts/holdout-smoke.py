@@ -150,10 +150,22 @@ def main(argv):
                     problems.append(f"{name} exam {exam['number']} names {len(unknown)} question(s) the payload lacks")
                 if any(by_id[i].get("language") != "en" for i in qids if i in by_id):
                     problems.append(f"{name} exam {exam['number']} carries a question not in English")
+                multiple = sum(1 for i in qids if by_id.get(i, {}).get("answer_mode") == "multiple")
+                if multiple < 1 or multiple != exam.get("multiple_answer_count"):
+                    problems.append(f"{name} exam {exam['number']} has {multiple} multiple-answer question(s), states {exam.get('multiple_answer_count')}")
+                # A question missed links to the course section of what it assesses.
+                items = payload.get("items", {})
+                unlinked = [i for i in qids if i in by_id and not any(
+                    o in items.get(by_id[i]["official_item"], {}).get("outcome_sections", {})
+                    for o in by_id[i].get("assesses_outcomes", []))]
+                if unlinked:
+                    problems.append(f"{name} exam {exam['number']} has {len(unlinked)} question(s) with no course section to link")
             if len(payload["exams"]) != 6:
                 problems.append(f"{name} has {len(payload['exams'])} fixed exams, not 6")
             if len(problems) == before:
+                counts = "/".join(str(e.get("multiple_answer_count")) for e in payload["exams"])
                 print(f"ok  {name:<8} 6 fixed exams of {payload.get('question_count')} questions, disjoint, all English")
+                print(f"ok  {name:<8} multiple-answer questions per exam {counts}; every question links to a course section")
 
         if len(problems) == before:
             print(f"ok  {name:<8} {len(ids):>4} eligible, no holdout id or choice")

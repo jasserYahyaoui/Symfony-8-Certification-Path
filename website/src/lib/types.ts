@@ -40,6 +40,11 @@ export interface Question {
   scoring_policy: string;
   choices: Choice[];
   explanation: string;
+  /**
+   * The learning outcomes (OUT ids) the question assesses. The item index maps
+   * each to the course section that teaches it.
+   */
+  assesses_outcomes?: string[];
   official_sources: SourceRef[];
   tags: string[];
 }
@@ -92,6 +97,17 @@ export interface ItemIndexEntry {
    * build did not produce.
    */
   course_url: string;
+  /**
+   * Outcome id → the course section teaching it, anchor included. Written at
+   * build time from the course's `outcome_sections`; rule SEC-001 keeps each
+   * heading present in the course.
+   */
+  outcome_sections?: Record<string, CourseSection>;
+}
+
+export interface CourseSection {
+  title: string;
+  url: string;
 }
 
 /**
@@ -178,8 +194,10 @@ export interface ExamSeriesPayload extends Payload {
   distribution_label: string;
   distribution_note: string;
   not_unseen: string;
+  answer_modes_note: string;
   scoring_policy: string;
   topic_spread: Record<string, number>;
-  exams: {number: number; question_ids: string[]}[];
+  /** multiple_answer_count is checked against the questions at build time. */
+  exams: {number: number; question_ids: string[]; multiple_answer_count: number}[];
   items: Record<string, ItemIndexEntry>;
 }

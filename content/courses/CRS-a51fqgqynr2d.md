@@ -32,6 +32,11 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "onKernelResponse: cookie only for a non-empty session, private on usage"
     verified_at: "2026-10-08"
+outcome_sections:
+  OUT-wc78qqp1pj1p: "L'obtenir"
+  OUT-vvctkweagzvz: "Le démarrage est paresseux"
+  OUT-srphtyf5qzqs: "Le démarrage est paresseux"
+  OUT-7t4egm4bdr19: "L'API"
 ---
 
 ## Objectif

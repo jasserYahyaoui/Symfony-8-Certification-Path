@@ -34,6 +34,10 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "private_headers (Authorization, Cookie): the response is made private unless it is public"
     verified_at: "2026-10-09"
+outcome_sections:
+  OUT-edevbpg23scq: "Le reverse proxy de Symfony"
+  OUT-dvk4cpkj78nz: "Déclarer plutôt que construire"
+  OUT-81d6pteaq67a: "Ce que le cache ne fera pas"
 ---
 
 ## Objectif

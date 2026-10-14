@@ -23,6 +23,10 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "getSession(); catchExceptions()"
     verified_at: "2026-10-02"
+outcome_sections:
+  OUT-pgb3b6xmtm4e: "Les deux arguments de `createClient()`"
+  OUT-2t00vt83c8pb: "La règle de nommage des headers"
+  OUT-kn9vqpak4jb0: "Préparer la session"
 ---
 
 ## Objectif

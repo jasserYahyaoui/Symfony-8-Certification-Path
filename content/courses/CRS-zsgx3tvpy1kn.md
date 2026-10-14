@@ -32,6 +32,11 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "ButtonType::getParent() returns null"
     verified_at: "2026-09-25"
+outcome_sections:
+  OUT-0a3jcmk5066b: "Le catalogue"
+  OUT-41xcqcjzrmm1: "La famille des choix"
+  OUT-zq43jp3a97gg: "La famille des choix"
+  OUT-pesfrvtg5qj0: "Limites de périmètre"
 ---
 
 ## Objectif

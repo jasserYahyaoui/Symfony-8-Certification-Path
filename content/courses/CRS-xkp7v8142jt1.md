@@ -24,6 +24,10 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "configureRoute(): the class name alone for __invoke, Class::method otherwise"
     verified_at: "2026-10-08"
+outcome_sections:
+  OUT-az102q4grt31: "Les deux couches"
+  OUT-2qpbjpt6nv81: "Introspecter la Response"
+  OUT-mvr73tryph6w: "Introspecter la Request"
 ---
 ## Objectif
 

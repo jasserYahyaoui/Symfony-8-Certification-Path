@@ -47,6 +47,11 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "underscore prefix is optional"
     verified_at: "2026-09-24"
+outcome_sections:
+  OUT-2dk5sjxn9j7s: "Les deux écritures"
+  OUT-ng5q8rr0804g: "Le contexte"
+  OUT-k04wxdqz7vn1: "Quel template, et s'il manque"
+  OUT-kb1neg7efnfp: "`include` ou `embed`"
 ---
 
 ## Objectif

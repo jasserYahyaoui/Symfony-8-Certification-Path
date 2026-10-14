@@ -46,6 +46,23 @@ final class CourseUrl
         return 'courses/'.self::slug($lot).'/controle-de-comprehension';
     }
 
+    /**
+     * The anchor of a course section. The generator writes it on the heading
+     * as an explicit id, and the payloads link to it, so the two cannot
+     * disagree the way a re-implementation of Docusaurus's slugger could. The
+     * `s-` prefix keeps it clear of the ids Docusaurus derives for the
+     * headings the generator adds around the course.
+     */
+    public static function sectionAnchor(string $heading): string
+    {
+        return 's-'.self::slug(str_replace('`', '', $heading));
+    }
+
+    public static function forSection(OfficialItem $item, string $heading): string
+    {
+        return self::forItem($item).'#'.self::sectionAnchor($heading);
+    }
+
     public static function slug(string $value): string
     {
         $ascii = iconv('UTF-8', 'ASCII//TRANSLIT', $value);

@@ -963,7 +963,7 @@ Créer des cours avant l'import reviendrait à enseigner un programme deviné.
 
         $course = $this->courseFor($item->id->value, $content);
         if (null !== $course) {
-            $markdown .= "\n---\n\n".$course->body."\n";
+            $markdown .= "\n---\n\n".$this->anchoredBody($course->body)."\n";
         }
 
         // The door from the course to its questions.
@@ -1046,6 +1046,27 @@ Créer des cours avant l'import reviendrait à enseigner un programme deviné.
         }
 
         return $markdown;
+    }
+
+    /**
+     * The course body with an explicit id on each `## ` heading, the one the
+     * payloads link a wrong answer to (CourseUrl::sectionAnchor). Fenced code
+     * is left alone: a `## ` line in a fence is not a heading.
+     */
+    private function anchoredBody(string $body): string
+    {
+        $out = [];
+        $inFence = false;
+        foreach (explode("\n", $body) as $line) {
+            if (str_starts_with(ltrim($line), '```')) {
+                $inFence = !$inFence;
+            } elseif (!$inFence && 1 === preg_match('/^## (.+?)\s*$/u', $line, $m)) {
+                $line = '## '.$m[1].' {#'.CourseUrl::sectionAnchor($m[1]).'}';
+            }
+            $out[] = $line;
+        }
+
+        return implode("\n", $out);
     }
 
     private function courseFor(string $itemId, ContentSet $content): ?Course

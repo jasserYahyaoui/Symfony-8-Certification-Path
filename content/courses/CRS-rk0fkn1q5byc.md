@@ -27,6 +27,9 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "console.command.xliff_lint removed without the Translation component"
     verified_at: "2026-10-02"
+outcome_sections:
+  OUT-hf28acc5am6h: "Les familles"
+  OUT-dxyaxf4dpkqc: "L'abréviation"
 ---
 
 ## Objectif

@@ -28,6 +28,10 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "mockTime(string|\\DateTimeImmutable|bool $when = true)"
     verified_at: "2026-10-02"
+outcome_sections:
+  OUT-80sdaactjvcg: "Injecter la clock"
+  OUT-yw73vkeyaqnd: "Trois clocks, trois usages"
+  OUT-bs7xcm74q6v9: "Tester"
 ---
 
 ## Objectif

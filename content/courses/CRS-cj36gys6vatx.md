@@ -32,6 +32,11 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "convertTransformationFailureToFormError(), invalid_message"
     verified_at: "2026-09-25"
+outcome_sections:
+  OUT-3bw24kwks403: "L'interface"
+  OUT-9zzk0ptk5fj0: "Deux niveaux d'attachement"
+  OUT-hayngfr60z78: "Signaler un échec"
+  OUT-gecgdnzrpa06: "Valeurs vides"
 ---
 
 ## Objectif

@@ -27,6 +27,10 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "onLoginSuccess() — PasswordUpgradeBadge; PasswordUpgraderInterface"
     verified_at: "2026-09-30"
+outcome_sections:
+  OUT-tct5sch3yndb: "Hacher"
+  OUT-0vbk74q4f9dg: "Quels anciens hachages restent lisibles"
+  OUT-3h4gmgbt579q: "Migrer"
 ---
 
 ## Objectif

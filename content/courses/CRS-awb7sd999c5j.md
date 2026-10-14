@@ -37,6 +37,10 @@ official_sources:
     symbol_or_lines: "require: php only"
     branch: "8.0"
     verified_at: "2026-09-30"
+outcome_sections:
+  OUT-tw22dh0mnngy: "Trois composants, trois responsabilités"
+  OUT-3xr6hfb46rq2: "Pourquoi la séparation compte"
+  OUT-sk1ndg394haz: "Qui dépend de qui"
 ---
 
 ## Objectif

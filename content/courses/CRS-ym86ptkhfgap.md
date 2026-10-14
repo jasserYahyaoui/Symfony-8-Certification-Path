@@ -44,6 +44,10 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "addAssetsSection()"
     verified_at: "2026-09-24"
+outcome_sections:
+  OUT-pw46yjz3zfeh: "La function"
+  OUT-1c5dnwnne01z: "La function"
+  OUT-k668ynwpjgby: "Les packages"
 ---
 
 ## Objectif

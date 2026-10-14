@@ -32,6 +32,12 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "runWorker() on the failure transport receiver"
     verified_at: "2026-10-02"
+outcome_sections:
+  OUT-7rq6sxm6qqr3: "La stratégie de retry"
+  OUT-y57ephy9n9ey: "Court-circuiter la stratégie"
+  OUT-d866n6yn58qx: "Le transport d'échec"
+  OUT-jd6ca4q02538: "L'enchaînement complet"
+  OUT-4f772gc14626: "Le transport d'échec"
 ---
 
 ## Objectif

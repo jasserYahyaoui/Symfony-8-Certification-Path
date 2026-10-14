@@ -21,6 +21,10 @@ official_sources:
     branch: "8.0"
     commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
     verified_at: "2026-09-01"
+outcome_sections:
+  OUT-m2fxjk4j2mc1: "Ce qu'il remplace"
+  OUT-qr20ybf8za07: "Sa place"
+  OUT-jgk2rwhep0vm: "Les trois accesseurs, exactement"
 ---
 
 ## Objectif

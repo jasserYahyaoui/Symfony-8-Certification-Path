@@ -20,6 +20,10 @@ official_sources:
     repository: "symfony/symfony-docs"
     branch: "8.0"
     verified_at: "2026-09-21"
+outcome_sections:
+  OUT-qy3807tsb7qw: "La casse"
+  OUT-2njr3rsw6g05: "Préfixes et suffixes"
+  OUT-3r39kw6erehf: "Préfixes et suffixes"
 ---
 
 ## Objectif

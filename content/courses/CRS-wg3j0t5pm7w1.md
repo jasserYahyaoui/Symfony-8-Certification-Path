@@ -32,6 +32,11 @@ official_sources:
     repository: "symfony/symfony"
     branch: "8.0"
     verified_at: "2026-09-24"
+outcome_sections:
+  OUT-gxaj5vfr68nt: "Trois façons de l'écrire"
+  OUT-t3ajatgs8hh2: "Le problème qu'elle résout"
+  OUT-7hyaem7hsh5h: "Trois façons de l'écrire"
+  OUT-6m9a09sd49jg: "Deux pièges"
 ---
 
 ## Objectif

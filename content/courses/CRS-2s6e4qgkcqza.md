@@ -22,6 +22,10 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "six attribute constants"
     verified_at: "2026-09-30"
+outcome_sections:
+  OUT-nb8grypjavr8: "La règle"
+  OUT-se3aqxhdbf9t: "La hiérarchie"
+  OUT-mh5phj2ea2p7: "Les attributes qui ne sont pas des roles"
 ---
 
 ## Objectif

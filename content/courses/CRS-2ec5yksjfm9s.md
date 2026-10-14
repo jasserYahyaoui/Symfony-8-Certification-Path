@@ -22,6 +22,11 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "decide($token, $attributes, $request)"
     verified_at: "2026-10-01"
+outcome_sections:
+  OUT-4qv0jc2jpj0p: "La règle"
+  OUT-r720vgm95xv3: "La règle"
+  OUT-skkmfs49mpzn: "Ce qui fait correspondre une règle"
+  OUT-d444cz9yek59: "Ce que cela ne fait pas"
 ---
 
 ## Objectif

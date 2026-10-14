@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace CertPath\Build;
 
+use CertPath\Domain\AnswerMode;
 use CertPath\Domain\Choice;
+use CertPath\Domain\OfficialItem;
 use CertPath\Domain\Pool;
 use CertPath\Domain\Question;
 use CertPath\Support\CourseUrl;
@@ -222,12 +224,37 @@ final class PayloadBuilder
                 // so a link shipped to the learner cannot point at a route the
                 // build did not produce.
                 'course_url' => CourseUrl::forItem($item),
+                // Where each outcome is taught, so a wrong answer opens the
+                // section rather than the top of the page. SEC-001 keeps every
+                // heading named here present in the course.
+                'outcome_sections' => $this->outcomeSections($content, $item),
             ];
         }
 
         ksort($index);
 
         return $index;
+    }
+
+    /**
+     * @return array<string, array{title: string, url: string}>
+     */
+    private function outcomeSections(ContentSet $content, OfficialItem $item): array
+    {
+        $sections = [];
+        foreach ($content->courses as $course) {
+            if ($course->officialItemId !== $item->id->value) {
+                continue;
+            }
+            foreach ($course->outcomeSections as $outcome => $heading) {
+                $sections[$outcome] = [
+                    'title' => str_replace('`', '', $heading),
+                    'url' => CourseUrl::forSection($item, $heading),
+                ];
+            }
+        }
+
+        return $sections;
     }
 
     /**
@@ -373,6 +400,7 @@ final class PayloadBuilder
             'distribution_label' => 'TRAINING_DISTRIBUTION',
             'distribution_note' => 'No official weighting per topic is published. Each topic gets its share of the atomic official items.',
             'not_unseen' => 'These questions are also served by Practice Mode and Exam Mode: a score here is training, not an independent measure. Only Mock 4 is kept unseen.',
+            'answer_modes_note' => 'Single-answer questions are answered with radio buttons, multiple-answer questions with checkboxes and the number of answers expected. The official exam asks both kinds; the share of each is not published, so this series guarantees only that every exam asks both, spread evenly.',
             'scoring_policy' => 'all-or-nothing',
             'topic_spread' => $spread,
             'exams' => $exams,
@@ -444,38 +472,60 @@ final class PayloadBuilder
 
         $ids = array_fill(0, $size, []);
         $itemsUsed = array_fill(0, $size, []);
+        $multiple = array_fill(0, $size, 0);
+        $taken = [];
+        $pools = [];
         foreach ($spread as $topic => $wanted) {
             $pool = $byTopic[$topic] ?? [];
             usort($pool, static fn (Question $a, Question $b): int => [$rank[$a->difficulty] ?? 1, sha1($a->id->value)] <=> [$rank[$b->difficulty] ?? 1, sha1($b->id->value)]);
-            $taken = array_fill(0, $size, 0);
-            foreach ($pool as $q) {
-                $best = null;
-                for ($e = 0; $e < $size; ++$e) {
-                    if ($taken[$e] >= $wanted || isset($itemsUsed[$e][$q->officialItemId])) {
+            $pools[$topic] = $pool;
+            $taken[$topic] = array_fill(0, $size, 0);
+        }
+
+        // Two passes. The multiple-answer questions are dealt first, each to the
+        // exam holding the fewest of them, so that every exam asks both kinds the
+        // official exam asks — single answer and several answers — instead of
+        // the few multiple-answer questions gathering in the first exams.
+        foreach ([true, false] as $multiplePass) {
+            foreach ($spread as $topic => $wanted) {
+                foreach ($pools[$topic] as $q) {
+                    if ((AnswerMode::Multiple === $q->answerMode) !== $multiplePass) {
                         continue;
                     }
-                    if (null === $best || $taken[$e] < $taken[$best]) {
-                        $best = $e;
+                    $best = null;
+                    for ($e = 0; $e < $size; ++$e) {
+                        if ($taken[$topic][$e] >= $wanted || isset($itemsUsed[$e][$q->officialItemId])) {
+                            continue;
+                        }
+                        $key = $multiplePass ? [$multiple[$e], $taken[$topic][$e]] : [$taken[$topic][$e]];
+                        if (null === $best || $key < $bestKey) {
+                            $best = $e;
+                            $bestKey = $key;
+                        }
                     }
+                    if (null === $best) {
+                        continue;
+                    }
+                    $ids[$best][] = $q->id->value;
+                    $itemsUsed[$best][$q->officialItemId] = true;
+                    ++$taken[$topic][$best];
+                    $multiple[$best] += $multiplePass ? 1 : 0;
                 }
-                if (null === $best) {
-                    continue;
-                }
-                $ids[$best][] = $q->id->value;
-                $itemsUsed[$best][$q->officialItemId] = true;
-                ++$taken[$best];
             }
-            if (min($taken) < $wanted) {
+        }
+
+        foreach ($spread as $topic => $wanted) {
+            if (min($taken[$topic]) < $wanted) {
                 throw new \RuntimeException(\sprintf(
                     'Topic "%s" cannot give %d questions to each of %d disjoint exams: it has %d eligible questions.',
-                    $topic, $wanted, $size, \count($pool),
+                    $topic, $wanted, $size, \count($pools[$topic]),
                 ));
             }
         }
 
         $exams = [];
         foreach ($ids as $e => $list) {
-            $exams[] = ['number' => $e + 1, 'question_ids' => $list];
+            $exams[] = ['number' => $e + 1, 'question_ids' => $list, 'multiple_answer_count' => $multiple[$e]];
         }
 
         return $exams;
@@ -493,6 +543,7 @@ final class PayloadBuilder
             $byId[$q['id']] = $q;
         }
         $seen = [];
+        $counts = [];
         foreach ($payload['exams'] as $exam) {
             $ids = $exam['question_ids'];
             if (\count($ids) !== $payload['question_count']) {
@@ -519,6 +570,15 @@ final class PayloadBuilder
             if ($topics !== $payload['topic_spread']) {
                 throw new \LogicException(\sprintf('Exam %d does not follow the topic spread.', $exam['number']));
             }
+            $counts[$exam['number']] = \count(array_filter($ids, static fn (string $id): bool => 'multiple' === $byId[$id]['answer_mode']));
+            if ($counts[$exam['number']] !== ($exam['multiple_answer_count'] ?? null)) {
+                throw new \LogicException(\sprintf('Exam %d misstates its number of multiple-answer questions.', $exam['number']));
+            }
+        }
+        // Both kinds of question in every exam, spread evenly: the menu states
+        // it, and a series where one exam has none would not be the format.
+        if ([] !== $counts && (min($counts) < 1 || max($counts) - min($counts) > 1)) {
+            throw new \LogicException(\sprintf('The multiple-answer questions are not spread over every exam (%s).', implode(', ', $counts)));
         }
         self::assertNoHoldoutLeak($payload, $content);
     }
@@ -945,6 +1005,9 @@ final class PayloadBuilder
                 $question->choices,
             ),
             'explanation' => $question->explanation,
+            // Outcome ids, not text: the page looks each one up in the item
+            // index to find the course section that teaches it.
+            'assesses_outcomes' => $question->assessesOutcomes,
             'official_sources' => array_map(
                 // Both spellings travel: `url` is what the claim was verified
                 // against, `readable_url` is what a learner opens. A payload

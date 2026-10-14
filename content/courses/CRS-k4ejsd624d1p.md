@@ -26,6 +26,11 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "findAndSortTaggedServices(), AsTaggedItem only with a default priority method"
     verified_at: "2026-09-29"
+outcome_sections:
+  OUT-9f0hg26eqmze: "Le principe"
+  OUT-htzhn298zev4: "La seule method obligatoire"
+  OUT-9d91memjprhk: "Qui est touché, et quand"
+  OUT-j3nk4sk7h02m: "L'enregistrement"
 ---
 
 ## Objectif

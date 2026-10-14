@@ -26,6 +26,12 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "FormRenderer::searchAndRenderBlock()"
     verified_at: "2026-09-25"
+outcome_sections:
+  OUT-tdmyt1j1t4xx: "La chaîne de recherche"
+  OUT-zphxh7z24zht: "La chaîne de recherche"
+  OUT-ak7tm95dph6x: "Les parties d'un field"
+  OUT-n3gb1pbjv5sn: "Où appliquer un thème"
+  OUT-yz2mbwg9ee93: "Trois exemples documentés qui échouent"
 ---
 
 ## Objectif
