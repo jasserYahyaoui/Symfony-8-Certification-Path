@@ -36,16 +36,16 @@ official_sources:
 
 ## Objectif
 
-Contraindre la valeur d'un paramètre de route, et savoir quand cette contrainte
+Contraindre la valeur d'un parameter de route, et savoir quand cette constraint
 s'applique.
 
 ## Le problème qu'elle résout
 
-`/blog/{page}` et `/blog/{slug}` sont indiscernables : un paramètre accepte
-n'importe quelle valeur. Sans contrainte, `/blog/mon-article` correspond aux
+`/blog/{page}` et `/blog/{slug}` sont indiscernables : un parameter accepte
+n'importe quelle valeur. Sans constraint, `/blog/mon-article` correspond aux
 deux, et c'est la **première route déclarée** qui gagne.
 
-`requirements` associe à chaque paramètre une **expression régulière PHP** que
+`requirements` associe à chaque parameter une **expression régulière PHP** que
 la valeur doit vérifier pour que la route entière corresponde :
 
 ```php
@@ -60,15 +60,15 @@ quel que soit l'ordre de déclaration.
 | Forme | Exemple |
 |---|---|
 | option `requirements` | `requirements: ['page' => '[0-9]+']` |
-| inline dans le chemin | `/blog/{page<[0-9]+>}` |
-| constante de l'énumération | `requirements: ['page' => Requirement::DIGITS]` |
+| inline dans le path | `/blog/{page<[0-9]+>}` |
+| constante de l'enum | `requirements: ['page' => Requirement::DIGITS]` |
 
-L'énumération `Symfony\Component\Routing\Requirement\Requirement` rassemble les
+L'enum `Symfony\Component\Routing\Requirement\Requirement` rassemble les
 expressions courantes — chiffres, dates, UUID — et évite de réécrire des
 expressions régulières fragiles. En YAML elle s'utilise avec `!php/const`.
 
-C'est une énumération **sans aucun cas** : elle ne sert qu'à porter des
-constantes, qui sont de simples chaînes. Deux d'entre elles se confondent :
+C'est une enum **sans aucun cas** : elle ne sert qu'à porter des
+constantes, qui sont de simples strings. Deux d'entre elles se confondent :
 
 | Constante | Expression | Accepte `0` ? |
 |---|---|---|
@@ -82,26 +82,26 @@ complexe ; c'est un arbitrage, pas une règle.
 
 ## Ce qui est autorisé
 
-Une contrainte peut contenir un **paramètre de configuration**, ce qui permet de
+Une constraint peut contenir un **parameter de configuration**, ce qui permet de
 définir une expression compliquée une fois et de la réutiliser. Elle accepte
-aussi les **propriétés Unicode PCRE** : `\p{Lu}` correspond à toute majuscule,
+aussi les **properties Unicode PCRE** : `\p{Lu}` correspond à toute majuscule,
 dans n'importe quelle langue.
 
 ## Deux pièges
 
-Une valeur par défaut **n'est pas tenue** de satisfaire la contrainte. La
-documentation le dit explicitement. La contrainte filtre l'URL entrante ; la
-valeur par défaut, elle, n'est pas dans l'URL.
+Une default value **n'est pas tenue** de satisfaire la constraint. La
+documentation le dit explicitement. La constraint filter l'URL entrante ; la
+default value, elle, n'est pas dans l'URL.
 
-### La contrainte s'applique aussi en génération
+### La constraint s'applique aussi en génération
 
-Le générateur relit chaque contrainte avant de produire l'URL. Ce qu'il fait
+Le générateur relit chaque constraint avant de produire l'URL. Ce qu'il fait
 d'une valeur non conforme dépend de l'option `framework.router.strict_requirements` :
 
 | Valeur | Effet d'une valeur non conforme |
 |---|---|
 | `true` — **défaut** | `InvalidParameterException` : « Parameter "page" for route "blog_list" must match… » |
-| `false` | erreur journalisée, et le générateur rend une **chaîne vide** |
+| `false` | erreur journalisée, et le générateur rend une **string vide** |
 | `null` | aucune vérification |
 
 Le texte d'aide de l'option annonce `null` pour le cas `false` ; le code de la
@@ -110,25 +110,25 @@ branche 8.0 retourne `''`. La même aide suggère `true` en développement,
 
 ## Pièges d'examen
 
-**Sans contrainte, deux routes de même forme sont départagées par l'ordre de
-déclaration**, pas par ce qui « ressemble » le plus. Contraindre le paramètre
+**Sans constraint, deux routes de même forme sont départagées par l'ordre de
+déclaration**, pas par ce qui « ressemble » le plus. Contraindre le parameter
 rend l'ordre indifférent — c'est le vrai service rendu.
 
-**Une contrainte est une expression régulière PHP**, avec ce que cela implique :
-les propriétés Unicode fonctionnent, et une expression fragile passe sans que
+**Une constraint est une expression régulière PHP**, avec ce que cela implique :
+les properties Unicode fonctionnent, et une expression fragile passe sans que
 rien ne prévienne.
 
-**La contrainte vaut aussi à la génération.** Générer `blog_list` avec
+**La constraint vaut aussi à la génération.** Générer `blog_list` avec
 `page: 'abc'` lève une exception par défaut.
 
 ## Points clés
 
 - `requirements` = expression régulière PHP ; toute la route échoue si elle n'est
   pas vérifiée.
-- Trois écritures : option, inline `{p<regex>}`, énumération `Requirement`.
-- Une contrainte peut contenir un paramètre de configuration.
-- La valeur par défaut peut ne pas respecter la contrainte.
-- Le générateur vérifie la contrainte : exception par défaut
+- Trois écritures : option, inline `{p<regex>}`, enum `Requirement`.
+- Une constraint peut contenir un parameter de configuration.
+- La default value peut ne pas respecter la constraint.
+- Le générateur vérifie la constraint : exception par défaut
   (`strict_requirements: true`).
 - `DIGITS` accepte `0` ; `POSITIVE_INT` non.
 

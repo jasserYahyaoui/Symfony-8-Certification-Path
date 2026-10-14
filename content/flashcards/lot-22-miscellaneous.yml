@@ -14,7 +14,7 @@ flashcards:
   back: 'Parce qu''il peut différer l''envoi : avec Messenger, il distribue un SendEmailMessage, que le bus ne diffère
     que s''il est routé vers un transport asynchrone. C''est TransportInterface::send() qui rend un SentMessage, et
     lui envoie toujours de façon synchrone.'
-  explanation: Passer d'une interface à l'autre est la manière documentée d'obtenir les informations de débogage
+  explanation: Passer d'une interface à l'autre est la manière documentée d'obtenir les informations de debug
     d'un envoi.
   memorization_justification: Un envoi qui ne rend rien passe pour un oubli d'API ; c'est en réalité la trace d'un
     envoi différé, et la distinction ne se retient pas à la lecture.
@@ -30,11 +30,11 @@ flashcards:
   official_item: OIT-9xdjjsqcbn13
   language: fr
   level: RECALL
-  front: Dans un conteneur multipart/alternative, où se place la version préférée ?
-  back: En dernier. Les parties d'un conteneur alternative sont des variantes du même contenu, et la forme préférée
+  front: Dans un container multipart/alternative, où se place la version préférée ?
+  back: En dernier. Les parties d'un container alternative sont des variantes du même contenu, et la forme préférée
     doit être ajoutée en dernière position.
   explanation: C'est ce qui décide de la version qu'un client affiche quand texte et HTML sont tous deux présents.
-  memorization_justification: 'La position encode la préférence : rien dans le nom du conteneur ne le rappelle,
+  memorization_justification: 'La position encode la préférence : rien dans le nom du container ne le rappelle,
     et l''ordre paraît arbitraire.'
   verification_status: VERIFIED
   reviewed_at: '2026-09-02'
@@ -50,7 +50,7 @@ flashcards:
   level: RECALL
   front: 'Symfony Mailer : quels sont les trois protocoles de transport intégrés ?'
   back: '`smtp`, `sendmail` et `native`.'
-  explanation: Tableau *Using Built-in Transports*, branche 8.0 ; les ponts vers des services tiers sont hors programme.
+  explanation: Array *Using Built-in Transports*, branche 8.0 ; les ponts vers des services tiers sont hors programme.
   memorization_justification: Inventaire des transports.
   verification_status: VERIFIED
   official_sources:
@@ -86,8 +86,8 @@ flashcards:
   official_item: OIT-j4vpn5bh9f27
   language: fr
   level: RECALL
-  front: 'Symfony Mailer : quel événement permet d''empêcher l''envoi d''un message ?'
-  back: '`MessageEvent`, par sa méthode `reject()`.'
+  front: 'Symfony Mailer : quel event permet d''empêcher l''envoi d''un message ?'
+  back: '`MessageEvent`, par sa method `reject()`.'
   explanation: 'Lu dans `MessageEvent::reject()` (8.0) : elle marque le message rejeté et arrête la propagation.'
   memorization_justification: Annuler un envoi.
   verification_status: VERIFIED
@@ -109,7 +109,7 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony Mailer : pourquoi la documentation déconseille-t-elle native://default ?'
-  back: 'Parce que la configuration de `sendmail` vient de `php.ini` et échappe à l''application : avec `sendmail -t`, ni remontée d''erreur ni retrait des en-têtes `Bcc`.'
+  back: 'Parce que la configuration de `sendmail` vient de `php.ini` et échappe à l''application : avec `sendmail -t`, ni remontée d''erreur ni retrait des headers `Bcc`.'
   explanation: Avertissement de *Using Built-in Transports*, branche 8.0, qui recommande `sendmail://default`.
   memorization_justification: Risque du transport native.
   verification_status: VERIFIED
@@ -142,7 +142,7 @@ flashcards:
   level: APPLICATION
   front: 'Symfony Mailer : envoyer un message par le transport nommé alternative plutôt que par le défaut.'
   back: '`$email->getHeaders()->addTextHeader(''X-Transport'', ''alternative'');` puis `$mailer->send($email);`'
-  explanation: Section *Multiple Email Transports*, branche 8.0 ; Mailer retire l'en-tête du message final.
+  explanation: Section *Multiple Email Transports*, branche 8.0 ; Mailer retire le header du message final.
   memorization_justification: Choisir un transport.
   verification_status: VERIFIED
   official_sources:
@@ -156,10 +156,10 @@ flashcards:
   official_item: OIT-j4vpn5bh9f27
   language: fr
   level: APPLICATION
-  front: 'Symfony Mailer : obtenir les informations de débogage d''un envoi réussi.'
+  front: 'Symfony Mailer : obtenir les informations de debug d''un envoi réussi.'
   back: 'Injecter `TransportInterface` : `$sentMessage = $transport->send($email);` puis `$sentMessage->getDebug()`.'
   explanation: 'Section *Debugging Emails*, branche 8.0 : `MailerInterface::send()` ne rend rien.'
-  memorization_justification: Accès au débogage.
+  memorization_justification: Accès au debug.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/mailer.rst
@@ -220,10 +220,10 @@ flashcards:
   official_item: OIT-9xdjjsqcbn13
   language: fr
   level: RECALL
-  front: 'Symfony Mime : quel conteneur regroupe des parties qui forment un tout, comme des images intégrées ?'
+  front: 'Symfony Mime : quel container regroupe des parties qui forment un tout, comme des images intégrées ?'
   back: '`multipart/related`.'
   explanation: 'Section *Creating Raw Email Messages*, branche 8.0 : `alternative` pour des variantes, `mixed` pour des natures différentes.'
-  memorization_justification: Rôle de related.
+  memorization_justification: Role de related.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/mime.rst
@@ -236,7 +236,7 @@ flashcards:
   official_item: OIT-9xdjjsqcbn13
   language: fr
   level: RECALL
-  front: 'Symfony Mime : quelle classe reconstruit un message sérialisé ?'
+  front: 'Symfony Mime : quelle class reconstruit un message sérialisé ?'
   back: '`RawMessage` : `new RawMessage(unserialize($serializedEmail))`.'
   explanation: Section *Serializing Email Messages*, branche 8.0.
   memorization_justification: Désérialisation.
@@ -269,7 +269,7 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony Mime : pourquoi un Email qui ne porte que du texte n''est-il pas multipart ?'
-  back: 'Parce qu''`Email` ne crée un conteneur que s''il en faut un : texte seul donne `text/plain`, texte et HTML `multipart/alternative`.'
+  back: 'Parce qu''`Email` ne crée un container que s''il en faut un : texte seul donne `text/plain`, texte et HTML `multipart/alternative`.'
   explanation: Exécuté sur Mime 8.0.15 ; une pièce jointe ajoutée au texte donne `multipart/mixed`.
   memorization_justification: Structure à la demande.
   verification_status: VERIFIED
@@ -285,7 +285,7 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony Mime : pourquoi guessMimeType() reconnaît-il un PNG nommé .txt ?'
-  back: Parce qu'il inspecte le contenu du fichier, pas son nom.
+  back: Parce qu'il inspecte le contenu du file, pas son nom.
   explanation: Exécuté sur Mime 8.0.15 ; la documentation recommande l'extension `fileinfo` pour accélérer la devinette.
   memorization_justification: Contenu contre nom.
   verification_status: VERIFIED
@@ -339,7 +339,7 @@ flashcards:
   language: fr
   level: TRAP
   front: 'Symfony Mime : les destinataires Bcc figurent-ils dans les octets du message envoyé ?'
-  back: 'Non : l''en-tête `Bcc` est retiré des en-têtes préparés ; les destinataires restent dans l''enveloppe.'
+  back: 'Non : le header `Bcc` est retiré des headers préparés ; les destinataires restent dans l''enveloppe.'
   explanation: 'Lu dans `Message::getPreparedHeaders()` (8.0) et exécuté : aucun `Bcc` dans les octets, deux destinataires dans l''enveloppe.'
   memorization_justification: Bcc et enveloppe.
   verification_status: VERIFIED

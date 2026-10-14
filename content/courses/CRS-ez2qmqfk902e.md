@@ -37,7 +37,7 @@ official_sources:
 
 ## Objectif
 
-Émettre une requête sortante avec `HttpClientInterface` et comprendre **quand**
+Émettre une Request sortante avec `HttpClientInterface` et comprendre **quand**
 elle s'exécute réellement — c'est tout l'enjeu de cet item.
 
 ## L'interface
@@ -48,13 +48,13 @@ public function stream(ResponseInterface|iterable $responses, ?float $timeout = 
 public function withOptions(array $options): static;
 ```
 
-Trois méthodes, injectées par autowiring via `HttpClientInterface`.
+Trois methods, injectées par autowiring via `HttpClientInterface`.
 
-## Le point central : les réponses sont paresseuses
+## Le point central : les Responses sont paresseuses
 
 **Le client est asynchrone par défaut.** `request()` rend la main
-immédiatement, avant que la réponse ne soit arrivée. Rien n'est attendu tant
-qu'on ne consulte pas la réponse :
+immédiatement, avant que la Response ne soit arrivée. Rien n'est attendu tant
+qu'on ne consulte pas la Response :
 
 ```php
 $response = $client->request('GET', 'https://example.com/api');  // ne bloque pas
@@ -64,7 +64,7 @@ $content = $response->getContent();     // ou ici
 $data    = $response->toArray();        // ou ici
 ```
 
-C'est ce qui rend le parallélisme gratuit : lancer les requêtes d'abord, les
+C'est ce qui rend le parallélisme gratuit : lancer les Requests d'abord, les
 lire ensuite.
 
 ```php
@@ -80,10 +80,10 @@ foreach ($client->stream($responses) as $response => $chunk) {
 }
 ```
 
-Inverser l'ordre — lire chaque réponse dans la même boucle qui l'émet — rend
+Inverser l'ordre — lire chaque Response dans la même boucle qui l'émet — rend
 l'ensemble séquentiel, sans aucune erreur visible.
 
-## La réponse
+## La Response
 
 ```php
 $response->getStatusCode();
@@ -95,7 +95,7 @@ $response->cancel();
 ```
 
 `getHeaders()`, `getContent()` et `toArray()` **lèvent** par défaut sur un
-statut non réussi ; leur paramètre `$throw = false` le désactive.
+statut non réussi ; leur parameter `$throw = false` le désactive.
 **`getStatusCode()` ne lève pas** : sa signature ne porte aucun `$throw` et son
 contrat ne déclare qu'une `TransportExceptionInterface` en cas d'erreur réseau.
 C'est donc l'appel par lequel on inspecte un 404 sans rien attraper.
@@ -116,7 +116,7 @@ ExceptionInterface
 ```
 
 La ligne de partage est `HttpExceptionInterface` : elle seule expose
-`getResponse()`, parce qu'elle seule a une réponse à montrer. Un échec de
+`getResponse()`, parce qu'elle seule a une Response à montrer. Un échec de
 transport n'en a aucune.
 
 ```php
@@ -146,7 +146,7 @@ $client->request('POST', $url, [
 
 `json` et `body` sont exclusifs. Les **clients scopés** appliquent
 automatiquement des options aux URL correspondant à un motif, ce qui évite de
-répéter une base URL et un jeton.
+répéter une base URL et un token.
 
 ## Tests
 
@@ -156,15 +156,15 @@ répéter une base URL et un jeton.
 $client = new MockHttpClient(new MockResponse('{"ok":true}'));
 ```
 
-`timeout` est le délai **d'inactivité**, pas la durée totale : une requête qui
+`timeout` est le délai **d'inactivité**, pas la durée totale : une Request qui
 progresse lentement ne l'atteint jamais. La durée totale s'écrit
 `max_duration`, qui vaut `0` — illimité — par défaut. Le client suit par
-ailleurs les redirections, jusqu'à `max_redirects`, qui vaut `20`.
+ailleurs les redirects, jusqu'à `max_redirects`, qui vaut `20`.
 
 ## Pièges d'examen
 
 **`request()` ne déclenche pas l'attente.** L'erreur classique est de croire
-que la requête est terminée à son retour.
+que la Request est terminée à son retour.
 
 **Lire dans la boucle d'émission supprime le parallélisme.** Le code
 fonctionne, il est juste séquentiel.
@@ -172,12 +172,12 @@ fonctionne, il est juste séquentiel.
 **`getContent()` lève sur 404.** Il faut `getContent(false)` pour inspecter le
 corps d'une erreur.
 
-**`toArray()` n'est pas `json_decode()`** : il lève si la réponse n'est pas du
+**`toArray()` n'est pas `json_decode()`** : il lève si la Response n'est pas du
 JSON valide — et l'exception est une `DecodingExceptionInterface`, pas une
 `ClientExceptionInterface`.
 
 **Seule `HttpExceptionInterface` porte `getResponse()`.** Sur une panne réseau
-il n'y a pas de réponse à inspecter ; chercher `getResponse()` sur une
+il n'y a pas de Response à inspecter ; chercher `getResponse()` sur une
 `TransportExceptionInterface` est l'erreur attendue.
 
 ## Tips d'examen
@@ -187,28 +187,28 @@ il n'y a pas de réponse à inspecter ; chercher `getResponse()` sur une
 `HttpExceptionInterface`, la seule qui porte `getResponse()`.
 
 **`$throw = false` ne désactive que le statut.** Un `toArray(false)` lève encore
-sur un corps indécodable, et une panne réseau lève toujours.
+sur un body indécodable, et une panne réseau lève toujours.
 
 **Deux zéros, deux sens.** `max_duration = 0` veut dire illimité ;
-`max_redirects = 0` veut dire aucune redirection suivie.
+`max_redirects = 0` veut dire aucune redirect suivi.
 
 **`timeout` est l'inactivité, pas la durée totale.**
 
 ## Points clés
 
 - `request()` est asynchrone ; l'attente survient à la première lecture.
-- Émettre toutes les requêtes, puis lire — sinon pas de parallélisme.
+- Émettre toutes les Requests, puis lire — sinon pas de parallélisme.
 - Les accesseurs lèvent sur statut d'erreur, sauf avec `false`.
 - `MockHttpClient` pour tester sans réseau.
 - Deux branches d'exceptions : transport (rien n'est arrivé) et HTTP (une
-  réponse est là) ; seule la seconde expose `getResponse()`.
+  Response est là) ; seule la seconde expose `getResponse()`.
 
 ## Aller lire la source
 
-- [Composant HttpClient](https://github.com/symfony/symfony-docs/blob/8.0/http_client.rst) — *Processing Responses*, requêtes asynchrones
+- [Composant HttpClient](https://github.com/symfony/symfony-docs/blob/8.0/http_client.rst) — *Processing Responses*, Requests asynchrones
 - [`HttpClientInterface`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/HttpClient/HttpClientInterface.php) — `request()`, `stream()`,
   `withOptions()` (branche 8.0, `6f841c0`)
 - [`HttpExceptionInterface`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/HttpClient/Exception/HttpExceptionInterface.php) — `getResponse()`, et les interfaces
-  voisines du même répertoire `Exception/` (branche 8.0)
+  voisines du même directory `Exception/` (branche 8.0)
 - [`ResponseInterface`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/HttpClient/ResponseInterface.php) — les `@throws` de `getStatusCode()`,
   `getHeaders()`, `getContent()` et `toArray()` (branche 8.0)

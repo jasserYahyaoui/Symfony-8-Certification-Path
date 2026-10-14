@@ -11,11 +11,11 @@ flashcards:
   language: fr
   level: RECALL
   front: Que font --no-dev et --optimize-autoloader dans composer install ?
-  back: --no-dev n'installe pas les paquets de développement ; --optimize-autoloader construit une class map qui
+  back: --no-dev n'installe pas les packages de développement ; --optimize-autoloader construit une class map qui
     accélère nettement l'autochargeur.
   explanation: 'Deux besoins distincts : ne pas embarquer le superflu, et charger plus vite. L''un n''implique pas
     l''autre.'
-  memorization_justification: Les deux drapeaux voyagent ensemble dans la commande, ce qui fait croire à un seul
+  memorization_justification: Les deux drapeaux voyagent ensemble dans la command, ce qui fait croire à un seul
     effet.
   verification_status: VERIFIED
   official_sources:
@@ -28,10 +28,10 @@ flashcards:
   official_item: OIT-d1qsxrtv25kk
   language: fr
   level: APPLICATION
-  front: Une réponse JSON n'affiche aucune barre de débogage. Comment atteindre son profil ?
-  back: Par l'en-tête X-Debug-Token-Link, qui porte l'URL du profil — ou X-Debug-Token puis /_profiler. La barre
-    n'est injectée que dans les réponses HTML.
-  explanation: Le profileur a bien collecté ; c'est seulement l'affichage qui manque.
+  front: Une Response JSON n'affiche aucune debug toolbar. Comment atteindre son profil ?
+  back: Par le header X-Debug-Token-Link, qui porte l'URL du profil — ou X-Debug-Token puis /_profiler. La barre
+    n'est injectée que dans les Responses HTML.
+  explanation: Le profiler a bien collecté ; c'est seulement l'affichage qui manque.
   memorization_justification: L'absence de barre se lit comme une absence de profil, alors que les deux sont indépendants.
   verification_status: VERIFIED
   official_sources:
@@ -44,10 +44,10 @@ flashcards:
   official_item: OIT-6xqn9ybksrbr
   language: fr
   level: RECALL
-  front: 'Symfony : quelle commande vide le cache de production ?'
+  front: 'Symfony : quelle command vide le cache de production ?'
   back: '`APP_ENV=prod APP_DEBUG=0 php bin/console cache:clear`.'
-  explanation: 'Le cache dépend de l''environnement : les variables sont posées sur la commande.'
-  memorization_justification: Commande exacte.
+  explanation: 'Le cache dépend de l''environment : les variables sont posées sur la command.'
+  memorization_justification: Command exacte.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/deployment.rst
@@ -61,7 +61,7 @@ flashcards:
   language: fr
   level: RECALL
   front: 'Symfony : que génère composer dump-env prod --empty ?'
-  back: Un `.env.local.php` de même structure, sans valeurs, pour ne dépendre que des vraies variables d'environnement.
+  back: Un `.env.local.php` de même structure, sans valeurs, pour ne dépendre que des vraies variables d'environment.
   explanation: '*How to Deploy a Symfony Application*, branche 8.0.'
   memorization_justification: Option --empty.
   verification_status: VERIFIED
@@ -79,7 +79,7 @@ flashcards:
   front: 'Symfony : pourquoi un dump() oublié ne devient-il pas fatal avec --no-dev ?'
   back: 'Parce que VarDumper est exigé par ErrorHandler, lui-même exigé par FrameworkBundle : il reste installé.'
   explanation: Lu dans les `composer.json` 8.0 ; exécuté sur la page *Code debugging*.
-  memorization_justification: Dépendance transitive.
+  memorization_justification: Dependency transitive.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/ErrorHandler/composer.json
@@ -95,7 +95,7 @@ flashcards:
   front: 'Symfony : pourquoi exporter APP_ENV=prod quand composer install échoue sur « class not found » ?'
   back: Pour que les scripts `post-install-cmd` s'exécutent en `prod`, sans les classes de développement absentes.
   explanation: Avertissement de `deployment.rst`, branche 8.0.
-  memorization_justification: Environnement des scripts Composer.
+  memorization_justification: Environment des scripts Composer.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/deployment.rst
@@ -109,9 +109,9 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony : pourquoi les migrations précèdent-elles le vidage du cache ?'
-  back: Pour que le cache soit reconstruit contre le code, les dépendances et les données déjà à jour.
+  back: Pour que le cache soit reconstruit contre le code, les dependencies et les données déjà à jour.
   explanation: Ordre des quatre étapes de la documentation.
-  memorization_justification: Ordre de déploiement.
+  memorization_justification: Ordre de deployment.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/deployment.rst
@@ -124,10 +124,10 @@ flashcards:
   official_item: OIT-6xqn9ybksrbr
   language: fr
   level: APPLICATION
-  front: 'Symfony : installer les dépendances en production.'
+  front: 'Symfony : installer les dependencies en production.'
   back: '`composer install --no-dev --optimize-autoloader`.'
   explanation: '*Install/Update your Vendors*, branche 8.0.'
-  memorization_justification: Commande d'installation.
+  memorization_justification: Command d'installation.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/deployment.rst
@@ -142,7 +142,7 @@ flashcards:
   level: APPLICATION
   front: 'Symfony : déployer sans composer.json sur le serveur.'
   back: Redéfinir `Kernel::getProjectDir()` pour rendre la racine du projet.
-  explanation: Sans cela, le répertoire du noyau est rendu.
+  explanation: Sans cela, le directory du kernel est rendu.
   memorization_justification: Racine du projet.
   verification_status: VERIFIED
   official_sources:
@@ -163,7 +163,7 @@ flashcards:
   language: fr
   level: TRAP
   front: 'Symfony : getProjectDir() lève-t-il une erreur quand aucun composer.json n''est trouvé ?'
-  back: 'Non : il rend silencieusement le répertoire de la classe noyau, par exemple `src/`.'
+  back: 'Non : il rend silencieusement le directory de la class kernel, par exemple `src/`.'
   explanation: 'Exécuté : `app/src` sans `composer.json`, `app` avec.'
   memorization_justification: Repli silencieux.
   verification_status: VERIFIED
@@ -178,10 +178,10 @@ flashcards:
   official_item: OIT-6xqn9ybksrbr
   language: fr
   level: TRAP
-  front: 'Symfony : vider le cache sans APP_ENV dans un script de déploiement suffit-il ?'
-  back: 'Non : la commande vide le cache de l''environnement courant, pas celui de `prod`.'
-  explanation: La documentation pose `APP_ENV=prod APP_DEBUG=0` sur la commande.
-  memorization_justification: Cache par environnement.
+  front: 'Symfony : vider le cache sans APP_ENV dans un script de deployment suffit-il ?'
+  back: 'Non : la command vide le cache de l''environment courant, pas celui de `prod`.'
+  explanation: La documentation pose `APP_ENV=prod APP_DEBUG=0` sur la command.
+  memorization_justification: Cache par environment.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/deployment.rst
@@ -194,7 +194,7 @@ flashcards:
   official_item: OIT-6xqn9ybksrbr
   language: fr
   level: TRAP
-  front: 'Symfony : la documentation prescrit-elle un outil de déploiement ?'
+  front: 'Symfony : la documentation prescrit-elle un outil de deployment ?'
   back: 'Non : elle énumère les étapes ; FTP, dépôt, PaaS ou script sont cités.'
   explanation: '*How to Deploy a Symfony Application*, branche 8.0.'
   memorization_justification: Aucun outil imposé.
@@ -210,10 +210,10 @@ flashcards:
   official_item: OIT-d1qsxrtv25kk
   language: fr
   level: RECALL
-  front: 'Symfony : quels en-têtes de réponse donnent accès au profil d''une requête ?'
-  back: '`X-Debug-Token`, le jeton, et `X-Debug-Token-Link`, l''URL du profil.'
-  explanation: 'Exécuté : présents sur HTML, JSON, redirection et XHR.'
-  memorization_justification: En-têtes du profil.
+  front: 'Symfony : quels headers de Response donnent accès au profil d''une Request ?'
+  back: '`X-Debug-Token`, le token, et `X-Debug-Token-Link`, l''URL du profil.'
+  explanation: 'Exécuté : présents sur HTML, JSON, redirect et XHR.'
+  memorization_justification: Headers du profil.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/profiler.rst
@@ -232,10 +232,10 @@ flashcards:
   official_item: OIT-d1qsxrtv25kk
   language: fr
   level: RECALL
-  front: 'Symfony : quelle commande liste les collecteurs de données actifs ?'
+  front: 'Symfony : quelle command liste les data collectors actifs ?'
   back: '`php bin/console debug:container --tag=data_collector`.'
   explanation: Documentation *Profiler*, branche 8.0.
-  memorization_justification: Lister les collecteurs.
+  memorization_justification: Lister les collectors.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/profiler.rst
@@ -248,7 +248,7 @@ flashcards:
   official_item: OIT-d1qsxrtv25kk
   language: fr
   level: RECALL
-  front: 'Symfony : sur quel événement collect() est-il appelé, et lateCollect() ?'
+  front: 'Symfony : sur quel event collect() est-il appelé, et lateCollect() ?'
   back: '`collect()` sur `kernel.response` ; `lateCollect()` sur `kernel.terminate`, avant l''écriture du profil.'
   explanation: Lu dans `ProfilerListener` (8.0).
   memorization_justification: Moment de la collecte.
@@ -264,8 +264,8 @@ flashcards:
   official_item: OIT-d1qsxrtv25kk
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi la barre n''apparaît-elle pas sur une page HTML sans balise </body> ?'
-  back: 'Parce qu''elle est insérée juste avant `</body>` : sans cette balise, il n''y a pas d''endroit où l''injecter.'
+  front: 'Symfony : pourquoi la barre n''apparaît-elle pas sur une page HTML sans tag </body> ?'
+  back: 'Parce qu''elle est insérée juste avant `</body>` : sans ce tag, il n''y a pas d''endroit où l''injecter.'
   explanation: Exécuté ; lu dans `WebDebugToolbarListener::injectToolbar()`.
   memorization_justification: Point d'injection.
   verification_status: VERIFIED
@@ -297,9 +297,9 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony : pourquoi mesurer dans collect() ne marche-t-il pas ?'
-  back: 'Parce que `collect()` est appelée une fois, sur `kernel.response` : elle ramasse ce qu''un service a mesuré pendant la requête.'
+  back: 'Parce que `collect()` est appelée une fois, sur `kernel.response` : elle ramasse ce qu''un service a mesuré pendant la Request.'
   explanation: Documentation *Creating a Data Collector*, branche 8.0.
-  memorization_justification: Rôle de collect().
+  memorization_justification: Role de collect().
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/profiler.rst
@@ -318,8 +318,8 @@ flashcards:
   official_item: OIT-d1qsxrtv25kk
   language: fr
   level: APPLICATION
-  front: 'Symfony : charger dans un test le profil d''une réponse.'
-  back: '`$profiler->loadProfileFromResponse($response)`, ou `loadProfile()` avec le jeton `X-Debug-Token`.'
+  front: 'Symfony : charger dans un test le profil d''une Response.'
+  back: '`$profiler->loadProfileFromResponse($response)`, ou `loadProfile()` avec le token `X-Debug-Token`.'
   explanation: Documentation *Accessing Profiling Data Programmatically*.
   memorization_justification: Profil par le code.
   verification_status: VERIFIED
@@ -334,10 +334,10 @@ flashcards:
   official_item: OIT-d1qsxrtv25kk
   language: fr
   level: TRAP
-  front: 'Symfony : une redirection 302 reçoit-elle la barre de débogage ?'
-  back: Non ; elle a pourtant un profil et l'en-tête `X-Debug-Token-Link`.
+  front: 'Symfony : un redirect 302 reçoit-il la debug toolbar ?'
+  back: Non ; elle a pourtant un profil et le header `X-Debug-Token-Link`.
   explanation: Exécuté sur WebProfilerBundle 8.0.15.
-  memorization_justification: Pas de barre sur une redirection.
+  memorization_justification: Pas de barre sur un redirect.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/WebProfilerBundle/EventListener/WebDebugToolbarListener.php
@@ -351,7 +351,7 @@ flashcards:
   language: fr
   level: TRAP
   front: 'Symfony : une page HTML demandée en XHR reçoit-elle la barre ?'
-  back: 'Non : les requêtes XHR sont exclues de l''injection.'
+  back: 'Non : les Requests XHR sont exclues de l''injection.'
   explanation: Exécuté ; lu dans `WebDebugToolbarListener`.
   memorization_justification: Pas de barre en XHR.
   verification_status: VERIFIED
@@ -366,10 +366,10 @@ flashcards:
   official_item: OIT-d1qsxrtv25kk
   language: fr
   level: TRAP
-  front: 'Symfony : un objet non sérialisable peut-il être stocké tel quel dans $this->data ?'
-  back: 'Non : les données d''un collecteur sont sérialisées avec le profil ; il faut alors fournir sa propre sérialisation.'
+  front: 'Symfony : un object non sérialisable peut-il être stocké tel quel dans $this->data ?'
+  back: 'Non : les données d''un collector sont sérialisées avec le profil ; il faut alors fournir sa propre serialization.'
   explanation: Documentation *Creating a Data Collector*, branche 8.0.
-  memorization_justification: Sérialisation des données.
+  memorization_justification: Serialization des données.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/profiler.rst

@@ -34,17 +34,17 @@ official_sources:
 ## Objectif
 
 Comprendre ce qui s'exécute entre le chargement de l'autoload et la remise
-d'une requête au noyau, et pourquoi le fichier d'entrée **retourne** au lieu
+d'une Request au kernel, et pourquoi le file d'entrée **retourne** au lieu
 d'exécuter.
 
 ## Périmètre
 
-Le cycle de la requête HTTP — du contrôleur frontal jusqu'à l'envoi de la
-réponse — appartient au lot 03, et l'organisation des répertoires du projet
-au lot 03 également. Les points d'entrée de console appartiennent au lot 12.
+Le cycle de la Request HTTP — du front controller jusqu'à l'envoi de la
+Response — appartient au lot 03, et l'organisation des directories du projet
+au lot 03 également. Les entry points de console appartiennent au lot 12.
 Cet item couvre l'abstraction d'amorçage elle-même.
 
-## Le fichier d'entrée ne lance rien
+## Le file d'entrée ne lance rien
 
 ```php
 require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
@@ -54,20 +54,20 @@ return function (array $context): Kernel {
 };
 ```
 
-Le fichier **retourne une fonction**. Il ne construit pas la réponse, ne
+Le file **retourne une function**. Il ne construit pas la Response, ne
 l'envoie pas, et n'appelle rien.
 
 `vendor/autoload_runtime.php` est produit automatiquement par le **plugin
 Composer** du composant. Avec `--no-plugins`, il n'est pas créé — exécuté :
-fichier supprimé, `composer dump-autoload --no-plugins` ne le recrée pas.
+file supprimé, `composer dump-autoload --no-plugins` ne le recrée pas.
 
 Ce que le script retourne est contrôlé. Exécuté sur Runtime 8.0.14 :
 
 | Le script rend | Résultat |
 |---|---|
-| `42` au lieu d'une fonction | `TypeError` : *callable object expected* |
-| une fonction qui rend une chaîne | `TypeError` : *object expected* |
-| une fonction qui rend une `Response` | la réponse est affichée |
+| `42` au lieu d'une function | `TypeError` : *callable object expected* |
+| une function qui rend une string | `TypeError` : *object expected* |
+| une function qui rend une `Response` | la Response est affichée |
 
 ## Les cinq étapes
 
@@ -76,8 +76,8 @@ La documentation 8.0 les énumère ainsi :
 1. un `RuntimeInterface` est instancié ;
 2. le script d'entrée est **inclus par le runtime**, donc **il s'exécute une
    seconde fois** ;
-3. la fonction retournée est remise au runtime, qui **résout ses arguments** ;
-4. la fonction est appelée pour obtenir l'application ;
+3. la function retournée est remise au runtime, qui **résout ses arguments** ;
+4. la function est appelée pour obtenir l'application ;
 5. le runtime exécute l'application.
 
 Le code inverse les deux premières : `autoload_runtime.php` inclut d'abord le
@@ -94,12 +94,12 @@ journal avant et après le `require_once` :
 | au-dessous | une seule |
 
 La première exécution s'arrête dans `autoload_runtime.php`, qui finit par
-`exit` ; la seconde trouve le fichier déjà chargé et continue. Un effet de bord
-placé avant le `require_once` — écrire un fichier, incrémenter un compteur — se
+`exit` ; la seconde trouve le file déjà chargé et continue. Un effet de bord
+placé avant le `require_once` — écrire un file, incrémenter un compteur — se
 produit donc deux fois. La documentation demande qu'il n'y en ait aucun.
 
 **Charger `vendor/autoload.php` avant** désactive tout : le premier
-`require_once` de `autoload_runtime.php` rend alors `true`, et le fichier
+`require_once` de `autoload_runtime.php` rend alors `true`, et le file
 s'interrompt. Exécuté : le script va jusqu'au bout, l'application ne tourne
 pas, code de sortie `0`, aucun message.
 
@@ -112,33 +112,33 @@ $context`, `array $argv`, `array $request` — **le type et le nom de la variabl
 comptent tous les deux** : exécuté, `array $ctx` lève une
 `InvalidArgumentException` qui énumère ces trois noms.
 
-`SymfonyRuntime` accepte en plus une requête créée depuis les superglobales,
+`SymfonyRuntime` accepte en plus une Request créée depuis les superglobales,
 ainsi que les interfaces d'entrée et de sortie de console.
 
-## Un même fichier, deux natures d'application
+## Un même file, deux natures d'application
 
-C'est **ce que la fonction retourne** qui décide :
+C'est **ce que la function retourne** qui décide :
 
-- un noyau HTTP → le runtime exécute une application HTTP ;
+- un kernel HTTP → le runtime exécute une application HTTP ;
 - une application de console → le runtime exécute une application en ligne de
-  commande.
+  command.
 
 ## Choisir le runtime
 
 `SymfonyRuntime` est le défaut et convient à un serveur en PHP-FPM.
 `GenericRuntime` s'appuie sur les superglobales de PHP.
 
-`SymfonyRuntime` charge les fichiers `.env`. Exécuté : sans `.env`, il lève une
+`SymfonyRuntime` charge les files `.env`. Exécuté : sans `.env`, il lève une
 `PathException` ; avec l'option `disable_dotenv`, il démarre, `APP_ENV` à `dev`
 et `APP_DEBUG` à `1` par défaut.
 
-Le choix se fait par la variable d'environnement `APP_RUNTIME` ou par
+Le choix se fait par la variable d'environment `APP_RUNTIME` ou par
 `extra.runtime.class` dans `composer.json`. Les options passent par
 `APP_RUNTIME_OPTIONS` ou par `extra.runtime`.
 
 ## Pièges d'examen
 
-**Le fichier d'entrée retourne une fonction ; il n'exécute pas
+**Le file d'entrée retourne une function ; il n'exécute pas
 l'application.**
 
 **Le script d'entrée est réexécuté** par le runtime : ce qui précède le
@@ -153,12 +153,12 @@ erreur.
 
 ## Points clés
 
-- L'amorçage est abstrait pour rendre le fichier d'entrée générique.
+- L'amorçage est abstrait pour rendre le file d'entrée générique.
 - Cinq étapes ; le script est inclus à nouveau, avant même l'instanciation du
   runtime dans le code.
 - `array $context` = `$_SERVER` + `$_ENV` selon la documentation ; le code
   n'ajoute `$_ENV` que si `$_SERVER` ne porte pas `PATH`.
-- La nature de l'objet retourné choisit HTTP ou console.
+- La nature de l'object retourné choisit HTTP ou console.
 - `APP_RUNTIME` ou `extra.runtime.class` sélectionne le runtime.
 
 ## Sources officielles

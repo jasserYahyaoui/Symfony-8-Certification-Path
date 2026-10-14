@@ -23,7 +23,7 @@ qui est contre-intuitif.
 ## Ce qu'un trait apporte
 
 Un trait est une **unité de réutilisation horizontale** : du code partagé entre
-classes sans relation d'héritage. Il ne peut pas être instancié.
+classes sans relation d'inheritance. Il ne peut pas être instancié.
 
 ```php
 trait Timestampable
@@ -46,7 +46,7 @@ class Article
 }
 ```
 
-Un trait peut contenir propriétés, méthodes statiques, méthodes abstraites et
+Un trait peut contenir properties, methods statiques, methods abstraites et
 constantes.
 
 ## L'ordre de précédence
@@ -59,13 +59,13 @@ méthodes de la classe courante
     > méthodes héritées de la classe parente
 ```
 
-Une méthode définie dans la classe **écrase** celle du trait. Le trait, lui,
+Une method définie dans la class **écrase** celle du trait. Le trait, lui,
 écrase celle du parent. L'intuition inverse — « le trait, plus proche, gagne
-sur la classe » — est fausse.
+sur la class » — est fausse.
 
 ## Résolution de conflit
 
-Deux traits fournissant la même méthode provoquent une **erreur fatale** tant
+Deux traits fournissant la même method provoquent une **erreur fatale** tant
 que le conflit n'est pas arbitré :
 
 ```php
@@ -91,12 +91,12 @@ erreur fatale — pas un choix silencieux du premier trait.
 face à un conflit ne le résout pas.
 
 **Un trait n'est pas un type.** `$x instanceof Timestampable` compile, mais rend
-`false` même si la classe de `$x` utilise le trait — exécuté ; `class_uses()`,
+`false` même si la class de `$x` utilise le trait — exécuté ; `class_uses()`,
 lui, le voit. Pour typer, il faut une interface.
 
 ## Points clés
 
-- Précédence : classe courante > trait > classe parente.
+- Précédence : class courante > trait > class parente.
 - Conflit non arbitré = erreur fatale ; `insteadof` écarte, `as` renomme.
 - Un trait porte de l'état, mais n'est pas un type.
 

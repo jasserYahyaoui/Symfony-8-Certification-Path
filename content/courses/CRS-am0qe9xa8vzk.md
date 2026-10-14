@@ -27,15 +27,15 @@ qui l'interrompt.
 
 ## Périmètre
 
-Ce composant lance un programme **externe**. Les commandes de l'application,
+Ce composant lance un programme **externe**. Les commands de l'application,
 leur entrée-sortie et leur cycle appartiennent au lot 12 (Console). Différer un
 travail vers un worker appartient au lot 11 (Messenger). Les opérations sur les
-fichiers appartiennent au lot 21 (Filesystem). Le cycle du noyau HTTP
+files appartiennent au lot 21 (Filesystem). Le cycle du kernel HTTP
 appartient au lot 03.
 
 ## Ce qu'il remplace
 
-`Process` exécute une commande dans un sous-processus en gérant les différences
+`Process` exécute une command dans un sous-processus en gérant les différences
 entre systèmes **et l'échappement des arguments**. Il remplace `exec()`,
 `passthru()`, `shell_exec()` et `system()`.
 
@@ -50,16 +50,16 @@ if (!$process->isSuccessful()) {
 echo $process->getOutput();
 ```
 
-## Tableau ou chaîne
+## Array ou string
 
-Le **tableau d'arguments est la forme recommandée** : il évite tout
+Le **array d'arguments est la forme recommandée** : il évite tout
 échappement et laisse passer les signaux.
 
-Une chaîne ne se justifie que pour utiliser une fonctionnalité du shell —
-redirection, exécution conditionnelle. Elle passe alors par la fabrique
+Une string ne se justifie que pour utiliser une fonctionnalité du shell —
+redirect, exécution conditionnelle. Elle passe alors par la factory
 `Process::fromShellCommandline()`, et **l'échappement comme la portabilité
 deviennent votre affaire**. Les arguments variables passent par des variables
-d'environnement, dont la syntaxe de référence dépend du système ; la forme
+d'environment, dont la syntaxe de référence dépend du système ; la forme
 `"${:NOM}"`, propre au composant, reste portable.
 
 Exécuté sur Process 8.0.13 :
@@ -74,19 +74,19 @@ Exécuté sur Process 8.0.13 :
 
 | Appel | Rend la main | En cas d'échec |
 |---|---|---|
-| `run()` | à la fin du processus | rend un code de sortie |
-| `mustRun()` | à la fin du processus | lève `ProcessFailedException` |
+| `run()` | à la fin du process | rend un code de sortie |
+| `mustRun()` | à la fin du process | lève `ProcessFailedException` |
 | `start()` | **immédiatement** | rien : à vous de vérifier |
 
-Exécuté : pour une commande qui sort avec `3`, `run()` rend `3` sans rien lever ;
+Exécuté : pour une command qui sort avec `3`, `run()` rend `3` sans rien lever ;
 `mustRun()` lève.
 
 Après un `start()`, `isRunning()` interroge l'état et `wait()` **bloque**
 jusqu'à la fin.
 
-## Récupérer la sortie
+## Récupérer l'output
 
-`getOutput()` rend **toute** la sortie standard, `getErrorOutput()` toute la
+`getOutput()` rend **toute** l'output standard, `getErrorOutput()` toute la
 sortie d'erreur. `getIncrementalOutput()` ne rend que **ce qui est arrivé
 depuis le dernier appel**. Exécuté avec `echo one; sleep 0.3; echo two` :
 `"one\n"` en cours d'exécution, puis `"two\n"` après `wait()`, tandis que
@@ -94,7 +94,7 @@ depuis le dernier appel**. Exécuté avec `echo one; sleep 0.3; echo two` :
 
 `disableOutput()` économise la mémoire, mais interdit ensuite `getOutput()`,
 ses variantes incrémentales **et `setIdleTimeout()`** ; on ne peut ni l'activer
-ni la désactiver pendant l'exécution. Une fonction de rappel passée à `run()`
+ni la désactiver pendant l'exécution. Un callback passé à `run()`
 reste possible.
 
 L'incompatibilité joue **dans les deux sens** — exécuté :
@@ -105,9 +105,9 @@ L'incompatibilité joue **dans les deux sens** — exécuté :
 | `setIdleTimeout(5)` puis `disableOutput()` | `LogicException` |
 | `disableOutput()` pendant l'exécution | `RuntimeException` |
 
-## Les variables d'environnement
+## Les variables d'environment
 
-Un processus **hérite de toutes les variables du système**. Pour en retirer
+Un process **hérite de toutes les variables du système**. Pour en retirer
 une, il faut la passer à `false` — pas la laisser de côté. Exécuté avec une
 variable `P23VAR` définie dans le parent :
 
@@ -122,10 +122,10 @@ variable `P23VAR` définie dans le parent :
 - `setTimeout()` borne la **durée totale**. Le défaut est de **60 secondes**.
 - `setIdleTimeout()` borne le temps **depuis la dernière sortie produite**.
 
-Les deux s'appliquent ensemble : le processus est expiré dès que l'un est
+Les deux s'appliquent ensemble : le process est expiré dès que l'un est
 dépassé, et l'expiration lève `ProcessTimedOutException`.
 
-**Le piège** : sur un processus lancé de façon asynchrone, le délai n'est pas
+**Le piège** : sur un process lancé de façon asynchrone, le délai n'est pas
 surveillé pour vous. C'est à l'appelant d'appeler `checkTimeout()`
 régulièrement. Exécuté, `sleep 3` avec un délai d'une seconde, lu à 1,5 s :
 
@@ -139,7 +139,7 @@ régulièrement. Exécuté, `sleep 3` avec un délai d'une seconde, lu à 1,5 s 
 ## Arrêter
 
 `stop()` prend un délai (10 s par défaut) et un signal. Il envoie **d'abord
-`SIGTERM`**, puis attend ; si le processus tourne encore à l'échéance, il envoie
+`SIGTERM`**, puis attend ; si le process tourne encore à l'échéance, il envoie
 le signal passé, **`SIGKILL` par défaut**.
 
 La documentation dit seulement que le signal par défaut est `SIGKILL` : c'est
@@ -149,20 +149,20 @@ ne s'arrête qu'au bout du délai.
 
 ## Trouver un exécutable
 
-`ExecutableFinder` rend le chemin absolu d'un exécutable ;
+`ExecutableFinder` rend le path absolu d'un exécutable ;
 `PhpExecutableFinder` celui du binaire PHP.
 
 ## Pièges d'examen
 
-**Le tableau d'arguments est la forme recommandée** ; la chaîne transfère
+**L'array d'arguments est la forme recommandée** ; la string transfère
 l'échappement et la portabilité à l'appelant.
 
-**Le délai par défaut est de 60 secondes**, et sur un processus asynchrone il
+**Le délai par défaut est de 60 secondes**, et sur un process asynchrone il
 faut appeler `checkTimeout()` soi-même.
 
 **`disableOutput()` interdit aussi `setIdleTimeout()`.**
 
-**Pour retirer une variable d'environnement héritée, il faut la mettre à
+**Pour retirer une variable d'environment héritée, il faut la mettre à
 `false`** — passer d'autres variables ne la retire pas.
 
 **`stop()` commence par `SIGTERM`** ; `SIGKILL` n'arrive qu'à l'échéance.

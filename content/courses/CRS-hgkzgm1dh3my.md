@@ -47,7 +47,7 @@ Les transports et les workers.
 ## D'abord : synchrone ou asynchrone ?
 
 Tout ce qui suit ne concerne que les messages **consommés par un worker**. Un
-message non routé, traité pendant `dispatch()`, n'a ni réessai ni file d'échec :
+message non routé, traité pendant `dispatch()`, n'a ni retry ni file d'échec :
 l'exception remonte à l'appelant. Exécuté avec Messenger 8.0.15 :
 `HandlerFailedException` — « Handling "App\P13\M\Boom" failed: boom » —, une
 seule tentative.
@@ -61,7 +61,7 @@ plupart des échecs sont temporaires : base indisponible, API en timeout.
 Le nombre de tentatives est fini. Sans configuration de repli, un message qui a
 épuisé ses tentatives est **abandonné**.
 
-## La stratégie de réessai
+## La stratégie de retry
 
 ```yaml
 framework:
@@ -77,14 +77,14 @@ framework:
                     jitter: 0.1        # aléatoire, de 0 à 1
 ```
 
-Les valeurs par défaut de FrameworkBundle 8.0 sont celles-ci, sauf `max_delay`,
+Les default values de FrameworkBundle 8.0 sont celles-ci, sauf `max_delay`,
 qui vaut **0**. Le délai croît **exponentiellement** — `delay × multiplier^n` —
 pour ne pas marteler un service déjà en difficulté ; `max_delay` plafonne la
-progression ; le `jitter` disperse les réessais pour que mille messages ne
+progression ; le `jitter` disperse les retries pour que mille messages ne
 repartent pas à la même seconde. Calculé avec `MultiplierRetryStrategy` :
 1000, 2000, 4000 ms sans jitter ; 1096, 2109, 4298 ms avec un jitter de 0,1.
 
-`max_retries: 3` signifie **trois réessais après l'échec initial**, donc quatre
+`max_retries: 3` signifie **trois retries après l'échec initial**, donc quatre
 tentatives en tout. Exécuté avec un handler qui échoue toujours : **4**
 tentatives.
 
@@ -94,8 +94,8 @@ Deux familles d'exceptions changent la décision, dans les deux sens :
 
 | Exception | Effet |
 |---|---|
-| `UnrecoverableMessageHandlingException` | **aucun réessai** : le message part directement en échec |
-| `RecoverableMessageHandlingException` | réessai **forcé** ; son quatrième argument, `retryDelay`, fixe le délai en ms |
+| `UnrecoverableMessageHandlingException` | **aucun retry** : le message part directement en échec |
+| `RecoverableMessageHandlingException` | retry **forcé** ; son quatrième argument, `retryDelay`, fixe le délai en ms |
 
 Lu dans `SendFailedMessageForRetryListener::shouldRetry()` : une exception
 *recoverable* renvoie `true` **avant** que `max_retries` ne soit consulté. Elle
@@ -104,9 +104,9 @@ tentatives, et le message toujours en file, jamais en échec.
 
 Quand plusieurs handlers échouent, leurs exceptions sont emballées dans une
 `HandlerFailedException` : il faut que **toutes** soient *unrecoverable* pour
-que le réessai soit refusé.
+que le retry soit refusé.
 
-La première est la plus utile. Un message invalide — un identifiant qui
+La première est la plus utile. Un message invalide — un identifier qui
 n'existera jamais — ne deviendra pas valide en le rejouant. C'est la
 distinction de fond : **la stratégie traite l'échec temporaire,
 `Unrecoverable` l'échec permanent**. La seconde se manie avec prudence : sans
@@ -139,7 +139,7 @@ php bin/console messenger:failed:remove <id>
 ```
 
 `messenger:failed:retry` ne renvoie **pas** le message vers son transport
-d'origine : la commande le **traite elle-même**, en lisant la file d'échec. Le
+d'origine : la command le **traite elle-même**, en lisant la file d'échec. Le
 compteur de tentatives a été remis à zéro à l'entrée en file d'échec
 (`RedeliveryStamp(0)`). Exécuté : un message qui échoue encore pendant
 `failed:retry` revient dans la file d'échec, avec un compteur à 1 — rien n'est
@@ -153,37 +153,37 @@ title: Un handler lève, pendant la consommation par un worker
 ---
 flowchart TD
   accTitle: Ce que devient un message dont le handler a levé une exception
-  accDescr: Dans l'ordre de shouldRetry(). Une RecoverableMessageHandlingException force le réessai, sans limite. Si toutes les exceptions sont Unrecoverable, aucun réessai. Sinon, s'il reste des tentatives selon max_retries, réessai après un délai croissant. Sans réessai, le message part dans le failure_transport s'il est configuré, et il est perdu sinon.
+  accDescr: Dans l'ordre de shouldRetry(). Une RecoverableMessageHandlingException force le retry, sans limite. Si toutes les exceptions sont Unrecoverable, aucun retry. Sinon, s'il reste des tentatives selon max_retries, retry après un délai croissant. Sans retry, le message part dans le failure_transport s'il est configuré, et il est perdu sinon.
   F(["le handler lève"]) --> R{"Recoverable ?"}
-  R -->|"oui"| RETRY["réessai, sans limite"]
+  R -->|"oui"| RETRY["retry, sans limite"]
   R -->|"non"| U{"toutes Unrecoverable ?"}
   U -->|"non"| N{"tentatives restantes ?"}
-  N -->|"oui"| DELAY["réessai après délai croissant"]
+  N -->|"oui"| DELAY["retry après délai croissant"]
   N -->|"non"| FT{"failure_transport ?"}
   U -->|"oui"| FT
   FT -->|"oui"| FAILED["file d'échec, en attente humaine"]
   FT -->|"non"| LOST(["message perdu"])
 ```
 
-Chaque étage change la réponse, et c'est l'ordre qui compte : une
+Chaque étage change la Response, et c'est l'ordre qui compte : une
 `UnrecoverableMessageHandlingException` saute la stratégie mais **pas** le
 transport d'échec.
 
 ## Pièges d'examen
 
-- En **synchrone**, l'exception remonte au `dispatch()` : pas de réessai.
-- En asynchrone, une exception ne perd pas le message : elle déclenche un réessai.
+- En **synchrone**, l'exception remonte au `dispatch()` : pas de retry.
+- En asynchrone, une exception ne perd pas le message : elle déclenche un retry.
 - `max_retries: 3` = **quatre** tentatives au total.
 - `RecoverableMessageHandlingException` ignore `max_retries`.
 - Sans `failure_transport`, un message épuisé est **définitivement perdu**.
-- `UnrecoverableMessageHandlingException` saute les réessais, pas la file d'échec.
+- `UnrecoverableMessageHandlingException` saute les retries, pas la file d'échec.
 - Le délai est **exponentiel**, pas constant ; `max_delay` vaut 0 par défaut.
 - `messenger:failed:retry` traite le message lui-même, depuis la file d'échec.
 
 ## Points clés
 
-- Échec asynchrone = réessai, jusqu'à `max_retries`, avec un délai croissant.
-- `Unrecoverable` court-circuite les réessais ; `Recoverable` les impose, sans
+- Échec asynchrone = retry, jusqu'à `max_retries`, avec un délai croissant.
+- `Unrecoverable` court-circuite les retries ; `Recoverable` les impose, sans
   limite.
 - `failure_transport` est ce qui distingue « mis de côté » de « perdu ».
 - `messenger:failed:*` inspecte, rejoue et supprime.

@@ -55,15 +55,15 @@ official_sources:
 
 ## Objectif
 
-Savoir comment le framework fixe la locale de la requête à partir du routage,
+Savoir comment le framework fixe la locale de la Request à partir du routage,
 et ce que `LocaleListener` fait quand l'URL ne dit rien. La négociation HTTP
-détaillée appartient au lot HTTP ; la traduction elle-même au lot
+détaillée appartient au lot HTTP ; la translation elle-même au lot
 Internationalisation.
 
-## Par le paramètre `_locale`
+## Par le parameter `_locale`
 
-Quand une route contient le paramètre réservé `_locale`, la valeur appariée est
-**automatiquement posée sur la requête**. Une visite de `/fr/contact` fixe la
+Quand une route contient le parameter réservé `_locale`, la valeur appariée est
+**automatiquement posée sur la Request**. Une visite de `/fr/contact` fixe la
 locale `fr`, et `$request->getLocale()` la retourne — sans écrire une ligne.
 
 ```yaml
@@ -74,17 +74,17 @@ contact:
         _locale: en|fr|de
 ```
 
-La contrainte gagne à être écrite comme paramètre de configuration, pour éviter
+La constraint gagne à être écrite comme parameter de configuration, pour éviter
 de répéter la liste des locales dans chaque route.
 
 Le travail est fait par `LocaleListener`, abonné à `kernel.request` avec la
-priorité **16** — après `RouterListener` (32), puisqu'il lit l'attribut
+priorité **16** — après `RouterListener` (32), puisqu'il lit l'attribute
 `_locale` que le routage vient de poser. Il recopie aussi cette locale dans le
-contexte du routeur.
+contexte du router.
 
-## Par des chemins localisés
+## Par des paths localisés
 
-Une route peut définir **un chemin par locale**, ce qui évite de dupliquer la
+Une route peut définir **un path par locale**, ce qui évite de dupliquer la
 route :
 
 ```php
@@ -96,13 +96,13 @@ route :
 ```
 
 `AttributeClassLoader` crée une route par locale — `about_us.en`,
-`about_us.nl` — avec la valeur par défaut `_locale`, une contrainte sur
-`_locale` et une valeur `_canonical_route`. L'entrée sans clé devient la route
-`about_us` elle-même, sans locale. En attributs, il faut passer le tableau par
-le paramètre nommé `path`.
+`about_us.nl` — avec la default value `_locale`, une constraint sur
+`_locale` et une valeur `_canonical_route`. L'entrée sans key devient la route
+`about_us` elle-même, sans locale. En attributes, il faut passer l'array par
+le parameter nommé `path`.
 
 Quand une route localisée est appariée, Symfony utilise la même locale pendant
-**toute** la requête. À la génération, `generate('about_us')` choisit
+**toute** la Request. À la génération, `generate('about_us')` choisit
 `about_us.` suivi de la locale courante ; faute de route pour `fr_CA`, il essaie
 `fr`, puis la route sans suffixe.
 
@@ -110,49 +110,49 @@ Quand une route localisée est appariée, Symfony utilise la même locale pendan
 
 `LocaleListener` décide dans cet ordre :
 
-1. un attribut `_locale` sur la requête l'emporte ;
+1. un attribute `_locale` sur la Request l'emporte ;
 2. sinon, si `framework.set_locale_from_accept_language` vaut `true`, il
-   choisit parmi `framework.enabled_locales` la langue préférée de l'en-tête
-   `Accept-Language`, et marque la réponse comme variant selon la langue ;
+   choisit parmi `framework.enabled_locales` la langue préférée du header
+   `Accept-Language`, et marque la Response comme variant selon la langue ;
 3. sinon, la locale reste celle par défaut, `framework.default_locale` — `en`
    si rien n'est configuré.
 
-`set_locale_from_accept_language` vaut `false` par défaut : sans lui, l'en-tête
+`set_locale_from_accept_language` vaut `false` par défaut : sans lui, le header
 `Accept-Language` n'influence pas la locale.
 
 ## Le piège de l'instant
 
-Appeler `$request->setLocale()` **depuis un contrôleur est trop tard** pour le
-traducteur : il a déjà été configuré. La locale se fixe par l'URL, par un
-écouteur, ou en appelant `setLocale()` sur le service `translator`.
+Appeler `$request->setLocale()` **depuis un controller est trop tard** pour le
+translator : il a déjà été configuré. La locale se fixe par l'URL, par un
+listener, ou en appelant `setLocale()` sur le service `translator`.
 
-Un écouteur maison doit s'exécuter **avant** `LocaleListener`, donc porter une
+Un listener maison doit s'exécuter **avant** `LocaleListener`, donc porter une
 priorité supérieure à 16 — que `debug:event kernel.request` permet de lire.
 
 ## Pièges d'examen
 
-**Fixer la locale depuis un contrôleur arrive trop tard.** Le traducteur est
-déjà configuré : la locale se fixe par l'URL, par un écouteur, ou sur le service
-de traduction lui-même.
+**Fixer la locale depuis un controller arrive trop tard.** Le translator est
+déjà configuré : la locale se fixe par l'URL, par un listener, ou sur le service
+de translation lui-même.
 
-**Un écouteur maison doit passer avant celui du framework**, donc porter une
+**Un listener maison doit passer avant celui du framework**, donc porter une
 priorité plus élevée — priorité plus grande veut dire plus tôt.
 
 **`Accept-Language` n'agit pas par défaut.** Il faut
 `set_locale_from_accept_language: true`, et un `_locale` venu de l'URL passe
 toujours devant.
 
-**Une route localisée impose sa locale pour toute la requête**, pas seulement
-pour le rendu du gabarit.
+**Une route localisée impose sa locale pour toute la Request**, pas seulement
+pour le rendu du template.
 
 ## Points clés
 
-- `_locale` dans le chemin pose la locale, via `LocaleListener` (priorité 16).
-- Chemins localisés : une route `nom.locale` par locale, et `nom` pour
-  l'entrée sans clé.
+- `_locale` dans le path pose la locale, via `LocaleListener` (priorité 16).
+- Paths localisés : une route `nom.locale` par locale, et `nom` pour
+  l'entrée sans key.
 - Ordre : `_locale`, puis `Accept-Language` si activé, puis
   `framework.default_locale`.
-- `setLocale()` dans un contrôleur arrive trop tard ; passer par un écouteur de
+- `setLocale()` dans un controller arrive trop tard ; passer par un listener de
   priorité supérieure à 16.
 
 ## Sources officielles

@@ -32,22 +32,22 @@ official_sources:
 ## Objectif
 
 Réagir au cycle de vie d'un message sans écrire de middleware, savoir quel
-événement porte quelle information — et ce qu'un listener peut y changer. Le
+event porte quelle information — et ce qu'un listener peut y changer. Le
 mécanisme d'abonnement lui-même est traité dans *Event dispatcher and kernel
 events*.
 
-## Événement ou middleware
+## Event ou middleware
 
-La frontière n'est pas « observer contre modifier » : plusieurs événements
+La frontière n'est pas « observer contre modifier » : plusieurs events
 Messenger se modifient. Elle tient à **où** et **quand** ils sont émis.
 
 - La **chaîne de middleware** est traversée à chaque `dispatch()`, message
   synchrone compris.
-- Les **événements** ne sont émis qu'à deux endroits : à l'envoi vers un
+- Les **events** ne sont émis qu'à deux endroits : à l'envoi vers un
   transport, et dans un worker.
 
 Exécuté avec Messenger 8.0.15, un message **non routé**, traité pendant
-`dispatch()` : le middleware et le handler s'exécutent, **aucun** événement
+`dispatch()` : le middleware et le handler s'exécutent, **aucun** event
 Messenger n'est émis. Lu dans `SendMessageMiddleware` :
 `SendMessageToTransportsEvent` n'est émis que si le message a des *senders*.
 
@@ -58,7 +58,7 @@ l'envoi vers un transport ou autour d'un worker, un listener suffit.
 
 La documentation 8.0 en liste dix :
 
-| Événement | Quand |
+| Event | Quand |
 |---|---|
 | `SendMessageToTransportsEvent` | avant l'envoi vers les transports |
 | `MessageSentToTransportsEvent` | après l'envoi, une fois même pour plusieurs transports |
@@ -67,7 +67,7 @@ La documentation 8.0 en liste dix :
 | `WorkerMessageReceivedEvent` | un message vient d'être récupéré |
 | `WorkerMessageHandledEvent` | un message a été traité avec succès |
 | `WorkerMessageFailedEvent` | le handler a levé |
-| `WorkerMessageRetriedEvent` | le message est remis en file pour un réessai |
+| `WorkerMessageRetriedEvent` | le message est remis en file pour un retry |
 | `WorkerRateLimitedEvent` | le worker est ralenti par un limiteur de débit |
 | `WorkerStoppedEvent` | le worker s'arrête |
 
@@ -75,16 +75,16 @@ Le code 8.0 en contient un onzième, `WorkerMessageSkipEvent`, émis par
 `messenger:failed:retry` quand on choisit de ne pas rejouer un message.
 
 Ce qui compte est la **forme** : un couple avant/après à l'envoi, et un cycle
-complet côté worker — démarrage, boucle, réception, succès ou échec, réessai,
+complet côté worker — démarrage, boucle, réception, succès ou échec, retry,
 arrêt.
 
 ## Ce qu'un listener peut changer
 
-| Événement | Méthode | Effet, exécuté |
+| Event | Method | Effet, exécuté |
 |---|---|---|
 | `SendMessageToTransportsEvent` | `setEnvelope()` | le stamp ajouté est lu par le worker à la réception |
-| `WorkerMessageReceivedEvent` | `shouldHandle(false)` | le handler n'est **jamais** appelé, aucun événement de succès ni d'échec |
-| `WorkerMessageReceivedEvent` | `addStamps()` | le stamp est présent sur l'enveloppe qui atteint le handler |
+| `WorkerMessageReceivedEvent` | `shouldHandle(false)` | le handler n'est **jamais** appelé, aucun event de succès ni d'échec |
+| `WorkerMessageReceivedEvent` | `addStamps()` | le stamp est présent sur l'Envelope qui atteint le handler |
 
 Un listener peut donc **interrompre** le traitement d'un message reçu — ce
 qu'on attribue souvent au seul middleware.
@@ -121,7 +121,7 @@ public function onFailed(WorkerMessageFailedEvent $event): void
 }
 ```
 
-La priorité par défaut, 0, place ce listener **après** la décision de réessai.
+La priorité par défaut, 0, place ce listener **après** la décision de retry.
 
 ## Pièges d'examen
 
@@ -131,7 +131,7 @@ tourner en permanence.
 **`WorkerMessageFailedEvent` n'est pas un abandon** : `willRetry()` dit s'il
 reste des tentatives — à condition d'écouter après la priorité 100.
 
-**Un message non routé n'émet aucun événement Messenger** : seul un middleware
+**Un message non routé n'émet aucun event Messenger** : seul un middleware
 le voit.
 
 **Un listener peut empêcher le traitement** : `shouldHandle(false)` sur
@@ -139,9 +139,9 @@ le voit.
 
 ## Points clés
 
-- Dix événements documentés, onze dans le code : deux à l'envoi, le reste
+- Dix events documentés, onze dans le code : deux à l'envoi, le reste
   autour du worker.
-- Les événements ne couvrent que l'envoi vers un transport et le worker.
+- Les events ne couvrent que l'envoi vers un transport et le worker.
 - `willRetry()` n'est fiable qu'après la priorité 100.
 - `WorkerRunningEvent` est émis même à vide.
 

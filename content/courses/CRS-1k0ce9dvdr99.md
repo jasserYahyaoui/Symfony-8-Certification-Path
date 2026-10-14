@@ -38,26 +38,26 @@ official_sources:
 
 ## Objectif
 
-Savoir ce que Symfony apporte **par-dessus** le protocole : un proxy inverse
-écrit en PHP, un attribut déclaratif, et une trace pour comprendre pourquoi une
-réponse a été servie du cache ou non.
+Savoir ce que Symfony apporte **par-dessus** le protocole : un reverse proxy
+écrit en PHP, un attribute déclaratif, et une trace pour comprendre pourquoi une
+Response a été servie du cache ou non.
 
 ## Périmètre
 
 **ESI (Edge Side Includes) est hors du périmètre de l'examen** ; cette page ne
 le traite pas.
 
-Deux limites de contenu, aussi. La **sémantique des en-têtes** — les deux
+Deux limites de contenu, aussi. La **sémantique des headers** — les deux
 modèles, `max-age` et `s-maxage`, `public` et `private`, `Vary`, les directives
 voisines — appartient à l'item *Caching* du sujet HTTP. Cette page ne la redit
-pas : elle suppose acquis ce que ces en-têtes signifient, et montre par quels
+pas : elle suppose acquis ce que ces headers signifient, et montre par quels
 moyens Symfony les pose et les honore.
 
 ## Prérequis
 
 *Caching* (HTTP) : expiration, validation, et les directives de `Cache-Control`.
 
-## Le proxy inverse de Symfony
+## Le reverse proxy de Symfony
 
 Un *gateway cache* est un cache partagé placé devant l'application. Symfony en
 fournit un, **écrit en PHP**, activé par une option :
@@ -68,14 +68,14 @@ when@prod:
         http_cache: true
 ```
 
-Le noyau se comporte alors immédiatement en proxy inverse : il stocke les
-réponses de l'application et les ressert au client.
+Le kernel se comporte alors immédiatement en reverse proxy : il stocke les
+Responses de l'application et les ressert au client.
 
 Deux points que la documentation souligne :
 
-- il **n'est pas** un proxy inverse complet comme Varnish, et n'atteindra pas
+- il **n'est pas** un reverse proxy complet comme Varnish, et n'atteindra pas
   la vitesse d'un proxy écrit en C ;
-- mais tous les proxies inverses étant équivalents dans leur principe, passer
+- mais tous les reverse proxies étant équivalents dans leur principe, passer
   au suivant se fait sans changer l'application. C'est l'argument réel :
   l'application parle HTTP, pas « Symfony ».
 
@@ -84,26 +84,26 @@ changements pendant le développement.
 
 ## Lire ce que le cache a fait
 
-En mode debug, Symfony ajoute un en-tête **`X-Symfony-Cache`** à la réponse. En
+En mode debug, Symfony ajoute un header **`X-Symfony-Cache`** à la Response. En
 dehors, l'option `trace_level` le contrôle :
 
 | Valeur | Effet |
 |---|---|
 | `none` | aucune trace |
-| `short` | la requête principale seulement, en une forme concise |
+| `short` | la main Request seulement, en une forme concise |
 | `full` | le détail |
 
 `short` est conçue pour être enregistrée dans les journaux du serveur — dans
 Apache, `%{X-Symfony-Cache}o` — afin de mesurer l'efficacité du cache route par
-route. Le nom de l'en-tête se change par `trace_header`.
+route. Le nom du header se change par `trace_header`.
 
 Exécuté (HttpKernel 8.0.15), deux `GET` sur une route `public, max-age=60` : en debug,
-`miss, store` puis `fresh` ; sans debug, la seconde réponse vient aussi du
-cache, mais **sans** en-tête — `trace_level` vaut `none` par défaut hors debug.
+`miss, store` puis `fresh` ; sans debug, la seconde Response vient aussi du
+cache, mais **sans** header — `trace_level` vaut `none` par défaut hors debug.
 
 ## Déclarer plutôt que construire
 
-L'attribut `#[Cache]`, de `Symfony\Component\HttpKernel\Attribute\Cache`, pose
+L'attribute `#[Cache]`, de `Symfony\Component\HttpKernel\Attribute\Cache`, pose
 la politique sur l'action :
 
 ```php
@@ -117,8 +117,8 @@ public function index(): Response
 ```
 
 La règle de priorité est explicite dans la documentation et vaut d'être
-retenue : **les en-têtes posés dans le contrôleur l'emportent sur ceux
-configurés par l'attribut.** L'attribut fixe une politique par défaut ; le code
+retenue : **les headers posés dans le controller l'emportent sur ceux
+configurés par l'attribute.** L'attribute fixe une politique par défaut ; le code
 peut la contredire. Exécuté : `#[Cache(maxage: 60)]` et `setMaxAge(10)` dans
 l'action donnent `max-age=10`.
 
@@ -136,10 +136,10 @@ $response->setCache([
 ]);
 ```
 
-Les mêmes réglages existent sur l'attribut `#[Cache]`, mais en camelCase :
+Les mêmes réglages existent sur l'attribute `#[Cache]`, mais en camelCase :
 `maxage`, `smaxage`, `mustRevalidate`, `lastModified`.
 
-Deux méthodes complètent l'ensemble :
+Deux methods complètent l'ensemble :
 
 ```php
 $response->expire();          // marque la réponse périmée
@@ -148,22 +148,22 @@ $response->setNotModified();  // force un 304 sans contenu
 
 ## Ce que le cache ne fera pas
 
-**La clé de cache est l'URI de la requête** — sauf variation déclarée ; pour la
-méthode `QUERY`, l'URI plus le corps (`Store`, 8.0). Une entrée `public` sert
-tout le monde : exécuté, Bob reçoit la page d'Alice. Sinon, une requête
-portant `Cookie` ou `Authorization` rend la réponse `private`, jamais
+**La key de cache est l'URI de la Request** — sauf variation déclarée ; pour la
+method `QUERY`, l'URI plus le body (`Store`, 8.0). Une entrée `public` sert
+tout le monde : exécuté, Bob reçoit la page d'Alice. Sinon, une Request
+portant `Cookie` ou `Authorization` rend la Response `private`, jamais
 stockée.
 
-**Le cache HTTP ne vaut que pour les méthodes sûres.** Trois conséquences que la
+**Le cache HTTP ne vaut que pour les safe methods.** Trois conséquences que la
 documentation énonce :
 
-- ne pas tenter de mettre en cache `PUT` ou `DELETE` — ces méthodes modifient
+- ne pas tenter de mettre en cache `PUT` ou `DELETE` — ces methods modifient
   l'état, les cacher empêcherait la modification d'atteindre l'application ;
 - `POST` est généralement considérée non cachable ; elle peut l'être avec une
   information de fraîcheur explicite, mais l'implémentation est peu répandue et
   la documentation conseille de l'éviter ;
-- ne **jamais** modifier l'état sur un `GET` ou un `HEAD` : si la réponse est
-  cachée, les requêtes suivantes n'atteindront pas le serveur.
+- ne **jamais** modifier l'état sur un `GET` ou un `HEAD` : si la Response est
+  cachée, les Requests suivantes n'atteindront pas le serveur.
 
 La documentation ne cite que `GET` et `HEAD` ; en 8.0,
 `Request::isMethodCacheable()` retient aussi `QUERY`.
@@ -181,9 +181,9 @@ d'expiration seul oblige à attendre l'échéance pour voir un contenu modifié.
 title: HttpCache::handle(), avant le cache
 ---
 flowchart TD
-  accTitle: Les requêtes que le proxy HttpCache ne cherche pas dans le cache
-  accDescr: Une méthode non sûre est transmise à l'application, trace pass, puis l'entrée est invalidée si la réponse réussit, trace invalidate. Une méthode sûre mais non cachable, ou un en-tête Expect, est transmise sans cache, trace pass. Toute autre requête est cherchée dans le cache.
-  REQ(["requête"]) --> SAFE{"méthode sûre ?"}
+  accTitle: Les Requests que le proxy HttpCache ne cherche pas dans le cache
+  accDescr: Une method non sûre est transmise à l'application, trace pass, puis l'entrée est invalidée si la Response réussit, trace invalidate. Une safe method mais non cachable, ou un header Expect, est transmise sans cache, trace pass. Toute autre Request est cherchée dans le cache.
+  REQ(["Request"]) --> SAFE{"safe method ?"}
   SAFE -->|"non"| INV["pass, puis invalidate si succès"]
   SAFE -->|"oui"| CACH{"cachable, sans Expect ?"}
   CACH -->|"non"| PASS["pass"]
@@ -195,8 +195,8 @@ flowchart TD
 title: La recherche, par URI
 ---
 flowchart TD
-  accTitle: Ce que le proxy HttpCache fait d'une requête cherchée dans le cache
-  accDescr: Sans entrée pour l'URI, trace miss, l'application répond et la réponse est stockée si elle est cachable, trace store. Une entrée assez fraîche et sans no-cache est servie, trace fresh. Sinon elle est revalidée auprès de l'application. Un 304 donne la trace valid. Sinon la trace invalid, et la nouvelle réponse est stockée si elle est cachable.
+  accTitle: Ce que le proxy HttpCache fait d'une Request cherchée dans le cache
+  accDescr: Sans entrée pour l'URI, trace miss, l'application répond et la Response est stockée si elle est cachable, trace store. Une entrée assez fraîche et sans no-cache est servie, trace fresh. Sinon elle est revalidée auprès de l'application. Un 304 donne la trace valid. Sinon la trace invalid, et la nouvelle Response est stockée si elle est cachable.
   LOOK{"entrée pour l'URI ?"} -->|"non"| MISS["miss, puis store si cachable"]
   LOOK -->|"oui"| FRESH{"fraîche, sans no-cache ?"}
   FRESH -->|"oui"| HIT(["fresh"])
@@ -207,15 +207,15 @@ flowchart TD
 
 ## Pièges d'examen
 
-**`framework.http_cache: true` suffit** à activer le proxy ; aucune classe à
+**`framework.http_cache: true` suffit** à activer le proxy ; aucune class à
 écrire.
 
-**Le contrôleur l'emporte sur `#[Cache]`**, pas l'inverse.
+**Le controller l'emporte sur `#[Cache]`**, pas l'inverse.
 
-**La clé de cache est l'URI**, pas la route ni ses paramètres — corps compris
+**La key de cache est l'URI**, pas la route ni ses parameters — corps compris
 pour `QUERY`.
 
-**Le cache HTTP ne s'applique qu'aux méthodes sûres.**
+**Le cache HTTP ne s'applique qu'aux safe methods.**
 
 **L'invalidation est hors spécification HTTP.**
 
@@ -223,12 +223,12 @@ pour `QUERY`.
 
 ## Points clés
 
-- `framework.http_cache: true` active un proxy inverse écrit en PHP,
+- `framework.http_cache: true` active un reverse proxy écrit en PHP,
   remplaçable par Varnish sans toucher à l'application.
 - `X-Symfony-Cache` et `trace_level` expliquent un succès ou un échec de cache.
-- `#[Cache]` déclare la politique ; le contrôleur prime sur elle.
+- `#[Cache]` déclare la politique ; le controller prime sur elle.
 - `setCache()` en un appel, `expire()` et `setNotModified()` en complément.
-- URI comme clé, méthodes sûres seulement, invalidation hors protocole.
+- URI comme key, safe methods seulement, invalidation hors protocole.
 
 ## Sources officielles
 

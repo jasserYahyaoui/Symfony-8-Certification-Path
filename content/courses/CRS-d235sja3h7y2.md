@@ -21,8 +21,8 @@ official_sources:
 
 ## Objectif
 
-Signaler une violation depuis un callback ou un validateur, et savoir laquelle
-des deux méthodes du contexte utiliser.
+Signaler une violation depuis un callback ou un validator, et savoir laquelle
+des deux methods du contexte utiliser.
 
 ## Les deux façons
 
@@ -33,19 +33,19 @@ $context->addViolation('Message {{ v }}', ['{{ v }}' => $v]); // direct
 $context->buildViolation('Message')->addViolation();        // par le constructeur
 ```
 
-`addViolation()` ajoute la violation immédiatement, au chemin courant ; elle
-accepte déjà les paramètres du message en second argument. `buildViolation()`
+`addViolation()` ajoute la violation immédiatement, au path courant ; elle
+accepte déjà les parameters du message en second argument. `buildViolation()`
 retourne un **constructeur** que l'on configure avant de valider — c'est la
-forme à connaître, parce que c'est la seule qui permet de choisir le champ visé,
-le code ou la valeur fautive. Elle accepte elle aussi les paramètres en second
+forme à connaître, parce que c'est la seule qui permet de choisir le field visé,
+le code ou la valeur fautive. Elle accepte elle aussi les parameters en second
 argument.
 
 ## Le constructeur n'écrit rien tout seul
 
 C'est le piège central de l'item : `buildViolation()` **ne crée aucune
-violation**. Elle prépare un objet ; tant que `addViolation()` n'est pas appelée
-au bout de la chaîne, rien n'est enregistré et la validation passe. Exécuté avec
-`symfony/validator` 8.0.15 : une chaîne `buildViolation()->setParameter()` non
+violation**. Elle prépare un object ; tant que `addViolation()` n'est pas appelée
+au bout de la string, rien n'est enregistré et la validation passe. Exécuté avec
+`symfony/validator` 8.0.15 : une string `buildViolation()->setParameter()` non
 terminée ne produit aucune violation.
 
 ```php
@@ -58,32 +58,32 @@ $context->buildViolation('La valeur {{ value }} est refusée.')
 
 ## Ce que l'on peut régler
 
-Les dix méthodes de `ConstraintViolationBuilderInterface` (8.0) :
+Les dix methods de `ConstraintViolationBuilderInterface` (8.0) :
 
-| Méthode | Effet |
+| Method | Effet |
 |---|---|
-| `atPath()` | attribue la violation à une autre propriété que celle en cours |
+| `atPath()` | attribue la violation à une autre property que celle en cours |
 | `setParameter()` / `setParameters()` | remplit les emplacements `{{ … }}` du message |
 | `setCode()` | pose un code machine, indépendant du texte |
 | `setInvalidValue()` | la valeur affichée comme fautive |
 | `setPlural()` | le nombre servant à choisir la forme plurielle |
 | `setTranslationDomain()` / `disableTranslation()` | le traitement du message |
-| `setCause()` | la cause technique, pour le débogage |
-| `addViolation()` | enregistre la violation, en fin de chaîne |
+| `setCause()` | la cause technique, pour le debug |
+| `addViolation()` | enregistre la violation, en fin de string |
 
-Deux méritent un mot. **`atPath()`** est ce qui rend une contrainte de classe
-utilisable : sans elle, la violation est attachée à l'objet — chemin vide — et
-le formulaire l'affiche en tête plutôt que sur le champ fautif. Le chemin se
-compose : `atPath('address.city')` vise la propriété d'un objet imbriqué.
-**`setCode()`** donne au code appelant un identifiant stable — `getCode()` sur
+Deux méritent un mot. **`atPath()`** est ce qui rend une constraint de class
+utilisable : sans elle, la violation est attachée à l'object — path vide — et
+le form l'affiche en tête plutôt que sur le field fautif. Le path se
+compose : `atPath('address.city')` vise la property d'un object imbriqué.
+**`setCode()`** donne au code appelant un identifier stable — `getCode()` sur
 la violation — là où le message change avec la langue.
 
 ## `atPath()` ne change pas la valeur fautive
 
-Exécuté depuis un `Callback` de classe : la violation dirigée vers `email` par
-`atPath('email')` porte le chemin `email`, mais sa valeur fautive reste
-**l'objet entier** — la valeur courante du contexte. Pour afficher la valeur du
-champ, il faut `setInvalidValue()`.
+Exécuté depuis un `Callback` de class : la violation dirigée vers `email` par
+`atPath('email')` porte le path `email`, mais sa valeur fautive reste
+**l'object entier** — la valeur courante du contexte. Pour afficher la valeur du
+field, il faut `setInvalidValue()`.
 
 ## Les emplacements du message
 
@@ -95,25 +95,25 @@ rend `'built {{ v }}'`, `getMessage()` le texte rempli.
 ## Pièges d'examen
 
 **`buildViolation()` seule n'enregistre rien.** Sans `addViolation()` au bout de
-la chaîne, la validation passe alors que la règle est violée.
+la string, la validation passe alors que la règle est violée.
 
 **`addViolation()` existe des deux côtés** : sur le contexte, elle enregistre
-directement ; sur le constructeur, elle termine la chaîne. Ce ne sont pas les
-mêmes méthodes.
+directement ; sur le constructeur, elle termine la string. Ce ne sont pas les
+mêmes methods.
 
-**Sans `atPath()`, une violation de portée classe reste attachée à l'objet** et
-le formulaire l'affiche en tête, pas sur le champ.
+**Sans `atPath()`, une violation de portée class reste attachée à l'object** et
+le form l'affiche en tête, pas sur le field.
 
-**`atPath()` déplace le chemin, pas la valeur fautive.**
+**`atPath()` déplace le path, pas la valeur fautive.**
 
 ## Points clés
 
-- `addViolation()` sur le contexte : direct, paramètres admis.
+- `addViolation()` sur le contexte : direct, parameters admis.
   `buildViolation()` : configurable.
-- Une chaîne `buildViolation()` non terminée par `addViolation()` **ne produit
+- Une string `buildViolation()` non terminée par `addViolation()` **ne produit
   rien**.
-- `atPath()` attribue l'erreur au bon champ ; indispensable en portée classe.
-- `setParameter()` remplit `{{ … }}` ; `setCode()` donne un identifiant stable ;
+- `atPath()` attribue l'erreur au bon field ; indispensable en portée class.
+- `setParameter()` remplit `{{ … }}` ; `setCode()` donne un identifier stable ;
   `setInvalidValue()` corrige la valeur fautive.
 
 ## Sources officielles

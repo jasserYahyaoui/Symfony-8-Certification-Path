@@ -54,27 +54,27 @@ official_sources:
 
 ## Objectif
 
-Connaître les redirections que **le routage** déclenche de lui-même. Les
-redirections émises par un contrôleur — `redirect()`, `redirectToRoute()` — et
+Connaître les redirects que **le routage** déclenche de lui-même. Les
+redirects émises par un controller — `redirect()`, `redirectToRoute()` — et
 les options de `RedirectController` appartiennent au lot Controllers.
 
 ## Qui redirige, et comment
 
 Le `UrlMatcher` du composant Routing ne redirige jamais : il lève
-`ResourceNotFoundException`, qui devient un 404. La redirection n'existe que
+`ResourceNotFoundException`, qui devient un 404. Le redirect n'existe que
 si le matcher implémente `RedirectableUrlMatcherInterface`. Le composant n'en
-fournit qu'une classe abstraite, dont la méthode `redirect()` reste à écrire ;
+fournit qu'une abstract class, dont la method `redirect()` reste à écrire ;
 l'implémentation concrète est celle de FrameworkBundle,
 `RedirectableCompiledUrlMatcher`.
 
-Quand il faut rediriger, sa méthode `redirect()` ne construit pas de réponse :
-elle retourne des attributs de requête qui désignent `RedirectController`
-comme contrôleur, avec `permanent` à `true`. D'où trois conséquences, lues
+Quand il faut rediriger, sa method `redirect()` ne construit pas de Response :
+elle retourne des attributes de Request qui désignent `RedirectController`
+comme controller, avec `permanent` à `true`. D'où trois conséquences, lues
 dans le code 8.0 :
 
-- le statut est **301** (permanent, sans demande de conserver la méthode) ;
-- la **chaîne de requête** d'origine est recopiée sur l'URL cible ;
-- l'attribut `_route` porte le nom de la route trouvée ; seul le contrôleur
+- le statut est **301** (permanent, sans demande de conserver la method) ;
+- la **chaîne de Request** d'origine est recopiée sur l'URL cible ;
+- l'attribute `_route` porte le nom de la route trouvée ; seul le controller
   est remplacé.
 
 ## La barre oblique finale
@@ -82,26 +82,26 @@ dans le code 8.0 :
 Symfony redirige entre l'URL avec et sans barre finale, **uniquement pour `GET`
 et `HEAD`**, avec un **301** :
 
-| Chemin de la route | URL demandée `/foo` | URL demandée `/foo/` |
+| Path de la route | URL demandée `/foo` | URL demandée `/foo/` |
 |---|---|---|
 | `/foo` | correspond, **200** | **301** vers `/foo` |
 | `/foo/` | **301** vers `/foo/` | correspond, **200** |
 
-La redirection va toujours vers la forme déclarée par la route, dans les deux
-sens. Le code ajoute trois conditions que le tableau ne montre pas :
+Le redirect va toujours vers la forme déclarée par la route, dans les deux
+sens. Le code ajoute trois conditions que l'array ne montre pas :
 
-- la route doit accepter `GET` : aucune contrainte `methods`, ou une liste qui
+- la route doit accepter `GET` : aucune constraint `methods`, ou une liste qui
   contient `GET` ;
 - la racine `/` n'est jamais concernée ;
 - un `POST` vers `/foo` pour une route `/foo/` n'est **pas** redirigé. Aucune
-  route ne correspond : la réponse est un **404**.
+  route ne correspond : la Response est un **404**.
 
 Pourquoi exclure `POST` ? RFC 9110 (section 15.4.2) permet à un client de
-rejouer en `GET` une requête `POST` redirigée par un 301 : le corps serait
+rejouer en `GET` une Request `POST` redirigée par un 301 : le body serait
 perdu.
 
-**La redirection passe avant une route générique.** Avec une route `/foo/`
-suivie d'une route `/{name}`, une requête `GET /foo` est redirigée vers
+**Le redirect passe avant une route générique.** Avec une route `/foo/`
+suivie d'une route `/{name}`, une Request `GET /foo` est redirigée vers
 `/foo/` ; elle ne tombe pas sur `/{name}`. Le test `testFallbackPage` du
 composant l'établit.
 
@@ -116,31 +116,31 @@ L'option `schemes` déclare le schéma exigé par une route :
 Elle agit dans les deux sens, et c'est le point à retenir.
 
 **À la génération** : l'URL de `login` utilise toujours HTTPS. Conséquence
-visible dans un gabarit — `path('login')` produit le chemin absolu `/login`,
-sans hôte, si la requête courante est déjà en HTTPS, mais une **URL absolue**
+visible dans un template — `path('login')` produit le path absolu `/login`,
+sans hôte, si la Request courante est déjà en HTTPS, mais une **URL absolue**
 `https://example.com/login` si elle est en HTTP, puisqu'il faut bien changer de
 schéma.
 
-**À l'appariement** : une requête `GET` en HTTP vers `/login` est
+**À l'appariement** : une Request `GET` en HTTP vers `/login` est
 **redirigée** en 301 vers la même URL en HTTPS. Précisions du code :
 
 - là encore, **seulement `GET` et `HEAD`**. Un `POST` en HTTP vers `/login`
-  reçoit un 404. La documentation écrit simplement que la requête est
+  reçoit un 404. La documentation écrit simplement que la Request est
   redirigée, sans cette restriction ;
-- avec plusieurs schémas, aucune redirection si l'un d'eux correspond ; sinon
+- avec plusieurs schémas, aucune redirect si l'un d'eux correspond ; sinon
   la cible est le **premier** schéma listé ;
-- barre finale manquante **et** mauvais schéma : une seule redirection corrige
+- barre finale manquante **et** mauvais schéma : une seule redirect corrige
   les deux.
 
-Le schéma peut être imposé à tout un groupe de routes au moment de leur import
+Le schéma peut être imposé à tout un group de routes au moment de leur import
 (`schemes` sur l'entrée d'import). Derrière un proxy qui termine TLS, la
 documentation avertit que `schemes`, combiné à une configuration de proxy
-incorrecte, produit une boucle de redirection.
+incorrecte, produit une boucle de redirect.
 
 ## Depuis une route
 
 Une route peut enfin déléguer à `RedirectController`, fourni par
-FrameworkBundle, ce qui évite d'écrire un contrôleur pour un simple
+FrameworkBundle, ce qui évite d'écrire un controller pour un simple
 déplacement d'URL. Ses options sont traitées dans le lot Controllers.
 
 ## Pièges d'examen
@@ -149,25 +149,25 @@ déplacement d'URL. Ses options sont traitées dans le lot Controllers.
 sont réservés à `GET` et `HEAD` ; un `POST` qui ne correspond qu'à une autre
 forme d'URL reçoit un 404.
 
-**Le schéma agit à l'appariement *et* à la génération.** Une requête dans le
+**Le schéma agit à l'appariement *et* à la génération.** Une Request dans le
 mauvais schéma est redirigée ; et l'URL générée devient absolue dès que le
-schéma courant diffère, alors qu'elle serait restée un chemin sans hôte
+schéma courant diffère, alors qu'elle serait restée un path sans hôte
 (`ABSOLUTE_PATH`, pas `RELATIVE_PATH`).
 
 **Le composant seul ne redirige pas.** Son `UrlMatcher` échoue en 404 ;
 c'est le matcher de FrameworkBundle qui sait rediriger.
 
-**Aucun contrôleur applicatif n'intervient.** Le matcher route la requête vers
-`RedirectController` ; le 301 conserve la chaîne de requête.
+**Aucun controller applicatif n'intervient.** Le matcher route la Request vers
+`RedirectController` ; le 301 conserve la chaîne de Request.
 
 ## Points clés
 
-- Barre finale : redirection **301**, seulement en `GET` et `HEAD`, vers la
+- Barre finale : redirect **301**, seulement en `GET` et `HEAD`, vers la
   forme déclarée, si la route accepte `GET`.
-- `schemes` force le schéma à la génération **et** redirige la requête
+- `schemes` force le schéma à la génération **et** redirige la Request
   entrante, vers le premier schéma listé, en `GET` et `HEAD` seulement.
 - Un `POST` sur la mauvaise forme ou le mauvais schéma : **404**.
-- La redirection est produite par `RedirectableCompiledUrlMatcher`, qui délègue
+- Le redirect est produite par `RedirectableCompiledUrlMatcher`, qui délègue
   à `RedirectController`.
 - `path()` peut retourner une URL absolue quand le schéma doit changer.
 

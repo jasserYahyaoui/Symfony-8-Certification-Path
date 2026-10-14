@@ -191,6 +191,14 @@ budget. Each arrow is a claim, verified against the 8.0 code like a sentence.
 Mermaid draws in the browser: the accessibility audit waits for the SVGs, and a
 curl-based smoke test can only see the section around them.
 
+**Technical terms stay in English in French prose (owner, 2026-10-14).**
+Write `listener`, `compiler pass`, `service container`, `Request`, `Response`,
+`attribute`, never écouteur, passe de compilation, conteneur de services,
+requête, réponse, attribut. The list is `docs/policy/terminology.yml`; CI runs
+`python3 tools/terminology/apply.py --check`, and running it without `--check`
+rewrites the prose. A word missing from the list is added to the list, not
+fixed by hand in one page.
+
 **Human approval is required (§15)** for: irreversible architecture change,
 official-scope change, major deletion, anything touching authentication,
 permissions or secrets, an unresolved source contradiction, a disabled test or

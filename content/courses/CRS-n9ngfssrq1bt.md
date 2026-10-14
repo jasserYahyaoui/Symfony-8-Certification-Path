@@ -41,12 +41,12 @@ official_sources:
 
 ## Objectif
 
-Écrire une classe utilisateur conforme à Symfony 8.0, et connaître le contrat
+Écrire une class user conforme à Symfony 8.0, et connaître le contrat
 minimal — plus court qu'on ne le croit.
 
 ## `UserInterface`, en 8.0
 
-Deux méthodes. C'est tout :
+Deux methods. C'est tout :
 
 ```php
 interface UserInterface
@@ -59,20 +59,20 @@ interface UserInterface
 `eraseCredentials()` **n'existe plus** : dépréciée en 7.3, retirée en 8.0, avec
 `TokenInterface::eraseCredentials()`. Le CHANGELOG de Security Core 8.0 indique
 le remplaçant : effacer les données sensibles « e.g. using `__serialize()` ».
-Une classe qui déclare encore la méthode ne provoque pas d'erreur, mais aucun
+Une class qui déclare encore la method ne provoque pas d'erreur, mais aucun
 code de Security Core 8.0.15, Security HTTP 8.0.14 ou SecurityBundle 8.0.15
 ne l'appelle.
 
-`getUserIdentifier()` retourne l'identifiant **d'affichage et de recherche** —
-courriel, nom de connexion — pas nécessairement la clé primaire. C'est la valeur
-que le fournisseur reçoit dans `loadUserByIdentifier()`.
+`getUserIdentifier()` retourne l'identifier **d'affichage et de recherche** —
+courriel, nom de connexion — pas nécessairement la key primaire. C'est la valeur
+que le provider reçoit dans `loadUserByIdentifier()`.
 
 ## `getRoles()` : aucun minimum imposé
 
-La documentation montre une classe dont `getRoles()` ajoute toujours
+La documentation montre une class dont `getRoles()` ajoute toujours
 `ROLE_USER` — « guarantee every user at least has ROLE_USER ». C'est une
-**convention de la classe**, pas une exigence du framework. Exécuté avec
-SecurityBundle 8.0.15, un utilisateur dont `getRoles()` rend `[]` :
+**convention de la class**, pas une exigence du framework. Exécuté avec
+SecurityBundle 8.0.15, un user dont `getRoles()` rend `[]` :
 
 | Vérification | Résultat |
 |---|---|
@@ -81,12 +81,12 @@ SecurityBundle 8.0.15, un utilisateur dont `getRoles()` rend `[]` :
 | `isGranted('ROLE_USER')` | `false` |
 
 Sans la convention, une règle `access_control` sur `ROLE_USER` refuserait donc
-un utilisateur pourtant connecté.
+un user pourtant connecté.
 
-## Le mot de passe est une interface séparée
+## Le password est une interface séparée
 
-Un utilisateur n'a pas forcément de mot de passe : un jeton d'API, un
-fournisseur d'identité externe s'en passent. Le mot de passe vit donc dans
+Un user n'a pas forcément de password : un token d'API, un
+provider d'identité externe s'en passent. Le password vit donc dans
 `PasswordAuthenticatedUserInterface` :
 
 ```php
@@ -98,58 +98,58 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
 C'est cette interface que le système de hachage attend.
 
-## Comparer deux utilisateurs
+## Comparer deux users
 
-À chaque requête d'un pare-feu avec état, l'utilisateur est rechargé et
-**comparé** à celui du jeton par `ContextListener::hasUserChanged()`. Par défaut,
-la comparaison porte sur le **mot de passe**, les **rôles** et l'**identifiant** ;
-une différence abandonne le jeton. Une classe qui implémente
-`EquatableInterface` remplace cette règle par sa méthode `isEqualTo()`.
+À chaque Request d'un firewall avec état, le user est rechargé et
+**comparé** à celui du token par `ContextListener::hasUserChanged()`. Par défaut,
+la comparaison porte sur le **password**, les **roles** et l'**identifier** ;
+une différence abandonne le token. Une class qui implémente
+`EquatableInterface` remplace cette règle par sa method `isEqualTo()`.
 
-Exécuté : `alice` connectée, puis sa source modifiée avant la requête suivante.
+Exécuté : `alice` connectée, puis sa source modifiée avant la Request suivante.
 
-| Classe | Changement | Requête suivante |
+| Class | Changement | Request suivante |
 |---|---|---|
 | sans `EquatableInterface` | aucun | `alice`, connectée |
 | sans `EquatableInterface` | `ROLE_EDITOR` ajouté | **déconnectée** |
-| sans `EquatableInterface` | mot de passe changé | **déconnectée** |
-| `isEqualTo()` ne comparant que l'identifiant | `ROLE_EDITOR` ajouté | connectée, mais `isGranted('ROLE_EDITOR')` **faux** |
+| sans `EquatableInterface` | password changé | **déconnectée** |
+| `isEqualTo()` ne comparant que l'identifier | `ROLE_EDITOR` ajouté | connectée, mais `isGranted('ROLE_EDITOR')` **faux** |
 
 La dernière ligne est le point subtil : `getUser()->getRoles()` rend bien le
-nouveau rôle, mais le jeton garde les rôles **de la connexion**, et c'est lui
-que les votants lisent. Dans les deux cas, le nouveau rôle ne s'obtient qu'en se
+nouveau role, mais le token garde les roles **de la connexion**, et c'est lui
+que les voters lisent. Dans les deux cas, le nouveau role ne s'obtient qu'en se
 reconnectant.
 
 ## Interdire un compte
 
-Un compte désactivé ou expiré ne se refuse pas dans `getRoles()` : c'est le rôle
-d'un **user checker**, déclaré sur le pare-feu par `user_checker`. Lu dans
+Un compte désactivé ou expiré ne se refuse pas dans `getRoles()` : c'est le role
+d'un **user checker**, déclaré sur le firewall par `user_checker`. Lu dans
 `UserCheckerListener` :
 
 - `checkPreAuth()` écoute `CheckPassportEvent` en priorité 256, donc **avant**
-  la vérification du mot de passe ;
+  la vérification du password ;
 - `checkPostAuth()` écoute `AuthenticationSuccessEvent`, et reçoit en 8.0 le
-  jeton en second argument.
+  token en second argument.
 
 Exécuté : un compte refusé par `checkPreAuth()` reçoit **401** ;
-`checkPreAuth()` tourne aussi quand le mot de passe est faux, et aucun des deux
-n'est appelé sur les requêtes suivantes portant le cookie de session.
+`checkPreAuth()` tourne aussi quand le password est faux, et aucun des deux
+n'est appelé sur les Requests suivantes portant le cookie de session.
 
 ## Pièges d'examen
 
-**`UserInterface` n'a que deux méthodes en Symfony 8.0** ; `eraseCredentials()`
+**`UserInterface` n'a que deux methods en Symfony 8.0** ; `eraseCredentials()`
 a été retirée.
 
 **`getPassword()` vient de `PasswordAuthenticatedUserInterface`.**
 
-**`getUserIdentifier()` n'est pas l'identifiant de base de données.**
+**`getUserIdentifier()` n'est pas l'identifier de base de données.**
 
-**Un utilisateur sans rôle est authentifié** ; `ROLE_USER` est une convention.
+**Un user sans role est authentifié** ; `ROLE_USER` est une convention.
 
-**Les rôles sont déjà comparés par défaut** : en changer déconnecte.
+**Les roles sont déjà comparés par défaut** : en changer déconnecte.
 
-**Le jeton fige les rôles de la connexion**, même quand `isEqualTo()` garde
-l'utilisateur connecté.
+**Le token fige les roles de la connexion**, même quand `isEqualTo()` garde
+le user connecté.
 
 **Un compte désactivé relève d'un user checker**, appelé à la connexion
 seulement.
@@ -157,11 +157,11 @@ seulement.
 ## Points clés
 
 - `UserInterface` : `getRoles()` et `getUserIdentifier()`, rien d'autre.
-- Le mot de passe est porté par `PasswordAuthenticatedUserInterface`.
-- Comparaison par défaut : mot de passe, rôles, identifiant ;
+- Le password est porté par `PasswordAuthenticatedUserInterface`.
+- Comparaison par défaut : password, roles, identifier ;
   `EquatableInterface` la remplace.
-- Un nouveau rôle exige une nouvelle connexion.
-- User checker : avant le mot de passe, puis après le succès.
+- Un nouveau role exige une nouvelle connexion.
+- User checker : avant le password, puis après le succès.
 
 ## Sources officielles
 

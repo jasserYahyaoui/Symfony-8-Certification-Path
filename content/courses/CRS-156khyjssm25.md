@@ -38,127 +38,127 @@ official_sources:
 ## Objectif
 
 Connaître l'arborescence par défaut d'une application Symfony, le rôle de chaque
-répertoire, et par quel mécanisme chacun se déplace.
+directory, et par quel mécanisme chacun se déplace.
 
 ## L'arborescence par défaut
 
-| Répertoire | Rôle |
+| Directory | Role |
 |---|---|
 | `assets/` | sources front — JavaScript, CSS, images |
 | `bin/` | exécutables du projet, dont `bin/console` |
 | `config/` | configuration ; `packages/` par bundle, `routes/`, `services.yaml` |
-| `public/` | **seul** répertoire exposé par le serveur web ; contient `index.php` |
-| `src/` | le code de l'application, espace de noms `App\`, dont `Kernel.php` |
-| `templates/` | les gabarits Twig |
+| `public/` | **seul** directory exposé par le serveur web ; contient `index.php` |
+| `src/` | le code de l'application, namespace `App\`, dont `Kernel.php` |
+| `templates/` | les templates Twig |
 | `tests/` | les tests |
-| `translations/` | les catalogues de traduction |
-| `var/` | fichiers générés à l'exécution : `cache/`, `log/` |
-| `vendor/` | dépendances installées par Composer — jamais modifié à la main |
+| `translations/` | les catalogues de translation |
+| `var/` | files générés à l'exécution : `cache/`, `log/` |
+| `vendor/` | dependencies installées par Composer — jamais modifié à la main |
 | `.env` | à la **racine**, pas dans `config/` |
 
 Deux points structurent le reste. D'abord, **seul `public/` est servi** : tout
 ce qui est ailleurs est hors d'atteinte du navigateur, ce qui est la raison
-d'être de la séparation. Ensuite, `var/` est le seul répertoire dans lequel
+d'être de la séparation. Ensuite, `var/` est le seul directory dans lequel
 l'application écrit à l'exécution.
 
 ## Sous config/
 
-`config/packages/` contient un fichier par bundle configuré. Un sous-répertoire
-nommé d'après un environnement — `config/packages/test/` — ne s'applique que
-dans cet environnement, et vient surcharger la configuration commune.
+`config/packages/` contient un file par bundle configuré. Un sous-répertoire
+nommé d'après un environment — `config/packages/test/` — ne s'applique que
+dans cet environment, et vient surcharger la configuration commune.
 
-## Déplacer un répertoire
+## Déplacer un directory
 
-Tous les répertoires ne se déplacent pas de la même façon, et c'est le point qui
+Tous les directories ne se déplacent pas de la même façon, et c'est le point qui
 se retient mal :
 
-| Répertoire | Mécanisme |
+| Directory | Mécanisme |
 |---|---|
-| `bin/`, `config/`, `src/`, `public/` | clé **`extra`** du `composer.json` : `bin-dir`, `config-dir`, `src-dir`, `public-dir` |
-| `.env` | clé `extra`, mais **imbriquée** : `extra.runtime.dotenv_path` |
-| `vendor/` | clé **`config`** du `composer.json` : `vendor-dir`. Pas `extra` |
+| `bin/`, `config/`, `src/`, `public/` | key **`extra`** du `composer.json` : `bin-dir`, `config-dir`, `src-dir`, `public-dir` |
+| `.env` | key `extra`, mais **imbriquée** : `extra.runtime.dotenv_path` |
+| `vendor/` | key **`config`** du `composer.json` : `vendor-dir`. Pas `extra` |
 | `templates/` | **`twig.default_path`** — ou `twig.paths` pour plusieurs |
 | `translations/` | **`framework.translator.default_path`** — ou `.paths` pour plusieurs |
-| `var/cache/`, `var/log/` | une méthode du noyau, ou une variable d'environnement |
+| `var/cache/`, `var/log/` | une method du kernel, ou une variable d'environment |
 
 Il y a donc **trois** voies, pas deux : ce que Composer doit connaître avant que
 PHP ne démarre (`extra`, et `config` pour `vendor/`), ce qu'un bundle configure
-lui-même (`twig`, `framework`), et ce que seul le noyau connaît.
+lui-même (`twig`, `framework`), et ce que seul le kernel connaît.
 
 Deux de ces lignes ne se suffisent pas à elles-mêmes. Déplacer `src/` demande
 **aussi** de corriger `autoload.psr-4` et de relancer `composer dump-autoload` :
-la clé `extra.src-dir` seule laisse l'autochargement pointer sur l'ancien
-chemin. Et `public/` se **renomme** sans rien d'autre, mais se **déplace** en
-corrigeant le chemin de `vendor/autoload_runtime.php` dans `public/index.php`.
+la key `extra.src-dir` seule laisse l'autochargement pointer sur l'ancien
+path. Et `public/` se **renomme** sans rien d'autre, mais se **déplace** en
+corrigeant le path de `vendor/autoload_runtime.php` dans `public/index.php`.
 
-## Les quatre accesseurs du noyau
+## Les quatre accesseurs du kernel
 
-`Kernel` en expose quatre, pas deux, et leurs valeurs par défaut ne sont pas
+`Kernel` en expose quatre, pas deux, et leurs default values ne sont pas
 symétriques :
 
-| Méthode | Défaut |
+| Method | Défaut |
 |---|---|
 | `getCacheDir()` | `<projet>/var/cache/<environnement>` |
 | `getBuildDir()` | délègue à `getCacheDir()` |
 | `getShareDir(): ?string` | délègue à `getCacheDir()` |
-| `getLogDir()` | `<projet>/var/log` — **sans** l'environnement |
+| `getLogDir()` | `<projet>/var/log` — **sans** l'environment |
 
-Le cache est cloisonné par environnement, le log ne l'est pas. `getShareDir()`
+Le cache est cloisonné par environment, le log ne l'est pas. `getShareDir()`
 sert aux montages partagés entre plusieurs frontaux ; c'est le seul accesseur
-qui peut rendre `null`, et le paramètre de conteneur `%kernel.share_dir%` n'est
+qui peut rendre `null`, et le parameter de container `%kernel.share_dir%` n'est
 alors pas enregistré.
 
-## Les variables d'environnement, et qui les lit
+## Les variables d'environment, et qui les lit
 
 `APP_CACHE_DIR`, `APP_BUILD_DIR`, `APP_SHARE_DIR` et `APP_LOG_DIR` sont lues par
-**`MicroKernelTrait`**, pas par `Kernel` : un noyau qui n'utilise pas le trait
+**`MicroKernelTrait`**, pas par `Kernel` : un kernel qui n'utilise pas le trait
 les ignore.
 
 Les trois premières passent par `getEnvDir()`, qui **ajoute
-`/<environnement>`** au chemin reçu et résout un chemin relatif depuis la racine
+`/<environnement>`** au path reçu et résout un path relatif depuis la racine
 du projet. `APP_LOG_DIR` est prise telle quelle. La documentation les présente
-comme « le chemin complet du dossier » : la source dit autre chose, et la
+comme « le path complet du dossier » : la source dit autre chose, et la
 source tranche.
 
 ## Tips d'examen
 
-**Quatre clés plates sous `extra`, une imbriquée.** `bin-dir`, `config-dir`,
-`src-dir`, `public-dir` déplacent des répertoires ; `runtime.dotenv_path`
-déplace un fichier et se niche un cran plus bas.
+**Quatre keys plates sous `extra`, une imbriquée.** `bin-dir`, `config-dir`,
+`src-dir`, `public-dir` déplacent des directories ; `runtime.dotenv_path`
+déplace un file et se niche un cran plus bas.
 
-**Cache avec environnement, log sans.** Un seul mot à retenir, et il départage
-deux valeurs par défaut qu'on suppose symétriques.
+**Cache avec environment, log sans.** Un seul mot à retenir, et il départage
+deux default values qu'on suppose symétriques.
 
 ## Pièges d'examen
 
-**Aucune clé `extra` ne déplace `templates/`, `translations/` ni `vendor/`.**
+**Aucune key `extra` ne déplace `templates/`, `translations/` ni `vendor/`.**
 Les deux premiers se déplacent par **configuration de bundle** —
 `twig.default_path`, `framework.translator.default_path` — et `vendor/` par la
-clé **`config`** de Composer. `extra.templates-dir` n'existe pas.
+key **`config`** de Composer. `extra.templates-dir` n'existe pas.
 
 **`extra.src-dir` seul ne suffit pas.** Sans `autoload.psr-4` corrigé et
 `composer dump-autoload` relancé, l'autochargement cherche encore l'ancien
-chemin.
+path.
 
 **Les `APP_*_DIR` ne sont pas lues par `Kernel`.** C'est `MicroKernelTrait` qui
-les lit ; et trois d'entre elles se voient ajouter l'environnement, pas
+les lit ; et trois d'entre elles se voient ajouter l'environment, pas
 `APP_LOG_DIR`.
 
 **`config/packages/test/` ne s'ajoute pas à la configuration commune, il la
-surcharge.** Un sous-répertoire d'environnement n'est lu que dans cet
-environnement.
+surcharge.** Un sous-répertoire d'environment n'est lu que dans cet
+environment.
 
-**`public/` est le seul répertoire servi.** Un fichier utile au navigateur mais
+**`public/` est le seul directory servi.** Un file utile au navigateur mais
 posé ailleurs est inaccessible, quelle que soit la configuration Symfony — c'est
 le serveur web qui tranche, pas le framework.
 
 ## Points clés
 
-- `public/` est le seul répertoire exposé ; `var/` le seul répertoire écrit.
+- `public/` est le seul directory exposé ; `var/` le seul directory écrit.
 - `src/` = `App\`, et contient `Kernel.php`.
-- `config/packages/<env>/` surcharge la configuration pour un environnement.
+- `config/packages/<env>/` surcharge la configuration pour un environment.
 - Trois voies pour déplacer : `composer.json` (`extra`, et `config` pour
-  `vendor/`) ; la configuration d'un bundle (`twig`, `framework`) ; le noyau
+  `vendor/`) ; la configuration d'un bundle (`twig`, `framework`) ; le kernel
   (`getCacheDir()`, `getBuildDir()`, `getShareDir()`, `getLogDir()`) ou les
   `APP_*_DIR` que lit `MicroKernelTrait`.
 

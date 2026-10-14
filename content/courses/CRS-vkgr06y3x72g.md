@@ -36,97 +36,97 @@ official_sources:
 
 ## Objectif
 
-Rendre un paramètre facultatif, et connaître les deux règles qui en découlent.
+Rendre un parameter facultatif, et connaître les deux règles qui en découlent.
 
 ## La règle de base
 
-Dès qu'un paramètre apparaît dans le chemin, il **doit** avoir une valeur :
-`/blog/{page}` ne correspond pas à `/blog`. Lui donner une valeur par défaut le
+Dès qu'un parameter apparaît dans le path, il **doit** avoir une valeur :
+`/blog/{page}` ne correspond pas à `/blog`. Lui donner une default value le
 rend facultatif.
 
 L'endroit où on l'écrit dépend du format :
 
 | Format | Où |
 |---|---|
-| attribut PHP | **argument du contrôleur** : `list(int $page = 1)` |
+| attribute PHP | **argument du controller** : `list(int $page = 1)` |
 | YAML / PHP | option `defaults` |
-| inline | `{page?1}` dans le chemin |
+| inline | `{page?1}` dans le path |
 
-La forme inline se combine avec une contrainte inline :
+La forme inline se combine avec une constraint inline :
 `/blog/{page<[0-9]+>?1}`. Un `?` sans valeur, `{page?}`, donne la valeur par
-défaut `null` : l'argument du contrôleur doit alors être nullable.
+défaut `null` : l'argument du controller doit alors être nullable.
 
-### D'où vient le défaut en attributs
+### D'où vient le défaut en attributes
 
-`AttributeClassLoader` parcourt les paramètres de la méthode. Pour chacun qui a
-une valeur par défaut, **porte le nom d'un paramètre du chemin** et n'a pas déjà
+`AttributeClassLoader` parcourt les parameters de la method. Pour chacun qui a
+une default value, **porte le nom d'un parameter du path** et n'a pas déjà
 de défaut dans l'option `defaults`, il copie la valeur dans la route. Seules les
-valeurs scalaires, `null` et les cas d'énumération adossée — dont il copie la
-`value` — sont reprises. Un argument par défaut sans paramètre homonyme dans le
-chemin ne rend rien facultatif.
+valeurs scalaires, `null` et les cas d'enum adossée — dont il copie la
+`value` — sont reprises. Un argument par défaut sans parameter homonyme dans le
+path ne rend rien facultatif.
 
-## Tout ce qui suit un paramètre facultatif doit l'être
+## Tout ce qui suit un parameter facultatif doit l'être
 
-C'est la contrainte structurelle de l'item. `/blog/{slug}/{page}` accepte
-plusieurs paramètres facultatifs, mais **tout ce qui vient après un paramètre
+C'est la constraint structurelle de l'item. `/blog/{slug}/{page}` accepte
+plusieurs parameters facultatifs, mais **tout ce qui vient après un parameter
 facultatif doit être facultatif aussi**.
 
-La conséquence surprend : `/{page}/blog` est un chemin valide, mais `page` y
-sera **toujours obligatoire**, même avec une valeur par défaut — car quelque
+La conséquence surprend : `/{page}/blog` est un path valide, mais `page` y
+sera **toujours obligatoire**, même avec une default value — car quelque
 chose de non facultatif (`/blog`) le suit. `/blog` ne correspondra pas.
 
 ## Le point d'exclamation
 
-Une valeur par défaut placée **en fin de chemin** disparaît de l'URL générée : la
+Une default value placée **en fin de path** disparaît de l'URL générée : la
 route `blog_list` avec `page = 1` produit `/blog`, pas `/blog/1`. Pour **forcer**
-l'inclusion de la valeur par défaut, on préfixe le nom du paramètre par `!` :
+l'inclusion de la default value, on préfixe le nom du parameter par `!` :
 
 ```text
 /blog/{!page}
 ```
 
 La documentation n'en décrit que cet effet. Le compilateur de routes en montre
-un second : un paramètre marqué `!` est dit *important*, et
+un second : un parameter marqué `!` est dit *important*, et
 `RouteCompiler` ne rend facultative qu'une variable « not important » qui a une
-valeur par défaut. Avec `{!page}`, `page` redevient **obligatoire à
+default value. Avec `{!page}`, `page` redevient **obligatoire à
 l'appariement** : `/blog` ne correspond plus, seul `/blog/1` correspond.
 
 Le `!` agit donc des deux côtés — génération **et** appariement.
 
-## Défaut et contrainte
+## Défaut et constraint
 
-La valeur par défaut n'a pas à satisfaire la contrainte du paramètre. Elle n'est
+La default value n'a pas à satisfaire la constraint du parameter. Elle n'est
 pas issue de l'URL, donc elle n'est pas filtrée.
 
 ## Pièges d'examen
 
-**Tout ce qui suit un paramètre facultatif doit l'être aussi.** La conséquence
-surprend : un chemin qui place le paramètre avant un segment fixe rend ce
-paramètre **toujours obligatoire**, valeur par défaut ou non.
+**Tout ce qui suit un parameter facultatif doit l'être aussi.** La conséquence
+surprend : un path qui place le parameter avant un segment fixe rend ce
+parameter **toujours obligatoire**, default value ou non.
 
-**Une valeur par défaut en fin de chemin disparaît de l'URL générée.** L'inclure
+**Une default value en fin de path disparaît de l'URL générée.** L'inclure
 de force s'écrit `{!page}`.
 
-**`{!page}` rend aussi le paramètre obligatoire à l'appariement.** Une variable
+**`{!page}` rend aussi le parameter obligatoire à l'appariement.** Une variable
 importante n'est jamais facultative pour le compilateur.
 
-**Un défaut d'argument ne compte que si le chemin porte un paramètre du même
+**Un défaut d'argument ne compte que si le path porte un parameter du même
 nom.**
 
-**La valeur par défaut n'a pas à satisfaire la contrainte du paramètre.** La
-contrainte porte sur ce qui vient de l'URL, pas sur ce que la route fournit
+**La default value n'a pas à satisfaire la constraint du parameter.** La
+constraint porte sur ce qui vient de l'URL, pas sur ce que la route fournit
 elle-même.
 
 ## Points clés
 
-- Un paramètre sans valeur par défaut est obligatoire.
-- En attributs, la valeur par défaut est **l'argument du contrôleur**.
-- Tout ce qui suit un paramètre facultatif doit être facultatif : `/{page}/blog`
+- Un parameter sans default value est obligatoire.
+- En attributes, la default value est **l'argument du controller**.
+- Tout ce qui suit un parameter facultatif doit être facultatif : `/{page}/blog`
   garde `page` obligatoire.
-- `{!page}` force la valeur par défaut dans l'URL générée **et** rend `page`
+- `{!page}` force la default value dans l'URL générée **et** rend `page`
   obligatoire à l'appariement.
 - `{page?}` : défaut `null`, argument nullable.
-- La valeur par défaut peut violer la contrainte.
+- La default value peut violer la constraint.
 
 ## Sources officielles
 

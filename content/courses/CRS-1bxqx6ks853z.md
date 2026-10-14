@@ -41,14 +41,14 @@ Distinguer trois notions que le vocabulaire Symfony sépare strictement :
 
 ## Le composant
 
-Un composant est une bibliothèque PHP **autonome**, sans dépendance au
+Un composant est une bibliothèque PHP **autonome**, sans dependency au
 framework, qui résout un problème précis : HttpFoundation, Routing, Console,
 Finder, Validator. Chacun a son propre dépôt en lecture seule (`symfony/console`,
 `symfony/routing`…), extrait du mono-dépôt `symfony/symfony`, et peut être
 installé seul dans n'importe quel projet PHP.
 
-Le mono-dépôt déclare cette équivalence dans la clé `replace` de son
-`composer.json` : installer `symfony/symfony` remplace chacun des paquets
+Le mono-dépôt déclare cette équivalence dans la key `replace` de son
+`composer.json` : installer `symfony/symfony` remplace chacun des packages
 individuels.
 
 ## Le bridge
@@ -59,23 +59,23 @@ il ne fait aucune intégration dans le framework lui-même.
 
 Le bridge Twig en est l'exemple canonique : il fournit les extensions Twig qui
 donnent accès aux fonctionnalités des composants Symfony — génération d'URL,
-rendu de formulaire, traduction — depuis un gabarit. Sans Twig il est inutile,
+rendu de form, translation — depuis un template. Sans Twig il est inutile,
 sans les composants il n'a rien à exposer.
 
-Sur la branche 8.0, **trois** bridges sont publiés comme paquets séparés et
-listés dans la clé `replace` du mono-dépôt : `symfony/doctrine-bridge`,
-`symfony/monolog-bridge` et `symfony/twig-bridge`. Le répertoire
+Sur la branche 8.0, **trois** bridges sont publiés comme packages séparés et
+listés dans la key `replace` du mono-dépôt : `symfony/doctrine-bridge`,
+`symfony/monolog-bridge` et `symfony/twig-bridge`. Le directory
 `src/Symfony/Bridge/` en compte pourtant **cinq** : deux autres, `PhpUnit` et
 `PsrHttpMessage`, sont **absents** de `replace` et publiés à part.
 `symfony/psr-http-message-bridge` relie HttpFoundation et PSR-7 — il exige
-`psr/http-message` et `symfony/http-foundation`, conforme à la définition ;
+`psr/http-message` et `symfony/http-foundation`, conforme à la definition ;
 `PhpUnit`, lui, la dément — voir ci-dessous.
 
 ## Le bundle
 
 Un bundle est le code d'intégration **dans le framework Symfony** : il fournit
-une extension de configuration, enregistre des services dans le conteneur,
-ajoute des commandes ou des routes. `FrameworkBundle`, `TwigBundle`,
+une extension de configuration, enregistre des services dans le container,
+ajoute des commands ou des routes. `FrameworkBundle`, `TwigBundle`,
 `SecurityBundle` sont des bundles.
 
 ## Le triangle
@@ -91,23 +91,23 @@ fonctionnalité, un **bridge** la relie à une bibliothèque tierce, un **bundle
 la branche dans le framework et la rend configurable. C'est pourquoi un même
 outil apparaît parfois trois fois sous trois noms voisins.
 
-## `replace` et `provide`, deux clés distinctes
+## `replace` et `provide`, deux keys distinctes
 
 Le `composer.json` du mono-dépôt en porte deux, et elles ne disent pas la même
 chose.
 
-`replace` liste **65 paquets**, et pas seulement des composants : cinq bundles y
+`replace` liste **65 packages**, et pas seulement des composants : cinq bundles y
 figurent — `framework-bundle`, `security-bundle`, `twig-bundle`,
 `debug-bundle`, `web-profiler-bundle`. Un projet qui exige `symfony/console` est
-donc satisfait par `symfony/symfony`, sans que le paquet séparé soit installé.
+donc satisfait par `symfony/symfony`, sans que le package séparé soit installé.
 
-`provide` ne liste **aucun** paquet Symfony : uniquement des noms terminés par
+`provide` ne liste **aucun** package Symfony : uniquement des noms terminés par
 `-implementation` — `psr/log-implementation`, `psr/cache-implementation`,
-`symfony/event-dispatcher-implementation`. La clé déclare que ce dépôt fournit
+`symfony/event-dispatcher-implementation`. La key déclare que ce dépôt fournit
 une implémentation de ces interfaces, ce qui satisfait une bibliothèque tierce
 qui l'exige.
 
-## Le bridge PhpUnit, qui dément la définition
+## Le bridge PhpUnit, qui dément la definition
 
 `src/Symfony/Bridge/PhpUnit/` existe sur la branche 8.0, porte
 `"type": "symfony-bridge"`, et pourtant :
@@ -119,9 +119,9 @@ qui l'exige.
 ```
 
 **Il ne dépend d'aucun composant Symfony et d'aucune bibliothèque tierce.** Son
-seul prérequis est PHP. Il n'a donc pas les « deux côtés » que la définition
+seul prérequis est PHP. Il n'a donc pas les « deux côtés » que la definition
 générale suppose — c'est un bridge par son nom et par son type déclaré, pas par
-sa structure de dépendances.
+sa structure de dependencies.
 
 Comparer avec le bridge Twig, qui est le cas canonique :
 
@@ -129,7 +129,7 @@ Comparer avec le bridge Twig, qui est le cas canonique :
 "require": { "php": ">=8.4", "symfony/translation-contracts": "^2.5|^3", "twig/twig": "^3.21|^4.0" }
 ```
 
-Deux détails valent d'être remarqués. D'abord la contrainte PHP : `>=8.1.0`
+Deux détails valent d'être remarqués. D'abord la constraint PHP : `>=8.1.0`
 pour le bridge PHPUnit contre `>=8.4` pour le bridge Twig — le premier doit
 pouvoir s'exécuter sur des PHP plus anciens, puisqu'il sert à tester. Ensuite
 son absence de `replace` : installer `symfony/symfony` ne fournit **pas**
@@ -141,11 +141,11 @@ son absence de `replace` : installer `symfony/symfony` ne fournit **pas**
 besoin d'une bibliothèque tierce ? → bridge. Configure-t-il le framework ? →
 bundle.
 
-**`replace` ≠ `require`.** Le mono-dépôt déclare remplacer 65 paquets ; il ne
+**`replace` ≠ `require`.** Le mono-dépôt déclare remplacer 65 packages ; il ne
 les installe pas en plus.
 
 **Le bridge PHPUnit est l'exception à connaître** : aucun côté tiers et une
-contrainte PHP plus basse que le reste du framework. L'absence de `replace`, il
+constraint PHP plus basse que le reste du framework. L'absence de `replace`, il
 la partage avec `PsrHttpMessage`.
 
 ## Pièges d'examen
@@ -159,17 +159,17 @@ projet Symfony n'enregistre aucun service.
 quelconque est le test : si c'est impossible, ce n'est pas un composant.
 
 **`replace` n'est pas `require`.** Le `composer.json` du mono-dépôt déclare que
-`symfony/symfony` *remplace* chaque paquet individuel ; il ne les installe pas
+`symfony/symfony` *remplace* chaque package individuel ; il ne les installe pas
 en plus.
 
 ## Points clés
 
 - Composant = bibliothèque autonome, dépôt propre, utilisable hors framework.
-- Bridge = intégration composant ↔ bibliothèque tierce ; cinq répertoires,
+- Bridge = intégration composant ↔ bibliothèque tierce ; cinq directories,
   dont trois listés dans `replace` ; `PhpUnit` et `PsrHttpMessage` n'y sont
-  pas, et `PhpUnit` dément la définition.
+  pas, et `PhpUnit` dément la definition.
 - Bundle = intégration dans le framework ; c'est lui qui configure.
-- `replace` dans le `composer.json` du mono-dépôt liste les paquets remplacés.
+- `replace` dans le `composer.json` du mono-dépôt liste les packages remplacés.
 
 ## Sources officielles
 

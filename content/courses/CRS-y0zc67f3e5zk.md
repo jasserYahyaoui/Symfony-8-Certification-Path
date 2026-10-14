@@ -31,18 +31,18 @@ official_sources:
 
 ## Objectif
 
-Intervenir autour de l'exécution d'une commande sans la modifier : journaliser,
+Intervenir autour de l'exécution d'une command sans la modifier : journaliser,
 mesurer, empêcher, rattraper une erreur.
 
 ## Prérequis
 
-Le cycle d'une commande, et le dispatcher d'événements.
+Le cycle d'une command, et le dispatcher d'events.
 
-## Les quatre événements
+## Les quatre events
 
-`ConsoleEvents` déclare **quatre** événements — et une cinquième constante,
-`ALIASES`, qui associe chaque classe d'événement à son nom pour que l'on puisse
-s'abonner par la classe :
+`ConsoleEvents` déclare **quatre** events — et une cinquième constante,
+`ALIASES`, qui associe chaque class d'event à son nom pour que l'on puisse
+s'abonner par la class :
 
 | Constante | Valeur | Quand |
 |---|---|---|
@@ -62,9 +62,9 @@ application Symfony, FrameworkBundle le lui donne ; une `Application` construite
 title: Application::doRunCommand()
 ---
 flowchart TD
-  accTitle: L'ordre des événements autour d'une commande console
-  accDescr: Sans dispatcher, la commande s'exécute seule, sans aucun événement. Avec un dispatcher, console.command est dispatché. Si un écouteur appelle disableCommand(), la commande n'est pas exécutée et le code vaut 113. Sinon elle s'exécute. Une exception mène à console.error, où poser le code 0 abandonne l'erreur. Dans tous les cas console.terminate est dispatché, puis l'erreur restante est relancée, ou le code de sortie de l'événement est rendu.
-  D{"dispatcher ?"} -->|"non"| ALONE(["exécution seule, aucun événement"])
+  accTitle: L'ordre des events autour d'une command console
+  accDescr: Sans dispatcher, la command s'exécute seule, sans aucun event. Avec un dispatcher, console.command est dispatché. Si un listener appelle disableCommand(), la command n'est pas exécutée et le code vaut 113. Sinon elle s'exécute. Une exception mène à console.error, où poser le code 0 abandonne l'erreur. Dans tous les cas console.terminate est dispatché, puis l'erreur restante est relancée, ou le code de sortie de l'event est rendu.
+  D{"dispatcher ?"} -->|"non"| ALONE(["exécution seule, aucun event"])
   D -->|"oui"| CMD["console.command"]
   CMD --> DIS{"disableCommand() ?"}
   DIS -->|"oui"| C113["code 113, pas d'exécution"]
@@ -75,7 +75,7 @@ flowchart TD
   ERR --> TERM
   TERM --> OUT{"erreur restante ?"}
   OUT -->|"oui"| THROW(["relancée"])
-  OUT -->|"non"| CODE(["rend le code de l'événement"])
+  OUT -->|"non"| CODE(["rend le code de l'event"])
 ```
 
 Le point que l'examen teste : **`TERMINATE` est toujours atteint**, y compris
@@ -166,7 +166,7 @@ class CommandLogger implements EventSubscriberInterface
 
 ## Pièges d'examen
 
-**Quatre événements, pas cinq.** Il n'existe pas d'événement « après
+**Quatre events, pas cinq.** Il n'existe pas d'event « après
 `configure()` » ni d'équivalent console de `kernel.request`.
 
 **`TERMINATE` est dispatché même après une erreur** — c'est sa raison d'être.
@@ -176,11 +176,11 @@ quand même dispatché.
 
 **`setExitCode(0)` sur `ERROR` avale l'exception** au lieu de la laisser remonter.
 
-**Pas de dispatcher, pas d'événements** : une `Application` autonome est muette.
+**Pas de dispatcher, pas d'events** : une `Application` autonome est muette.
 
 ## Points clés
 
-- `COMMAND`, `SIGNAL`, `ERROR`, `TERMINATE` — quatre événements déclarés par
+- `COMMAND`, `SIGNAL`, `ERROR`, `TERMINATE` — quatre events déclarés par
   `ConsoleEvents`, plus la table `ALIASES`.
 - Ordre : `COMMAND` → exécution → (`ERROR`) → `TERMINATE`, toujours.
 - `disableCommand()` empêche l'exécution et sort avec 113.

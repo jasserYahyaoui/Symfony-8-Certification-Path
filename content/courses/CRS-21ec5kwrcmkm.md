@@ -18,7 +18,7 @@ official_sources:
 
 ## Objectif
 
-Savoir ce que la promesse de rétrocompatibilité garantit **à l'utilisateur de
+Savoir ce que la backward compatibility promise garantit **au user de
 Symfony**, et surtout ce qu'elle ne garantit pas.
 
 ## Le principe
@@ -32,42 +32,42 @@ Le point important est que la promesse n'est pas globale : elle dépend de la
 
 ## Utiliser, étendre, implémenter
 
-**Utiliser** est toujours couvert : typer un argument avec une classe ou une
-interface Symfony, instancier, appeler une méthode publique, lire une propriété
+**Utiliser** est toujours couvert : typer un argument avec une class ou une
+interface Symfony, instancier, appeler une method publique, lire une property
 publique. **Implémenter une interface** l'est aussi.
 
-**Étendre une classe** est couvert pour l'essentiel — accéder à une propriété
-protégée, appeler ou surcharger une méthode publique ou protégée. Le tableau
+**Étendre une class** est couvert pour l'essentiel — accéder à une property
+protégée, appeler ou surcharger une method publique ou protégée. L'array
 officiel répond **non** à quatre lignes, et elles ne se valent pas :
 
-| Dans une classe que vous étendez… | Garanti ? |
+| Dans une class que vous étendez… | Garanti ? |
 |---|---|
-| ajouter une **nouvelle propriété** | **non** |
-| ajouter une **nouvelle méthode** | **non** |
-| appeler une méthode privée par réflexion | **non** |
-| accéder à une propriété privée par réflexion | **non** |
+| ajouter une **nouvelle property** | **non** |
+| ajouter une **nouvelle method** | **non** |
+| appeler une method privée par réflexion | **non** |
+| accéder à une property privée par réflexion | **non** |
 
 Les **deux premières** vous concernent en écrivant du code ordinaire : si vous
 ajoutez `getFoo()` et que Symfony ajoute `getFoo()` avec une autre signature dans
 une version mineure, la collision est inévitable. Le risque vous appartient.
 
-Les **deux dernières** ne sont pas propres à l'héritage : le privé atteint par
-réflexion sort de l'API publique, quelle que soit la classe.
+Les **deux dernières** ne sont pas propres à l'inheritance : le privé atteint par
+réflexion sort de l'API publique, quelle que soit la class.
 
 ## Les traits, et leur asymétrie avec les classes
 
-Le document leur consacre une section entière, et son tableau ne répond
-**jamais non** : le trait lui-même, ses propriétés et ses méthodes — publiques,
+Le document leur consacre une section entière, et son array ne répond
+**jamais non** : le trait lui-même, ses properties et ses methods — publiques,
 protégées **ou privées** — son usage pour implémenter une interface, une
-méthode abstraite ou une classe abstraite, tout est garanti.
+method abstraite ou une abstract class, tout est garanti.
 
-Le contraste avec les classes est net : le privé d'une **classe** n'est jamais
+Le contraste avec les classes est net : le privé d'une **class** n'est jamais
 garanti, le privé d'un **trait** l'est toujours. La raison est structurelle —
-un trait importé fait partie de *votre* classe. Seule exception : `@internal`.
+un trait importé fait partie de *votre* class. Seule exception : `@internal`.
 
 ## Ajouter un argument : toujours en dernier
 
-Un argument ne s'ajoute à une méthode publique **que s'il est le dernier**. Le
+Un argument ne s'ajoute à une method publique **que s'il est le dernier**. Le
 procédé explique une bizarrerie qu'on croise dans le code du framework :
 
 ```php
@@ -85,47 +85,47 @@ actuel — ici `false`, quand l'argument commenté annonce `true` pour plus tard
 
 Sont **hors** de la promesse :
 
-- ce qui porte `@internal` — classe, interface, trait, méthode, propriété — et
-  tout ce qui vit dans un espace de noms `*\Tests\` ;
+- ce qui porte `@internal` — class, interface, trait, method, property — et
+  tout ce qui vit dans un namespace `*\Tests\` ;
 - les **fonctionnalités expérimentales**, marquées `@experimental`. Une
-  fonctionnalité ne peut le rester **qu'une seule version mineure** — le noyau
+  fonctionnalité ne peut le rester **qu'une seule version mineure** — le kernel
   de l'équipe peut prolonger d'**une** de plus au cas par cas — et ne peut
   **jamais** être introduite dans une version **LTS**. Tant qu'elle l'est, le
   `CHANGELOG` doit expliquer chaque rupture et la façon de migrer ;
-- les traductions internes de sécurité et de validation.
+- les translations internes de sécurité et de validation.
 
 Une rupture est également tolérée lorsqu'elle est nécessaire pour corriger une
 faille de sécurité.
 
 ## Le piège des arguments nommés
 
-Les **noms de paramètres** ne sont couverts que pour les **constructeurs de
-classes d'attribut**. Partout ailleurs, `$service->method(timeout: 5)` peut
-casser en montant d'une mineure : le nom du paramètre peut changer.
+Les **noms de parameters** ne sont couverts que pour les **constructeurs de
+classes d'attribute**. Partout ailleurs, `$service->method(timeout: 5)` peut
+casser en montant d'une mineure : le nom du parameter peut changer.
 
 ## final et @final
 
 Le mot-clé `final` interdit l'extension. L'annotation `@final` marque la même
 intention **sans l'imposer techniquement** : le code fonctionne, mais l'étendre
 sort de la promesse. `@final since Symfony x.y` signale une transition — la
-classe n'est pas encore considérée finale.
+class n'est pas encore considérée finale.
 
 ## Pièges d'examen
 
 **« Étendre est couvert » est vrai à quatre lignes près.** Ajouter une
-**propriété** ou une **méthode** à une classe Symfony étendue n'est pas
+**property** ou une **method** à une class Symfony étendue n'est pas
 garanti : Symfony peut introduire le même nom en mineure. Les deux autres
 lignes visent le privé par réflexion, jamais garanti.
 
 **Les arguments nommés ne sont pas couverts**, sauf pour les constructeurs de
-classes d'attribut.
+classes d'attribute.
 
-**`@final` n'interdit rien techniquement.** Le code qui étend une classe `@final`
+**`@final` n'interdit rien techniquement.** Le code qui étend une class `@final`
 fonctionne — il sort simplement de la promesse. Seul le mot-clé `final` empêche
 l'extension.
 
-**Privé d'un trait ≠ privé d'une classe.** Le premier est garanti, le second
-jamais. Le trait devient votre code ; la classe reste celle de Symfony.
+**Privé d'un trait ≠ privé d'une class.** Le premier est garanti, le second
+jamais. Le trait devient votre code ; la class reste celle de Symfony.
 
 **Un argument ne s'ajoute qu'en dernière position.** Une signature Symfony qui
 porte un argument en commentaire n'est pas un oubli : c'est le procédé
@@ -133,8 +133,8 @@ officiel.
 
 ## Tips d'examen
 
-**Trois verbes, trois réponses.** Utiliser → oui. Implémenter → oui. Étendre →
-oui, sauf ajouter une propriété ou une méthode.
+**Trois verbes, trois Responses.** Utiliser → oui. Implémenter → oui. Étendre →
+oui, sauf ajouter une property ou une method.
 
 **« Une seule mineure » est le chiffre de l'expérimental**, et « jamais en
 LTS » sa seconde moitié.
@@ -142,9 +142,9 @@ LTS » sa seconde moitié.
 ## Points clés
 
 - Utiliser et implémenter : couverts. Étendre : couvert **sauf** ajout de
-  propriété ou de méthode.
-- `@internal`, expérimental et traductions internes sont hors promesse.
-- Arguments nommés garantis uniquement pour les constructeurs d'attributs.
+  property ou de method.
+- `@internal`, expérimental et translations internes sont hors promesse.
+- Arguments nommés garantis uniquement pour les constructeurs d'attributes.
 - `@final` marque l'intention ; `final` l'impose.
 - Traits : tout est garanti, **privé compris** ; seule exception, `@internal`.
 - `@experimental` : une mineure seulement, jamais en LTS.

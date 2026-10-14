@@ -32,29 +32,29 @@ official_sources:
 
 ## Objectif
 
-Comprendre qui collecte quoi, où c'est stocké, et par quels points d'entrée on y
+Comprendre qui collecte quoi, où c'est stocké, et par quels entry points on y
 accède — y compris quand la barre n'apparaît pas.
 
 ## Prérequis
 
-Le cycle du noyau HTTP et ses événements ; le débogage du code.
+Le cycle du kernel HTTP et ses events ; le debug du code.
 
-## Trois pièces, trois rôles
+## Trois pièces, trois roles
 
-| Pièce | Rôle |
+| Pièce | Role |
 |---|---|
-| **Collecteurs de données** | ramassent l'information pendant la requête |
-| **Profileur** | stocke ces données sous un **jeton**, et les ressert |
-| **Barre de débogage** | affiche un résumé en bas de la page |
+| **Data collectors** | ramassent l'information pendant la Request |
+| **Profiler** | stocke ces données sous un **token**, et les ressert |
+| **Debug toolbar** | affiche un résumé en bas de la page |
 
-La barre est une **vue** sur le profileur, pas une source. Retirer la barre ne
+La barre est une **vue** sur le profiler, pas une source. Retirer la barre ne
 supprime pas les données.
 
 ## Jamais en production
 
-La documentation est catégorique : **ne jamais activer le profileur en
+La documentation est catégorique : **ne jamais activer le profiler en
 production** — cela ouvrirait des vulnérabilités majeures. Il s'installe en
-dépendance de développement :
+dependency de développement :
 
 ```bash
 composer require --dev symfony/profiler-pack
@@ -62,29 +62,29 @@ composer require --dev symfony/profiler-pack
 
 ## La barre n'apparaît pas toujours
 
-Elle n'est injectée que dans les réponses **HTML**. Pour une réponse JSON — le
+Elle n'est injectée que dans les Responses **HTML**. Pour une Response JSON — le
 cas d'une API — rien ne s'affiche, et c'est normal. Exécuté sur
-WebProfilerBundle 8.0.15, profileur actif :
+WebProfilerBundle 8.0.15, profiler actif :
 
-| Réponse | Barre injectée | `X-Debug-Token-Link` |
+| Response | Barre injectée | `X-Debug-Token-Link` |
 |---|---|---|
 | HTML avec `</body>` | oui | présent |
 | JSON | non | présent |
-| redirection 302 | non | présent |
-| HTML sans balise `</body>` | non | présent |
+| redirect 302 | non | présent |
+| HTML sans tag `</body>` | non | présent |
 | HTML demandé en XHR | non | présent |
 
-L'injection se fait juste avant `</body>` : sans cette balise, il n'y a pas
+L'injection se fait juste avant `</body>` : sans ce tag, il n'y a pas
 d'endroit où l'insérer. **Le profil, lui, existe dans tous les cas.**
 
-L'accès passe alors par deux en-têtes de réponse :
+L'accès passe alors par deux headers de Response :
 
-| En-tête | Contenu |
+| Header | Contenu |
 |---|---|
-| `X-Debug-Token` | le jeton du profil |
+| `X-Debug-Token` | le token du profil |
 | `X-Debug-Token-Link` | l'URL directe du profil |
 
-L'URL `/_profiler` liste tous les profils. C'est la réponse à « je n'ai pas de
+L'URL `/_profiler` liste tous les profils. C'est la Response à « je n'ai pas de
 barre, comment je vois le profil ? ».
 
 ## Le stockage n'est pas permanent
@@ -96,7 +96,7 @@ ancien.
 Lu dans `FileProfilerStorage` (8.0) : à chaque écriture d'un nouveau profil, une
 chance sur dix (`random_int(1, 10)`) déclenche la purge des profils de plus de
 `2 * 86400` secondes. Un profil ancien peut donc survivre tant que peu de
-requêtes sont profilées.
+Requests sont profilées.
 
 ## Y accéder par le code
 
@@ -110,10 +110,10 @@ $tokens  = $profiler->find('', '/admin/', 10, '', '', '');
 ```
 
 Le service `profiler` s'autocâble sur le type `Profiler`. En production il
-n'existe pas : un contrôleur qui le reçoit doit accepter `?Profiler` et tester
+n'existe pas : un controller qui le reçoit doit accepter `?Profiler` et tester
 la valeur nulle avant d'appeler `enable()` ou `disable()`.
 
-## Les collecteurs
+## Les collectors
 
 Ce sont des services. La liste réellement active se lit :
 
@@ -121,44 +121,44 @@ Ce sont des services. La liste réellement active se lit :
 php bin/console debug:container --tag=data_collector
 ```
 
-Un collecteur implémente `DataCollectorInterface`, ou étend
-`AbstractDataCollector`, qui fournit la propriété `$this->data`.
+Un collector implémente `DataCollectorInterface`, ou étend
+`AbstractDataCollector`, qui fournit la property `$this->data`.
 
-Trois méthodes, et une contrainte de moment pour chacune :
+Trois methods, et une constraint de moment pour chacune :
 
-| Méthode | Rôle |
+| Method | Role |
 |---|---|
 | `collect()` | **appelée une seule fois**, sur `kernel.response` |
-| `reset()` | vide l'état entre deux requêtes |
-| `getName()` | l'identifiant, unique dans l'application |
+| `reset()` | vide l'état entre deux Requests |
+| `getName()` | l'identifier, unique dans l'application |
 
 Deux points que l'examen peut viser :
 
 **`collect()` ne rassemble pas, elle ramasse.** Elle est appelée une fois ; le
-travail de mesure doit avoir été fait par un service pendant la requête. Écrire
+travail de mesure doit avoir été fait par un service pendant la Request. Écrire
 la collecte dans `collect()` ne marche pas.
 
-**Les données sont sérialisées.** Un objet non sérialisable — une connexion, une
+**Les données sont sérialisées.** Un object non sérialisable — une connexion, une
 ressource — ne peut pas être stocké tel quel.
 
-Pour une donnée qui n'existe qu'après la réponse, on implémente
-`LateDataCollectorInterface` et sa méthode `lateCollect()`, appelée juste avant
-la sérialisation, pendant **`kernel.terminate`**.
+Pour une donnée qui n'existe qu'après la Response, on implémente
+`LateDataCollectorInterface` et sa method `lateCollect()`, appelée juste avant
+la serialization, pendant **`kernel.terminate`**.
 
 Lu dans `ProfilerListener` (8.0) : `onKernelResponse()` appelle
 `Profiler::collect()`, donc chaque `collect()` ; `onKernelTerminate()` appelle
 `Profiler::saveProfile()`, qui appelle chaque `lateCollect()` puis écrit le
 profil.
 
-Avec `autoconfigure`, le collecteur est pris en compte sans configuration ;
-sinon il faut poser l'étiquette `data_collector`.
+Avec `autoconfigure`, le collector est pris en compte sans configuration ;
+sinon il faut poser le tag `data_collector`.
 
 ## Pièges d'examen
 
-**Le profileur est un outil de développement** — jamais activé en production.
+**Le profiler est un outil de développement** — jamais activé en production.
 
 **La barre n'est injectée que dans du HTML qui a un `</body>`**, hors
-redirection et hors XHR ; sinon, `X-Debug-Token-Link`, toujours présent.
+redirect et hors XHR ; sinon, `X-Debug-Token-Link`, toujours présent.
 
 **`collect()` est appelée une fois, sur `kernel.response`** ;
 `lateCollect()` sur `kernel.terminate`.
@@ -166,13 +166,13 @@ redirection et hors XHR ; sinon, `X-Debug-Token-Link`, toujours présent.
 **Les profils disparaissent après environ 2 jours** — purge déclenchée une
 fois sur dix, à l'écriture d'un profil.
 
-**`getName()` doit être unique** : c'est la clé d'accès au collecteur.
+**`getName()` doit être unique** : c'est la clé d'accès au collector.
 
 ## Points clés
 
-- Collecteurs → profileur → barre : trois rôles distincts, la barre n'est
+- Collectors → profiler → barre : trois roles distincts, la barre n'est
   qu'une vue.
-- Dépendance `--dev` ; jamais en production.
+- Dependency `--dev` ; jamais en production.
 - Sans HTML, passer par `X-Debug-Token-Link` ou `/_profiler`.
 - `collect()` ramasse sur `kernel.response`, `lateCollect()` sur
   `kernel.terminate`, les données sont sérialisées.

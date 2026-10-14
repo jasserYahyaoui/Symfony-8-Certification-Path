@@ -29,7 +29,7 @@ Symfony suit le *semantic versioning* et publie selon un modèle basé sur le
 | Type | Fréquence | Contenu |
 |---|---|---|
 | **correctif** (7.1.4) | environ tous les mois | corrections de bugs seulement |
-| **mineure** (7.1 → 7.2) | tous les **six mois**, en **mai** et en **novembre** | corrections, nouvelles fonctionnalités, nouvelles dépréciations, aucune rupture |
+| **mineure** (7.1 → 7.2) | tous les **six mois**, en **mai** et en **novembre** | corrections, nouvelles fonctionnalités, nouvelles deprecations, aucune rupture |
 | **majeure** (7.0 → 8.0) | tous les **deux ans**, en **novembre des années impaires** | peut rompre la compatibilité |
 
 **Aucune feuille de route n'est écrite à l'avance** : le projet est piloté par
@@ -77,7 +77,7 @@ autres la stabilité, et chacun sait combien de temps il a.
 
 Une majeure se développe **en parallèle** de la dernière mineure de la branche
 précédente — 8.0 avec 7.4 — et les deux ont les **mêmes fonctionnalités**. Elles
-ne diffèrent que par les dépréciations : présentes dans l'ancienne, supprimées
+ne diffèrent que par les deprecations : présentes dans l'ancienne, supprimées
 dans la nouvelle. C'est ce qui rend la montée praticable.
 
 ## PHP
@@ -102,7 +102,7 @@ Deux précisions que la règle générale masque :
 ## Pièges d'examen
 
 **Une LTS n'a pas une seule durée, elle en a deux.** Trois ans de correction de
-bugs, **quatre** ans de correction de failles : la sécurité continue un an après
+bugs, **quatre** ans de correction de failles : la security continue un an après
 l'arrêt des bugs. Une version standard, elle, s'arrête à 8 mois pour les deux.
 
 **Le calendrier est fixe, le contenu ne l'est pas.** Mineures en mai et
@@ -110,7 +110,7 @@ novembre, majeures en novembre des années impaires — mais **aucune feuille de
 route** n'annonce leur contenu.
 
 **8.0 et 7.4 ont les mêmes fonctionnalités.** Elles ne diffèrent que par les
-dépréciations, présentes dans l'une, supprimées dans l'autre. Monter en version
+deprecations, présentes dans l'une, supprimées dans l'autre. Monter en version
 majeure n'apporte donc rien de neuf par lui-même.
 
 **« Le minimum PHP est fixé par majeure » souffre une exception.** Une mineure

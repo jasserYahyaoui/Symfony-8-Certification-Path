@@ -22,8 +22,8 @@ official_sources:
 
 ## Objectif
 
-Traduire un message selon la locale de l'utilisateur, et savoir exactement quel
-fichier Symfony va lire — c'est là que se jouent les surprises.
+Traduire un message selon la locale du user, et savoir exactement quel
+file Symfony va lire — c'est là que se jouent les surprises.
 
 ## Périmètre
 
@@ -31,16 +31,16 @@ L'énoncé officiel le précise : **les utilitaires d'accès aux données ICU du
 composant Intl ne sont pas inclus**. Cette page ne traite donc pas des classes
 qui listent pays, langues ou devises.
 
-Elle traite en revanche **ICU MessageFormat**, qui appartient à la traduction et
+Elle traite en revanche **ICU MessageFormat**, qui appartient à la translation et
 non à ces utilitaires.
 
 ## Prérequis
 
-La détection de la locale à partir de la requête, et la locale de route.
+La détection de la locale à partir de la Request, et la locale de route.
 
 ## Deux mots à ne pas confondre
 
-**Internationalisation** (*i18n*) : sortir de l'application les chaînes et tout
+**Internationalisation** (*i18n*) : sortir de l'application les strings et tout
 ce qui dépend de la locale, pour les placer dans une couche traduisible.
 **Localisation** : fournir les valeurs pour une locale donnée.
 
@@ -58,31 +58,31 @@ $translator->trans('Hello World', domain: 'app');
 Les messages se rangent en **domaines** ; le domaine par défaut est `messages`.
 
 Le point important sur `trans()` : **si le message n'est pas dans le catalogue,
-la chaîne d'origine est retournée**. Aucune erreur, aucun message vide. Une
-traduction manquante est donc silencieuse — le symptôme est une clé affichée
+la string d'origine est retournée**. Aucune erreur, aucun message vide. Une
+translation manquante est donc silencieuse — le symptôme est une key affichée
 telle quelle.
 
-## Le nom du fichier n'est pas décoratif
+## Le nom du file n'est pas décoratif
 
-Chaque fichier suit le motif **`domaine.locale.chargeur`** :
+Chaque file suit le motif **`domaine.locale.chargeur`** :
 
 ```text
 messages.fr_FR.yaml
 admin.en.xlf
 ```
 
-- **domaine** — le groupe de messages ;
+- **domaine** — le group de messages ;
 - **locale** — `en`, `en_GB`… ;
-- **chargeur** — l'extension choisit l'analyseur : `yaml`, `xlf`, `php`, `csv`,
+- **loader** — l'extension choisit l'analyseur : `yaml`, `xlf`, `php`, `csv`,
   `json`, `ini`, `po`, `mo`…
 
 La documentation recommande YAML pour un projet simple et XLIFF lorsque des
-traducteurs ou des outils spécialisés interviennent.
+translators ou des outils spécialisés interviennent.
 
-Symfony lit d'abord le répertoire **`translations/` du projet**, puis celui des
-bundles. La priorité du projet est ce qui permet de **redéfinir** la traduction
-d'un bundle — et la redéfinition se fait **clé par clé** : seules les clés
-surchargées ont besoin d'être présentes dans le fichier prioritaire.
+Symfony lit d'abord le directory **`translations/` du projet**, puis celui des
+bundles. La priorité du projet est ce qui permet de **redéfinir** la translation
+d'un bundle — et la redéfinition se fait **key par key** : seules les keys
+surchargées ont besoin d'être présentes dans le file prioritaire.
 
 Un **nouveau** catalogue exige un `cache:clear` pour être découvert.
 
@@ -92,16 +92,16 @@ C'est la distinction la plus testable de l'item.
 
 | | Format classique | ICU MessageFormat |
 |---|---|---|
-| Fichier | `messages.en.yaml` | `messages+intl-icu.en.yaml` |
+| File | `messages.en.yaml` | `messages+intl-icu.en.yaml` |
 | Écriture | `Hello %name%!` | `Hello {name}!` |
 
 Le suffixe **`+intl-icu`** dans le nom du domaine est ce qui déclenche le
 traitement par `MessageFormatter`. Sans lui, le remplacement est un `strtr`
-littéral des clés passées. Exécuté sur `Hello {name}!`, sans `+intl-icu` :
+littéral des keys passées. Exécuté sur `Hello {name}!`, sans `+intl-icu` :
 `['name' => 'Ann']` donne `Hello {Ann}!` ; `['{name}' => 'Ann']` donne
 `Hello Ann!`.
 
-ICU apporte ce que le format classique ne sait pas faire — le pluriel :
+ICU apporte ce que le format classique ne sait pas faire — le plural :
 
 ```text
 num_of_apples: >-
@@ -116,7 +116,7 @@ num_of_apples: >-
 `other` sont des **catégories linguistiques** qui diffèrent selon la langue :
 l'anglais n'a que `one` et `other`, le russe en a quatre.
 
-## Dans un gabarit
+## Dans un template
 
 ```twig
 {{ message|trans }}
@@ -125,18 +125,18 @@ l'anglais n'a que `one` et `other`, le russe en a quatre.
 {% trans_default_domain 'app' %}
 ```
 
-Le filtre traduit une **expression** ; la balise, un **bloc statique**. La
-notation `%var%` est **obligatoire** avec la balise. Les messages traduits sont
-échappés par défaut ; `|raw` après `|trans` lève l'échappement. **La balise,
-elle, n'échappe rien** — paramètres compris. Exécuté avec `<i>x</i>` en
-paramètre : `&lt;i&gt;` par le filtre, `<i>x</i>` brut par la balise.
+Le filter traduit une **expression** ; le tag, un **block statique**. La
+notation `%var%` est **obligatoire** avec le tag. Les messages traduits sont
+échappés par défaut ; `|raw` après `|trans` lève l'échappement. **Le tag,
+elle, n'échappe rien** — parameters compris. Exécuté avec `<i>x</i>` en
+parameter : `&lt;i&gt;` par le filter, `<i>x</i>` brut par le tag.
 
-`trans_default_domain` ne vaut que pour le gabarit courant, jamais pour les
-gabarits inclus.
+`trans_default_domain` ne vaut que pour le template courant, jamais pour les
+templates inclus.
 
 ## La cascade de repli
 
-Locale `es_AR`, clé absente. Symfony essaie, dans cet ordre :
+Locale `es_AR`, key absente. Symfony essaie, dans cet ordre :
 
 1. `es_AR` — la locale demandée ;
 2. **la locale parente**, définie automatiquement pour certaines locales
@@ -152,27 +152,27 @@ langue ».
 
 **Un message non traduit est retourné tel quel**, sans erreur.
 
-**`+intl-icu` est un suffixe de nom de fichier**, pas une option de
+**`+intl-icu` est un suffixe de nom de file**, pas une option de
 configuration.
 
 **`%name%` en format classique, `{name}` en ICU** — les deux ne se mélangent
 pas.
 
-**Le répertoire `translations/` du projet prime** sur celui des bundles, clé
-par clé.
+**Le directory `translations/` du projet prime** sur celui des bundles, key
+par key.
 
 **La locale parente s'intercale** dans le repli.
 
 **`trans_default_domain` ne franchit pas un `include`.**
 
-**La balise `{% trans %}` n'échappe pas** ; le filtre, si.
+**Le tag `{% trans %}` n'échappe pas** ; le filter, si.
 
 ## Points clés
 
-- `domaine.locale.chargeur` : le nom du fichier décide de tout.
-- Projet prioritaire sur bundles, redéfinition clé par clé.
+- `domaine.locale.chargeur` : le nom du file décide de tout.
+- Projet prioritaire sur bundles, redéfinition key par key.
 - `%name%` classique contre `{name}` ICU, ce dernier via `+intl-icu`.
-- ICU apporte le pluriel, avec catégories propres à chaque langue.
+- ICU apporte le plural, avec catégories propres à chaque langue.
 - Repli : locale, locale parente, langue, `fallbacks`.
 
 ## Sources officielles

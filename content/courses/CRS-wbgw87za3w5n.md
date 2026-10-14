@@ -27,18 +27,18 @@ official_sources:
 
 ## Objectif
 
-Brancher du code sur un événement sans modifier celui qui le déclenche. C'est le
-mécanisme qui rend Symfony extensible : le noyau ne connaît pas vos écouteurs, il
-publie des événements.
+Brancher du code sur un event sans modifier celui qui le déclenche. C'est le
+mécanisme qui rend Symfony extensible : le kernel ne connaît pas vos listeners, il
+publie des events.
 
 ## Périmètre
 
 Deux voisins possèdent leurs propres catalogues et ne sont pas redits ici : les
-**événements du noyau HTTP** appartiennent à *Symfony Architecture*, les
-**événements de la console** au sujet Console. Cette page porte sur le
-répartiteur lui-même, quel que soit l'événement.
+**events du kernel HTTP** appartiennent à *Symfony Architecture*, les
+**events de la console** au sujet Console. Cette page porte sur le
+répartiteur lui-même, quel que soit l'event.
 
-L'objet `Event` a son propre item officiel ; il est traité à part.
+L'object `Event` a son propre item officiel ; il est traité à part.
 
 ## Prérequis
 
@@ -46,34 +46,34 @@ Les services et l'autoconfiguration.
 
 ## Le contrat
 
-Un événement porte un **nom unique**. Le répartiteur tient un registre
-d'écouteurs par nom, et quand l'événement est distribué, il notifie tous ceux
+Un event porte un **nom unique**. Le répartiteur tient un registre
+de listeners par nom, et quand l'event est distribué, il notifie tous ceux
 qui y sont inscrits.
 
 ```php
 $dispatcher->addListener('acme.foo.action', [$listener, 'onFooAction'], 10);
 ```
 
-`addListener()` prend jusqu'à **trois** arguments : le nom, un appelable PHP, et
+`addListener()` prend jusqu'à **trois** arguments : le nom, un callable PHP, et
 une **priorité** optionnelle.
 
 ## La priorité, et son départage
 
-La priorité est un entier **positif ou négatif**, `0` par défaut.
+La priorité est un int **positif ou négatif**, `0` par défaut.
 
-**Plus le nombre est élevé, plus l'écouteur est appelé tôt.** C'est le point que
+**Plus le nombre est élevé, plus le listener est appelé tôt.** C'est le point que
 l'examen teste : l'intuition « priorité 1 avant priorité 10 » est fausse.
 
-À **priorité égale**, les écouteurs s'exécutent dans **l'ordre où ils ont été
-ajoutés** au répartiteur. Exécuté (EventDispatcher 8.0) avec quatre écouteurs
+À **priorité égale**, les listeners s'exécutent dans **l'ordre où ils ont été
+ajoutés** au répartiteur. Exécuté (EventDispatcher 8.0) avec quatre listeners
 ajoutés dans l'ordre `0`, `0`, `10`, `-5` : `10`, puis les deux `0` dans leur
 ordre d'ajout, puis `-5`.
 
-## Écouteur ou abonné
+## Listener ou abonné
 
 Deux façons de s'inscrire, interchangeables.
 
-L'**écouteur** est branché de l'extérieur — configuration, ou attribut
+L'**listener** est branché de l'extérieur — configuration, ou attribute
 `#[AsEventListener]` :
 
 ```php
@@ -84,23 +84,23 @@ final class MyListener
 }
 ```
 
-L'attribut se répète pour configurer plusieurs méthodes. Sa propriété `method`
-est **optionnelle** : par défaut, c'est `on` suivi du nom de l'événement en
-capitale initiale — un écouteur de `foo` appellera `onFoo()`.
+L'attribute se répète pour configurer plusieurs methods. Sa property `method`
+est **optionnelle** : par défaut, c'est `on` suivi du nom de l'event en
+capitale initiale — un listener de `foo` appellera `onFoo()`.
 
 Lu dans `RegisterListenersPass` (8.0) et exécuté :
 
-| Cas | Méthode appelée |
+| Cas | Method appelée |
 |---|---|
 | `event: 'acme.foo_bar'`, `onAcmeFooBar()` présente | `onAcmeFooBar()` — points et soulignés retirés |
 | `event: 'acme.other'`, pas de `onAcmeOther()` | `__invoke()`, en repli |
 | `#[AsEventListener]` sans `event`, `__invoke(CustomEvent $e)` | `__invoke()`, sur `CustomEvent::class` déduit du type |
 
-Sans méthode correspondante ni `__invoke()`, la compilation du conteneur
-échoue — lu dans le même fichier : *None of the … or "__invoke" methods exist*.
+Sans method correspondante ni `__invoke()`, la compilation du container
+échoue — lu dans le même file : *None of the … or "__invoke" methods exist*.
 
 L'**abonné** se déclare lui-même, par `EventSubscriberInterface` et son unique
-méthode statique `getSubscribedEvents()` :
+method statique `getSubscribedEvents()` :
 
 ```php
 public static function getSubscribedEvents(): array
@@ -115,13 +115,13 @@ public static function getSubscribedEvents(): array
 }
 ```
 
-Un abonné peut donc inscrire **plusieurs méthodes sur un même événement**, avec
+Un subscriber peut donc inscrire **plusieurs methods sur un même event**, avec
 des priorités distinctes.
 
 Le choix relève surtout du goût, mais la documentation donne un avantage à
-chacun : **l'abonné se réutilise plus facilement**, parce que la connaissance des
-événements vit dans la classe et non dans une définition de service — c'est
-pourquoi Symfony l'utilise en interne. **L'écouteur est plus souple**, parce
+chacun : **le subscriber se réutilise plus facilement**, parce que la connaissance des
+events vit dans la class et non dans une definition de service — c'est
+pourquoi Symfony l'utilise en interne. **Le listener est plus souple**, parce
 qu'un bundle peut l'activer ou non selon une valeur de configuration.
 
 ## Distribuer
@@ -131,17 +131,17 @@ $dispatcher->dispatch($event);
 $dispatcher->dispatch($event, 'foo.event');
 ```
 
-`dispatch()` prend l'objet événement et, **optionnellement**, un nom. Si le nom
-est omis, **c'est la classe de l'objet qui sert de nom** — d'où l'écriture
-courante `OrderPlacedEvent::class` comme clé d'abonnement. Il **rend l'objet
-événement** lui-même — exécuté : le même objet, modifié par les écouteurs.
+`dispatch()` prend l'object event et, **optionnellement**, un nom. Si le nom
+est omis, **c'est la class de l'object qui sert de nom** — d'où l'écriture
+courante `OrderPlacedEvent::class` comme key d'abonnement. Il **rend l'object
+event** lui-même — exécuté : le même object, modifié par les listeners.
 
-## Ce que reçoit l'écouteur
+## Ce que reçoit le listener
 
-Le répartiteur passe toujours **trois** choses : l'événement distribué, le **nom**
-de l'événement, et une **référence à lui-même**. C'est ce qui permet à un
-écouteur de distribuer d'autres événements, de les chaîner, ou de charger
-paresseusement d'autres écouteurs.
+Le répartiteur passe toujours **trois** choses : l'event distribué, le **nom**
+de l'event, et une **référence à lui-même**. C'est ce qui permet à un
+listener de distribuer d'autres events, de les chaîner, ou de charger
+paresseusement d'autres listeners.
 
 ## Pièges d'examen
 
@@ -149,22 +149,22 @@ paresseusement d'autres écouteurs.
 
 **À priorité égale, l'ordre d'ajout décide.**
 
-**`dispatch()` sans nom utilise la classe de l'événement.**
+**`dispatch()` sans nom utilise la class de l'event.**
 
 **`method` est optionnelle sur `#[AsEventListener]`** ; le défaut est `on` +
-nom de l'événement, et `__invoke()` sert de repli.
+nom de l'event, et `__invoke()` sert de repli.
 
-**Un abonné peut inscrire plusieurs méthodes sur un même événement.**
+**Un subscriber peut inscrire plusieurs methods sur un même event.**
 
 ## Points clés
 
-- Un nom, des écouteurs, un répartiteur qui notifie.
+- Un nom, des listeners, un répartiteur qui notifie.
 - `addListener(nom, appelable, priorité)` ; priorité haute d'abord, ordre
   d'ajout à égalité.
-- Écouteur externe (`#[AsEventListener]`) contre abonné autodéclaré
+- Listener externe (`#[AsEventListener]`) contre abonné autodéclaré
   (`getSubscribedEvents()`).
-- Abonné plus réutilisable, écouteur plus souple à activer.
-- `dispatch($event)` sans nom : la classe fait office de nom.
+- Abonné plus réutilisable, listener plus souple à activer.
+- `dispatch($event)` sans nom : la class fait office de nom.
 
 ## Sources officielles
 

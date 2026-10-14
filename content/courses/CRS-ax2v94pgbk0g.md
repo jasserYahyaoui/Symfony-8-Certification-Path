@@ -33,14 +33,14 @@ official_sources:
 
 ## Objectif
 
-Attacher des contraintes à une classe PHP, et savoir jusqu'où la validation
-descend. Les portées — propriété, accesseur, classe — sont traitées dans
+Attacher des constraints à une class PHP, et savoir jusqu'où la validation
+descend. Les scopes — property, accesseur, class — sont traités dans
 *Validation scopes*.
 
 ## Les quatre formats de déclaration
 
-Les contraintes se déclarent en **attributs PHP**, en **YAML**, en **XML** ou en
-**PHP**. Les quatre expriment exactement la même chose ; l'attribut est la forme
+Les constraints se déclarent en **attributes PHP**, en **YAML**, en **XML** ou en
+**PHP**. Les quatre expriment exactement la même chose ; l'attribute est la forme
 usuelle.
 
 ```php
@@ -54,11 +54,11 @@ class Author
 }
 ```
 
-Une propriété **privée** est lue sans accesseur : exécuté avec
-`symfony/validator` 8.0.15, `#[Assert\NotBlank]` sur une propriété privée vide
+Une property **privée** est lue sans accesseur : exécuté avec
+`symfony/validator` 8.0.15, `#[Assert\NotBlank]` sur une property privée vide
 produit sa violation.
 
-La forme PHP passe par une méthode **statique** `loadValidatorMetadata()` :
+La forme PHP passe par une method **statique** `loadValidatorMetadata()` :
 
 ```php
 public static function loadValidatorMetadata(ClassMetadata $metadata): void
@@ -67,17 +67,17 @@ public static function loadValidatorMetadata(ClassMetadata $metadata): void
 }
 ```
 
-Écrite comme méthode d'instance, elle n'est pas ignorée : exécuté,
+Écrite comme method d'instance, elle n'est pas ignorée : exécuté,
 `StaticMethodLoader` lève une `MappingException`, « The method
 "NonStatic::loadValidatorMetadata()" should be static. ». Hors framework, cette
-méthode n'est lue que si le validateur est construit avec
+method n'est lue que si le validator est construit avec
 `addMethodMapping('loadValidatorMetadata')`.
 
 ## La validation ne descend pas toute seule
 
 C'est le point central de cet item. Si `Author` porte un `Address`, valider
-l'`Author` ne valide **pas** les contraintes de l'`Address`. Il faut le demander,
-propriété par propriété :
+l'`Author` ne valide **pas** les constraints de l'`Address`. Il faut le demander,
+property par property :
 
 ```php
 class Author
@@ -87,60 +87,60 @@ class Author
 }
 ```
 
-ou pour toute la classe, avec **`#[Assert\Cascade]`** posé sur la classe : chaque
-propriété portant un objet est alors validée en profondeur. Exécuté :
+ou pour toute la class, avec **`#[Assert\Cascade]`** posé sur la class : chaque
+property portant un object est alors validée en profondeur. Exécuté :
 
 | Déclaration | Violations d'une adresse invalide |
 |---|---|
 | rien | **aucune** |
-| `#[Assert\Valid]` sur la propriété | `address.zipCode` |
-| `#[Assert\Cascade]` sur la classe | `address.zipCode` |
-| `#[Assert\Valid]` sur un tableau d'adresses | `addresses[0].zipCode`, `addresses[1].zipCode` |
-| `#[Assert\Valid]`, propriété à `null` | aucune |
+| `#[Assert\Valid]` sur la property | `address.zipCode` |
+| `#[Assert\Cascade]` sur la class | `address.zipCode` |
+| `#[Assert\Valid]` sur un array d'adresses | `addresses[0].zipCode`, `addresses[1].zipCode` |
+| `#[Assert\Valid]`, property à `null` | aucune |
 
-Sans cascade, l'objet imbriqué est ignoré silencieusement — aucune erreur,
-simplement aucune violation. Et `Valid` ne rend pas la propriété obligatoire :
+Sans cascade, l'object imbriqué est ignoré silencieusement — aucune erreur,
+simplement aucune violation. Et `Valid` ne rend pas la property obligatoire :
 un `null` passe.
 
-## L'héritage fusionne, il ne remplace pas
+## L'inheritance fusionne, il ne remplace pas
 
-Quand une classe en étend une autre, le validateur applique **aussi** les
-contraintes du parent. Redéclarer une contrainte sur la propriété de l'enfant ne
+Quand une class en étend une autre, le validator applique **aussi** les
+constraints du parent. Redéclarer une constraint sur la property de l'enfant ne
 remplace pas celle du parent : les deux s'appliquent. Exécuté : parent
 `NotBlank`, enfant `Length(min: 5)` — la valeur `'abc'` échoue sur `Length` ;
-la même contrainte `NotBlank` redéclarée dans l'enfant produit **deux**
+la même constraint `NotBlank` redéclarée dans l'enfant produit **deux**
 violations identiques.
 
 Ce comportement ne se désactive pas. Le seul contournement documenté est de
-placer les contraintes du parent et de l'enfant dans des **groupes** différents,
-puis de choisir le groupe à la validation.
+placer les constraints du parent et de l'enfant dans des **groups** différents,
+puis de choisir le group à la validation.
 
 Ne pas confondre avec la fusion décrite dans *Framework overloading* : celle-ci
-porte sur les fichiers de validation de **plusieurs bundles**, celle-là sur une
+porte sur les files de validation de **plusieurs bundles**, celle-là sur une
 **hiérarchie de classes**.
 
-## Contraindre une classe qu'on ne peut pas modifier
+## Contraindre une class qu'on ne peut pas modifier
 
 Symfony 8.0 documente `#[ExtendsValidationFor(Product::class)]`, posé sur une
-classe séparée — souvent abstraite — dont les contraintes s'ajoutent à celles
+class séparée — souvent abstraite — dont les constraints s'ajoutent à celles
 de `Product`, comme si elles y étaient déclarées.
 
 Hors framework, le lien se déclare au constructeur :
 `addAttributeMappings([Product::class => [MyProductValidation::class]])`.
-Exécuté : l'attribut seul ne suffit pas (aucune violation) ; avec la
-correspondance, la contrainte `Length(min: 10)` s'applique. Une propriété
-absente de la classe cible est refusée : la documentation annonce une
+Exécuté : l'attribute seul ne suffit pas (aucune violation) ; avec la
+correspondance, la constraint `Length(min: 10)` s'applique. Une property
+absente de la class cible est refusée : la documentation annonce une
 `MappingException` ; le composant seul, exécuté, lève une `ValidatorException`,
 « Property "nope" does not exist in class "Product". ».
 
 ## Pièges d'examen
 
-**Sans `Valid` ni `Cascade`, l'objet imbriqué est ignoré** — une validation qui
+**Sans `Valid` ni `Cascade`, l'object imbriqué est ignoré** — une validation qui
 passe à tort.
 
-**`Valid` n'impose pas la présence de l'objet** : `null` passe.
+**`Valid` n'impose pas la présence de l'object** : `null` passe.
 
-**Redéclarer une contrainte dans la fille ne remplace pas celle du parent** : les
+**Redéclarer une constraint dans la fille ne remplace pas celle du parent** : les
 deux s'appliquent, et le comportement ne se désactive pas.
 
 **`loadValidatorMetadata()` est statique** ; non statique, elle lève une
@@ -148,17 +148,17 @@ deux s'appliquent, et le comportement ne se désactive pas.
 
 ## Points clés
 
-- Quatre formats équivalents ; attribut usuel, `loadValidatorMetadata()`
+- Quatre formats équivalents ; attribute usuel, `loadValidatorMetadata()`
   statique.
-- Cascade : `#[Assert\Valid]` sur la propriété, ou `#[Assert\Cascade]` sur la
-  classe.
-- Sans cascade, l'objet imbriqué est ignoré sans erreur.
-- Contraintes du parent **fusionnées**, jamais remplacées ; seuls les groupes
+- Cascade : `#[Assert\Valid]` sur la property, ou `#[Assert\Cascade]` sur la
+  class.
+- Sans cascade, l'object imbriqué est ignoré sans erreur.
+- Constraints du parent **fusionnées**, jamais remplacées ; seuls les groups
   permettent de s'en sortir.
-- `#[ExtendsValidationFor]` contraint une classe qu'on ne possède pas.
+- `#[ExtendsValidationFor]` contraint une class qu'on ne possède pas.
 
 ## Sources officielles
 
 - [Validation, « Validating Object With Inheritance » et « Extending Validation for a Class »](https://github.com/symfony/symfony-docs/blob/8.0/validation.rst)
-- [Contrainte `Valid`](https://github.com/symfony/symfony-docs/blob/8.0/reference/constraints/Valid.rst) et [contrainte `Cascade`](https://github.com/symfony/symfony-docs/blob/8.0/reference/constraints/Cascade.rst)
+- [Constraint `Valid`](https://github.com/symfony/symfony-docs/blob/8.0/reference/constraints/Valid.rst) et [constraint `Cascade`](https://github.com/symfony/symfony-docs/blob/8.0/reference/constraints/Cascade.rst)
 - [Validator 8.0, `StaticMethodLoader`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Mapping/Loader/StaticMethodLoader.php)

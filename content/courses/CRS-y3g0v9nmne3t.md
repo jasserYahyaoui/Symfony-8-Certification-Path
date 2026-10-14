@@ -41,21 +41,21 @@ official_sources:
 
 ## Objectif
 
-Écrire une décision d'autorisation qui dépend de l'objet, et savoir comment les
-votes de plusieurs votants sont agrégés — parce que la stratégie choisie change
-la réponse à votes identiques.
+Écrire une décision d'authorization qui dépend de l'object, et savoir comment les
+votes de plusieurs voters sont agrégés — parce que la stratégie choisie change
+la Response à votes identiques.
 
 ## Prérequis
 
-L'autorisation et son point d'entrée `isGranted()`.
+L'authorization et son entry point `isGranted()`.
 
-## Pourquoi un votant
+## Pourquoi un voter
 
-Un rôle décrit ce qu'un utilisateur **est**. Il ne peut pas exprimer « l'auteur
-peut modifier son propre article », qui dépend de l'article. Un **votant** reçoit
-l'attribut *et* l'objet, et décide au cas par cas.
+Un role décrit ce qu'un user **est**. Il ne peut pas exprimer « l'auteur
+peut modifier son propre article », qui dépend de l'article. Un **voter** reçoit
+l'attribute *et* l'object, et décide au cas par cas.
 
-## Les deux méthodes, en 8.0
+## Les deux methods, en 8.0
 
 ```php
 use Symfony\Component\Security\Core\Authorization\Voter\Vote;
@@ -87,10 +87,10 @@ class PostVoter extends Voter
 }
 ```
 
-Le quatrième paramètre, `?Vote $vote = null`, est **obligatoire dans la
+Le quatrième parameter, `?Vote $vote = null`, est **obligatoire dans la
 signature** en 8.0 : le CHANGELOG de Security Core 8.0 l'ajoute à
-`VoterInterface::vote()` et à `Voter::voteOnAttribute()`. Exécuté, une classe
-qui déclare encore l'ancienne signature à trois paramètres ne se charge pas :
+`VoterInterface::vote()` et à `Voter::voteOnAttribute()`. Exécuté, une class
+qui déclare encore l'ancienne signature à trois parameters ne se charge pas :
 « Declaration of PostVoter::voteOnAttribute(…) must be compatible with
 Voter::voteOnAttribute(…, ?Vote $vote = null) » — erreur fatale.
 
@@ -98,28 +98,28 @@ Voter::voteOnAttribute(…, ?Vote $vote = null) » — erreur fatale.
 `denyAccessUnlessGranted('POST_EDIT', …)` répond 403 avec « Access Denied. Only
 the author may edit this post. »
 
-`supports()` filtre : il dit si ce votant a quelque chose à dire. Quand il
-retourne `false`, le votant **s'abstient** — il ne refuse pas.
-`voteOnAttribute()` ne s'exécute que sur ce que le votant comprend, et son
+`supports()` filter : il dit si ce voter a quelque chose à dire. Quand il
+retourne `false`, le voter **s'abstient** — il ne refuse pas.
+`voteOnAttribute()` ne s'exécute que sur ce que le voter comprend, et son
 booléen devient accordé ou refusé.
 
-Un votant est un service ordinaire : l'autoconfiguration le déclare. Exécuté,
-le votant ci-dessus a voté sans une ligne dans `services.yaml`.
+Un voter est un service ordinaire : l'autoconfiguration le déclare. Exécuté,
+le voter ci-dessus a voté sans une ligne dans `services.yaml`.
 
 ## Trois valeurs, pas deux
 
 Un vote vaut `ACCESS_GRANTED` (1), `ACCESS_ABSTAIN` (0) ou `ACCESS_DENIED` (-1).
-L'abstention est le cas normal, et c'est ce qui permet à des votants
+L'abstention est le cas normal, et c'est ce qui permet à des voters
 indépendants de coexister : chacun ne se prononce que sur son domaine.
 
 ```mermaid
 ---
-title: Voter::vote(), attribut par attribut
+title: Voter::vote(), attribute par attribute
 ---
 flowchart TD
   accTitle: Comment Voter::vote() choisit entre accordé, refusé et abstention
-  accDescr: Le vote part en abstention. Pour chaque attribut, si supports() rend false, l'attribut est ignoré. Dès qu'un attribut est supporté, le vote passe à refusé. Si voteOnAttribute() rend true pour cet attribut, le vote est accordé immédiatement. Une fois les attributs épuisés, le vote vaut abstention si aucun n'était supporté, refusé sinon.
-  START(["vote = ACCESS_ABSTAIN"]) --> NEXT{"attribut suivant ?"}
+  accDescr: Le vote part en abstention. Pour chaque attribute, si supports() rend false, l'attribute est ignoré. Dès qu'un attribute est supporté, le vote passe à refusé. Si voteOnAttribute() rend true pour cet attribute, le vote est accordé immédiatement. Une fois les attributes épuisés, le vote vaut abstention si aucun n'était supporté, refusé sinon.
+  START(["vote = ACCESS_ABSTAIN"]) --> NEXT{"attribute suivant ?"}
   NEXT -->|"oui"| SUP{"supports() ?"}
   SUP -->|"false"| NEXT
   SUP -->|"true"| DEN["vote = ACCESS_DENIED"]
@@ -181,12 +181,12 @@ security:
 - Le défaut est `affirmative` : **un seul** accord suffit, même si un autre refuse.
 - `unanimous` = « aucun refus **et** au moins un accord » ; si tous s'abstiennent,
   `allow_if_all_abstain` décide, et refuse par défaut.
-- Les votants ne sont pas tous interrogés : seule `consensus` les consulte tous.
-- `priority` dépend de l'ordre des votants.
+- Les voters ne sont pas tous interrogés : seule `consensus` les consulte tous.
+- `priority` dépend de l'ordre des voters.
 
 ## Points clés
 
-- `supports()` filtre, `voteOnAttribute(…, ?Vote $vote = null)` décide ;
+- `supports()` filter, `voteOnAttribute(…, ?Vote $vote = null)` décide ;
   `addReason()` explique un refus.
 - Trois valeurs de vote : 1, 0, -1.
 - Quatre stratégies ; `affirmative` par défaut, un accord suffit.

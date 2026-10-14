@@ -34,18 +34,18 @@ official_sources:
 
 Rendre testable du code qui dépend de l'heure. C'est la raison d'être du
 composant, énoncée telle quelle par la documentation : **découpler l'application
-de l'horloge système** pour pouvoir figer le temps.
+de la clock système** pour pouvoir figer le temps.
 
-Le problème qu'il résout est concret. Une méthode qui appelle
+Le problème qu'il résout est concret. Une method qui appelle
 `new \DateTimeImmutable()` à l'intérieur d'elle-même ne peut pas être testée
 pour hier, pour dans un mois, ou pour le 29 février : son résultat dépend du
 moment où la suite de tests s'exécute.
 
 ## Prérequis
 
-L'injection de dépendances, et `DateTimeImmutable`.
+La dependency injection, et `DateTimeImmutable`.
 
-## Trois horloges, trois usages
+## Trois clocks, trois usages
 
 Le composant fournit une `ClockInterface` et trois implémentations :
 
@@ -55,17 +55,17 @@ Le composant fournit une `ClockInterface` et trois implémentations :
 | `MockClock` | une heure figée, que l'on déplace soi-même | tests |
 | `MonotonicClock` | s'appuie sur `hrtime()`, haute résolution et **monotone** | mesurer une durée |
 
-Une précision, exécutée sur Clock 8.0 : `NativeClock::now()`, comme la fonction
+Une précision, exécutée sur Clock 8.0 : `NativeClock::now()`, comme la function
 `now()`, rend un **`DatePoint`** — une sous-classe de `DateTimeImmutable`, donc
-accepté partout où celle-ci est attendue, mais pas un objet de la classe
+accepté partout où celle-ci est attendue, mais pas un objet de la class
 exacte `DateTimeImmutable`.
 
-`MonotonicClock` n'est pas une horloge « plus précise » à tout faire : elle sert
+`MonotonicClock` n'est pas une clock « plus précise » à tout faire : elle sert
 de **chronomètre**. Son intérêt est de croître régulièrement sans subir les
-ajustements de l'horloge système, qui peuvent faire reculer l'heure au milieu
+ajustements de la clock système, qui peuvent faire reculer l'heure au milieu
 d'une mesure.
 
-## Injecter l'horloge
+## Injecter la clock
 
 ```php
 use Symfony\Component\Clock\ClockInterface;
@@ -84,19 +84,19 @@ class ExpirationChecker
 Le remplacement à retenir : **`$this->clock->now()` à la place de
 `new \DateTimeImmutable()`**. Rien d'autre ne change dans la logique.
 
-Une variante existe pour éviter le paramètre de constructeur : le trait
-**`ClockAwareTrait`**. Le conteneur appelle son `setClock()`, et le service
+Une variante existe pour éviter le parameter de constructeur : le trait
+**`ClockAwareTrait`**. Le container appelle son `setClock()`, et le service
 utilise ensuite **`$this->now()`**.
 
 La documentation 8.0 attribue cet appel à l'autoconfiguration. Le code dit
-autre chose : `setClock()` porte `#[Required]`, que traite l'**autocâblage**.
-Exécuté sur DependencyInjection 8.0.15 : horloge injectée avec `autowire` seul,
+autre chose : `setClock()` porte `#[Required]`, que traite l'**autowiring**.
+Exécuté sur DependencyInjection 8.0.15 : clock injectée avec `autowire` seul,
 **pas** avec `autoconfigure` seul. Sans injection, `now()` se replie sur
-l'horloge globale `Clock`.
+la clock globale `Clock`.
 
 ## `MockClock` : le temps ne passe pas tout seul
 
-C'est le point qui décide le plus de réponses.
+C'est le point qui décide le plus de Responses.
 
 ```php
 $clock = new MockClock('2022-11-16 15:20:00');
@@ -116,7 +116,7 @@ Exécuté : deux `now()` à 100 ms d'écart rendent la même heure, à la
 microseconde ; `sleep(600)` prend 0 seconde réelle et rend `15:30:00` ;
 `modify('+1 day')` avance d'un jour.
 
-## L'horloge globale
+## La clock globale
 
 ```php
 use Symfony\Component\Clock\Clock;
@@ -130,18 +130,18 @@ $later = now('+3 hours');
 ```
 
 `Clock` accepte n'importe quelle implémentation compatible **PSR-20** comme
-horloge globale. La fonction `now()` rend l'heure courante et accepte un
+clock globale. La function `now()` rend l'heure courante et accepte un
 **modificateur** optionnel, dans les formats acceptés par le constructeur de
 `DateTime`.
 
 ## `DatePoint`
 
-Une enveloppe fine autour de `DateTimeImmutable`, utilisable partout où un
+Une Envelope fine autour de `DateTimeImmutable`, utilisable partout où un
 `DateTimeImmutable` ou un `DateTimeInterface` est attendu.
 
 Sa particularité : **elle prend son heure de `Clock`**. Toute modification de
-l'horloge globale se répercute donc sur un `DatePoint` créé ensuite — ce qui la
-rend utilisable comme valeur par défaut sans casser la testabilité :
+la clock globale se répercute donc sur un `DatePoint` créé ensuite — ce qui la
+rend utilisable comme default value sans casser la testabilité :
 
 ```php
 private \DateTimeImmutable $createdAt = new DatePoint();
@@ -149,12 +149,12 @@ private \DateTimeImmutable $createdAt = new DatePoint();
 
 ## Tester
 
-Le trait **`ClockSensitiveTrait`** fige l'heure et restaure l'horloge globale
-après chaque test. Sa méthode `mockTime()` accepte :
+Le trait **`ClockSensitiveTrait`** fige l'heure et restaure la clock globale
+après chaque test. Sa method `mockTime()` accepte :
 
-- une **chaîne** — une date (`'1996-07-01'`) ou un intervalle (`'+2 days'`) ;
+- une **string** — une date (`'1996-07-01'`) ou un intervalle (`'+2 days'`) ;
 - un **`DateTimeImmutable`**, pour se placer à cette date ;
-- un **booléen**, pour figer ou restaurer l'horloge globale.
+- un **booléen**, pour figer ou restaurer la clock globale.
 
 ```php
 $clock = static::mockTime(new \DateTimeImmutable('2022-03-02'));
@@ -186,10 +186,10 @@ n'est pas ce qu'elle rend, c'est qu'on puisse la remplacer.
 
 **`MonotonicClock` sert à mesurer une durée**, pas à connaître la date.
 
-**Deux traits, deux rôles** : `ClockAwareTrait` dans le service,
+**Deux traits, deux roles** : `ClockAwareTrait` dans le service,
 `ClockSensitiveTrait` dans le test.
 
-**`setClock()` est appelé par l'autocâblage** (`#[Required]`), pas par
+**`setClock()` est appelé par l'autowiring** (`#[Required]`), pas par
 l'autoconfiguration.
 
 **`DatePoint` lit `Clock`** : ce n'est pas un `DateTimeImmutable` ordinaire —

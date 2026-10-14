@@ -42,33 +42,33 @@ official_sources:
 
 ## Objectif
 
-Écrire un type de champ, et comprendre l'héritage de types qui le rend court.
+Écrire un type de field, et comprendre l'inheritance de types qui le rend court.
 
 ## Ce qu'est un type
 
-Un type décrit un champ ou un formulaire entier — la distinction n'existe pas :
-un formulaire **est** un type, dont les champs sont d'autres types. C'est ce qui
-permet d'imbriquer un formulaire dans un autre en l'ajoutant comme un champ.
+Un type décrit un field ou un form entier — la distinction n'existe pas :
+un form **est** un type, dont les fields sont d'autres types. C'est ce qui
+permet d'imbriquer un form dans un autre en l'ajoutant comme un field.
 
 Un type personnalisé étend `AbstractType`.
 
-## Les six méthodes
+## Les six methods
 
-| Méthode | Rôle | Défaut dans `AbstractType` |
+| Method | Role | Défaut dans `AbstractType` |
 |---|---|---|
-| `buildForm()` | ajoute les champs enfants | vide |
-| `configureOptions()` | déclare les options et leurs valeurs par défaut | vide |
+| `buildForm()` | ajoute les fields enfants | vide |
+| `configureOptions()` | déclare les options et leurs default values | vide |
 | `getParent()` | désigne le type dont on hérite | `FormType::class` |
-| `getBlockPrefix()` | fixe le préfixe des blocs Twig | dérivé du nom de classe |
+| `getBlockPrefix()` | fixe le préfixe des blocks Twig | dérivé du nom de class |
 | `buildView()` | passe des variables à la vue | vide |
 | `finishView()` | ajuste la vue une fois les enfants construits | vide |
 
 Aucune n'est obligatoire : un type qui ne fait qu'imposer des options n'implémente
 que `configureOptions()` et `getParent()`.
 
-## `getParent()`, la clé de la brièveté
+## `getParent()`, la key de la brièveté
 
-Le type parent fournit tout : ses champs, ses options, son rendu. Le type
+Le type parent fournit tout : ses fields, ses options, son rendu. Le type
 personnalisé se contente d'en modifier une partie.
 
 ```php
@@ -94,42 +94,42 @@ tous les types ; `FormType` seul n'a pas de parent.
 
 ## L'ordre d'exécution
 
-`ResolvedFormType` enchaîne, pour chaque méthode, **parent d'abord, puis le
-type, puis ses extensions**. Pour les options, il **clone** le résolveur du
+`ResolvedFormType` enchaîne, pour chaque method, **parent d'abord, puis le
+type, puis ses extensions**. Pour les options, il **clone** le resolver du
 parent avant d'appeler `configureOptions()` : un type hérite des options de ses
 ancêtres et peut en changer les défauts — ici `expanded` passe à `true`.
 
-## Le préfixe de bloc
+## Le préfixe de block
 
-`getBlockPrefix()` dérive le préfixe du nom de classe, suffixe `Type` retiré, en
+`getBlockPrefix()` dérive le préfixe du nom de class, suffixe `Type` retiré, en
 *snake case* : `ShippingType` → `shipping`, `DeliveryAddressType` →
 `delivery_address`. La vue reçoit la liste de toute la lignée. Exécuté avec
-`symfony/form` 8.0.15, pour un champ `shipping` d'un formulaire `order` :
+`symfony/form` 8.0.15, pour un field `shipping` d'un form `order` :
 
 ```text
 ["form", "choice", "shipping", "_order_shipping"]
 ```
 
-Le rendu cherche d'abord le bloc le plus spécifique, puis remonte la lignée :
+Le rendu cherche d'abord le block le plus spécifique, puis remonte la lignée :
 c'est ce qui permet de ne thématiser que ce qui change.
 
 ## Composer plutôt qu'étendre
 
-Un type peut aussi être **utilisé** comme champ d'un autre :
+Un type peut aussi être **utilisé** comme field d'un autre :
 `->add('shipping', ShippingType::class)`. C'est la voie normale ; `getParent()`
 sert à *spécialiser* un type, pas à l'imbriquer.
 
 ## L'enregistrement
 
 Un type est un service ordinaire. L'autoconfiguration le détecte : il n'y a rien
-à déclarer tant qu'il vit dans `src/`. Il peut donc recevoir des dépendances par
+à déclarer tant qu'il vit dans `src/`. Il peut donc recevoir des dependencies par
 son constructeur.
 
 ## Pièges d'examen
 
-**Un formulaire est un type ; la distinction champ / formulaire n'existe pas.**
+**Un form est un type ; la distinction field / form n'existe pas.**
 
-**Aucune des méthodes d'un type n'est obligatoire.**
+**Aucune des methods d'un type n'est obligatoire.**
 
 **Sans parent déclaré, le parent est la racine de tous les types**, pas
 « aucun ».
@@ -139,10 +139,10 @@ options sont reprises puis modifiables.
 
 ## Points clés
 
-- Un formulaire est un type ; un champ aussi.
-- Six méthodes, toutes facultatives ; `getParent()` vaut `FormType` par défaut.
-- Ordre : parent, type, extensions ; résolveur d'options cloné du parent.
-- Préfixe de bloc dérivé du nom de classe ; la vue porte toute la lignée.
+- Un form est un type ; un field aussi.
+- Six methods, toutes facultatives ; `getParent()` vaut `FormType` par défaut.
+- Ordre : parent, type, extensions ; resolver d'options cloné du parent.
+- Préfixe de block dérivé du nom de class ; la vue porte toute la lignée.
 - Étendre spécialise, ajouter compose.
 
 ## Sources officielles

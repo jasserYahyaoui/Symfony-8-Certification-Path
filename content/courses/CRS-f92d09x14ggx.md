@@ -61,58 +61,58 @@ l'appariement. Si elle est fausse, la route ne correspond pas.
 C'est la porte de sortie pour ce que `methods`, `host` et `schemes` ne savent
 pas exprimer.
 
-## Compilée une fois, évaluée à chaque requête
+## Compilée une fois, évaluée à chaque Request
 
 `CompiledUrlMatcherDumper` **compile** l'expression en PHP brut quand il écrit
 le matcher en cache : `ExpressionLanguage::compile()` avec les noms `context`,
 `request` et `params`. La documentation en tire la conséquence : une condition
 ne coûte que le temps d'exécution de ce PHP. Le code compilé s'exécute ensuite
-à chaque requête qui atteint la route.
+à chaque Request qui atteint la route.
 
 Détail du dumper : si le PHP compilé ne mentionne pas `$request`, le matcher ne
-construit pas d'objet `Request` pour évaluer la condition.
+construit pas d'object `Request` pour évaluer la condition.
 
 ## Les variables disponibles
 
 | Variable | Contenu |
 |---|---|
-| `context` | le `RequestContext` : méthode, hôte, schéma, port |
-| `request` | l'objet `Request` complet |
-| `params` | les paramètres de route déjà appariés |
+| `context` | le `RequestContext` : method, hôte, schéma, port |
+| `request` | l'object `Request` complet |
+| `params` | les parameters de route déjà appariés |
 
 `params` permet de conditionner sur une valeur d'URL :
 `condition: "params['id'] < 1000"`.
 
-Deux fonctions complètent le jeu, fournies par FrameworkBundle :
+Deux functions complètent le jeu, fournies par FrameworkBundle :
 
-- `env('NOM')` lit une variable d'environnement, avec ses processeurs ;
-- `service('alias')` appelle un service déclaré par l'attribut
+- `env('NOM')` lit une variable d'environment, avec ses processeurs ;
+- `service('alias')` appelle un service déclaré par l'attribute
   `#[AsRoutingConditionService]` ou par le tag `routing.condition_service`.
-  Sans alias, on le désigne par son identifiant, le nom de sa classe.
+  Sans alias, on le désigne par son identifier, le nom de sa class.
 
 `service()` ne passe que par un localisateur des services ainsi étiquetés : une
-condition n'atteint pas le reste du conteneur. Une expression peut aussi
-contenir un paramètre de configuration, entre pourcents.
+condition n'atteint pas le reste du container. Une expression peut aussi
+contenir un parameter de configuration, entre pourcents.
 
 ## Une condition fausse efface la route
 
 Dans le matcher compilé, la condition est testée **avant** la barre finale, le
-schéma et la méthode. Une route dont la condition est fausse est ignorée comme
+schéma et la method. Une route dont la condition est fausse est ignorée comme
 si elle n'existait pas :
 
-- elle n'ajoute pas ses méthodes à la liste qui produirait un **405** ;
-- elle ne déclenche aucune redirection de barre finale ou de schéma.
+- elle n'ajoute pas ses methods à la liste qui produirait un **405** ;
+- elle ne déclenche aucune redirect de barre finale ou de schéma.
 
-Si aucune autre route ne correspond, la réponse est un 404.
+Si aucune autre route ne correspond, la Response est un 404.
 
 ## La limite, et elle est importante
 
 > Les conditions **ne sont pas prises en compte lors de la génération d'URL**.
 
-Le générateur ne connaît ni la requête courante ni l'agent utilisateur : il ne
+Le générateur ne connaît ni la Request courante ni l'agent user : il ne
 peut pas évaluer l'expression. Une route protégée par une `condition` reste donc
 parfaitement générable, y compris vers un contexte où elle ne correspondrait
-pas. Une condition filtre l'entrée, elle ne documente pas la sortie.
+pas. Une condition filter l'entrée, elle ne documente pas l'output.
 
 C'est la différence de fond avec `requirements`, qui compte dans les deux sens.
 
@@ -122,23 +122,23 @@ C'est la différence de fond avec `requirements`, qui compte dans les deux sens.
 par une condition reste parfaitement générable, y compris vers un contexte où
 elle ne correspondrait pas.
 
-**Une condition filtre l'entrée ; elle ne documente pas la sortie.** C'est toute
-la différence avec une contrainte de paramètre, qui vaut dans les deux sens.
+**Une condition filter l'entrée ; elle ne documente pas l'output.** C'est toute
+la différence avec une constraint de parameter, qui vaut dans les deux sens.
 
-**L'expression est compilée en PHP, pas interprétée à chaque requête.** Elle est
-compilée une fois dans le cache du routeur ; seul le PHP qui en résulte
-s'exécute à chaque requête.
+**L'expression est compilée en PHP, pas interprétée à chaque Request.** Elle est
+compilée une fois dans le cache du router ; seul le PHP qui en résulte
+s'exécute à chaque Request.
 
 **Condition fausse : pas de 405.** La route disparaît avant le contrôle de
-méthode.
+method.
 
 ## Points clés
 
 - `condition` = expression ExpressionLanguage compilée en PHP, exécutée à
   l'appariement.
-- Variables : `context`, `request`, `params`. Fonctions : `env()`, `service()`.
+- Variables : `context`, `request`, `params`. Functions : `env()`, `service()`.
 - `#[AsRoutingConditionService]` expose un service à `service()`.
-- Une condition fausse retire la route avant le contrôle de méthode.
+- Une condition fausse retire la route avant le contrôle de method.
 - Les conditions sont **ignorées** à la génération d'URL.
 
 ## Sources officielles

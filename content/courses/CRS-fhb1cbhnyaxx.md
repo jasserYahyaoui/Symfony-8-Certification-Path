@@ -28,25 +28,25 @@ official_sources:
 ## Objectif
 
 Comprendre ce qui circule entre le code qui déclenche et le code qui écoute :
-l'objet événement. C'est lui qui porte la donnée, et lui seul qui peut
-interrompre la chaîne.
+l'object event. C'est lui qui porte la donnée, et lui seul qui peut
+interrompre la string.
 
 ## Périmètre
 
-Le **répartiteur** — inscription, priorités, écouteurs contre abonnés — a son
-propre item officiel et n'est pas redit ici. Cette page porte sur l'objet.
+Le **répartiteur** — inscription, priorités, listeners contre abonnés — a son
+propre item officiel et n'est pas redit ici. Cette page porte sur l'object.
 
 ## Prérequis
 
-Le répartiteur d'événements.
+Le répartiteur d'events.
 
-## Une classe de base délibérément pauvre
+## Une class de base délibérément pauvre
 
 `Symfony\Contracts\EventDispatcher\Event` est **volontairement minimale**. Elle
 n'offre guère qu'un mécanisme d'arrêt de propagation, précisément pour laisser
-créer par héritage des objets spécifiques à chaque API.
+créer par inheritance des objects spécifiques à chaque API.
 
-Quand un événement doit transporter de la donnée, on écrit une sous-classe :
+Quand un event doit transporter de la donnée, on écrit une sous-classe :
 
 ```php
 final class OrderPlacedEvent extends Event
@@ -60,9 +60,9 @@ final class OrderPlacedEvent extends Event
 }
 ```
 
-Chaque écouteur accède alors à la commande par `getOrder()`. C'est le motif
+Chaque listener accède alors à la command par `getOrder()`. C'est le motif
 qu'emploie le framework lui-même : `ResponseEvent`, par exemple, expose de quoi
-lire **et remplacer** la réponse.
+lire **et remplacer** la Response.
 
 ## Arrêter la propagation
 
@@ -73,16 +73,16 @@ public function onPlacedOrder(OrderPlacedEvent $event): void
 }
 ```
 
-Les écouteurs de cet événement **qui n'ont pas encore été appelés** ne le seront
+Les listeners de cet event **qui n'ont pas encore été appelés** ne le seront
 pas. Ceux déjà exécutés ne sont évidemment pas défaits. Exécuté avec des
-écouteurs de priorités `10`, `5` (qui arrête), `0` et `-5` : seuls `10` et `5`
+listeners de priorités `10`, `5` (qui arrête), `0` et `-5` : seuls `10` et `5`
 tournent.
 
 Deux conséquences pratiques :
 
 - l'arrêt dépend entièrement de **l'ordre d'appel**, donc des priorités ;
-- côté déclencheur, `isPropagationStopped()` rend un booléen permettant de
-  savoir, après le `dispatch()`, si la chaîne a été interrompue.
+- côté déclencheur, `isPropagationStopped()` rend un bool permettant de
+  savoir, après le `dispatch()`, si la string a été interrompue.
 
 ```php
 $dispatcher->dispatch($event, 'foo.event');
@@ -94,7 +94,7 @@ if ($event->isPropagationStopped()) {
 
 ## `GenericEvent`, quand une sous-classe ne se justifie pas
 
-Pour qui veut un seul objet événement dans toute l'application,
+Pour qui veut un seul object event dans toute l'application,
 `Symfony\Component\EventDispatcher\GenericEvent` suit le motif observateur
 classique : il encapsule un **sujet**, plus des **arguments** optionnels.
 
@@ -108,22 +108,22 @@ $event->hasArgument('key');
 ```
 
 Il ajoute `getSubject()`, `setArgument()`, `setArguments()`, `getArgument()`,
-`getArguments()` et `hasArgument()` à la classe de base, et implémente
+`getArguments()` et `hasArgument()` à la class de base, et implémente
 **`ArrayAccess`** sur ses arguments — d'où un accès par crochets — ainsi
 qu'**`IteratorAggregate`** : un `foreach` parcourt ses arguments. Exécuté :
-`$event['k']` rend `v`, et l'itération rend la clé `k`.
+`$event['k']` rend `v`, et l'itération rend la key `k`.
 
-Le compromis est clair : `GenericEvent` évite d'écrire une classe, au prix d'une
-donnée non typée à laquelle on accède par clé. Une sous-classe dédiée donne un
-contrat explicite, et c'est ce que fait le framework partout où l'événement
+Le compromis est clair : `GenericEvent` évite d'écrire une class, au prix d'une
+donnée non typée à laquelle on accède par key. Une sous-classe dédiée donne un
+contrat explicite, et c'est ce que fait le framework partout où l'event
 compte.
 
 ## Pièges d'examen
 
-**La classe de base ne transporte aucune donnée** — il faut hériter, ou utiliser
+**La class de base ne transporte aucune donnée** — il faut hériter, ou utiliser
 `GenericEvent`.
 
-**`stopPropagation()` n'annule rien** : elle empêche seulement les écouteurs
+**`stopPropagation()` n'annule rien** : elle empêche seulement les listeners
 suivants d'être appelés.
 
 **L'effet de l'arrêt dépend des priorités**, puisqu'il dépend de l'ordre.

@@ -10,12 +10,12 @@ flashcards:
   official_item: OIT-43pt66xsft9f
   language: fr
   level: TRAP
-  front: 'Chemin absent : que rend la lecture sur un tableau, et sur un objet ?'
-  back: Sur un tableau, null. Sur un objet, une exception NoSuchPropertyException. Les deux défauts sont opposés,
+  front: 'Path absent : que rend la lecture sur un array, et sur un object ?'
+  back: Sur un array, null. Sur un object, une exception NoSuchPropertyException. Les deux défauts sont opposés,
     et chacun se renverse par le constructeur d'accesseur.
-  explanation: enableExceptionOnInvalidIndex() fait lever le tableau ; disableExceptionOnInvalidPropertyPath() fait
-    rendre null à l'objet.
-  memorization_justification: On attend un comportement uniforme d'une même méthode ; ici il dépend de la nature
+  explanation: enableExceptionOnInvalidIndex() fait lever l'array ; disableExceptionOnInvalidPropertyPath() fait
+    rendre null à l'object.
+  memorization_justification: On attend un comportement uniforme d'une même method ; ici il dépend de la nature
     de la cible, et rien dans l'appel ne le signale.
   verification_status: VERIFIED
   reviewed_at: '2026-09-02'
@@ -31,7 +31,7 @@ flashcards:
   level: RECALL
   front: 'Symfony PropertyAccess : quelle exception lève un index absent après enableExceptionOnInvalidIndex() ?'
   back: '`NoSuchIndexException`.'
-  explanation: Exécuté sur PropertyAccess 8.0.8 ; sans cette option, le même chemin rend `null`.
+  explanation: Exécuté sur PropertyAccess 8.0.8 ; sans cette option, le même path rend `null`.
   memorization_justification: Exception d'index.
   verification_status: VERIFIED
   official_sources:
@@ -45,7 +45,7 @@ flashcards:
   official_item: OIT-43pt66xsft9f
   language: fr
   level: RECALL
-  front: 'Symfony PropertyAccess : quelle méthode du constructeur d''accesseur active la lecture par __call() ?'
+  front: 'Symfony PropertyAccess : quelle method du constructeur d''accesseur active la lecture par __call() ?'
   back: '`enableMagicCall()`.'
   explanation: Section *Magic __call() Method*, branche 8.0, et exécuté ; `__get()` et `__set()` sont actifs par défaut.
   memorization_justification: Activer __call.
@@ -61,7 +61,7 @@ flashcards:
   official_item: OIT-43pt66xsft9f
   language: fr
   level: RECALL
-  front: 'Symfony PropertyAccess : quel opérateur arrête l''évaluation d''un chemin sur un maillon null ?'
+  front: 'Symfony PropertyAccess : quel opérateur arrête l''évaluation d''un path sur un maillon null ?'
   back: '`?` : `person?.firstname` rend `null` si `person` vaut `null`.'
   explanation: Section *Accessing Nullable Property Paths*, branche 8.0, et exécuté ; sans `?`, `UnexpectedTypeException`.
   memorization_justification: Opérateur nullsafe.
@@ -78,7 +78,7 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony PropertyAccess : pourquoi isReadable() peut-il déclencher un effet de bord ?'
-  back: Parce qu'il lit réellement le chemin, getter compris ; il ne fait que convertir l'exception en `false`.
+  back: Parce qu'il lit réellement le path, getter compris ; il ne fait que convertir l'exception en `false`.
   explanation: 'Lu dans `PropertyAccessor::isReadable()` (8.0) et exécuté : `getFirstName()` appelé.'
   memorization_justification: Lecture réelle.
   verification_status: VERIFIED
@@ -100,8 +100,8 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony PropertyAccess : pourquoi écrire une collection n''appelle-t-il pas setChildren() ?'
-  back: 'Parce que les méthodes d''ajout et de retrait l''emportent : seuls les éléments qui changent passent par `addChild()` et `removeChild()`.'
-  explanation: 'Exécuté sur un objet qui possède aussi `setChildren()` : `getChildren()`, `removeChild()`, `addChild()`.'
+  back: 'Parce que les methods d''ajout et de retrait l''emportent : seuls les éléments qui changent passent par `addChild()` et `removeChild()`.'
+  explanation: 'Exécuté sur un object qui possède aussi `setChildren()` : `getChildren()`, `removeChild()`, `addChild()`.'
   memorization_justification: Adder et remover.
   verification_status: VERIFIED
   official_sources:
@@ -115,8 +115,8 @@ flashcards:
   official_item: OIT-43pt66xsft9f
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony PropertyAccess : pourquoi le chemin a lève-t-il sur un tableau qui a la clé a ?'
-  back: Parce que sans crochets, le segment désigne une propriété d'objet ; il faut écrire `[a]`.
+  front: 'Symfony PropertyAccess : pourquoi le path a lève-t-il sur un array qui a la key a ?'
+  back: Parce que sans crochets, le segment désigne une property d'object ; il faut écrire `[a]`.
   explanation: 'Exécuté : `NoSuchPropertyException`, dont le message suggère `[a]`.'
   memorization_justification: Notation et cible.
   verification_status: VERIFIED
@@ -140,7 +140,7 @@ flashcards:
   front: 'Symfony PropertyAccess : lire person.firstname sur un commentaire dont person peut être null, sans exception.'
   back: '`$propertyAccessor->getValue($comment, ''person?.firstname'')`.'
   explanation: Section *Accessing Nullable Property Paths*, branche 8.0.
-  memorization_justification: Chemin nullable.
+  memorization_justification: Path nullable.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/property_access.rst
@@ -153,10 +153,10 @@ flashcards:
   official_item: OIT-43pt66xsft9f
   language: fr
   level: APPLICATION
-  front: 'Symfony PropertyAccess : obtenir null plutôt qu''une exception pour une propriété d''objet absente.'
+  front: 'Symfony PropertyAccess : obtenir null plutôt qu''une exception pour une property d''object absente.'
   back: '`PropertyAccess::createPropertyAccessorBuilder()->disableExceptionOnInvalidPropertyPath()->getPropertyAccessor()`.'
   explanation: Section *Accessing a Non-Existent Property Path*, branche 8.0, et exécuté.
-  memorization_justification: Renverser le défaut objet.
+  memorization_justification: Renverser le défaut object.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/property_access.rst
@@ -169,8 +169,8 @@ flashcards:
   official_item: OIT-43pt66xsft9f
   language: fr
   level: TRAP
-  front: 'Symfony PropertyAccess : l''opérateur ? évite-t-il l''exception d''une propriété absente ?'
-  back: 'Non : il n''arrête que sur `null` ; un objet sans la propriété lève toujours `NoSuchPropertyException`.'
+  front: 'Symfony PropertyAccess : l''opérateur ? évite-t-il l''exception d''une property absente ?'
+  back: 'Non : il n''arrête que sur `null` ; un object sans la property lève toujours `NoSuchPropertyException`.'
   explanation: 'Exécuté : `person?.firstname` sur un `person` non nul sans `firstname`.'
   memorization_justification: Null contre absent.
   verification_status: VERIFIED
@@ -186,7 +186,7 @@ flashcards:
   language: fr
   level: TRAP
   front: 'Symfony PropertyAccess : isWritable() appelle-t-il le setter pour répondre ?'
-  back: Non ; mais sur un chemin imbriqué, il appelle les getters qui mènent au dernier maillon.
+  back: Non ; mais sur un path imbriqué, il appelle les getters qui mènent au dernier maillon.
   explanation: 'Lu dans `PropertyAccessor::isWritable()` (8.0) et exécuté : `getChildren()` appelé pour `children[0].firstName`.'
   memorization_justification: Lecture des maillons.
   verification_status: VERIFIED

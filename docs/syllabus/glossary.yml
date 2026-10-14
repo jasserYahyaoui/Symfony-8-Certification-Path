@@ -7,7 +7,10 @@
 # Admission rule, applied to every entry:
 #   1. the English term appears in the official syllabus wording, or in the
 #      official Symfony 8.0 API that an official item requires;
-#   2. the French rendering is the one the courses actually use;
+#   2. the French rendering is the usual French translation. Since the owner's
+#      decision of 2026-10-14 the courses use the English term itself
+#      (docs/policy/terminology.yml); the French column stays so that a French
+#      source, or a French-speaking colleague, can still be mapped to it;
 #   3. the pair carries revision value — either the two languages diverge
 #      enough that a French-trained candidate could miss the English wording,
 #      or two English terms are easy to confuse under time pressure.

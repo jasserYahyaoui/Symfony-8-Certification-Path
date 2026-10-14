@@ -41,7 +41,7 @@ framework:
 Messenger 8.0 fournit des ponts pour AMQP, Doctrine, Redis, Amazon SQS et
 Beanstalkd, plus deux transports particuliers :
 
-- **`sync://`** — traite le message immédiatement, dans le même processus ;
+- **`sync://`** — traite le message immédiatement, dans le même process ;
 - **`in-memory://`** — ne traite rien et garde les messages en mémoire, pour
   qu'un test puisse vérifier ce qui a été envoyé sans démarrer de worker.
 
@@ -61,15 +61,15 @@ routing:
     'App\Message\*': async
 ```
 
-Une clé de routage peut être une classe, une classe parente, une **interface**,
-un **espace de noms** terminé par `*`, ou `*` seul. Un message peut viser
+Une key de routage peut être une class, une class parente, une **interface**,
+un **namespace** terminé par `*`, ou `*` seul. Un message peut viser
 **plusieurs** transports.
 
-Quand le même message est routé par l'attribut **et** par la configuration, la
+Quand le même message est routé par l'attribute **et** par la configuration, la
 configuration gagne — la documentation le présente comme le moyen de changer le
-routage par environnement. Exécuté avec Messenger 8.0.15 :
+routage par environment. Exécuté avec Messenger 8.0.15 :
 `#[AsMessage(['async', 'audit'])]` seul envoie le message aux deux transports
-(deux `SentStamp`) ; avec en plus une clé `routing` vers un transport `sync://`,
+(deux `SentStamp`) ; avec en plus une key `routing` vers un transport `sync://`,
 seul ce dernier le reçoit.
 
 ## Non routé : traité tout de suite
@@ -83,26 +83,26 @@ simplement entièrement synchrone.
 ## Ce qui est vérifié au démarrage
 
 Une faute de frappe dans le routage n'est **pas** toujours silencieuse.
-FrameworkBundle contrôle chaque clé en construisant le conteneur. Exécuté :
+FrameworkBundle contrôle chaque key en construisant le container. Exécuté :
 
-| Clé de `routing` | Résultat |
+| Key de `routing` | Résultat |
 |---|---|
-| `App\…\Welcom` (classe mal orthographiée) | **`LogicException`** au build : « class or interface … not found » |
-| la bonne classe vers `asyncc` (transport inexistant) | **`LogicException`** : « This is not a valid transport or service id » |
+| `App\…\Welcom` (class mal orthographiée) | **`LogicException`** au build : « class or interface … not found » |
+| la bonne class vers `asyncc` (transport inexistant) | **`LogicException`** : « This is not a valid transport or service id » |
 | `App\…\Welcome`, `App\…\*`, `*` | message envoyé au transport |
-| `App\Other\*` (espace de noms sans message) | **aucune erreur** : traité en synchrone |
+| `App\Other\*` (namespace sans message) | **aucune erreur** : traité en synchrone |
 
-Seul le joker d'espace de noms qui ne correspond à rien reste silencieux — le
-message continue d'être traité, mais dans la requête.
+Seul le joker de namespace qui ne correspond à rien reste silencieux — le
+message continue d'être traité, mais dans la Request.
 
 ## `sync://` n'est pas « pas de routage »
 
 Exécuté : un message routé vers un transport `sync://` est traité pendant
-`dispatch()`, comme un message non routé — mais son enveloppe porte un
+`dispatch()`, comme un message non routé — mais son Envelope porte un
 `SentStamp`. C'est un vrai transport, utile pour rendre un type de message
 synchrone quand le reste part en file.
 
-## Sérialisation
+## Serialization
 
 Un transport asynchrone sérialise le message. Le sérialiseur par défaut de
 Messenger suffit dans la plupart des cas ; le composant Serializer peut le
@@ -120,8 +120,8 @@ propre worker.
 **Sans routage, le message est traité tout de suite** — pas mis en attente, pas
 perdu.
 
-**Une classe mal orthographiée dans `routing` fait échouer le build** ; seul un
-espace de noms sans correspondance est silencieux.
+**Une class mal orthographiée dans `routing` fait échouer le build** ; seul un
+namespace sans correspondance est silencieux.
 
 **La configuration l'emporte sur `#[AsMessage]`.**
 
@@ -134,8 +134,8 @@ espace de noms sans correspondance est silencieux.
 
 - Un transport se déclare par un DSN ; `routing` ou `#[AsMessage]` associent
   message et transport, la configuration primant.
-- Clés : classe, parent, interface, espace de noms avec `*`, ou `*`.
-- Non routé = traité immédiatement ; classe ou transport inconnus = échec au
+- Keys : class, parent, interface, namespace avec `*`, ou `*`.
+- Non routé = traité immédiatement ; class ou transport inconnus = échec au
   build.
 - `sync://` traite sur place, `in-memory://` sert aux tests.
 

@@ -55,15 +55,15 @@ anonyme.
 ## Ce qui fait correspondre une règle
 
 `path` est une expression régulière, pas un préfixe littéral, comparée **sans
-la chaîne de requête** : un paramètre `?x=` ne peut pas être protégé ici.
+la chaîne de Request** : un parameter `?x=` ne peut pas être protégé ici.
 
-| Clé | Ce qu'elle contraint |
+| Key | Ce qu'elle contraint |
 |---|---|
-| `path`, `host` | le chemin, l'hôte — expressions régulières |
+| `path`, `host` | le path, l'hôte — expressions régulières |
 | `ips` (ou `ip`) | l'adresse du client, masques acceptés |
-| `port`, `methods` | le port, les méthodes HTTP |
+| `port`, `methods` | le port, les methods HTTP |
 | `route` | le nom de la route |
-| `attributes` | des attributs de la requête, à égalité exacte |
+| `attributes` | des attributes de la Request, à égalité exacte |
 | `request_matcher` | un service `RequestMatcherInterface` |
 
 Tous les critères d'une même règle doivent correspondre. `request_matcher` ne
@@ -74,25 +74,25 @@ se combine avec aucun autre : SecurityBundle refuse la configuration
 
 Une fois la règle choisie, trois options imposent l'accès :
 
-- `roles` — passés comme attributs à `decide()`, avec la **requête** pour
+- `roles` — passés comme attributes à `decide()`, avec la **Request** pour
   sujet ;
-- `allow_if` — une expression, **ajoutée à la liste des attributs** ;
-- `requires_channel` — exécuté : `https` sur une requête `http` donne une
-  redirection **301** vers `https://…`.
+- `allow_if` — une expression, **ajoutée à la liste des attributes** ;
+- `requires_channel` — exécuté : `https` sur une Request `http` donne une
+  redirect **301** vers `https://…`.
 
 Plusieurs exigences ne s'additionnent donc pas : elles sont soumises ensemble
 à la stratégie de décision. Exécuté avec SecurityBundle 8.0.15 :
 
 | Règle | `affirmative` (défaut) | `unanimous` |
 |---|---|---|
-| `roles: [ROLE_ADMIN, ROLE_EDITOR]`, utilisateur `ROLE_EDITOR` | 200 | 200 |
-| `roles: ROLE_ADMIN` + `allow_if` vrai, utilisateur sans `ROLE_ADMIN` | **200** | 403 |
+| `roles: [ROLE_ADMIN, ROLE_EDITOR]`, user `ROLE_EDITOR` | 200 | 200 |
+| `roles: ROLE_ADMIN` + `allow_if` vrai, user sans `ROLE_ADMIN` | **200** | 403 |
 | même règle, visiteur anonyme | **200** | 401 |
-| `roles: [ROLE_USER, IS_AUTHENTICATED_FULLY]`, utilisateur sans `ROLE_USER` | **200** | 403 |
+| `roles: [ROLE_USER, IS_AUTHENTICATED_FULLY]`, user sans `ROLE_USER` | **200** | 403 |
 
-Deux rôles ensemble valent « l'un ou l'autre » quelle que soit la stratégie, car
-c'est le même votant qui les examine. Dès que deux votants interviennent — un
-rôle et une expression, un rôle et un état d'authentification —, la stratégie
+Deux roles ensemble valent « l'un ou l'autre » quelle que soit la stratégie, car
+c'est le même voter qui les examine. Dès que deux voters interviennent — un
+role et une expression, un role et un état d'authentication —, la stratégie
 décide : « ou » en `affirmative`, « et » en `unanimous`. La documentation
 l'avertit pour `roles` + `allow_if`.
 
@@ -101,12 +101,12 @@ l'avertit pour `roles` + `allow_if`.
 title: Quelle règle s'applique
 ---
 flowchart TD
-  accTitle: Comment access_control choisit la règle d'une requête
-  accDescr: Les règles sont lues dans l'ordre, et la première qui correspond, tous critères réunis, est la seule appliquée. Si aucune ne correspond, access_control ne restreint rien. Si la règle exige un canal, requires_channel, que la requête ne respecte pas, la réponse est une redirection 301. Sinon les exigences de la règle sont examinées.
+  accTitle: Comment access_control choisit la règle d'une Request
+  accDescr: Les règles sont lues dans l'ordre, et la première qui correspond, tous critères réunis, est la seule appliquée. Si aucune ne correspond, access_control ne restreint rien. Si la règle exige un canal, requires_channel, que la Request ne respecte pas, la Response est un redirect 301. Sinon les exigences de la règle sont examinées.
   R(["règles, dans l'ordre"]) --> MATCH{"une règle correspond ?"}
   MATCH -->|"aucune"| FREE(["aucune restriction"])
   MATCH -->|"la première"| CH{"canal requis respecté ?"}
-  CH -->|"non"| R301(["redirection 301"])
+  CH -->|"non"| R301(["redirect 301"])
   CH -->|"oui"| NEXT(["ses exigences"])
 ```
 
@@ -116,20 +116,20 @@ title: Ce que la règle exige
 ---
 flowchart TD
   accTitle: Comment access_control applique les exigences d'une règle
-  accDescr: Une règle sans roles ni allow_if laisse passer. Sinon roles et allow_if sont passés ensemble à decide(), avec la requête pour sujet, et la stratégie tranche. Accordé, la requête continue. Refusé, une AccessDeniedException donne 403 à un utilisateur connu, et le point d'entrée à un anonyme.
-  ATTR{"roles ou allow_if ?"} -->|"non"| PASS(["la requête continue"])
+  accDescr: Une règle sans roles ni allow_if laisse passer. Sinon roles et allow_if sont passés ensemble à decide(), avec la Request pour sujet, et la stratégie tranche. Accordé, la Request continue. Refusé, une AccessDeniedException donne 403 à un user connu, et l'entry point à un anonyme.
+  ATTR{"roles ou allow_if ?"} -->|"non"| PASS(["la Request continue"])
   ATTR -->|"oui"| DEC{"decide(), selon la stratégie"}
-  DEC -->|"accordé"| GO(["la requête continue"])
-  DEC -->|"refusé"| DENY(["refus : 403, ou point d'entrée"])
+  DEC -->|"accordé"| GO(["la Request continue"])
+  DEC -->|"refusé"| DENY(["refus : 403, ou entry point"])
 ```
 
 ## Ce que cela ne fait pas
 
-`access_control` protège des **URL**. Il ne sait rien des objets : « l'auteur
-peut modifier son article » ne s'y exprime pas — c'est le travail d'un votant.
+`access_control` protège des **URL**. Il ne sait rien des objects : « l'auteur
+peut modifier son article » ne s'y exprime pas — c'est le travail d'un voter.
 
 Un refus produit une `AccessDeniedException`, traitée comme partout ailleurs :
-403 pour un utilisateur connu, point d'entrée pour un anonyme.
+403 pour un user connu, entry point pour un anonyme.
 
 ## Pièges d'examen
 
@@ -138,23 +138,23 @@ cumulées.
 
 **Du plus spécifique au plus général**, sinon la règle fine devient inatteignable.
 
-**`path` est une expression régulière**, comparée sans la chaîne de requête.
+**`path` est une expression régulière**, comparée sans la chaîne de Request.
 
 **`roles` + `allow_if` accorde si l'un des deux suffit**, avec la stratégie par
 défaut.
 
 **Aucune règle ne correspond : aucune restriction.**
 
-**`access_control` ne remplace pas un votant** : il ignore les objets.
+**`access_control` ne remplace pas un voter** : il ignore les objects.
 
 ## Points clés
 
 - Première correspondance gagnante ; ordonner du spécifique au général.
 - Correspondance : `path`, `host`, `ips`, `port`, `methods`, `route`,
   `attributes`, ou un `request_matcher` seul.
-- Exigence : `roles`, `allow_if`, `requires_channel` ; plusieurs attributs sont
+- Exigence : `roles`, `allow_if`, `requires_channel` ; plusieurs attributes sont
   tranchés par la stratégie.
-- Protège des URL, pas des objets.
+- Protège des URL, pas des objects.
 
 ## Sources officielles
 

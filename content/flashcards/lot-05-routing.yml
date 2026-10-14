@@ -15,14 +15,14 @@ flashcards:
     language: fr
     level: RECALL
     front: "Symfony route /foo : que se passe-t-il si l'URL demandée est /foo/ ?"
-    back: "Redirection 301 vers /foo — mais seulement pour GET et HEAD."
+    back: "Redirect 301 vers /foo — mais seulement pour GET et HEAD."
     explanation: >-
-      La redirection va toujours vers la forme déclarée par la route, dans les
+      Le redirect va toujours vers la forme déclarée par la route, dans les
       deux sens : une route /foo/ redirige /foo vers /foo/. La restriction aux
-      méthodes sûres évite qu'un POST perde son corps.
+      safe methods évite qu'un POST perde son body.
     memorization_justification: >-
       Deux détails arbitraires que rien ne rappelle à la lecture du code : le
-      code exact (301, pas 302) et la restriction aux deux méthodes.
+      code exact (301, pas 302) et la restriction aux deux methods.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
@@ -38,7 +38,7 @@ flashcards:
     front: "L'option condition d'une route est-elle évaluée lors de la génération d'URL ?"
     back: "Non. Les conditions sont ignorées à la génération ; elles ne filtrent que l'appariement."
     explanation: >-
-      Le générateur ne connaît ni la requête ni l'agent utilisateur, donc il ne
+      Le générateur ne connaît ni la Request ni l'agent user, donc il ne
       peut pas évaluer l'expression. Une route sous condition reste générable
       vers un contexte où elle ne correspondrait pas. requirements, lui, compte
       dans les deux sens.
@@ -58,14 +58,14 @@ flashcards:
     official_item: OIT-ff0kghjbzvpm
     language: fr
     level: APPLICATION
-    front: "Chemin /{page}/blog avec une valeur par défaut pour page : /blog correspond-il ?"
-    back: "Non. Tout ce qui suit un paramètre facultatif doit être facultatif, donc page reste obligatoire."
+    front: "Path /{page}/blog avec une default value pour page : /blog correspond-il ?"
+    back: "Non. Tout ce qui suit un parameter facultatif doit être facultatif, donc page reste obligatoire."
     explanation: >-
-      Le chemin est valide, mais comme le segment /blog suit le paramètre et
-      n'est pas facultatif, la valeur par défaut ne rend pas page omissible.
+      Le path est valide, mais comme le segment /blog suit le parameter et
+      n'est pas facultatif, la default value ne rend pas page omissible.
     memorization_justification: >-
-      Règle structurelle contre-intuitive : la valeur par défaut est bien
-      définie et semble suffire, mais la position dans le chemin décide.
+      Règle structurelle contre-intuitive : la default value est bien
+      définie et semble suffire, mais la position dans le path décide.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
@@ -78,8 +78,8 @@ flashcards:
     official_item: OIT-ff0kghjbzvpm
     language: fr
     level: RECALL
-    front: "À quoi sert le préfixe ! dans un paramètre de route, comme /blog/{!page} ?"
-    back: "À forcer l'inclusion de la valeur par défaut dans l'URL générée : /blog/1 au lieu de /blog."
+    front: "À quoi sert le préfixe ! dans un parameter de route, comme /blog/{!page} ?"
+    back: "À forcer l'inclusion de la default value dans l'URL générée : /blog/1 au lieu de /blog."
     explanation: >-
       Sans le point d exclamation, une valeur égale au défaut disparaît de l URL
       produite. Le compilateur de routes en tire un second effet : une variable
@@ -99,10 +99,10 @@ flashcards:
     official_item: OIT-1cj08dhtp9hj
     language: fr
     level: RECALL
-    front: "Une valeur par défaut doit-elle satisfaire le requirement de son paramètre ?"
+    front: "Une default value doit-elle satisfaire le requirement de son parameter ?"
     back: "Non. La documentation l'autorise explicitement à ne pas le respecter."
     explanation: >-
-      Le requirement filtre la valeur venue de l'URL. Une valeur par défaut n'est
+      Le requirement filter la valeur venue de l'URL. Une default value n'est
       pas dans l'URL, donc elle n'est pas filtrée.
     memorization_justification: >-
       Contre-intuitif : on suppose une validation uniforme, et l'exception ne se
@@ -119,11 +119,11 @@ flashcards:
     official_item: OIT-5g82spham3vm
     language: fr
     level: RECALL
-    front: "Sans option methods, quelles méthodes HTTP une route accepte-t-elle ?"
+    front: "Sans option methods, quelles methods HTTP une route accepte-t-elle ?"
     back: "Toutes. La restriction n'existe que si methods est déclarée."
     explanation: >-
-      Deux routes peuvent donc partager le même chemin et ne différer que par
-      methods. Un formulaire HTML n'envoyant que GET et POST, un champ caché
+      Deux routes peuvent donc partager le même path et ne différer que par
+      methods. Un form HTML n'envoyant que GET et POST, un field caché
       _method simule les autres, si framework.http_method_override vaut true.
     memorization_justification: >-
       L'absence d'option se lit spontanément comme « GET seulement », alors que
@@ -140,15 +140,15 @@ flashcards:
     official_item: OIT-xxcpx1qssp93
     language: fr
     level: RECALL
-    front: "Appeler $request->setLocale() dans un contrôleur configure-t-il le traducteur ?"
-    back: "Non, c'est trop tard. Il faut l'URL, un écouteur prioritaire, ou setLocale() sur le service translator."
+    front: "Appeler $request->setLocale() dans un controller configure-t-il le translator ?"
+    back: "Non, c'est trop tard. Il faut l'URL, un listener prioritaire, ou setLocale() sur le service translator."
     explanation: >-
-      Un écouteur maison doit passer avant LocaleListener, donc porter une
-      priorité supérieure. Le paramètre _locale dans le chemin pose la locale
+      Un listener maison doit passer avant LocaleListener, donc porter une
+      priorité supérieure. Le parameter _locale dans le path pose la locale
       automatiquement, sans code.
     memorization_justification: >-
-      L'appel réussit sans erreur et la locale change bien sur la requête ; seul
-      le traducteur reste en arrière, ce qui rend le symptôme déroutant.
+      L'appel réussit sans erreur et la locale change bien sur la Request ; seul
+      le translator reste en arrière, ce qui rend le symptôme déroutant.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst"
@@ -161,10 +161,10 @@ flashcards:
     language: fr
     level: RECALL
     front: 'Symfony : le composant Routing dépend-il d''autres composants Symfony ?'
-    back: Non — PHP et un paquet de contrats, c'est tout. Il s'installe seul hors du framework.
+    back: Non — PHP et un package de contrats, c'est tout. Il s'installe seul hors du framework.
     explanation: 'Apparier et générer sont par ailleurs deux classes distinctes du composant : c''est
       pourquoi une option de route peut compter dans un sens et pas dans l''autre, le générateur ne
-      voyant aucune requête.'
+      voyant aucune Request.'
     memorization_justification: Fait d'architecture arbitraire qui décide les questions « ce composant
       fonctionne-t-il seul ? ».
     verification_status: VERIFIED
@@ -178,10 +178,10 @@ flashcards:
     official_item: OIT-81b2c0jmv2j3
     language: fr
     level: RECALL
-    front: 'Symfony : que devient un paramètre passé à la génération d''URL et absent de la route ?'
-    back: Il part en chaîne de requête — aucune erreur n'est levée.
-    explanation: 'Une faute de frappe dans un nom de paramètre ne produit donc aucun message : juste
-      une URL avec un paramètre en trop. Le type de référence par défaut est par ailleurs le chemin
+    front: 'Symfony : que devient un parameter passé à la génération d''URL et absent de la route ?'
+    back: Il part en chaîne de Request — aucune erreur n'est levée.
+    explanation: 'Une faute de frappe dans un nom de parameter ne produit donc aucun message : juste
+      une URL avec un parameter en trop. Le type de référence par défaut est par ailleurs le path
       absolu, pas l''URL absolue.'
     memorization_justification: 'Absence d''erreur contre-intuitive : le réflexe est d''attendre une
       exception.'
@@ -196,11 +196,11 @@ flashcards:
     official_item: OIT-4pgc74ctc3vc
     language: fr
     level: RECALL
-    front: 'Symfony : lequel des paramètres de routage réservés ne s''emploie pas dans un import de
+    front: 'Symfony : lequel des parameters de routage réservés ne s''emploie pas dans un import de
       routes ?'
-    back: Celui qui pose l'identifiant de fragment (`_fragment`). Les quatre autres valent pour une
-      route isolée comme pour un groupe importé.
-    explanation: Les paramètres réservés commencent tous par un souligné ; les options courtes de l'attribut,
+    back: Celui qui pose l'identifier de fragment (`_fragment`). Les quatre autres valent pour une
+      route isolée comme pour un group importé.
+    explanation: Les parameters réservés commencent tous par un souligné ; les options courtes de l'attribute,
       non — ce sont deux écritures de la même chose.
     memorization_justification: Exception unique dans une liste homogène de cinq, exactement la forme
       interrogée.
@@ -215,10 +215,10 @@ flashcards:
     official_item: OIT-21m4pmtymygn
     language: fr
     level: RECALL
-    front: 'Symfony : sans contrainte d''hôte, quels hôtes une route accepte-t-elle ?'
+    front: 'Symfony : sans constraint d''hôte, quels hôtes une route accepte-t-elle ?'
     back: N'importe lequel. L'absence de l'option n'est pas une restriction implicite au domaine principal.
-    explanation: 'L''hôte n''a par ailleurs pas son propre mécanisme de paramètres : valeurs par défaut
-      et contraintes sont exactement celles d''un paramètre de chemin.'
+    explanation: 'L''hôte n''a par ailleurs pas son propre mécanisme de parameters : default values
+      et constraints sont exactement celles d''un parameter de path.'
     memorization_justification: 'Défaut permissif contre-intuitif : on suppose une restriction là où
       il n''y en a aucune.'
     verification_status: VERIFIED
@@ -235,8 +235,8 @@ flashcards:
     front: 'Symfony : dans quel ordre `debug:router` liste-t-il les routes ?'
     back: Dans l'ordre d'évaluation, pas alphabétique.
     explanation: 'C''est ce qui en fait un outil de diagnostic : la première correspondance gagne, donc
-      l''ordre affiché est la réponse à « pourquoi est-ce l''autre route qui répond ? ».'
-    memorization_justification: Détail d'affichage qui change la valeur diagnostique de la commande,
+      l''ordre affiché est la Response à « pourquoi est-ce l''autre route qui répond ? ».'
+    memorization_justification: Détail d'affichage qui change la valeur diagnostique de la command,
       et qu'on suppose alphabétique.
     verification_status: VERIFIED
     official_sources:
@@ -250,10 +250,10 @@ flashcards:
     official_item: OIT-ceaw3ewfsw85
     language: fr
     level: RECALL
-    front: 'Dans quel composant se trouve la classe RouterListener ?'
-    back: 'Dans HttpKernel, espace de noms Symfony\Component\HttpKernel\EventListener. FrameworkBundle ne fait que l enregistrer comme service.'
+    front: 'Dans quel composant se trouve la class RouterListener ?'
+    back: 'Dans HttpKernel, namespace Symfony\Component\HttpKernel\EventListener. FrameworkBundle ne fait que l enregistrer comme service.'
     explanation: >-
-      Le bundle déclare le service router_listener en lui passant la classe du composant HttpKernel.
+      Le bundle déclare le service router_listener en lui passant la class du composant HttpKernel.
     memorization_justification: >-
       On attribue spontanément au bundle tout ce qui touche au routage applicatif.
     verification_status: VERIFIED
@@ -272,9 +272,9 @@ flashcards:
     front: 'À quelle priorité RouterListener écoute-t-il kernel.request ?'
     back: '32.'
     explanation: >-
-      La même classe écoute aussi kernel.finish_request et kernel.exception.
+      La même class écoute aussi kernel.finish_request et kernel.exception.
     memorization_justification: >-
-      La priorité situe le routage par rapport aux autres écouteurs de la requête.
+      La priorité situe le routage par rapport aux autres listeners de la Request.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/RouterListener.php"
@@ -288,12 +288,12 @@ flashcards:
     official_item: OIT-ceaw3ewfsw85
     language: fr
     level: RECALL
-    front: 'Quelle classe de matcher FrameworkBundle déclare-t-il pour le routeur par défaut ?'
+    front: 'Quelle class de matcher FrameworkBundle déclare-t-il pour le router par défaut ?'
     back: 'RedirectableCompiledUrlMatcher, un matcher compilé capable de rediriger.'
     explanation: >-
       Le service router.default reçoit aussi CompiledUrlGenerator comme générateur, les deux étant compilés dans le cache.
     memorization_justification: >-
-      Le nom de la classe réelle n apparaît pas dans la configuration de l application.
+      Le nom de la class réelle n apparaît pas dans la configuration de l application.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Resources/config/routing.php"
@@ -310,9 +310,9 @@ flashcards:
     front: 'Quelle phrase décrit officiellement le composant Routing ?'
     back: 'Maps an HTTP request to a set of configuration variables.'
     explanation: >-
-      La description parle de variables, pas de contrôleur : _controller n est qu une variable parmi d autres.
+      La description parle de variables, pas de controller : _controller n est qu une variable parmi d autres.
     memorization_justification: >-
-      La formule officielle fixe la bonne représentation du rôle du composant.
+      La formule officielle fixe la bonne représentation du role du composant.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/composer.json"
@@ -326,10 +326,10 @@ flashcards:
     official_item: OIT-ceaw3ewfsw85
     language: fr
     level: UNDERSTANDING
-    front: 'Pourquoi une sous-requête produite par forward() n est-elle pas routée à nouveau ?'
-    back: 'Parce que RouterListener saute le routage quand la requête porte déjà l attribut _controller.'
+    front: 'Pourquoi une sub-Request produite par forward() n est-elle pas routée à nouveau ?'
+    back: 'Parce que RouterListener saute le routage quand la Request porte déjà l attribute _controller.'
     explanation: >-
-      forward() pose _controller dans les attributs de la sous-requête avant de la confier au noyau.
+      forward() pose _controller dans les attributes de la sub-Request avant de la confier au kernel.
     memorization_justification: >-
       Le lien entre deux mécanismes éloignés se retient mieux qu une règle isolée.
     verification_status: VERIFIED
@@ -345,12 +345,12 @@ flashcards:
     official_item: OIT-ceaw3ewfsw85
     language: fr
     level: UNDERSTANDING
-    front: 'Pourquoi une URL inexistante donne-t-elle un 404 et une mauvaise méthode un 405 ?'
+    front: 'Pourquoi une URL inexistante donne-t-elle un 404 et une mauvaise method un 405 ?'
     back: 'Parce que RouterListener traduit ResourceNotFoundException en NotFoundHttpException et MethodNotAllowedException en MethodNotAllowedHttpException.'
     explanation: >-
-      Le 405 porte les méthodes admises dans l en-tête Allow.
+      Le 405 porte les methods admises dans l header Allow.
     memorization_justification: >-
-      Le composant lève ses propres exceptions ; c est l écouteur qui les rend HTTP.
+      Le composant lève ses propres exceptions ; c est l listener qui les rend HTTP.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/RouterListener.php"
@@ -364,12 +364,12 @@ flashcards:
     official_item: OIT-ceaw3ewfsw85
     language: fr
     level: UNDERSTANDING
-    front: 'Pourquoi une classe de contrôleur hors de src/Controller peut-elle fournir des routes d attributs ?'
-    back: 'Parce que routing.controllers charge les classes étiquetées routing.controller, et que toute classe portant #[Route] reçoit cette étiquette par autoconfiguration.'
+    front: 'Pourquoi une class de controller hors de src/Controller peut-elle fournir des routes d attributes ?'
+    back: 'Parce que routing.controllers charge les classes étiquetées routing.controller, et que toute class portant #[Route] reçoit ce tag par autoconfiguration.'
     explanation: >-
       C est l enregistrement comme service qui compte, pas l emplacement dans l arborescence.
     memorization_justification: >-
-      L habitude du répertoire src/Controller masque le mécanisme réel.
+      L habitude du directory src/Controller masque le mécanisme réel.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php"
@@ -383,10 +383,10 @@ flashcards:
     official_item: OIT-ceaw3ewfsw85
     language: fr
     level: UNDERSTANDING
-    front: 'Pourquoi le générateur d URL ne peut-il pas tenir compte d une condition portant sur la requête ?'
-    back: 'Parce qu apparier et générer sont deux classes distinctes, et que le générateur ne reçoit pas la requête.'
+    front: 'Pourquoi le générateur d URL ne peut-il pas tenir compte d une condition portant sur la Request ?'
+    back: 'Parce qu apparier et générer sont deux classes distinctes, et que le générateur ne reçoit pas la Request.'
     explanation: >-
-      Il travaille à partir du nom de route, des paramètres et du contexte.
+      Il travaille à partir du nom de route, des parameters et du contexte.
     memorization_justification: >-
       La séparation des deux sens explique plusieurs asymétries entre matching et génération.
     verification_status: VERIFIED
@@ -402,7 +402,7 @@ flashcards:
     official_item: OIT-ceaw3ewfsw85
     language: fr
     level: APPLICATION
-    front: 'Une requête arrive déjà munie de l attribut _controller. Que fait RouterListener ?'
+    front: 'Une Request arrive déjà munie de l attribute _controller. Que fait RouterListener ?'
     back: 'Rien : il considère que le routage est fait et rend la main.'
     explanation: >-
       Le commentaire du code l indique : routing is already done.
@@ -421,10 +421,10 @@ flashcards:
     official_item: OIT-ceaw3ewfsw85
     language: fr
     level: APPLICATION
-    front: 'Le routeur de FrameworkBundle doit rediriger une URL au lieu de répondre 404. Vers quel contrôleur, et avec quelle permanence ?'
-    back: 'RedirectController::urlRedirectAction, en redirection permanente.'
+    front: 'Le router de FrameworkBundle doit rediriger une URL au lieu de répondre 404. Vers quel controller, et avec quelle permanence ?'
+    back: 'RedirectController::urlRedirectAction, en redirect permanent.'
     explanation: >-
-      La méthode redirect() du matcher renvoie ce contrôleur avec permanent à true.
+      La method redirect() du matcher renvoie ce controller avec permanent à true.
     memorization_justification: >-
       Le détail de la permanence a un effet de cache côté navigateur.
     verification_status: VERIFIED
@@ -440,12 +440,12 @@ flashcards:
     official_item: OIT-ceaw3ewfsw85
     language: fr
     level: APPLICATION
-    front: 'Après un appariement, que contient l attribut _route_params de la requête ?'
+    front: 'Après un appariement, que contient l attribute _route_params de la Request ?'
     back: 'Les variables trouvées, sans _route ni _controller.'
     explanation: >-
-      RouterListener retire ces deux clés avant de poser _route_params.
+      RouterListener retire ces deux keys avant de poser _route_params.
     memorization_justification: >-
-      Savoir ce que contient cet attribut évite de le reconstruire à la main.
+      Savoir ce que contient cet attribute évite de le reconstruire à la main.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/RouterListener.php"
@@ -459,10 +459,10 @@ flashcards:
     official_item: OIT-ceaw3ewfsw85
     language: fr
     level: TRAP
-    front: 'Piège : « RouterListener est une classe de FrameworkBundle ».'
+    front: 'Piège : « RouterListener est une class de FrameworkBundle ».'
     back: 'Non. Elle appartient au composant HttpKernel ; le bundle l enregistre seulement comme service.'
     explanation: >-
-      Son espace de noms le montre directement.
+      Son namespace le montre directement.
     memorization_justification: >-
       L association spontanée au bundle est l erreur attendue.
     verification_status: VERIFIED
@@ -478,12 +478,12 @@ flashcards:
     official_item: OIT-ceaw3ewfsw85
     language: fr
     level: TRAP
-    front: 'Piège : « les routes d attributs sont trouvées en parcourant le répertoire src/Controller ».'
+    front: 'Piège : « les routes d attributes sont trouvées en parcourant le directory src/Controller ».'
     back: 'Non. La ressource routing.controllers charge les classes étiquetées routing.controller par autoconfiguration.'
     explanation: >-
-      Un contrôleur déclaré comme service ailleurs fournit aussi ses routes.
+      Un controller déclaré comme service ailleurs fournit aussi ses routes.
     memorization_justification: >-
-      La structure du squelette d application suggère un parcours de répertoire.
+      La structure du squelette d application suggère un parcours de directory.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Loader/AttributeServicesLoader.php"
@@ -497,8 +497,8 @@ flashcards:
     official_item: OIT-ceaw3ewfsw85
     language: fr
     level: TRAP
-    front: 'Piège : « une mauvaise méthode HTTP sur une route existante donne un 404 ».'
-    back: 'Non. RouterListener produit un 405 avec l en-tête Allow.'
+    front: 'Piège : « une mauvaise method HTTP sur une route existante donne un 404 ».'
+    back: 'Non. RouterListener produit un 405 avec l header Allow.'
     explanation: >-
       Seule l absence totale de route produit le 404.
     memorization_justification: >-
@@ -516,10 +516,10 @@ flashcards:
     official_item: OIT-egy2wn3z7gb7
     language: fr
     level: RECALL
-    front: 'Dans quel espace de noms vit l attribut de route en Symfony 8.0 ?'
+    front: 'Dans quel namespace vit l attribute de route en Symfony 8.0 ?'
     back: 'Symfony\Component\Routing\Attribute\Route. L ancien espace Annotation n existe plus.'
     explanation: >-
-      Le fichier Annotation/Route.php est absent de la branche 8.0 ; un import hérité échoue.
+      Le file Annotation/Route.php est absent de la branche 8.0 ; un import hérité échoue.
     memorization_justification: >-
       L import hérité des annotations Doctrine est l erreur la plus visible à la migration.
     verification_status: VERIFIED
@@ -536,11 +536,11 @@ flashcards:
     language: fr
     level: RECALL
     front: 'L option priority existe-t-elle dans la configuration YAML des routes ?'
-    back: 'Non. Elle n est pas dans la liste des clés admises par le chargeur YAML ; en YAML on déplace la route.'
+    back: 'Non. Elle n est pas dans la liste des keys admises par le loader YAML ; en YAML on déplace la route.'
     explanation: >-
-      Une clé hors de AVAILABLE_KEYS fait lever une InvalidArgumentException.
+      Une key hors de AVAILABLE_KEYS fait lever une InvalidArgumentException.
     memorization_justification: >-
-      La symétrie supposée entre attribut et YAML est exactement ce qui trompe.
+      La symétrie supposée entre attribute et YAML est exactement ce qui trompe.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Loader/YamlFileLoader.php"
@@ -554,10 +554,10 @@ flashcards:
     official_item: OIT-egy2wn3z7gb7
     language: fr
     level: RECALL
-    front: 'Comment restreint-on des routes à un environnement en YAML ?'
-    back: 'Avec un bloc when@nom-de-l-environnement au premier niveau du fichier.'
+    front: 'Comment restreint-on des routes à un environment en YAML ?'
+    back: 'Avec un block when@nom-de-l-environnement au premier niveau du file.'
     explanation: >-
-      L attribut utilise l argument env ; le YAML n a pas de clé env par route.
+      L attribute utilise l argument env ; le YAML n a pas de key env par route.
     memorization_justification: >-
       La même intention s exprime sous deux formes selon le format.
     verification_status: VERIFIED
@@ -573,12 +573,12 @@ flashcards:
     official_item: OIT-egy2wn3z7gb7
     language: fr
     level: RECALL
-    front: 'Quelle est la valeur par défaut de l argument priority dans l attribut Route ?'
-    back: 'null. La route prend alors la priorité posée au niveau de la classe, et à défaut 0.'
+    front: 'Quelle est la default value de l argument priority dans l attribute Route ?'
+    back: 'null. La route prend alors la priorité posée au niveau de la class, et à défaut 0.'
     explanation: >-
-      AttributeClassLoader remplace un null par la priorité globale de la classe.
+      AttributeClassLoader remplace un null par la priorité globale de la class.
     memorization_justification: >-
-      null et 0 ne sont pas équivalents quand la classe porte sa propre priorité.
+      null et 0 ne sont pas équivalents quand la class porte sa propre priorité.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Loader/AttributeClassLoader.php"
@@ -592,10 +592,10 @@ flashcards:
     official_item: OIT-egy2wn3z7gb7
     language: fr
     level: UNDERSTANDING
-    front: 'Pourquoi l option priority est-elle réservée aux attributs ?'
-    back: 'Parce qu en YAML l ordre du fichier suffit, alors qu en attributs l ordre de découverte est difficile à maîtriser.'
+    front: 'Pourquoi l option priority est-elle réservée aux attributes ?'
+    back: 'Parce qu en YAML l ordre du file suffit, alors qu en attributes l ordre de découverte est difficile à maîtriser.'
     explanation: >-
-      La documentation le justifie ainsi, et le chargeur YAML ne connaît pas la clé.
+      La documentation le justifie ainsi, et le loader YAML ne connaît pas la key.
     memorization_justification: >-
       Relier l option à son besoin explique pourquoi elle n existe que d un côté.
     verification_status: VERIFIED
@@ -631,11 +631,11 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: 'Pourquoi un alias YAML ne peut-il pas porter de path ni de controller ?'
-    back: 'Parce qu une entrée qui contient alias n accepte que les clés alias et deprecated.'
+    back: 'Parce qu une entrée qui contient alias n accepte que les keys alias et deprecated.'
     explanation: >-
-      Le chargeur valide cette forme à part et lève pour toute autre clé.
+      Le loader valide cette forme à part et lève pour toute autre key.
     memorization_justification: >-
-      L alias est une redirection de nom, pas une route à part entière.
+      L alias est un redirect de nom, pas une route à part entière.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Loader/YamlFileLoader.php"
@@ -649,12 +649,12 @@ flashcards:
     official_item: OIT-egy2wn3z7gb7
     language: fr
     level: UNDERSTANDING
-    front: 'Pourquoi un tableau passé à path dans l attribut produit-il plusieurs routes ?'
-    back: 'Parce que chaque entrée est un chemin localisé : une route par locale, nommée nom.locale.'
+    front: 'Pourquoi un array passé à path dans l attribute produit-il plusieurs routes ?'
+    back: 'Parce que chaque entrée est un path localisé : une route par locale, nommée nom.locale.'
     explanation: >-
       AttributeClassLoader ajoute une route par locale en suffixant le nom.
     memorization_justification: >-
-      Le type string ou array de path cache cette fonction de localisation.
+      Le type string ou array de path cache cette function de localisation.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Loader/AttributeClassLoader.php"
@@ -668,12 +668,12 @@ flashcards:
     official_item: OIT-egy2wn3z7gb7
     language: fr
     level: APPLICATION
-    front: 'Un fichier YAML déclare priority: 2 sur une route. Que se passe-t-il au chargement ?'
-    back: 'Une InvalidArgumentException signale une clé non supportée et liste les clés admises.'
+    front: 'Un file YAML déclare priority: 2 sur une route. Que se passe-t-il au chargement ?'
+    back: 'Une InvalidArgumentException signale une key non supportée et liste les keys admises.'
     explanation: >-
-      Pour faire passer la route avant, on la déplace plus haut dans le fichier.
+      Pour faire passer la route avant, on la déplace plus haut dans le file.
     memorization_justification: >-
-      Le scénario transforme la confusion attribut/YAML en erreur concrète.
+      Le scénario transforme la confusion attribute/YAML en erreur concrète.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Loader/YamlFileLoader.php"
@@ -690,7 +690,7 @@ flashcards:
     front: 'Une route YAML porte à la fois controller et defaults._controller. Que se passe-t-il ?'
     back: 'Le chargement lève une exception : les deux ne peuvent pas coexister.'
     explanation: >-
-      La clé controller est un raccourci vers defaults._controller ; en fournir deux est ambigu.
+      La key controller est un raccourci vers defaults._controller ; en fournir deux est ambigu.
     memorization_justification: >-
       Le cas se produit en fusionnant deux styles de configuration.
     verification_status: VERIFIED
@@ -706,10 +706,10 @@ flashcards:
     official_item: OIT-egy2wn3z7gb7
     language: fr
     level: APPLICATION
-    front: 'Une classe porte #[Route(priority: 5)] et une méthode #[Route(''/x'')] sans priorité. Quelle priorité a la route ?'
-    back: '5 : la route hérite de la priorité posée au niveau de la classe.'
+    front: 'Une class porte #[Route(priority: 5)] et une method #[Route(''/x'')] sans priorité. Quelle priorité a la route ?'
+    back: '5 : la route hérite de la priorité posée au niveau de la class.'
     explanation: >-
-      L argument de méthode vaut null, remplacé par la priorité globale.
+      L argument de method vaut null, remplacé par la priorité globale.
     memorization_justification: >-
       Le cas distingue null et 0, qui ne se comportent pas pareil.
     verification_status: VERIFIED
@@ -725,10 +725,10 @@ flashcards:
     official_item: OIT-egy2wn3z7gb7
     language: fr
     level: TRAP
-    front: 'Piège : « l attribut Route et le YAML acceptent exactement les mêmes options ».'
-    back: 'Non. priority n existe qu en attribut ; env et alias prennent une autre forme en YAML.'
+    front: 'Piège : « l attribute Route et le YAML acceptent exactement les mêmes options ».'
+    back: 'Non. priority n existe qu en attribute ; env et alias prennent une autre forme en YAML.'
     explanation: >-
-      Le chargeur YAML a sa propre liste de clés admises.
+      Le loader YAML a sa propre liste de keys admises.
     memorization_justification: >-
       La documentation montre souvent les formats côte à côte, ce qui suggère une équivalence totale.
     verification_status: VERIFIED
@@ -744,10 +744,10 @@ flashcards:
     official_item: OIT-egy2wn3z7gb7
     language: fr
     level: TRAP
-    front: 'Piège : « une clé inconnue dans un fichier de routes YAML est ignorée ».'
+    front: 'Piège : « une key inconnue dans un file de routes YAML est ignorée ».'
     back: 'Non. Elle fait lever une InvalidArgumentException au chargement.'
     explanation: >-
-      Le message d erreur énumère les clés admises.
+      Le message d erreur énumère les keys admises.
     memorization_justification: >-
       Beaucoup de formats de configuration ignorent l inconnu ; celui-ci non.
     verification_status: VERIFIED
@@ -764,7 +764,7 @@ flashcards:
     language: fr
     level: TRAP
     front: 'Piège : « une priorité plus basse est évaluée en premier ».'
-    back: 'Non. La priorité la plus élevée passe en premier ; la valeur par défaut effective est 0.'
+    back: 'Non. La priorité la plus élevée passe en premier ; la default value effective est 0.'
     explanation: >-
       Le tri de RouteCollection est décroissant.
     memorization_justification: >-
@@ -782,8 +782,8 @@ flashcards:
     official_item: OIT-1cj08dhtp9hj
     language: fr
     level: RECALL
-    front: 'Quelle est la valeur par défaut de framework.router.strict_requirements ?'
-    back: 'true : une valeur non conforme à la contrainte lève une exception à la génération.'
+    front: 'Quelle est la default value de framework.router.strict_requirements ?'
+    back: 'true : une valeur non conforme à la constraint lève une exception à la génération.'
     explanation: >-
       L option est un nœud scalaire dont le défaut est true dans la configuration de FrameworkBundle.
     memorization_justification: >-
@@ -801,12 +801,12 @@ flashcards:
     official_item: OIT-1cj08dhtp9hj
     language: fr
     level: RECALL
-    front: 'Quelle exception le générateur lève-t-il pour un paramètre qui ne respecte pas sa contrainte ?'
+    front: 'Quelle exception le générateur lève-t-il pour un parameter qui ne respecte pas sa constraint ?'
     back: 'InvalidParameterException, avec un message indiquant la valeur attendue et la valeur donnée.'
     explanation: >-
       Elle n est levée que si strict_requirements vaut true.
     memorization_justification: >-
-      Le nom de l exception situe l erreur côté paramètre, pas côté route.
+      Le nom de l exception situe l erreur côté parameter, pas côté route.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
@@ -821,7 +821,7 @@ flashcards:
     language: fr
     level: RECALL
     front: 'Quelle expression porte la constante Requirement::POSITIVE_INT ?'
-    back: '[1-9][0-9]* : un entier sans zéro initial, qui exclut 0.'
+    back: '[1-9][0-9]* : un int sans zéro initial, qui exclut 0.'
     explanation: >-
       Requirement::DIGITS, elle, vaut [0-9]+ et accepte 0 comme 007.
     memorization_justification: >-
@@ -839,7 +839,7 @@ flashcards:
     official_item: OIT-1cj08dhtp9hj
     language: fr
     level: RECALL
-    front: 'Quelle syntaxe permet d écrire une contrainte directement dans le chemin ?'
+    front: 'Quelle syntaxe permet d écrire une constraint directement dans le path ?'
     back: '{nom<expression>}, par exemple /blog/{page<[0-9]+>}.'
     explanation: >-
       La forme inline est plus concise mais devient illisible pour une expression complexe.
@@ -858,10 +858,10 @@ flashcards:
     official_item: OIT-1cj08dhtp9hj
     language: fr
     level: UNDERSTANDING
-    front: 'Pourquoi Requirement est-elle une énumération sans cas ?'
-    back: 'Parce qu elle ne sert qu à regrouper des constantes de type chaîne, utilisées comme expressions régulières.'
+    front: 'Pourquoi Requirement est-elle une enum sans cas ?'
+    back: 'Parce qu elle ne sert qu à regrouper des constantes de type string, utilisées comme expressions régulières.'
     explanation: >-
-      On écrit Requirement::DIGITS, qui est une chaîne, pas un cas d énumération.
+      On écrit Requirement::DIGITS, qui est une string, pas un cas d enum.
     memorization_justification: >-
       Le mot-clé enum laisse attendre des cas qui n existent pas ici.
     verification_status: VERIFIED
@@ -877,12 +877,12 @@ flashcards:
     official_item: OIT-1cj08dhtp9hj
     language: fr
     level: UNDERSTANDING
-    front: 'Pourquoi une contrainte rend-elle l ordre de déclaration indifférent entre /blog/{page} et /blog/{slug} ?'
-    back: 'Parce qu une URL qui ne vérifie pas la contrainte ne correspond plus à la première route, et passe à la suivante.'
+    front: 'Pourquoi une constraint rend-elle l ordre de déclaration indifférent entre /blog/{page} et /blog/{slug} ?'
+    back: 'Parce qu une URL qui ne vérifie pas la constraint ne correspond plus à la première route, et passe à la suivante.'
     explanation: >-
-      Sans contrainte, la première route déclarée capture toutes les valeurs.
+      Sans constraint, la première route déclarée capture toutes les valeurs.
     memorization_justification: >-
-      Le vrai service rendu par la contrainte est de départager des chemins de même forme.
+      Le vrai service rendu par la constraint est de départager des paths de même forme.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
@@ -896,12 +896,12 @@ flashcards:
     official_item: OIT-1cj08dhtp9hj
     language: fr
     level: UNDERSTANDING
-    front: 'Pourquoi une valeur par défaut peut-elle ne pas respecter la contrainte de son paramètre ?'
-    back: 'Parce que la contrainte filtre l URL entrante, et que la valeur par défaut n est pas dans l URL.'
+    front: 'Pourquoi une default value peut-elle ne pas respecter la constraint de son parameter ?'
+    back: 'Parce que la constraint filter l URL entrante, et que la default value n est pas dans l URL.'
     explanation: >-
       La documentation l autorise explicitement.
     memorization_justification: >-
-      La règle surprend si l on pense la contrainte comme une validation du paramètre.
+      La règle surprend si l on pense la constraint comme une validation du parameter.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
@@ -915,12 +915,12 @@ flashcards:
     official_item: OIT-1cj08dhtp9hj
     language: fr
     level: APPLICATION
-    front: 'On génère blog_list avec page: abc alors que la contrainte est [0-9]+, sans configuration particulière. Résultat ?'
-    back: 'Une InvalidParameterException : la contrainte est vérifiée à la génération.'
+    front: 'On génère blog_list avec page: abc alors que la constraint est [0-9]+, sans configuration particulière. Résultat ?'
+    back: 'Une InvalidParameterException : la constraint est vérifiée à la génération.'
     explanation: >-
       strict_requirements vaut true par défaut.
     memorization_justification: >-
-      Le cas réfute l idée que la contrainte ne vaut qu à l appariement.
+      Le cas réfute l idée que la constraint ne vaut qu à l appariement.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
@@ -934,8 +934,8 @@ flashcards:
     official_item: OIT-1cj08dhtp9hj
     language: fr
     level: APPLICATION
-    front: 'En production, strict_requirements vaut false et un paramètre est invalide. Que produit la génération ?'
-    back: 'Une chaîne vide, et une erreur est journalisée.'
+    front: 'En production, strict_requirements vaut false et un parameter est invalide. Que produit la génération ?'
+    back: 'Une string vide, et une erreur est journalisée.'
     explanation: >-
       Le lien produit est vide au lieu de faire échouer la page.
     memorization_justification: >-
@@ -972,12 +972,12 @@ flashcards:
     official_item: OIT-1cj08dhtp9hj
     language: fr
     level: TRAP
-    front: 'Piège : « une contrainte de route ne s applique qu à l appariement, jamais à la génération ».'
+    front: 'Piège : « une constraint de route ne s applique qu à l appariement, jamais à la génération ».'
     back: 'Non. Le générateur la vérifie et lève une exception par défaut.'
     explanation: >-
       Seul strict_requirements à null désactive la vérification.
     memorization_justification: >-
-      La contrainte est souvent présentée comme un filtre d entrée uniquement.
+      La constraint est souvent présentée comme un filter d entrée uniquement.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
@@ -992,9 +992,9 @@ flashcards:
     language: fr
     level: TRAP
     front: 'Piège : « strict_requirements à false fait retourner null au générateur ».'
-    back: 'Non, selon le code 8.0 : il retourne une chaîne vide et journalise l erreur.'
+    back: 'Non, selon le code 8.0 : il retourne une string vide et journalise l erreur.'
     explanation: >-
-      Le texte d aide de l option dit null ; le code dit chaîne vide.
+      Le texte d aide de l option dit null ; le code dit string vide.
     memorization_justification: >-
       La formulation de l aide officielle induit l erreur.
     verification_status: VERIFIED
@@ -1010,8 +1010,8 @@ flashcards:
     official_item: OIT-ff0kghjbzvpm
     language: fr
     level: RECALL
-    front: 'Quelle valeur par défaut donne la syntaxe inline {page?} sans rien après le point d interrogation ?'
-    back: 'null. L argument du contrôleur doit alors être nullable.'
+    front: 'Quelle default value donne la syntaxe inline {page?} sans rien après le point d interrogation ?'
+    back: 'null. L argument du controller doit alors être nullable.'
     explanation: >-
       Route::extractInlineDefaultsAndRequirements() pose null quand le ? est seul.
     memorization_justification: >-
@@ -1030,9 +1030,9 @@ flashcards:
     language: fr
     level: RECALL
     front: 'Quelle condition le compilateur exige-t-il pour qu une variable de route soit facultative ?'
-    back: 'Qu elle ait une valeur par défaut et ne soit pas marquée importante par un point d exclamation.'
+    back: 'Qu elle ait une default value et ne soit pas marquée importante par un point d exclamation.'
     explanation: >-
-      Le calcul part de la fin du chemin et s arrête à la première variable qui ne remplit pas ces conditions.
+      Le calcul part de la fin du path et s arrête à la première variable qui ne remplit pas ces conditions.
     memorization_justification: >-
       La règle unique explique à la fois le cas /{page}/blog et le cas {!page}.
     verification_status: VERIFIED
@@ -1048,12 +1048,12 @@ flashcards:
     official_item: OIT-ff0kghjbzvpm
     language: fr
     level: RECALL
-    front: 'En attributs, quelle valeur par défaut d argument le chargeur copie-t-il dans la route ?'
-    back: 'Une valeur scalaire ou null, ou la value d un cas d énumération adossée, si le chemin porte un paramètre du même nom.'
+    front: 'En attributes, quelle default value d argument le loader copie-t-il dans la route ?'
+    back: 'Une valeur scalaire ou null, ou la value d un cas d enum adossée, si le path porte un parameter du même nom.'
     explanation: >-
-      Les autres valeurs par défaut sont ignorées.
+      Les autres default values sont ignorées.
     memorization_justification: >-
-      Le lien entre signature du contrôleur et route n est pas automatique pour tout argument.
+      Le lien entre signature du controller et route n est pas automatique pour tout argument.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Loader/AttributeClassLoader.php"
@@ -1067,7 +1067,7 @@ flashcards:
     official_item: OIT-ff0kghjbzvpm
     language: fr
     level: UNDERSTANDING
-    front: 'Pourquoi /blog/{!page} ne correspond-il pas à /blog, même avec une valeur par défaut pour page ?'
+    front: 'Pourquoi /blog/{!page} ne correspond-il pas à /blog, même avec une default value pour page ?'
     back: 'Parce qu une variable importante n est jamais facultative pour le compilateur de routes.'
     explanation: >-
       La documentation ne décrit que l effet du point d exclamation sur la génération ; le code montre aussi celui sur l appariement.
@@ -1086,12 +1086,12 @@ flashcards:
     official_item: OIT-ff0kghjbzvpm
     language: fr
     level: UNDERSTANDING
-    front: 'Pourquoi une valeur par défaut placée au milieu du chemin reste-t-elle dans l URL générée ?'
+    front: 'Pourquoi une default value placée au milieu du path reste-t-elle dans l URL générée ?'
     back: 'Parce que seules les variables finales, égales à leur défaut, sont omises ; tout segment requis qui suit les rend nécessaires.'
     explanation: >-
-      Le générateur parcourt le chemin depuis la fin et cesse d omettre dès qu une valeur doit apparaître.
+      Le générateur parcourt le path depuis la fin et cesse d omettre dès qu une valeur doit apparaître.
     memorization_justification: >-
-      Dire que le défaut disparaît de l URL n est vrai qu en fin de chemin.
+      Dire que le défaut disparaît de l URL n est vrai qu en fin de path.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
@@ -1105,12 +1105,12 @@ flashcards:
     official_item: OIT-ff0kghjbzvpm
     language: fr
     level: UNDERSTANDING
-    front: 'Pourquoi un argument avec valeur par défaut peut-il ne pas rendre un paramètre facultatif ?'
-    back: 'Parce que le chargeur ne le copie que si le chemin contient un paramètre du même nom et qu aucun défaut n est déjà posé.'
+    front: 'Pourquoi un argument avec default value peut-il ne pas rendre un parameter facultatif ?'
+    back: 'Parce que le loader ne le copie que si le path contient un parameter du même nom et qu aucun défaut n est déjà posé.'
     explanation: >-
-      Un argument sans paramètre homonyme dans le chemin n a aucun effet sur la route.
+      Un argument sans parameter homonyme dans le path n a aucun effet sur la route.
     memorization_justification: >-
-      La confusion vient de l habitude de lire la signature comme la définition de la route.
+      La confusion vient de l habitude de lire la signature comme la definition de la route.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Loader/AttributeClassLoader.php"
@@ -1124,8 +1124,8 @@ flashcards:
     official_item: OIT-ff0kghjbzvpm
     language: fr
     level: APPLICATION
-    front: 'Une route /blog/{page?} sert un contrôleur list(int $page). Que faut-il corriger ?'
-    back: 'Typer l argument en ?int : la valeur par défaut est null.'
+    front: 'Une route /blog/{page?} sert un controller list(int $page). Que faut-il corriger ?'
+    back: 'Typer l argument en ?int : la default value est null.'
     explanation: >-
       Un int non nullable ne peut pas recevoir la valeur null fournie par défaut.
     memorization_justification: >-
@@ -1143,10 +1143,10 @@ flashcards:
     official_item: OIT-ff0kghjbzvpm
     language: fr
     level: APPLICATION
-    front: 'Un contrôleur déclare function show(string $slug = ''accueil'') sur la route /page/{id}. /page correspond-il ?'
-    back: 'Non : aucun paramètre du chemin ne s appelle slug, donc le défaut n est pas copié et id reste obligatoire.'
+    front: 'Un controller déclare function show(string $slug = ''accueil'') sur la route /page/{id}. /page correspond-il ?'
+    back: 'Non : aucun parameter du path ne s appelle slug, donc le défaut n est pas copié et id reste obligatoire.'
     explanation: >-
-      Le lien se fait par nom entre argument et paramètre de chemin.
+      Le lien se fait par nom entre argument et parameter de path.
     memorization_justification: >-
       L erreur de nommage passe inaperçue tant que l URL complète est utilisée.
     verification_status: VERIFIED
@@ -1182,7 +1182,7 @@ flashcards:
     language: fr
     level: TRAP
     front: 'Piège : « une valeur égale au défaut n apparaît jamais dans l URL générée ».'
-    back: 'Non. Seules les variables en fin de chemin sont omises ; celles suivies d un segment requis restent.'
+    back: 'Non. Seules les variables en fin de path sont omises ; celles suivies d un segment requis restent.'
     explanation: >-
       L omission se propage depuis la fin et s arrête au premier élément requis.
     memorization_justification: >-
@@ -1200,10 +1200,10 @@ flashcards:
     official_item: OIT-ff0kghjbzvpm
     language: fr
     level: TRAP
-    front: 'Piège : « tout argument de contrôleur doté d une valeur par défaut rend le paramètre de route facultatif ».'
-    back: 'Non. Il faut un paramètre du même nom dans le chemin, et une valeur scalaire, null ou un cas d énumération adossée.'
+    front: 'Piège : « tout argument de controller doté d une default value rend le parameter de route facultatif ».'
+    back: 'Non. Il faut un parameter du même nom dans le path, et une valeur scalaire, null ou un cas d enum adossée.'
     explanation: >-
-      Le chargeur d attributs filtre par nom et par type de valeur.
+      Le loader d attributes filter par nom et par type de valeur.
     memorization_justification: >-
       La simplification courante omet les deux conditions.
     verification_status: VERIFIED
@@ -1220,7 +1220,7 @@ flashcards:
     language: fr
     level: RECALL
     front: 'Quelle valeur entière porte la constante UrlGeneratorInterface::ABSOLUTE_URL ?'
-    back: '0. La valeur par défaut, ABSOLUTE_PATH, vaut 1.'
+    back: '0. La default value, ABSOLUTE_PATH, vaut 1.'
     explanation: >-
       RELATIVE_PATH vaut 2 et NETWORK_PATH 3.
     memorization_justification: >-
@@ -1243,7 +1243,7 @@ flashcards:
     explanation: >-
       Le docblock de la constante le décrit ainsi.
     memorization_justification: >-
-      Le chemin réseau est le moins connu des quatre types.
+      Le path réseau est le moins connu des quatre types.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGeneratorInterface.php"
@@ -1257,12 +1257,12 @@ flashcards:
     official_item: OIT-81b2c0jmv2j3
     language: fr
     level: RECALL
-    front: 'À quoi sert la clé réservée _query passée au générateur ?'
-    back: 'À fournir un tableau de paramètres de chaîne de requête, prioritaires sur les paramètres en trop de même nom.'
+    front: 'À quoi sert la key réservée _query passée au générateur ?'
+    back: 'À fournir un array de parameters de chaîne de Request, prioritaires sur les parameters en trop de même nom.'
     explanation: >-
-      Une valeur qui n est pas un tableau lève une InvalidParameterException.
+      Une valeur qui n est pas un array lève une InvalidParameterException.
     memorization_justification: >-
-      La clé permet de distinguer explicitement ce qui va dans la chaîne de requête.
+      La key permet de distinguer explicitement ce qui va dans la chaîne de Request.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
@@ -1276,10 +1276,10 @@ flashcards:
     official_item: OIT-81b2c0jmv2j3
     language: fr
     level: UNDERSTANDING
-    front: 'Pourquoi un paramètre en trop égal à la valeur par défaut de même nom n apparaît-il pas dans l URL ?'
-    back: 'Parce que le générateur retire des paramètres en trop ceux qui égalent la valeur par défaut correspondante.'
+    front: 'Pourquoi un parameter en trop égal à la default value de même nom n apparaît-il pas dans l URL ?'
+    back: 'Parce que le générateur retire des parameters en trop ceux qui égalent la default value correspondante.'
     explanation: >-
-      Le filtrage compare chaque paramètre en trop au défaut de même clé.
+      Le filtrage compare chaque parameter en trop au défaut de même key.
     memorization_justification: >-
       L URL produite peut différer de ce qu on a passé, sans erreur.
     verification_status: VERIFIED
@@ -1295,10 +1295,10 @@ flashcards:
     official_item: OIT-81b2c0jmv2j3
     language: fr
     level: UNDERSTANDING
-    front: 'Pourquoi un Uuid passé comme paramètre en trop est-il converti en chaîne en Symfony 8.0 ?'
-    back: 'Parce qu il n a pas de propriété publique et qu il implémente Stringable ; le générateur le convertit donc en chaîne.'
+    front: 'Pourquoi un Uuid passé comme parameter en trop est-il converti en chaîne en Symfony 8.0 ?'
+    back: 'Parce qu il n a pas de property publique et qu il implémente Stringable ; le générateur le convertit donc en chaîne.'
     explanation: >-
-      AbstractUid n a qu une propriété protected et implémente Stringable.
+      AbstractUid n a qu une property protected et implémente Stringable.
     memorization_justification: >-
       La documentation affirme encore le contraire ; le code tranche.
     verification_status: VERIFIED
@@ -1314,12 +1314,12 @@ flashcards:
     official_item: OIT-81b2c0jmv2j3
     language: fr
     level: UNDERSTANDING
-    front: 'Pourquoi un objet à propriétés publiques passé en trop ne donne-t-il pas sa représentation textuelle ?'
-    back: 'Parce que le générateur prend d abord ses propriétés publiques et en fait un tableau ; __toString n est essayé qu en l absence de telles propriétés.'
+    front: 'Pourquoi un object à properties publiques passé en trop ne donne-t-il pas sa représentation textuelle ?'
+    back: 'Parce que le générateur prend d abord ses properties publiques et en fait un array ; __toString n est essayé qu en l absence de telles properties.'
     explanation: >-
       L ordre des deux traitements décide du résultat.
     memorization_justification: >-
-      Un objet Stringable peut produire un résultat inattendu s il expose des propriétés.
+      Un object Stringable peut produire un résultat inattendu s il expose des properties.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
@@ -1352,10 +1352,10 @@ flashcards:
     official_item: OIT-81b2c0jmv2j3
     language: fr
     level: APPLICATION
-    front: 'On veut un lien absolu dans un courriel généré depuis un contrôleur. Que passer à generateUrl() ?'
+    front: 'On veut un lien absolu dans un courriel généré depuis un controller. Que passer à generateUrl() ?'
     back: 'UrlGeneratorInterface::ABSOLUTE_URL en troisième argument.'
     explanation: >-
-      Sans lui, on obtient un chemin absolu sans schéma ni hôte, inutilisable hors du site.
+      Sans lui, on obtient un path absolu sans schéma ni hôte, inutilisable hors du site.
     memorization_justification: >-
       Le défaut convient aux pages mais pas aux courriels.
     verification_status: VERIFIED
@@ -1371,12 +1371,12 @@ flashcards:
     official_item: OIT-81b2c0jmv2j3
     language: fr
     level: APPLICATION
-    front: 'On passe _query avec la valeur page=2 au lieu d un tableau. Que se passe-t-il ?'
-    back: 'Une InvalidParameterException : _query doit être un tableau.'
+    front: 'On passe _query avec la valeur page=2 au lieu d un array. Que se passe-t-il ?'
+    back: 'Une InvalidParameterException : _query doit être un array.'
     explanation: >-
       Le générateur vérifie le type avant de construire l URL.
     memorization_justification: >-
-      L erreur de forme est facile à commettre en passant une chaîne toute faite.
+      L erreur de forme est facile à commettre en passant une string toute faite.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
@@ -1390,8 +1390,8 @@ flashcards:
     official_item: OIT-81b2c0jmv2j3
     language: fr
     level: TRAP
-    front: 'Piège : « en Symfony 8.0, un objet passé comme paramètre en trop n est jamais converti en chaîne ».'
-    back: 'Non. Le code le convertit : propriétés publiques en tableau, sinon Stringable en chaîne.'
+    front: 'Piège : « en Symfony 8.0, un object passé comme parameter en trop n est jamais converti en chaîne ».'
+    back: 'Non. Le code le convertit : properties publiques en array, sinon Stringable en chaîne.'
     explanation: >-
       La documentation 8.0 reprend encore l ancienne mise en garde.
     memorization_justification: >-
@@ -1409,10 +1409,10 @@ flashcards:
     official_item: OIT-81b2c0jmv2j3
     language: fr
     level: TRAP
-    front: 'Piège : « tout paramètre en trop apparaît toujours dans la chaîne de requête ».'
-    back: 'Non. Celui qui égale la valeur par défaut de même nom est retiré.'
+    front: 'Piège : « tout parameter en trop apparaît toujours dans la chaîne de Request ».'
+    back: 'Non. Celui qui égale la default value de même nom est retiré.'
     explanation: >-
-      Le filtrage s applique avant la construction de la chaîne.
+      Le filtrage s applique avant la construction de la string.
     memorization_justification: >-
       La règle générale masque une exception silencieuse.
     verification_status: VERIFIED
@@ -1428,12 +1428,12 @@ flashcards:
     official_item: OIT-d51jbkfs21pt
     language: fr
     level: RECALL
-    front: "Symfony : quelle classe de FrameworkBundle permet au routage de rediriger une requête ?"
+    front: "Symfony : quelle class de FrameworkBundle permet au routage de rediriger une Request ?"
     back: "RedirectableCompiledUrlMatcher, qui implémente RedirectableUrlMatcherInterface."
     explanation: >-
-      Sa méthode redirect() ne construit pas de réponse : elle retourne des attributs de requête qui désignent RedirectController comme contrôleur.
+      Sa method redirect() ne construit pas de Response : elle retourne des attributes de Request qui désignent RedirectController comme controller.
     memorization_justification: >-
-      Le nom relie deux notions que l'on sépare d'ordinaire : le matcher compilé et la redirection.
+      Le nom relie deux notions que l'on sépare d'ordinaire : le matcher compilé et le redirect.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Routing/RedirectableCompiledUrlMatcher.php"
@@ -1447,10 +1447,10 @@ flashcards:
     official_item: OIT-d51jbkfs21pt
     language: fr
     level: RECALL
-    front: "Symfony : une route liste plusieurs schémas et la requête n'en utilise aucun. Vers lequel est-elle redirigée ?"
+    front: "Symfony : une route liste plusieurs schémas et la Request n'en utilise aucun. Vers lequel est-elle redirigée ?"
     back: "Vers le premier schéma listé."
     explanation: >-
-      Si l'un des schémas listés correspond déjà, aucune redirection n'a lieu. Les schémas sont par ailleurs mis en minuscules par Route::setSchemes().
+      Si l'un des schémas listés correspond déjà, aucune redirect n'a lieu. Les schémas sont par ailleurs mis en minuscules par Route::setSchemes().
     memorization_justification: >-
       Règle d'ordre arbitraire, sans équivalent dans la documentation.
     verification_status: VERIFIED
@@ -1472,12 +1472,12 @@ flashcards:
     official_item: OIT-d51jbkfs21pt
     language: fr
     level: RECALL
-    front: "Symfony : quel statut porte la redirection de schéma déclenchée par le routage ?"
-    back: "301, comme la redirection de barre finale."
+    front: "Symfony : quel statut porte le redirect de schéma déclenché par le routage ?"
+    back: "301, comme le redirect de barre finale."
     explanation: >-
-      Le matcher transmet permanent à true et ne demande pas de conserver la méthode : urlRedirectAction() choisit donc 301, pas 308.
+      Le matcher transmet permanent à true et ne demande pas de conserver la method : urlRedirectAction() choisit donc 301, pas 308.
     memorization_justification: >-
-      La documentation parle de redirection sans donner le statut pour le schéma.
+      La documentation parle de redirect sans donner le statut pour le schéma.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Routing/RedirectableCompiledUrlMatcher.php"
@@ -1498,9 +1498,9 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "Symfony : pourquoi le routage ne redirige-t-il pas un POST vers la forme de l'URL avec ou sans barre finale ?"
-    back: "Un 301 autorise le client à rejouer la requête en GET : le corps du POST serait perdu."
+    back: "Un 301 autorise le client à rejouer la Request en GET : le body du POST serait perdu."
     explanation: >-
-      RFC 9110, section 15.4.2 : pour des raisons historiques, un client peut changer POST en GET après un 301. Le routage limite donc ses redirections à GET et HEAD.
+      RFC 9110, section 15.4.2 : pour des raisons historiques, un client peut changer POST en GET après un 301. Le routage limite donc ses redirects à GET et HEAD.
     memorization_justification: >-
       Comprendre la raison évite de réciter la restriction sans pouvoir l'appliquer au schéma.
     verification_status: VERIFIED
@@ -1524,7 +1524,7 @@ flashcards:
     front: "Symfony : le UrlMatcher du composant Routing, utilisé seul, redirige-t-il /foo/ vers une route /foo ?"
     back: "Non. Il lève ResourceNotFoundException, soit un 404."
     explanation: >-
-      La redirection exige un matcher qui implémente RedirectableUrlMatcherInterface. Le composant n'en fournit qu'une classe abstraite ; l'implémentation concrète vient de FrameworkBundle.
+      Le redirect exige un matcher qui implémente RedirectableUrlMatcherInterface. Le composant n'en fournit qu'une abstract class ; l'implémentation concrète vient de FrameworkBundle.
     memorization_justification: >-
       On attribue au composant un comportement qui appartient au bundle.
     verification_status: VERIFIED
@@ -1546,12 +1546,12 @@ flashcards:
     official_item: OIT-d51jbkfs21pt
     language: fr
     level: UNDERSTANDING
-    front: "Symfony : après une redirection décidée par le routage, que valent les attributs _route et _controller ?"
+    front: "Symfony : après un redirect décidé par le routage, que valent les attributes _route et _controller ?"
     back: "_route porte le nom de la route trouvée ; _controller désigne RedirectController."
     explanation: >-
-      Seul le contrôleur est remplacé : _route reste le nom de la route vers laquelle on redirige.
+      Seul le controller est remplacé : _route reste le nom de la route vers laquelle on redirige.
     memorization_justification: >-
-      Voir le nom de la route cible alors que son contrôleur ne s'exécute pas surprend au débogage.
+      Voir le nom de la route cible alors que son controller ne s'exécute pas surprend au debug.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Routing/RedirectableCompiledUrlMatcher.php"
@@ -1565,12 +1565,12 @@ flashcards:
     official_item: OIT-d51jbkfs21pt
     language: fr
     level: UNDERSTANDING
-    front: "Symfony : route /foo/ avec schemes: ['https'] ; requête GET http://example.com/foo. Combien de redirections ?"
+    front: "Symfony : route /foo/ avec schemes: ['https'] ; Request GET http://example.com/foo. Combien de redirects ?"
     back: "Une seule, directement vers https://example.com/foo/."
     explanation: >-
-      Quand la forme sans barre ne correspond que dans un autre schéma, le matcher corrige la barre et le schéma dans la même redirection.
+      Quand la forme sans barre ne correspond que dans un autre schéma, le matcher corrige la barre et le schéma dans la même redirect.
     memorization_justification: >-
-      L'intuition prévoit deux redirections successives.
+      L'intuition prévoit deux redirects successifs.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Matcher/Dumper/CompiledUrlMatcherTrait.php"
@@ -1590,12 +1590,12 @@ flashcards:
     official_item: OIT-d51jbkfs21pt
     language: fr
     level: APPLICATION
-    front: "Symfony : route /search/ ; un formulaire envoie GET /search?q=php. Quelle URL le navigateur charge-t-il ensuite ?"
-    back: "/search/?q=php, après un 301 : la chaîne de requête est recopiée."
+    front: "Symfony : route /search/ ; un form envoie GET /search?q=php. Quelle URL le navigateur charge-t-il ensuite ?"
+    back: "/search/?q=php, après un 301 : la chaîne de Request est recopiée."
     explanation: >-
-      urlRedirectAction() ajoute la chaîne de requête d'origine à l'URL cible.
+      urlRedirectAction() ajoute la chaîne de Request d'origine à l'URL cible.
     memorization_justification: >-
-      Sans cette règle, on croirait la recherche perdue par la redirection.
+      Sans cette règle, on croirait la recherche perdue par le redirect.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/RedirectController.php"
@@ -1610,7 +1610,7 @@ flashcards:
     language: fr
     level: APPLICATION
     front: "Symfony : routes /foo/ puis /{name}, dans cet ordre. Que produit GET /foo ?"
-    back: "Un 301 vers /foo/. La requête ne tombe pas sur /{name}."
+    back: "Un 301 vers /foo/. La Request ne tombe pas sur /{name}."
     explanation: >-
       La correspondance à une barre près avec une route déclarée plus tôt l'emporte sur une route générique déclarée plus loin.
     memorization_justification: >-
@@ -1631,7 +1631,7 @@ flashcards:
     front: "Piège : « un POST en HTTP vers une route schemes: ['https'] est redirigé vers HTTPS »."
     back: "Faux : seuls GET et HEAD sont redirigés. Le POST reçoit un 404."
     explanation: >-
-      La documentation écrit que la requête est redirigée sans mentionner cette restriction ; le code l'applique au schéma comme à la barre finale.
+      La documentation écrit que la Request est redirigée sans mentionner cette restriction ; le code l'applique au schéma comme à la barre finale.
     memorization_justification: >-
       La formulation officielle induit précisément l'erreur.
     verification_status: VERIFIED
@@ -1648,11 +1648,11 @@ flashcards:
     language: fr
     level: TRAP
     front: "Piège : « une route /foo limitée à methods: ['POST'] redirige GET /foo/ vers /foo »."
-    back: "Faux : la route doit accepter GET. Aucune redirection, et la réponse est un 404, pas un 405."
+    back: "Faux : la route doit accepter GET. Aucune redirect, et la Response est un 404, pas un 405."
     explanation: >-
-      Le matcher ne redirige vers une route que si elle n'a pas de contrainte de méthode ou si GET en fait partie.
+      Le matcher ne redirige vers une route que si elle n'a pas de constraint de method ou si GET en fait partie.
     memorization_justification: >-
-      On attend un 405, puisque le chemin existe sous une autre forme.
+      On attend un 405, puisque le path existe sous une autre forme.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Matcher/Dumper/CompiledUrlMatcherTrait.php"
@@ -1666,10 +1666,10 @@ flashcards:
     official_item: OIT-4pgc74ctc3vc
     language: fr
     level: RECALL
-    front: "Symfony 8.0 : quels arguments nommés de #[Route] posent un paramètre réservé, et lequel ?"
-    back: "locale, format et stateless, qui posent les valeurs par défaut _locale, _format et _stateless."
+    front: "Symfony 8.0 : quels arguments nommés de #[Route] posent un parameter réservé, et lequel ?"
+    back: "locale, format et stateless, qui posent les default values _locale, _format et _stateless."
     explanation: >-
-      Le constructeur de l'attribut les recopie dans ses valeurs par défaut. Il n'a pas d'argument query, malgré l'exemple de la documentation.
+      Le constructeur de l'attribute les recopie dans ses default values. Il n'a pas d'argument query, malgré l'exemple de la documentation.
     memorization_justification: >-
       La liste exacte diffère de celle que la documentation montre.
     verification_status: VERIFIED
@@ -1686,7 +1686,7 @@ flashcards:
     language: fr
     level: RECALL
     front: "Symfony 8.0 : que devient l'argument utf8: true de #[Route] ?"
-    back: "L'option utf8 de la route, pas une valeur par défaut."
+    back: "L'option utf8 de la route, pas une default value."
     explanation: >-
       Le constructeur le range dans options, alors que locale, format et stateless vont dans defaults.
     memorization_justification: >-
@@ -1704,12 +1704,12 @@ flashcards:
     official_item: OIT-4pgc74ctc3vc
     language: fr
     level: RECALL
-    front: "Symfony : quel écouteur applique à la requête la locale portée par _locale ?"
-    back: "LocaleListener, qui appelle Request::setLocale() avec l'attribut _locale."
+    front: "Symfony : quel listener applique à la Request la locale portée par _locale ?"
+    back: "LocaleListener, qui appelle Request::setLocale() avec l'attribute _locale."
     explanation: >-
-      Il s'exécute après le routeur, puisqu'il lit un attribut que le routage vient de poser.
+      Il s'exécute après le router, puisqu'il lit un attribute que le routage vient de poser.
     memorization_justification: >-
-      Relier un paramètre réservé à la classe qui le consomme fixe son effet.
+      Relier un parameter réservé à la class qui le consomme fixe son effet.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/LocaleListener.php"
@@ -1723,12 +1723,12 @@ flashcards:
     official_item: OIT-4pgc74ctc3vc
     language: fr
     level: UNDERSTANDING
-    front: "Symfony : pourquoi /search.json reçoit-il un Content-Type application/json sans que le contrôleur le fixe ?"
-    back: "_format devient le format de requête, et Response::prepare() en déduit le Content-Type quand la réponse n'en a pas."
+    front: "Symfony : pourquoi /search.json reçoit-il un Content-Type application/json sans que le controller le fixe ?"
+    back: "_format devient le format de Request, et Response::prepare() en déduit le Content-Type quand la Response n'en a pas."
     explanation: >-
-      Si le contrôleur pose lui-même l'en-tête, prepare() n'y touche pas : le format ne s'applique qu'en son absence.
+      Si le controller pose lui-même le header, prepare() n'y touche pas : le format ne s'applique qu'en son absence.
     memorization_justification: >-
-      La condition « en l'absence d'en-tête » est ce que l'on oublie.
+      La condition « en l'absence de header » est ce que l'on oublie.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
@@ -1748,10 +1748,10 @@ flashcards:
     official_item: OIT-4pgc74ctc3vc
     language: fr
     level: UNDERSTANDING
-    front: "Symfony 8.0 : une valeur par défaut _query posée sur une route ajoute-t-elle une chaîne de requête à l'URL générée ?"
-    back: "Non. UrlGenerator ne lit _query que dans les paramètres passés à generate()."
+    front: "Symfony 8.0 : une default value _query posée sur une route ajoute-t-elle une chaîne de Request à l'URL générée ?"
+    back: "Non. UrlGenerator ne lit _query que dans les parameters passés à generate()."
     explanation: >-
-      La documentation présente _query comme utilisable dans une route ou un import ; le code 8.0 ignore cette valeur par défaut à la génération.
+      La documentation présente _query comme utilisable dans une route ou un import ; le code 8.0 ignore cette default value à la génération.
     memorization_justification: >-
       L'écart entre la documentation et le code est la source du piège.
     verification_status: VERIFIED
@@ -1767,10 +1767,10 @@ flashcards:
     official_item: OIT-4pgc74ctc3vc
     language: fr
     level: UNDERSTANDING
-    front: "Symfony : une route a une valeur par défaut _fragment, et la génération reçoit aussi un _fragment. Lequel figure dans l'URL ?"
-    back: "Celui passé à la génération ; la valeur par défaut ne sert qu'en son absence."
+    front: "Symfony : une route a une default value _fragment, et la génération reçoit aussi un _fragment. Lequel figure dans l'URL ?"
+    back: "Celui passé à la génération ; la default value ne sert qu'en son absence."
     explanation: >-
-      UrlGenerator part de la valeur par défaut, puis la remplace par le paramètre de génération s'il existe.
+      UrlGenerator part de la default value, puis la remplace par le parameter de génération s'il existe.
     memorization_justification: >-
       Distinguer _fragment, lu aux deux endroits, de _query, lu à un seul.
     verification_status: VERIFIED
@@ -1786,12 +1786,12 @@ flashcards:
     official_item: OIT-4pgc74ctc3vc
     language: fr
     level: UNDERSTANDING
-    front: "Symfony : un import pose locale: 'fr' sur un groupe contenant une route localisée. Quelle locale garde cette route ?"
+    front: "Symfony : un import pose locale: 'fr' sur un group contenant une route localisée. Quelle locale garde cette route ?"
     back: "La sienne : Route::addDefaults() ignore un _locale hérité pour une route localisée."
     explanation: >-
-      Une route localisée porte déjà _locale, _canonical_route et une contrainte sur _locale ; la valeur de l'import ne l'écrase pas.
+      Une route localisée porte déjà _locale, _canonical_route et une constraint sur _locale ; la valeur de l'import ne l'écrase pas.
     memorization_justification: >-
-      Exception silencieuse à la règle « l'import pose la valeur par défaut ».
+      Exception silencieuse à la règle « l'import pose la default value ».
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Route.php"
@@ -1806,7 +1806,7 @@ flashcards:
     language: fr
     level: APPLICATION
     front: "Symfony 8.0 : vous recopiez l'exemple officiel #[Route(..., query: ['page' => 1])]. Que se passe-t-il ?"
-    back: "Une Error « Unknown named parameter $query » à l'instanciation de l'attribut."
+    back: "Une Error « Unknown named parameter $query » à l'instanciation de l'attribute."
     explanation: >-
       Le constructeur de #[Route] n'a pas d'argument query, et PHP rejette un argument nommé inconnu. Passez _query à la génération.
     memorization_justification: >-
@@ -1833,9 +1833,9 @@ flashcards:
     front: "Symfony : en Twig, produisez /articles?page=2#top pour la route articles."
     back: "path('articles', {_query: {page: 2}, _fragment: 'top'})"
     explanation: >-
-      _query doit être un tableau ; _fragment est retiré des paramètres avant la chaîne de requête et ajouté après #.
+      _query doit être un array ; _fragment est retiré des parameters avant la chaîne de Request et ajouté après #.
     memorization_justification: >-
-      Combiner les deux paramètres réservés de génération dans un seul appel.
+      Combiner les deux parameters réservés de génération dans un seul appel.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
@@ -1849,8 +1849,8 @@ flashcards:
     official_item: OIT-4pgc74ctc3vc
     language: fr
     level: TRAP
-    front: "Piège : « en YAML, une route accepte la clé query:, comme dans l'exemple de la documentation »."
-    back: "Faux en 8.0 : le chargeur lève une InvalidArgumentException pour clé non supportée."
+    front: "Piège : « en YAML, une route accepte la key query:, comme dans l'exemple de la documentation »."
+    back: "Faux en 8.0 : le loader lève une InvalidArgumentException pour key non supportée."
     explanation: >-
       query ne figure pas dans YamlFileLoader::AVAILABLE_KEYS ; locale, format et stateless, si.
     memorization_justification: >-
@@ -1871,7 +1871,7 @@ flashcards:
     front: "Piège : « Symfony 8.0 lève une erreur si un import pose _fragment »."
     back: "Faux : aucun contrôle. La règle qui exclut _fragment des imports est documentaire."
     explanation: >-
-      RouteCollection::addDefaults() recopie les valeurs par défaut de l'import sur chaque route sans examiner leur nom. À l'examen, la règle documentée reste la réponse attendue.
+      RouteCollection::addDefaults() recopie les default values de l'import sur chaque route sans examiner leur nom. À l'examen, la règle documentée reste la réponse attendue.
     memorization_justification: >-
       Confondre une règle d'usage et une vérification du code.
     verification_status: VERIFIED
@@ -1890,9 +1890,9 @@ flashcards:
     front: "Symfony : la correspondance de l'option host tient-elle compte de la casse ?"
     back: "Non. L'hôte est mis en minuscules et l'expression régulière de l'hôte porte le drapeau i."
     explanation: >-
-      Une contrainte EN|FR|DE accepte en.example.com ; l'attribut apparié vaut en, la valeur de la requête.
+      Une constraint EN|FR|DE accepte en.example.com ; l'attribute apparié vaut en, la valeur de la Request.
     memorization_justification: >-
-      Le chemin, lui, reste sensible à la casse : la différence se retient.
+      Le path, lui, reste sensible à la casse : la différence se retient.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/RouteCompiler.php"
@@ -1912,7 +1912,7 @@ flashcards:
     official_item: OIT-21m4pmtymygn
     language: fr
     level: RECALL
-    front: "Symfony : quel type de référence path() produit-il pour une route dont l'hôte diffère de la requête courante ?"
+    front: "Symfony : quel type de référence path() produit-il pour une route dont l'hôte diffère de la Request courante ?"
     back: "NETWORK_PATH : une URL relative au schéma, comme //m.example.com/."
     explanation: >-
       UrlGenerator remplace ABSOLUTE_PATH par NETWORK_PATH dès que l'hôte de la route n'est pas celui du contexte.
@@ -1937,12 +1937,12 @@ flashcards:
     official_item: OIT-21m4pmtymygn
     language: fr
     level: UNDERSTANDING
-    front: "Symfony : host: '{subdomain}.example.com' avec defaults: ['subdomain' => 'm']. Une requête vers example.com correspond-elle ?"
-    back: "Non. Un paramètre d'hôte est toujours exigé à l'appariement ; la valeur par défaut ne sert qu'à la génération."
+    front: "Symfony : host: '{subdomain}.example.com' avec defaults: ['subdomain' => 'm']. Une Request vers example.com correspond-elle ?"
+    back: "Non. Un parameter d'hôte est toujours exigé à l'appariement ; la default value ne sert qu'à la génération."
     explanation: >-
-      RouteCompiler ne calcule le premier paramètre facultatif que pour le chemin. La documentation justifie la valeur par défaut par la génération d'URL.
+      RouteCompiler ne calcule le premier parameter facultatif que pour le path. La documentation justifie la default value par la génération d'URL.
     memorization_justification: >-
-      Sur le chemin, une valeur par défaut rend le paramètre facultatif : le réflexe se transpose à tort.
+      Sur le path, une default value rend le parameter facultatif : le réflexe se transpose à tort.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/RouteCompiler.php"
@@ -1962,12 +1962,12 @@ flashcards:
     official_item: OIT-21m4pmtymygn
     language: fr
     level: UNDERSTANDING
-    front: "Symfony : à quoi sert une valeur par défaut sur un paramètre d'hôte ?"
-    back: "À ne pas devoir fournir ce paramètre à chaque génération d'URL."
+    front: "Symfony : à quoi sert une default value sur un parameter d'hôte ?"
+    back: "À ne pas devoir fournir ce parameter à chaque génération d'URL."
     explanation: >-
       C'est la justification donnée par la documentation, et le code ne l'utilise pas à l'appariement.
     memorization_justification: >-
-      Sans cette raison, la valeur par défaut paraît redondante avec la contrainte.
+      Sans cette raison, la default value paraît redondante avec la constraint.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
@@ -1988,7 +1988,7 @@ flashcards:
     language: fr
     level: APPLICATION
     front: "Symfony : routes '/' avec host: 'm.example.com' et '/' sans host. Dans quel ordre les déclarer ?"
-    back: "Celle qui a un host d'abord. Sinon la route sans host capte toutes les requêtes vers /."
+    back: "Celle qui a un host d'abord. Sinon la route sans host capte toutes les Requests vers /."
     explanation: >-
       Sans host, une route accepte tout hôte ; la première route qui correspond l'emporte.
     memorization_justification: >-
@@ -2031,10 +2031,10 @@ flashcards:
     official_item: OIT-21m4pmtymygn
     language: fr
     level: TRAP
-    front: "Piège : « une valeur par défaut rend le sous-domaine facultatif, comme pour un paramètre de chemin »."
-    back: "Faux : les paramètres d'hôte restent obligatoires à l'appariement."
+    front: "Piège : « une default value rend le sous-domaine facultatif, comme pour un parameter de path »."
+    back: "Faux : les parameters d'hôte restent obligatoires à l'appariement."
     explanation: >-
-      Même clé defaults, effet différent : seul le chemin connaît les paramètres facultatifs.
+      Même key defaults, effet différent : seul le path connaît les parameters facultatifs.
     memorization_justification: >-
       La symétrie apparente des options induit l'erreur.
     verification_status: VERIFIED
@@ -2053,9 +2053,9 @@ flashcards:
     front: "Symfony : que devient l'expression d'une condition de route quand le matcher est mis en cache ?"
     back: "Elle est compilée en PHP brut par CompiledUrlMatcherDumper."
     explanation: >-
-      La documentation en conclut qu'une condition ne coûte que le temps d'exécution de ce PHP ; il s'exécute ensuite à chaque requête qui atteint la route.
+      La documentation en conclut qu'une condition ne coûte que le temps d'exécution de ce PHP ; il s'exécute ensuite à chaque Request qui atteint la route.
     memorization_justification: >-
-      L'idée reçue est celle d'une expression réinterprétée à chaque requête.
+      L'idée reçue est celle d'une expression réinterprétée à chaque Request.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Matcher/Dumper/CompiledUrlMatcherDumper.php"
@@ -2075,12 +2075,12 @@ flashcards:
     official_item: OIT-e2zrm9qkpx7j
     language: fr
     level: RECALL
-    front: "Symfony : quel attribut rend un service appelable par service() dans une condition de route ?"
+    front: "Symfony : quel attribute rend un service appelable par service() dans une condition de route ?"
     back: "#[AsRoutingConditionService], qui pose le tag routing.condition_service."
     explanation: >-
-      Son argument alias donne le nom à passer à service() ; sans alias, on passe l'identifiant du service.
+      Son argument alias donne le nom à passer à service() ; sans alias, on passe l'identifier du service.
     memorization_justification: >-
-      Nom d'attribut long et spécifique, à restituer exactement.
+      Nom d'attribute long et spécifique, à restituer exactement.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Routing/Attribute/AsRoutingConditionService.php"
@@ -2100,12 +2100,12 @@ flashcards:
     official_item: OIT-e2zrm9qkpx7j
     language: fr
     level: RECALL
-    front: "Symfony : quelles fonctions une condition de route peut-elle appeler ?"
+    front: "Symfony : quelles functions une condition de route peut-elle appeler ?"
     back: "env() et service(), fournies par FrameworkBundle."
     explanation: >-
       Elles sont déclarées comme services étiquetés routing.expression_language_function, avec les noms env et service.
     memorization_justification: >-
-      Deux noms seulement, à ne pas confondre avec les fonctions d'autres expressions du framework.
+      Deux noms seulement, à ne pas confondre avec les functions d'autres expressions du framework.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Resources/config/services.php"
@@ -2125,10 +2125,10 @@ flashcards:
     official_item: OIT-e2zrm9qkpx7j
     language: fr
     level: UNDERSTANDING
-    front: "Symfony : une route methods: ['POST'] a une condition fausse pour la requête. Une requête GET sur son chemin reçoit-elle un 405 ?"
-    back: "Non : la condition est testée avant la méthode. La route est ignorée et n'ajoute rien à la liste des méthodes autorisées."
+    front: "Symfony : une route methods: ['POST'] a une condition fausse pour la Request. Une Request GET sur son path reçoit-elle un 405 ?"
+    back: "Non : la condition est testée avant la method. La route est ignorée et n'ajoute rien à la liste des methods autorisées."
     explanation: >-
-      Si aucune autre route ne correspond, la réponse est un 404.
+      Si aucune autre route ne correspond, la Response est un 404.
     memorization_justification: >-
       L'ordre des contrôles dans le matcher décide du code d'erreur.
     verification_status: VERIFIED
@@ -2144,12 +2144,12 @@ flashcards:
     official_item: OIT-e2zrm9qkpx7j
     language: fr
     level: UNDERSTANDING
-    front: "Symfony : pourquoi service() ne peut-il pas atteindre n'importe quel service du conteneur ?"
+    front: "Symfony : pourquoi service() ne peut-il pas atteindre n'importe quel service du container ?"
     back: "Il passe par un localisateur des seuls services étiquetés routing.condition_service."
     explanation: >-
       FrameworkBundle construit ce localisateur avec tagged_locator ; un service non étiqueté n'y figure pas.
     memorization_justification: >-
-      Comprendre le mécanisme explique pourquoi l'attribut est obligatoire.
+      Comprendre le mécanisme explique pourquoi l'attribute est obligatoire.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Resources/config/services.php"
@@ -2163,10 +2163,10 @@ flashcards:
     official_item: OIT-e2zrm9qkpx7j
     language: fr
     level: UNDERSTANDING
-    front: "Symfony : une condition qui n'utilise que context oblige-t-elle le matcher à construire un objet Request ?"
+    front: "Symfony : une condition qui n'utilise que context oblige-t-elle le matcher à construire un object Request ?"
     back: "Non. Le matcher ne le construit que si le PHP compilé de la condition mentionne $request."
     explanation: >-
-      Le dumper numérote positivement les conditions qui utilisent la requête et négativement les autres.
+      Le dumper numérote positivement les conditions qui utilisent la Request et négativement les autres.
     memorization_justification: >-
       Détail d'implémentation qui montre que context et request sont deux sources distinctes.
     verification_status: VERIFIED
@@ -2213,10 +2213,10 @@ flashcards:
     official_item: OIT-e2zrm9qkpx7j
     language: fr
     level: APPLICATION
-    front: "Symfony : écrivez la condition qui limite /posts/{id} aux identifiants inférieurs à 1000."
+    front: "Symfony : écrivez la condition qui limite /posts/{id} aux identifiers inférieurs à 1000."
     back: "condition: \u0022params['id'] < 1000\u0022"
     explanation: >-
-      params contient les paramètres de route déjà appariés au moment où la condition s'exécute.
+      params contient les parameters de route déjà appariés au moment où la condition s'exécute.
     memorization_justification: >-
       Seule variable qui donne accès aux valeurs de l'URL.
     verification_status: VERIFIED
@@ -2232,12 +2232,12 @@ flashcards:
     official_item: OIT-e2zrm9qkpx7j
     language: fr
     level: APPLICATION
-    front: "Symfony : un service RouteChecker porte #[AsRoutingConditionService(alias: 'route_checker')] et une méthode check(Request). Écrivez la condition."
+    front: "Symfony : un service RouteChecker porte #[AsRoutingConditionService(alias: 'route_checker')] et une method check(Request). Écrivez la condition."
     back: "condition: \u0022service('route_checker').check(request)\u0022"
     explanation: >-
-      service() reçoit l'alias ; la variable request transmet la requête courante à la méthode.
+      service() reçoit l'alias ; la variable request transmet la Request courante à la method.
     memorization_justification: >-
-      Assembler attribut, alias et variable en une expression complète.
+      Assembler attribute, alias et variable en une expression complète.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Routing/Attribute/AsRoutingConditionService.php"
@@ -2257,10 +2257,10 @@ flashcards:
     official_item: OIT-e2zrm9qkpx7j
     language: fr
     level: TRAP
-    front: "Piège : « une condition de route est réinterprétée à chaque requête, ce qui la rend coûteuse »."
-    back: "Faux : elle est compilée en PHP dans le cache du routeur."
+    front: "Piège : « une condition de route est réinterprétée à chaque Request, ce qui la rend coûteuse »."
+    back: "Faux : elle est compilée en PHP dans le cache du router."
     explanation: >-
-      Seul le PHP compilé s'exécute à chaque requête ; la documentation précise qu'il n'y a pas d'autre surcoût.
+      Seul le PHP compilé s'exécute à chaque Request ; la documentation précise qu'il n'y a pas d'autre surcoût.
     memorization_justification: >-
       L'intuition sur le coût d'un langage d'expression induit l'erreur.
     verification_status: VERIFIED
@@ -2282,10 +2282,10 @@ flashcards:
     official_item: OIT-e2zrm9qkpx7j
     language: fr
     level: TRAP
-    front: "Piège : « une condition fausse sur une route POST donne un 405 à une requête GET »."
-    back: "Faux : la route est écartée avant le contrôle de méthode ; sans autre route, c'est un 404."
+    front: "Piège : « une condition fausse sur une route POST donne un 405 à une Request GET »."
+    back: "Faux : la route est écartée avant le contrôle de method ; sans autre route, c'est un 404."
     explanation: >-
-      Le 405 ne naît que des routes dont chemin, hôte et condition correspondent.
+      Le 405 ne naît que des routes dont path, hôte et condition correspondent.
     memorization_justification: >-
       On attribue au 405 une cause qui ne l'atteint jamais.
     verification_status: VERIFIED
@@ -2301,12 +2301,12 @@ flashcards:
     official_item: OIT-5g82spham3vm
     language: fr
     level: RECALL
-    front: "Symfony 8.0 : quelle est la valeur par défaut de framework.http_method_override ?"
-    back: "false : le paramètre _method est ignoré tant qu'on ne l'active pas."
+    front: "Symfony 8.0 : quelle est la default value de framework.http_method_override ?"
+    back: "false : le parameter _method est ignoré tant qu'on ne l'active pas."
     explanation: >-
-      L'option ne concerne que le paramètre _method ; l'en-tête X-HTTP-METHOD-OVERRIDE n'en dépend pas.
+      L'option ne concerne que le parameter _method ; le header X-HTTP-METHOD-OVERRIDE n'en dépend pas.
     memorization_justification: >-
-      Une valeur par défaut booléenne se confond facilement : à retenir pour 8.0.
+      Une default value booléenne se confond facilement : à retenir pour 8.0.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/Configuration.php"
@@ -2326,7 +2326,7 @@ flashcards:
     official_item: OIT-5g82spham3vm
     language: fr
     level: RECALL
-    front: "Symfony : vers quelles méthodes une requête ne peut-elle jamais être remplacée par _method ou l'en-tête d'override ?"
+    front: "Symfony : vers quelles methods une Request ne peut-elle jamais être remplacée par _method ou le header d'override ?"
     back: "GET, HEAD, CONNECT et TRACE."
     explanation: >-
       Request::getMethod() ignore ces valeurs, et la configuration refuse de les inscrire dans allowed_http_method_override.
@@ -2351,12 +2351,12 @@ flashcards:
     official_item: OIT-5g82spham3vm
     language: fr
     level: UNDERSTANDING
-    front: "Symfony : http_method_override vaut false. Une requête POST avec l'en-tête X-HTTP-METHOD-OVERRIDE: PUT devient-elle un PUT ?"
-    back: "Oui, par défaut : l'en-tête est lu en premier et ne dépend pas de cette option."
+    front: "Symfony : http_method_override vaut false. Une Request POST avec le header X-HTTP-METHOD-OVERRIDE: PUT devient-elle un PUT ?"
+    back: "Oui, par défaut : le header est lu en premier et ne dépend pas de cette option."
     explanation: >-
-      http_method_override ne gouverne que le paramètre _method. Seul allowed_http_method_override: [] désactive aussi l'en-tête.
+      http_method_override ne gouverne que le parameter _method. Seul allowed_http_method_override: [] désactive aussi le header.
     memorization_justification: >-
-      Le nom de l'option laisse croire qu'elle couvre tout remplacement de méthode.
+      Le nom de l'option laisse croire qu'elle couvre tout remplacement de method.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
@@ -2376,8 +2376,8 @@ flashcards:
     official_item: OIT-5g82spham3vm
     language: fr
     level: UNDERSTANDING
-    front: "Symfony : une route déclare methods: ['GET']. Une requête HEAD correspond-elle ?"
-    back: "Oui : le matcher traite HEAD comme GET quand il compare les méthodes."
+    front: "Symfony : une route déclare methods: ['GET']. Une Request HEAD correspond-elle ?"
+    back: "Oui : le matcher traite HEAD comme GET quand il compare les methods."
     explanation: >-
       Écrire HEAD à côté de GET est donc superflu.
     memorization_justification: >-
@@ -2395,12 +2395,12 @@ flashcards:
     official_item: OIT-5g82spham3vm
     language: fr
     level: UNDERSTANDING
-    front: "Symfony : un formulaire est créé avec la méthode PUT. Que produit form_start() ?"
-    back: "Une balise form en POST et un champ caché _method valant PUT."
+    front: "Symfony : un form est créé avec la method PUT. Que produit form_start() ?"
+    back: "Un tag form en POST et un field caché _method valant PUT."
     explanation: >-
-      Le thème ajoute ce champ dès que la méthode n'est ni GET ni POST, que http_method_override soit activée ou non.
+      Le thème ajoute ce field dès que la method n'est ni GET ni POST, que http_method_override soit activée ou non.
     memorization_justification: >-
-      Le champ apparaît même quand le serveur l'ignorera : source de diagnostic erroné.
+      Le field apparaît même quand le serveur l'ignorera : source de diagnostic erroné.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig"
@@ -2414,12 +2414,12 @@ flashcards:
     official_item: OIT-5g82spham3vm
     language: fr
     level: APPLICATION
-    front: "Symfony : interdisez tout remplacement de méthode HTTP, en-tête compris."
+    front: "Symfony : interdisez tout remplacement de method HTTP, header compris."
     back: "framework.allowed_http_method_override: []"
     explanation: >-
-      Un tableau vide désactive tout remplacement ; null, le défaut, les autorise tous.
+      Un array vide désactive tout remplacement ; null, le défaut, les autorise tous.
     memorization_justification: >-
-      Distinguer tableau vide et null, qui ont des effets opposés.
+      Distinguer array vide et null, qui ont des effets opposés.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/Configuration.php"
@@ -2439,12 +2439,12 @@ flashcards:
     official_item: OIT-5g82spham3vm
     language: fr
     level: TRAP
-    front: "Piège : « une requête GET portant _method=DELETE devient un DELETE si l'option est activée »."
+    front: "Piège : « une Request GET portant _method=DELETE devient un DELETE si l'option est activée »."
     back: "Faux : le remplacement ne part que d'un POST."
     explanation: >-
-      Request::getMethod() rend la méthode réelle dès qu'elle n'est pas POST, avant de lire l'en-tête ou le paramètre.
+      Request::getMethod() rend la method réelle dès qu'elle n'est pas POST, avant de lire le header ou le parameter.
     memorization_justification: >-
-      On retient le paramètre et on oublie la méthode de départ.
+      On retient le parameter et on oublie la method de départ.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
@@ -2459,9 +2459,9 @@ flashcards:
     language: fr
     level: RECALL
     front: "Symfony : quelle priorité LocaleListener a-t-il sur kernel.request pour appliquer _locale ?"
-    back: "16, après RouterListener (32), dont il lit l'attribut _locale."
+    back: "16, après RouterListener (32), dont il lit l'attribute _locale."
     explanation: >-
-      Il s'abonne aussi à 100 pour poser la locale par défaut. Un écouteur qui doit passer avant lui prend une priorité supérieure à 16.
+      Il s'abonne aussi à 100 pour poser la locale par défaut. Un listener qui doit passer avant lui prend une priorité supérieure à 16.
     memorization_justification: >-
       Deux nombres à retenir, et leur ordre relatif.
     verification_status: VERIFIED
@@ -2477,12 +2477,12 @@ flashcards:
     official_item: OIT-xxcpx1qssp93
     language: fr
     level: RECALL
-    front: "Symfony : quelle option fait choisir la locale d'après l'en-tête Accept-Language ?"
+    front: "Symfony : quelle option fait choisir la locale d'après le header Accept-Language ?"
     back: "framework.set_locale_from_accept_language, false par défaut."
     explanation: >-
-      La langue est choisie parmi framework.enabled_locales, et seulement si aucun attribut _locale n'est posé.
+      La langue est choisie parmi framework.enabled_locales, et seulement si aucun attribute _locale n'est posé.
     memorization_justification: >-
-      Nom d'option long, dont la valeur par défaut surprend.
+      Nom d'option long, dont la default value surprend.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/Configuration.php"
@@ -2505,7 +2505,7 @@ flashcards:
     front: "Symfony : quels noms de routes produit #[Route(path: ['en' => '/about-us', 'nl' => '/over-ons'], name: 'about_us')] ?"
     back: "about_us.en et about_us.nl."
     explanation: >-
-      Chacune porte la valeur par défaut _locale, une contrainte sur _locale et _canonical_route valant about_us. Une entrée sans clé deviendrait la route about_us.
+      Chacune porte la default value _locale, une constraint sur _locale et _canonical_route valant about_us. Une entrée sans key deviendrait la route about_us.
     memorization_justification: >-
       Le suffixe .locale est ce que l'on voit dans debug:router.
     verification_status: VERIFIED
@@ -2521,12 +2521,12 @@ flashcards:
     official_item: OIT-xxcpx1qssp93
     language: fr
     level: UNDERSTANDING
-    front: "Symfony : une URL porte _locale=fr et l'en-tête Accept-Language préfère de ; set_locale_from_accept_language vaut true. Quelle locale ?"
-    back: "fr : l'attribut _locale passe avant l'en-tête."
+    front: "Symfony : une URL porte _locale=fr et le header Accept-Language préfère de ; set_locale_from_accept_language vaut true. Quelle locale ?"
+    back: "fr : l'attribute _locale passe avant le header."
     explanation: >-
-      LocaleListener ne consulte Accept-Language que si l'attribut _locale est absent.
+      LocaleListener ne consulte Accept-Language que si l'attribute _locale est absent.
     memorization_justification: >-
-      L'ordre des sources est l'objet même de la question.
+      L'ordre des sources est l'object même de la question.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/LocaleListener.php"
@@ -2560,11 +2560,11 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "Symfony : pourquoi un lien généré depuis une page /fr/… reste-t-il en français sans passer _locale ?"
-    back: "LocaleListener recopie la locale de la requête dans le contexte du routeur, que generate() consulte."
+    back: "LocaleListener recopie la locale de la Request dans le contexte du router, que generate() consulte."
     explanation: >-
-      generate() prend _locale dans les paramètres, sinon dans le contexte, sinon la locale par défaut du générateur.
+      generate() prend _locale dans les parameters, sinon dans le contexte, sinon la locale par défaut du générateur.
     memorization_justification: >-
-      Relie l'écouteur et le générateur, deux composants distincts.
+      Relie le listener et le générateur, deux composants distincts.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/LocaleListener.php"
@@ -2584,10 +2584,10 @@ flashcards:
     official_item: OIT-xxcpx1qssp93
     language: fr
     level: UNDERSTANDING
-    front: "Symfony : quel effet la locale choisie d'après Accept-Language a-t-elle sur la réponse ?"
-    back: "Un en-tête Vary: Accept-Language."
+    front: "Symfony : quel effet la locale choisie d'après Accept-Language a-t-elle sur la Response ?"
+    back: "Un header Vary: Accept-Language."
     explanation: >-
-      LocaleListener marque la requête avec _vary_by_language, et ResponseListener ajoute l'en-tête pour que les caches distinguent les langues.
+      LocaleListener marque la Request avec _vary_by_language, et ResponseListener ajoute le header pour que les caches distinguent les langues.
     memorization_justification: >-
       Conséquence HTTP d'une décision de routage, facile à oublier.
     verification_status: VERIFIED
@@ -2634,7 +2634,7 @@ flashcards:
     official_item: OIT-xxcpx1qssp93
     language: fr
     level: APPLICATION
-    front: "Symfony : un écouteur lit la locale en session et la pose sur la requête. Quelle priorité lui donner sur kernel.request ?"
+    front: "Symfony : un listener lit la locale en session et la pose sur la Request. Quelle priorité lui donner sur kernel.request ?"
     back: "Une priorité supérieure à 16, pour passer avant LocaleListener."
     explanation: >-
       La documentation renvoie à debug:event kernel.request pour lire la priorité réelle de LocaleListener.
@@ -2656,7 +2656,7 @@ flashcards:
     front: "Piège : « Symfony choisit la locale d'après Accept-Language par défaut »."
     back: "Faux : set_locale_from_accept_language vaut false ; sans _locale, la locale est framework.default_locale."
     explanation: >-
-      L'en-tête n'est consulté qu'une fois l'option activée.
+      Le header n'est consulté qu'une fois l'option activée.
     memorization_justification: >-
       Le comportement attendu d'un site multilingue n'est pas le défaut du framework.
     verification_status: VERIFIED
@@ -2678,10 +2678,10 @@ flashcards:
     official_item: OIT-xxcpx1qssp93
     language: fr
     level: TRAP
-    front: "Piège : « un écouteur de priorité 10 pose la locale avant LocaleListener »."
+    front: "Piège : « un listener de priorité 10 pose la locale avant LocaleListener »."
     back: "Faux : 10 est inférieur à 16, donc il passe après."
     explanation: >-
-      Sur un même événement, la priorité la plus élevée s'exécute la première.
+      Sur un même event, la priorité la plus élevée s'exécute la première.
     memorization_justification: >-
       L'intuition « petit nombre, premier » inverse la règle.
     verification_status: VERIFIED
@@ -2698,9 +2698,9 @@ flashcards:
     language: fr
     level: RECALL
     front: "Symfony : quel argument router:match attend-il ?"
-    back: "Un path info — le chemin, pas une URL complète."
+    back: "Un path info — le path, pas une URL complète."
     explanation: >-
-      L'hôte, le schéma et la méthode se passent par --host, --scheme et --method, qui modifient le contexte du routeur.
+      L'hôte, le schéma et la method se passent par --host, --scheme et --method, qui modifient le contexte du router.
     memorization_justification: >-
       La documentation parle d'URL ; le code nomme l'argument path_info.
     verification_status: VERIFIED
@@ -2736,7 +2736,7 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "Symfony : debug:router blog alors qu'aucune route ne s'appelle exactement blog. Que se passe-t-il ?"
-    back: "La commande cherche les routes dont le nom contient blog, sans tenir compte de la casse."
+    back: "La command cherche les routes dont le nom contient blog, sans tenir compte de la casse."
     explanation: >-
       Un seul résultat est proposé par défaut ; plusieurs se choisissent en mode interactif et s'affichent en liste sinon ; aucun lève The route does not exist.
     memorization_justification: >-
@@ -2754,12 +2754,12 @@ flashcards:
     official_item: OIT-8sr74a2wnb3r
     language: fr
     level: UNDERSTANDING
-    front: "Symfony : debug:router --method=POST affiche-t-il une route sans contrainte de méthode ?"
+    front: "Symfony : debug:router --method=POST affiche-t-il une route sans constraint de method ?"
     back: "Oui : une route sans methods accepte tout verbe, elle reste dans la liste filtrée."
     explanation: >-
-      Le filtre ne retire que les routes dont la liste de méthodes ne contient pas celle demandée.
+      Le filter ne retire que les routes dont la liste de methods ne contient pas celle demandée.
     memorization_justification: >-
-      On attend un filtre strict sur la colonne affichée.
+      On attend un filter strict sur la colonne affichée.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Command/RouterDebugCommand.php"
@@ -2774,7 +2774,7 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "Symfony : que signale router:match par « almost matches » ?"
-    back: "Une route presque appariée, écartée par une contrainte de paramètre, l'hôte, la condition, le schéma ou la méthode."
+    back: "Une route presque appariée, écartée par une constraint de parameter, l'hôte, la condition, le schéma ou la method."
     explanation: >-
       Ces lignes s'affichent toujours ; les routes qui ne correspondent pas du tout n'apparaissent qu'en mode verbeux.
     memorization_justification: >-
@@ -2801,7 +2801,7 @@ flashcards:
     front: "Symfony : vérifiez quelle route répond à un PUT sur /api/posts/1 pour l'hôte api.example.com en HTTPS."
     back: "php bin/console router:match /api/posts/1 --method=PUT --host=api.example.com --scheme=https"
     explanation: >-
-      Le chemin est l'argument ; les trois options fixent le contexte avant l'appariement.
+      Le path est l'argument ; les trois options fixent le contexte avant l'appariement.
     memorization_justification: >-
       Assembler l'argument et les options dans la bonne forme.
     verification_status: VERIFIED
@@ -2820,7 +2820,7 @@ flashcards:
     front: "Piège : « router:match https://api.example.com/posts/1 teste l'hôte et le schéma de l'URL »."
     back: "Faux : l'argument est un path info. Hôte et schéma passent par --host et --scheme."
     explanation: >-
-      La commande n'analyse pas une URL : elle apparie le chemin fourni dans le contexte du routeur.
+      La command n'analyse pas une URL : elle apparie le path fourni dans le contexte du router.
     memorization_justification: >-
       La formulation « prend une URL » induit l'erreur.
     verification_status: VERIFIED

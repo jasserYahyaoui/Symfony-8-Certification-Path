@@ -17,7 +17,7 @@ flashcards:
     explanation: >-
       Sûre = lecture seule. Idempotente = rejouer N fois équivaut à jouer une
       fois. PUT remplace par la même valeur, DELETE supprime ce qui l'est déjà :
-      l'état final est identique, même si le code de statut diffère. PATCH
+      l'état final est identique, même si le status code diffère. PATCH
       décrit une modification relative, donc non idempotente.
     memorization_justification: >-
       Classification à trois axes indépendants dont l'intuition « DELETE échoue
@@ -37,12 +37,12 @@ flashcards:
     front: "Symfony : Response::isRedirect() couvre quels statuts ?"
     back: "201, 301, 302, 303, 307, 308 — donc 201 inclus, 300 et 304 exclus."
     explanation: >-
-      isRedirection() teste littéralement la classe 3xx. isRedirect() liste les
-      statuts qui portent réellement un en-tête Location : il inclut 201 Created,
+      isRedirection() teste littéralement la class 3xx. isRedirect() liste les
+      statuts qui portent réellement un header Location : il inclut 201 Created,
       qui est 2xx, et exclut 300 et 304, qui sont 3xx. Les deux ne sont ni
       équivalents ni imbriqués.
     memorization_justification: >-
-      Deux méthodes aux noms quasi identiques dont les ensembles se croisent
+      Deux methods aux noms quasi identiques dont les ensembles se croisent
       sans s'inclure ; aucune règle ne permet de reconstituer la liste.
     verification_status: VERIFIED
     official_sources:
@@ -83,14 +83,14 @@ flashcards:
     official_item: OIT-bz1f5nh8g9b2
     language: fr
     level: TRAP
-    front: "Cookies : quelle contrainte impose SameSite=none ?"
-    back: "L'attribut Secure est obligatoire. Sans lui, le navigateur rejette purement et simplement le cookie."
+    front: "Cookies : quelle constraint impose SameSite=none ?"
+    back: "L'attribute Secure est obligatoire. Sans lui, le navigateur rejette purement et simplement le cookie."
     explanation: >-
       Ce n'est pas un avertissement : le cookie n'est pas posé du tout. Rappel
-      des rôles — HttpOnly atténue le XSS, SameSite atténue le CSRF, Secure
+      des roles — HttpOnly atténue le XSS, SameSite atténue le CSRF, Secure
       impose HTTPS.
     memorization_justification: >-
-      Dépendance entre deux attributs, invisible dans le code, dont l'échec est
+      Dependency entre deux attributes, invisible dans le code, dont l'échec est
       silencieux côté serveur et ne se voit que dans le navigateur.
     verification_status: VERIFIED
     official_sources:
@@ -110,7 +110,7 @@ flashcards:
     back: "no-cache = stocker mais revalider avant chaque usage. no-store = ne rien conserver du tout."
     explanation: >-
       Le nom « no-cache » suggère l'inverse de ce qu'il fait. Pour interdire
-      réellement la conservation d'une réponse sensible, c'est no-store qu'il
+      réellement la conservation d'une Response sensible, c'est no-store qu'il
       faut.
     memorization_justification: >-
       Directive dont le nom contredit la sémantique ; l'erreur produit une fuite
@@ -127,13 +127,13 @@ flashcards:
     official_item: OIT-9kh5cqz5qtrb
     language: fr
     level: RECALL
-    front: "Symfony HttpClient : à quel moment la requête est-elle réellement attendue ?"
+    front: "Symfony HttpClient : à quel moment la Request est-elle réellement attendue ?"
     back: >-
       Pas à l'appel de request(), qui est asynchrone, mais à la première lecture
-      de la réponse : getStatusCode(), getHeaders(), getContent() ou toArray().
+      de la Response : getStatusCode(), getHeaders(), getContent() ou toArray().
     explanation: >-
-      C'est ce qui rend le parallélisme gratuit : émettre toutes les requêtes,
-      puis les lire. Lire chaque réponse dans la boucle qui l'émet redevient
+      C'est ce qui rend le parallélisme gratuit : émettre toutes les Requests,
+      puis les lire. Lire chaque Response dans la boucle qui l'émet redevient
       séquentiel, sans erreur visible.
     memorization_justification: >-
       Le comportement par défaut contredit l'intuition synchrone, et l'erreur
@@ -152,12 +152,12 @@ flashcards:
     language: fr
     level: TRAP
     front: 'RFC 9110 : `DELETE` reste-t-elle idempotente si le second appel renvoie 404 ?'
-    back: Oui. L'idempotence porte sur l'effet sur le serveur de requêtes répétées, pas sur l'égalité
-      des réponses.
-    explanation: 'C''est le piège classique : on compare les réponses alors que la définition porte
+    back: Oui. L'idempotence porte sur l'effet sur le serveur de Requests répétées, pas sur l'égalité
+      des Responses.
+    explanation: 'C''est le piège classique : on compare les Responses alors que la definition porte
       sur l''état du serveur. Après le premier `DELETE` la ressource est absente ; le second ne change
       rien de plus.'
-    memorization_justification: 'Définition contre-intuitive : la réponse instinctive compare les codes
+    memorization_justification: 'Definition contre-intuitive : la Response instinctive compare les codes
       de statut, et se trompe.'
     verification_status: VERIFIED
     official_sources:
@@ -170,7 +170,7 @@ flashcards:
     official_item: OIT-mrvrtxm4v2m5
     language: fr
     level: TRAP
-    front: 'HTTP : que signifie `q=0` dans un en-tête `Accept` ?'
+    front: 'HTTP : que signifie `q=0` dans un header `Accept` ?'
     back: Un refus explicite de ce type de média.
     explanation: '`Accept: */*;q=0.8, image/png;q=0` se lit « tout sauf du PNG ». `q=0` n''est pas «
       préférence la plus basse » mais une exclusion. Une valeur `q` absente vaut `1.0`.'
@@ -190,9 +190,9 @@ flashcards:
     front: 'Symfony : que renvoie `getPreferredLanguage()` appelée sans argument ?'
     back: La première langue demandée par le client, que l'application sache la servir ou non — aucune
       négociation n'a lieu.
-    explanation: 'Sans la liste des locales supportées, la méthode ne compare rien : elle lit `Accept-Language`
+    explanation: 'Sans la liste des locales supportées, la method ne compare rien : elle lit `Accept-Language`
       et rend le premier choix. C''est le passage de cette liste qui rend l''appel utile.'
-    memorization_justification: 'Piège de signature : le nom de la méthode promet une négociation que
+    memorization_justification: 'Piège de signature : le nom de la method promet une négociation que
       l''appel sans argument n''effectue pas.'
     verification_status: VERIFIED
     official_sources:
@@ -217,10 +217,10 @@ flashcards:
     official_item: OIT-7801mj6w73ky
     language: fr
     level: RECALL
-    front: "RFC 9110 : que liste son en-tête `Obsoletes:` ?"
+    front: "RFC 9110 : que liste son header `Obsoletes:` ?"
     back: "2818, 7230, 7231, 7232, 7233, 7235, 7538, 7615, 7694 — et le document porte en plus `Updates: 3864`."
     explanation: >-
-      L'en-tête du document écrit `7230` sans réserve ; le résumé et la Table 1
+      Le header du document écrit `7230` sans réserve ; le résumé et la Table 1
       du §1.4 précisent « portions of 7230 », le reste de 7230 — la syntaxe de
       trame — passant à RFC 9112. **2818** (*HTTP Over TLS*) est dans la liste,
       ce qu'on oublie presque toujours. **7234 n'y est pas** : le cache est
@@ -265,17 +265,17 @@ flashcards:
     language: fr
     level: RECALL
     front: "RFC 9110 §6 : de quoi un message HTTP est-il fait, indépendamment de la version ?"
-    back: "Données de contrôle, table des en-têtes, contenu, table des champs de fin (*trailers*)."
+    back: "Données de contrôle, table des headers, contenu, table des fields de fin (*trailers*)."
     explanation: >-
       Dans cet ordre, et c'est l'ordre d'émission : « Framing and control data
       is sent first, followed by a header section… the content is sent after
       the header section, potentially followed by a trailer section ». Chaque
       partie a un rôle : les données de contrôle disent ce que le destinataire
-      doit savoir **immédiatement**, les en-têtes ce qu'il doit savoir **avant**
+      doit savoir **immédiatement**, les headers ce qu'il doit savoir **avant**
       le contenu.
     memorization_justification: >-
       Le vocabulaire imposé remplace le découpage intuitif « ligne de départ +
-      en-têtes + corps », qui est celui de HTTP/1.1 et non celui de 9110.
+      headers + corps », qui est celui de HTTP/1.1 et non celui de 9110.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
@@ -292,7 +292,7 @@ flashcards:
     back: "Proxy, gateway — que le document glose lui-même « a.k.a. reverse proxy » — et tunnel."
     explanation: >-
       Une gateway agit comme **serveur d'origine** du côté sortant et
-      retransmet vers l'intérieur : c'est la définition du reverse proxy, et
+      retransmet vers l'intérieur : c'est la definition du reverse proxy, et
       c'est ce qu'est un Varnish ou un Nginx devant une application Symfony. Un
       tunnel ne lit pas les messages qu'il relaie, ce qui a une conséquence
       directe : « a cache cannot be used while acting as a tunnel » (§3.8).
@@ -312,7 +312,7 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "RFC 9110 : quelle est la différence entre une ressource et une représentation ?"
-    back: "La ressource est la cible de la requête ; la représentation est une information qui reflète un état — passé, actuel ou souhaité — de cette ressource, dans un format transmissible."
+    back: "La ressource est la cible de la Request ; la représentation est une information qui reflète un état — passé, actuel ou souhaité — de cette ressource, dans un format transmissible."
     explanation: >-
       §3.2 ajoute la raison d'être de la distinction : HTTP permet la
       « dissimulation d'information » derrière son interface uniforme en
@@ -321,8 +321,8 @@ flashcards:
       être « la météo actuelle à Laguna Beach » — quelque chose qu'aucun
       transfert d'octets ne pourrait livrer.
     memorization_justification: >-
-      Distinction fondatrice dont dépendent la négociation de contenu, `Vary` et
-      les requêtes conditionnelles ; la confondre rend ces trois sujets
+      Distinction fondatrice dont dépendent la content negotiation, `Vary` et
+      les Requests conditionnelles ; la confondre rend ces trois sujets
       inexplicables.
     verification_status: VERIFIED
     official_sources:
@@ -337,7 +337,7 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "RFC 9110 : à quoi sert la « représentation sélectionnée » (*selected representation*) ?"
-    back: "Elle fournit les données et métadonnées qui servent à évaluer les requêtes conditionnelles et à construire le contenu des réponses 200, 206 et 304 à un GET."
+    back: "Elle fournit les données et métadonnées qui servent à évaluer les Requests conditionnelles et à construire le contenu des Responses 200, 206 et 304 à un GET."
     explanation: >-
       Une ressource peut disposer de plusieurs représentations ; un algorithme —
       « usually based on content negotiation » — en choisit une. Conséquence
@@ -386,13 +386,13 @@ flashcards:
     front: "RFC : « obsolète » et « met à jour » désignent-ils la même relation ?"
     back: "Non. Une RFC obsolétée est remplacée ; une RFC mise à jour reste en vigueur, amendée."
     explanation: >-
-      9110 porte les deux en-têtes : `Obsoletes: 2818, 7230, …` et
-      `Updates: 3864`. RFC 3864 — l'enregistrement des noms de champs de
+      9110 porte les deux headers : `Obsoletes: 2818, 7230, …` et
+      `Updates: 3864`. RFC 3864 — l'enregistrement des noms de fields de
       message — n'est donc **pas** remplacée : elle continue de s'appliquer,
       modifiée par 9110. Lire `Updates:` comme un remplacement fait disparaître
       un document encore normatif.
     memorization_justification: >-
-      Deux en-têtes voisins dans le même document, de sens opposés, que le
+      Deux headers voisins dans le même document, de sens opposés, que le
       français courant confond en « remplace ».
     verification_status: VERIFIED
     official_sources:
@@ -406,17 +406,17 @@ flashcards:
     official_item: OIT-7801mj6w73ky
     language: fr
     level: APPLICATION
-    front: "Une requête HTTP/2 arrive avec `content-type` en minuscules : faut-il un traitement particulier ?"
-    back: "Non. « Field names are case-insensitive » : `content-type` et `Content-Type` sont le même champ."
+    front: "Une Request HTTP/2 arrive avec `content-type` en minuscules : faut-il un traitement particulier ?"
+    back: "Non. « Field names are case-insensitive » : `content-type` et `Content-Type` sont le même field."
     explanation: >-
-      HTTP/2 et HTTP/3 imposent des noms de champs en minuscules ; HTTP/1.1
+      HTTP/2 et HTTP/3 imposent des noms de fields en minuscules ; HTTP/1.1
       laisse la casse libre. Comme 9110 §5.1 déclare les noms insensibles à la
       casse, la sémantique ne change pas d'une version à l'autre — c'est
       exactement le service que rend la séparation sémantique / syntaxe. Côté
       Symfony, `HeaderBag` normalise les noms pour la même raison.
     memorization_justification: >-
       Règle qui neutralise une différence visible entre versions ; la voir en
-      pratique pousse à croire à deux champs distincts.
+      pratique pousse à croire à deux fields distincts.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
@@ -433,10 +433,10 @@ flashcards:
     back: "Les combiner en une seule ligne `gzip, br` — mais sans changer l'ordre, qui est significatif."
     explanation: >-
       §5.3 autorise la recombinaison en liste séparée par des virgules, pour
-      les champs dont la définition l'admet, et interdit explicitement à un
+      les fields dont la definition l'admet, et interdit explicitement à un
       proxy de réordonner ces valeurs : « a proxy **MUST NOT** change the order
       of these field line values when forwarding a message ». L'ordre entre
-      champs de **noms différents** n'est en revanche pas significatif.
+      fields de **noms différents** n'est en revanche pas significatif.
     memorization_justification: >-
       Deux règles d'ordre opposées dans la même section — significatif à nom
       égal, indifférent à noms différents — qu'on retient volontiers à l'envers.
@@ -456,9 +456,9 @@ flashcards:
     back: "Deux : l'`ETag` qualifie la représentation sélectionnée, pas la ressource."
     explanation: >-
       §3.2 fait de la représentation sélectionnée la source des métadonnées qui
-      servent à évaluer les requêtes conditionnelles. Deux représentations
-      donnent donc deux validateurs. C'est aussi la raison d'être de `Vary` : un
-      cache qui stocke la réponse JSON et la ressert à un client demandant du
+      servent à évaluer les Requests conditionnelles. Deux représentations
+      donnent donc deux validators. C'est aussi la raison d'être de `Vary` : un
+      cache qui stocke la Response JSON et la ressert à un client demandant du
       HTML se trompe de représentation, et seul `Vary: Accept` le lui interdit.
     memorization_justification: >-
       Cas concret où l'oubli de la distinction ressource / représentation
@@ -479,10 +479,10 @@ flashcards:
     back: "Faux comme énoncé direct. 2616 avait déjà été remplacée par la série 7230-7235 en 2014 ; c'est cette série que les 911x remplacent."
     explanation: >-
       §1.1 retrace la filiation : 1945 (HTTP/1.0), 2068, 2616, puis
-      « revised again in 2014 ([RFC7230] through [RFC7235]) ». L'en-tête
+      « revised again in 2014 ([RFC7230] through [RFC7235]) ». Le header
       `Obsoletes:` de 9110 ne cite d'ailleurs pas 2616 — il cite 7230 à 7235.
       Le raccourci saute une génération entière et fait croire à un remplacement
-      d'un seul bloc, alors que 9110, 9111 et 9112 se partagent l'héritage.
+      d'un seul block, alors que 9110, 9111 et 9112 se partagent l'inheritance.
     memorization_justification: >-
       Raccourci répandu, énoncé tel quel dans beaucoup de supports, et qu'un
       QCM peut proposer mot pour mot comme affirmation vraie.
@@ -498,7 +498,7 @@ flashcards:
     official_item: OIT-7801mj6w73ky
     language: fr
     level: TRAP
-    front: "On cherche la définition de `Cache-Control: max-age`. Dans quelle RFC, et pourquoi pas dans 9110 ?"
+    front: "On cherche la definition de `Cache-Control: max-age`. Dans quelle RFC, et pourquoi pas dans 9110 ?"
     back: "Dans RFC 9111. 9110 n'obsolète pas 7234 : le cache a été sorti du document de sémantique."
     explanation: >-
       La liste `Obsoletes:` de 9110 va de 7230 à 7235 en sautant **7234**, et ce
@@ -528,7 +528,7 @@ flashcards:
       plusieurs lignes « violating the above requirements », et comme il ne peut
       pas être combiné en une valeur unique, les destinataires doivent le
       traiter comme un cas particulier. La règle de fusion ne s'applique qu'aux
-      champs dont la définition prévoit une liste `#(values)`.
+      fields dont la definition prévoit une liste `#(values)`.
     memorization_justification: >-
       Exception explicitement nommée dans le texte de la règle générale, donc
       exactement le matériau d'un QCM « la règle, sauf pour… ».
@@ -545,13 +545,13 @@ flashcards:
     language: fr
     level: TRAP
     front: "Vrai ou faux : « en HTTP, toute ressource est identifiée par un URI »."
-    back: "Faux tel quel. §3.1 écrit « **most** resources are identified by a URI » — et la cible d'une requête est une ressource par définition."
+    back: "Faux tel quel. §3.1 écrit « **most** resources are identified by a URI » — et la cible d'une Request est une ressource par definition."
     explanation: >-
       Le mot compte : 9110 ne limite pas la nature d'une ressource, il définit
       seulement l'interface qui permet d'interagir avec elle. D'où la formule
       exacte : « the target of an HTTP request is called a resource ». Retenir
-      « ressource = fichier » ou « ressource = URI » ferme la porte aux
-      ressources qui ne sont ni l'un ni l'autre, comme la fonction temporelle
+      « ressource = file » ou « ressource = URI » ferme la porte aux
+      ressources qui ne sont ni l'un ni l'autre, comme la function temporelle
       citée en §3.2.
     memorization_justification: >-
       Quantificateur — « most » et non « all » — qu'une lecture rapide
@@ -578,7 +578,7 @@ flashcards:
     official_item: OIT-512se83ab7qj
     language: fr
     level: RECALL
-    front: "HTTP : quelle est la plage valide des codes de statut, et quels chiffres catégorisent ?"
+    front: "HTTP : quelle est la plage valide des status codes, et quels chiffres catégorisent ?"
     back: "100 à 599 inclus. Seul le premier chiffre catégorise : « the last two digits do not have any categorization role »."
     explanation: >-
       Dit autrement : 404 et 451 sont deux erreurs client sans qu'aucune règle
@@ -606,7 +606,7 @@ flashcards:
     official_item: OIT-512se83ab7qj
     language: fr
     level: RECALL
-    front: "RFC 9110 §15.1 : quels codes de statut sont *heuristically cacheable* ?"
+    front: "RFC 9110 §15.1 : quels status codes sont *heuristically cacheable* ?"
     back: "200, 203, 204, 206, 300, 301, 308, 404, 405, 410, 414 et 501. Tous les autres ne le sont pas."
     explanation: >-
       « Heuristically cacheable » veut dire qu'un cache peut les réutiliser avec
@@ -628,13 +628,13 @@ flashcards:
     official_item: OIT-512se83ab7qj
     language: fr
     level: RECALL
-    front: "Quels en-têtes la RFC rend-elle **obligatoires** avec un 401 et avec un 405 ?"
-    back: "401 → `WWW-Authenticate` (MUST). 405 → `Allow` (MUST), listant les méthodes que la ressource accepte."
+    front: "Quels headers la RFC rend-elle **obligatoires** avec un 401 et avec un 405 ?"
+    back: "401 → `WWW-Authenticate` (MUST). 405 → `Allow` (MUST), listant les methods que la ressource accepte."
     explanation: >-
       Ce sont deux `MUST`, pas des recommandations : « The server generating a
       401 response **MUST** send a WWW-Authenticate header field » et « The
       origin server **MUST** generate an Allow header field in a 405 response ».
-      Un 401 sans `WWW-Authenticate` est une réponse non conforme — un cas que
+      Un 401 sans `WWW-Authenticate` est une Response non conforme — un cas que
       produisent beaucoup d'API par API-token.
     memorization_justification: >-
       Obligations attachées à un code précis, invisibles dans le code
@@ -651,16 +651,16 @@ flashcards:
     official_item: OIT-512se83ab7qj
     language: fr
     level: RECALL
-    front: "RFC 9110 §15.2 : qu'est-ce qu'une réponse 1xx n'a pas le droit de contenir ?"
-    back: "Ni contenu ni champs de fin : « A 1xx response is terminated by the end of the header section »."
+    front: "RFC 9110 §15.2 : qu'est-ce qu'une Response 1xx n'a pas le droit de contenir ?"
+    back: "Ni contenu ni fields de fin : « A 1xx response is terminated by the end of the header section »."
     explanation: >-
-      Deux autres contraintes vont avec : un serveur **MUST NOT** envoyer une
-      réponse 1xx à un client HTTP/1.0, qui n'en connaît aucune, et un client
-      **MUST** savoir analyser une ou plusieurs réponses 1xx reçues avant la
-      réponse finale, même s'il n'en attendait pas. Une 1xx n'est donc jamais la
-      réponse finale : elle précède.
+      Deux autres constraints vont avec : un serveur **MUST NOT** envoyer une
+      Response 1xx à un client HTTP/1.0, qui n'en connaît aucune, et un client
+      **MUST** savoir analyser une ou plusieurs Responses 1xx reçues avant la
+      Response finale, même s'il n'en attendait pas. Une 1xx n'est donc jamais la
+      Response finale : elle précède.
     memorization_justification: >-
-      Classe la moins pratiquée des cinq ; ses interdictions ne se déduisent pas
+      Class la moins pratiquée des cinq ; ses interdictions ne se déduisent pas
       de « information ».
     verification_status: VERIFIED
     official_sources:
@@ -680,11 +680,11 @@ flashcards:
       §15.5.21 formule l'enchaînement lui-même : 422 indique que le serveur
       « understands the content type of the request content (**hence a 415 is
       inappropriate**), and the syntax of the request content is correct ». 415
-      et 422 portent donc tous deux sur la requête, à deux étages différents ;
-      406 change de direction et porte sur la **réponse** attendue.
+      et 422 portent donc tous deux sur la Request, à deux étages différents ;
+      406 change de direction et porte sur la **Response** attendue.
     memorization_justification: >-
       Trois refus voisins dont deux sont explicitement exclusifs dans le texte ;
-      l'axe qui les sépare (requête/réponse, puis format/sémantique) n'apparaît
+      l'axe qui les sépare (Request/Response, puis format/sémantique) n'apparaît
       dans aucun des trois noms.
     verification_status: VERIFIED
     official_sources:
@@ -698,16 +698,16 @@ flashcards:
     official_item: OIT-512se83ab7qj
     language: fr
     level: UNDERSTANDING
-    front: "Pourquoi 303 n'entre-t-il pas dans le carré permanent/temporaire × méthode préservée ?"
-    back: "Parce qu'il ne rejoue rien : il demande une requête de récupération — GET ou HEAD — sur une autre ressource, quelle que soit la méthode d'origine."
+    front: "Pourquoi 303 n'entre-t-il pas dans le carré permanent/temporaire × method préservée ?"
+    back: "Parce qu'il ne rejoue rien : il demande une Request de récupération — GET ou HEAD — sur une autre ressource, quelle que soit la method d'origine."
     explanation: >-
-      §15.4.4 précise deux choses que le raccourci « 303 = redirection après
+      §15.4.4 précise deux choses que le raccourci « 303 = redirect après
       POST » perd : le code est « applicable to any HTTP method », et l'URI de
       `Location` n'est **pas** considéré comme équivalent à l'URI cible — c'est
-      une réponse *indirecte*. D'où POST-Redirect-GET : là où 307 rejouerait le
+      une Response *indirecte*. D'où POST-Redirect-GET : là où 307 rejouerait le
       POST, 303 impose la lecture.
     memorization_justification: >-
-      Le code est dans la classe 3xx avec quatre voisins qui s'apparient deux à
+      Le code est dans la class 3xx avec quatre voisins qui s'apparient deux à
       deux ; sa singularité est la seule chose à retenir et rien ne la signale.
     verification_status: VERIFIED
     official_sources:
@@ -747,8 +747,8 @@ flashcards:
     front: "La phrase de raison — « Not Found » après 404 — fait-elle partie du protocole ?"
     back: "Non. §15.1 : les phrases de raison « are only recommendations — they can be replaced by local equivalents or left out altogether without affecting the protocol »."
     explanation: >-
-      Un code de statut se lit sur ses trois chiffres, jamais sur son texte.
-      Conséquence concrète : un test fonctionnel qui assertait la chaîne
+      Un status code se lit sur ses trois chiffres, jamais sur son texte.
+      Conséquence concrète : un functional test qui assertait la string
       « Not Found » teste la mise en forme du serveur, pas la sémantique.
       Symfony laisse d'ailleurs surcharger le texte —
       `setStatusCode(404, 'Introuvable')` — et retombe sur
@@ -775,7 +775,7 @@ flashcards:
     language: fr
     level: APPLICATION
     front: "Un client reçoit un code 499, qu'il ne connaît pas. Que doit-il en faire ?"
-    back: "Le traiter comme un 400 : la RFC impose de comprendre la **classe** et de traiter un code inconnu comme le x00 de sa classe."
+    back: "Le traiter comme un 400 : la RFC impose de comprendre la **class** et de traiter un code inconnu comme le x00 de sa class."
     explanation: >-
       « A client MUST understand the class of any status code, as indicated by
       the first digit, and treat an unrecognized status code as being equivalent
@@ -803,7 +803,7 @@ flashcards:
       Les deux listes répondent d'ailleurs à deux questions différentes :
       la RFC décrit ce qu'un cache **peut** réutiliser par heuristique ;
       `isCacheable()` décrit ce que *cette* réponse-ci autorise, et ajoute deux
-      conditions — ni `no-store` ni `private`, et la réponse doit être
+      conditions — ni `no-store` ni `private`, et la Response doit être
       validable ou fraîche. Un 404 sans `ETag` ni `max-age` renvoie donc `false`
       en Symfony tout en restant heuristiquement cachable au sens de la RFC.
     memorization_justification: >-
@@ -854,13 +854,13 @@ flashcards:
     front: "On renvoie `new Response('déjà écrit', 204)`. Que reste-t-il après `prepare()` ?"
     back: "Rien : le contenu est mis à `null`, et `Content-Type` comme `Content-Length` sont retirés."
     explanation: >-
-      `prepare()` traite ensemble les réponses informatives et « vides » —
+      `prepare()` traite ensemble les Responses informatives et « vides » —
       `isEmpty()` est exactement `in_array($statusCode, [204, 304], true)`. Il
       va jusqu'à `ini_set('default_mimetype', '')` pour empêcher PHP de poser
-      un `Content-Type` de son côté. Le corps n'est donc pas « ignoré par le
+      un `Content-Type` de son côté. Le body n'est donc pas « ignoré par le
       client » : il n'est pas émis.
     memorization_justification: >-
-      Effet de bord silencieux : le code appelant paraît écrire un corps, et
+      Effet de bord silencieux : le code appelant paraît écrire un body, et
       rien ne signale sa disparition.
     verification_status: VERIFIED
     official_sources:
@@ -875,14 +875,14 @@ flashcards:
     official_item: OIT-512se83ab7qj
     language: fr
     level: TRAP
-    front: "Vrai ou faux : « une réponse 404 n'est jamais mise en cache »."
+    front: "Vrai ou faux : « une Response 404 n'est jamais mise en cache »."
     back: "Faux. 404 figure dans la liste des codes *heuristically cacheable* de §15.1, aux côtés de 405, 410, 414 et 501."
     explanation: >-
       Un cache peut réutiliser un 404 avec une expiration heuristique tant
       qu'aucune directive explicite ne l'en empêche. C'est voulu : les erreurs
       de ce type sont stables et coûteuses à recalculer. Pour l'empêcher
       réellement, il faut une directive — `no-store`, par exemple — et non
-      l'espoir que le code de statut suffise.
+      l'espoir que le status code suffise.
     memorization_justification: >-
       Affirmation répandue et rassurante, que la liste de §15.1 contredit
       nommément.
@@ -931,12 +931,12 @@ flashcards:
     back: "Pas toujours. 413 est `HTTP_REQUEST_ENTITY_TOO_LARGE` alors que son texte est « Content Too Large » ; 422 est `HTTP_UNPROCESSABLE_ENTITY` alors que son texte est « Unprocessable Content »."
     explanation: >-
       RFC 9110 a renommé ces deux codes ; les constantes gardent l'ancien nom
-      pour ne pas casser la compatibilité, tandis que le tableau
-      `Response::$statusTexts` a suivi la RFC. Le même fichier porte donc les
+      pour ne pas casser la compatibilité, tandis que l'array
+      `Response::$statusTexts` a suivi la RFC. Le même file porte donc les
       deux générations de vocabulaire. À l'examen, la question peut être posée
       dans l'un ou l'autre : 413 et « Content Too Large » désignent la même chose.
     memorization_justification: >-
-      Décalage de nommage entre deux endroits d'un même fichier ; aucun
+      Décalage de nommage entre deux endroits d'un même file ; aucun
       raisonnement ne permet de deviner lequel est à jour.
     verification_status: VERIFIED
     official_sources:
@@ -969,11 +969,11 @@ flashcards:
     back: "`$query`, `$request` et `$cookies` sont des `InputBag`. `$attributes` est un `ParameterBag`, `$headers` un `HeaderBag`, `$server` un `ServerBag`, `$files` un `FileBag`."
     explanation: >-
       Le partage n'est pas décoratif : seuls les trois `InputBag` portent la
-      contrainte scalaire, parce que seuls eux contiennent des données venues du
-      client. `$attributes` est rempli par l'application — le routeur y écrit
+      constraint scalaire, parce que seuls eux contiennent des données venues du
+      client. `$attributes` est rempli par l'application — le router y écrit
       `_route` et `_controller` — et accepte donc n'importe quelle valeur.
     memorization_justification: >-
-      Sept propriétés de quatre types différents ; la répartition porte toute la
+      Sept properties de quatre types différents ; la répartition porte toute la
       différence de comportement et ne se devine pas depuis les noms.
     verification_status: VERIFIED
     official_sources:
@@ -989,7 +989,7 @@ flashcards:
     language: fr
     level: RECALL
     front: "Symfony 8.0 : que renvoie `$request->get('id')` ?"
-    back: "Rien : la méthode n'existe plus. Il faut nommer le sac — `$request->attributes->get('id')`, `$request->query->get('id')`…"
+    back: "Rien : la method n'existe plus. Il faut nommer le sac — `$request->attributes->get('id')`, `$request->query->get('id')`…"
     explanation: >-
       L'ancien raccourci cherchait dans `attributes`, puis `query`, puis
       `request`, dans cet ordre : une valeur de route pouvait donc être masquée
@@ -1016,11 +1016,11 @@ flashcards:
     back: "`getRealMethod()` renvoie `REQUEST_METHOD` tel quel ; `getMethod()` applique l'override et mémorise le résultat ; `isMethod()` compare à `getMethod()` sans tenir compte de la casse."
     explanation: >-
       `getMethod()` met son résultat en cache dans `$this->method` dès le
-      premier appel : changer un en-tête après coup ne le fait pas changer
-      d'avis. Les deux renvoient toujours une chaîne **en majuscules**.
+      premier appel : changer un header après coup ne le fait pas changer
+      d'avis. Les deux renvoient toujours une string **en majuscules**.
     memorization_justification: >-
-      Trois méthodes voisines dont deux peuvent renvoyer des valeurs
-      différentes sur la même requête ; le nom `getRealMethod` ne dit pas
+      Trois methods voisines dont deux peuvent renvoyer des valeurs
+      différentes sur la même Request ; le nom `getRealMethod` ne dit pas
       laquelle des deux est « la vraie » pour le code applicatif.
     verification_status: VERIFIED
     official_sources:
@@ -1060,10 +1060,10 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "Pourquoi `InputBag` refuse-t-il une valeur non scalaire là où `ParameterBag` l'accepte ?"
-    back: "Parce que le contenu d'un `InputBag` vient du client, qui peut envoyer un tableau là où le code attend une chaîne."
+    back: "Parce que le contenu d'un `InputBag` vient du client, qui peut envoyer un array là où le code attend une string."
     explanation: >-
-      `?id=1` et `?id[]=1` sont tous deux des URL valides ; sans la contrainte,
-      la seconde ferait circuler un `array` dans du code écrit pour une chaîne.
+      `?id=1` et `?id[]=1` sont tous deux des URL valides ; sans la constraint,
+      la seconde ferait circuler un `array` dans du code écrit pour une string.
       `InputBag::get()` lève donc une `BadRequestException` — un échec bruyant
       et immédiat. `$attributes`, rempli par l'application, n'a pas cette
       exposition : c'est un `ParameterBag`.
@@ -1083,17 +1083,17 @@ flashcards:
     official_item: OIT-d3nyk9z0q2pd
     language: fr
     level: UNDERSTANDING
-    front: "`all('tags')` est-il simplement la version « tableau » de `get('tags')` ?"
-    back: "C'est son miroir exact : `get()` refuse un tableau, `all($clé)` refuse ce qui n'en est pas un — même exception, `BadRequestException`."
+    front: "`all('tags')` est-il simplement la version « array » de `get('tags')` ?"
+    back: "C'est son miroir exact : `get()` refuse un array, `all($clé)` refuse ce qui n'en est pas un — même exception, `BadRequestException`."
     explanation: >-
       `ParameterBag::all($clé)` lève « Unexpected value for parameter … :
-      expecting « array » » si la valeur n'est pas un tableau. Une clé
+      expecting « array » » si la valeur n'est pas un array. Une key
       **absente**, en revanche, ne lève pas : elle renvoie `[]`. Les deux
       accesseurs sont donc stricts dans des directions opposées, et aucun n'est
       un repli sûr pour l'autre.
     memorization_justification: >-
       Symétrie que l'intuition « all = tout, get = un » ne prépare pas, avec un
-      troisième cas — clé absente — qui se comporte encore autrement.
+      troisième cas — key absente — qui se comporte encore autrement.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/ParameterBag.php"
@@ -1116,7 +1116,7 @@ flashcards:
       mal écrite est pire qu'une liste absente : elle donne l'apparence d'un
       contrôle.
     memorization_justification: >-
-      L'API accepte une chaîne qui ressemble à un nom de domaine et se comporte
+      L'API accepte une string qui ressemble à un nom de domaine et se comporte
       comme une expression régulière ; rien dans l'appel ne le signale.
     verification_status: VERIFIED
     official_sources:
@@ -1134,11 +1134,11 @@ flashcards:
     front: "Pourquoi `getClientIp()` ne renvoie-t-il pas la première adresse de `X-Forwarded-For` ?"
     back: "Parce qu'il renvoie l'adresse non fiable la **plus proche du serveur** : tout ce qui est à sa gauche a été écrit par un maillon auquel on ne fait pas confiance."
     explanation: >-
-      Symfony complète la chaîne avec `REMOTE_ADDR`, retire les adresses des
+      Symfony complète la string avec `REMOTE_ADDR`, retire les adresses des
       proxys déclarés de confiance, puis renverse ce qui reste et prend le
       premier élément. Le client d'origine n'est donc obtenu que si **toute** la
-      chaîne est déclarée. C'est le comportement sûr : la partie gauche de
-      l'en-tête est falsifiable par le client.
+      string est déclarée. C'est le comportement sûr : la partie gauche de
+      le header est falsifiable par le client.
     memorization_justification: >-
       La règle « le client est la première adresse » est vraie dans le cas
       nominal et fausse dès qu'un saut n'est pas déclaré — donc juste assez
@@ -1157,12 +1157,12 @@ flashcards:
     language: fr
     level: APPLICATION
     front: "L'URL est `/s?tags=php` (valeur unique). Que fait `$request->query->all('tags')` ?"
-    back: "Elle lève une `BadRequestException` : la valeur existe mais n'est pas un tableau."
+    back: "Elle lève une `BadRequestException` : la valeur existe mais n'est pas un array."
     explanation: >-
       C'est le cas inverse du piège habituel, et il mord dans le code défensif :
       passer systématiquement par `all()` « pour être tranquille » échoue dès
-      qu'un seul paramètre arrive. Pour accepter les deux formes, il faut
-      tester, ou lire la valeur brute via `$request->query->all()` sans clé.
+      qu'un seul parameter arrive. Pour accepter les deux formes, il faut
+      tester, ou lire la valeur brute via `$request->query->all()` sans key.
     memorization_justification: >-
       Cas concret où la parade au piège connu crée le piège symétrique.
     verification_status: VERIFIED
@@ -1179,15 +1179,15 @@ flashcards:
     language: fr
     level: APPLICATION
     front: "Quelle exception lève `$request->query->get('page', ['défaut'])` ?"
-    back: "Une `\\InvalidArgumentException` — pas une `BadRequestException` : c'est la **valeur par défaut** qui est fautive, pas l'entrée."
+    back: "Une `\\InvalidArgumentException` — pas une `BadRequestException` : c'est la **default value** qui est fautive, pas l'entrée."
     explanation: >-
       `InputBag::get()` vérifie d'abord son deuxième argument : « Expected a
       scalar value as a 2nd argument ». La distinction est logique — une entrée
       non scalaire vient du client et donne un 400, un défaut non scalaire est
-      une faute du programmeur et n'a rien à voir avec la requête. Les deux
-      contrôles acceptent aussi un objet `\Stringable`.
+      une faute du programmeur et n'a rien à voir avec la Request. Les deux
+      contrôles acceptent aussi un object `\Stringable`.
     memorization_justification: >-
-      Deux exceptions de types différents levées par la même méthode, selon
+      Deux exceptions de types différents levées par la même method, selon
       lequel de ses deux arguments est en cause.
     verification_status: VERIFIED
     official_sources:
@@ -1202,12 +1202,12 @@ flashcards:
     official_item: OIT-d3nyk9z0q2pd
     language: fr
     level: APPLICATION
-    front: "Sur un POST de formulaire, modifier le sac renvoyé par `getPayload()` modifie-t-il `$request->request` ?"
+    front: "Sur un POST de form, modifier le sac renvoyé par `getPayload()` modifie-t-il `$request->request` ?"
     back: "Non : quand le sac POST est non vide, `getPayload()` en renvoie un **clone**."
     explanation: >-
-      Le corps de la méthode est explicite : `if ($this->request->count())
-      { return clone $this->request; }`. Sinon elle décode le corps en JSON et
-      construit un `InputBag` neuf. Dans les deux cas, l'objet rendu est
+      Le body de la method est explicite : `if ($this->request->count())
+      { return clone $this->request; }`. Sinon elle décode le body en JSON et
+      construit un `InputBag` neuf. Dans les deux cas, l'object rendu est
       détaché : `getPayload()` est un accesseur de lecture, pas une vue.
     memorization_justification: >-
       Le clonage est invisible à l'appel et change le résultat de toute écriture
@@ -1234,8 +1234,8 @@ flashcards:
       Et une valeur qui n'est pas faite que de lettres majuscules — `P@TCH` —
       lève une `SuspiciousOperationException`.
     memorization_justification: >-
-      Quatre méthodes traitées à part, sans message ni avertissement : la
-      requête est simplement traitée comme un POST.
+      Quatre methods traitées à part, sans message ni avertissement : la
+      Request est simplement traitée comme un POST.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
@@ -1249,14 +1249,14 @@ flashcards:
     official_item: OIT-d3nyk9z0q2pd
     language: fr
     level: TRAP
-    front: "L'en-tête `X-HTTP-Method-Override` demande-t-il d'être activé, comme `_method` ?"
-    back: "Non. L'en-tête est lu sur tout POST sans rien activer ; seul le paramètre `_method` exige `enableHttpMethodParameterOverride()`."
+    front: "Le header `X-HTTP-Method-Override` demande-t-il d'être activé, comme `_method` ?"
+    back: "Non. Le header est lu sur tout POST sans rien activer ; seul le parameter `_method` exige `enableHttpMethodParameterOverride()`."
     explanation: >-
       Les deux mécanismes sont souvent présentés ensemble, ce qui laisse croire
-      au même interrupteur. Pour désactiver l'en-tête, il faut
+      au même interrupteur. Pour désactiver le header, il faut
       `setAllowedHttpMethodOverride([])` — une liste vide, que `getMethod()`
       traite comme « aucun override permis ». Le défaut, `null`, veut dire
-      « tous permis », à l'exception des quatre méthodes exclues.
+      « tous permis », à l'exception des quatre methods exclues.
     memorization_justification: >-
       Asymétrie contre-intuitive entre deux mécanismes jumeaux, et défaut
       permissif que l'existence même du réglage fait croire fermé.
@@ -1280,7 +1280,7 @@ flashcards:
       contrôle. Seule la validité **syntaxique** de l'hôte est vérifiée en
       amont, indépendamment de la liste. Un `Host` falsifié empoisonne alors
       tout ce qui se construit à partir de lui : URL absolue d'un courriel de
-      réinitialisation, clé de cache.
+      réinitialisation, key de cache.
     memorization_justification: >-
       Défaut ouvert d'un mécanisme de sécurité : l'intuition attend l'inverse
       d'une liste blanche vide.
@@ -1298,12 +1298,12 @@ flashcards:
     language: fr
     level: TRAP
     front: "`getHost()` a levé une `SuspiciousOperationException` sur un hôte invalide. Que renvoie le second appel ?"
-    back: "La chaîne vide. L'exception n'est levée qu'une fois : ensuite `getHost()` renvoie `''`."
+    back: "La string vide. L'exception n'est levée qu'une fois : ensuite `getHost()` renvoie `''`."
     explanation: >-
       Le garde est `if (!$this->isHostValid) { return ''; }` avant la levée :
       le premier appel bascule le drapeau, les suivants sortent silencieusement.
-      Un code qui attrape l'exception et réessaie obtient donc une chaîne vide,
-      pas une seconde exception — et une chaîne vide se propage sans bruit.
+      Un code qui attrape l'exception et réessaie obtient donc une string vide,
+      pas une seconde exception — et une string vide se propage sans bruit.
     memorization_justification: >-
       Comportement non idempotent d'un accesseur : rien dans la signature ne
       laisse deviner que deux appels identiques donnent deux résultats.
@@ -1320,16 +1320,16 @@ flashcards:
     official_item: OIT-d3nyk9z0q2pd
     language: fr
     level: TRAP
-    front: "Le corps de la requête est le JSON `\"42\"`. Que fait `getPayload()` ?"
-    back: "Elle lève une `JsonException` : le JSON est valide mais ne décode pas vers un tableau."
+    front: "Le body de la Request est le JSON `\"42\"`. Que fait `getPayload()` ?"
+    back: "Elle lève une `JsonException` : le JSON est valide mais ne décode pas vers un array."
     explanation: >-
       Le message est explicite : « JSON content was expected to decode to an
-      array ». Un corps vide, lui, ne lève pas — il rend un `InputBag` vide.
-      Trois issues, donc, pour la même méthode : le clone du sac POST, un sac
-      construit depuis un tableau JSON, ou une exception.
+      array ». Un body vide, lui, ne lève pas — il rend un `InputBag` vide.
+      Trois issues, donc, pour la même method : le clone du sac POST, un sac
+      construit depuis un array JSON, ou une exception.
     memorization_justification: >-
       Cas limite entre « JSON invalide » et « JSON valide inexploitable », que
-      le nom de la méthode ne laisse pas soupçonner.
+      le nom de la method ne laisse pas soupçonner.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
@@ -1355,13 +1355,13 @@ flashcards:
     front: "Symfony : quelle version de protocole porte une `Response` fraîchement construite ?"
     back: "`HTTP/1.0`. C'est `prepare()` qui la promeut en 1.1 quand `SERVER_PROTOCOL` n'est pas `HTTP/1.0`."
     explanation: >-
-      Le noyau appelle `prepare()` pour vous ; une réponse fabriquée hors du
-      cycle — dans un test, dans une commande — garde donc `HTTP/1.0` tant que
+      Le kernel appelle `prepare()` pour vous ; une Response fabriquée hors du
+      cycle — dans un test, dans une command — garde donc `HTTP/1.0` tant que
       personne ne l'a préparée. `prepare()` fait d'ailleurs bien plus : il vide
-      le corps d'une réponse 204 ou 304, retire le corps d'un `HEAD`, et
+      le body d'une Response 204 ou 304, retire le body d'un `HEAD`, et
       complète le `Content-Type`.
     memorization_justification: >-
-      Valeur par défaut contre-intuitive en 2026, et invisible tant qu'on reste
+      Default value contre-intuitive en 2026, et invisible tant qu'on reste
       dans le cycle HTTP normal.
     verification_status: VERIFIED
     official_sources:
@@ -1381,12 +1381,12 @@ flashcards:
     explanation: >-
       Le commentaire du code le dit : « making it also safe to be embedded into
       HTML ». Conséquence directe, une `JsonResponse` ne produit **pas** la
-      même chaîne que `json_encode()` nu — `<b>` devient `\u003Cb\u003E`.
+      même string que `json_encode()` nu — `<b>` devient `\u003Cb\u003E`.
       Un test qui compare au résultat de `json_encode()` échoue pour cette
       seule raison.
     memorization_justification: >-
-      Valeur numérique opaque dont l'effet est visible dans la sortie et
-      surprend à la première comparaison de chaînes.
+      Valeur numérique opaque dont l'effet est visible dans l'output et
+      surprend à la première comparaison de strings.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/JsonResponse.php"
@@ -1401,15 +1401,15 @@ flashcards:
     language: fr
     level: RECALL
     front: "Symfony : quelles sont les cinq sous-classes de `Response` à connaître, et ce qui les distingue ?"
-    back: "`JsonResponse` (encode et pose le type), `RedirectResponse` (pose `Location`, 302 par défaut), `BinaryFileResponse` (fichier, requêtes de plage), `StreamedResponse` (corps produit par un callable), `StreamedJsonResponse` (JSON diffusé depuis un itérable)."
+    back: "`JsonResponse` (encode et pose le type), `RedirectResponse` (pose `Location`, 302 par défaut), `BinaryFileResponse` (file, Requests de plage), `StreamedResponse` (corps produit par un callable), `StreamedJsonResponse` (JSON diffusé depuis un itérable)."
     explanation: >-
-      Choisir la sous-classe plutôt que poser les en-têtes à la main, c'est
+      Choisir la sous-classe plutôt que poser les headers à la main, c'est
       hériter des règles qui vont avec : `RedirectResponse` valide son statut,
       `JsonResponse` échappe pour HTML, `BinaryFileResponse` sait répondre à un
       `Range`. Un `new Response(json_encode($d))` n'a aucune de ces garanties.
     memorization_justification: >-
       Liste fermée, et le choix se fait au moment d'écrire la ligne de retour :
-      chercher la classe après coup coûte plus que la connaître.
+      chercher la class après coup coûte plus que la connaître.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/http_foundation.rst"
@@ -1427,13 +1427,13 @@ flashcards:
     front: "Symfony : qui appelle `Response::send()`, et avec quel argument ?"
     back: "Le runner du composant Runtime, derrière `public/index.php` : `HttpKernelRunner::run()` appelle `send(false)`."
     explanation: >-
-      Un contrôleur **rend** une `Response` ; il ne l'émet pas. Le `false`
-      saute la clôture des tampons à l'intérieur de `send()`, parce que le
+      Un controller **rend** une `Response` ; il ne l'émet pas. Le `false`
+      saute la clôture des buffers à l'intérieur de `send()`, parce que le
       runner exécute lui-même `fastcgi_finish_request()` (sauf en debug) avant
       d'appeler `terminate()`. C'est de là que vient la promesse de
-      `kernel.terminate` : ses écouteurs tournent après le relâchement du client.
+      `kernel.terminate` : ses listeners tournent après le relâchement du client.
     memorization_justification: >-
-      Chaîne d'appels invisible depuis le code applicatif, et qui explique un
+      String d'appels invisible depuis le code applicatif, et qui explique un
       comportement — `kernel.terminate` — qu'on utilise sans savoir d'où il vient.
     verification_status: VERIFIED
     official_sources:
@@ -1449,14 +1449,14 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "Pourquoi `isOk()` et `isSuccessful()` ne sont-elles pas la même chose ?"
-    back: "`isOk()` teste **200 exactement** ; `isSuccessful()` teste toute la classe 2xx."
+    back: "`isOk()` teste **200 exactement** ; `isSuccessful()` teste toute la class 2xx."
     explanation: >-
       La même logique vaut pour `isNotFound()`, qui teste 404 exactement, face
-      à `isClientError()` qui couvre 4xx. Un test fonctionnel qui assertait
+      à `isClientError()` qui couvre 4xx. Un functional test qui assertait
       `isSuccessful()` passe donc sur un 201 ou un 204 — ce qui est parfois
       voulu, et parfois exactement le bug qu'on croyait couvert.
     memorization_justification: >-
-      Deux méthodes proches dont l'une est un cas particulier de l'autre ; le
+      Deux methods proches dont l'une est un cas particulier de l'autre ; le
       nom `isOk` ne dit pas laquelle est la plus stricte.
     verification_status: VERIFIED
     official_sources:
@@ -1476,10 +1476,10 @@ flashcards:
     explanation: >-
       La conséquence est directe et contre-intuitive : `new RedirectResponse($u, 304)`
       **échoue**, alors que `new RedirectResponse($u, 201)` est **accepté** —
-      201 porte un `Location`, 304 n'en porte pas. La même classe refuse aussi
+      201 porte un `Location`, 304 n'en porte pas. La même class refuse aussi
       une URL vide, via `setTargetUrl()`.
     memorization_justification: >-
-      La validation s'appuie sur une liste que rien dans le nom de la classe
+      La validation s'appuie sur une liste que rien dans le nom de la class
       ne laisse deviner ; deux codes 3xx y sont refusés et un code 2xx accepté.
     verification_status: VERIFIED
     official_sources:
@@ -1503,8 +1503,8 @@ flashcards:
       `text/javascript`, et retirer le callback doit pouvoir revenir à
       `application/json`.
     memorization_justification: >-
-      Règle conditionnelle dans une méthode qu'on croit inconditionnelle ;
-      elle décide si un en-tête personnalisé survit.
+      Règle conditionnelle dans une method qu'on croit inconditionnelle ;
+      elle décide si un header personnalisé survit.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/JsonResponse.php"
@@ -1519,16 +1519,16 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "Pourquoi `RedirectResponse` retire-t-il `cache-control` sur un 301 ?"
-    back: "Pour laisser la redirection permanente être mise en cache : `Response` pose `no-cache, private` par défaut, ce qui l'en empêcherait."
+    back: "Pour laisser le redirect permanent être mise en cache : `Response` pose `no-cache, private` par défaut, ce qui l'en empêcherait."
     explanation: >-
       Le retrait est conditionnel — il n'a lieu que si l'appelant n'a **pas**
-      fourni lui-même un `cache-control` dans les en-têtes du constructeur. La
+      fourni lui-même un `cache-control` dans les headers du constructeur. La
       distinction rejoint la RFC : 301 et 308 sont *heuristically cacheable*,
       302 ne l'est pas. Le framework aligne donc son défaut sur la sémantique
       du code choisi.
     memorization_justification: >-
       Effet de bord silencieux, conditionné à un argument du constructeur, et
-      qui ne se produit que pour un seul code de statut.
+      qui ne se produit que pour un seul status code.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/RedirectResponse.php"
@@ -1542,17 +1542,17 @@ flashcards:
     official_item: OIT-jh06tkfrhthq
     language: fr
     level: APPLICATION
-    front: "Que contient le corps de la réponse produite par `new RedirectResponse('/login')` ?"
+    front: "Que contient le body de la Response produite par `new RedirectResponse('/login')` ?"
     back: "Une page HTML complète, avec un `meta http-equiv=\"refresh\"` et un lien cliquable vers l'URL."
     explanation: >-
-      Le corps n'est pas vide : `setTargetUrl()` écrit un document entier, pose
+      Le body n'est pas vide : `setTargetUrl()` écrit un document entier, pose
       `Location` et `Content-Type: text/html; charset=utf-8`. L'URL y est
       passée par `htmlspecialchars(..., ENT_QUOTES)`, ce qui est indispensable
       puisqu'elle est réinjectée trois fois dans du HTML. C'est le repli pour
-      les clients qui ne suivent pas la redirection.
+      les clients qui ne suivent pas le redirect.
     memorization_justification: >-
-      Contredit l'attente « une redirection n'a pas de corps », et se vérifie
-      dès qu'un test fonctionnel lit le contenu.
+      Contredit l'attente « un redirect n'a pas de corps », et se vérifie
+      dès qu'un functional test lit le contenu.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/RedirectResponse.php"
@@ -1567,13 +1567,13 @@ flashcards:
     language: fr
     level: APPLICATION
     front: "Que produit `new JsonResponse()` sans argument ?"
-    back: "`{}` — le constructeur remplace `null` par un `\\ArrayObject` vide, qui s'encode en objet et non en `null`."
+    back: "`{}` — le constructeur remplace `null` par un `\\ArrayObject` vide, qui s'encode en object et non en `null`."
     explanation: >-
-      C'est délibéré, et la classe cite la fiche OWASP correspondante : une
-      réponse JSON doit porter un **objet** à la racine. `new JsonResponse([])`
-      donnerait `[]`, un tableau — la différence compte pour un client typé.
+      C'est délibéré, et la class cite la fiche OWASP correspondante : une
+      Response JSON doit porter un **object** à la racine. `new JsonResponse([])`
+      donnerait `[]`, un array — la différence compte pour un client typé.
     memorization_justification: >-
-      Valeur par défaut choisie pour une raison de sécurité, que ni la
+      Default value choisie pour une raison de sécurité, que ni la
       signature ni l'appel ne laissent voir.
     verification_status: VERIFIED
     official_sources:
@@ -1588,16 +1588,16 @@ flashcards:
     official_item: OIT-jh06tkfrhthq
     language: fr
     level: APPLICATION
-    front: "Dans un test fonctionnel, que renvoie `getContent()` sur une `StreamedResponse` ?"
-    back: "`false`. La classe le renvoie littéralement : il n'y a pas de contenu en mémoire à rendre."
+    front: "Dans un functional test, que renvoie `getContent()` sur une `StreamedResponse` ?"
+    back: "`false`. La class le renvoie littéralement : il n'y a pas de contenu en mémoire à rendre."
     explanation: >-
       Pour lire ce qui est diffusé, il faut exécuter le flux et capturer la
       sortie — par exemple avec `ob_start()` autour de `sendContent()`. Dans le
       même esprit, `setContent()` avec autre chose que `null` lève une
-      `\LogicException` : on ne peut pas donner un corps à une réponse dont le
+      `\LogicException` : on ne peut pas donner un body à une Response dont le
       corps est un callable.
     memorization_justification: >-
-      Valeur de retour atypique — `false`, pas une chaîne vide — qui fait
+      Return value atypique — `false`, pas une string vide — qui fait
       échouer une assertion de test sans expliquer pourquoi.
     verification_status: VERIFIED
     official_sources:
@@ -1612,15 +1612,15 @@ flashcards:
     official_item: OIT-jh06tkfrhthq
     language: fr
     level: APPLICATION
-    front: "Une `StreamedResponse` est envoyée deux fois. Le corps part-il deux fois ?"
+    front: "Une `StreamedResponse` est envoyée deux fois. Le body part-il deux fois ?"
     back: "Non : `sendContent()` pose un drapeau `streamed` au premier passage et ne rappelle plus le callable."
     explanation: >-
       `sendHeaders()` a la même protection de son côté. Et si aucun callable
       n'a été fourni, `sendContent()` lève une `\LogicException` : « The
-      Response callback must be set ». Une réponse diffusée est donc, par
+      Response callback must be set ». Une Response diffusée est donc, par
       construction, à usage unique.
     memorization_justification: >-
-      Comportement non répétable d'une méthode d'émission, là où une `Response`
+      Comportement non répétable d'une method d'émission, là où une `Response`
       ordinaire peut être renvoyée sans conséquence.
     verification_status: VERIFIED
     official_sources:
@@ -1639,13 +1639,13 @@ flashcards:
     back: "Faux par défaut : `JsonResponse` ajoute quatre options d'échappement HTML que `json_encode()` n'applique pas."
     explanation: >-
       `<`, `>`, `'`, `&` et le guillemet droit sortent sous forme `\uXXXX`. Le JSON reste
-      valide et se décode à l'identique — seule la **chaîne** diffère. D'où la
+      valide et se décode à l'identique — seule la **string** diffère. D'où la
       règle de test : comparer les données décodées, jamais les octets.
       `setEncodingOptions()` permet de changer ce choix, au prix de la sûreté
       d'insertion dans du HTML.
     memorization_justification: >-
       Différence invisible à la lecture du code appelant, qui ne se manifeste
-      que par un échec d'assertion sur une chaîne.
+      que par un échec d'assertion sur une string.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/JsonResponse.php"
@@ -1659,17 +1659,17 @@ flashcards:
     official_item: OIT-jh06tkfrhthq
     language: fr
     level: TRAP
-    front: "Les en-têtes sont déjà partis quand `sendHeaders()` est appelé. Quelle erreur obtient-on ?"
-    back: "Pas d'exception, mais un `E_WARNING` hors des SAPI `cli`, `phpdbg` et `embed` : la méthode tente de réémettre la ligne de statut, et ce `header()` tardif échoue."
+    front: "Les headers sont déjà partis quand `sendHeaders()` est appelé. Quelle erreur obtient-on ?"
+    back: "Pas d'exception, mais un `E_WARNING` hors des SAPI `cli`, `phpdbg` et `embed` : la method tente de réémettre la ligne de statut, et ce `header()` tardif échoue."
     explanation: >-
-      Exécuté sous `php -S` sans tampon de sortie : un `echo` avant `send()`
+      Exécuté sous `php -S` sans buffer de sortie : un `echo` avant `send()`
       produit « Cannot modify header information - headers already sent » depuis
-      `Response.php`, et un 404 arrive au client en 200. Les en-têtes que la
-      réponse voulait poser, cookies compris, sont perdus. En `cli`, rien n'est
+      `Response.php`, et un 404 arrive au client en 200. Les headers que la
+      Response voulait poser, cookies compris, sont perdus. En `cli`, rien n'est
       tenté, donc rien n'est signalé.
     memorization_justification: >-
       Échec silencieux : rien dans les journaux ne rattache la disparition des
-      en-têtes à sa cause.
+      headers à sa cause.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php"
@@ -1687,12 +1687,12 @@ flashcards:
     back: "Un `ResponseHeaderBag` — et c'est lui qui porte les **cookies**, pas un sac séparé."
     explanation: >-
       `setCookie()`, `removeCookie()` et `clearCookie()` vivent sur ce sac. Un
-      cookie n'est donc pas une propriété de la réponse mais un en-tête en
-      attente de sérialisation, ce qui explique pourquoi il disparaît si les
-      en-têtes sont déjà partis. Côté requête, `$request->cookies` est un
+      cookie n'est donc pas une property de la Response mais un header en
+      attente de serialization, ce qui explique pourquoi il disparaît si les
+      headers sont déjà partis. Côté Request, `$request->cookies` est un
       `InputBag` : les deux côtés ne se ressemblent pas.
     memorization_justification: >-
-      Asymétrie entre requête et réponse pour une même notion, et emplacement
+      Asymétrie entre Request et Response pour une même notion, et emplacement
       non deviné d'une API qu'on cherche ailleurs.
     verification_status: VERIFIED
     official_sources:
@@ -1707,15 +1707,15 @@ flashcards:
     official_item: OIT-jh06tkfrhthq
     language: fr
     level: TRAP
-    front: "`JsonResponse::fromJsonString($data)` reçoit un tableau. Que se passe-t-il ?"
-    back: "Une `\\TypeError` : avec `$json = true`, l'argument doit être une chaîne, un nombre ou un objet `\\Stringable`."
+    front: "`JsonResponse::fromJsonString($data)` reçoit un array. Que se passe-t-il ?"
+    back: "Une `\\TypeError` : avec `$json = true`, l'argument doit être une string, un nombre ou un object `\\Stringable`."
     explanation: >-
-      La fabrique existe pour du JSON **déjà encodé** — une charge produite par
-      le sérialiseur, par exemple — et lui passer un tableau reviendrait à
-      écrire `Array` dans le corps. Le contrôle est fait dans le constructeur,
+      La factory existe pour du JSON **déjà encodé** — une charge produite par
+      le sérialiseur, par exemple — et lui passer un array reviendrait à
+      écrire `Array` dans le body. Le contrôle est fait dans le constructeur,
       avant tout encodage.
     memorization_justification: >-
-      Deux points d'entrée de la même classe attendent des types opposés ; le
+      Deux entry points de la même class attendent des types opposés ; le
       nom `fromJsonString` est le seul indice, et il est facile à survoler.
     verification_status: VERIFIED
     official_sources:
@@ -1738,13 +1738,13 @@ flashcards:
     official_item: OIT-qnm508g1ktqm
     language: fr
     level: RECALL
-    front: "RFC 9110 §9.2 : quelles méthodes la spécification déclare-t-elle sûres, et lesquelles idempotentes ?"
+    front: "RFC 9110 §9.2 : quelles methods la spécification déclare-t-elle sûres, et lesquelles idempotentes ?"
     back: "Sûres : GET, HEAD, OPTIONS, TRACE. Idempotentes : « PUT, DELETE, and safe request methods »."
     explanation: >-
-      L'inclusion est écrite dans le texte : toute méthode sûre est
+      L'inclusion est écrite dans le texte : toute safe method est
       idempotente, la réciproque est fausse. POST et PATCH ne sont dans aucune
       des deux listes. Attention au périmètre de la phrase : « of the request
-      methods **defined by this specification** » — une méthode définie
+      methods **defined by this specification** » — une method définie
       ailleurs, comme PATCH, n'y figure pas parce qu'elle n'y est pas définie.
     memorization_justification: >-
       Deux listes imbriquées dont l'énoncé exact conditionne toutes les
@@ -1762,7 +1762,7 @@ flashcards:
     official_item: OIT-qnm508g1ktqm
     language: fr
     level: RECALL
-    front: "RFC 9110 §9.2.3 : pour quelles méthodes la spécification définit-elle une sémantique de cache ?"
+    front: "RFC 9110 §9.2.3 : pour quelles methods la spécification définit-elle une sémantique de cache ?"
     back: "GET, HEAD et **POST** — « although the overwhelming majority of cache implementations only support GET and HEAD »."
     explanation: >-
       La RFC dit deux choses dans la même phrase : ce qu'elle définit, et ce
@@ -1770,7 +1770,7 @@ flashcards:
       presque jamais en pratique. Symfony, lui, ne retient ni l'un ni l'autre
       exactement : `isMethodCacheable()` teste GET, HEAD et QUERY.
     memorization_justification: >-
-      Troisième méthode inattendue dans la liste, assortie d'une réserve
+      Troisième method inattendue dans la liste, assortie d'une réserve
       explicite : la question peut porter sur la règle ou sur la pratique.
     verification_status: VERIFIED
     official_sources:
@@ -1789,11 +1789,11 @@ flashcards:
     explanation: >-
       Trois listes écrites en dur, qu'il faut connaître **en tant que listes**
       parce qu'aucune ne coïncide avec la RFC : QUERY s'ajoute aux trois,
-      PURGE — une convention de reverse proxy, pas une méthode standard —
+      PURGE — une convention de reverse proxy, pas une method standard —
       s'ajoute à l'idempotence, et POST n'est cacheable nulle part côté
       Symfony.
     memorization_justification: >-
-      Trois énumérations littérales, dont deux contiennent une méthode que la
+      Trois enums littérales, dont deux contiennent une method que la
       RFC ne définit pas ; rien ne se déduit.
     verification_status: VERIFIED
     official_sources:
@@ -1808,17 +1808,17 @@ flashcards:
     official_item: OIT-qnm508g1ktqm
     language: fr
     level: RECALL
-    front: "RFC 9110 : que dit-elle du corps et du cache pour TRACE et OPTIONS ?"
-    back: "« A client MUST NOT send content in a TRACE request » ; les réponses à TRACE **et** à OPTIONS ne sont pas cacheables."
+    front: "RFC 9110 : que dit-elle du body et du cache pour TRACE et OPTIONS ?"
+    back: "« A client MUST NOT send content in a TRACE request » ; les Responses à TRACE **et** à OPTIONS ne sont pas cacheables."
     explanation: >-
-      TRACE demande un écho applicatif de la requête : le destinataire final
-      renvoie le message reçu en contenu d'une réponse 200. D'où l'interdiction
-      du corps, et l'avertissement de la RFC de ne jamais y mettre de données
-      sensibles — elles reviendraient dans la réponse. `Max-Forwards` limite la
-      longueur de la chaîne parcourue.
+      TRACE demande un écho applicatif de la Request : le destinataire final
+      renvoie le message reçu en contenu d'une Response 200. D'où l'interdiction
+      du body, et l'avertissement de la RFC de ne jamais y mettre de données
+      sensibles — elles reviendraient dans la Response. `Max-Forwards` limite la
+      longueur de la string parcourue.
     memorization_justification: >-
-      Deux méthodes sûres mais non cacheables, avec pour TRACE une interdiction
-      explicite qu'aucune autre méthode ne porte.
+      Deux safe methods mais non cacheables, avec pour TRACE une interdiction
+      explicite qu'aucune autre method ne porte.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
@@ -1831,12 +1831,12 @@ flashcards:
     official_item: OIT-qnm508g1ktqm
     language: fr
     level: UNDERSTANDING
-    front: "Le nom d'une méthode HTTP est-il sensible à la casse ?"
-    back: "Oui — et la RFC donne la raison : la méthode « might be used as a gateway to object-based systems with case-sensitive method names »."
+    front: "Le nom d'une method HTTP est-il sensible à la casse ?"
+    back: "Oui — et la RFC donne la raison : la method « might be used as a gateway to object-based systems with case-sensitive method names »."
     explanation: >-
-      C'est l'exact inverse des **noms de champs**, que §5.1 déclare
+      C'est l'exact inverse des **noms de fields**, que §5.1 déclare
       insensibles à la casse. `get` n'est donc pas `GET`, alors que
-      `content-type` est bien `Content-Type`. La convention — méthodes
+      `content-type` est bien `Content-Type`. La convention — methods
       standardisées en majuscules US-ASCII — est une convention, pas la règle.
     memorization_justification: >-
       Deux règles de casse opposées dans le même document, à deux endroits
@@ -1854,9 +1854,9 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "« Sûre » garantit-elle qu'un GET ne modifie rien sur le serveur ?"
-    back: "Non. La RFC écrit que cette définition « does not prevent an implementation from including behavior that is potentially harmful »."
+    back: "Non. La RFC écrit que cette definition « does not prevent an implementation from including behavior that is potentially harmful »."
     explanation: >-
-      La sûreté est une propriété de la **sémantique demandée**, pas du code
+      La sûreté est une property de la **sémantique demandée**, pas du code
       exécuté : elle décrit ce que le client demande et attend, pas ce que le
       serveur fait. Un GET qui incrémente un compteur viole le contrat sans que
       rien ne l'en empêche. C'est pourquoi la RFC met en garde contre les effets
@@ -1877,14 +1877,14 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "Que demande exactement un DELETE, d'après RFC 9110 ?"
-    back: "De supprimer **l'association** entre l'URI et sa fonction — « similar to the `rm` command in UNIX » — et non forcément les données."
+    back: "De supprimer **l'association** entre l'URI et sa function — « similar to the `rm` command in UNIX » — et non forcément les données."
     explanation: >-
       Les représentations existantes « might or might not be destroyed », et
       l'espace de stockage « might or might not be reclaimed ». Un DELETE
       conforme peut donc être une suppression logique, ce qui rend l'idempotence
-      cohérente : ce que la requête demande est déjà obtenu au second appel.
+      cohérente : ce que la Request demande est déjà obtenu au second appel.
     memorization_justification: >-
-      La méthode porte le nom d'une opération physique alors qu'elle décrit une
+      La method porte le nom d'une opération physique alors qu'elle décrit une
       opération sur la table des URI ; l'analogie `rm` est dans le texte même.
     verification_status: VERIFIED
     official_sources:
@@ -1921,12 +1921,12 @@ flashcards:
     official_item: OIT-qnm508g1ktqm
     language: fr
     level: APPLICATION
-    front: "Une requête est un POST. Que renvoie `$request->isMethodCacheable()` ?"
+    front: "Une Request est un POST. Que renvoie `$request->isMethodCacheable()` ?"
     back: "`false` — alors que RFC 9110 §9.2.3 définit bien une sémantique de cache pour POST."
     explanation: >-
-      Les deux réponses sont justes, chacune dans son référentiel : une question
+      Les deux Responses sont justes, chacune dans son référentiel : une question
       sur la RFC et une question sur Symfony n'appellent pas la même. Et la
-      liste de Symfony a une portée réelle : `Response::isNotModified()` s'ouvre
+      liste de Symfony a un scope réel : `Response::isNotModified()` s'ouvre
       sur `isMethodCacheable()`, donc la validation conditionnelle suit
       exactement GET, HEAD et QUERY.
     memorization_justification: >-
@@ -1950,15 +1950,15 @@ flashcards:
     official_item: OIT-qnm508g1ktqm
     language: fr
     level: APPLICATION
-    front: "Symfony : pour quelles méthodes `createFromGlobals()` analyse-t-elle elle-même le corps de la requête ?"
+    front: "Symfony : pour quelles methods `createFromGlobals()` analyse-t-elle elle-même le body de la Request ?"
     back: "PUT, DELETE, PATCH et QUERY — via `request_parse_body()`, parce que PHP ne remplit `$_POST` que pour un POST."
     explanation: >-
-      Pour toute autre méthode, la fabrique se contente des superglobales. Si
+      Pour toute autre method, la factory se contente des superglobales. Si
       l'analyse échoue, elle retombe sur `$_POST` et `$_FILES` plutôt que de
       lever. C'est ce qui permet à `$request->request` de contenir quelque chose
-      sur un PUT de formulaire, là où PHP nu laisserait le tableau vide.
+      sur un PUT de form, là où PHP nu laisserait l'array vide.
     memorization_justification: >-
-      Liste de quatre méthodes traitées à part dans une méthode qu'on croit
+      Liste de quatre methods traitées à part dans une method qu'on croit
       uniforme, et qui explique une différence de comportement observable.
     verification_status: VERIFIED
     official_sources:
@@ -1974,15 +1974,15 @@ flashcards:
     language: fr
     level: APPLICATION
     front: "Que signifie `OPTIONS * HTTP/1.1` ?"
-    back: "La requête porte sur le **serveur en général**, pas sur une ressource : c'est un ping ou un no-op."
+    back: "La Request porte sur le **serveur en général**, pas sur une ressource : c'est un ping ou un no-op."
     explanation: >-
       La RFC le dit dans ces termes : la forme astérisque « is only useful as a
       *ping* or *no-op* type of method », puisque les options dépendent
-      normalement de la ressource. Une réponse OPTIONS peut porter un corps
+      normalement de la ressource. Une Response OPTIONS peut porter un body
       décrivant les options, avec un `Content-Type` — mais la spécification ne
       définit aucun usage pour ce contenu.
     memorization_justification: >-
-      Forme de cible de requête sans équivalent ailleurs dans le protocole, et
+      Forme de cible de Request sans équivalent ailleurs dans le protocole, et
       dont l'usage réel est étroit.
     verification_status: VERIFIED
     official_sources:
@@ -1996,16 +1996,16 @@ flashcards:
     official_item: OIT-qnm508g1ktqm
     language: fr
     level: APPLICATION
-    front: "Une réponse à HEAD doit-elle porter les mêmes en-têtes qu'à GET ?"
+    front: "Une Response à HEAD doit-elle porter les mêmes headers qu'à GET ?"
     back: "Le serveur **SHOULD** envoyer les mêmes, mais **MAY** omettre ceux qui ne se déterminent qu'en produisant le contenu."
     explanation: >-
       HEAD est « identical to GET except that the server MUST NOT send content
-      in the response ». L'exemple de la RFC : un serveur qui met en tampon une
-      réponse dynamique pour calculer `Content-Length` peut ne pas le faire pour
+      in the response ». L'exemple de la RFC : un serveur qui met en buffer une
+      Response dynamique pour calculer `Content-Length` peut ne pas le faire pour
       un HEAD. Conclure d'un HEAD que `Content-Length` sera présent sur le GET
       correspondant est donc une inférence, pas une garantie.
     memorization_justification: >-
-      Un MUST NOT, un SHOULD et un MAY dans la même définition : seule la
+      Un MUST NOT, un SHOULD et un MAY dans la même definition : seule la
       hiérarchie exacte permet de répondre.
     verification_status: VERIFIED
     official_sources:
@@ -2019,17 +2019,17 @@ flashcards:
     official_item: OIT-qnm508g1ktqm
     language: fr
     level: TRAP
-    front: "Où RFC 9110 définit-elle la méthode PATCH ?"
+    front: "Où RFC 9110 définit-elle la method PATCH ?"
     back: "Nulle part. PATCH est définie par RFC 5789 ; 9110 ne fait que la mentionner en y renvoyant."
     explanation: >-
       Les trois seules occurrences du mot dans le document renvoient à
-      `[RFC5789]` : l'en-tête `Accept-Patch`, la mise à jour partielle citée en
+      `[RFC5789]` : le header `Accept-Patch`, la mise à jour partielle citée en
       §14.4, et la référence bibliographique. C'est aussi pourquoi PATCH
       n'apparaît dans aucune des listes de §9.2 : ces listes portent sur « the
       request methods **defined by this specification** ».
     memorization_justification: >-
       Absence structurante : elle explique pourquoi PATCH manque aux listes de
-      propriétés, ce qu'on interprète autrement comme un oubli.
+      properties, ce qu'on interprète autrement comme un oubli.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
@@ -2042,10 +2042,10 @@ flashcards:
     official_item: OIT-qnm508g1ktqm
     language: fr
     level: TRAP
-    front: "`$request->isMethodIdempotent()` renvoie `true` sur une méthode `PURGE`. Est-ce une erreur ?"
-    back: "Non : `PURGE` est bien dans la liste de Symfony. Ce n'est pourtant pas une méthode standard, mais une convention de reverse proxy."
+    front: "`$request->isMethodIdempotent()` renvoie `true` sur une method `PURGE`. Est-ce une erreur ?"
+    back: "Non : `PURGE` est bien dans la liste de Symfony. Ce n'est pourtant pas une method standard, mais une convention de reverse proxy."
     explanation: >-
-      Elle ne figure ni dans RFC 9110 ni dans le registre des méthodes HTTP.
+      Elle ne figure ni dans RFC 9110 ni dans le registre des methods HTTP.
       Symfony la reconnaît parce que les caches qui l'emploient — Varnish et
       apparentés — la traitent comme rejouable sans effet supplémentaire. Répondre
       « PURGE n'existe pas donc `false` » est donc faux **en Symfony**, et juste
@@ -2066,11 +2066,11 @@ flashcards:
     official_item: OIT-qnm508g1ktqm
     language: fr
     level: TRAP
-    front: "Combien de méthodes `isMethodSafe()` reconnaît-il, et combien la RFC en déclare-t-elle sûres ?"
+    front: "Combien de methods `isMethodSafe()` reconnaît-il, et combien la RFC en déclare-t-elle sûres ?"
     back: "Cinq côté Symfony — GET, HEAD, OPTIONS, TRACE, QUERY — contre quatre dans RFC 9110, qui ne définit pas QUERY."
     explanation: >-
-      L'écart va dans les deux sens selon la propriété : Symfony ajoute QUERY
-      aux méthodes sûres et QUERY plus PURGE aux idempotentes, mais **retire**
+      L'écart va dans les deux sens selon la property : Symfony ajoute QUERY
+      aux safe methods et QUERY plus PURGE aux idempotentes, mais **retire**
       POST des cacheables, que la RFC y met. Aucune des trois listes n'est donc
       « la RFC plus QUERY ».
     memorization_justification: >-
@@ -2095,16 +2095,16 @@ flashcards:
     language: fr
     level: TRAP
     front: "Une API renvoie 200 à un `DELETE` déjà appliqué, puis 404 au suivant. L'idempotence est-elle rompue ?"
-    back: "Non. L'idempotence porte sur l'effet sur le serveur de requêtes répétées, pas sur l'égalité des réponses."
+    back: "Non. L'idempotence porte sur l'effet sur le serveur de Requests répétées, pas sur l'égalité des Responses."
     explanation: >-
       La formulation de §9.2.2 est sans ambiguïté : « the intended effect on the
       server of multiple identical requests … is the same as the effect for a
-      single such request ». Le code de statut peut varier ; l'état final, non.
-      La RFC ajoute qu'un serveur reste libre de journaliser chaque requête ou
+      single such request ». Le status code peut varier ; l'état final, non.
+      La RFC ajoute qu'un serveur reste libre de journaliser chaque Request ou
       d'en garder un historique de révisions.
     memorization_justification: >-
       Le contre-exemple qui vient à l'esprit — deux codes différents — porte sur
-      la mauvaise grandeur ; la définition doit être connue mot pour mot.
+      la mauvaise grandeur ; la definition doit être connue mot pour mot.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
@@ -2125,16 +2125,16 @@ flashcards:
     official_item: OIT-bz1f5nh8g9b2
     language: fr
     level: RECALL
-    front: "Symfony : quels attributs `Cookie::create('x')` pose-t-il sans qu'on demande rien ?"
+    front: "Symfony : quels attributes `Cookie::create('x')` pose-t-il sans qu'on demande rien ?"
     back: "`path` = `/`, `httpOnly` = `true`, `sameSite` = `lax`, `secure` = `null` (auto en HTTPS), `expire` = 0, `raw` et `partitioned` = `false`."
     explanation: >-
       Un cookie créé sans arguments n'est donc pas nu : il est déjà `httponly`
       et `lax`. L'erreur d'examen consiste à croire l'inverse et à « ajouter »
-      une sécurité qui est déjà là — ou à croire qu'un `secure` à `null` veut
+      une security qui est déjà là — ou à croire qu'un `secure` à `null` veut
       dire « non sécurisé ».
     memorization_justification: >-
-      Sept valeurs par défaut invisibles à l'appel, dont trois portent
-      directement sur la sécurité.
+      Sept default values invisibles à l'appel, dont trois portent
+      directement sur la security.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Cookie.php"
@@ -2151,13 +2151,13 @@ flashcards:
     front: "Symfony : `Cookie::fromString()` a-t-elle les mêmes défauts que `create()` ?"
     back: "Non, et ils sont bien moins sûrs : `secure` = `false`, `httponly` = `false`, `samesite` = `null`."
     explanation: >-
-      Sa table interne est écrite en clair dans la méthode. Reconstruire un
-      cookie depuis un en-tête brut ne fabrique donc **pas** un cookie sûr : les
-      attributs absents de la chaîne restent absents, alors que `create()` les
+      Sa table interne est écrite en clair dans la method. Reconstruire un
+      cookie depuis un header brut ne fabrique donc **pas** un cookie sûr : les
+      attributes absents de la string restent absents, alors que `create()` les
       aurait posés. Seul `path` vaut `/` dans les deux cas.
     memorization_justification: >-
-      Deux fabriques de la même classe avec des défauts opposés sur trois
-      attributs de sécurité ; rien dans les noms ne le signale.
+      Deux fabriques de la même class avec des défauts opposés sur trois
+      attributes de sécurité ; rien dans les noms ne le signale.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Cookie.php"
@@ -2171,16 +2171,16 @@ flashcards:
     official_item: OIT-bz1f5nh8g9b2
     language: fr
     level: RECALL
-    front: "Dans quel ordre les attributs sont-ils sérialisés dans l'en-tête `Set-Cookie` par Symfony ?"
+    front: "Dans quel ordre les attributes sont-ils sérialisés dans le header `Set-Cookie` par Symfony ?"
     back: "valeur, puis `expires` et `Max-Age`, puis `path`, `domain`, `secure`, `httponly`, `samesite`, et `partitioned` en dernier."
     explanation: >-
-      L'ordre est celui des `if` successifs de `__toString()`. Chaque attribut
+      L'ordre est celui des `if` successifs de `__toString()`. Chaque attribute
       n'est écrit que s'il est renseigné : pas de `domain` vide, pas de
       `samesite` à `null`. `expires` et `Max-Age` partent ensemble ou pas du
       tout — un cookie de session n'a ni l'un ni l'autre.
     memorization_justification: >-
-      Ordre fixe et conditionnel, que seule la lecture de la sérialisation
-      révèle ; utile dès qu'on compare un en-tête attendu à un en-tête réel.
+      Ordre fixe et conditionnel, que seule la lecture de la serialization
+      révèle ; utile dès qu'on compare un header attendu à un header réel.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Cookie.php"
@@ -2195,7 +2195,7 @@ flashcards:
     language: fr
     level: RECALL
     front: "Que le navigateur exige-t-il d'un cookie nommé `__Host-…`, et d'un cookie nommé `__Secure-…` ?"
-    back: "`__Secure-` : l'attribut `Secure`. `__Host-` : `Secure`, `Path=/` et **aucun** `Domain`."
+    back: "`__Secure-` : l'attribute `Secure`. `__Host-` : `Secure`, `Path=/` et **aucun** `Domain`."
     explanation: >-
       Ce sont des règles de **nommage**, tenues par le navigateur, qu'aucune API
       ne pose. Le serveur écrit le préfixe exactement ; le navigateur le
@@ -2219,14 +2219,14 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "Pourquoi `secure: null` ne veut-il pas dire « non sécurisé » ?"
-    back: "Parce que `isSecure()` est `$this->secure ?? $this->secureDefault` : `null` délègue la décision à un défaut posé d'après la requête."
+    back: "Parce que `isSecure()` est `$this->secure ?? $this->secureDefault` : `null` délègue la décision à un défaut posé d'après la Request."
     explanation: >-
-      Le défaut est renseigné par `setSecureDefault()` quand la requête courante
+      Le défaut est renseigné par `setSecureDefault()` quand la Request courante
       est déjà en HTTPS. Conséquence : le même code produit un cookie `secure`
       en production et non `secure` en HTTP local, ce qui est voulu — forcer
       `true` sur un site servi en HTTP empêcherait le cookie d'être posé.
     memorization_justification: >-
-      Troisième état d'un booléen, dont l'effet dépend du contexte d'exécution
+      Troisième état d'un bool, dont l'effet dépend du contexte d'exécution
       et non de la valeur écrite.
     verification_status: VERIFIED
     official_sources:
@@ -2242,15 +2242,15 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "`removeCookie()` et `clearCookie()` : laquelle efface le cookie chez le client ?"
-    back: "`clearCookie()`. `removeCookie()` retire seulement le `Set-Cookie` de la réponse — « does not unset it in the browser », dit son docblock."
+    back: "`clearCookie()`. `removeCookie()` retire seulement le `Set-Cookie` de la Response — « does not unset it in the browser », dit son docblock."
     explanation: >-
-      `removeCookie()` agit sur le tableau interne du sac, indexé par domaine
-      puis par chemin. `clearCookie()` **ajoute** au contraire un cookie dont
+      `removeCookie()` agit sur l'array interne du sac, indexé par domaine
+      puis par path. `clearCookie()` **ajoute** au contraire un cookie dont
       l'expiration est dans le passé : c'est cet envoi qui demande au navigateur
       d'oublier le sien. Annuler l'intention d'écrire et demander l'effacement
       sont deux actions opposées.
     memorization_justification: >-
-      Deux méthodes voisines dont les noms suggèrent le même effet alors que
+      Deux methods voisines dont les noms suggèrent le même effet alors que
       l'une n'envoie rien du tout.
     verification_status: VERIFIED
     official_sources:
@@ -2265,7 +2265,7 @@ flashcards:
     official_item: OIT-bz1f5nh8g9b2
     language: fr
     level: UNDERSTANDING
-    front: "L'attribut `Domain` restreint-il la portée d'un cookie ?"
+    front: "L'attribute `Domain` restreint-il le scope d'un cookie ?"
     back: "Non, il l'**élargit** : c'est son absence qui restreint. Sans `Domain`, « the user agent will return the cookie only to the origin server »."
     explanation: >-
       Avec `Domain=site.example`, le cookie part vers `site.example`,
@@ -2273,10 +2273,10 @@ flashcards:
       revanche un `Domain` qui n'inclurait pas le serveur d'origine — depuis
       `foo.site.example`, `site.example` est accepté mais `bar.site.example` ne
       l'est pas. `Path`, lui, restreint bel et bien, mais la spécification
-      avertit qu'on ne peut pas s'y fier pour la sécurité.
+      avertit qu'on ne peut pas s'y fier pour la security.
     memorization_justification: >-
-      Attribut dont l'effet est l'inverse de ce que son voisinage avec `Path`
-      suggère ; l'erreur conduit à élargir la portée d'un cookie de session en
+      Attribute dont l'effet est l'inverse de ce que son voisinage avec `Path`
+      suggère ; l'erreur conduit à élargir le scope d'un cookie de session en
       croyant la réduire.
     verification_status: VERIFIED
     official_sources:
@@ -2296,11 +2296,11 @@ flashcards:
     explanation: >-
       C'est CHIPS. Le widget reconnaît son visiteur sur `a.test` sans que ce
       soit le même cookie que sur `b.test` : le suivi intersites tombe, l'usage
-      légitime survit. L'attribut n'a de sens qu'avec `Secure` et
+      légitime survit. L'attribute n'a de sens qu'avec `Secure` et
       `SameSite=None`, et Symfony le sérialise **en dernier**, après `samesite`.
     memorization_justification: >-
-      Attribut récent dont l'effet — une partition du stockage — ne se déduit
-      ni de son nom ni de la forme de l'en-tête.
+      Attribute récent dont l'effet — une partition du stockage — ne se déduit
+      ni de son nom ni de la forme du header.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Cookie.php"
@@ -2315,15 +2315,15 @@ flashcards:
     language: fr
     level: APPLICATION
     front: "Le cookie `sid` a été posé avec `secure` et `samesite=lax`. Que produit `clearCookie('sid')` ?"
-    back: "Un cookie d'effacement aux attributs **différents** : `clearCookie()` a ses propres défauts — `secure = false`, `httpOnly = true`, `sameSite = null`."
+    back: "Un cookie d'effacement aux attributes **différents** : `clearCookie()` a ses propres défauts — `secure = false`, `httpOnly = true`, `sameSite = null`."
     explanation: >-
       La signature est `clearCookie($name, $path = '/', $domain = null,
       $secure = false, $httpOnly = true, $sameSite = null, $partitioned = false)`.
       Elle ne relit pas le cookie d'origine : elle en fabrique un neuf. Pour que
       l'effacement porte, il faut lui repasser les mêmes `path`, `domain` — et
-      les mêmes attributs quand le navigateur les compare.
+      les mêmes attributes quand le navigateur les compare.
     memorization_justification: >-
-      Défauts d'une méthode d'effacement qui ne sont pas ceux de la fabrique de
+      Défauts d'une method d'effacement qui ne sont pas ceux de la factory de
       création ; l'oubli produit un effacement qui ne prend pas.
     verification_status: VERIFIED
     official_sources:
@@ -2339,16 +2339,16 @@ flashcards:
     language: fr
     level: APPLICATION
     front: "Comment Symfony sérialise-t-il un cookie dont la valeur est vide ou `null` ?"
-    back: "`nom=deleted; expires=<il y a un an et un jour>; Max-Age=0` — la chaîne littérale `deleted`."
+    back: "`nom=deleted; expires=<il y a un an et un jour>; Max-Age=0` — la string littérale `deleted`."
     explanation: >-
       La branche est explicite dans `__toString()` : valeur vide, donc
       `'deleted'` et une date calculée à `time() - 31536001`. C'est ce que
       produit `clearCookie()`, qui passe `null` comme valeur. Un test qui
-      cherche la valeur d'origine dans l'en-tête d'effacement ne la trouvera
+      cherche la valeur d'origine dans le header d'effacement ne la trouvera
       jamais.
     memorization_justification: >-
-      Chaîne magique produite par le code, invisible depuis l'API, et qu'on
-      rencontre en lisant un en-tête réel.
+      String magique produite par le code, invisible depuis l'API, et qu'on
+      rencontre en lisant un header réel.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Cookie.php"
@@ -2367,11 +2367,11 @@ flashcards:
     explanation: >-
       La ligne est `return 0 < $expire ? (int) $expire : 0;`. Un timestamp
       négatif, censé exprimer « déjà expiré », produit donc exactement le
-      contraire : un cookie qui vit jusqu'à la fermeture du navigateur. Pour
+      contraire : un cookie qui vit jusqu'à la closure du navigateur. Pour
       effacer, il faut un timestamp **passé mais positif** — ce que fait
       `clearCookie()` avec la valeur `1`.
     memorization_justification: >-
-      Normalisation silencieuse qui inverse l'intention ; aucune erreur n'est
+      Normalization silencieuse qui inverse l'intention ; aucune erreur n'est
       levée pour le signaler.
     verification_status: VERIFIED
     official_sources:
@@ -2389,13 +2389,13 @@ flashcards:
     front: "`withSameSite('Strict')` avec une majuscule : accepté ou refusé ?"
     back: "Accepté — la valeur est passée en minuscules avant contrôle. Une valeur hors de la liste lève une `\\InvalidArgumentException`."
     explanation: >-
-      La méthode fait `strtolower()`, traite la chaîne vide comme `null`, puis
+      La method fait `strtolower()`, traite la string vide comme `null`, puis
       vérifie l'appartenance à `[lax, strict, none, null]`. Elle est appelée
       **depuis le constructeur** : un `sameSite` invalide échoue donc dès
-      `Cookie::create()`, pas à la sérialisation.
+      `Cookie::create()`, pas à la serialization.
     memorization_justification: >-
       Contrôle strict mais tolérant à la casse, et déclenché plus tôt qu'on ne
-      l'attend dans le cycle de vie de l'objet.
+      l'attend dans le cycle de vie de l'object.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Cookie.php"
@@ -2412,10 +2412,10 @@ flashcards:
     front: "`Cookie::create('__Host-session')` sans `Secure` : qui se plaint ?"
     back: "Personne côté serveur. Symfony ne connaît pas ces préfixes ; le navigateur jette le cookie en silence."
     explanation: >-
-      Ni `Cookie` ni `ResponseHeaderBag` ne contiennent ces chaînes : la
+      Ni `Cookie` ni `ResponseHeaderBag` ne contiennent ces strings : la
       vérification n'existe pas dans le framework. Le symptôme est donc « la
       session ne tient pas » sans aucune trace dans les journaux, et le code
-      paraît correct. La règle est entièrement du côté de l'agent utilisateur.
+      paraît correct. La règle est entièrement du côté de l'agent user.
     memorization_justification: >-
       Échec silencieux à distance : la cause est dans le nom du cookie, l'effet
       dans le navigateur, et rien ne relie les deux.
@@ -2435,12 +2435,12 @@ flashcards:
     front: "`HttpOnly` protège-t-il du CSRF ?"
     back: "Non. Il empêche la **lecture** par script, pas l'**envoi** automatique par le navigateur. C'est `SameSite` qui traite ce risque."
     explanation: >-
-      Les deux attributs répondent à deux attaques distinctes : `HttpOnly`
+      Les deux attributes répondent à deux attaques distinctes : `HttpOnly`
       atténue le vol de cookie par XSS, `SameSite` atténue l'usage du cookie
       depuis un autre site. Un cookie `httponly` sans `samesite` part toujours
-      avec une requête intersite — et c'est précisément le CSRF.
+      avec une Request intersite — et c'est précisément le CSRF.
     memorization_justification: >-
-      Deux attributs de sécurité qu'on regroupe en « cookie sécurisé » alors
+      Deux attributes de sécurité qu'on regroupe en « cookie sécurisé » alors
       qu'ils ne couvrent pas la même menace.
     verification_status: VERIFIED
     official_sources:
@@ -2456,7 +2456,7 @@ flashcards:
     language: fr
     level: TRAP
     front: "Un cookie est déjà expiré. Que renvoie `getMaxAge()` ?"
-    back: "`0`, jamais un nombre négatif : la méthode est `max(0, $this->expire - time())`."
+    back: "`0`, jamais un nombre négatif : la method est `max(0, $this->expire - time())`."
     explanation: >-
       Pour savoir si un cookie est un cookie d'effacement, l'accesseur à lire
       est `isCleared()` — `0 !== $this->expire && $this->expire < time()` — et
@@ -2483,11 +2483,11 @@ flashcards:
     explanation: >-
       Le contrôle des caractères réservés — `=,; \t\r\n\v\f` — ne s'applique
       qu'en mode `raw` : hors de ce mode, ils sont **encodés** par
-      `__toString()` au lieu d'être refusés. Une chaîne d'expiration part par
+      `__toString()` au lieu d'être refusés. Une string d'expiration part par
       `strtotime()`, et lève « The cookie expiration time is not valid » si elle
       n'est pas comprise.
     memorization_justification: >-
-      Cinq conditions d'échec dont une seule dépend d'un autre paramètre
+      Cinq conditions d'échec dont une seule dépend d'un autre parameter
       (`raw`) ; l'encodage silencieux du cas courant masque la règle.
     verification_status: VERIFIED
     official_sources:
@@ -2533,13 +2533,13 @@ flashcards:
     language: fr
     level: RECALL
     front: "RFC 9111 : que dit `no-cache` sous sa forme **qualifiée**, `no-cache=\"Set-Cookie\"` ?"
-    back: "Que le cache **peut** réutiliser la réponse sans revalider, à condition d'en exclure les champs nommés."
+    back: "Que le cache **peut** réutiliser la Response sans revalider, à condition d'en exclure les fields nommés."
     explanation: >-
       La forme non qualifiée interdit toute réutilisation sans revalidation. La
-      forme qualifiée est donc bien plus permissive : elle protège un en-tête
-      précis, pas la réponse entière. `private` accepte le même argument, avec
-      le même sens — seuls les champs listés sont réservés à un seul
-      utilisateur.
+      forme qualifiée est donc bien plus permissive : elle protège un header
+      précis, pas la Response entière. `private` accepte le même argument, avec
+      le même sens — seuls les fields listés sont réservés à un seul
+      user.
     memorization_justification: >-
       Même directive, deux comportements opposés selon la présence d'un
       argument ; la forme qualifiée est rarement rencontrée en pratique.
@@ -2555,16 +2555,16 @@ flashcards:
     official_item: OIT-tc39jp8japfc
     language: fr
     level: RECALL
-    front: "Symfony : que renvoie `Response::getMaxAge()` quand la réponse porte `max-age` **et** `s-maxage` ?"
-    back: "La valeur de `s-maxage`. La méthode le teste en premier, malgré son nom."
+    front: "Symfony : que renvoie `Response::getMaxAge()` quand la Response porte `max-age` **et** `s-maxage` ?"
+    back: "La valeur de `s-maxage`. La method le teste en premier, malgré son nom."
     explanation: >-
       L'ordre est celui de la RFC — `s-maxage`, puis `max-age`, puis `Expires`
       moins `Date` — mais sans la condition « si le cache est partagé », qu'un
-      objet `Response` ne peut pas connaître. Elle rend `null` quand aucune
+      object `Response` ne peut pas connaître. Elle rend `null` quand aucune
       information de fraîcheur n'est présente, et c'est ce `null` que `getTtl()`
       propage.
     memorization_justification: >-
-      Nom de méthode qui désigne une directive et valeur qui en vient
+      Nom de method qui désigne une directive et valeur qui en vient
       généralement d'une autre.
     verification_status: VERIFIED
     official_sources:
@@ -2580,15 +2580,15 @@ flashcards:
     language: fr
     level: RECALL
     front: "RFC 9111 §4.4 : que doit faire un cache après un `POST`, un `PUT` ou un `DELETE` réussi ?"
-    back: "Invalider la réponse stockée pour l'URI cible — c'est un `MUST`, dès lors que le statut n'est pas une erreur."
+    back: "Invalider la Response stockée pour l'URI cible — c'est un `MUST`, dès lors que le statut n'est pas une erreur."
     explanation: >-
       L'invalidation porte obligatoirement sur l'URI cible et **peut** s'étendre
       à d'autres URI, notamment celles de `Location` et `Content-Location`. La
-      règle vaut aussi pour les méthodes « dont la sûreté est inconnue » : un
-      cache qui ne connaît pas une méthode doit la traiter comme non sûre.
+      règle vaut aussi pour les methods « dont la sûreté est inconnue » : un
+      cache qui ne connaît pas une method doit la traiter comme non sûre.
     memorization_justification: >-
-      Obligation à la charge du cache, déclenchée par une requête d'écriture,
-      donc invisible depuis le code qui écrit la réponse.
+      Obligation à la charge du cache, déclenchée par une Request d'écriture,
+      donc invisible depuis le code qui écrit la Response.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9111.html"
@@ -2601,13 +2601,13 @@ flashcards:
     official_item: OIT-tc39jp8japfc
     language: fr
     level: UNDERSTANDING
-    front: "Pourquoi `Vary` conditionne-t-il la réutilisation d'une réponse stockée ?"
-    back: "Parce qu'il définit la **clé de cache** : le cache ne peut pas réutiliser la réponse sans revalidation si l'un des en-têtes nommés diffère de la requête d'origine."
+    front: "Pourquoi `Vary` conditionne-t-il la réutilisation d'une Response stockée ?"
+    back: "Parce qu'il définit la **key de cache** : le cache ne peut pas réutiliser la Response sans revalidation si l'un des headers nommés diffère de la Request d'origine."
     explanation: >-
       C'est le titre même de §4.1 : *Calculating Cache Keys with the Vary Header
       Field*. La comparaison tolère les différences de blancs et la
       recombinaison de lignes de même nom, mais pas une valeur différente. Sans
-      `Vary`, la clé est l'URI seule — et un cache partagé sert la version
+      `Vary`, la key est l'URI seule — et un cache partagé sert la version
       française à un client anglophone.
     memorization_justification: >-
       `Vary` se lit comme une indication au serveur alors qu'il pilote le
@@ -2625,10 +2625,10 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "Que change la directive `must-understand` de RFC 9111 ?"
-    back: "Elle réserve la mise en cache aux caches qui comprennent les règles du **code de statut** de la réponse, et permet d'ignorer un `no-store` posé à côté d'elle."
+    back: "Elle réserve la mise en cache aux caches qui comprennent les règles du **status code** de la Response, et permet d'ignorer un `no-store` posé à côté d'elle."
     explanation: >-
-      Le couple est délibéré : une réponse portant `must-understand` **devrait**
-      aussi porter `no-store`, et un cache qui comprend le code de statut
+      Le couple est délibéré : une Response portant `must-understand` **devrait**
+      aussi porter `no-store`, et un cache qui comprend le status code
       **devrait** alors ignorer ce `no-store`. Autrement dit, `no-store` sert de
       repli pour les caches anciens, et `must-understand` autorise les caches
       modernes à passer outre.
@@ -2647,13 +2647,13 @@ flashcards:
     official_item: OIT-tc39jp8japfc
     language: fr
     level: UNDERSTANDING
-    front: "`private` interdit-il à un cache privé de stocker la réponse ?"
+    front: "`private` interdit-il à un cache privé de stocker la Response ?"
     back: "Au contraire : il l'y autorise explicitement, « even if the response would not otherwise be heuristically cacheable ». Il interdit seulement au cache **partagé**."
     explanation: >-
       La directive est donc permissive d'un côté et restrictive de l'autre, ce
       que son nom ne dit pas. Pour empêcher toute conservation, y compris par le
       navigateur, il faut `no-store`. Sous sa forme qualifiée, `private` ne
-      réserve que les champs nommés : le reste de la réponse peut être stocké
+      réserve que les fields nommés : le reste de la Response peut être stocké
       par un cache partagé.
     memorization_justification: >-
       Directive dont l'effet sur les caches privés est l'inverse de ce que le
@@ -2673,9 +2673,9 @@ flashcards:
     front: "Quand un cache a-t-il le droit d'inventer une durée de fraîcheur ?"
     back: "Seulement en l'absence d'expiration explicite : « A cache MUST NOT use heuristics to determine freshness when an explicit expiration time is present »."
     explanation: >-
-      La RFC ne fixe aucun algorithme, seulement des contraintes de pire cas ;
+      La RFC ne fixe aucun algorithme, seulement des constraints de pire cas ;
       l'usage répandu est une fraction du temps écoulé depuis `Last-Modified`.
-      Conséquence pratique : une réponse sans `Cache-Control` ni `Expires`
+      Conséquence pratique : une Response sans `Cache-Control` ni `Expires`
       **n'est pas** « non cachée » — elle est cachée pour une durée que vous ne
       choisissez pas. Poser `max-age` reprend la main.
     memorization_justification: >-
@@ -2694,7 +2694,7 @@ flashcards:
     language: fr
     level: APPLICATION
     front: "Symfony : que fait `setTtl(600)` de plus que `setMaxAge(600)` ?"
-    back: "Elle appelle `setSharedMaxAge(getAge() + 600)` — donc elle rend la réponse **publique** et écrit `s-maxage`, pas `max-age`."
+    back: "Elle appelle `setSharedMaxAge(getAge() + 600)` — donc elle rend la Response **publique** et écrit `s-maxage`, pas `max-age`."
     explanation: >-
       Deux effets de bord dans un appel qui n'en annonce aucun : le passage en
       `public` vient de `setSharedMaxAge()`, et l'âge déjà écoulé est ajouté
@@ -2702,8 +2702,8 @@ flashcards:
       `setClientTtl()`, qui passe par `setMaxAge()` et ne touche pas à
       `public` / `private`.
     memorization_justification: >-
-      Méthode au nom neutre qui modifie la visibilité de la réponse ; l'erreur
-      publie une réponse destinée à un seul utilisateur.
+      Method au nom neutre qui modifie la visibilité de la Response ; l'erreur
+      publie une Response destinée à un seul user.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php"
@@ -2717,16 +2717,16 @@ flashcards:
     official_item: OIT-tc39jp8japfc
     language: fr
     level: APPLICATION
-    front: "Que fait `Response::expire()` sur une réponse déjà périmée ?"
-    back: "Rien. La méthode s'ouvre sur `if ($this->isFresh())` : elle n'agit que sur une réponse fraîche."
+    front: "Que fait `Response::expire()` sur une Response déjà périmée ?"
+    back: "Rien. La method s'ouvre sur `if ($this->isFresh())` : elle n'agit que sur une Response fraîche."
     explanation: >-
-      Sur une réponse fraîche, elle pose `Age` à la valeur de `getMaxAge()` — ce
+      Sur une Response fraîche, elle pose `Age` à la valeur de `getMaxAge()` — ce
       qui la rend périmée sans toucher aux directives — et retire `Expires`.
       L'appel est donc idempotent, mais pas pour la raison qu'on croit : il ne
       « re-périme » pas, il ne fait simplement plus rien.
     memorization_justification: >-
       Garde d'entrée qui transforme un appel en no-op silencieux selon l'état de
-      la réponse.
+      la Response.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php"
@@ -2740,10 +2740,10 @@ flashcards:
     official_item: OIT-tc39jp8japfc
     language: fr
     level: APPLICATION
-    front: "Une réponse porte `max-age=600` et aucun en-tête `Age`. Que vaut `getAge()` ?"
-    back: "Le nombre de secondes écoulées depuis l'en-tête `Date`, jamais négatif : `max(time() - Date, 0)`."
+    front: "Une Response porte `max-age=600` et aucun header `Age`. Que vaut `getAge()` ?"
+    back: "Le nombre de secondes écoulées depuis le header `Date`, jamais négatif : `max(time() - Date, 0)`."
     explanation: >-
-      L'en-tête `Age` a la priorité s'il est présent — c'est un cache
+      Le header `Age` a la priorité s'il est présent — c'est un cache
       intermédiaire qui le pose. Sinon Symfony le déduit de `Date`. `getTtl()`
       s'appuie dessus : `max(getMaxAge() - getAge(), 0)`, et rend `null` si
       aucune information de fraîcheur n'existe. Un `0` et un `null` ne disent
@@ -2764,16 +2764,16 @@ flashcards:
     official_item: OIT-tc39jp8japfc
     language: fr
     level: APPLICATION
-    front: "Symfony : `setPublic()` et `setPrivate()` peuvent-elles coexister sur une réponse ?"
+    front: "Symfony : `setPublic()` et `setPrivate()` peuvent-elles coexister sur une Response ?"
     back: "Non : chacune **retire** l'autre directive en plus d'ajouter la sienne."
     explanation: >-
       `setPublic()` ajoute `public` et retire `private` ; `setPrivate()` fait
       l'inverse. Le dernier appel gagne, sans avertissement. C'est ce qui rend
       l'ordre significatif quand `setSharedMaxAge()` — qui appelle
-      `setPublic()` — est suivi d'un `setPrivate()` : la réponse garde
+      `setPublic()` — est suivi d'un `setPrivate()` : la Response garde
       `s-maxage` tout en étant `private`.
     memorization_justification: >-
-      Deux méthodes mutuellement exclusives qui ne le signalent pas ; l'état
+      Deux methods mutuellement exclusives qui ne le signalent pas ; l'état
       final dépend de l'ordre des appels.
     verification_status: VERIFIED
     official_sources:
@@ -2788,7 +2788,7 @@ flashcards:
     official_item: OIT-tc39jp8japfc
     language: fr
     level: TRAP
-    front: "Vrai ou faux : « une réponse sans `Cache-Control` n'est pas mise en cache »."
+    front: "Vrai ou faux : « une Response sans `Cache-Control` n'est pas mise en cache »."
     back: "Faux. Sans expiration explicite, un cache **peut** appliquer une fraîcheur heuristique, qu'il choisit lui-même."
     explanation: >-
       §4.2.2 n'interdit l'heuristique que lorsqu'une expiration explicite est
@@ -2816,7 +2816,7 @@ flashcards:
       §4.2.1 le dit par son ordre : un cache partagé consulte `s-maxage`
       d'abord, puis `max-age`. Un cache partagé applique donc `max-age` dès que
       `s-maxage` est absent — c'est précisément pourquoi on dit que `s-maxage`
-      « prime ». La lecture « un pour chacun » fait croire qu'une réponse sans
+      « prime ». La lecture « un pour chacun » fait croire qu'une Response sans
       `s-maxage` n'est pas cachée en partagé.
     memorization_justification: >-
       Répartition symétrique et fausse, plus simple à retenir que la vraie règle
@@ -2833,12 +2833,12 @@ flashcards:
     official_item: OIT-tc39jp8japfc
     language: fr
     level: TRAP
-    front: "`$response->isNotModified($request)` sur une requête `POST` dont l'ETag correspond : que renvoie-t-elle ?"
+    front: "`$response->isNotModified($request)` sur une Request `POST` dont l'ETag correspond : que renvoie-t-elle ?"
     back: "`false`. Son premier geste est `if (!$request->isMethodCacheable()) { return false; }` — la comparaison n'a pas lieu."
     explanation: >-
       Ce n'est pas « l'ETag ne correspond pas », c'est « la question n'est pas
-      posée ». La liste des méthodes cacheables côté Symfony étant `GET`, `HEAD`
-      et `QUERY`, toute autre méthode sort par cette garde. Un test qui conclut
+      posée ». La liste des methods cacheables côté Symfony étant `GET`, `HEAD`
+      et `QUERY`, toute autre method sort par cette garde. Un test qui conclut
       « mon ETag est faux » cherche au mauvais endroit.
     memorization_justification: >-
       Garde d'entrée qui court-circuite la logique attendue et produit une
@@ -2857,14 +2857,14 @@ flashcards:
     language: fr
     level: TRAP
     front: "Une API renvoie 200 à un `DELETE`. Que doivent faire les caches intermédiaires ?"
-    back: "Invalider la réponse stockée pour l'URI cible — obligatoirement, parce que le statut n'est pas une erreur."
+    back: "Invalider la Response stockée pour l'URI cible — obligatoirement, parce que le statut n'est pas une erreur."
     explanation: >-
       L'erreur consiste à croire qu'un cache ne s'occupe que des lectures.
       §4.4 lui impose de réagir aux écritures qui le traversent, et l'obligation
-      tombe justement quand la réponse est une **erreur** : un `DELETE` renvoyant
+      tombe justement quand la Response est une **erreur** : un `DELETE` renvoyant
       500 n'invalide rien, puisque rien ne prouve que l'état a changé.
     memorization_justification: >-
-      Obligation conditionnée au code de statut, dans une section qu'on ne lit
+      Obligation conditionnée au status code, dans une section qu'on ne lit
       pas en cherchant « comment mettre en cache ».
     verification_status: VERIFIED
     official_sources:
@@ -2886,10 +2886,10 @@ flashcards:
     official_item: OIT-mrvrtxm4v2m5
     language: fr
     level: RECALL
-    front: "RFC 9110 §12 : quelles sont les deux formes de négociation de contenu, et leurs synonymes ?"
+    front: "RFC 9110 §12 : quelles sont les deux formes de content negotiation, et leurs synonymes ?"
     back: "Proactive, dite *server-driven* — le serveur choisit ; réactive, dite *agent-driven* — le serveur liste des alternatives et le client choisit."
     explanation: >-
-      Le synonyme donne la réponse à chaque fois : *server-driven* = le serveur
+      Le synonyme donne la Response à chaque fois : *server-driven* = le serveur
       décide, *agent-driven* = l'agent décide. La négociation réactive suppose un
       aller-retour supplémentaire ; c'est ce que sert `300 Multiple Choices`.
       L'examen vise la proactive, mais la question peut porter sur la
@@ -2915,7 +2915,7 @@ flashcards:
       L'ABNF est `qvalue = ( 0 [ . 0*3 DIGIT ] ) / ( 1 [ . 0*3(0) ] )`, les
       littéraux étant entre guillemets dans le document : au-delà de trois
       décimales, la valeur est mal formée, et
-      au-dessus de 1 elle n'existe pas. Le nom du paramètre est en outre
+      au-dessus de 1 elle n'existe pas. Le nom du parameter est en outre
       **insensible à la casse** — `Q=0.8` est valide.
     memorization_justification: >-
       Bornes et précision exactes d'une syntaxe qu'on manipule sans jamais en
@@ -2932,17 +2932,17 @@ flashcards:
     official_item: OIT-mrvrtxm4v2m5
     language: fr
     level: RECALL
-    front: "Que signifie le jeton `identity` dans un `Accept-Encoding` ?"
+    front: "Que signifie le token `identity` dans un `Accept-Encoding` ?"
     back: "« No encoding » — un synonyme pour dire qu'aucun codage de contenu n'est souhaité."
     explanation: >-
       La grammaire est `codings = content-coding / identity / *`, les deux
       derniers étant des littéraux entre guillemets dans le document. Le même
-      en-tête peut aussi être envoyé **par le serveur** dans une réponse, pour
-      indiquer les codages qu'il préférerait recevoir dans une requête suivante
+      header peut aussi être envoyé **par le serveur** dans une Response, pour
+      indiquer les codages qu'il préférerait recevoir dans une Request suivante
       vers la même ressource — usage rare et méconnu.
     memorization_justification: >-
-      Jeton réservé au sens contre-intuitif — il nomme l'absence de codage — et
-      en-tête dont la direction n'est pas toujours celle qu'on croit.
+      Token réservé au sens contre-intuitif — il nomme l'absence de codage — et
+      header dont la direction n'est pas toujours celle qu'on croit.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
@@ -2956,14 +2956,14 @@ flashcards:
     language: fr
     level: RECALL
     front: "Que signifie `Vary: *`, et qui n'a pas le droit de l'écrire ?"
-    back: "Que d'autres aspects de la requête ont pu compter, « possibly including aspects outside the message syntax ». Un **proxy** ne doit jamais en générer."
+    back: "Que d'autres aspects de la Request ont pu compter, « possibly including aspects outside the message syntax ». Un **proxy** ne doit jamais en générer."
     explanation: >-
-      Conséquence directe : un destinataire ne peut plus décider si la réponse
-      convient à une requête ultérieure sans la transmettre au serveur
+      Conséquence directe : un destinataire ne peut plus décider si la Response
+      convient à une Request ultérieure sans la transmettre au serveur
       d'origine. `Vary: *` désactive donc en pratique la réutilisation par un
       cache. L'interdiction faite au proxy est un `MUST NOT`.
     memorization_justification: >-
-      Valeur spéciale d'un en-tête courant, avec une interdiction ciblée sur un
+      Valeur spéciale d'un header courant, avec une interdiction ciblée sur un
       seul type d'acteur.
     verification_status: VERIFIED
     official_sources:
@@ -2981,7 +2981,7 @@ flashcards:
     back: "Parce qu'elle sert à désigner **quel motif fixe le `q` d'un type donné** : pour `text/html`, c'est `text/html`, sinon `text/*`, sinon `*/*`."
     explanation: >-
       Une fois chaque type doté de son `q`, c'est le `q` — et lui seul — qui
-      classe. D'où la lecture correcte de
+      class. D'où la lecture correcte de
       `Accept: text/*;q=0.3, text/html;q=0.7` : `text/html` vaut 0,7 parce que
       le motif le plus spécifique le nomme, et non 0,3.
     memorization_justification: >-
@@ -3005,12 +3005,12 @@ flashcards:
     explanation: >-
       La note donne trois raisons : bande passante gaspillée, latence accrue, et
       empreinte passive facilitée. Ce n'est donc pas un abandon par désuétude
-      mais une dépréciation motivée, dont l'argument de vie privée est le plus
+      mais une deprecation motivée, dont l'argument de vie privée est le plus
       fort. La plupart des agents ne l'envoient plus sans configuration
       explicite.
     memorization_justification: >-
-      Dépréciation portée par le texte normatif lui-même, avec un motif — le
-      pistage passif — qu'on n'associe pas spontanément à un en-tête de
+      Deprecation portée par le texte normatif lui-même, avec un motif — le
+      pistage passif — qu'on n'associe pas spontanément à un header de
       négociation.
     verification_status: VERIFIED
     official_sources:
@@ -3047,14 +3047,14 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "À quoi sert `Vary`, au-delà de « déclarer ce qui a varié » ?"
-    back: "Il **étend la clé de cache** : un cache ne peut réutiliser la réponse que si les en-têtes nommés ont la même valeur dans la nouvelle requête."
+    back: "Il **étend la key de cache** : un cache ne peut réutiliser la Response que si les headers nommés ont la même valeur dans la nouvelle Request."
     explanation: >-
       Le texte énonce deux buts, et celui-là est le premier : informer les caches
-      qu'ils ne doivent pas servir cette réponse à une requête dont les champs
-      listés diffèrent. Le second est d'indiquer à l'agent utilisateur les
-      dimensions sur lesquelles une nouvelle requête peut jouer.
+      qu'ils ne doivent pas servir cette Response à une Request dont les fields
+      listés diffèrent. Le second est d'indiquer à l'agent user les
+      dimensions sur lesquelles une nouvelle Request peut jouer.
     memorization_justification: >-
-      En-tête compris comme documentaire alors qu'il pilote une mécanique
+      Header compris comme documentaire alors qu'il pilote une mécanique
       précise de stockage.
     verification_status: VERIFIED
     official_sources:
@@ -3076,7 +3076,7 @@ flashcards:
       refusée par `q=0` reste dans la liste rendue : filtrer les refus est à la
       charge de l'appelant.
     memorization_justification: >-
-      Écart entre la règle normative et l'implémentation, sur une méthode qu'on
+      Écart entre la règle normative et l'implémentation, sur une method qu'on
       croit appliquer la RFC littéralement.
     verification_status: VERIFIED
     official_sources:
@@ -3091,11 +3091,11 @@ flashcards:
     official_item: OIT-mrvrtxm4v2m5
     language: fr
     level: APPLICATION
-    front: "La route déclare `_format=xml`, la requête porte `Accept: application/json`. Que rend `getPreferredFormat()` ?"
-    back: "`xml`. La méthode consulte `getRequestFormat(null)` **avant** de regarder `Accept`."
+    front: "La route déclare `_format=xml`, la Request porte `Accept: application/json`. Que rend `getPreferredFormat()` ?"
+    back: "`xml`. La method consulte `getRequestFormat(null)` **avant** de regarder `Accept`."
     explanation: >-
-      L'ordre est explicite dans le corps : si un format de requête existe —
-      attribut `_format` de la route, ou `setRequestFormat()` — il est retenu et
+      L'ordre est explicite dans le body : si un format de Request existe —
+      attribute `_format` de la route, ou `setRequestFormat()` — il est retenu et
       mémorisé. `Accept` n'est parcouru qu'à défaut, et le premier type de média
       reconnu par `getFormat()` gagne. Le nom « preferred » désigne donc la
       préférence **de l'application** avant celle du client.
@@ -3116,7 +3116,7 @@ flashcards:
     language: fr
     level: APPLICATION
     front: "`getPreferredLanguage(['fr', 'en'])` avec un `Accept-Language: de` : que renvoie-t-elle ?"
-    back: "`fr` — le **premier** locale fourni. La méthode ne rend jamais `null` quand on lui passe une liste."
+    back: "`fr` — le **premier** locale fourni. La method ne rend jamais `null` quand on lui passe une liste."
     explanation: >-
       Trois sorties possibles : le premier locale si le client n'exprime aucune
       préférence, le premier locale qui correspond à une combinaison des langues
@@ -3124,7 +3124,7 @@ flashcards:
       Sans argument, en revanche, elle rend la première langue **du client**,
       sans vérifier que l'application la propose.
     memorization_justification: >-
-      Même méthode, deux comportements opposés selon qu'on lui passe une liste
+      Même method, deux comportements opposés selon qu'on lui passe une liste
       ou non ; le repli silencieux masque l'absence de correspondance.
     verification_status: VERIFIED
     official_sources:
@@ -3162,7 +3162,7 @@ flashcards:
     language: fr
     level: TRAP
     front: "Vrai ou faux : « l'ordre des valeurs dans `Accept` exprime la préférence »."
-    back: "Faux au regard de la RFC : seul `q` classe, et son absence vaut `1.0`. L'ordre n'a de rôle que dans l'implémentation de Symfony, à qualité égale."
+    back: "Faux au regard de la RFC : seul `q` class, et son absence vaut `1.0`. L'ordre n'a de role que dans l'implémentation de Symfony, à qualité égale."
     explanation: >-
       Les deux niveaux se confondent facilement. Côté protocole, une valeur sans
       `q` est au maximum de préférence, quelle que soit sa position. Côté
@@ -3186,15 +3186,15 @@ flashcards:
     language: fr
     level: TRAP
     front: "Une API ne sait servir que du JSON et reçoit `Accept: text/html`. Que doit-elle renvoyer ?"
-    back: "`406 Not Acceptable` est la réponse conforme — mais servir une représentation par défaut reste courant et admis."
+    back: "`406 Not Acceptable` est la Response conforme — mais servir une représentation par défaut reste courant et admis."
     explanation: >-
-      `Accept` est une **préférence**, pas une contrainte : le serveur peut
+      `Accept` est une **préférence**, pas une constraint : le serveur peut
       répondre autre chose, et il l'annonce par `Content-Type`. §15.5.7 précise
       qu'un 406 devrait s'accompagner de la liste des représentations
       disponibles. Le piège consiste à croire le 406 obligatoire.
     memorization_justification: >-
       Question à deux réponses défendables, dont le départage tient à la nature
-      — préférence, non contrainte — de l'en-tête.
+      — préférence, non constraint — du header.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
@@ -3207,11 +3207,11 @@ flashcards:
     official_item: OIT-mrvrtxm4v2m5
     language: fr
     level: TRAP
-    front: "La négociation proactive ne s'appuie-t-elle que sur les en-têtes `Accept*` ?"
+    front: "La négociation proactive ne s'appuie-t-elle que sur les headers `Accept*` ?"
     back: "Non. §12.1 nomme aussi des caractéristiques **implicites** : l'adresse réseau du client, des parties de `User-Agent`."
     explanation: >-
       C'est ce qui rend `Vary` insuffisant dans certains cas : si le choix a
-      dépendu de l'adresse IP, aucun nom de champ ne le déclare — d'où
+      dépendu de l'adresse IP, aucun nom de field ne le déclare — d'où
       l'existence de `Vary: *`. Une négociation fondée sur des signaux implicites
       est donc, par construction, mal cachable.
     memorization_justification: >-
@@ -3246,7 +3246,7 @@ flashcards:
       C'est la forme que Symfony attend partout ailleurs.
     memorization_justification: >-
       Trois règles de casse distinctes selon le composant, appliquées
-      silencieusement ; aucune ne se devine depuis l'en-tête reçu.
+      silencieusement ; aucune ne se devine depuis le header reçu.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
@@ -3283,13 +3283,13 @@ flashcards:
     official_item: OIT-fhjmv9w3wxsb
     language: fr
     level: RECALL
-    front: "Quels en-têtes Symfony lit-il avec le même analyseur qu'`Accept-Language` ?"
+    front: "Quels headers Symfony lit-il avec le même analyseur qu'`Accept-Language` ?"
     back: "`Accept`, `Accept-Charset` et `Accept-Encoding` : `getCharsets()` et `getEncodings()` passent aussi par `AcceptHeader::fromString()`."
     explanation: >-
       Les quatre accesseurs partagent donc le tri par qualité décroissante.
       `getLanguages()` se distingue sur un point : elle **normalise** chaque
       valeur en locale Symfony et dédoublonne, ce que les autres ne font pas —
-      elles rendent les jetons tels quels.
+      elles rendent les tokens tels quels.
     memorization_justification: >-
       Famille d'accesseurs symétriques dont un seul applique une transformation
       supplémentaire.
@@ -3331,17 +3331,17 @@ flashcards:
     official_item: OIT-fhjmv9w3wxsb
     language: fr
     level: UNDERSTANDING
-    front: "Modifier l'en-tête `Accept-Language` après un premier appel à `getLanguages()` change-t-il son résultat ?"
+    front: "Modifier le header `Accept-Language` après un premier appel à `getLanguages()` change-t-il son résultat ?"
     back: "Non : la liste est mémorisée dans `$this->languages` au premier appel et rendue telle quelle ensuite."
     explanation: >-
       La garde est `if (null !== $this->languages) { return $this->languages; }`.
-      Conséquence en test : une requête fabriquée puis modifiée garde la
+      Conséquence en test : une Request fabriquée puis modifiée garde la
       première lecture. `getPreferredLanguage()` s'appuyant sur cette liste, elle
       hérite du même figement. Pour repartir de zéro, il faut une nouvelle
       `Request`.
     memorization_justification: >-
       Mémorisation invisible depuis la signature, qui rend un accesseur non
-      réentrant après modification de la requête.
+      réentrant après modification de la Request.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
@@ -3380,14 +3380,14 @@ flashcards:
     language: fr
     level: APPLICATION
     front: "`Accept-Language: fr-FR,fr-fr;q=0.8`. Combien d'entrées rend `getLanguages()` ?"
-    back: "Une seule : `fr_FR`. La normalisation rend les deux valeurs identiques, et la liste est dédoublonnée."
+    back: "Une seule : `fr_FR`. La normalization rend les deux valeurs identiques, et la liste est dédoublonnée."
     explanation: >-
       `array_unique()` s'applique **après** `formatLocale()`, donc sur les
       valeurs normalisées. Deux écritures différentes de la même langue
       fusionnent, et la première position — celle de la plus forte qualité —
       est conservée.
     memorization_justification: >-
-      Effet d'ordre entre normalisation et dédoublonnage, qui change le nombre
+      Effet d'ordre entre normalization et dédoublonnage, qui change le nombre
       d'entrées rendues.
     verification_status: VERIFIED
     official_sources:
@@ -3410,7 +3410,7 @@ flashcards:
       linguistique : le premier préfixe qui colle gagne. Pour servir `fr_FR` par
       défaut, il faut l'écrire en premier.
     memorization_justification: >-
-      Résultat entièrement déterminé par l'ordre d'un tableau de configuration,
+      Résultat entièrement déterminé par l'ordre d'un array de configuration,
       ce que le nom « preferred » ne laisse pas soupçonner.
     verification_status: VERIFIED
     official_sources:
@@ -3428,12 +3428,12 @@ flashcards:
     front: "Le client n'envoie aucun `Accept-Language` et l'application supporte `['en', 'fr']`. Que rend `getPreferredLanguage(['en','fr'])` ?"
     back: "`en` — le premier locale de la liste fournie, traité comme langue par défaut."
     explanation: >-
-      Deux chemins mènent au même résultat : aucune langue demandée, ou aucune
-      correspondance. Dans les deux cas c'est `$locales[0]`. La méthode ne rend
-      `null` que dans un seul cas — appelée **sans** liste, sur une requête sans
+      Deux paths mènent au même résultat : aucune langue demandée, ou aucune
+      correspondance. Dans les deux cas c'est `$locales[0]`. La method ne rend
+      `null` que dans un seul cas — appelée **sans** liste, sur une Request sans
       `Accept-Language`.
     memorization_justification: >-
-      Trois situations distinctes pour deux valeurs de retour ; savoir laquelle
+      Trois situations distinctes pour deux return values ; savoir laquelle
       peut rendre `null` évite un test défensif inutile ou manquant.
     verification_status: VERIFIED
     official_sources:
@@ -3448,11 +3448,11 @@ flashcards:
     official_item: OIT-fhjmv9w3wxsb
     language: fr
     level: APPLICATION
-    front: "Une réponse dépend de la langue du client. Quel en-tête manque presque toujours ?"
+    front: "Une Response dépend de la langue du client. Quel header manque presque toujours ?"
     back: "`Vary: Accept-Language` — sans lui, un cache partagé sert la première langue obtenue à tous les visiteurs suivants."
     explanation: >-
       `Content-Language` annonce la langue choisie ; il ne dit rien au cache.
-      C'est `Vary` qui étend la clé de cache à l'en-tête utilisé. Le bug n'a
+      C'est `Vary` qui étend la key de cache au header utilisé. Le bug n'a
       **aucun symptôme en local**, où aucun cache partagé n'intervient : il
       n'apparaît qu'en production, derrière un CDN ou un reverse proxy.
     memorization_justification: >-
@@ -3522,10 +3522,10 @@ flashcards:
       Aucun code d'erreur n'est dû au client pour une langue non disponible —
       `406` est possible mais rarement souhaitable. Servir une langue par défaut
       en l'annonçant correctement est conforme. Ce qui n'est pas facultatif, en
-      revanche, c'est `Vary: Accept-Language` dès que la réponse varie.
+      revanche, c'est `Vary: Accept-Language` dès que la Response varie.
     memorization_justification: >-
-      Même confusion que pour `Accept` : un en-tête de préférence lu comme une
-      contrainte, avec une obligation réelle — `Vary` — à côté.
+      Même confusion que pour `Accept` : un header de préférence lu comme une
+      constraint, avec une obligation réelle — `Vary` — à côté.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
@@ -3570,11 +3570,11 @@ flashcards:
     official_item: OIT-9kh5cqz5qtrb
     language: fr
     level: RECALL
-    front: "HttpClient : quelles valeurs par défaut ont `max_redirects`, `max_duration` et `buffer` ?"
+    front: "HttpClient : quelles default values ont `max_redirects`, `max_duration` et `buffer` ?"
     back: "`max_redirects` = **20**, `max_duration` = **0** (illimité), `buffer` = **true**."
     explanation: >-
       Les trois sont écrites dans `OPTIONS_DEFAULTS`. Un `max_redirects`
-      inférieur ou égal à `0` signifie « ne pas suivre les redirections » — ce
+      inférieur ou égal à `0` signifie « ne pas suivre les redirects » — ce
       n'est donc pas un compteur illimité, contrairement à `max_duration` où `0`
       veut dire sans limite. Deux zéros, deux sens opposés.
     memorization_justification: >-
@@ -3593,11 +3593,11 @@ flashcards:
     official_item: OIT-9kh5cqz5qtrb
     language: fr
     level: RECALL
-    front: "HttpClient : `timeout` mesure-t-il la durée totale de la requête ?"
+    front: "HttpClient : `timeout` mesure-t-il la durée totale de la Request ?"
     back: "Non : c'est le délai **d'inactivité**. La durée totale est `max_duration`, illimitée par défaut."
     explanation: >-
       Le commentaire du contrat est sans ambiguïté : « the idle timeout (in
-      seconds) - defaults to `ini_get('default_socket_timeout')` ». Une requête
+      seconds) - defaults to `ini_get('default_socket_timeout')` ». Une Request
       lente mais qui progresse ne l'atteint donc jamais. Pour plafonner
       réellement, il faut poser `max_duration`.
     memorization_justification: >-
@@ -3619,13 +3619,13 @@ flashcards:
     front: "HttpClient : quelles informations `getInfo()` doit-elle **obligatoirement** rendre ?"
     back: "`canceled`, `error`, `http_code`, `http_method`, `redirect_count`, `redirect_url`, `response_headers`, `start_time`, `url` et `user_data`."
     explanation: >-
-      Le contrat ajoute deux garanties qui font tout l'usage de la méthode :
+      Le contrat ajoute deux garanties qui font tout l'usage de la method :
       elle **ne doit pas lever** et **ne doit pas bloquer**. L'information est
       « live » — elle peut être vide et changer d'un appel à l'autre pendant que
-      la requête progresse. `http_code` vaut `0` tant que le code n'est pas connu.
+      la Request progresse. `http_code` vaut `0` tant que le code n'est pas connu.
     memorization_justification: >-
-      Liste imposée de dix clés, et deux garanties — ni exception, ni blocage —
-      qui distinguent `getInfo()` de tous les autres accesseurs de la réponse.
+      Liste imposée de dix keys, et deux garanties — ni exception, ni blocage —
+      qui distinguent `getInfo()` de tous les autres accesseurs de la Response.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/HttpClient/ResponseInterface.php"
@@ -3639,7 +3639,7 @@ flashcards:
     official_item: OIT-9kh5cqz5qtrb
     language: fr
     level: RECALL
-    front: "HttpClient : quelles méthodes portent le paramètre `$throw`, et laquelle ne le porte pas ?"
+    front: "HttpClient : quelles methods portent le parameter `$throw`, et laquelle ne le porte pas ?"
     back: "`getHeaders()`, `getContent()` et `toArray()` le portent. **`getStatusCode()` non.**"
     explanation: >-
       Le contrat de `getStatusCode()` ne déclare qu'une
@@ -3648,7 +3648,7 @@ flashcards:
       lequel on inspecte un statut d'échec sans rien attraper.
     memorization_justification: >-
       Asymétrie dans une famille d'accesseurs voisins ; elle décide de la façon
-      d'inspecter une réponse d'erreur.
+      d'inspecter une Response d'erreur.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/HttpClient/ResponseInterface.php"
@@ -3663,12 +3663,12 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "Pourquoi seule `HttpExceptionInterface` expose-t-elle `getResponse()` ?"
-    back: "Parce qu'elle seule a une réponse à montrer : une erreur de transport signifie que rien n'est arrivé."
+    back: "Parce qu'elle seule a une Response à montrer : une erreur de transport signifie que rien n'est arrivé."
     explanation: >-
       C'est la ligne de partage de toute la hiérarchie. `TransportExceptionInterface`
       — et son héritière `TimeoutExceptionInterface` — couvre les échecs où
-      aucune réponse n'existe. `HttpExceptionInterface` couvre les cas où une
-      réponse est bien là, mais avec un statut qui fâche : 3xx une fois
+      aucune Response n'existe. `HttpExceptionInterface` couvre les cas où une
+      Response est bien là, mais avec un statut qui fâche : 3xx une fois
       `max_redirects` atteint, 4xx, 5xx.
     memorization_justification: >-
       Critère unique qui organise sept interfaces ; le connaître dispense de
@@ -3686,14 +3686,14 @@ flashcards:
     official_item: OIT-9kh5cqz5qtrb
     language: fr
     level: UNDERSTANDING
-    front: "Pourquoi une réponse 3xx peut-elle lever, alors que le client suit les redirections ?"
-    back: "Parce qu'elle ne lève qu'**une fois `max_redirects` atteint** : la redirection n'a alors pas été suivie."
+    front: "Pourquoi une Response 3xx peut-elle lever, alors que le client suit les redirects ?"
+    back: "Parce qu'elle ne lève qu'**une fois `max_redirects` atteint** : le redirect n'a alors pas été suivi."
     explanation: >-
       Les `@throws` le disent mot pour mot : « On a 3xx when `$throw` is true
       **and the max_redirects option has been reached** ». Tant que le budget de
-      redirections n'est pas épuisé, le client suit et l'appelant ne voit que la
-      réponse finale. Poser `max_redirects` à `0` transforme donc toute
-      redirection en `RedirectionExceptionInterface`.
+      redirects n'est pas épuisé, le client suit et l'appelant ne voit que la
+      Response finale. Poser `max_redirects` à `0` transforme donc toute
+      redirect en `RedirectionExceptionInterface`.
     memorization_justification: >-
       Condition double — statut **et** budget épuisé — dont l'oubli fait croire
       qu'un 3xx lève toujours ou ne lève jamais.
@@ -3714,13 +3714,13 @@ flashcards:
     back: "Parce qu'elle décode : elle ajoute `DecodingExceptionInterface` « when the body cannot be decoded to an array »."
     explanation: >-
       Ses `@throws` sont ceux de `getContent()` **plus** celui-là. Conséquence :
-      un corps parfaitement reçu, avec un statut 200, peut faire lever
+      un body parfaitement reçu, avec un statut 200, peut faire lever
       `toArray()` — l'échec n'est ni réseau ni HTTP, il est sémantique. Et
       `$throw = false` ne désactive **pas** cette exception-là : il ne porte que
       sur les statuts.
     memorization_justification: >-
       Quatrième branche d'exception attachée à un seul accesseur, et que le
-      paramètre `$throw` ne couvre pas.
+      parameter `$throw` ne couvre pas.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/HttpClient/ResponseInterface.php"
@@ -3738,12 +3738,12 @@ flashcards:
     back: "L'implémentation **doit** encoder la valeur en JSON et poser un `content-type` JSON si l'appelant n'en a pas défini."
     explanation: >-
       Le contrat emploie `MUST` pour les deux effets. `body`, lui, accepte une
-      chaîne, un tableau — traité comme une charge de formulaire — une ressource,
-      un `Traversable` ou une `Closure`, et ne pose aucun en-tête. Les deux
+      string, un array — traité comme une charge de form — une ressource,
+      un `Traversable` ou une `Closure`, et ne pose aucun header. Les deux
       options ne se combinent pas : `json` écrase `body`.
     memorization_justification: >-
-      Deux options qui remplissent le même champ du message avec des garanties
-      différentes, dont une pose un en-tête à votre place.
+      Deux options qui remplissent le même field du message avec des garanties
+      différentes, dont une pose un header à votre place.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/HttpClient/HttpClientInterface.php"
@@ -3757,16 +3757,16 @@ flashcards:
     official_item: OIT-9kh5cqz5qtrb
     language: fr
     level: APPLICATION
-    front: "Une API renvoie 404 avec un corps JSON d'erreur. Comment le lire sans attraper d'exception ?"
+    front: "Une API renvoie 404 avec un body JSON d'erreur. Comment le lire sans attraper d'exception ?"
     back: "`$response->getContent(false)` — ou `toArray(false)`. `getStatusCode()`, elle, ne lève jamais sur un statut."
     explanation: >-
       Le `false` désactive la levée liée au **statut**, pas les autres :
-      `toArray(false)` lèvera encore si le corps n'est pas du JSON décodable, et
-      une panne réseau lèvera dans tous les cas. Depuis un bloc `catch`, le même
+      `toArray(false)` lèvera encore si le body n'est pas du JSON décodable, et
+      une panne réseau lèvera dans tous les cas. Depuis un block `catch`, le même
       corps s'obtient par `$e->getResponse()->getContent(false)`.
     memorization_justification: >-
       Geste exact d'un besoin quotidien — inspecter une erreur — avec un
-      paramètre positionnel dont le sens ne se lit pas sur l'appel.
+      parameter positionnel dont le sens ne se lit pas sur l'appel.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/HttpClient/ResponseInterface.php"
@@ -3780,8 +3780,8 @@ flashcards:
     official_item: OIT-9kh5cqz5qtrb
     language: fr
     level: APPLICATION
-    front: "Dix requêtes sont lancées dans une boucle, et chacune est lue dans la même boucle. Que perd-on ?"
-    back: "Tout le parallélisme : chaque lecture attend sa réponse avant que la suivante ne parte. Le code marche, il est seulement séquentiel."
+    front: "Dix Requests sont lancées dans une boucle, et chacune est lue dans la même boucle. Que perd-on ?"
+    back: "Tout le parallélisme : chaque lecture attend sa Response avant que la suivante ne parte. Le code marche, il est seulement séquentiel."
     explanation: >-
       Le remède est de séparer les deux temps : émettre les dix `request()`
       d'abord, puis parcourir `$client->stream($responses)` et traiter chaque
@@ -3803,16 +3803,16 @@ flashcards:
     official_item: OIT-9kh5cqz5qtrb
     language: fr
     level: APPLICATION
-    front: "Comment annuler une requête en cours, et que devient le flux ensuite ?"
+    front: "Comment annuler une Request en cours, et que devient le flux ensuite ?"
     back: "`$response->cancel()` : « No further chunk will be yielded after this method has been called »."
     explanation: >-
-      La méthode ferme le flux et tous les tampons associés. L'annulation est
+      La method ferme le flux et tous les buffers associés. L'annulation est
       visible dans `getInfo('canceled')`, qui passe à `true` — c'est d'ailleurs
-      la première clé que le contrat impose. Utile dans un parcours de `stream()`
-      quand une réponse suffit et que les autres deviennent inutiles.
+      la première key que le contrat impose. Utile dans un parcours de `stream()`
+      quand une Response suffit et que les autres deviennent inutiles.
     memorization_justification: >-
-      Méthode sans valeur de retour dont l'effet est observable ailleurs, par une
-      clé de `getInfo()` qu'il faut connaître.
+      Method sans return value dont l'effet est observable ailleurs, par une
+      key de `getInfo()` qu'il faut connaître.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/HttpClient/ResponseInterface.php"
@@ -3826,13 +3826,13 @@ flashcards:
     official_item: OIT-9kh5cqz5qtrb
     language: fr
     level: APPLICATION
-    front: "Quelle option permet de retrouver, sur une réponse, l'objet métier qui a motivé la requête ?"
+    front: "Quelle option permet de retrouver, sur une Response, l'object métier qui a motivé la Request ?"
     back: "`user_data` : le contrat impose qu'elle soit disponible via `$response->getInfo('user_data')`."
     explanation: >-
       C'est un `MUST`, et le contrat précise qu'elle n'est **pas utilisée en
       interne** : elle existe uniquement pour l'appelant. Dans un parcours de
-      `stream()`, où les réponses reviennent dans le désordre, c'est ce qui
-      permet de savoir à quoi chacune correspond sans tenir un tableau parallèle.
+      `stream()`, où les Responses reviennent dans le désordre, c'est ce qui
+      permet de savoir à quoi chacune correspond sans tenir un array parallèle.
     memorization_justification: >-
       Option sans effet sur le protocole, qui résout précisément le problème que
       pose le parallélisme.
@@ -3850,14 +3850,14 @@ flashcards:
     language: fr
     level: TRAP
     front: "Peut-on appeler `getResponse()` sur une `TimeoutExceptionInterface` ?"
-    back: "Non. Elle hérite de `TransportExceptionInterface` : rien n'est arrivé, il n'y a aucune réponse à rendre."
+    back: "Non. Elle hérite de `TransportExceptionInterface` : rien n'est arrivé, il n'y a aucune Response à rendre."
     explanation: >-
       Un délai dépassé se range du côté transport, pas du côté HTTP — même si
-      l'attente a duré. C'est l'erreur attendue à l'examen : chercher le corps
-      d'une réponse là où la requête n'en a jamais reçu. Seules les branches
+      l'attente a duré. C'est l'erreur attendue à l'examen : chercher le body
+      d'une Response là où la Request n'en a jamais reçu. Seules les branches
       sous `HttpExceptionInterface` — 3xx, 4xx, 5xx — exposent `getResponse()`.
     memorization_justification: >-
-      Le mot « timeout » évoque une réponse tardive plutôt qu'absente ; la
+      Le mot « timeout » évoque une Response tardive plutôt qu'absente ; la
       hiérarchie tranche dans l'autre sens.
     verification_status: VERIFIED
     official_sources:
@@ -3872,7 +3872,7 @@ flashcards:
     official_item: OIT-9kh5cqz5qtrb
     language: fr
     level: TRAP
-    front: "`$response->toArray(false)` sur une réponse 200 dont le corps est du HTML : que se passe-t-il ?"
+    front: "`$response->toArray(false)` sur une Response 200 dont le body est du HTML : que se passe-t-il ?"
     back: "Elle lève quand même — une `DecodingExceptionInterface`. Le `false` ne désactive que les levées liées au **statut**."
     explanation: >-
       Les deux familles d'exception sont indépendantes : `$throw` gouverne 3xx,
@@ -3880,7 +3880,7 @@ flashcards:
       corps sans rien risquer sur sa forme, il faut `getContent(false)` et
       décoder soi-même.
     memorization_justification: >-
-      Paramètre qui paraît tout désactiver et n'en couvre qu'une partie ; la
+      Parameter qui paraît tout désactiver et n'en couvre qu'une partie ; la
       confusion produit une exception non attrapée en production.
     verification_status: VERIFIED
     official_sources:
@@ -3895,13 +3895,13 @@ flashcards:
     official_item: OIT-9kh5cqz5qtrb
     language: fr
     level: TRAP
-    front: "Vrai ou faux : « poser `max_redirects` à `0` laisse le client suivre les redirections sans limite »."
+    front: "Vrai ou faux : « poser `max_redirects` à `0` laisse le client suivre les redirects sans limite »."
     back: "Faux, et c'est l'inverse : « a value lower than or equal to 0 means redirects should not be followed »."
     explanation: >-
       Le zéro de `max_duration` veut bien dire « illimité », celui de
       `max_redirects` veut dire « aucune ». Deux options voisines, deux
       conventions opposées pour la même valeur. Le contrat ajoute qu'en suivant
-      une redirection, les en-têtes `Authorization` et `Cookie` **ne doivent
+      un redirect, les headers `Authorization` et `Cookie` **ne doivent
       pas** être transmis à un autre nom d'hôte.
     memorization_justification: >-
       Même valeur, sens opposés selon l'option ; et la règle sur `Authorization`

@@ -23,12 +23,12 @@ official_sources:
 ## Objectif
 
 Savoir ce que le composant résout, et distinguer l'injection de la récupération.
-Le conteneur lui-même — définitions, visibilité, compilation — est traité dans
+Le container lui-même — definitions, visibilité, compilation — est traité dans
 *Service container*.
 
 ## Le problème
 
-Une classe qui construit ses propres collaborateurs les choisit à votre place :
+Une class qui construit ses propres collaborateurs les choisit à votre place :
 
 ```php
 class Mailer
@@ -41,7 +41,7 @@ class Mailer
 ```
 
 Impossible de la tester sans SMTP, impossible d'en changer sans la modifier.
-**L'injection de dépendances** renverse la responsabilité : la classe déclare ce
+**La dependency injection** renverse la responsabilité : la class déclare ce
 dont elle a besoin, quelqu'un d'autre le fournit.
 
 ```php
@@ -55,29 +55,29 @@ class Mailer
 
 | Forme | Écriture | Quand |
 |---|---|---|
-| **constructeur** | argument du constructeur | dépendance **obligatoire** — la voie normale |
-| **mutateur** | `setLogger()`, souvent `#[Required]` | dépendance facultative, ou cycle à casser |
-| **propriété** | propriété publique, `Definition::setProperty()` | déconseillée : casse l'encapsulation |
+| **constructeur** | argument du constructeur | dependency **obligatoire** — la voie normale |
+| **mutateur** | `setLogger()`, souvent `#[Required]` | dependency facultative, ou cycle à casser |
+| **property** | property publique, `Definition::setProperty()` | déconseillée : casse l'encapsulation |
 
 ## Injection ou récupération
 
 C'est la distinction de fond. **Injecter**, c'est recevoir ce dont on a besoin.
-**Récupérer** (*service location*), c'est demander au conteneur de le donner :
+**Récupérer** (*service location*), c'est demander au container de le donner :
 
 ```php
 $mailer = $container->get('mailer');   // récupération
 ```
 
-Une classe qui reçoit le conteneur entier peut demander n'importe quoi, donc
-ses dépendances ne sont plus lisibles dans sa signature. C'est pourquoi le
-conteneur n'est pas injecté dans les services applicatifs. Le cas légitime —
-beaucoup de dépendances dont peu servent à chaque appel — a sa propre réponse,
+Une class qui reçoit le container entier peut demander n'importe quoi, donc
+ses dependencies ne sont plus lisibles dans sa signature. C'est pourquoi le
+container n'est pas injecté dans les services applicatifs. Le cas légitime —
+beaucoup de dependencies dont peu servent à chaque appel — a sa propre Response,
 le *service locator*, traité dans son item.
 
 ## Le composant
 
 `symfony/dependency-injection` est **autonome**. Hors framework, on construit un
-`ContainerBuilder`, on y déclare des définitions, puis on appelle `compile()` :
+`ContainerBuilder`, on y déclare des definitions, puis on appelle `compile()` :
 
 ```php
 $container = new ContainerBuilder();
@@ -89,7 +89,7 @@ $container->register('mailer', Mailer::class)
 $container->compile();
 ```
 
-La compilation exécute les passes de compilation, résout le conteneur et le
+La compilation exécute les compiler passes, résout le container et le
 **fige**. Dans une application Symfony, elle a lieu une fois puis est mise en
 cache.
 
@@ -107,13 +107,13 @@ Exécuté avec `symfony/dependency-injection` 8.0.15 :
 | `setParameter()` après `compile()` | `LogicException` : « Impossible to call set() on a frozen ParameterBag. » |
 | deux `get('mailer')` | la même instance ; `setShared(false)` en donne deux |
 
-Le message du conteneur compilé conseille lui-même la voie normale : « make it
+Le message du container compilé conseille lui-même la voie normale : « make it
 public, or stop using the container directly and use dependency injection ».
 
 ## Pièges d'examen
 
-**Injection ≠ récupération.** Recevoir le conteneur n'est pas de l'injection de
-dépendances, même si le conteneur est injecté.
+**Injection ≠ récupération.** Recevoir le container n'est pas de l'injection de
+dependencies, même si le container est injecté.
 
 **Le constructeur est la voie normale**, le mutateur l'exception ; l'inverse
 n'est pas vrai.
@@ -121,16 +121,16 @@ n'est pas vrai.
 **Un service est privé par défaut** : après `compile()`, il n'est plus
 récupérable par `get()` s'il n'a pas été rendu public.
 
-**`compile()` fige** : plus de définition ni de paramètre ajouté ensuite.
+**`compile()` fige** : plus de definition ni de parameter ajouté ensuite.
 
 ## Points clés
 
-- La classe déclare ses besoins ; quelqu'un d'autre les fournit.
+- La class déclare ses besoins ; quelqu'un d'autre les fournit.
 - Constructeur pour l'obligatoire, mutateur pour le facultatif ou un cycle.
-- Recevoir le conteneur entier n'est pas de l'injection : c'est de la
-  récupération, et cela masque les dépendances.
+- Recevoir le container entier n'est pas de l'injection : c'est de la
+  récupération, et cela masque les dependencies.
 - `ContainerBuilder` + `compile()` : composant autonome ; services privés par
-  défaut, conteneur figé après compilation.
+  défaut, container figé après compilation.
 
 ## Sources officielles
 

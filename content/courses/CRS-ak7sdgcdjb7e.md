@@ -30,11 +30,11 @@ official_sources:
 
 ## Objectif
 
-Poser un message flash, savoir où il est stocké et quand il disparaît.
+Poser un flash message, savoir où il est stocké et quand il disparaît.
 
 ## Ce que c'est
 
-Un message flash est un message de **session** conçu pour être utilisé
+Un flash message est un message de **session** conçu pour être utilisé
 exactement une fois : il disparaît automatiquement dès qu'il est récupéré. C'est
 le mécanisme du motif *Post / Redirect / Get* — on traite, on pose un message,
 on redirige, et la page suivante l'affiche puis l'oublie.
@@ -72,61 +72,61 @@ public function set(string $type, string|array $messages): void
 }
 ```
 
-`add()` ajoute au tableau du type ; `set()` **remplace tout le type**. Un `set()`
+`add()` ajoute à l'array du type ; `set()` **remplace tout le type**. Un `set()`
 posé après deux `add()` ne laisse que le dernier message. Le raccourci du
-contrôleur n'expose que `add()`, ce qui rend `set()` d'autant plus facile à
+controller n'expose que `add()`, ce qui rend `set()` d'autant plus facile à
 manquer — et son effet d'autant plus surprenant.
 
 ## Lire, et le piège
 
 Deux familles, une différence qui décide de tout :
 
-| Méthode | Effet |
+| Method | Effet |
 |---|---|
 | `get('warning')` / `all()` | retourne les messages **et les consomme** |
 | `peek('warning')` / `peekAll()` | retourne les messages **sans** les consommer |
 
-Dans un gabarit Twig, `app.flashes` consomme ; `app.session.flashbag.peekAll()`
+Dans un template Twig, `app.flashes` consomme ; `app.session.flashbag.peekAll()`
 ne consomme pas. Afficher les flashs deux fois dans une même page avec
 `app.flashes` en fait donc disparaître la moitié.
 
-### Trois précisions que le tableau écrase
+### Trois précisions que l'array écrase
 
 **`get()` ne vide qu'un type ; `all()` vide tout.** Lire les `notice` laisse les
 `warning` intacts. Ce n'est pas la même portée.
 
-**`clear()` est un alias de `all()`.** Son corps rend `all()`, donc elle vide
+**`clear()` est un alias de `all()`.** Son body rend `all()`, donc elle vide
 *et retourne* ce qu'elle a vidé. Ce n'est pas une purge silencieuse : la valeur
 de retour porte les messages.
 
-**Un type vide compte pour absent.** `has()` exige que la clé existe **et** que
-son tableau ne soit pas vide. Un type présent mais vidé répond `false`, et
-`get()` rend alors la valeur par défaut — `[]`, sauf si on en passe une autre.
+**Un type vide compte pour absent.** `has()` exige que la key existe **et** que
+son array ne soit pas vide. Un type présent mais vidé répond `false`, et
+`get()` rend alors la default value — `[]`, sauf si on en passe une autre.
 
 ## Pièges d'examen
 
 **Lire un flash le consomme.** Afficher les messages deux fois dans la même page
-par le chemin ordinaire en fait disparaître la moitié : la seconde lecture ne
+par le path ordinaire en fait disparaître la moitié : la seconde lecture ne
 trouve plus rien. La consultation sans consommation existe, c'est une autre
-méthode.
+method.
 
 **`set()` n'ajoute pas, elle remplace.** Deux `add()` puis un `set()` ne laissent
 qu'un message. Seul `add()` empile.
 
-**`clear()` retourne les messages qu'elle efface.** Ignorer sa valeur de retour
+**`clear()` retourne les messages qu'elle efface.** Ignorer sa return value
 jette les messages.
 
 **`get()` ne vide que son type.** Vider tout demande `all()`.
 
-**Poser un flash démarre la session.** Le message flash *est* de la session ; il
+**Poser un flash démarre la session.** Le flash message *est* de la session ; il
 n'y a pas de flash sans cookie de session.
 
 **Le type du message est libre.** `notice`, `warning`, `error` sont des usages,
-pas une énumération imposée par le framework.
+pas une enum imposée par le framework.
 
 ## Tips d'examen
 
-**Le préfixe `peek` est la clé de lecture.** Tout ce qui ne le porte pas
+**Le préfixe `peek` est la key de lecture.** Tout ce qui ne le porte pas
 consomme — `get`, `all`, et `clear` qui est `all` sous un autre nom.
 
 ## Points clés

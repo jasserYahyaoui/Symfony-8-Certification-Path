@@ -26,25 +26,25 @@ official_sources:
 
 ## Objectif
 
-Piloter l'application comme un navigateur : requêtes, navigation, redirections,
-authentification.
+Piloter l'application comme un navigateur : Requests, navigation, redirects,
+authentication.
 
 ## Prérequis
 
-Les tests fonctionnels avec `WebTestCase`.
+Les functional tests avec `WebTestCase`.
 
 ## Ce qu'est le client
 
 `static::createClient()` rend un `KernelBrowser`. Il **simule** un navigateur :
-aucune socket n'est ouverte, aucun serveur web n'intervient. La requête est
-construite en mémoire et passée au noyau. C'est pourquoi ces tests sont rapides
+aucune socket n'est ouverte, aucun serveur web n'intervient. La Request est
+construite en mémoire et passée au kernel. C'est pourquoi ces tests sont rapides
 — et pourquoi ils n'exécutent aucun JavaScript.
 
-Le client est disponible dans le conteneur sous le service **`test.client`**, en
-environnement `test` ou partout où l'option `framework.test` est activée ; on
+Le client est disponible dans le container sous le service **`test.client`**, en
+environment `test` ou partout où l'option `framework.test` est activée ; on
 peut donc le remplacer entièrement.
 
-## Faire une requête
+## Faire une Request
 
 ```php
 $crawler = $client->request('GET', '/post/hello-world');
@@ -64,11 +64,11 @@ request(
 ): Crawler
 ```
 
-`request()` **retourne un `Crawler`**, pas une réponse. La réponse se lit par
+`request()` **retourne un `Crawler`**, pas une Response. La Response se lit par
 `$client->getResponse()`.
 
-Pour une requête AJAX, `xmlHttpRequest()` a les mêmes arguments et ajoute
-l'en-tête `HTTP_X_REQUESTED_WITH` automatiquement — exécuté :
+Pour une Request AJAX, `xmlHttpRequest()` a les mêmes arguments et ajoute
+le header `HTTP_X_REQUESTED_WITH` automatiquement — exécuté :
 `$client->getRequest()->isXmlHttpRequest()` vaut `true`.
 
 ## Naviguer
@@ -80,10 +80,10 @@ $client->reload();
 $client->restart();   // vide les cookies et l'historique
 ```
 
-`back()` et `forward()` sautent les redirections, comme un navigateur — mais
+`back()` et `forward()` sautent les redirects, comme un navigateur — mais
 **seulement celles que le client a suivies seul**, en mode `followRedirects()`
 (voir plus bas). Lu dans le code 8.0 : `AbstractBrowser::request()` ne mémorise
-une redirection que dans ce mode. Exécuté, `/created` puis `/go`, qui redirige
+un redirect que dans ce mode. Exécuté, `/created` puis `/go`, qui redirige
 vers `/hello` :
 
 | Mode du client | Après `back()` |
@@ -91,51 +91,51 @@ vers `/hello` :
 | `followRedirects()` | `/created`, 201 |
 | par défaut, puis `followRedirect()` | `/go`, de nouveau 302 |
 
-## Les redirections
+## Les redirects
 
-Le client **ne suit pas** les redirections par défaut. Deux méthodes, à ne pas
+Le client **ne suit pas** les redirects par défaut. Deux methods, à ne pas
 confondre :
 
-| Méthode | Effet |
+| Method | Effet |
 |---|---|
-| `followRedirect()` | suit **la** redirection en attente, une fois |
+| `followRedirect()` | suit **la** redirect en attente, une fois |
 | `followRedirects()` | change le **mode** : toutes les suivantes seront suivies |
 | `followRedirects(false)` | revient au comportement par défaut |
 
-La différence est le singulier : l'une agit sur la réponse courante, l'autre
-règle le client. `followRedirects()` doit être appelée **avant** la requête.
+La différence est le singulier : l'une agit sur la Response courante, l'autre
+règle le client. `followRedirects()` doit être appelée **avant** la Request.
 
 Le défaut n'est pas celui de BrowserKit. Lu dans le code 8.0 :
 `AbstractBrowser` déclare `$followRedirects = true`, mais `HttpKernelBrowser`
 — parent de `KernelBrowser` — le passe à `false` dans son constructeur. Un
-`HttpBrowser`, qui parle à un vrai serveur, suit donc les redirections ; le
+`HttpBrowser`, qui parle à un vrai serveur, suit donc les redirects ; le
 client de test, non. Exécuté, `GET /go` qui redirige vers `/hello` :
 
 | Client | Après `request()` | Après `followRedirect()` |
 |---|---|---|
 | `createClient()`, par défaut | 302, `isFollowingRedirects()` faux | 200 sur `/hello` |
 
-## Plusieurs requêtes dans un test
+## Plusieurs Requests dans un test
 
-Après une requête, la suivante **redémarre le noyau** et reconstruit le
-conteneur, pour isoler les requêtes. Conséquence pratique : le jeton de sécurité
-est effacé entre deux requêtes. Exécuté : deux requêtes, deux objets conteneur
-différents ; après `disableReboot()`, le même conteneur sert la requête
+Après une Request, la suivante **redémarre le kernel** et reconstruit le
+container, pour isoler les Requests. Conséquence pratique : le token de sécurité
+est effacé entre deux Requests. Exécuté : deux Requests, deux objects container
+différents ; après `disableReboot()`, le même container sert la Request
 suivante.
 
-Ce jeton effacé n'implique pas toujours une déconnexion. `loginUser()` le
-place dans le stockage de jetons **et**, s'il y a une session, dans la session.
-Exécuté avec SecurityBundle 8.0.15, `loginUser()` puis deux requêtes :
+Ce token effacé n'implique pas toujours une déconnexion. `loginUser()` le
+place dans le stockage de tokens **et**, s'il y a une session, dans la session.
+Exécuté avec SecurityBundle 8.0.15, `loginUser()` puis deux Requests :
 
-| Pare-feu | 1ʳᵉ requête | 2ᵉ requête |
+| Firewall | 1ʳᵉ Request | 2ᵉ Request |
 |---|---|---|
 | avec état (par défaut) | `alice` | `alice` — restauré depuis la session |
 | `stateless: true` | `alice` | anonyme |
 
-`disableReboot()` réinitialise le noyau au lieu de le redémarrer — Symfony
+`disableReboot()` réinitialise le kernel au lieu de le redémarrer — Symfony
 appelle alors `reset()` sur les services marqués `kernel.reset`. Cela efface
-également le jeton de sécurité ; pour le conserver, il faut retirer l'étiquette
-`kernel.reset` du service concerné par une passe de compilation en environnement
+également le token de sécurité ; pour le conserver, il faut retirer le tag
+`kernel.reset` du service concerné par un compiler pass en environment
 de test.
 
 ## S'authentifier
@@ -144,8 +144,8 @@ de test.
 $client->loginUser($user);
 ```
 
-Rejouer un formulaire de connexion à chaque test le rendrait lent.
-`loginUser()` place directement l'utilisateur dans le pare-feu — `main` par
+Rejouer un form de connexion à chaque test le rendrait lent.
+`loginUser()` place directement le user dans le firewall — `main` par
 défaut, modifiable par le deuxième argument.
 
 ## Voir l'exception
@@ -155,25 +155,25 @@ $client->catchExceptions(false);
 ```
 
 Par défaut les exceptions sont interceptées et rendues en page d'erreur ; le
-test échoue alors sur un code 500 sans dire pourquoi. Cette méthode les laisse
-remonter jusqu'à PHPUnit. Exécuté, un contrôleur qui lève
-`RuntimeException('kaboom')` : réponse 500 par défaut, puis l'exception
+test échoue alors sur un code 500 sans dire pourquoi. Cette method les laisse
+remonter jusqu'à PHPUnit. Exécuté, un controller qui lève
+`RuntimeException('kaboom')` : Response 500 par défaut, puis l'exception
 elle-même après `catchExceptions(false)`.
 
 ## Pièges d'examen
 
 **`request()` retourne un `Crawler`**, pas une `Response`.
 
-**Le client de test ne suit pas les redirections par défaut** — alors que le
+**Le client de test ne suit pas les redirects par défaut** — alors que le
 `AbstractBrowser` de BrowserKit, lui, les suit.
 
 **`followRedirect()` ≠ `followRedirects()`** : une fois, contre un réglage.
 
-**`back()` ne saute que les redirections suivies en mode `followRedirects()`** ;
+**`back()` ne saute que les redirects suivis en mode `followRedirects()`** ;
 après un `followRedirect()` manuel, il revient sur l'URL qui a redirigé.
 
-**Le noyau redémarre entre deux requêtes** et le jeton en mémoire est perdu ;
-un pare-feu avec état le restaure depuis la session, un pare-feu `stateless`
+**Le kernel redémarre entre deux Requests** et le token en mémoire est perdu ;
+un firewall avec état le restaure depuis la session, un firewall `stateless`
 non.
 
 **Aucun JavaScript n'est exécuté** : c'est un client simulé, pas un navigateur.
@@ -181,7 +181,7 @@ non.
 ## Points clés
 
 - `createClient()` rend un `KernelBrowser`, disponible comme service `test.client`.
-- `request()` rend un `Crawler` ; `getResponse()` rend la réponse.
+- `request()` rend un `Crawler` ; `getResponse()` rend la Response.
 - `back()`, `forward()`, `reload()`, `restart()` pour naviguer.
 - `followRedirect()` une fois, `followRedirects()` en mode.
 - `loginUser()` pour s'authentifier, `catchExceptions(false)` pour déboguer.

@@ -26,16 +26,16 @@ official_sources:
 
 ## Objectif
 
-Recevoir un petit conteneur restreint quand injecter tout est absurde, sans
+Recevoir un petit container restreint quand injecter tout est absurde, sans
 retomber dans la récupération de services. Le cas particulier
 d'`AbstractController` est traité dans son propre item (lot Controllers).
 
 ## Le cas légitime
 
-Une classe qui dispatche vers dix gestionnaires n'en utilise **qu'un** par appel.
+Une class qui dispatche vers dix handlers n'en utilise **qu'un** par appel.
 Les injecter tous les construirait tous, pour rien.
 
-Un **service locator** est un conteneur minuscule, limité aux services déclarés,
+Un **service locator** est un container minuscule, limité aux services déclarés,
 qui ne construit chacun qu'au moment où on le demande.
 
 ```php
@@ -63,7 +63,7 @@ class CommandBus implements ServiceSubscriberInterface
 ```
 
 `getSubscribedServices()` est **statique** — c'est la signature de
-`ServiceSubscriberInterface` (8.0). La clé `'logger'` donne un nom local au
+`ServiceSubscriberInterface` (8.0). La key `'logger'` donne un nom local au
 service typé `LoggerInterface`.
 
 ## Ce que l'exécution montre
@@ -72,20 +72,20 @@ Exécuté dans une application FrameworkBundle 8.0.15 :
 
 | Situation | Résultat |
 |---|---|
-| après construction du bus | aucun gestionnaire construit |
-| `get(FooHandler::class)` | construit à ce moment, et **même instance** que celle du conteneur |
+| après construction du bus | aucun handler construit |
+| `get(FooHandler::class)` | construit à ce moment, et **même instance** que celle du container |
 | `?App\P12\Missing` absent | `has()` rend `false`, rien n'échoue |
 | le même, sans `?` | la compilation échoue : « has a dependency on a non-existent service "App\P12\Missing" » |
 | `get()` d'un service non déclaré | `ServiceNotFoundException` : « even though it exists in the app's container, the container inside "App\P12\Bus" is a smaller service locator that only knows about the "App\P12\FooHandler" and "logger" services » |
 
 Le préfixe `?` décide donc du moment de l'échec : sans lui, un service manquant
-bloque la compilation ; avec lui, c'est à la classe de tester `has()`.
+bloque la compilation ; avec lui, c'est à la class de tester `has()`.
 
 ## Ce que cela n'est pas
 
-Ce n'est **pas** l'injection du conteneur applicatif. Le locator ne contient
-**que** ce que la classe a déclaré — le message ci-dessus le dit en toutes
-lettres : ses dépendances restent lisibles et vérifiables à la compilation, ce
+Ce n'est **pas** l'injection du container applicatif. Le locator ne contient
+**que** ce que la class a déclaré — le message ci-dessus le dit en toutes
+lettres : ses dependencies restent lisibles et vérifiables à la compilation, ce
 qui est précisément ce que la récupération de services fait perdre.
 
 ## La forme courte
@@ -101,12 +101,12 @@ public function __construct(
 
 Un locator peut aussi être construit à partir d'un **tag** —
 `#[AutowireLocator('app.handler')]` —, ce qui donne une table de correspondance
-paresseuse : exécuté (voir *Tags*), les clés sont l'`index` de chaque service
-quand il en a un, son identifiant sinon.
+paresseuse : exécuté (voir *Tags*), les keys sont l'`index` de chaque service
+quand il en a un, son identifier sinon.
 
 ## Hériter
 
-Quand une classe parente implémente déjà `ServiceSubscriberInterface`, la
+Quand une class parente implémente déjà `ServiceSubscriberInterface`, la
 sous-classe doit **fusionner** :
 
 ```php
@@ -121,24 +121,24 @@ Oublier `parent::` retire silencieusement les services du parent. Exécuté : un
 
 **`getSubscribedServices()` est statique.**
 
-**Le locator n'est pas le conteneur** : il est restreint à la liste déclarée, et
+**Le locator n'est pas le container** : il est restreint à la liste déclarée, et
 le dit dans son message d'erreur.
 
-**Les services sont construits à la demande** — et partagés avec le conteneur.
+**Les services sont construits à la demande** — et partagés avec le container.
 
 **Sans `?`, un service manquant bloque la compilation** ; avec `?`, `has()`
 rend `false`.
 
-**En héritage, il faut fusionner avec `parent::`.**
+**En inheritance, il faut fusionner avec `parent::`.**
 
 ## Points clés
 
-- Un locator est un conteneur restreint et paresseux, pour « beaucoup de
-  dépendances, une seule utilisée ».
+- Un locator est un container restreint et paresseux, pour « beaucoup de
+  dependencies, une seule utilisée ».
 - `ServiceSubscriberInterface` + `getSubscribedServices()` statique, ou
   `#[AutowireLocator]`.
 - `?` rend un service facultatif.
-- Les dépendances restent déclarées, donc vérifiables : ce n'est pas de la
+- Les dependencies restent déclarées, donc vérifiables : ce n'est pas de la
   récupération de services.
 
 ## Sources officielles

@@ -31,9 +31,9 @@ official_sources:
 
 ## Objectif
 
-Hacher et vérifier un mot de passe, savoir quels anciens hachages restent
+Hacher et vérifier un password, savoir quels anciens hachages restent
 lisibles après un changement d'algorithme, et faire migrer ceux qui ne le sont
-pas sans demander aux utilisateurs de changer de mot de passe.
+pas sans demander aux users de changer de password.
 
 ## Hacher
 
@@ -44,13 +44,13 @@ public function register(UserPasswordHasherInterface $hasher): Response
 }
 ```
 
-`hashPassword()` prend **l'utilisateur** et non seulement la chaîne, parce que
-la configuration peut associer un algorithme différent à chaque classe
-d'utilisateur. L'interface a deux autres méthodes, `isPasswordValid()` et
+`hashPassword()` prend **le user** et non seulement la string, parce que
+la configuration peut associer un algorithme différent à chaque class
+de user. L'interface a deux autres methods, `isPasswordValid()` et
 `needsRehash()`, sur le même modèle.
 
-Un contrôleur ne vérifie normalement pas le mot de passe lui-même : c'est le
-badge `PasswordCredentials` de l'authentificateur qui déclenche la comparaison.
+Un controller ne vérifie normalement pas le password lui-même : c'est le
+badge `PasswordCredentials` de l'authenticator qui déclenche la comparaison.
 
 ## `auto` hache en bcrypt
 
@@ -63,7 +63,7 @@ security:
 
 La documentation le dit : `auto` choisit « the best available hasher
 (currently Bcrypt) ». Lu dans `PasswordHasherFactory` : `auto` construit une
-**chaîne** — `native`, puis `sodium` s'il est disponible, puis `pbkdf2` — dont
+**string** — `native`, puis `sodium` s'il est disponible, puis `pbkdf2` — dont
 le premier maillon hache, et dont les suivants ne servent qu'à **vérifier**.
 `native` utilise bcrypt, coût 13 par défaut.
 
@@ -74,8 +74,8 @@ Exécuté avec password-hasher 8.0.8, sodium disponible :
 | hachage par `auto` | préfixe `$2y$13$`, du bcrypt |
 | hachage argon2id existant, vérifié par `auto` | accepté, et `needsRehash()` vrai |
 
-Exécuté de bout en bout avec un fournisseur `PasswordUpgraderInterface` : un
-utilisateur stocké en argon2id se connecte (200), et son mot de passe est
+Exécuté de bout en bout avec un provider `PasswordUpgraderInterface` : un
+user stocké en argon2id se connecte (200), et son password est
 **rehaché en bcrypt** (`$2y$13$`).
 
 ## Quels anciens hachages restent lisibles
@@ -91,12 +91,12 @@ hexadécimaux : rien ne dit comment le relire. Exécuté, `auto` sans
 | pbkdf2, réglages par défaut | oui |
 | `sha256`, 1 itération, hexadécimal | **non** — connexion refusée, 401 |
 
-Changer d'algorithme ne casse donc rien **tant que le nouveau hacheur sait lire
+Changer d'algorithme ne casse donc rien **tant que le nouveau hasher sait lire
 l'ancien format**. Sinon, il faut `migrate_from`.
 
 ## Migrer
 
-`migrate_from` nomme les anciens hacheurs, déclarés à côté du nouveau :
+`migrate_from` nomme les anciens hashers, déclarés à côté du nouveau :
 
 ```yaml
 security:
@@ -110,30 +110,30 @@ security:
             migrate_from: [legacy]
 ```
 
-À la connexion, le mot de passe est vérifié par `legacy`, puis
+À la connexion, le password est vérifié par `legacy`, puis
 `PasswordMigratingListener` le rehache avec le nouvel algorithme. Deux
-conditions : un `PasswordUpgradeBadge` sur le passeport — `form_login`,
-`json_login` et `http_basic` l'ajoutent — et un objet
+conditions : un `PasswordUpgradeBadge` sur le passport — `form_login`,
+`json_login` et `http_basic` l'ajoutent — et un object
 `PasswordUpgraderInterface` pour enregistrer le résultat, en pratique le
-fournisseur. Exécuté, hachages `legacy` en base :
+provider. Exécuté, hachages `legacy` en base :
 
-| Fournisseur | `migrate_from` | Résultat |
+| Provider | `migrate_from` | Résultat |
 |---|---|---|
 | implémente `PasswordUpgraderInterface` | oui | 200, `upgradePassword()` reçoit un `$2y$13$…` |
 | ne l'implémente pas | oui | 200, hachage **inchangé** |
 | l'un ou l'autre | non | **401** |
 
-L'utilisateur ne change pas de mot de passe et ne voit rien.
+Le user ne change pas de password et ne voit rien.
 
 ## En test
 
-Les algorithmes sûrs sont lents par construction. En environnement de test, on
+Les algorithmes sûrs sont lents par construction. En environment de test, on
 abaisse volontairement le coût — `cost: 4`, « lowest possible value for
 bcrypt » : exécuté, préfixe `$2y$04$`.
 
 ## Pièges d'examen
 
-**`hashPassword()` reçoit l'utilisateur**, pas seulement le mot de passe.
+**`hashPassword()` reçoit le user**, pas seulement le password.
 
 **`auto` hache en bcrypt**, même quand sodium est disponible.
 

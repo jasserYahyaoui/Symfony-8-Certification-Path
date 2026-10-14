@@ -67,7 +67,7 @@ final class PaymentDeclined extends \RuntimeException
 }
 ```
 
-**Une classe PHP ne peut pas implémenter `Throwable` directement.** Le moteur
+**Une class PHP ne peut pas implémenter `Throwable` directement.** Le moteur
 l'interdit : il faut étendre `Exception` ou `Error`. Une interface de marquage
 propre à l'application, elle, reste possible :
 
@@ -99,7 +99,7 @@ c'est leur seul point commun dans la hiérarchie.
 dans le `finally` écrase celui du `try`. Pas après un `exit()`, en revanche :
 exécuté, le script s'arrête sans passer par le `finally`.
 
-**L'ordre des `catch` compte** : le premier bloc compatible gagne. Placer
+**L'ordre des `catch` compte** : le premier block compatible gagne. Placer
 `catch (Throwable)` en premier rend les suivants inatteignables.
 
 ## Points clés
@@ -107,7 +107,7 @@ exécuté, le script s'arrête sans passer par le `finally`.
 - `Throwable` est l'interface racine ; `Error` et `Exception` sont deux
   branches sœurs.
 - `catch (Exception)` laisse passer les `Error`.
-- Une classe ne peut pas implémenter `Throwable` directement.
+- Une class ne peut pas implémenter `Throwable` directement.
 - `finally` s'exécute après le `try` et les `catch`, sauf `exit()` ; l'ordre
   des `catch` est significatif.
 

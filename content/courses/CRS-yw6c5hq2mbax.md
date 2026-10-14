@@ -48,16 +48,16 @@ official_sources:
 
 ## Objectif
 
-Exécuter un contrôleur depuis un gabarit, et savoir ce que cela coûte et ce qui
-peut échouer. Le `forward()` d'un contrôleur vers un autre appartient au lot
+Exécuter un controller depuis un template, et savoir ce que cela coûte et ce qui
+peut échouer. Le `forward()` d'un controller vers un autre appartient au lot
 Controllers.
 
 ## Le besoin
 
 Un fragment a besoin de données que la page courante n'a pas — les derniers
 articles dans une barre latérale présente sur tout le site. Passer ces données
-depuis chaque contrôleur serait absurde. La fonction `render()` exécute un
-contrôleur et insère sa réponse :
+depuis chaque controller serait absurde. La function `render()` exécute un
+controller et insère sa Response :
 
 ```html
 {{ render(path('latest_articles', {max: 3})) }}
@@ -65,14 +65,14 @@ contrôleur et insère sa réponse :
 ```
 
 La documentation Symfony 8.0 nuance d'emblée : pour une simple unité d'interface
-réutilisable, elle recommande les Twig Components ; intégrer un contrôleur se
-justifie quand il faut vraiment une sous-requête, par exemple pour mettre le
+réutilisable, elle recommande les Twig Components ; intégrer un controller se
+justifie quand il faut vraiment une sub-Request, par exemple pour mettre le
 fragment en cache séparément avec ESI.
 
 ## Avec ou sans route
 
-`render()` prend une URL ou une référence de contrôleur. Pour un contrôleur
-**sans** route, on l'enveloppe dans `controller()` :
+`render()` prend une URL ou une référence de controller. Pour un controller
+**sans** route, on l'Envelope dans `controller()` :
 
 ```html
 {{ render(controller(
@@ -82,68 +82,68 @@ fragment en cache séparément avec ESI.
 ```
 
 `controller(nom, attributs, query)` construit un simple `ControllerReference` —
-il n'exécute rien ; c'est `render()` qui le fait. Les attributs deviennent des
-attributs de la sous-requête (des objets y sont admis en mode `inline`), le
-troisième argument des paramètres de chaîne de requête.
+il n'exécute rien ; c'est `render()` qui le fait. Les attributes deviennent des
+attributes de la sub-Request (des objects y sont admis en mode `inline`), le
+troisième argument des parameters de chaîne de Request.
 
 ## Ce que cela déclenche
 
-Chaque appel est une **sous-requête** `GET` traitée par le noyau
-(`HttpKernelInterface::SUB_REQUEST`) : le noyau retraverse son cycle pour le
+Chaque appel est une **sub-Request** `GET` traitée par le kernel
+(`HttpKernelInterface::SUB_REQUEST`) : le kernel retraverse son cycle pour le
 fragment. `InlineFragmentRenderer` la construit avec les cookies, les variables
-serveur et la session de la requête courante, sans les en-têtes
+serveur et la session de la Request courante, sans les headers
 `If-Modified-Since` et `If-None-Match`, et transmet `_format` et la locale.
 
 Ce n'est pas gratuit ; la documentation avertit qu'intégrer beaucoup de
-contrôleurs peut peser nettement sur les performances.
+controllers peut peser nettement sur les performances.
 
 ## Les stratégies
 
 `render()` utilise la stratégie `inline` par défaut ; l'option `strategy` ou les
-fonctions `render_esi()`, `render_ssi()` et `render_hinclude()` en choisissent
+functions `render_esi()`, `render_ssi()` et `render_hinclude()` en choisissent
 une autre. `fragment_uri()` rend l'URI d'un fragment sans l'exécuter.
 
 ## L'URL des fragments
 
-Avec `controller()`, la sous-requête vise une URL interne, `/_fragment` par
+Avec `controller()`, la sub-Request vise une URL interne, `/_fragment` par
 défaut (`framework.fragments.path`). L'option `framework.fragments` est
 **désactivée par défaut** ; l'activer charge le `FragmentListener`, qui sert
-cette URL aux requêtes venues de l'extérieur — ESI, hinclude — et y vérifie la
-signature. En `inline`, la sous-requête porte déjà son `_controller`, et le
-`RouterListener` ne route pas une requête qui en a un.
+cette URL aux Requests venues de l'extérieur — ESI, hinclude — et y vérifie la
+signature. En `inline`, la sub-Request porte déjà son `_controller`, et le
+`RouterListener` ne route pas une Request qui en a un.
 
 ## Quand le fragment échoue
 
-- **Exception** dans le contrôleur du fragment : relancée en `dev`, avalée en
+- **Exception** dans le controller du fragment : relancée en `dev`, avalée en
   `prod`. `FragmentHandler` fixe `ignore_errors` à `!kernel.debug` si l'appel ne
-  le précise pas ; ignorée, l'exception passe par l'événement `kernel.exception`
-  — pour la journalisation — et le fragment est vide.
+  le précise pas ; ignorée, l'exception passe par l'event `kernel.exception`
+  — pour le logging — et le fragment est vide.
   L'option `alt` désigne un fragment de repli.
-- **Réponse non 2xx** — une redirection comprise : `FragmentHandler::deliver()`
-  lève une `RuntimeException`, quel que soit `ignore_errors`. Un contrôleur de
+- **Response non 2xx** — un redirect comprise : `FragmentHandler::deliver()`
+  lève une `RuntimeException`, quel que soit `ignore_errors`. Un controller de
   fragment ne redirige pas.
 
 ## Pièges d'examen
 
-**Rendre un contrôleur depuis un gabarit déclenche une sous-requête**, pas un
-appel de fonction.
+**Rendre un controller depuis un template déclenche une sub-Request**, pas un
+appel de function.
 
 **`controller()` seul n'affiche rien** : il construit une référence.
 
 **Une erreur de fragment ne se comporte pas pareil en `dev` et en `prod`.**
 
-**Une redirection dans un fragment est une erreur.**
+**Un redirect dans un fragment est une erreur.**
 
 **`framework.fragments` n'est pas actif par défaut** ; il sert à exposer
 `/_fragment` à l'extérieur, pas à faire fonctionner `inline`.
 
 ## Points clés
 
-- `render(path(...))` / `render(url(...))` pour un contrôleur routé ;
+- `render(path(...))` / `render(url(...))` pour un controller routé ;
   `render(controller(...))` sans route.
-- Sous-requête `GET`, cookies et session partagés ; stratégie `inline` par
+- Sub-Request `GET`, cookies et session partagés ; stratégie `inline` par
   défaut, `render_esi()` et consorts sinon.
-- `ignore_errors` vaut `!kernel.debug` ; réponse non 2xx : exception.
+- `ignore_errors` vaut `!kernel.debug` ; Response non 2xx : exception.
 - `/_fragment` par défaut ; `framework.fragments` désactivé tant qu'on ne
   l'active pas.
 

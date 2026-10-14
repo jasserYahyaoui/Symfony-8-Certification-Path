@@ -12,10 +12,10 @@ flashcards:
   language: fr
   level: RECALL
   front: Qu'est-ce qui déclenche le traitement ICU MessageFormat d'un catalogue ?
-  back: 'Le suffixe +intl-icu dans le nom du fichier : messages+intl-icu.en.yaml. Sans lui, strtr remplace les clés
+  back: 'Le suffixe +intl-icu dans le nom du file : messages+intl-icu.en.yaml. Sans lui, strtr remplace les keys
     passées telles quelles : avec name, Hello {name}! devient Hello {Ann}!.'
   explanation: 'C''est aussi ce qui sépare les deux syntaxes : %name% en format classique, {name} en ICU.'
-  memorization_justification: On cherche une option de configuration, alors que le déclencheur est le nom du fichier.
+  memorization_justification: On cherche une option de configuration, alors que le déclencheur est le nom du file.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/formats/message_format.rst
@@ -27,10 +27,10 @@ flashcards:
   official_item: OIT-3dd7821h069b
   language: fr
   level: RECALL
-  front: 'Symfony : que rend trans() pour une clé absente de tous les catalogues ?'
-  back: La clé elle-même, sans erreur.
+  front: 'Symfony : que rend trans() pour une key absente de tous les catalogues ?'
+  back: La key elle-même, sans erreur.
   explanation: 'Exécuté : `missing.key` rendu tel quel.'
-  memorization_justification: Traduction manquante silencieuse.
+  memorization_justification: Translation manquante silencieuse.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst
@@ -43,7 +43,7 @@ flashcards:
   official_item: OIT-3dd7821h069b
   language: fr
   level: RECALL
-  front: 'Symfony : dans quel ordre le traducteur cherche-t-il une clé pour es_AR ?'
+  front: 'Symfony : dans quel ordre le translator cherche-t-il une key pour es_AR ?'
   back: '`es_AR`, puis la locale parente `es_419`, puis `es`, puis l''option `fallbacks`.'
   explanation: Exécuté sur Translation 8.0.14.
   memorization_justification: Cascade de repli.
@@ -66,7 +66,7 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony : pourquoi Hello {name}! devient-il Hello {Ann}! sans +intl-icu ?'
-  back: 'Parce que le format classique fait un `strtr` littéral des clés passées : la clé `name` est remplacée, les accolades restent.'
+  back: 'Parce que le format classique fait un `strtr` littéral des keys passées : la key `name` est remplacée, les accolades restent.'
   explanation: 'Exécuté : `[''{name}'' => ''Ann'']` donne `Hello Ann!`.'
   memorization_justification: Remplacement littéral.
   verification_status: VERIFIED
@@ -81,10 +81,10 @@ flashcards:
   official_item: OIT-3dd7821h069b
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi la balise {% trans %} est-elle risquée avec un paramètre utilisateur ?'
-  back: Parce qu'elle n'échappe pas sa sortie, paramètres compris, contrairement au filtre.
-  explanation: 'Exécuté : `<i>x</i>` brut par la balise, échappé par le filtre.'
-  memorization_justification: Échappement balise contre filtre.
+  front: 'Symfony : pourquoi le tag {% trans %} est-il risqué avec un parameter user ?'
+  back: Parce qu'elle n'échappe pas son output, parameters compris, contrairement au filter.
+  explanation: 'Exécuté : `<i>x</i>` brut par le tag, échappé par le filter.'
+  memorization_justification: Échappement tag contre filter.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst
@@ -100,7 +100,7 @@ flashcards:
   front: 'Symfony : pourquoi un catalogue +intl-icu échoue-t-il sans l''extension intl ?'
   back: Parce que le formateur ICU exige `MessageFormatter` et lève une `LogicException` sinon.
   explanation: Lu dans `IntlFormatter` (8.0).
-  memorization_justification: Dépendance ICU.
+  memorization_justification: Dependency ICU.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Translation/Formatter/IntlFormatter.php
@@ -113,7 +113,7 @@ flashcards:
   official_item: OIT-3dd7821h069b
   language: fr
   level: APPLICATION
-  front: 'Symfony : écrire un pluriel anglais pour un nombre de pommes.'
+  front: 'Symfony : écrire un plural anglais pour un nombre de pommes.'
   back: '`{n, plural, =0 {no apples} one {one apple} other {# apples}}` dans un catalogue `+intl-icu`.'
   explanation: 'Exécuté : 0, 1 et 5 donnent les trois formes.'
   memorization_justification: Pluriel ICU.
@@ -129,7 +129,7 @@ flashcards:
   official_item: OIT-3dd7821h069b
   language: fr
   level: APPLICATION
-  front: 'Symfony : traduire un message HTML de confiance avec le filtre sans l''échapper.'
+  front: 'Symfony : traduire un message HTML de confiance avec le filter sans l''échapper.'
   back: '`{{ message|trans|raw }}`.'
   explanation: Documentation *Translations in Templates*, branche 8.0.
   memorization_justification: Lever l'échappement.
@@ -145,8 +145,8 @@ flashcards:
   official_item: OIT-3dd7821h069b
   language: fr
   level: TRAP
-  front: 'Symfony : trans_default_domain s''applique-t-il aux gabarits inclus ?'
-  back: 'Non : seulement au gabarit courant.'
+  front: 'Symfony : trans_default_domain s''applique-t-il aux templates inclus ?'
+  back: 'Non : seulement au template courant.'
   explanation: 'Exécuté : `admin` dans le parent, `messages` dans l''inclus.'
   memorization_justification: Portée du domaine par défaut.
   verification_status: VERIFIED
@@ -161,8 +161,8 @@ flashcards:
   official_item: OIT-3dd7821h069b
   language: fr
   level: TRAP
-  front: 'Symfony : le filtre |trans et la balise {% trans %} échappent-ils tous deux ?'
-  back: 'Non : seul le filtre échappe.'
+  front: 'Symfony : le filter |trans et le tag {% trans %} échappent-ils tous deux ?'
+  back: 'Non : seul le filter échappe.'
   explanation: Documentation 8.0 et exécution.
   memorization_justification: Différence d'échappement.
   verification_status: VERIFIED
@@ -177,7 +177,7 @@ flashcards:
   official_item: OIT-3dd7821h069b
   language: fr
   level: TRAP
-  front: 'Symfony : après la locale es_AR, le traducteur passe-t-il directement à es ?'
+  front: 'Symfony : après la locale es_AR, le translator passe-t-il directement à es ?'
   back: 'Non : il essaie d''abord la locale parente `es_419`.'
   explanation: Exécuté ; la parenté n'est définie que pour certaines locales.
   memorization_justification: Locale parente.

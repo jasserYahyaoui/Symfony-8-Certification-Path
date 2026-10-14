@@ -11,10 +11,10 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: Qu'est-ce qui fait basculer un test de l'unitaire vers l'intégration ?
-  back: Le démarrage du noyau. Un test unitaire n'appelle ni bootKernel() ni le conteneur ; dès qu'il le fait, il
+  back: Le démarrage du kernel. Un unit test n'appelle ni bootKernel() ni le container ; dès qu'il le fait, il
     est d'intégration.
   explanation: 'La documentation Symfony distingue trois types : unitaire, intégration, application.'
-  memorization_justification: On range les tests par répertoire ou par classe de base, alors que le critère est
+  memorization_justification: On range les tests par directory ou par class de base, alors que le critère est
     ce que le test démarre.
   verification_status: VERIFIED
   official_sources:
@@ -27,10 +27,10 @@ flashcards:
   official_item: OIT-favt42nvgdqh
   language: fr
   level: RECALL
-  front: Quel fichier .env n'est pas lu dans l'environnement de test ?
+  front: Quel file .env n'est pas lu dans l'environment de test ?
   back: '.env.local. Sont lus, dans cet ordre : .env, .env.test, .env.test.local.'
   explanation: 'L''exclusion est délibérée : une machine de développement ne doit pas modifier le résultat des tests.'
-  memorization_justification: On suppose que .env.local s'applique partout, puisque c'est le fichier local habituel.
+  memorization_justification: On suppose que .env.local s'applique partout, puisque c'est le file local habituel.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
@@ -43,10 +43,10 @@ flashcards:
   language: fr
   level: RECALL
   front: Que retourne $client->request() ?
-  back: Un Crawler, pas une Response. La réponse se lit séparément par $client->getResponse().
+  back: Un Crawler, pas une Response. La Response se lit séparément par $client->getResponse().
   explanation: Le crawler porte le document rendu ; c'est lui qui permet de filtrer, cliquer et soumettre.
-  memorization_justification: Le nom de la méthode suggère qu'elle rend le résultat de la requête, c'est-à-dire
-    la réponse.
+  memorization_justification: Le nom de la method suggère qu'elle rend le résultat de la Request, c'est-à-dire
+    la Response.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
@@ -62,7 +62,7 @@ flashcards:
   back: 'Il traduit un sélecteur CSS en expression XPath. Il ne parcourt aucun document : c''est DomCrawler qui
     parcourt.'
   explanation: filter() a donc besoin de CssSelector ; filterXpath() n'en a pas besoin.
-  memorization_justification: Les deux composants sont cités ensemble, ce qui fait croire à un rôle partagé.
+  memorization_justification: Les deux composants sont cités ensemble, ce qui fait croire à un role partagé.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/css_selector.rst
@@ -75,10 +75,10 @@ flashcards:
   language: fr
   level: TRAP
   front: Qu'active réellement $client->enableProfiler() ?
-  back: La collecte des données, pour la requête suivante seulement. Le profileur lui-même doit déjà être activé
+  back: La collecte des données, pour la Request suivante seulement. Le profiler lui-même doit déjà être activé
     par configuration.
   explanation: 'En test, la configuration par défaut est enabled: true et collect: false.'
-  memorization_justification: Le nom de la méthode dit « active le profileur », alors qu'elle active la collecte.
+  memorization_justification: Le nom de la method dit « active le profiler », alors qu'elle active la collecte.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing/profiling.rst
@@ -91,7 +91,7 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: Pourquoi static::getContainer() donne-t-il accès à des services privés ?
-  back: Parce qu'il rend un conteneur de test spécial, qui expose les services publics et les services privés non
+  back: Parce qu'il rend un container de test spécial, qui expose les services publics et les services privés non
     supprimés.
   explanation: 'Un service privé supprimé, faute d''être utilisé ailleurs, reste inaccessible : il faut le rendre
     public dans config/services_test.yaml.'
@@ -107,10 +107,10 @@ flashcards:
   official_item: OIT-bswvewkkkj1q
   language: fr
   level: RECALL
-  front: Comment s'écrit l'en-tête X-Session-Token passé au client de test ?
+  front: Comment s'écrit le header X-Session-Token passé au client de test ?
   back: 'HTTP_X_SESSION_TOKEN : tirets remplacés par des soulignés, majuscules, préfixe HTTP_ (RFC 3875 §4.1.18).'
-  explanation: La même transformation vaut pour tout en-tête personnalisé, dans createClient() comme dans request().
-  memorization_justification: On écrit le nom de l'en-tête tel quel, et la requête ne le voit jamais.
+  explanation: La même transformation vaut pour tout header personnalisé, dans createClient() comme dans request().
+  memorization_justification: On écrit le nom du header tel quel, et la Request ne le voit jamais.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
@@ -123,7 +123,7 @@ flashcards:
   language: fr
   level: RECALL
   front: Que rend getInternalResponse() par rapport à getResponse() ?
-  back: L'objet Response de BrowserKit, c'est-à-dire celui du navigateur simulé. getResponse() rend celui de HttpFoundation,
+  back: L'object Response de BrowserKit, c'est-à-dire celui du navigateur simulé. getResponse() rend celui de HttpFoundation,
     produit par l'application.
   explanation: 'Règle de lecture : « internal » désigne le navigateur, pas le framework.'
   memorization_justification: 'L''intuition inverse est naturelle : « interne » évoque le cœur de l''application.'
@@ -138,11 +138,11 @@ flashcards:
   official_item: OIT-vj24gwq6r1r4
   language: fr
   level: TRAP
-  front: Une dépréciation Symfony fait-elle échouer le code qui l'appelle ?
-  back: 'Non. C''est une notice E_USER_DEPRECATED silencée : rien n''échoue, rien n''apparaît dans la sortie, et le
+  front: Une deprecation Symfony fait-elle échouer le code qui l'appelle ?
+  back: 'Non. C''est une notice E_USER_DEPRECATED silencée : rien n''échoue, rien n''apparaît dans l''output, et le
     code déprécié fonctionne jusqu''à la version majeure suivante.'
-  explanation: La notice n'existe que si un gestionnaire d'erreurs la recueille — en dev, celui de Symfony, qui la
-    fait apparaître dans la barre de débogage. Sans lui, une application en accumule des centaines sans aucun signe.
+  explanation: La notice n'existe que si un handler d'erreurs la recueille — en dev, celui de Symfony, qui la
+    fait apparaître dans la debug toolbar. Sans lui, une application en accumule des centaines sans aucun signe.
   memorization_justification: On attend d'un avertissement qu'il se voie ; celui-ci est silencé par construction,
     ce qui est l'inverse de l'intuition.
   verification_status: VERIFIED
@@ -162,7 +162,7 @@ flashcards:
   language: fr
   level: RECALL
   front: 'Symfony : quels sont les trois types de tests que distingue la documentation ?'
-  back: Unitaire, intégration, application — ce dernier aussi appelé test fonctionnel.
+  back: Unitaire, intégration, application — ce dernier aussi appelé functional test.
   explanation: Documentation 8.0, « Testing ».
   memorization_justification: Classification Symfony.
   verification_status: VERIFIED
@@ -177,7 +177,7 @@ flashcards:
   official_item: OIT-c6wd3f444qjn
   language: fr
   level: RECALL
-  front: 'Symfony : quel paquet installer pour écrire et lancer des tests ?'
+  front: 'Symfony : quel package installer pour écrire et lancer des tests ?'
   back: '`composer require --dev symfony/test-pack`, qui tire notamment `phpunit/phpunit`.'
   explanation: Puis `php bin/phpunit`.
   memorization_justification: Installation.
@@ -193,10 +193,10 @@ flashcards:
   official_item: OIT-c6wd3f444qjn
   language: fr
   level: RECALL
-  front: 'Symfony : quel fichier configure PHPUnit à la racine du projet ?'
+  front: 'Symfony : quel file configure PHPUnit à la racine du projet ?'
   back: '`phpunit.dist.xml` ; avant PHPUnit 10, `phpunit.xml.dist`.'
   explanation: Flex le crée avec `tests/bootstrap.php`.
-  memorization_justification: Fichier de configuration.
+  memorization_justification: File de configuration.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
@@ -210,9 +210,9 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony : pourquoi un test qui étend KernelTestCase échoue-t-il sans configuration ?'
-  back: 'Parce que `bootKernel()` doit savoir quel noyau construire : sans `KERNEL_CLASS`, `LogicException`.'
+  back: 'Parce que `bootKernel()` doit savoir quel kernel construire : sans `KERNEL_CLASS`, `LogicException`.'
   explanation: Exécuté avec FrameworkBundle 8.0.15 et PHPUnit 11.5.
-  memorization_justification: Noyau à désigner.
+  memorization_justification: Kernel à désigner.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Test/KernelTestCase.php
@@ -225,10 +225,10 @@ flashcards:
   official_item: OIT-c6wd3f444qjn
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi un fichier CalcTests.php n''est-il pas exécuté par php bin/phpunit tests/ ?'
-  back: Parce que PHPUnit ne retient, en parcourant un répertoire, que les fichiers terminés par `Test.php`.
-  explanation: 'Exécuté : 1 test sur 2 classes ; le fichier désigné explicitement tourne.'
-  memorization_justification: Suffixe des fichiers.
+  front: 'Symfony : pourquoi un file CalcTests.php n''est-il pas exécuté par php bin/phpunit tests/ ?'
+  back: Parce que PHPUnit ne retient, en parcourant un directory, que les files terminés par `Test.php`.
+  explanation: 'Exécuté : 1 test sur 2 classes ; le file désigné explicitement tourne.'
+  memorization_justification: Suffixe des files.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
@@ -257,10 +257,10 @@ flashcards:
   official_item: OIT-c6wd3f444qjn
   language: fr
   level: APPLICATION
-  front: 'Symfony : tester une classe de calcul sans démarrer Symfony.'
-  back: Une classe `…Test` qui étend `PHPUnit\Framework\TestCase`, instancie la classe et assertit.
-  explanation: 'Aucun noyau, aucun conteneur : c''est un test unitaire.'
-  memorization_justification: Test unitaire.
+  front: 'Symfony : tester une class de calcul sans démarrer Symfony.'
+  back: Une class `…Test` qui étend `PHPUnit\Framework\TestCase`, instancie la class et assertit.
+  explanation: 'Aucun kernel, aucun container : c''est un unit test.'
+  memorization_justification: Unit test.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
@@ -273,7 +273,7 @@ flashcards:
   official_item: OIT-c6wd3f444qjn
   language: fr
   level: TRAP
-  front: 'Symfony : « test fonctionnel » et « test d''application » sont-ils deux types distincts ?'
+  front: 'Symfony : « functional test » et « test d''application » sont-ils deux types distincts ?'
   back: 'Non : la documentation les donne comme synonymes.'
   explanation: Documentation 8.0, « Application Tests ».
   memorization_justification: Vocabulaire.
@@ -289,7 +289,7 @@ flashcards:
   official_item: OIT-c6wd3f444qjn
   language: fr
   level: TRAP
-  front: 'Symfony : PHPUnit 11 ignore-t-il un fichier phpunit.xml.dist ?'
+  front: 'Symfony : PHPUnit 11 ignore-t-il un file phpunit.xml.dist ?'
   back: 'Non : exécuté, il le lit encore s''il est seul ; `phpunit.dist.xml` passe avant lui, et `phpunit.xml` avant les deux.'
   explanation: Exécuté avec PHPUnit 11.5.
   memorization_justification: Noms de configuration.
@@ -306,8 +306,8 @@ flashcards:
   language: fr
   level: TRAP
   front: 'Symfony : un test qui appelle bootKernel() reste-t-il unitaire ?'
-  back: 'Non : démarrer le noyau en fait un test d''intégration.'
-  explanation: Le test unitaire n'utilise ni noyau ni conteneur.
+  back: 'Non : démarrer le kernel en fait un test d''intégration.'
+  explanation: Le unit test n'utilise ni kernel ni container.
   memorization_justification: Frontière unitaire.
   verification_status: VERIFIED
   official_sources:
@@ -327,10 +327,10 @@ flashcards:
   official_item: OIT-favt42nvgdqh
   language: fr
   level: RECALL
-  front: 'Symfony : quelle classe étendre pour un test d''application, et que lui ajoute-t-elle ?'
+  front: 'Symfony : quelle class étendre pour un test d''application, et que lui ajoute-t-elle ?'
   back: '`WebTestCase`, qui étend `KernelTestCase` et ajoute le client (`createClient()`).'
   explanation: Documentation 8.0, « Application Tests ».
-  memorization_justification: Classe de base.
+  memorization_justification: Class de base.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
@@ -366,7 +366,7 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony : pourquoi bootKernel() avant createClient() fait-il échouer le test ?'
-  back: Parce que `createClient()` démarre lui-même le noyau et refuse un noyau déjà démarré.
+  back: Parce que `createClient()` démarre lui-même le kernel et refuse un kernel déjà démarré.
   explanation: 'Exécuté : « Booting the kernel before calling … createClient() is not supported ».'
   memorization_justification: Double démarrage.
   verification_status: VERIFIED
@@ -381,8 +381,8 @@ flashcards:
   official_item: OIT-favt42nvgdqh
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi .env.local n''est-il pas lu en environnement de test ?'
-  back: 'Pour que les tests donnent le même résultat sur toutes les machines : `loadEnv()` l''ignore pour les environnements de test.'
+  front: 'Symfony : pourquoi .env.local n''est-il pas lu en environment de test ?'
+  back: 'Pour que les tests donnent le même résultat sur toutes les machines : `loadEnv()` l''ignore pour les environments de test.'
   explanation: 'Exécuté avec Dotenv 8.0.15 : une variable seulement dans `.env.local` est absente en `test`.'
   memorization_justification: Reproductibilité.
   verification_status: VERIFIED
@@ -404,8 +404,8 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony : pourquoi préférer assertResponseIsSuccessful() à assertEquals(200, $code) ?'
-  back: Parce qu'en cas d'échec elle affiche la réponse reçue, et qu'elle accepte tout le 2xx.
-  explanation: 'Exécuté : en-têtes et corps imprimés sur un 404 ; 201 passe.'
+  back: Parce qu'en cas d'échec elle affiche la Response reçue, et qu'elle accepte tout le 2xx.
+  explanation: 'Exécuté : headers et corps imprimés sur un 404 ; 201 passe.'
   memorization_justification: Lisibilité des échecs.
   verification_status: VERIFIED
   official_sources:
@@ -419,9 +419,9 @@ flashcards:
   official_item: OIT-favt42nvgdqh
   language: fr
   level: APPLICATION
-  front: 'Symfony : n''afficher que les en-têtes de la réponse quand une assertion échoue.'
+  front: 'Symfony : n''afficher que les headers de la Response quand une assertion échoue.'
   back: '`self::setBrowserKitAssertionsAsVerbose(false)`, ou `$verbose: false` sur l''assertion.'
-  explanation: 'Exécuté : le corps disparaît du message d''échec.'
+  explanation: 'Exécuté : le body disparaît du message d''échec.'
   memorization_justification: Échecs moins bavards.
   verification_status: VERIFIED
   official_sources:
@@ -459,7 +459,7 @@ flashcards:
   level: TRAP
   front: 'Symfony : assertResponseIsSuccessful() exige-t-elle un code 200 ?'
   back: 'Non : tout code 2xx passe.'
-  explanation: 'Exécuté : une réponse 201 passe.'
+  explanation: 'Exécuté : une Response 201 passe.'
   memorization_justification: Succès supposé limité à 200.
   verification_status: VERIFIED
   official_sources:
@@ -474,9 +474,9 @@ flashcards:
   language: fr
   level: TRAP
   front: 'Symfony : .env.test.local l''emporte-t-il sur une variable déjà définie dans le shell ?'
-  back: 'Non : une vraie variable d''environnement l''emporte sur tous les fichiers.'
+  back: 'Non : une vraie variable d''environment l''emporte sur tous les files.'
   explanation: 'Exécuté : `A=shell` reste `shell` en `test`.'
-  memorization_justification: Priorité de l'environnement réel.
+  memorization_justification: Priorité de l'environment réel.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Dotenv/Dotenv.php
@@ -489,7 +489,7 @@ flashcards:
   official_item: OIT-favt42nvgdqh
   language: fr
   level: TRAP
-  front: 'Symfony : faut-il générer les URL des tests d''application avec le routeur ?'
+  front: 'Symfony : faut-il générer les URL des tests d''application avec le router ?'
   back: 'Non : la documentation recommande de les écrire en dur, pour qu''un changement de route casse le test.'
   explanation: Un test qui génère son URL suit le changement et ne le détecte plus.
   memorization_justification: URL en dur.
@@ -505,7 +505,7 @@ flashcards:
   official_item: OIT-bc3brs4a4mtt
   language: fr
   level: RECALL
-  front: 'Symfony : quelle méthode du client suit une seule redirection en attente ?'
+  front: 'Symfony : quelle method du client suit une seule redirect en attente ?'
   back: '`followRedirect()` ; `followRedirects()` règle le client pour toutes les suivantes.'
   explanation: 'Exécuté : 302, puis 200 sur la cible après `followRedirect()`.'
   memorization_justification: Singulier et pluriel.
@@ -527,9 +527,9 @@ flashcards:
   official_item: OIT-bc3brs4a4mtt
   language: fr
   level: RECALL
-  front: 'Symfony : quelle méthode laisse remonter les exceptions jusqu''à PHPUnit ?'
+  front: 'Symfony : quelle method laisse remonter les exceptions jusqu''à PHPUnit ?'
   back: '`$client->catchExceptions(false)`.'
-  explanation: 'Exécuté : réponse 500 par défaut, l''exception elle-même ensuite.'
+  explanation: 'Exécuté : Response 500 par défaut, l''exception elle-même ensuite.'
   memorization_justification: Déboguer un 500.
   verification_status: VERIFIED
   official_sources:
@@ -543,7 +543,7 @@ flashcards:
   official_item: OIT-bc3brs4a4mtt
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi le client de test ne suit-il pas les redirections alors qu''AbstractBrowser les suit par défaut ?'
+  front: 'Symfony : pourquoi le client de test ne suit-il pas les redirects alors qu''AbstractBrowser les suit par défaut ?'
   back: Parce que `HttpKernelBrowser`, parent de `KernelBrowser`, met `followRedirects` à `false` dans son constructeur.
   explanation: 'Lu dans le code 8.0 ; exécuté : `isFollowingRedirects()` faux.'
   memorization_justification: Défaut redéfini.
@@ -565,9 +565,9 @@ flashcards:
   official_item: OIT-bc3brs4a4mtt
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi un utilisateur connecté par loginUser() reste-t-il authentifié à la deuxième requête ?'
-  back: Parce que `loginUser()` place aussi le jeton dans la session, qu'un pare-feu avec état relit après le redémarrage du noyau.
-  explanation: 'Exécuté : `alice` deux fois avec un pare-feu avec état.'
+  front: 'Symfony : pourquoi un user connecté par loginUser() reste-t-il authentifié à la deuxième Request ?'
+  back: Parce que `loginUser()` place aussi le token dans la session, qu'un firewall avec état relit après le redémarrage du kernel.
+  explanation: 'Exécuté : `alice` deux fois avec un firewall avec état.'
   memorization_justification: Session et redémarrage.
   verification_status: VERIFIED
   official_sources:
@@ -582,7 +582,7 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony : pourquoi les tests du client sont-ils rapides mais aveugles au JavaScript ?'
-  back: 'Parce que `KernelBrowser` construit la requête en mémoire et la passe au noyau : ni serveur, ni navigateur.'
+  back: 'Parce que `KernelBrowser` construit la Request en mémoire et la passe au kernel : ni serveur, ni navigateur.'
   explanation: Documentation 8.0, « Application Tests ».
   memorization_justification: Client simulé.
   verification_status: VERIFIED
@@ -597,10 +597,10 @@ flashcards:
   official_item: OIT-bc3brs4a4mtt
   language: fr
   level: APPLICATION
-  front: 'Symfony : faire suivre toutes les redirections d''un test par le client.'
-  back: '`$client->followRedirects()` **avant** la requête.'
+  front: 'Symfony : faire suivre toutes les redirects d''un test par le client.'
+  back: '`$client->followRedirects()` **avant** la Request.'
   explanation: '`followRedirects(false)` revient au défaut.'
-  memorization_justification: Mode redirections.
+  memorization_justification: Mode redirects.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/BrowserKit/AbstractBrowser.php
@@ -619,9 +619,9 @@ flashcards:
   official_item: OIT-bc3brs4a4mtt
   language: fr
   level: APPLICATION
-  front: 'Symfony : garder le même conteneur entre deux requêtes d''un test.'
+  front: 'Symfony : garder le même container entre deux Requests d''un test.'
   back: '`$client->disableReboot()`.'
-  explanation: 'Exécuté : le même objet conteneur sert la requête suivante ; les services `kernel.reset` sont réinitialisés.'
+  explanation: 'Exécuté : le même object container sert la Request suivante ; les services `kernel.reset` sont réinitialisés.'
   memorization_justification: Pas de redémarrage.
   verification_status: VERIFIED
   official_sources:
@@ -642,9 +642,9 @@ flashcards:
   language: fr
   level: TRAP
   front: 'Symfony : request() retourne-t-elle la Response ?'
-  back: 'Non : un `Crawler` ; la réponse se lit par `$client->getResponse()`.'
+  back: 'Non : un `Crawler` ; la Response se lit par `$client->getResponse()`.'
   explanation: 'Exécuté : `Symfony\Component\DomCrawler\Crawler`.'
-  memorization_justification: Valeur de retour.
+  memorization_justification: Return value.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/BrowserKit/AbstractBrowser.php
@@ -657,8 +657,8 @@ flashcards:
   official_item: OIT-bc3brs4a4mtt
   language: fr
   level: TRAP
-  front: 'Symfony : avec un pare-feu stateless, loginUser() vaut-il pour toutes les requêtes du test ?'
-  back: 'Non : seulement la première ; le noyau redémarre ensuite et le pare-feu ne relit pas la session.'
+  front: 'Symfony : avec un firewall stateless, loginUser() vaut-il pour toutes les Requests du test ?'
+  back: 'Non : seulement la première ; le kernel redémarre ensuite et le firewall ne relit pas la session.'
   explanation: 'Exécuté : `alice`, puis anonyme.'
   memorization_justification: Stateless et loginUser.
   verification_status: VERIFIED
@@ -673,10 +673,10 @@ flashcards:
   official_item: OIT-bc3brs4a4mtt
   language: fr
   level: TRAP
-  front: 'Symfony : back() revient-il sur la page de redirection ?'
+  front: 'Symfony : back() revient-il sur la page de redirect ?'
   back: 'Oui après un `followRedirect()` manuel : il revient sur l''URL qui a redirigé. Non si le client l''a suivie en mode `followRedirects()` : `back()` la saute alors.'
-  explanation: 'Exécuté : `/created`, puis `/go` qui redirige vers `/hello`. En mode `followRedirects()`, `back()` ramène à `/created` ; par défaut puis `followRedirect()`, à `/go`, de nouveau en 302. `AbstractBrowser::request()` ne mémorise une redirection que si `followRedirects` est vrai.'
-  memorization_justification: Historique et redirections.
+  explanation: 'Exécuté : `/created`, puis `/go` qui redirige vers `/hello`. En mode `followRedirects()`, `back()` ramène à `/created` ; par défaut puis `followRedirect()`, à `/go`, de nouveau en 302. `AbstractBrowser::request()` ne mémorise un redirect que si `followRedirects` est vrai.'
+  memorization_justification: Historique et redirects.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
@@ -695,7 +695,7 @@ flashcards:
   official_item: OIT-se21g2xv6h4r
   language: fr
   level: RECALL
-  front: 'Symfony : quelle méthode du Crawler filtre par expression XPath sans CssSelector ?'
+  front: 'Symfony : quelle method du Crawler filter par expression XPath sans CssSelector ?'
   back: '`filterXpath()` ; `filter()` exige CssSelector.'
   explanation: Sans CssSelector, `filter()` lève une `LogicException` qui propose `filterXpath`.
   memorization_justification: XPath ou CSS.
@@ -711,7 +711,7 @@ flashcards:
   official_item: OIT-se21g2xv6h4r
   language: fr
   level: RECALL
-  front: 'Symfony : quelle clé d''extract() désigne le texte d''un nœud ?'
+  front: 'Symfony : quelle key d''extract() désigne le texte d''un nœud ?'
   back: '`_text` : `extract([''_text'', ''href''])`.'
   explanation: 'Exécuté : `[["Link X","/x"],["Link Y","/y"]]`.'
   memorization_justification: Extraction multiple.
@@ -727,7 +727,7 @@ flashcards:
   official_item: OIT-se21g2xv6h4r
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi sélectionner le bouton plutôt que le formulaire quand deux boutons existent ?'
+  front: 'Symfony : pourquoi sélectionner le bouton plutôt que le form quand deux boutons existent ?'
   back: Parce que le bouton utilisé fait partie de ce qui est envoyé ; depuis le `<form>`, aucun bouton n'est envoyé.
   explanation: 'Exécuté : `b=B`, `q=1` par le bouton Delete ; `q=1` seulement par le `<form>`.'
   memorization_justification: Bouton et données envoyées.
@@ -750,7 +750,7 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony : pourquoi text() lève-t-il une exception sur une sélection vide ?'
-  back: 'Parce qu''il lit le premier nœud et qu''il n''y en a pas : « The current node list is empty. », sauf avec une valeur par défaut.'
+  back: 'Parce qu''il lit le premier nœud et qu''il n''y en a pas : « The current node list is empty. », sauf avec une default value.'
   explanation: Exécuté avec DomCrawler 8.0.15.
   memorization_justification: Sélection vide.
   verification_status: VERIFIED
@@ -766,7 +766,7 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony : pourquoi filter(''li'')->first() ne modifie-t-il pas la sélection d''origine ?'
-  back: Parce que chaque méthode de parcours rend un nouveau `Crawler`.
+  back: Parce que chaque method de parcours rend un nouveau `Crawler`.
   explanation: 'Exécuté : la sélection d''origine compte toujours 3 nœuds.'
   memorization_justification: Parcours immuable.
   verification_status: VERIFIED
@@ -797,10 +797,10 @@ flashcards:
   official_item: OIT-se21g2xv6h4r
   language: fr
   level: APPLICATION
-  front: 'Symfony : obtenir un attribut d''un nœud qui peut ne pas exister, sans exception.'
-  back: '`$crawler->attr(''class'', ''none'')` : la valeur par défaut si la sélection est vide.'
+  front: 'Symfony : obtenir un attribute d''un nœud qui peut ne pas exister, sans exception.'
+  back: '`$crawler->attr(''class'', ''none'')` : la default value si la sélection est vide.'
   explanation: 'Exécuté : `none` sur une sélection vide.'
-  memorization_justification: Attribut facultatif.
+  memorization_justification: Attribute facultatif.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DomCrawler/Crawler.php
@@ -816,7 +816,7 @@ flashcards:
   front: 'Symfony : text() rend-il les espaces tels quels par défaut ?'
   back: 'Non : il les normalise ; `text(null, false)` garde le texte brut.'
   explanation: 'Exécuté : `"Hello World"` contre `"  Hello\n   World  "`.'
-  memorization_justification: Normalisation par défaut.
+  memorization_justification: Normalization par défaut.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DomCrawler/Crawler.php
@@ -832,7 +832,7 @@ flashcards:
   front: 'Symfony : est-il impossible d''obtenir un Form depuis l''élément <form> ?'
   back: 'Non : `filter(''#f'')->form()` fonctionne, mais aucun bouton n''est alors envoyé.'
   explanation: La documentation du composant le montre ; exécuté.
-  memorization_justification: Formulaire sans bouton.
+  memorization_justification: Form sans bouton.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/dom_crawler.rst
@@ -867,10 +867,10 @@ flashcards:
   official_item: OIT-t0qx5z264tyf
   language: fr
   level: RECALL
-  front: 'Symfony : quelle configuration du profileur la documentation donne-t-elle pour l''environnement de test ?'
+  front: 'Symfony : quelle configuration du profiler la documentation donne-t-elle pour l''environment de test ?'
   back: '`profiler: { enabled: true, collect: false }` sous `when@test`.'
   explanation: Documentation 8.0, « How to Use the Profiler in a Functional Test ».
-  memorization_justification: Profileur en test.
+  memorization_justification: Profiler en test.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing/profiling.rst
@@ -883,7 +883,7 @@ flashcards:
   official_item: OIT-t0qx5z264tyf
   language: fr
   level: RECALL
-  front: 'Symfony : quelle méthode du client rend le profil de la dernière réponse ?'
+  front: 'Symfony : quelle method du client rend le profil de la dernière Response ?'
   back: '`$client->getProfile()`.'
   explanation: Elle rend un `Profile`, `null` ou `false`.
   memorization_justification: Lecture du profil.
@@ -899,10 +899,10 @@ flashcards:
   official_item: OIT-t0qx5z264tyf
   language: fr
   level: RECALL
-  front: 'Symfony : quelle méthode du profil rend un collecteur ?'
+  front: 'Symfony : quelle method du profil rend un collector ?'
   back: '`$profile->getCollector(''nom'')`, par exemple `''time''` ou `''request''`.'
   explanation: 'Exécuté : `getCollector(''request'')->getRoute()` rend `hello`.'
-  memorization_justification: Collecteurs.
+  memorization_justification: Collectors.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing/profiling.rst
@@ -932,7 +932,7 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony : que signifie getProfile() qui rend false, et null ?'
-  back: '`false` : pas de service `profiler` ; `null` : profileur présent mais rien collecté pour cette réponse.'
+  back: '`false` : pas de service `profiler` ; `null` : profiler présent mais rien collecté pour cette Response.'
   explanation: 'Exécuté : `false` sans configuration, `null` avec `collect: false`.'
   memorization_justification: Deux valeurs d'absence.
   verification_status: VERIFIED
@@ -947,10 +947,10 @@ flashcards:
   official_item: OIT-t0qx5z264tyf
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi enableProfiler() ne fait-il rien sans configuration du profileur ?'
-  back: Parce qu'il n'agit que si le conteneur a un service `profiler`.
+  front: 'Symfony : pourquoi enableProfiler() ne fait-il rien sans configuration du profiler ?'
+  back: Parce qu'il n'agit que si le container a un service `profiler`.
   explanation: 'Lu dans `KernelBrowser::enableProfiler()` ; exécuté : `getProfile()` vaut `false`.'
-  memorization_justification: Pas de profileur, pas de collecte.
+  memorization_justification: Pas de profiler, pas de collecte.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/KernelBrowser.php
@@ -963,8 +963,8 @@ flashcards:
   official_item: OIT-t0qx5z264tyf
   language: fr
   level: APPLICATION
-  front: 'Symfony : profiler deux requêtes successives d''un même test avec collect: false.'
-  back: Appeler `$client->enableProfiler()` avant **chacune** des deux requêtes.
+  front: 'Symfony : profiler deux Requests successives d''un même test avec collect: false.'
+  back: Appeler `$client->enableProfiler()` avant **chacune** des deux Requests.
   explanation: 'Exécuté : sans nouvel appel, la deuxième rend `null`.'
   memorization_justification: Collecte répétée.
   verification_status: VERIFIED
@@ -985,7 +985,7 @@ flashcards:
   official_item: OIT-t0qx5z264tyf
   language: fr
   level: APPLICATION
-  front: 'Symfony : lire un profil sans faire échouer le test quand le profileur est absent.'
+  front: 'Symfony : lire un profil sans faire échouer le test quand le profiler est absent.'
   back: '`if ($profile = $client->getProfile()) { … }`.'
   explanation: L'idiome de la documentation couvre `false` et `null`.
   memorization_justification: Lecture défensive.
@@ -1001,9 +1001,9 @@ flashcards:
   official_item: OIT-t0qx5z264tyf
   language: fr
   level: TRAP
-  front: 'Symfony : enableProfiler() vaut-il pour toutes les requêtes du test ?'
-  back: 'Non : pour la requête suivante seulement.'
-  explanation: 'Exécuté : profil, puis `null` à la requête d''après.'
+  front: 'Symfony : enableProfiler() vaut-il pour toutes les Requests du test ?'
+  back: 'Non : pour la Request suivante seulement.'
+  explanation: 'Exécuté : profil, puis `null` à la Request d''après.'
   memorization_justification: Portée d'enableProfiler().
   verification_status: VERIFIED
   official_sources:
@@ -1024,8 +1024,8 @@ flashcards:
   language: fr
   level: TRAP
   front: 'Symfony : avec collect: true, faut-il appeler enableProfiler() ?'
-  back: 'Non : chaque requête est profilée.'
-  explanation: 'Exécuté : un profil aux deux requêtes.'
+  back: 'Non : chaque Request est profilée.'
+  explanation: 'Exécuté : un profil aux deux Requests.'
   memorization_justification: Collecte globale.
   verification_status: VERIFIED
   official_sources:
@@ -1039,10 +1039,10 @@ flashcards:
   official_item: OIT-mtbcyaax2xsk
   language: fr
   level: RECALL
-  front: 'Symfony : quelle variable d''environnement désigne le noyau d''un KernelTestCase ?'
+  front: 'Symfony : quelle variable d''environment désigne le kernel d''un KernelTestCase ?'
   back: '`KERNEL_CLASS`, en général dans `.env.test` ; `getKernelClass()` ou `createKernel()` l''emportent.'
   explanation: Documentation 8.0, « Integration Tests ».
-  memorization_justification: Noyau des tests.
+  memorization_justification: Kernel des tests.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
@@ -1058,7 +1058,7 @@ flashcards:
   front: 'Symfony : quel service rend static::getContainer() ?'
   back: '`test.service_container`, un `TestContainer`.'
   explanation: Exécuté avec FrameworkBundle 8.0.15.
-  memorization_justification: Conteneur de test.
+  memorization_justification: Container de test.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Test/KernelTestCase.php
@@ -1087,7 +1087,7 @@ flashcards:
   official_item: OIT-mtbcyaax2xsk
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi un service privé inutilisé reste-t-il inaccessible même au conteneur de test ?'
+  front: 'Symfony : pourquoi un service privé inutilisé reste-t-il inaccessible même au container de test ?'
   back: 'Parce qu''il a été supprimé à la compilation : il n''existe plus.'
   explanation: 'Exécuté : « has been removed or inlined when the container was compiled ».'
   memorization_justification: Service supprimé.
@@ -1104,7 +1104,7 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony : pourquoi container->set() échoue-t-il après get() du service consommateur ?'
-  back: Parce que la dépendance est déjà instanciée, et le conteneur de test refuse de la remplacer.
+  back: Parce que la dependency est déjà instanciée, et le container de test refuse de la remplacer.
   explanation: 'Exécuté : « …service is already initialized, you cannot replace it. ».'
   memorization_justification: Ordre set / get.
   verification_status: VERIFIED
@@ -1141,7 +1141,7 @@ flashcards:
   official_item: OIT-mtbcyaax2xsk
   language: fr
   level: APPLICATION
-  front: 'Symfony : remplacer une dépendance par une doublure dans un test d''intégration.'
+  front: 'Symfony : remplacer une dependency par une doublure dans un test d''intégration.'
   back: '`static::getContainer()->set(Interface::class, $double)` **avant** `get()` du service qui en dépend.'
   explanation: 'Exécuté : `hello at fake`.'
   memorization_justification: Doublure.
@@ -1158,7 +1158,7 @@ flashcards:
   language: fr
   level: TRAP
   front: 'Symfony : faut-il appeler bootKernel() avant static::getContainer() ?'
-  back: 'Non : `getContainer()` démarre le noyau s''il ne l''est pas.'
+  back: 'Non : `getContainer()` démarre le kernel s''il ne l''est pas.'
   explanation: Lu dans `KernelTestCase::getContainer()` ; exécuté.
   memorization_justification: Démarrage implicite.
   verification_status: VERIFIED
@@ -1173,9 +1173,9 @@ flashcards:
   official_item: OIT-mtbcyaax2xsk
   language: fr
   level: TRAP
-  front: 'Symfony : le conteneur de test rend-il les services privés publics ?'
-  back: 'Non : leur visibilité ne change pas ; c''est un autre conteneur, qui y donne accès.'
-  explanation: 'Exécuté : le conteneur du noyau refuse le même service.'
+  front: 'Symfony : le container de test rend-il les services privés publics ?'
+  back: 'Non : leur visibilité ne change pas ; c''est un autre container, qui y donne accès.'
+  explanation: 'Exécuté : le container du kernel refuse le même service.'
   memorization_justification: Visibilité inchangée.
   verification_status: VERIFIED
   official_sources:
@@ -1189,9 +1189,9 @@ flashcards:
   official_item: OIT-mtbcyaax2xsk
   language: fr
   level: TRAP
-  front: 'Symfony : le noyau d''un KernelTestCase est-il partagé entre les tests d''une classe ?'
+  front: 'Symfony : le kernel d''un KernelTestCase est-il partagé entre les tests d''une class ?'
   back: 'Non : il redémarre à chaque test.'
-  explanation: 'Exécuté : deux tests, deux conteneurs différents.'
+  explanation: 'Exécuté : deux tests, deux containers différents.'
   memorization_justification: Indépendance des tests.
   verification_status: VERIFIED
   official_sources:
@@ -1206,7 +1206,7 @@ flashcards:
   language: fr
   level: RECALL
   front: 'Symfony : que portent les deux arguments de createClient() ?'
-  back: Le premier, les options du noyau (`environment`, `debug`) ; le second, les paramètres serveur, donc les en-têtes.
+  back: Le premier, les options du kernel (`environment`, `debug`) ; le second, les parameters serveur, donc les headers.
   explanation: Lu dans `WebTestCase::createClient()`.
   memorization_justification: Signature de createClient().
   verification_status: VERIFIED
@@ -1227,10 +1227,10 @@ flashcards:
   official_item: OIT-bswvewkkkj1q
   language: fr
   level: RECALL
-  front: 'Symfony : quel argument de request() porte les en-têtes d''une seule requête ?'
-  back: Le cinquième, `$server`, après les paramètres et les fichiers.
+  front: 'Symfony : quel argument de request() porte les headers d''une seule Request ?'
+  back: Le cinquième, `$server`, après les parameters et les files.
   explanation: '`$client->request(''GET'', ''/'', [], [], [''HTTP_HOST'' => ''en.example.com''])`.'
-  memorization_justification: Position des en-têtes.
+  memorization_justification: Position des headers.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
@@ -1244,7 +1244,7 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony : pourquoi X-Session-Token passé tel quel au client n''arrive-t-il pas au serveur ?'
-  back: 'Parce que les paramètres serveur suivent la convention CGI : un en-tête s''y nomme `HTTP_` + majuscules + soulignés.'
+  back: 'Parce que les parameters serveur suivent la convention CGI : un header s''y nomme `HTTP_` + majuscules + soulignés.'
   explanation: 'Exécuté : `null` pour `X-Session-Token`, `abc` pour `HTTP_X_SESSION_TOKEN`.'
   memorization_justification: Convention CGI.
   verification_status: VERIFIED
@@ -1259,8 +1259,8 @@ flashcards:
   official_item: OIT-bswvewkkkj1q
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi une valeur posée en session sans save() est-elle invisible à la requête suivante ?'
-  back: Parce qu'elle n'est pas persistée ; la requête relit la session enregistrée.
+  front: 'Symfony : pourquoi une valeur posée en session sans save() est-elle invisible à la Request suivante ?'
+  back: Parce qu'elle n'est pas persistée ; la Request relit la session enregistrée.
   explanation: 'Exécuté : `null` sans `save()`, `saved` avec.'
   memorization_justification: Persistance de session.
   verification_status: VERIFIED
@@ -1282,9 +1282,9 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony : pourquoi CONTENT_TYPE n''a-t-il pas de préfixe HTTP_ ?'
-  back: Parce que c'est un en-tête standard de CGI, nommé sans préfixe ; seuls les autres en-têtes en prennent un.
+  back: Parce que c'est un header standard de CGI, nommé sans préfixe ; seuls les autres headers en prennent un.
   explanation: 'Exécuté : `CONTENT_TYPE` arrive comme `Content-Type`.'
-  memorization_justification: En-têtes CGI standard.
+  memorization_justification: Headers CGI standard.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
@@ -1297,9 +1297,9 @@ flashcards:
   official_item: OIT-bswvewkkkj1q
   language: fr
   level: APPLICATION
-  front: 'Symfony : envoyer toutes les requêtes d''un test vers l''hôte en.example.com.'
+  front: 'Symfony : envoyer toutes les Requests d''un test vers l''hôte en.example.com.'
   back: '`static::createClient([], [''HTTP_HOST'' => ''en.example.com''])`.'
-  explanation: 'Exécuté : l''hôte vaut encore à la deuxième requête.'
+  explanation: 'Exécuté : l''hôte vaut encore à la deuxième Request.'
   memorization_justification: Hôte du client.
   verification_status: VERIFIED
   official_sources:
@@ -1313,10 +1313,10 @@ flashcards:
   official_item: OIT-bswvewkkkj1q
   language: fr
   level: APPLICATION
-  front: 'Symfony : soumettre un formulaire protégé par CSRF sans l''afficher d''abord.'
-  back: 'Poser le jeton en session : `getSession()->set(''_csrf/form'', $t)`, `save()`, puis l''envoyer dans le formulaire.'
+  front: 'Symfony : soumettre un form protégé par CSRF sans l''afficher d''abord.'
+  back: 'Poser le token en session : `getSession()->set(''_csrf/form'', $t)`, `save()`, puis l''envoyer dans le form.'
   explanation: Documentation 8.0, « Accessing the Session ».
-  memorization_justification: Jeton CSRF.
+  memorization_justification: Token CSRF.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
@@ -1335,10 +1335,10 @@ flashcards:
   official_item: OIT-bswvewkkkj1q
   language: fr
   level: TRAP
-  front: 'Symfony : faut-il une première requête avant d''écrire en session depuis le client ?'
-  back: 'Non : `getSession()` rend déjà une session, et une valeur sauvegardée est lue par la première requête.'
-  explanation: 'Exécuté : `early` lu dès la première requête.'
-  memorization_justification: Session avant requête.
+  front: 'Symfony : faut-il une première Request avant d''écrire en session depuis le client ?'
+  back: 'Non : `getSession()` rend déjà une session, et une valeur sauvegardée est lue par la première Request.'
+  explanation: 'Exécuté : `early` lu dès la première Request.'
+  memorization_justification: Session avant Request.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/KernelBrowser.php
@@ -1367,7 +1367,7 @@ flashcards:
   official_item: OIT-bswvewkkkj1q
   language: fr
   level: TRAP
-  front: 'Symfony : X_SESSION_TOKEN, sans préfixe, est-il reconnu comme en-tête ?'
+  front: 'Symfony : X_SESSION_TOKEN, sans préfixe, est-il reconnu comme header ?'
   back: 'Non : il faut `HTTP_X_SESSION_TOKEN`.'
   explanation: 'Exécuté : `null` côté serveur.'
   memorization_justification: Préfixe oublié.
@@ -1383,10 +1383,10 @@ flashcards:
   official_item: OIT-bzkq4e7wks9a
   language: fr
   level: RECALL
-  front: 'Symfony : quelle classe rend getInternalRequest() ?'
-  back: '`Symfony\Component\BrowserKit\Request` : la requête du navigateur simulé.'
+  front: 'Symfony : quelle class rend getInternalRequest() ?'
+  back: '`Symfony\Component\BrowserKit\Request` : la Request du navigateur simulé.'
   explanation: Exécuté sur BrowserKit 8.0.14 ; `getRequest()` rend `HttpFoundation\Request`.
-  memorization_justification: Classe de la requête interne.
+  memorization_justification: Class de la Request interne.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/BrowserKit/AbstractBrowser.php
@@ -1405,10 +1405,10 @@ flashcards:
   official_item: OIT-bzkq4e7wks9a
   language: fr
   level: RECALL
-  front: 'Symfony : quel attribut de requête porte le contrôleur appelé, et sous quelle forme ?'
-  back: '`_controller` : `Classe::méthode` pour une route posée par attribut sur une méthode ; la classe seule pour un contrôleur invocable.'
-  explanation: 'Exécuté : `App\…\HelloController::hello`, à côté de `_route` = `hello` ; pour une classe à `__invoke()`, `_controller` vaut le nom de la classe, sans `::__invoke`.'
-  memorization_justification: Attribut _controller.
+  front: 'Symfony : quel attribute de Request porte le controller appelé, et sous quelle forme ?'
+  back: '`_controller` : `Classe::méthode` pour une route posée par attribute sur une method ; la class seule pour un controller invocable.'
+  explanation: 'Exécuté : `App\…\HelloController::hello`, à côté de `_route` = `hello` ; pour une class à `__invoke()`, `_controller` vaut le nom de la class, sans `::__invoke`.'
+  memorization_justification: Attribute _controller.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
@@ -1427,10 +1427,10 @@ flashcards:
   official_item: OIT-bzkq4e7wks9a
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi getHistory() et getCookieJar() marchent-ils avant toute requête, et pas getResponse() ?'
-  back: Parce que l'historique et le pot de cookies sont créés avec le client ; requête, réponse et crawler n'existent qu'après `request()`.
+  front: 'Symfony : pourquoi getHistory() et getCookieJar() marchent-ils avant toute Request, et pas getResponse() ?'
+  back: Parce que l'historique et le pot de cookies sont créés avec le client ; Request, Response et crawler n'existent qu'après `request()`.
   explanation: 'Exécuté : historique vide, cookie posé ; `getResponse()` lève `BadMethodCallException`.'
-  memorization_justification: Cycle de vie des objets du client.
+  memorization_justification: Cycle de vie des objects du client.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/BrowserKit/AbstractBrowser.php
@@ -1443,9 +1443,9 @@ flashcards:
   official_item: OIT-bzkq4e7wks9a
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi assertResponseStatusCodeSame(404) aide-t-il plus qu''un assertSame sur le code de statut brut ?'
-  back: Parce que son échec affiche la réponse entière — statut, en-têtes, corps — et pas seulement deux nombres.
-  explanation: 'Exécuté sur une réponse 200 : « 200 is identical to 404 » contre le message suivi de la réponse.'
+  front: 'Symfony : pourquoi assertResponseStatusCodeSame(404) aide-t-il plus qu''un assertSame sur le status code brut ?'
+  back: Parce que son échec affiche la Response entière — statut, headers, corps — et pas seulement deux nombres.
+  explanation: 'Exécuté sur une Response 200 : « 200 is identical to 404 » contre le message suivi de la Response.'
   memorization_justification: Valeur du message d'échec.
   verification_status: VERIFIED
   official_sources:
@@ -1461,7 +1461,7 @@ flashcards:
   level: UNDERSTANDING
   front: 'Symfony : pourquoi lire _route plutôt que le HTML pour savoir quelle route a répondu ?'
   back: Parce que deux routes peuvent rendre la même page ; `_route` nomme celle qui a été choisie.
-  explanation: C'est l'attribut que compare `assertRouteSame()`.
+  explanation: C'est l'attribute que compare `assertRouteSame()`.
   memorization_justification: Route et contenu sont distincts.
   verification_status: VERIFIED
   official_sources:
@@ -1475,10 +1475,10 @@ flashcards:
   official_item: OIT-bzkq4e7wks9a
   language: fr
   level: APPLICATION
-  front: 'Symfony : lire le Content-Type de la réponse produite par l''application.'
+  front: 'Symfony : lire le Content-Type de la Response produite par l''application.'
   back: '`$client->getResponse()->headers->get(''content-type'')`.'
   explanation: 'Exécuté : `text/html; charset=UTF-8`.'
-  memorization_justification: Lecture d'en-tête.
+  memorization_justification: Lecture de header.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
@@ -1491,10 +1491,10 @@ flashcards:
   official_item: OIT-bzkq4e7wks9a
   language: fr
   level: APPLICATION
-  front: 'Symfony : vérifier qu''une requête sur /go a redirigé vers la route hello.'
-  back: Asserter la redirection, `followRedirect()`, puis `assertRouteSame('hello')`.
+  front: 'Symfony : vérifier qu''une Request sur /go a redirigé vers la route hello.'
+  back: Asserter le redirect, `followRedirect()`, puis `assertRouteSame('hello')`.
   explanation: 'Exécuté : `_route` vaut `go` avant `followRedirect()`, `hello` après.'
-  memorization_justification: Tester une redirection.
+  memorization_justification: Tester un redirect.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
@@ -1507,9 +1507,9 @@ flashcards:
   official_item: OIT-bzkq4e7wks9a
   language: fr
   level: TRAP
-  front: 'Symfony : getResponse() rend-il null avant la première requête ?'
+  front: 'Symfony : getResponse() rend-il null avant la première Request ?'
   back: 'Non : il lève `BadMethodCallException` — *The "request()" method must be called before …*.'
-  explanation: Exécuté ; même comportement pour `getRequest()`, les méthodes `internal` et `getCrawler()`.
+  explanation: Exécuté ; même comportement pour `getRequest()`, les methods `internal` et `getCrawler()`.
   memorization_justification: Exception, pas null.
   verification_status: VERIFIED
   official_sources:
@@ -1524,9 +1524,9 @@ flashcards:
   language: fr
   level: TRAP
   front: 'Symfony : après request(''GET'', ''/go'') qui redirige, que vaut _route ?'
-  back: '`go` : la redirection n''est pas suivie par défaut, la requête lue est celle qui a redirigé.'
+  back: '`go` : le redirect n''est pas suivi par défaut, la Request lue est celle qui a redirigé.'
   explanation: 'Exécuté : 302 et `go`, puis 200 et `hello` après `followRedirect()`.'
-  memorization_justification: Redirection non suivie.
+  memorization_justification: Redirect non suivi.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
@@ -1539,10 +1539,10 @@ flashcards:
   official_item: OIT-bzkq4e7wks9a
   language: fr
   level: TRAP
-  front: 'Symfony : getInternalRequest()->getUri() rend-il le chemin /hello ?'
+  front: 'Symfony : getInternalRequest()->getUri() rend-il le path /hello ?'
   back: 'Non : l''adresse absolue, `http://localhost/hello` ; `getRequest()->getPathInfo()` rend `/hello`.'
   explanation: Exécuté sur `/hello`.
-  memorization_justification: Adresse absolue ou chemin.
+  memorization_justification: Adresse absolue ou path.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/BrowserKit/AbstractBrowser.php
@@ -1555,7 +1555,7 @@ flashcards:
   official_item: OIT-vj24gwq6r1r4
   language: fr
   level: RECALL
-  front: 'Symfony : quels sont les deux marqueurs d''une dépréciation ?'
+  front: 'Symfony : quels sont les deux marqueurs d''une deprecation ?'
   back: L'annotation PHPDoc `@deprecated`, pour le lecteur, et l'appel `trigger_deprecation()`, pour le code qui tourne.
   explanation: Conventions de contribution, branche 8.0.
   memorization_justification: Deux publics, deux marqueurs.
@@ -1571,7 +1571,7 @@ flashcards:
   official_item: OIT-vj24gwq6r1r4
   language: fr
   level: RECALL
-  front: 'Symfony : par quoi commence le message d''une dépréciation déclenchée par trigger_deprecation() ?'
+  front: 'Symfony : par quoi commence le message d''une deprecation déclenchée par trigger_deprecation() ?'
   back: Par `Since <paquet> <version>:`, suivi du message formaté.
   explanation: 'Lu dans `function.php` ; exécuté : `Since acme/pkg 1.2: Old thing is deprecated.`'
   memorization_justification: Format du message.
@@ -1587,7 +1587,7 @@ flashcards:
   official_item: OIT-vj24gwq6r1r4
   language: fr
   level: RECALL
-  front: 'Symfony : à quel niveau de journal le gestionnaire d''erreurs inscrit-il une dépréciation par défaut ?'
+  front: 'Symfony : à quel niveau de journal le handler d''erreurs inscrit-il une deprecation par défaut ?'
   back: '`info`.'
   explanation: 'Lu dans `ErrorHandler.php` (8.0) et exécuté : une entrée `info`, `User Deprecated: …`.'
   memorization_justification: Niveau par défaut.
@@ -1603,10 +1603,10 @@ flashcards:
   official_item: OIT-vj24gwq6r1r4
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi une dépréciation n''apparaît-elle pas dans la sortie, même avec display_errors actif ?'
+  front: 'Symfony : pourquoi une deprecation n''apparaît-elle pas dans l''output, même avec display_errors actif ?'
   back: 'Parce que `trigger_deprecation()` la déclenche avec `@` : elle est silencée.'
   explanation: 'Exécuté : rien avec `trigger_deprecation()`, `Deprecated: …` avec `trigger_error()` sans `@`.'
-  memorization_justification: Rôle de l'opérateur @.
+  memorization_justification: Role de l'opérateur @.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/Deprecation/function.php
@@ -1619,9 +1619,9 @@ flashcards:
   official_item: OIT-vj24gwq6r1r4
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi la barre de débogage montre-t-elle des dépréciations, si elles sont silencées ?'
-  back: Parce que le gestionnaire d'erreurs de Symfony les recueille et les journalise ; la barre lit ce journal.
-  explanation: La documentation 8.0 le dit pour l'environnement dev.
+  front: 'Symfony : pourquoi la debug toolbar montre-t-elle des deprecations, si elles sont silencées ?'
+  back: Parce que le handler d'erreurs de Symfony les recueille et les journalise ; la barre lit ce journal.
+  explanation: La documentation 8.0 le dit pour l'environment dev.
   memorization_justification: Silencée n'est pas perdue.
   verification_status: VERIFIED
   official_sources:
@@ -1642,7 +1642,7 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony : pourquoi monter d''abord à la dernière mineure avant une majeure ?'
-  back: Pour voir toutes les dépréciations et les corriger tant que le code déprécié fonctionne encore ; la majeure le supprime.
+  back: Pour voir toutes les deprecations et les corriger tant que le code déprécié fonctionne encore ; la majeure le supprime.
   explanation: '*Upgrading a Major Version*, branche 8.0.'
   memorization_justification: Ordre de montée.
   verification_status: VERIFIED
@@ -1657,8 +1657,8 @@ flashcards:
   official_item: OIT-vj24gwq6r1r4
   language: fr
   level: APPLICATION
-  front: 'Symfony : vous venez de monter à une nouvelle mineure. Que faire des dépréciations nouvellement signalées ?'
-  back: 'Lire le fichier `UPGRADE` de la version et corriger progressivement : rien n''est cassé pour l''instant.'
+  front: 'Symfony : vous venez de monter à une nouvelle mineure. Que faire des deprecations nouvellement signalées ?'
+  back: 'Lire le file `UPGRADE` de la version et corriger progressivement : rien n''est cassé pour l''instant.'
   explanation: '*Upgrading a Minor Version*, étape 2.'
   memorization_justification: Démarche de correction.
   verification_status: VERIFIED
@@ -1673,7 +1673,7 @@ flashcards:
   official_item: OIT-vj24gwq6r1r4
   language: fr
   level: APPLICATION
-  front: 'Symfony : inscrire les dépréciations au niveau error dans le journal.'
+  front: 'Symfony : inscrire les deprecations au niveau error dans le journal.'
   back: Sous `framework.php_errors.log`, associer `E_DEPRECATED` et `E_USER_DEPRECATED` à `LogLevel::ERROR`.
   explanation: Option documentée, qui accepte une table niveau d'erreur → niveau de journal.
   memorization_justification: Configuration du journal.
@@ -1689,7 +1689,7 @@ flashcards:
   official_item: OIT-vj24gwq6r1r4
   language: fr
   level: TRAP
-  front: 'Symfony : le gestionnaire d''erreurs de Symfony transforme-t-il une dépréciation en exception en debug ?'
+  front: 'Symfony : le handler d''erreurs de Symfony transforme-t-il une deprecation en exception en debug ?'
   back: 'Non : il ne lève jamais d''exception pour `E_DEPRECATED` ni `E_USER_DEPRECATED`.'
   explanation: '`ErrorHandler.php`, 8.0 : *levels never throw*.'
   memorization_justification: Jamais d'exception.

@@ -42,12 +42,12 @@ official_sources:
 
 ## Objectif
 
-Construire un formulaire, le lier à un objet, et savoir quand un champ ne doit
+Construire un form, le lier à un object, et savoir quand un field ne doit
 pas l'être.
 
 ## Deux endroits pour le construire
 
-Dans un contrôleur, pour un formulaire jetable :
+Dans un controller, pour un form jetable :
 
 ```php
 $form = $this->createFormBuilder($task)
@@ -56,7 +56,7 @@ $form = $this->createFormBuilder($task)
     ->getForm();
 ```
 
-Dans une **classe de type**, dès qu'il sert plus d'une fois — c'est la
+Dans une **class de type**, dès qu'il sert plus d'une fois — c'est la
 recommandation officielle :
 
 ```php
@@ -74,81 +74,81 @@ class TaskType extends AbstractType
 }
 ```
 
-Le contrôleur l'instancie ensuite par `$this->createForm(TaskType::class, $task)`.
+Le controller l'instancie ensuite par `$this->createForm(TaskType::class, $task)`.
 
 ## `add()` et ses trois arguments
 
 `add(nom, type, options)`. Le **nom** n'est pas décoratif : c'est par lui que le
-champ est relié à une propriété de l'objet.
+field est relié à une property de l'object.
 
 Le type est facultatif : omis ou `null`, il est **deviné**. Mais pas d'après le
-type PHP de la propriété : `FormFactory::createBuilderForProperty()` interroge
-les *type guessers* enregistrés — contraintes de validation, métadonnées
-Doctrine ; `EnumFormTypeGuesser` propose `EnumType` pour une propriété typée par
-une énumération. Sans deviner, c'est `TextType`. Les options `required`,
+type PHP de la property : `FormFactory::createBuilderForProperty()` interroge
+les *type guessers* enregistrés — constraints de validation, métadonnées
+Doctrine ; `EnumFormTypeGuesser` propose `EnumType` pour une property typée par
+une enum. Sans deviner, c'est `TextType`. Les options `required`,
 `maxlength` et `pattern` sont devinées au passage. Sans `data_class`, rien n'est
 deviné : `FormBuilder::add()` prend `TextType` directement.
 
 ## `data_class`
 
-Elle indique la classe que le formulaire manipule. Sa valeur par défaut est
-**devinée** de l'objet passé : `createForm(TaskType::class, $task)` suffit à la
+Elle indique la class que le form manipule. Sa default value est
+**devinée** de l'object passé : `createForm(TaskType::class, $task)` suffit à la
 fixer à `Task`. Vérifié par exécution (`symfony/form` 8.0.15) :
 
 | Création | `getData()` après soumission |
 |---|---|
-| `data_class` déclarée, sans objet | un `Task` neuf, instancié par `empty_data` |
-| ni `data_class` ni objet | un tableau, `{"task": "x"}` |
+| `data_class` déclarée, sans object | un `Task` neuf, instancié par `empty_data` |
+| ni `data_class` ni object | un array, `{"task": "x"}` |
 
-La déclarer reste recommandé : c'est elle qui fait instancier l'objet quand
-aucun n'est passé, et elle devient indispensable pour les formulaires imbriqués.
+La déclarer reste recommandé : c'est elle qui fait instancier l'object quand
+aucun n'est passé, et elle devient indispensable pour les forms imbriqués.
 
-## La correspondance nom ↔ propriété
+## La correspondance nom ↔ property
 
-Pour lire un champ nommé `dueDate`, PropertyAccess essaie, dans cet ordre
+Pour lire un field nommé `dueDate`, PropertyAccess essaie, dans cet ordre
 (`ReflectionExtractor::getReadInfo()`) : `getDueDate()`, `isDueDate()`,
-`hasDueDate()`, `canDueDate()`, puis une méthode `dueDate()`, et seulement
-ensuite la propriété publique `$dueDate`. Pour écrire, un `setDueDate()` ou la
-propriété publique.
+`hasDueDate()`, `canDueDate()`, puis une method `dueDate()`, et seulement
+ensuite la property publique `$dueDate`. Pour écrire, un `setDueDate()` ou la
+property publique.
 
-Exécuté avec PropertyAccess 8.0 : un objet qui a à la fois `public $dueDate` et
-`getDueDate()` est lu **par le getter** ; une méthode nue `dueDate()` est lue ;
-une propriété privée sans accesseur lève une `NoSuchPropertyException`.
+Exécuté avec PropertyAccess 8.0 : un object qui a à la fois `public $dueDate` et
+`getDueDate()` est lu **par le getter** ; une method nue `dueDate()` est lue ;
+une property privée sans accesseur lève une `NoSuchPropertyException`.
 
-## Le champ non mappé
+## Le field non mappé
 
-Un champ qui n'a pas de propriété correspondante — une case « j'accepte les
-conditions », un fichier téléversé — doit être déclaré `'mapped' => false` :
+Un field qui n'a pas de property correspondante — une case « j'accepte les
+conditions », un file téléversé — doit être déclaré `'mapped' => false` :
 
 ```php
 ->add('agreeTerms', CheckboxType::class, ['mapped' => false])
 ```
 
 Sans cela, `getForm()` échoue dès la lecture des données initiales :
-`NoSuchPropertyException`. La valeur d'un champ non mappé se lit par
+`NoSuchPropertyException`. La valeur d'un field non mappé se lit par
 `$form->get('agreeTerms')->getData()`.
 
 ## Pièges d'examen
 
-**Le nom du champ n'est pas décoratif.** Le renommer casse la liaison.
+**Le nom du field n'est pas décoratif.** Le renommer casse le binding.
 
-**Les accesseurs passent avant la propriété publique** : un getter l'emporte.
+**Les accesseurs passent avant la property publique** : un getter l'emporte.
 
 **Le type omis est deviné par les *guessers***, pas par le type PHP ; à défaut,
 `TextType`.
 
-**`data_class` se devine de l'objet passé**, mais seule sa déclaration fait
-instancier l'objet quand aucun n'est fourni.
+**`data_class` se devine de l'object passé**, mais seule sa déclaration fait
+instancier l'object quand aucun n'est fourni.
 
-**Un champ sans propriété correspondante doit être déclaré non mappé.**
+**Un field sans property correspondante doit être déclaré non mappé.**
 
 ## Points clés
 
-- Un formulaire réutilisé se déclare en classe de type.
+- Un form réutilisé se déclare en class de type.
 - `add(nom, type, options)` ; type omis → *guessers*, sinon `TextType`.
-- `data_class` : devinée de l'objet, à déclarer quand même.
-- Lecture : `get`/`is`/`has`/`can`, méthode du même nom, puis propriété.
-- Champ sans propriété : `mapped: false`, lu par `$form->get(...)->getData()`.
+- `data_class` : devinée de l'object, à déclarer quand même.
+- Lecture : `get`/`is`/`has`/`can`, method du même nom, puis property.
+- Field sans property : `mapped: false`, lu par `$form->get(...)->getData()`.
 
 ## Sources officielles
 

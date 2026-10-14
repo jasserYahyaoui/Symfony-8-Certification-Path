@@ -42,8 +42,8 @@ official_sources:
 
 ## Objectif
 
-Connaître les variables disponibles dans **tous** les gabarits sans qu'un
-contrôleur les passe, et savoir en déclarer.
+Connaître les variables disponibles dans **tous** les templates sans qu'un
+controller les passe, et savoir en déclarer.
 
 ## Les trois globales de Twig lui-même
 
@@ -51,41 +51,41 @@ Twig 3.22 fournit toujours trois variables, avant même Symfony :
 
 | Variable | Contenu |
 |---|---|
-| `_self` | le nom du gabarit courant |
+| `_self` | le nom du template courant |
 | `_context` | le contexte courant, c'est-à-dire toutes les variables visibles |
 | `_charset` | le jeu de caractères courant |
 
 ## La variable `app`
 
-TwigBundle expose une variable `app` dans chaque gabarit — un objet
+TwigBundle expose une variable `app` dans chaque template — un object
 `AppVariable` du bridge Twig. C'est la voie normale d'accès à l'état de la
-requête depuis un gabarit.
+Request depuis un template.
 
-| Propriété | Contenu |
+| Property | Contenu |
 |---|---|
-| `app.user` | l'utilisateur courant, ou `null` s'il n'est pas authentifié |
-| `app.request` | l'objet `Request` courant |
-| `app.session` | la session, ou `null` si la requête n'en a pas |
-| `app.flashes` | les messages flash ; `app.flashes('notice')` filtre par type |
+| `app.user` | le user courant, ou `null` s'il n'est pas authentifié |
+| `app.request` | l'object `Request` courant |
+| `app.session` | la session, ou `null` si la Request n'en a pas |
+| `app.flashes` | les flash messages ; `app.flashes('notice')` filter par type |
 | `app.environment` | `dev`, `prod`… |
 | `app.debug` | le mode debug |
-| `app.token` | le jeton de sécurité |
+| `app.token` | le token de sécurité |
 | `app.current_route` | le nom de la route courante |
-| `app.current_route_parameters` | ses paramètres |
+| `app.current_route_parameters` | ses parameters |
 | `app.locale` | la locale courante |
 | `app.enabled_locales` | les locales activées |
 
 Trois détails lus dans `AppVariable` (8.0) :
 
-- `app.current_route` lit l'attribut `_route` de la requête courante, et
-  `app.current_route_parameters` l'attribut `_route_params` — un tableau vide
+- `app.current_route` lit l'attribute `_route` de la Request courante, et
+  `app.current_route_parameters` l'attribute `_route_params` — un array vide
   s'il manque ;
-- `app.flashes` accepte aussi une liste de types et rend alors un tableau
-  `type => messages` ; sans session compatible, il rend un tableau vide ;
-- une propriété dont le service manque **lève une `RuntimeException`** :
+- `app.flashes` accepte aussi une liste de types et rend alors un array
+  `type => messages` ; sans session compatible, il rend un array vide ;
+- une property dont le service manque **lève une `RuntimeException`** :
   `app.user` et `app.token` sans le composant Security installé, par exemple —
   « The "app.user" variable is not available. » Seul `app.flashes` retombe sur
-  un tableau vide.
+  un array vide.
 
 `app.session` peut valoir `null`. Et lire son contenu — `app.flashes`, par
 exemple — démarre la session, avec les conséquences que cela a sur la
@@ -101,14 +101,14 @@ twig:
         mailer: '@app.mailer'
 ```
 
-La valeur devient `{{ ga_tracking }}` partout, sans qu'aucun contrôleur ne la
+La valeur devient `{{ ga_tracking }}` partout, sans qu'aucun controller ne la
 passe ; une valeur qui commence par `@` désigne un service. Hors configuration,
 une extension Twig peut en déclarer par `GlobalsInterface::getGlobals()`, et
 Twig seul par `Environment::addGlobal()`.
 
 La documentation de Twig le précise : les globales sont disponibles dans tous
-les gabarits **et dans les macros**, qui ne voient pourtant pas les variables du
-gabarit qui les appelle. C'est adapté à une constante d'application ; ce n'est
+les templates **et dans les macros**, qui ne voient pourtant pas les variables du
+template qui les appelle. C'est adapté à une constante d'application ; ce n'est
 pas un substitut au passage de variables, qui reste la voie normale pour les
 données d'une page.
 
@@ -120,10 +120,10 @@ non consommatrice est `app.session.flashbag.peekAll()`.
 
 ## Pièges d'examen
 
-**La session vue depuis un gabarit peut être `null`** — et lire son contenu la
+**La session vue depuis un template peut être `null`** — et lire son contenu la
 démarre, avec l'effet que cela a sur la cachabilité de la page.
 
-**L'utilisateur courant vaut `null` quand personne n'est authentifié.** Lire
+**Le user courant vaut `null` quand personne n'est authentifié.** Lire
 `app.user.email` lève alors une `RuntimeError` — « Impossible to access an
 attribute ("email") on a null variable » — en mode strict, actif en `dev` par
 défaut, et rend `null` sinon. Et `app.user` lève une exception si le composant
@@ -132,14 +132,14 @@ Security n'est pas installé.
 **`_self`, `_context`, `_charset` existent sans Symfony.** Ce sont les globales
 de Twig ; `app` est celle de Symfony.
 
-**La forme courte de la route courante existe.** Traverser les attributs de la
-requête pour l'obtenir fonctionne, mais c'est le chemin long de la même chose.
+**La forme courte de la route courante existe.** Traverser les attributes de la
+Request pour l'obtenir fonctionne, mais c'est le path long de la même chose.
 
 ## Points clés
 
 - Twig : `_self`, `_context`, `_charset` ; Symfony ajoute `app`, onze
-  propriétés.
-- `app.current_route` lit l'attribut `_route` ; `app.flashes` consomme.
+  properties.
+- `app.current_route` lit l'attribute `_route` ; `app.flashes` consomme.
 - Service absent : `RuntimeException`, sauf pour `app.flashes`.
 - `twig.globals` déclare une globale, `@id` pour un service ; les globales sont
   visibles dans les macros.

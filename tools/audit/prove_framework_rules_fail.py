@@ -185,7 +185,7 @@ CASES = [
     # standing between that exemption and prose hidden inside a fence.
     (
         'DIA-001 rejects a diagram without an accessible title',
-        [(DIAGRAM_COURSE, "  accTitle: Le trajet d'une requête principale sans exception\n", '')],
+        [(DIAGRAM_COURSE, "  accTitle: Le trajet d'une main Request sans exception\n", '')],
         '[ERROR] DIA-001',
     ),
     (

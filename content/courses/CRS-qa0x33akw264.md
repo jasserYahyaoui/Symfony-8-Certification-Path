@@ -18,13 +18,13 @@ official_sources:
 
 ## Objectif
 
-Lire la préférence linguistique du client depuis la requête HTTP.
+Lire la préférence linguistique du client depuis la Request HTTP.
 
 > **Périmètre.** Cette page couvre le mécanisme HTTP. Le choix du locale par la
-> route appartient à l'item *User's locale guessing* (Routing), et la traduction
+> route appartient à l'item *User's locale guessing* (Routing), et la translation
 > à *Internationalization and localization*.
 
-## L'en-tête
+## Le header
 
 Le client envoie ses préférences, pondérées par un facteur de qualité :
 
@@ -32,7 +32,7 @@ Le client envoie ses préférences, pondérées par un facteur de qualité :
 Accept-Language: fr-FR,fr;q=0.9,en;q=0.8,*;q=0.5
 ```
 
-Sans `q`, la valeur par défaut est `1.0`. Les valeurs vont de `0` à `1`, et
+Sans `q`, la default value est `1.0`. Les valeurs vont de `0` à `1`, et
 `q=0` signifie explicitement **refusé**.
 
 ## Côté Symfony
@@ -72,7 +72,7 @@ dédoublonnée, donc `fr-FR,fr-fr;q=0.8` ne produit qu'une entrée.
 
 ## Comment `getPreferredLanguage()` choisit
 
-Avec une liste de locales supportées, la méthode ne compare pas des chaînes
+Avec une liste de locales supportées, la method ne compare pas des strings
 égales : elle construit pour chaque langue demandée **toutes ses combinaisons**,
 de la plus précise à la plus générale, et retient le premier locale supporté qui
 **commence par** l'une d'elles.
@@ -93,7 +93,7 @@ Deux conséquences que l'examen peut viser :
 
 ## Tips d'examen
 
-**Trois sorties, un seul nom de méthode.** `getPreferredLanguage()` rend la
+**Trois sorties, un seul nom de method.** `getPreferredLanguage()` rend la
 première langue *du client* sans argument ; avec une liste, le premier locale
 *correspondant* ; et si rien ne correspond, **le premier de la liste**. Jamais
 `null` dès qu'on lui passe une liste.
@@ -120,7 +120,7 @@ non. Passer la liste des locales supportées est ce qui rend l'appel utile.
 **`Accept-Language` est une préférence, pas une instruction.** Un serveur peut
 légitimement répondre dans une autre langue ; il l'indique alors par
 `Content-Language`, et doit ajouter `Vary: Accept-Language` s'il fait varier la
-réponse selon cet en-tête.
+Response selon ce header.
 
 ## Points clés
 

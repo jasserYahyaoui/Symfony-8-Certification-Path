@@ -34,15 +34,15 @@ règles du framework : rien ne casse si on les ignore.
 | Section | Recommandations |
 |---|---|
 | Création du projet | binaire Symfony ; arborescence par défaut |
-| Configuration | variables d'environnement pour l'infrastructure ; secrets pour le sensible ; paramètres pour l'applicatif ; noms courts et préfixés ; **constantes** pour ce qui change rarement |
-| Logique métier | pas de bundle applicatif ; autowiring ; services privés ; configuration minimale de ses propres services ; attributs pour le mapping Doctrine |
-| Contrôleurs | étendre `AbstractController` ; attributs pour routage, cache et sécurité ; injection de dépendances pour obtenir un service ; `EntityValueResolver` **si c'est commode** |
-| Gabarits | `snake_case` pour noms et variables ; préfixe `_` pour les fragments |
-| Formulaires | formulaires en classes PHP ; **boutons dans les gabarits** ; contraintes sur l'objet sous-jacent ; une seule action pour afficher et traiter |
-| Internationalisation | format XLIFF ; **clés** plutôt que texte source |
-| Sécurité | **un seul** pare-feu ; hacheur `auto` ; voteurs pour le fin |
+| Configuration | variables d'environment pour l'infrastructure ; secrets pour le sensible ; parameters pour l'applicatif ; noms courts et préfixés ; **constantes** pour ce qui change rarement |
+| Logique métier | pas de bundle applicatif ; autowiring ; services privés ; configuration minimale de ses propres services ; attributes pour le mapping Doctrine |
+| Controllers | étendre `AbstractController` ; attributes pour routage, cache et security ; dependency injection pour obtenir un service ; `EntityValueResolver` **si c'est commode** |
+| Templates | `snake_case` pour noms et variables ; préfixe `_` pour les fragments |
+| Forms | forms en classes PHP ; **boutons dans les templates** ; constraints sur l'object sous-jacent ; une seule action pour afficher et traiter |
+| Internationalisation | format XLIFF ; **keys** plutôt que texte source |
+| Security | **un seul** firewall ; hasher `auto` ; voteurs pour le fin |
 | Ressources web | AssetMapper |
-| Tests | *smoke tests* des URL ; URL **en dur** dans un test fonctionnel |
+| Tests | *smoke tests* des URL ; URL **en dur** dans un functional test |
 
 ## Configuration : la règle des trois niveaux
 
@@ -51,54 +51,54 @@ confond volontiers.
 
 | Nature de la valeur | Où la mettre |
 |---|---|
-| dépend de l'endroit où tourne l'application (URL de base de données, identifiants SMTP) | **variable d'environnement** |
+| dépend de l'endroit où tourne l'application (URL de base de données, identifiers SMTP) | **variable d'environment** |
 | est sensible | **secret** |
-| relève de l'application, pas de l'infrastructure | **paramètre** |
+| relève de l'application, pas de l'infrastructure | **parameter** |
 | ne change presque jamais (nombre d'éléments par page) | **constante PHP** |
 
 La quatrième ligne est la plus contre-intuitive : la recommandation officielle
-est de **ne pas** faire un paramètre de configuration d'une option qui change
-rarement, mais une constante de classe — parce qu'une constante est lisible
-partout, y compris dans un gabarit, alors qu'un paramètre exige l'accès au
-conteneur. Le prix à payer est qu'une constante est difficile à redéfinir dans
+est de **ne pas** faire un parameter de configuration d'une option qui change
+rarement, mais une constante de class — parce qu'une constante est lisible
+partout, y compris dans un template, alors qu'un parameter exige l'accès au
+container. Le prix à payer est qu'une constante est difficile à redéfinir dans
 un test.
 
-Les paramètres applicatifs se préfixent par `app.` pour éviter les collisions,
+Les parameters applicatifs se préfixent par `app.` pour éviter les collisions,
 avec un ou deux mots descriptifs : `app.contents_dir` plutôt que `app.dir`.
 
 ## Les recommandations qui surprennent
 
 - **Ne pas créer de bundle** pour organiser le code de l'application. Un projet
   = une application, sans bundle applicatif.
-- **Coder l'URL en dur dans un test fonctionnel**, au lieu de la générer — pour
+- **Coder l'URL en dur dans un functional test**, au lieu de la générer — pour
   que le test échoue si l'URL publique change. À ne pas confondre avec le
-  *smoke test* des URL, qui les parcourt toutes via un fournisseur de données
+  *smoke test* des URL, qui les parcourt toutes via un provider de données
   PHPUnit.
-- **Les boutons d'un formulaire vont dans le gabarit**, ni dans la classe de
-  formulaire, ni dans le contrôleur : la classe doit rester agnostique quant à
-  l'endroit où elle sert. Le même formulaire affiche « Ajouter » à la création
-  et « Enregistrer » à l'édition — et le style du bouton reste dans le gabarit.
+- **Les boutons d'un form vont dans le template**, ni dans la class de
+  form, ni dans le controller : la class doit rester agnostique quant à
+  l'endroit où elle sert. Le même form affiche « Ajouter » à la création
+  et « Enregistrer » à l'édition — et le style du bouton reste dans le template.
 - **`EntityValueResolver` est facultatif** : « si c'est commode ». Dès que la
   logique de récupération se complique, la recommandation est de faire la
-  requête **dans le contrôleur**.
-- **Hacheur `auto`**, qui choisit le meilleur disponible selon l'installation
+  Request **dans le controller**.
+- **Hasher `auto`**, qui choisit le meilleur disponible selon l'installation
   PHP. Son défaut actuel est **`bcrypt`**.
 
 ## Pièges d'examen
 
-**Une valeur qui ne change presque jamais ne devient pas un paramètre.** La
-recommandation officielle est d'en faire une **constante de classe** : elle est
-lisible partout, y compris depuis un gabarit, là où un paramètre exige le
-conteneur.
+**Une valeur qui ne change presque jamais ne devient pas un parameter.** La
+recommandation officielle est d'en faire une **constante de class** : elle est
+lisible partout, y compris depuis un template, là où un parameter exige le
+container.
 
-**L'URL se code en dur dans un test fonctionnel.** Ce n'est pas un raccourci
+**L'URL se code en dur dans un functional test.** Ce n'est pas un raccourci
 toléré, c'est la recommandation : le test doit échouer si l'URL publique change.
 
 **Pas de bundle pour le code de l'application.** Un projet est une application ;
 les bundles sont pour le code partagé entre projets.
 
-**Le bouton n'appartient pas au formulaire.** Le mettre dans la classe est
-précisément ce que le document déconseille, parce que la classe doit pouvoir
+**Le bouton n'appartient pas au form.** Le mettre dans la class est
+précisément ce que le document déconseille, parce que la class doit pouvoir
 servir à la création comme à l'édition.
 
 **`auto` n'est pas un algorithme.** C'est un sélecteur ; ce qu'il choisit
@@ -110,19 +110,19 @@ aujourd'hui est `bcrypt`.
 ceux-là.
 
 **Deux recommandations portent sur les URL de test** — les deux seules de la
-section *Tests* —, et elles ne disent pas la même chose : *smoke tester* toutes les URL avec un fournisseur de données,
-et coder l'URL **en dur** dans le test fonctionnel.
+section *Tests* —, et elles ne disent pas la même chose : *smoke tester* toutes les URL avec un provider de données,
+et coder l'URL **en dur** dans le functional test.
 
 ## Points clés
 
-- Environnement → infrastructure ; secret → sensible ; paramètre →
+- Environment → infrastructure ; secret → sensible ; parameter →
   application ; constante → ce qui ne change presque jamais.
-- Préfixe `app.` pour les paramètres applicatifs.
-- Pas de bundle pour le code applicatif ; services privés ; un seul pare-feu.
-- URL en dur dans un test fonctionnel : c'est bien la recommandation.
+- Préfixe `app.` pour les parameters applicatifs.
+- Pas de bundle pour le code applicatif ; services privés ; un seul firewall.
+- URL en dur dans un functional test : c'est bien la recommandation.
 - Trente recommandations, dix sections.
-- Boutons de formulaire dans le **gabarit** ; `EntityValueResolver` facultatif ;
-  hacheur `auto`, aujourd'hui `bcrypt`.
+- Boutons de form dans le **template** ; `EntityValueResolver` facultatif ;
+  hasher `auto`, aujourd'hui `bcrypt`.
 
 ## Sources officielles
 

@@ -43,44 +43,44 @@ official_sources:
 
 ## Objectif
 
-Connaître les conventions propres aux contrôleurs, et savoir lesquelles sont
+Connaître les conventions propres aux controllers, et savoir lesquelles sont
 **obligatoires**. Les conventions générales du framework — casse, préfixes
 `Abstract`, suffixes `Interface` et `Trait` — sont traitées dans le lot Symfony
 Architecture.
 
 ## Rien n'est imposé, presque
 
-La documentation le dit mot pour mot : la classe *peut techniquement s'appeler
+La documentation le dit mot pour mot : la class *peut techniquement s'appeler
 n'importe comment*, mais elle est suffixée `Controller` **par convention**.
 
 | Élément | Convention | Obligatoire ? |
 |---|---|---|
-| classe de contrôleur | suffixe `Controller` | non |
-| méthode d'action | aucun suffixe `Action` | non — mais le suffixe reste reconnu |
-| classe de base | étendre `AbstractController` | non |
-| gabarit | `snake_case`, deux extensions | non |
+| class de controller | suffixe `Controller` | non |
+| method d'action | aucun suffixe `Action` | non — mais le suffixe reste reconnu |
+| class de base | étendre `AbstractController` | non |
+| template | `snake_case`, deux extensions | non |
 | nom de route | unique dans l'application | **oui** |
 
 Une seule ligne porte un « oui ».
 
 ## Le format `_controller`
 
-Un contrôleur est désigné par la notation
-`App\Controller\BlogController::show` — classe pleinement qualifiée, `::`, nom
-de méthode. C'est cette chaîne que le routeur dépose dans l'attribut
-`_controller` de la requête.
+Un controller est désigné par la notation
+`App\Controller\BlogController::show` — class pleinement qualifiée, `::`, nom
+de method. C'est cette string que le router dépose dans l'attribute
+`_controller` de la Request.
 
-Pour une classe **invocable**, la classe seule suffit : `configureRoute()` écrit
-le nom de classe sans `::` quand la méthode est `__invoke`.
+Pour une class **invocable**, la class seule suffit : `configureRoute()` écrit
+le nom de class sans `::` quand la method est `__invoke`.
 
-## Le nom de route, et qui le fabrique
+## Le nom de route, et qui la factory
 
 `name` omis, Symfony génère le nom — en **deux couches**, le même partage
 composant / bundle que le chapitre précédent.
 
 Le composant Routing, dans `AttributeClassLoader::getDefaultRouteName()`,
 remplace les `\` du nom pleinement qualifié par des `_`, ajoute `_` puis le nom
-de la méthode, et met le tout **en minuscules** :
+de la method, et met le tout **en minuscules** :
 
 ```php
 $name = str_replace('\\', '_', $class->name).'_'.$method->name;
@@ -90,48 +90,48 @@ if ($this->defaultRouteIndex > 0) {
 }
 ```
 
-FrameworkBundle redéfinit cette méthode dans `AttributeRouteControllerLoader` :
+FrameworkBundle redéfinit cette method dans `AttributeRouteControllerLoader` :
 il remplace les segments `bundle_` et `controller_` par `_`, retire un suffixe
-`action` quand la méthode se termine par `Action` ou `_action`, puis écrase les
+`action` quand la method se termine par `Action` ou `_action`, puis écrase les
 `__` restants.
 
-| Méthode | Composant seul | Avec FrameworkBundle |
+| Method | Composant seul | Avec FrameworkBundle |
 |---|---|---|
 | `LuckyController::number` | `app_controller_luckycontroller_number` | `app_lucky_number` |
 | `BlogController::showAction` | `app_controller_blogcontroller_showaction` | `app_blog_show` |
-| deuxième route de la même méthode | suffixe `_1` | `app_lucky_number_1` |
+| deuxième route de la même method | suffixe `_1` | `app_lucky_number_1` |
 
-Un `name` porté par la **classe** est préfixé au nom, généré ou non.
+Un `name` porté par la **class** est préfixé au nom, généré ou non.
 
 Symfony ajoute en outre des **alias** fondés sur le nom pleinement qualifié :
-toute méthode ne déclarant qu'une seule route reçoit l'alias
-`App\Controller\MainController::homepage` ; une classe invocable n'ajoutant
-qu'une route reçoit un alias sur son nom de classe seul.
+toute method ne déclarant qu'une seule route reçoit l'alias
+`App\Controller\MainController::homepage` ; une class invocable n'ajoutant
+qu'une route reçoit un alias sur son nom de class seul.
 
-## Le nom de gabarit
+## Le nom de template
 
-La documentation recommande le `snake_case` pour les fichiers **et** les
-répertoires, et **deux extensions** : `index.html.twig`. La première est le
+La documentation recommande le `snake_case` pour les files **et** les
+directories, et **deux extensions** : `index.html.twig`. La première est le
 format produit, pas le moteur de rendu.
 
 ## Pièges d'examen
 
-**Le suffixe `Controller` est une convention, pas une contrainte** — pas plus
-qu'étendre une classe de base ne l'est.
+**Le suffixe `Controller` est une convention, pas une constraint** — pas plus
+qu'étendre une class de base ne l'est.
 
 **Le nom généré n'est pas du `snake_case`.** Rien ne découpe le `CamelCase` :
 `LuckyController` devient `luckycontroller`, pas `lucky_controller`. La lisibilité
 de `app_lucky_number` vient du **retrait** du segment `controller_`, pas d'une
-conversion de casse. Le `snake_case` est recommandé pour les **gabarits**.
+conversion de casse. Le `snake_case` est recommandé pour les **templates**.
 
 **Sans FrameworkBundle, le nom généré reste celui du composant.** Le nom court
 est un apport du bundle.
 
-**Une deuxième route sur la même méthode ne collisionne pas** : elle reçoit un
+**Une deuxième route sur la même method ne collisionne pas** : elle reçoit un
 suffixe numérique, `_1`, `_2`…
 
 **Le suffixe `Action` n'est plus utilisé, mais il est encore reconnu** : le
-chargeur du bundle le retire du nom généré.
+loader du bundle le retire du nom généré.
 
 ## Tips d'examen
 
@@ -141,12 +141,12 @@ généré : s'il contient `controller`, c'est le composant nu.
 
 ## Points clés
 
-- Le suffixe `Controller` est une convention, pas une contrainte.
+- Le suffixe `Controller` est une convention, pas une constraint.
 - Le suffixe `Action` n'est plus utilisé, mais reste retiré du nom généré.
-- `_controller` = `FQCN::méthode`, ou le FQCN seul si la classe est invocable.
+- `_controller` = `FQCN::méthode`, ou le FQCN seul si la class est invocable.
 - Le nom généré vient du composant, puis est raccourci par FrameworkBundle.
 - Un nom de route doit être unique ; des alias fondés sur le FQCN existent en plus.
-- Les gabarits, eux, suivent le `snake_case` et portent deux extensions.
+- Les templates, eux, suivent le `snake_case` et portent deux extensions.
 
 ## Sources officielles
 

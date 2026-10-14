@@ -22,22 +22,22 @@ official_sources:
 
 ## Objectif
 
-Manipuler fichiers et répertoires avec un comportement uniforme entre systèmes,
+Manipuler files et directories avec un comportement uniforme entre systèmes,
 et surtout : **des erreurs qui lèvent une exception** au lieu de rendre `false`
-silencieusement comme les fonctions natives de PHP.
+silencieusement comme les functions natives de PHP.
 
 ## Prérequis
 
 Les exceptions PHP.
 
-## Deux classes, deux rôles
+## Deux classes, deux roles
 
-| Classe | Ce qu'elle fait |
+| Class | Ce qu'elle fait |
 |---|---|
 | `Filesystem` | agit sur le disque — créer, copier, supprimer |
-| `Path` | manipule des **chaînes** de chemin, sans toucher au disque |
+| `Path` | manipule des **strings** de path, sans toucher au disque |
 
-La distinction est utile : `Path::normalize()` ne vérifie pas qu'un chemin
+La distinction est utile : `Path::normalize()` ne vérifie pas qu'un path
 existe, elle en réécrit la forme.
 
 ## Les opérations à connaître
@@ -57,10 +57,10 @@ $filesystem->mirror('/source', '/cible');
 Trois comportements méritent d'être retenus :
 
 - **`mkdir()` crée récursivement**, avec le mode `0777` par défaut sur les
-  systèmes POSIX — et **ignore un répertoire déjà existant** plutôt que
+  systèmes POSIX — et **ignore un directory déjà existant** plutôt que
   d'échouer. Le mode réel subit le `umask` courant ;
-- **`remove()` supprime fichiers, répertoires et liens** indifféremment ;
-- **`mkdir()` et `remove()` acceptent un tableau** ou tout `Traversable`.
+- **`remove()` supprime files, directories et liens** indifféremment ;
+- **`mkdir()` et `remove()` acceptent un array** ou tout `Traversable`.
 
 `rename()` échoue si la cible existe, sauf troisième argument à `true`.
 
@@ -74,14 +74,14 @@ Exécuté sur Filesystem 8.0.15, `umask` à `022` :
 | même appel avec `true` | la cible est remplacée |
 | `dumpFile('x/y/f.txt', …)` | `x/y` créé au passage |
 
-`symlink()` accepte un troisième argument qui **duplique le répertoire** au lieu
+`symlink()` accepte un troisième argument qui **duplique le directory** au lieu
 de créer le lien — sous Windows seulement : le code le nomme `$copyOnWindows`.
-La documentation dit « si le système de fichiers ne gère pas les liens » ;
+La documentation dit « si le système de files ne gère pas les liens » ;
 exécuté sous Linux avec `true`, c'est bien un lien qui est créé.
 
 ## Écrire et lire
 
-Trois méthodes, trois garanties différentes :
+Trois methods, trois garanties différentes :
 
 ```php
 $filesystem->dumpFile('file.txt', 'Hello World');
@@ -89,31 +89,31 @@ $filesystem->appendToFile('logs.txt', 'ligne', true);
 $contents = $filesystem->readFile('/chemin/file.txt');
 ```
 
-**`dumpFile()` est atomique.** Elle écrit un fichier temporaire puis le déplace :
-un lecteur simultané voit **soit l'ancien fichier complet, soit le nouveau
-complet**, jamais un fichier à moitié écrit. Elle crée aussi le fichier et son
-répertoire au besoin.
+**`dumpFile()` est atomique.** Elle écrit un file temporaire puis le déplace :
+un lecteur simultané voit **soit l'ancien file complet, soit le nouveau
+complet**, jamais un file à moitié écrit. Elle crée aussi le file et son
+directory au besoin.
 
-**`appendToFile()`** ajoute à la fin, crée fichier et répertoire s'ils manquent,
+**`appendToFile()`** ajoute à la fin, crée file et directory s'ils manquent,
 et accepte un troisième argument pour **verrouiller** pendant l'écriture.
 
 **`readFile()` lève une exception** là où `file_get_contents()` rendrait
-`false` — quand le chemin n'est pas lisible, et quand on lui passe un
-répertoire. Exécuté sur un fichier absent et sur un répertoire : `IOException`
+`false` — quand le path n'est pas lisible, et quand on lui passe un
+directory. Exécuté sur un file absent et sur un directory : `IOException`
 dans les deux cas.
 
-## Les chemins, sans toucher au disque
+## Les paths, sans toucher au disque
 
 `Path` couvre la canonicalisation, la jointure, la conversion
 absolu/relatif et la recherche de base commune. `Filesystem` expose de son côté
-`isAbsolutePath()` et `makePathRelative()`, qui prend **deux chemins absolus**
-et rend le chemin relatif du second vers le premier.
+`isAbsolutePath()` et `makePathRelative()`, qui prend **deux paths absolus**
+et rend le path relatif du second vers le premier.
 
 ## Les erreurs
 
 Tout échec lève une exception implémentant `ExceptionInterface` ou
 `IOExceptionInterface`. Cette dernière expose **`getPath()`**, qui dit sur quel
-chemin l'opération a échoué.
+path l'opération a échoué.
 
 ```php
 try {
@@ -126,29 +126,29 @@ try {
 C'est le gain réel du composant : une erreur ne peut pas passer inaperçue.
 
 Une réserve, lue dans `Filesystem::readFile()` (8.0) et exécutée : sur un
-**répertoire**, l'`IOException` est construite **sans chemin** — `getPath()`
-rend `null`, le chemin ne figure que dans le message. Pour un fichier illisible,
-le code passe le chemin à l'exception, et `getPath()` le rend.
+**directory**, l'`IOException` est construite **sans path** — `getPath()`
+rend `null`, le path ne figure que dans le message. Pour un file illisible,
+le code passe le path à l'exception, et `getPath()` le rend.
 
 ## Pièges d'examen
 
 **`mkdir()` est récursive et ignore l'existant** — elle n'échoue pas sur un
-répertoire déjà là.
+directory déjà là.
 
 **`dumpFile()` est atomique**, `appendToFile()` ne l'est pas.
 
-**`readFile()` lève sur un répertoire**, contrairement à `file_get_contents()`.
+**`readFile()` lève sur un directory**, contrairement à `file_get_contents()`.
 
-**`remove()` accepte un tableau** et traite fichiers, répertoires et liens.
+**`remove()` accepte un array** et traite files, directories et liens.
 
-**`getPath()` est sur `IOExceptionInterface`** et nomme le chemin fautif — sauf
-pour `readFile()` sur un répertoire, où il rend `null`.
+**`getPath()` est sur `IOExceptionInterface`** et nomme le path fautif — sauf
+pour `readFile()` sur un directory, où il rend `null`.
 
 **`Path` ne touche pas au disque.**
 
 ## Points clés
 
-- `Filesystem` agit, `Path` calcule des chaînes.
+- `Filesystem` agit, `Path` calcule des strings.
 - `mkdir()` récursive, mode 0777 par défaut, existant ignoré, `umask` appliqué.
 - `dumpFile()` atomique ; `appendToFile()` avec verrou optionnel ;
   `readFile()` lève au lieu de rendre `false`.

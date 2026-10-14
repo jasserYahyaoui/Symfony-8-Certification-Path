@@ -26,9 +26,9 @@ official_sources:
 Choisir entre `function () use (...)` et `fn () =>`, et savoir ce que chacune
 capture.
 
-## Fonction anonyme classique
+## Function anonyme classique
 
-La capture est **explicite** : rien n'entre dans la portée sans `use`.
+La capture est **explicite** : rien n'entre dans le scope sans `use`.
 
 ```php
 $factor = 3;
@@ -44,7 +44,7 @@ $triple(5);                   // 15, pas 50
 Avec `use (&$factor)`, la variable est capturée par référence et la valeur
 finale serait utilisée.
 
-## Fonction fléchée
+## Function fléchée
 
 La capture est **automatique et par valeur**. Il n'y a pas de `use`, et la
 capture par référence est impossible.
@@ -54,13 +54,13 @@ $factor = 3;
 $triple = fn (int $n): int => $n * $factor;   // $factor capturé automatiquement
 ```
 
-Une fonction fléchée n'a **qu'une seule expression**, dont la valeur est
+Une function fléchée n'a **qu'une seule expression**, dont la valeur est
 renvoyée : pas d'accolades, pas de `return`, pas d'instructions multiples.
 
-## Liaison de `$this`
+## Binding de `$this`
 
-Une closure définie dans une classe est **automatiquement liée** à l'instance,
-donc `$this` y est disponible. Le mot-clé `static` empêche cette liaison :
+Une closure définie dans une class est **automatiquement liée** à l'instance,
+donc `$this` y est disponible. Le mot-clé `static` empêche ce binding :
 
 ```php
 class Cart
@@ -78,11 +78,11 @@ class Cart
 ```
 
 `Closure::bind()` et `Closure::bindTo()` permettent de relier une closure à un
-autre objet — sauf une closure `static`, qui ne peut porter aucun objet : PHP
+autre object — sauf une closure `static`, qui ne peut porter aucun object : PHP
 émet « Cannot bind an instance to a static closure » et rend `null`. Changer
-seulement sa portée de classe, objet à `null`, reste possible — exécuté.
+seulement son scope de class, object à `null`, reste possible — exécuté.
 
-## Callable de première classe
+## Callable de première class
 
 ```php
 $fn = strlen(...);              // Closure vers la fonction
@@ -92,23 +92,23 @@ $fn = Article::create(...);     // Closure vers la méthode statique
 
 ## Pièges d'examen
 
-**`use` capture à la définition, pas à l'appel.** Modifier la variable après
+**`use` capture à la definition, pas à l'appel.** Modifier la variable après
 coup ne change rien, sauf capture par référence.
 
-**Une fonction fléchée ne peut pas capturer par référence.** Il n'y a pas de
+**Une function fléchée ne peut pas capturer par référence.** Il n'y a pas de
 syntaxe `fn () use (&$x)`.
 
-**`static function` ≠ méthode statique.** Sur une closure, `static` signifie
+**`static function` ≠ method statique.** Sur une closure, `static` signifie
 « non liée à `$this` ».
 
-**Une closure est un objet.** `$closure instanceof \Closure` est vrai, et le
-type `callable` accepte aussi des chaînes et des tableaux `[$obj, 'method']`.
+**Une closure est un object.** `$closure instanceof \Closure` est vrai, et le
+type `callable` accepte aussi des strings et des arrays `[$obj, 'method']`.
 
 ## Points clés
 
 - `function () use ($x)` : capture explicite, par valeur sauf `&$x`.
 - `fn () => expr` : capture automatique par valeur, une seule expression.
-- `$this` lié automatiquement dans une classe, sauf closure `static`.
+- `$this` lié automatiquement dans une class, sauf closure `static`.
 - `foo(...)` produit une `Closure`.
 
 ## Sources officielles

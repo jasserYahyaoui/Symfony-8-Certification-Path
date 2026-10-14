@@ -36,13 +36,13 @@ official_sources:
 
 ## Objectif
 
-Diagnostiquer un problème de routage avec les deux commandes prévues pour cela.
+Diagnostiquer un problème de routage avec les deux commands prévues pour cela.
 
 ## `debug:router` — quelles routes existent
 
 Elle liste toutes les routes **dans l'ordre où Symfony les évalue**. C'est ce
 détail qui en fait un outil de diagnostic et non un simple inventaire : comme la
-première correspondance gagne, l'ordre est la réponse à « pourquoi est-ce
+première correspondance gagne, l'ordre est la Response à « pourquoi est-ce
 l'autre route qui répond ? ».
 
 ```bash
@@ -53,15 +53,15 @@ php bin/console debug:router --method=GET
 php bin/console debug:router --format=json
 ```
 
-`--method` filtre la liste, mais garde les routes sans contrainte de méthode,
+`--method` filter la liste, mais garde les routes sans constraint de method,
 puisqu'elles acceptent tout verbe. `--format` vaut `txt` par défaut ; `xml`, `json` et `md` sont les autres.
 
-Passer un nom affiche le détail d'une route : chemin, hôte, schéma, méthodes,
+Passer un nom affiche le détail d'une route : path, hôte, schéma, methods,
 defaults, requirements, options. Le code de `RouterDebugCommand` (8.0) précise
 comment ce nom est lu :
 
 - un nom exact est affiché directement ;
-- sinon, la commande cherche les routes dont le nom **contient** l'argument,
+- sinon, la command cherche les routes dont le nom **contient** l'argument,
   sans tenir compte de la casse ;
 - plusieurs résultats : elle demande de choisir en mode interactif, et les liste
   en mode non interactif ;
@@ -69,7 +69,7 @@ comment ce nom est lu :
 
 ## `router:match` — quelle route répondrait
 
-Elle prend un **chemin** — le *path info* — et dit laquelle des routes
+Elle prend un **path** — le *path info* — et dit laquelle des routes
 correspondrait :
 
 ```bash
@@ -77,34 +77,34 @@ php bin/console router:match /lucky/number/8
 php bin/console router:match /api/posts/1 --method=PUT --host=api.example.com --scheme=https
 ```
 
-L'argument n'est pas une URL complète : l'hôte, le schéma et la méthode se
+L'argument n'est pas une URL complète : l'hôte, le schéma et la method se
 passent par les options `--host`, `--scheme` et `--method`, qui modifient le
-contexte du routeur avant l'appariement.
+contexte du router avant l'appariement.
 
-Ce que la commande affiche, d'après `RouterMatchCommand` :
+Ce que la command affiche, d'après `RouterMatchCommand` :
 
-- chaque route qui correspond **presque**, avec la raison : contrainte de
-  paramètre, hôte, condition, schéma ou méthode (`TraceableUrlMatcher`) ;
+- chaque route qui correspond **presque**, avec la raison : constraint de
+  parameter, hôte, condition, schéma ou method (`TraceableUrlMatcher`) ;
 - en mode verbeux (`-v`), aussi les routes qui ne correspondent pas ;
 - en cas de succès, le détail de la route, en relançant `debug:router` sur son
   nom ;
 - si aucune route ne correspond, une erreur et le code de sortie **1**.
 
-C'est la commande à utiliser quand une URL n'exécute pas le contrôleur attendu :
+C'est la command à utiliser quand une URL n'exécute pas le controller attendu :
 elle répond directement à la question, là où `debug:router` demande de la
 déduire d'une liste.
 
 ## Pièges d'examen
 
 **La liste des routes est donnée dans l'ordre d'évaluation, pas alphabétique.**
-La première correspondance gagne, donc l'ordre affiché *est* la réponse à
+La première correspondance gagne, donc l'ordre affiché *est* la Response à
 « pourquoi est-ce l'autre route qui répond ? ».
 
-**Deux commandes, deux questions différentes.** L'une inventorie les routes,
-l'autre prend un chemin et dit laquelle répondrait.
+**Deux commands, deux questions différentes.** L'une inventorie les routes,
+l'autre prend un path et dit laquelle répondrait.
 
-**`router:match` prend un chemin, pas une URL.** Hôte, schéma et méthode passent
-par des options ; sans elles, c'est le contexte par défaut du routeur qui
+**`router:match` prend un path, pas une URL.** Hôte, schéma et method passent
+par des options ; sans elles, c'est le contexte par défaut du router qui
 s'applique.
 
 **Un nom partiel suffit à `debug:router`**, et la recherche ignore la casse.

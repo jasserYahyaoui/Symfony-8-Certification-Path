@@ -49,28 +49,28 @@ official_sources:
 
 ## Objectif
 
-Comprendre le mécanisme qui remplit les arguments d'un contrôleur : qui décide,
+Comprendre le mécanisme qui remplit les arguments d'un controller : qui décide,
 dans quel ordre, et comment s'y insérer. C'est ce mécanisme qui explique
-pourquoi typer `Request`, `SessionInterface` ou une énumération suffit.
+pourquoi typer `Request`, `SessionInterface` ou une enum suffit.
 
 ## Prérequis
 
-Le trajet d'une requête et l'événement `kernel.controller_arguments`.
+Le trajet d'une Request et l'event `kernel.controller_arguments`.
 
 ## Le contrat
 
-Le noyau ne sait pas remplir un argument : il délègue à une chaîne de
-**résolveurs**. Chacun implémente `ValueResolverInterface`, dont l'unique
-méthode est :
+Le kernel ne sait pas remplir un argument : il délègue à une string de
+**resolvers**. Chacun implémente `ValueResolverInterface`, dont l'unique
+method est :
 
 ```php
 public function resolve(Request $request, ArgumentMetadata $argument): iterable;
 ```
 
 `ArgumentMetadata` porte tout ce que la signature déclare : nom, type,
-variadicité, présence d'une valeur par défaut, attributs.
+variadicité, présence d'une default value, attributes.
 
-La documentation le formule ainsi : retourner **toujours un tableau** — vide s'il
+La documentation le formule ainsi : retourner **toujours un array** — vide s'il
 ne sait pas résoudre l'argument, à un élément pour une valeur, à plusieurs pour
 un argument variadique. Le type déclaré est `iterable`, et `ArgumentResolver`
 parcourt le résultat par `foreach` : un générateur fonctionne aussi. Retourner
@@ -78,24 +78,24 @@ la valeur elle-même est l'erreur classique — le type de retour la refuse.
 
 ## Ce que fait `ArgumentResolver`
 
-Pour chaque argument, il appelle les résolveurs dans l'ordre :
+Pour chaque argument, il appelle les resolvers dans l'ordre :
 
-- le **premier** qui produit au moins une valeur **arrête** la chaîne pour cet
+- le **premier** qui produit au moins une valeur **arrête** la string pour cet
   argument ;
 - plus d'une valeur pour un argument non variadique lève une
   `InvalidArgumentException` ;
 - si **aucun** ne produit de valeur, il lève une `RuntimeException` :
   « Controller … requires the "$x" argument that could not be resolved ».
 
-Un tableau vide passe donc la main sans erreur ; c'est l'échec de **toute** la
-chaîne qui en produit une.
+Un array vide passe donc la main sans erreur ; c'est l'échec de **toute** la
+string qui en produit une.
 
 ## L'ordre
 
 Les services tagués `controller.argument_value_resolver` sont triés par
 **priorité**, lue dans la configuration de FrameworkBundle :
 
-| Priorité | Résolveurs |
+| Priorité | Resolvers |
 |---|---|
 | 120 | `RequestValueResolver`, `SessionValueResolver` |
 | 100 | `RequestAttributeValueResolver`, `BackedEnumValueResolver`, `UidValueResolver`, `DateTimeValueResolver` |
@@ -105,7 +105,7 @@ Les services tagués `controller.argument_value_resolver` sont triés par
 
 Cet ordre n'est pas décoratif. `SessionValueResolver` passe avant
 `DefaultValueResolver` : c'est ce qui permet d'obtenir la session s'il y en a
-une, `null` sinon. Un résolveur maison qui lit les attributs doit se placer à
+une, `null` sinon. Un resolver maison qui lit les attributes doit se placer à
 `100` ou plus.
 
 ### L'exemple de la documentation et PHP 8.4
@@ -117,67 +117,67 @@ défaut, un type nullable reçoit déjà `null` par `DefaultValueResolver`.
 
 ## Le catalogue
 
-| Résolveur | Ce qu'il remplit |
+| Resolver | Ce qu'il remplit |
 |---|---|
-| `RequestAttributeValueResolver` | un argument dont le nom correspond à un attribut de la requête — les paramètres de route |
+| `RequestAttributeValueResolver` | un argument dont le nom correspond à un attribute de la Request — les parameters de route |
 | `RequestValueResolver` | un argument typé `Request` ou une sous-classe |
 | `SessionValueResolver` | un argument typé `SessionInterface` |
-| `BackedEnumValueResolver` | un cas d'énumération depuis un paramètre de route |
-| `UidValueResolver` | un identifiant du composant Uid |
-| `DateTimeValueResolver` | un `\DateTimeInterface` depuis une chaîne — un `DateTimeImmutable` si le type est l'interface |
+| `BackedEnumValueResolver` | un cas d'enum depuis un parameter de route |
+| `UidValueResolver` | un identifier du composant Uid |
+| `DateTimeValueResolver` | un `\DateTimeInterface` depuis une string — un `DateTimeImmutable` si le type est l'interface |
 | `ServiceValueResolver` | un service, lu dans le localisateur propre à l'action, par nom d'argument |
-| `DefaultValueResolver` | la valeur par défaut, ou `null` pour un type nullable |
-| `VariadicValueResolver` | un argument variadique depuis un attribut tableau |
+| `DefaultValueResolver` | la default value, ou `null` pour un type nullable |
+| `VariadicValueResolver` | un argument variadique depuis un attribute array |
 
 Deux précisions de code. `RequestValueResolver` reconnaît un type qui se termine
 par `\Request` sans être celui de HttpFoundation et répond « Looks like you
 required a Request object with the wrong class name » — le signe d'un mauvais
 import. Et une valeur invalide venue de l'URL donne **404** pour une
-énumération, une date ou un identifiant Uid.
+enum, une date ou un identifier Uid.
 
-## Les résolveurs ciblés
+## Les resolvers ciblés
 
-Deux résolveurs portent un autre tag, `controller.targeted_value_resolver` :
+Deux resolvers portent un autre tag, `controller.targeted_value_resolver` :
 `RequestPayloadValueResolver` et `QueryParameterValueResolver`. Ils sont
-**retirés de la chaîne** et ne s'exécutent que si un attribut les désigne.
+**retirés de la string** et ne s'exécutent que si un attribute les désigne.
 
-`#[ValueResolver]` épingle un résolveur par son nom — pour ceux du framework,
-leur FQCN. La chaîne de l'argument devient alors **trois** résolveurs : celui
+`#[ValueResolver]` épingle un resolver par son nom — pour ceux du framework,
+leur FQCN. La chaîne de l'argument devient alors **trois** resolvers : celui
 épinglé, puis `RequestAttributeValueResolver`, puis `DefaultValueResolver`. La
-documentation ne cite que le dernier. Épingler deux résolveurs sur un argument
+documentation ne cite que le dernier. Épingler deux resolvers sur un argument
 lève une `LogicException` ; `disabled: true` en saute un.
 
-Les attributs de correspondance sont la forme confortable du même mécanisme :
+Les attributes de correspondance sont la forme confortable du même mécanisme :
 
-| Attribut | Source | Échec par défaut |
+| Attribute | Source | Échec par défaut |
 |---|---|---|
-| `#[MapQueryParameter]` | un paramètre de la chaîne de requête | **404** |
-| `#[MapQueryString]` | la chaîne de requête entière, vers un objet | **404** |
-| `#[MapRequestPayload]` | le corps de la requête, vers un objet | **422** |
-| `#[MapUploadedFile]` | un fichier téléversé | **422** |
+| `#[MapQueryParameter]` | un parameter de la chaîne de Request | **404** |
+| `#[MapQueryString]` | la chaîne de Request entière, vers un object | **404** |
+| `#[MapRequestPayload]` | le body de la Request, vers un object | **422** |
+| `#[MapUploadedFile]` | un file téléversé | **422** |
 
-Ce qui vient de l'URL échoue en 404, ce qui vient du corps en 422 ; l'option
+Ce qui vient de l'URL échoue en 404, ce qui vient du body en 422 ; l'option
 `validationFailedStatusCode` change le statut. `#[MapQueryParameter]` accepte
 `filter`, `flags` et `options` ; avec `FILTER_NULL_ON_FAILURE`, une valeur
 invalide devient `null` au lieu de lever.
 
 ## Pièges d'examen
 
-- La documentation dit « toujours un tableau » ; le type est `iterable`.
-- Un tableau vide passe la main ; si aucun résolveur ne fournit de valeur, une
+- La documentation dit « toujours un array » ; le type est `iterable`.
+- Un array vide passe la main ; si aucun resolver ne fournit de valeur, une
   `RuntimeException` est levée.
-- Le premier résolveur qui fournit une valeur **arrête** la chaîne.
+- Le premier resolver qui fournit une valeur **arrête** la string.
 - Une valeur invalide dans l'URL donne **404**, pas 400.
 - `#[MapQueryParameter]` échoue en **404**, `#[MapRequestPayload]` en **422**.
-- Un résolveur ciblé ne s'exécute pas sans son attribut.
+- Un resolver ciblé ne s'exécute pas sans son attribute.
 - `SessionInterface $session = null` est déprécié en PHP 8.4.
 
 ## Points clés
 
 - `ValueResolverInterface::resolve()` + `ArgumentMetadata`, retour itérable.
 - Tag `controller.argument_value_resolver`, ordre par priorité, premier servi.
-- 120 pour `Request`/`Session`, 100 pour les attributs, −100 pour le défaut.
-- Épingler : épinglé, puis attributs, puis défaut.
+- 120 pour `Request`/`Session`, 100 pour les attributes, −100 pour le défaut.
+- Épingler : épinglé, puis attributes, puis défaut.
 - URL invalide → 404 ; corps invalide → 422.
 
 ## Sources officielles

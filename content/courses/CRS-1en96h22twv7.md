@@ -60,7 +60,7 @@ class PostControllerTest extends WebTestCase
 ```
 
 `WebTestCase` **étend `KernelTestCase`** et lui ajoute le client. Appeler
-`createClient()` démarre le noyau : il ne faut pas appeler `bootKernel()` en
+`createClient()` démarre le kernel : il ne faut pas appeler `bootKernel()` en
 plus. Exécuté avec FrameworkBundle 8.0.15 et PHPUnit 11.5, `bootKernel()` puis
 `createClient()` : `LogicException` — « Booting the kernel before calling
 "…WebTestCase::createClient()" is not supported, the kernel should only be
@@ -71,15 +71,15 @@ booted once. »
 La documentation le décrit en quatre temps, et ce rythme structure tout test
 d'application :
 
-1. faire une requête ;
+1. faire une Request ;
 2. interagir avec la page — cliquer, soumettre ;
-3. tester la réponse ;
+3. tester la Response ;
 4. recommencer.
 
-## L'environnement `test`
+## L'environment `test`
 
-Le noyau démarre dans l'environnement `test`. La configuration propre aux tests
-va donc dans `config/packages/test/` ou sous la clé **`when@test`** :
+Le kernel démarre dans l'environment `test`. La configuration propre aux tests
+va donc dans `config/packages/test/` ou sous la key **`when@test`** :
 
 ```yaml
 when@test:
@@ -87,36 +87,36 @@ when@test:
         strict_variables: true
 ```
 
-Les variables d'environnement sont lues dans cet ordre — le dernier gagne :
+Les variables d'environment sont lues dans cet ordre — le dernier gagne :
 `.env`, puis `.env.test`, puis `.env.test.local`. **`.env.local` n'est pas lu**
-en environnement de test, délibérément : une machine de développement ne doit
+en environment de test, délibérément : une machine de développement ne doit
 pas modifier le résultat des tests. Exécuté avec Dotenv 8.0.15, une variable
-`A` définie dans les quatre fichiers :
+`A` définie dans les quatre files :
 
 | Situation | Valeur de `A` |
 |---|---|
-| `APP_ENV=test`, les quatre fichiers | celle de `.env.test.local` |
+| `APP_ENV=test`, les quatre files | celle de `.env.test.local` |
 | `APP_ENV=test`, sans `.env.test.local` | celle de `.env.test` |
 | `APP_ENV=dev` | celle de `.env.local` |
 | `APP_ENV=test`, `A` déjà définie dans le shell | celle du shell |
 
 Une variable présente **seulement** dans `.env.local` est absente en `test`.
-Et une vraie variable d'environnement l'emporte sur tous les fichiers.
+Et une vraie variable d'environment l'emporte sur tous les files.
 
 ## Les assertions de Symfony
 
 Elles rendent l'échec lisible : `assertResponseIsSuccessful()` affiche la
-réponse reçue, là où `assertEquals(200, $code)` n'affiche qu'un nombre.
-Exécuté sur un 404 : l'échec imprime en-têtes **et** corps. Après
-`self::setBrowserKitAssertionsAsVerbose(false)`, seulement les en-têtes ; le
-paramètre `$verbose` de chaque assertion fait de même au cas par cas.
+Response reçue, là où `assertEquals(200, $code)` n'affiche qu'un nombre.
+Exécuté sur un 404 : l'échec imprime headers **et** corps. Après
+`self::setBrowserKitAssertionsAsVerbose(false)`, seulement les headers ; le
+parameter `$verbose` de chaque assertion fait de même au cas par cas.
 
-**Sur la réponse** — `assertResponseIsSuccessful()` (2xx),
+**Sur la Response** — `assertResponseIsSuccessful()` (2xx),
 `assertResponseStatusCodeSame()`, `assertResponseRedirects()`,
 `assertResponseHasHeader()`, `assertResponseHeaderSame()`,
 `assertResponseHasCookie()`, `assertResponseIsUnprocessable()` (422).
 
-**Sur la requête** — `assertRouteSame()`, `assertRequestAttributeValueSame()`.
+**Sur la Request** — `assertRouteSame()`, `assertRequestAttributeValueSame()`.
 
 **Sur le navigateur** — `assertBrowserHasCookie()`,
 `assertBrowserHistoryIsOnFirstPage()`.
@@ -131,19 +131,19 @@ répondu**, ce qu'aucune assertion sur le HTML ne dit.
 ## Une URL en dur
 
 La documentation recommande d'écrire l'URL littéralement plutôt que de la
-générer par le routeur. La raison est nette : un test qui génère son URL suit
+générer par le router. La raison est nette : un test qui génère son URL suit
 automatiquement un changement de route, et cesse donc de détecter ce changement
-— alors que l'utilisateur, lui, le subit.
+— alors que le user, lui, le subit.
 
 ## Pièges d'examen
 
 **`WebTestCase` étend `KernelTestCase`** ; `createClient()` démarre déjà le
-noyau.
+kernel.
 
 **`.env.local` est ignoré en test**, contrairement à `.env.test.local`.
 
 **`assertResponseIsSuccessful()` couvre tout le 2xx**, pas seulement 200 —
-exécuté : une réponse 201 passe.
+exécuté : une Response 201 passe.
 
 **Une variable du shell bat `.env.test.local`.**
 
@@ -151,10 +151,10 @@ exécuté : une réponse 201 passe.
 
 ## Points clés
 
-- `WebTestCase`, `static::createClient()`, requête, assertions.
-- Quatre temps : requête, interaction, assertion, recommencer.
+- `WebTestCase`, `static::createClient()`, Request, assertions.
+- Quatre temps : Request, interaction, assertion, recommencer.
 - `when@test` et l'ordre `.env` → `.env.test` → `.env.test.local`.
-- Les assertions Symfony couvrent réponse, requête, navigateur et contenu.
+- Les assertions Symfony couvrent Response, Request, navigateur et contenu.
 
 ## Sources officielles
 

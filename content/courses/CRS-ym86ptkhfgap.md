@@ -48,16 +48,16 @@ official_sources:
 
 ## Objectif
 
-Référencer une ressource publique depuis un gabarit, et savoir ce que le
-composant Asset fait du chemin.
+Référencer une ressource publique depuis un template, et savoir ce que le
+composant Asset fait du path.
 
 ## Limite de périmètre
 
 Les outils de construction d'assets — AssetMapper, Webpack Encore — sont
 **exclus du périmètre de l'examen** (`docs/syllabus/exclusions.yml`). Ce qui
-reste ici est la fonction Twig et la configuration du composant Asset.
+reste ici est la function Twig et la configuration du composant Asset.
 
-## La fonction
+## La function
 
 ```html
 <img src="{{ asset('images/logo.png') }}">
@@ -65,26 +65,26 @@ reste ici est la fonction Twig et la configuration du composant Asset.
 ```
 
 Sa signature est `asset(path, packageName = null)` (`AssetExtension`, Twig
-Bridge 8.0). Le chemin est relatif à `public/`, sans barre oblique initiale.
+Bridge 8.0). Le path est relatif à `public/`, sans barre oblique initiale.
 
 Elle n'est pas cosmétique : elle applique le préfixe de base de l'application —
 utile lorsque le site n'est pas servi à la racine du domaine, ce qui est le cas
 de ce projet même — et la stratégie de version configurée.
 
-## Ce que fait le paquet, dans l'ordre
+## Ce que fait le package, dans l'ordre
 
-Sans `base_urls`, le paquet est un `PathPackage` — `base_path` et `base_urls`
-ne se combinent pas. Sa méthode `getUrl()` :
+Sans `base_urls`, le package est un `PathPackage` — `base_path` et `base_urls`
+ne se combinent pas. Sa method `getUrl()` :
 
 1. rend **inchangée** une URL absolue (`https://…`, `//…`) — ni préfixe ni
    version ;
 2. applique la stratégie de version ;
 3. rend le résultat tel quel s'il commence par `/` : **pas de préfixe de
    base** ;
-4. sinon, préfixe le chemin par la base.
+4. sinon, préfixe le path par la base.
 
 D'où le piège : `asset('/css/app.css')` garde la version mais perd le préfixe.
-Un paquet à `base_urls` (`UrlPackage`) ajoute lui-même la barre, et n'a donc pas
+Un package à `base_urls` (`UrlPackage`) ajoute lui-même la barre, et n'a donc pas
 ce problème.
 
 ## La version
@@ -95,26 +95,26 @@ combiner deux.
 
 - `version: 'v2'` : `StaticVersionStrategy`, format par défaut `%s?%s` —
   `css/app.css?v2`, modifiable par `version_format`.
-- `json_manifest_path` : le chemin est cherché dans un manifeste JSON. Absent du
+- `json_manifest_path` : le path est cherché dans un manifeste JSON. Absent du
   manifeste, il est rendu tel quel — sauf avec `strict_mode: true`, qui lève une
   `AssetNotFoundException` en proposant des alternatives.
 
 `asset_version(path, packageName = null)` retourne la version appliquée. Le
 versionnement sert à casser le cache du navigateur quand une ressource change ;
-il est configuré, pas calculé dans le gabarit.
+il est configuré, pas calculé dans le template.
 
-## Les paquets
+## Les packages
 
-`framework.assets.packages` déclare des paquets nommés, chacun avec sa base et
-sa version. Le second argument de `asset()` choisit le paquet :
+`framework.assets.packages` déclare des packages nommés, chacun avec sa base et
+sa version. Le second argument de `asset()` choisit le package :
 
 ```html
 {{ asset('logo.png', 'images') }}
 ```
 
-Sans second argument, c'est le paquet par défaut.
+Sans second argument, c'est le package par défaut.
 
-Pour une URL absolue — un e-mail, une balise de partage —, on combine avec
+Pour une URL absolue — un e-mail, un tag de partage —, on combine avec
 `absolute_url()` : `absolute_url(asset('images/logo.png'))`.
 
 ## Pièges d'examen
@@ -125,16 +125,16 @@ Pour une URL absolue — un e-mail, une balise de partage —, on combine avec
 
 **`version`, `version_strategy` et `json_manifest_path` ne se combinent pas.**
 
-**Absent du manifeste, un chemin passe inchangé**, sauf en mode strict.
+**Absent du manifeste, un path passe inchangé**, sauf en mode strict.
 
 **Les outils de construction d'assets sont hors périmètre** de l'examen.
 
 ## Points clés
 
-- Écrire `{{ asset('…') }}`, jamais un chemin en dur.
-- Chemin relatif à `public/`, sans barre initiale.
+- Écrire `{{ asset('…') }}`, jamais un path en dur.
+- Path relatif à `public/`, sans barre initiale.
 - `asset()` applique la version puis le préfixe de base.
-- Second argument facultatif : le nom du paquet.
+- Second argument facultatif : le nom du package.
 - Version statique, stratégie ou manifeste — une seule à la fois.
 
 ## Sources officielles

@@ -16,12 +16,12 @@ flashcards:
     level: UNDERSTANDING
     front: "HTTP : quelle est la différence entre 401 et 403 ?"
     back: >-
-      401 Unauthorized = authentification manquante ou invalide (« je ne sais
+      401 Unauthorized = authentication manquante ou invalide (« je ne sais
       pas qui vous êtes »). 403 Forbidden = authentifié mais pas autorisé
       (« je sais qui vous êtes, et c'est non »).
     explanation: >-
       Le nom « 401 Unauthorized » est historiquement trompeur : il concerne
-      l'authentification, pas l'autorisation. Se réauthentifier peut résoudre un
+      l'authentication, pas l'authorization. Se réauthentifier peut résoudre un
       401 ; cela ne résoudra jamais un 403.
     memorization_justification: >-
       Distinction purement lexicale, non dérivable du numéro, et le nom du code
@@ -39,15 +39,15 @@ flashcards:
     official_item: OIT-512se83ab7qj
     language: fr
     level: RECALL
-    front: "HTTP : quels codes de redirection préservent la méthode et le corps de la requête ?"
+    front: "HTTP : quels codes de redirect préservent la method et le body de la Request ?"
     back: "307 Temporary Redirect et 308 Permanent Redirect."
     explanation: >-
       301 et 302 sont historiquement transformés en GET par les agents
-      utilisateurs. 307 et 308 ont été introduits précisément pour garantir la
-      préservation de la méthode, ce qui les rend obligatoires après un POST.
+      users. 307 et 308 ont été introduits précisément pour garantir la
+      préservation de la method, ce qui les rend obligatoires après un POST.
     memorization_justification: >-
       Quatre codes deux à deux confondables, dont l'appariement (permanent vs
-      temporaire, méthode préservée ou non) ne se déduit d'aucune règle.
+      temporaire, method préservée ou non) ne se déduit d'aucune règle.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
@@ -63,8 +63,8 @@ flashcards:
     front: "Routing : deux routes correspondent à une URL. Laquelle Symfony retient-il ?"
     back: "La première déclarée — jamais la plus spécifique."
     explanation: >-
-      L'ordre de déclaration décide. En YAML c'est l'ordre du fichier ; en
-      attributs l'ordre de découverte n'est pas contrôlable, d'où l'option
+      L'ordre de déclaration décide. En YAML c'est l'ordre du file ; en
+      attributes l'ordre de découverte n'est pas contrôlable, d'où l'option
       `priority` (défaut 0, plus élevé évalué en premier).
     memorization_justification: >-
       L'intuition « la plus spécifique gagne » vient d'autres frameworks et
@@ -84,12 +84,12 @@ flashcards:
     official_item: OIT-s3jh7wg5km19
     language: fr
     level: RECALL
-    front: "Security : quel passport construire lorsqu'il n'y a aucun identifiant à vérifier ?"
+    front: "Security : quel passport construire lorsqu'il n'y a aucun identifier à vérifier ?"
     back: "SelfValidatingPassport — le constructeur de Passport exige des credentials."
     explanation: >-
       Passport::__construct(UserBadge $userBadge, CredentialsInterface
       $credentials, array $badges = []) rend les credentials obligatoires. Pour
-      un jeton d'API déjà digne de confiance, on construit
+      un token d'API déjà digne de confiance, on construit
       SelfValidatingPassport(new UserBadge($token)).
     memorization_justification: >-
       Choix binaire à faire au moment d'écrire authenticate(), sans indice dans

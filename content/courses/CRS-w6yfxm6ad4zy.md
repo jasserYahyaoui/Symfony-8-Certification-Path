@@ -26,19 +26,19 @@ official_sources:
 
 ## Objectif
 
-Comprendre par quoi le conteneur remplit un argument, pourquoi deux
+Comprendre par quoi le container remplit un argument, pourquoi deux
 implémentations d'une même interface le bloquent, et les trois façons de
 trancher. C'est le mécanisme qui explique pourquoi presque aucune configuration
 n'est nécessaire — et pourquoi, quand il échoue, le message est déroutant.
 
 ## Prérequis
 
-Le conteneur, ses définitions et ses alias.
+Le container, ses definitions et ses alias.
 
 ## La règle, en une phrase
 
 L'autowiring résout un argument **par son type**, en cherchant un service dont
-l'identifiant est ce type.
+l'identifier est ce type.
 
 ```php
 class Mailer
@@ -47,8 +47,8 @@ class Mailer
 }
 ```
 
-Le conteneur cherche un service d'identifiant `App\Mail\TransportInterface`.
-Comme les classes découvertes ont leur FQCN pour identifiant, cela fonctionne
+Le container cherche un service d'identifier `App\Mail\TransportInterface`.
+Comme les classes découvertes ont leur FQCN pour identifier, cela fonctionne
 sans rien écrire.
 
 **Le nom de l'argument n'intervient pas** — sauf dans les cas de départage
@@ -75,7 +75,7 @@ devine plus. Exécuté avec FrameworkBundle 8.0.15, deux implémentations de
 > such service exists. You should maybe alias this interface to one of these
 > existing services: "App\P11\Rot13Transformer", "App\P11\UppercaseTransformer".
 
-La cause n'est pas l'absence de classe, mais l'absence de choix — et le message
+La cause n'est pas l'absence de class, mais l'absence de choix — et le message
 propose lui-même les candidats.
 
 ## Trois façons de départager
@@ -134,7 +134,7 @@ or service aliases ». Exécuté, c'est plus nuancé :
 | `'App\P11\UppercaseTransformer'`, cible d'un alias nommé du même type | injecté |
 | `'App\P11\Rot13Transformer'`, cible du seul alias par défaut | « no such target exists » |
 
-`AutowirePass::getAutowiredReference()` accepte un identifiant de service
+`AutowirePass::getAutowiredReference()` accepte un identifier de service
 **lorsqu'un alias nommé de ce type le vise déjà**. La règle d'écriture reste celle
 de la documentation — viser le nom de l'alias nommé —, mais l'affirmation absolue
 est fausse.
@@ -157,11 +157,11 @@ service correspondant — exécuté : « argument "$dir" of method "__construct(
 is type-hinted "string", you should configure its value explicitly. » Il faut
 `bind`, `#[Autowire]` ou un argument explicite.
 
-Un argument nullable avec une valeur par défaut est laissé tel quel si rien ne
+Un argument nullable avec une default value est laissé tel quel si rien ne
 correspond : exécuté, un `?App\Missing\Nope $opt = null` reçoit `null`.
 
 L'erreur apparaît à la compilation — **pour les services conservés**. Exécuté :
-la même classe au `string` non résolu, privée et jamais utilisée, est retirée et
+la même class au `string` non résolu, privée et jamais utilisée, est retirée et
 ne lève rien.
 
 ## Pièges d'examen
@@ -170,16 +170,16 @@ ne lève rien.
 - Deux implémentations d'une interface **suppriment** l'alias automatique.
 - Une faute dans le nom d'argument retombe **en silence** sur l'alias par
   défaut ; la même faute dans `#[Target]` lève une exception.
-- `#[Target]` vise le nom de l'**alias nommé** ; un identifiant ne passe que s'il
+- `#[Target]` vise le nom de l'**alias nommé** ; un identifier ne passe que s'il
   est déjà la cible d'un alias nommé du même type.
 - Un scalaire ne s'autowire jamais.
 
 ## Points clés
 
-- Un argument est rempli par son type ; le FQCN sert d'identifiant.
+- Un argument est rempli par son type ; le FQCN sert d'identifier.
 - Une interface a besoin d'un alias, créé seul si l'implémentation est unique.
 - Départager : alias par défaut, alias nommé `Interface $argument`, ou `#[Target]`.
-- `#[Autowire]` injecte service, paramètre, variable d'environnement ou expression.
+- `#[Autowire]` injecte service, parameter, variable d'environment ou expression.
 - `debug:autowiring` est l'outil de diagnostic.
 
 ## Sources officielles

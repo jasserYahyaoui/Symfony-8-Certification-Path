@@ -43,13 +43,13 @@ official_sources:
 
 ## Objectif
 
-Déclarer une route en YAML et en attribut PHP, savoir choisir entre les deux,
+Déclarer une route en YAML et en attribute PHP, savoir choisir entre les deux,
 et maîtriser la conséquence la plus piégeuse de ce choix : **l'ordre
 d'évaluation**.
 
 ## Prérequis
 
-- Attributs PHP 8 — `must-know` (topic PHP, item *Attributes*).
+- Attributes PHP 8 — `must-know` (topic PHP, item *Attributes*).
 
 ## Les deux formes
 
@@ -76,11 +76,11 @@ blog_list:
     controller: App\Controller\BlogController::list
 ```
 
-Le nom de la route (`blog_list`) est la clé YAML, ou l'argument `name:` de
-l'attribut. Le contrôleur est explicite en YAML ; en attribut il est déduit de
-la méthode portant l'attribut.
+Le nom de la route (`blog_list`) est la key YAML, ou l'argument `name:` de
+l'attribute. Le controller est explicite en YAML ; en attribute il est déduit de
+la method portant l'attribute.
 
-## Le namespace de l'attribut
+## Le namespace de l'attribute
 
 ```php
 use Symfony\Component\Routing\Attribute\Route;   // correct
@@ -92,22 +92,22 @@ hérité de l'époque des annotations Doctrine, a été supprimé. Un import
 
 ## Deux jeux d'options, pas un seul
 
-L'attribut `#[Route]` accepte seize arguments : `path`, `name`, `requirements`,
+L'attribute `#[Route]` accepte seize arguments : `path`, `name`, `requirements`,
 `options`, `defaults`, `host`, `methods`, `schemes`, `condition`, `priority`,
 `locale`, `format`, `utf8`, `stateless`, `env`, `alias`.
 
-Le chargeur YAML a **sa propre liste**, `AVAILABLE_KEYS`, et elle n'est pas la
+Le loader YAML a **sa propre liste**, `AVAILABLE_KEYS`, et elle n'est pas la
 même :
 
-| Besoin | Attribut | YAML |
+| Besoin | Attribute | YAML |
 |---|---|---|
-| réordonner | `priority` | **absent** — on déplace la route dans le fichier |
-| restreindre à un environnement | `env` | un bloc `when@prod:` au premier niveau |
+| réordonner | `priority` | **absent** — on déplace la route dans le file |
+| restreindre à un environment | `env` | un block `when@prod:` au premier niveau |
 | déclarer un alias | `alias` | une entrée qui ne porte **que** `alias` (et `deprecated`) |
-| désigner le contrôleur | déduit de la méthode | `controller` |
+| désigner le controller | déduit de la method | `controller` |
 
-Une clé hors de la liste fait **lever** une `InvalidArgumentException` qui
-énumère les clés admises : écrire `priority:` en YAML ne réordonne rien, cela
+Une key hors de la liste fait **lever** une `InvalidArgumentException` qui
+énumère les keys admises : écrire `priority:` en YAML ne réordonne rien, cela
 casse le chargement. Deux autres combinaisons lèvent aussi : `controller` avec
 `defaults._controller`, et `stateless` avec `defaults._stateless`.
 
@@ -132,7 +132,7 @@ blog_list:
     methods: [GET, HEAD]
 ```
 
-`path` accepte aussi un **tableau** indexé par locale : l'attribut produit alors
+`path` accepte aussi un **array** indexé par locale : l'attribute produit alors
 une route par locale, nommée `blog_list.fr`, `blog_list.en`…
 
 ## Le piège : l'ordre d'évaluation
@@ -140,7 +140,7 @@ une route par locale, nommée `blog_list.fr`, `blog_list.en`…
 **Symfony évalue les routes dans l'ordre où elles sont définies, et la première
 qui correspond gagne.** Les suivantes ne sont jamais essayées.
 
-En YAML, cet ordre est celui du fichier : il suffit de déplacer une route plus
+En YAML, cet ordre est celui du file : il suffit de déplacer une route plus
 haut.
 
 ```yaml
@@ -154,8 +154,8 @@ blog_show:
     controller: App\Controller\BlogController::show
 ```
 
-En attributs, l'ordre dépend de l'ordre de découverte des classes et des
-méthodes — que vous ne contrôlez pas de façon fiable. C'est précisément la
+En attributes, l'ordre dépend de l'ordre de découverte des classes et des
+methods — que vous ne contrôlez pas de façon fiable. C'est précisément la
 raison d'être de l'option `priority` :
 
 ```php
@@ -167,15 +167,15 @@ public function show(string $slug): Response { /* ... */ }
 ```
 
 Une `priority` plus élevée est évaluée en premier ; à priorité égale, l'ordre
-de déclaration départage. Dans l'attribut, l'argument vaut `null` : la route
-hérite alors de la priorité posée par un `#[Route]` au niveau de la classe, et à
+de déclaration départage. Dans l'attribute, l'argument vaut `null` : la route
+hérite alors de la priorité posée par un `#[Route]` au niveau de la class, et à
 défaut de `0`.
 
 ## Erreurs fréquentes
 
 - Croire que la route la **plus spécifique** l'emporte. Non : c'est la
   **première déclarée** qui correspond.
-- Écrire `priority` en YAML : la clé n'existe pas, le chargement lève une
+- Écrire `priority` en YAML : la key n'existe pas, le chargement lève une
   exception. En YAML, on déplace la route.
 - Importer `Annotation\Route` au lieu de `Attribute\Route`.
 
@@ -185,24 +185,24 @@ défaut de `0`.
 essayées.** Une route générale placée avant une route spécifique masque
 définitivement la seconde.
 
-**La priorité est une option d'attribut, pas de YAML.** En YAML on déplace une
-ligne ; écrire la clé fait échouer le chargement.
+**La priorité est une option d'attribute, pas de YAML.** En YAML on déplace une
+ligne ; écrire la key fait échouer le chargement.
 
-**Les deux formats n'ont pas le même jeu d'options.** L'environnement et l'alias
+**Les deux formats n'ont pas le même jeu d'options.** L'environment et l'alias
 existent des deux côtés, mais sous deux formes différentes.
 
-**L'ancien espace de noms d'annotation n'existe plus.** Un import hérité de
-l'époque Doctrine échoue en Symfony 8.0 — l'attribut vit désormais dans
+**L'ancien namespace d'annotation n'existe plus.** Un import hérité de
+l'époque Doctrine échoue en Symfony 8.0 — l'attribute vit désormais dans
 `Attribute`.
 
 ## Points clés
 
-- Deux jeux d'options : `priority` n'existe qu'en attribut, `env` et `alias`
+- Deux jeux d'options : `priority` n'existe qu'en attribute, `env` et `alias`
   prennent une autre forme en YAML.
-- Une clé YAML inconnue lève une `InvalidArgumentException`.
+- Une key YAML inconnue lève une `InvalidArgumentException`.
 - Première correspondance gagnante, jamais la plus spécifique.
-- `priority` existe pour les attributs, dont l'ordre n'est pas contrôlable.
-- L'attribut vit dans `Routing\Attribute`, plus dans `Routing\Annotation`.
+- `priority` existe pour les attributes, dont l'ordre n'est pas contrôlable.
+- L'attribute vit dans `Routing\Attribute`, plus dans `Routing\Annotation`.
 
 ## Sources officielles
 

@@ -13,11 +13,11 @@ flashcards:
     official_item: OIT-46ry8d7dypmb
     language: fr
     front: "PHP : quelles nouveautés de langage PHP 8.4 apporte-t-il ?"
-    back: "Property hooks, visibilité asymétrique (private(set)), objets paresseux, attribut #[\\Deprecated], et new déréférençable sans parenthèses englobantes."
+    back: "Property hooks, visibilité asymétrique (private(set)), objects paresseux, attribute #[\\Deprecated], et new déréférençable sans parenthèses englobantes."
     explanation: >-
       Symfony 8.0 exige PHP >= 8.4, donc ces cinq ajouts sont dans le
-      périmètre examinable ; UPGRADING (8.4) les liste sous New Features > Core. Ne pas les confondre avec 8.3 (constantes de classe
-      typées, #[\Override]) ni 8.1 (enums, readonly, callable de première classe).
+      périmètre examinable ; UPGRADING (8.4) les liste sous New Features > Core. Ne pas les confondre avec 8.3 (constantes de class
+      typées, #[\Override]) ni 8.1 (enums, readonly, callable de première class).
     memorization_justification: >-
       Attribution version-par-fonctionnalité : rien dans la syntaxe n'indique sa
       version d'introduction, et l'examen porte explicitement sur 8.4.
@@ -33,12 +33,12 @@ flashcards:
   - id: FLC-xcnrvq0mddck
     official_item: OIT-ywrx9x3hg9z8
     language: fr
-    front: "PHP : quelle est la différence entre self et static dans une méthode statique ?"
+    front: "PHP : quelle est la différence entre self et static dans une method statique ?"
     back: >-
-      self se résout à la classe où le code est écrit ; static se résout à la
-      classe réellement appelée (liaison statique tardive).
+      self se résout à la class où le code est écrit ; static se résout à la
+      class réellement appelée (binding statique tardive).
     explanation: >-
-      new self() dans une classe parente renvoie toujours le parent, même appelé
+      new self() dans une class parente renvoie toujours le parent, même appelé
       via l'enfant. new static() renvoie l'enfant. C'est la différence entre une
       factory cassée et une factory correcte.
     memorization_justification: >-
@@ -56,10 +56,10 @@ flashcards:
   - id: FLC-nt75xsr5ygw0
     official_item: OIT-n0zfkcr189af
     language: fr
-    front: "PHP : quel est l'ordre de précédence entre classe courante, trait et classe parente ?"
-    back: "Classe courante > trait > classe parente."
+    front: "PHP : quel est l'ordre de précédence entre class courante, trait et class parente ?"
+    back: "Class courante > trait > class parente."
     explanation: >-
-      Une méthode définie dans la classe écrase celle du trait ; le trait écrase
+      Une method définie dans la class écrase celle du trait ; le trait écrase
       celle héritée du parent. L'intuition inverse (« le trait est plus proche,
       donc il gagne ») est fausse.
     memorization_justification: >-
@@ -110,7 +110,7 @@ flashcards:
       deux n'existent que sur les enums adossées (backed) ; une enum pure n'a
       ni from() ni ->value.
     memorization_justification: >-
-      Deux méthodes de noms proches aux modes d'échec opposés, choisies au
+      Deux methods de noms proches aux modes d'échec opposés, choisies au
       moment d'écrire le code, sans indice contextuel.
     verification_status: VERIFIED
     official_sources:
@@ -124,11 +124,11 @@ flashcards:
   - id: FLC-ypkjgzcsjn5v
     official_item: OIT-fhb3vz7xbt5h
     language: fr
-    front: "PHP : comment une fonction fléchée (fn) capture-t-elle les variables externes ?"
+    front: "PHP : comment une function fléchée (fn) capture-t-elle les variables externes ?"
     back: "Automatiquement et par valeur. Pas de use, et la capture par référence est impossible."
     explanation: >-
       function () use ($x) capture explicitement, par valeur au moment de la
-      définition, ou par référence avec &$x. fn () => n'offre aucune de ces
+      definition, ou par référence avec &$x. fn () => n'offre aucune de ces
       options et n'accepte qu'une seule expression.
     memorization_justification: >-
       Deux syntaxes interchangeables en apparence mais aux règles de capture
@@ -146,13 +146,13 @@ flashcards:
     official_item: OIT-1kjqdnryaw0h
     language: fr
     front: "PHP : que renvoie ReflectionMethod::getAttributes() ?"
-    back: "Des objets ReflectionAttribute — pas des instances. C'est newInstance() qui construit l'attribut."
+    back: "Des objects ReflectionAttribute — pas des instances. C'est newInstance() qui construit l'attribute."
     explanation: >-
-      Tant que newInstance() n'est pas appelé, la classe d'attribut n'est jamais
+      Tant que newInstance() n'est pas appelé, la class d'attribute n'est jamais
       instanciée : ses validations et ses erreurs de constructeur n'apparaissent
-      pas. Un attribut sans lecteur est totalement inerte.
+      pas. Un attribute sans lecteur est totalement inerte.
     memorization_justification: >-
-      Étape intermédiaire facile à oublier, et dont l'oubli produit un attribut
+      Étape intermédiaire facile à oublier, et dont l'oubli produit un attribute
       silencieusement sans effet plutôt qu'une erreur.
     verification_status: VERIFIED
     official_sources:
@@ -165,12 +165,12 @@ flashcards:
   - id: FLC-rs1m1pw77eb7
     official_item: OIT-vt0p9cacpkpd
     language: fr
-    front: 'PHP 8.4 : une classe peut-elle redéfinir une constante déclarée dans une interface ?'
+    front: 'PHP 8.4 : une class peut-elle redéfinir une constante déclarée dans une interface ?'
     back: Oui, depuis PHP 8.1 — sauf si la constante est déclarée `final`.
     explanation: 'La règle « une constante d''interface ne se surcharge jamais » a été vraie pendant
-      des années et reste la réponse instinctive. Sur PHP 8.4 elle est fausse : seule `final` l''interdit.'
+      des années et reste la Response instinctive. Sur PHP 8.4 elle est fausse : seule `final` l''interdit.'
     memorization_justification: 'Attribution version-par-règle : la syntaxe ne dit pas à partir de quelle
-      version la redéfinition est permise, et l''ancienne règle reste la réponse réflexe.'
+      version la redéfinition est permise, et l''ancienne règle reste la Response réflexe.'
     verification_status: VERIFIED
     official_sources:
     - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/interfaces.xml
@@ -182,9 +182,9 @@ flashcards:
   - id: FLC-6t7dhwjwhecc
     official_item: OIT-webdvbgbrfth
     language: fr
-    front: 'PHP : que produit `abstract private function` dans une classe abstraite ?'
+    front: 'PHP : que produit `abstract private function` dans une abstract class ?'
     back: Une erreur fatale.
-    explanation: 'Une méthode abstraite privée serait invisible depuis la classe fille, donc impossible
+    explanation: 'Une method abstraite privée serait invisible depuis la class fille, donc impossible
       à implémenter : le langage refuse la combinaison à la compilation. `abstract protected` et `abstract
       public` sont valides.'
     memorization_justification: 'Fait arbitraire du langage : rien dans la lecture de `abstract private`

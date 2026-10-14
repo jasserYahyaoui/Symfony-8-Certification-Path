@@ -21,24 +21,24 @@ official_sources:
 Savoir quel mécanisme employer pour surcharger chaque partie d'un bundle tiers —
 et pourquoi ils diffèrent.
 
-## Le tableau
+## L'array
 
 | Ce que l'on surcharge | Mécanisme |
 |---|---|
-| un gabarit | fichier dans `templates/bundles/<NomDuBundle>/` |
+| un template | file dans `templates/bundles/<NomDuBundle>/` |
 | un service existant | **décoration** de service |
-| supprimer ou manipuler une définition | **passe de compilation** |
-| un type de formulaire | **extension de type de formulaire** |
-| une contrainte de validation | groupes de validation — la contrainte ne se remplace pas |
-| une traduction | fichier dans `translations/` portant le **même domaine** |
-| une route | ne pas l'importer du tout, ou copier le fichier et importer sa copie |
-| un contrôleur **non-service** | route de **même chemin**, chargée **avant** celle du bundle |
-| un contrôleur **qui est un service** | **décoration**, comme n'importe quel service |
-| le mapping d'une entité | **uniquement** si le bundle expose une *mapped superclass* ; porte alors sur les **attributs** et les **associations** |
+| supprimer ou manipuler une definition | **compiler pass** |
+| un form type | **extension de form type** |
+| une constraint de validation | validation groups — la constraint ne se remplace pas |
+| une translation | file dans `translations/` portant le **même domaine** |
+| une route | ne pas l'importer du tout, ou copier le file et importer sa copie |
+| un controller **non-service** | route de **même path**, chargée **avant** celle du bundle |
+| un controller **qui est un service** | **décoration**, comme n'importe quel service |
+| le mapping d'une entité | **uniquement** si le bundle expose une *mapped superclass* ; porte alors sur les **attributes** et les **associations** |
 
 Dix lignes pour les **huit** sections du document officiel : décoration et passe
 de compilation relèvent toutes deux de *Services & Configuration*, et le
-contrôleur se dédouble selon qu'il est ou non un service. Il n'y a pas de
+controller se dédouble selon qu'il est ou non un service. Il n'y a pas de
 mécanisme unique : chaque sous-système a le sien, et c'est exactement ce que
 l'examen vérifie.
 
@@ -46,47 +46,47 @@ l'examen vérifie.
 bundle automatiquement. « Surcharger » un routage revient donc à ne pas
 l'importer : il n'y a rien à neutraliser.
 
-## Les gabarits
+## Les templates
 
-Un fichier **de même nom et de même chemin relatif** sous
+Un file **de même nom et de même path relatif** sous
 `templates/bundles/<NomDuBundle>/`. Pour `registration/confirmed.html.twig`
 d'`AcmeUserBundle` :
 `templates/bundles/AcmeUserBundle/registration/confirmed.html.twig`.
 
-Il faut parfois vider le cache après avoir ajouté un gabarit à un emplacement
+Il faut parfois vider le cache après avoir ajouté un template à un emplacement
 nouveau, **même en mode debug**.
 
-Le piège vient quand on ne veut surcharger qu'un bloc : écrire
-`{% extends "@AcmeUser/registration/confirmed.html.twig" %}` dans le gabarit qui
-surcharge ce même gabarit produit une **boucle infinie** : le nom résout vers la
+Le piège vient quand on ne veut surcharger qu'un block : écrire
+`{% extends "@AcmeUser/registration/confirmed.html.twig" %}` dans le template qui
+surcharge ce même template produit une **boucle infinie** : le nom résout vers la
 surcharge, c'est-à-dire vers lui-même. La solution est le préfixe spécial `!` :
 
 ```html
 {% extends "@!AcmeUser/registration/confirmed.html.twig" %}
 ```
 
-`@!` signifie « le gabarit **original**, pas la surcharge ».
+`@!` signifie « le template **original**, pas la surcharge ».
 
 ## Les services
 
-On **décore** : le nouveau service reçoit l'ancien en argument et l'enveloppe.
+On **décore** : le nouveau service reçoit l'ancien en argument et l'Envelope.
 
-La **passe de compilation** est le niveau au-dessous — elle intervient pendant
-la compilation du conteneur et permet ce que la configuration ne permet pas :
-supprimer une définition, modifier celle d'un autre bundle, ajouter un argument.
+Le **compiler pass** est le niveau au-dessous — il intervient pendant
+la compilation du container et permet ce que la configuration ne permet pas :
+supprimer une definition, modifier celle d'un autre bundle, ajouter un argument.
 
-## Le contrôleur a deux réponses
+## Le controller a deux Responses
 
-Le document ouvre sa section par une condition : **« si le contrôleur est un
-service, voir la section suivante »** — la décoration. La route de même chemin
-n'est que la branche **sinon**. Or dans une application moderne, les contrôleurs
+Le document ouvre sa section par une condition : **« si le controller est un
+service, voir la section suivante »** — la décoration. La route de même path
+n'est que la branche **sinon**. Or dans une application moderne, les controllers
 sont des services autoconfigurés : c'est donc la première branche qui s'applique
 le plus souvent.
 
-## Les traductions ne dépendent pas des bundles
+## Les translations ne dépendent pas des bundles
 
 Le document est explicite : elles sont liées à un **domaine**, pas à un bundle.
-Un fichier du `translations/` du projet surcharge donc celui d'un bundle dès
+Un file du `translations/` du projet surcharge donc celui d'un bundle dès
 qu'il porte le même domaine, sans rien déclarer — créer
 `translations/AcmeUserBundle.es.yaml` à la racine suffit. Le nom du bundle
 n'apparaît là que parce qu'il **est** le nom du domaine.
@@ -95,47 +95,47 @@ n'apparaît là que parce qu'il **est** le nom du domaine.
 
 Symfony charge la configuration de validation de **tous** les bundles et la
 fusionne en un seul arbre de métadonnées. D'où l'exception : on **ajoute** une
-contrainte à une propriété, jamais on n'en **remplace**. Le contournement
-suppose que le bundle ait prévu des **groupes de validation**.
+constraint à une property, jamais on n'en **remplace**. Le contournement
+suppose que le bundle ait prévu des **validation groups**.
 
 ## Pièges d'examen
 
-**Étendre le gabarit que l'on surcharge crée une boucle infinie.** Le nom résout
+**Étendre le template que l'on surcharge crée une boucle infinie.** Le nom résout
 vers la surcharge, donc vers lui-même. Le préfixe `@!` désigne l'original et
 rompt le cycle.
 
-**Une contrainte de validation ne se remplace pas.** Symfony fusionne la
+**Une constraint de validation ne se remplace pas.** Symfony fusionne la
 configuration de tous les bundles : on ajoute, on ne retire jamais. Le seul
-contournement est un groupe de validation prévu par le bundle.
+contournement est un validation group prévu par le bundle.
 
-**Décoration et passe de compilation ne sont pas au même niveau.** La décoration
-enveloppe un service existant ; supprimer ou modifier une définition demande une
-passe de compilation.
+**Décoration et compiler pass ne sont pas au même niveau.** La décoration
+enveloppe un service existant ; supprimer ou modifier une definition demande une
+compiler pass.
 
 **Un contrôleur-service ne se surcharge pas par une route.** Le document
-renvoie d'abord à la décoration ; la route de même chemin est la réponse de
-repli, pour un contrôleur qui n'est pas un service.
+renvoie d'abord à la décoration ; la route de même path est la Response de
+repli, pour un controller qui n'est pas un service.
 
-**Une traduction se surcharge par le domaine, pas par le bundle.** Le nom du
-bundle dans le nom de fichier n'est que le nom du domaine.
+**Une translation se surcharge par le domaine, pas par le bundle.** Le nom du
+bundle dans le nom de file n'est que le nom du domaine.
 
 ## Tips d'examen
 
 **Une question par sous-système, jamais de réponse universelle.** « Comment
-surcharger X ? » n'a pas de réponse unique : c'est la liste qu'il faut avoir.
+surcharger X ? » n'a pas de Response unique : c'est la liste qu'il faut avoir.
 
 **Deux exceptions à retenir par cœur** : la validation, qui ne se surcharge
 pas, et le routage, qui ne s'importe jamais tout seul.
 
 ## Points clés
 
-- Gabarits : `templates/bundles/<NomDuBundle>/`, même chemin relatif.
-- `@!` évite la boucle infinie quand on étend le gabarit que l'on surcharge.
-- Services : décoration ; manipulations avancées : passe de compilation.
-- Validation : les contraintes s'ajoutent, elles ne se remplacent pas.
-- Contrôleur : décoration s'il est un service, route de même chemin sinon.
-- Traductions : par **domaine**, depuis `translations/` du projet.
-- Mapping : attributs et associations, et seulement via une *mapped superclass*.
+- Templates : `templates/bundles/<NomDuBundle>/`, même path relatif.
+- `@!` évite la boucle infinie quand on étend le template que l'on surcharge.
+- Services : décoration ; manipulations avancées : compiler pass.
+- Validation : les constraints s'ajoutent, elles ne se remplacent pas.
+- Controller : décoration s'il est un service, route de même path sinon.
+- Translations : par **domaine**, depuis `translations/` du projet.
+- Mapping : attributes et associations, et seulement via une *mapped superclass*.
 
 ## Sources officielles
 

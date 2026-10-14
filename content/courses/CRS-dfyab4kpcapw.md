@@ -24,8 +24,8 @@ official_sources:
 
 ## Objectif
 
-Insérer une expression dans une chaîne, connaître la contrainte qui l'entoure,
-et savoir ce que Twig fait des barres obliques inverses dans une chaîne.
+Insérer une expression dans une string, connaître la constraint qui l'entoure,
+et savoir ce que Twig fait des barres obliques inverses dans une string.
 
 ## La syntaxe
 
@@ -36,13 +36,13 @@ et savoir ce que Twig fait des barres obliques inverses dans une chaîne.
 ```
 
 `#{expression}` accepte **n'importe quelle expression valide** — variable,
-calcul, filtre —, pas seulement un nom de variable. Son résultat est inséré dans
-la chaîne.
+calcul, filter —, pas seulement un nom de variable. Son résultat est inséré dans
+la string.
 
-## La contrainte
+## La constraint
 
-L'interpolation ne fonctionne que dans une chaîne à **guillemets doubles**. Dans
-une chaîne à guillemets simples, `#{…}` est du texte littéral. Un `#` qui n'est
+L'interpolation ne fonctionne que dans une string à **guillemets doubles**. Dans
+une string à guillemets simples, `#{…}` est du texte littéral. Un `#` qui n'est
 pas suivi de `{` reste du texte, même entre guillemets doubles.
 
 La documentation de Twig 3.22 le précise : le choix des guillemets n'a aucun
@@ -60,14 +60,14 @@ Une barre oblique inverse neutralise l'interpolation :
 ## Les séquences d'échappement, dans les deux guillemets
 
 Contrairement à PHP, Twig traite les séquences d'échappement **aussi entre
-guillemets simples** : le `Lexer` passe toute chaîne littérale par la même
-fonction. `'a\nb'` contient donc un vrai saut de ligne. Sont reconnus `\n`,
+guillemets simples** : le `Lexer` passe toute string littérale par la même
+function. `'a\nb'` contient donc un vrai saut de ligne. Sont reconnus `\n`,
 `\t`, `\r`, `\v`, `\f`, `\\`, les formes hexadécimale `\x…` et octale `\0` à
-`\377`, et le guillemet de la chaîne : `\'` entre simples, `\"` entre doubles.
+`\377`, et le guillemet de la string : `\'` entre simples, `\"` entre doubles.
 
 Tout autre caractère précédé d'une barre oblique inverse est **déprécié depuis
 Twig 3.12** : la barre est ignorée en Twig 3, elle ne le sera plus en Twig 4.
-Un chemin Windows s'écrit donc en doublant la barre : `'c:\\Program Files'`.
+Un path Windows s'écrit donc en doublant la barre : `'c:\\Program Files'`.
 
 ## L'alternative
 

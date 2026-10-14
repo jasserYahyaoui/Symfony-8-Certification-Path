@@ -37,6 +37,22 @@ Quoted from the Master Plan:
   above bind. Translating a compliant French question buys nothing and is
   forbidden by §1.4's net-value gate.
 
+## Technical terms stay in English (owner decision, 2026-10-14)
+
+Verbatim: « utilise le jargon symfony toujours et les mots techniques dans toute
+la doc et ne les traduisent pas en fr. Par exp j'attend compiler pass, ou service
+container ». Asked to settle the edges, the owner chose `Request` / `Response`
+for requête / réponse, and English for the generic words too (argument, option,
+attribute, default value).
+
+The list is `docs/policy/terminology.yml`. `tools/terminology/apply.py` applied
+it on 2026-10-14 to the course bodies, the French flashcards, the French fields
+of the matrix and the « what's new » pages, and its `--check` mode runs in CI.
+Code, link targets and English fields are never touched. Words that are as often
+ordinary French as a term (entrée, modèle, vue, rappel, lot) are not listed; the
+file says why. The explanations stay in French — §5 is unchanged — only the
+terms are not translated.
+
 ## Measured state (2026-10-14, 733 questions)
 
 | §5 requirement | Measured | Verdict |
