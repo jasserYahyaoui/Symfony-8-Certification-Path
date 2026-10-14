@@ -523,12 +523,34 @@ final class PayloadBuilder
             }
         }
 
+        // Numbered by estimated difficulty, easiest first: the menu recommends
+        // sitting them in order because they rise. Dealing by difficulty within
+        // each topic makes them rise nearly on its own; the multiple-answer pass
+        // can swap two neighbours, so the order is fixed here rather than hoped
+        // for, and assertExamSeries() checks it.
+        $byId = [];
+        foreach ($eligible as $q) {
+            $byId[$q->id->value] = $q;
+        }
+        $order = array_keys($ids);
+        usort($order, static fn (int $a, int $b): int => [self::meanDifficulty($ids[$a], $byId, $rank), $a] <=> [self::meanDifficulty($ids[$b], $byId, $rank), $b]);
+
         $exams = [];
-        foreach ($ids as $e => $list) {
-            $exams[] = ['number' => $e + 1, 'question_ids' => $list, 'multiple_answer_count' => $multiple[$e]];
+        foreach ($order as $n => $e) {
+            $exams[] = ['number' => $n + 1, 'question_ids' => $ids[$e], 'multiple_answer_count' => $multiple[$e]];
         }
 
         return $exams;
+    }
+
+    /**
+     * @param list<string>            $ids
+     * @param array<string, Question> $byId
+     * @param array<string, int>      $rank
+     */
+    private static function meanDifficulty(array $ids, array $byId, array $rank): float
+    {
+        return array_sum(array_map(static fn (string $id): int => $rank[$byId[$id]->difficulty] ?? 1, $ids)) / max(1, \count($ids));
     }
 
     /**
@@ -573,6 +595,18 @@ final class PayloadBuilder
             $counts[$exam['number']] = \count(array_filter($ids, static fn (string $id): bool => 'multiple' === $byId[$id]['answer_mode']));
             if ($counts[$exam['number']] !== ($exam['multiple_answer_count'] ?? null)) {
                 throw new \LogicException(\sprintf('Exam %d misstates its number of multiple-answer questions.', $exam['number']));
+            }
+        }
+        // The menu recommends the fixed exams in order because they rise in
+        // estimated difficulty: easy 0, medium 1, hard 2, averaged.
+        $rank = ['easy' => 0, 'medium' => 1, 'hard' => 2];
+        $means = [];
+        foreach ($payload['exams'] as $exam) {
+            $means[] = array_sum(array_map(static fn (string $id): int => $rank[$byId[$id]['difficulty']] ?? 1, $exam['question_ids'])) / \count($exam['question_ids']);
+        }
+        for ($i = 1; $i < \count($means); ++$i) {
+            if ($means[$i] < $means[$i - 1]) {
+                throw new \LogicException(\sprintf('Exam %d is easier than exam %d: the series does not rise in estimated difficulty.', $i + 1, $i));
             }
         }
         // Both kinds of question in every exam, spread evenly: the menu states

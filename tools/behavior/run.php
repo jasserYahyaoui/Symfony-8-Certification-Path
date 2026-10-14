@@ -17,7 +17,9 @@ declare(strict_types=1);
 require __DIR__.'/vendor/autoload.php';
 
 $checks = [];
-foreach (glob(__DIR__.'/checks/*.php') as $file) {
+// checks/ holds the central facts (docs/facts/central-facts.yml); questions/
+// holds questions re-executed choice by choice, keyed by question id.
+foreach ([...glob(__DIR__.'/checks/*.php'), ...glob(__DIR__.'/questions/*.php')] as $file) {
     foreach (require $file as $id => $check) {
         if (isset($checks[$id])) {
             fwrite(\STDERR, "Duplicate fact id $id in $file\n");
@@ -35,10 +37,33 @@ if (in_array('--list', $argv, true)) {
 
 printf("PHP %s, symfony/http-kernel %s\n", PHP_VERSION, Composer\InstalledVersions::getPrettyVersion('symfony/http-kernel'));
 
+// The `correct` flags of every question a check in questions/ names. The
+// holdout file is never opened: no check may name a holdout question.
+$flags = [];
+foreach (glob(dirname(__DIR__, 2).'/content/questions/*.yml') as $file) {
+    if (str_contains(basename($file), 'holdout')) {
+        continue;
+    }
+    foreach (Symfony\Component\Yaml\Yaml::parseFile($file)['questions'] ?? [] as $question) {
+        if (isset($checks[$question['id']])) {
+            $flags[$question['id']] = array_map(static fn (array $c): bool => (bool) $c['correct'], $question['choices']);
+        }
+    }
+}
+
 $failed = 0;
 foreach ($checks as $id => $check) {
     try {
         $error = $check();
+        if (str_starts_with($id, 'QST-')) {
+            // A question check returns, choice by choice, whether its statement
+            // holds; it must equal what the content marks as correct.
+            $error = match (true) {
+                !isset($flags[$id]) => 'no such question outside the holdout',
+                $error === $flags[$id] => null,
+                default => 'the content marks '.json_encode($flags[$id]).', Symfony 8.0 gives '.json_encode($error),
+            };
+        }
     } catch (Throwable $e) {
         $error = $e::class.': '.$e->getMessage();
     }

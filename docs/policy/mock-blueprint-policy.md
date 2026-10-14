@@ -132,7 +132,8 @@ en question ».
 | | |
 |---|---|
 | Answer modes | single answer (radio buttons) and multiple answers (checkboxes, with the number expected). The official exam asks both; **the share of each is not published**, so the series guarantees only that every exam asks both, spread evenly (`dealExams` deals the multiple-answer questions first, `assertExamSeries` refuses an exam without one or a spread wider than one) |
-| Measured on 2026-10-14 | **12** of the 637 eligible questions are multiple-answer: **2 per exam**. That is a floor, not a target: remediation item F7 / P1.6 owes more, written and verified like any question |
+| Measured on 2026-10-14 | before P1.6, **12** of 637 eligible questions were multiple-answer: 2 per exam. P1.6 added **33**, every choice executed on Symfony 8.0.15 or read in its source: **45** of 670, **7 or 8 per exam**. An outcome of the bank, not a target |
+| Difficulty order | the six exams are numbered by mean estimated difficulty (easy 0, medium 1, hard 2), easiest first; `assertExamSeries` refuses a series that does not rise, since the menu recommends them in that order |
 | Correction | after submission only: every question with its right answers beside the learner's, the canonical explanation, and for a question missed or left blank a link to the course section teaching each outcome it assesses — `ExamSitting`'s `Correction`, also Mocks 1 to 3 |
 | Section links | each course maps every outcome of its item to a `## ` heading (`outcome_sections`, 617 outcomes, read section by section when written); the generator writes `CourseUrl::sectionAnchor` on the heading and the payload links to it. Rule **SEC-001** refuses a missing outcome, a heading that does not exist, an outcome of another item or a framing section (aim, key points, sources) as target |
 
