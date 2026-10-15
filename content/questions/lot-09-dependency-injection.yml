@@ -2680,3 +2680,66 @@ questions:
         commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
         symbol_or_lines: constructor signature lines 25-43
         verified_at: '2026-09-11'
+  - id: QST-kzd5923s8gg9
+    question_archetype: CODE_OUTPUT
+    assesses_outcomes:
+    - OUT-bfyfkyqnw1hv
+    version: 1
+    official_topic: Dependency Injection
+    official_item: OIT-qj4xfkhwdrx7
+    domain: symfony
+    subtopic: semantic-configuration
+    language: en
+    difficulty: hard
+    cognitive_level: APPLY
+    exam_skill: APPLY
+    type: mcq
+    answer_mode: single
+    required_answer_count: 1
+    question: |-
+      On Symfony 8.0, a bundle's configuration class builds this tree. What happens?
+
+      ```php
+      $tree->getRootNode()
+          ->children()
+              ->scalarNode('client_id')->isRequired()->defaultValue('demo')->end()
+          ->end();
+      ```
+    code_language: php
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 60
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+    - tech-lead
+    reviewed_at: '2026-10-15'
+    tags:
+    - configuration
+    - symfony-8
+    choices:
+    - id: CHO-wzwd83z8wp8f
+      text: 'An InvalidDefinitionException is thrown'
+      correct: true
+    - id: CHO-8p5nt7zz7bcw
+      text: 'client_id falls back to ''demo'' when the application omits it'
+      correct: false
+      explanation: 'A required node cannot carry a default value in 8.0: defining both is refused.'
+    - id: CHO-xzehej23sfpd
+      text: 'client_id stays required, and ''demo'' is silently ignored'
+      correct: false
+      explanation: 'Nothing is ignored: the definition itself is rejected.'
+    - id: CHO-x9tm2ra2hggd
+      text: 'The tree builds, and the error appears only when no value is configured'
+      correct: false
+      explanation: 'The exception comes from the definition, before any configuration is processed.'
+    explanation: 'Config 8.0 refuses a node that is both required and defaulted: defaultValue() after isRequired(), the reverse order, or defaultNull() all throw "cannot be required and have a default value". Executed with Config 8.0.15.'
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Config/Definition/Builder/NodeDefinition.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Config/Definition/Builder/NodeDefinition.php
+      repository: symfony/symfony
+      branch: '8.0'
+      symbol_or_lines: 'defaultValue() and isRequired(): InvalidDefinitionException when both are set'
+      verified_at: '2026-10-15'

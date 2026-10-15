@@ -32,11 +32,18 @@ official_sources:
     symbol_or_lines: "Unrecognized option %s under %s"
     branch: "8.0"
     verified_at: "2026-09-29"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Config/Definition/Builder/NodeDefinition.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Config/Definition/Builder/NodeDefinition.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    symbol_or_lines: "defaultValue() and isRequired(): InvalidDefinitionException when both are set"
+    verified_at: "2026-10-15"
 outcome_sections:
   OUT-06ednnh0npmz: "Les deux moitiés"
   OUT-qrtvpp33jqb2: "Ce que l'exécution montre"
   OUT-k2cfezp9wvf5: "La forme moderne"
   OUT-vmzkkhjtf67j: "Configurer un autre bundle"
+  OUT-bfyfkyqnw1hv: "Requis ou par défaut, pas les deux"
 ---
 
 ## Objectif
@@ -94,6 +101,15 @@ FrameworkBundle 8.0.15 :
 La troisième ligne est le piège : l'extension traite une configuration vide même
 quand l'application ne mentionne pas le bundle, donc un node `isRequired()` sans
 valeur fait échouer la compilation.
+
+## Requis ou par défaut, pas les deux
+
+Un node est soit **obligatoire**, soit **pourvu d'une default value** — le
+CHANGELOG de Config 8.0 l'impose. Exécuté sur Config 8.0.15 :
+`isRequired()->defaultValue(1)`, l'ordre inverse et `isRequired()->defaultNull()`
+lèvent tous trois une `InvalidDefinitionException` — « The node "x" cannot be
+required and have a default value. » — dès la construction de l'arbre, avant
+toute configuration d'application. `isRequired()` seul passe.
 
 ## La forme moderne
 
@@ -157,6 +173,9 @@ bundle, sous l'espace de son nom privé du suffixe `Bundle` — `@AcmeSocial` �
 entre bundles, le premier enregistré gagne.
 
 **`isRequired()` s'applique même si l'application ignore le bundle.**
+
+**`isRequired()` et `defaultValue()` sur un même node : `InvalidDefinitionException`**,
+dans les deux ordres.
 
 ## Points clés
 

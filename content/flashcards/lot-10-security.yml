@@ -2263,3 +2263,24 @@ flashcards:
     branch: '8.0'
     symbol_or_lines: How to Use Voters to Check User Permissions
     verified_at: '2026-10-01'
+- id: FLC-64kmq5jkgba9
+  official_item: OIT-xh63g15rz6n3
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony 8.0 : avec la configuration par défaut, un login sur un user inconnu et un login sur un compte bloqué affichent-ils des erreurs différentes ?'
+  back: 'Non. security.expose_security_errors vaut none : les deux deviennent une BadCredentialsException. account_status montre le statut du compte si le password était correct ; all montre tout.'
+  explanation: 'Lu dans AuthenticatorManager::isSensitiveException() (8.0). L''option remplace hide_user_not_found, retirée en 8.0.'
+  memorization_justification: 'Masquer l''existence d''un compte est la default value ; l''ancienne option a disparu.'
+  verification_status: VERIFIED
+  reviewed_at: '2026-10-15'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/configuration/security.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/configuration/security.rst
+    branch: '8.0'
+    symbol_or_lines: 'expose_security_errors'
+    verified_at: '2026-10-15'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Http/Authentication/AuthenticatorManager.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Http/Authentication/AuthenticatorManager.php
+    branch: '8.0'
+    symbol_or_lines: 'isSensitiveException()'
+    verified_at: '2026-10-15'

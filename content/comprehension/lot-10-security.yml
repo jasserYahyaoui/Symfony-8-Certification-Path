@@ -3266,3 +3266,61 @@ questions:
     branch: '8.0'
     symbol_or_lines: allowIfAllAbstainDecisions
     verified_at: '2026-10-09'
+- id: QST-jgvk4ebznpt1
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-h0ct6qp4249p
+  version: 1
+  official_topic: Security
+  official_item: OIT-xh63g15rz6n3
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'expose_security_errors is set to account_status. Which login failure still reaches the user as a generic bad-credentials error?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-15'
+  tags:
+  - configuration
+  choices:
+  - id: CHO-g1yvjvbs23ep
+    text: 'An unknown username'
+    correct: true
+  - id: CHO-aakerayrv4r7
+    text: 'A disabled account whose password was right'
+    correct: false
+    explanation: 'account_status shows account status errors.'
+  - id: CHO-2691m5326x82
+    text: 'An invalid CSRF token'
+    correct: false
+    explanation: 'Only user-not-found and account-status exceptions are ever hidden.'
+  - id: CHO-ff9cbd85h4p8
+    text: 'None: account_status shows every error'
+    correct: false
+    explanation: 'That is all; account_status still hides an unknown user.'
+  explanation: 'AuthenticatorManager::isSensitiveException() hides a UserNotFoundException unless the level is all, and an account-status exception only at none.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/configuration/security.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/configuration/security.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'expose_security_errors'
+    verified_at: '2026-10-15'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Http/Authentication/AuthenticatorManager.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Http/Authentication/AuthenticatorManager.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'isSensitiveException()'
+    verified_at: '2026-10-15'

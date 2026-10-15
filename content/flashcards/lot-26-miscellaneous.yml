@@ -268,3 +268,24 @@ flashcards:
     branch: '8.0'
     symbol_or_lines: FORMAT_KEY = datetime_format
     verified_at: '2026-10-14'
+- id: FLC-t4se2rxpd497
+  official_item: OIT-fr58jzaj6jtb
+  language: fr
+  level: RECALL
+  front: 'Symfony 8.0 : quelle est la default value de framework.property_info.with_constructor_extractor ?'
+  back: 'true : l''extractor de constructor de PropertyInfo est enregistré par défaut. En 7.4 l''option n''avait pas de défaut et l''omettre était déprécié.'
+  explanation: 'Lu dans la Configuration de FrameworkBundle, 7.4.15 contre 8.0.15 ; FrameworkExtension retire le service quand l''option est false.'
+  memorization_justification: 'Un défaut qui change entre 7.4 et 8.0 sans changer une ligne de l''application.'
+  verification_status: VERIFIED
+  reviewed_at: '2026-10-15'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/Configuration.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/Configuration.php
+    branch: '8.0'
+    symbol_or_lines: 'with_constructor_extractor: defaultTrue()'
+    verified_at: '2026-10-15'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/CHANGELOG.md
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/CHANGELOG.md
+    branch: '8.0'
+    symbol_or_lines: '8.0: Enable the property info constructor extractor by default'
+    verified_at: '2026-10-15'

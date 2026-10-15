@@ -2537,3 +2537,62 @@ questions:
         commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
         symbol_or_lines: ACCESS_* constants, lines 23-25
         verified_at: '2026-09-11'
+  - id: QST-8h2bmweh5dxk
+    question_archetype: CONCEPT_DISTINCTION
+    assesses_outcomes:
+    - OUT-h0ct6qp4249p
+    version: 1
+    official_topic: Security
+    official_item: OIT-xh63g15rz6n3
+    domain: symfony
+    subtopic: configuration
+    language: en
+    difficulty: medium
+    cognitive_level: UNDERSTAND
+    exam_skill: DISTINGUISH
+    type: mcq
+    answer_mode: multiple
+    required_answer_count: 2
+    question: 'An application leaves security.expose_security_errors at its Symfony 8.0 default. Which statements hold? (Choose 2)'
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 60
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+    - tech-lead
+    reviewed_at: '2026-10-15'
+    tags:
+    - configuration
+    - symfony-8
+    choices:
+    - id: CHO-q89sv42ka4w8
+      text: 'The value in effect is none'
+      correct: true
+    - id: CHO-2vbed4km4cyw
+      text: 'An unknown user and a blocked account fail with the same error'
+      correct: true
+    - id: CHO-stkfwxnt6c6s
+      text: 'Setting hide_user_not_found: false reveals that a user does not exist'
+      correct: false
+      explanation: 'hide_user_not_found was removed in 8.0; expose_security_errors replaces it.'
+    - id: CHO-cjzs1kc6742p
+      text: 'A blocked account is reported as blocked, since the user did exist'
+      correct: false
+      explanation: 'With none, account status errors are hidden too; only all or account_status show them.'
+    explanation: 'expose_security_errors defaults to none: AuthenticatorManager replaces a user-not-found or account-status exception with a BadCredentialsException before the authenticator handles the failure.'
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/configuration/security.rst
+      readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/configuration/security.rst
+      repository: symfony/symfony-docs
+      branch: '8.0'
+      symbol_or_lines: 'expose_security_errors'
+      verified_at: '2026-10-15'
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Http/Authentication/AuthenticatorManager.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Http/Authentication/AuthenticatorManager.php
+      repository: symfony/symfony
+      branch: '8.0'
+      symbol_or_lines: 'isSensitiveException()'
+      verified_at: '2026-10-15'

@@ -3402,3 +3402,19 @@ flashcards:
       branch: '8.0'
       symbol_or_lines: LintCommand::configure()
       verified_at: '2026-09-24'
+  - id: FLC-p6q3ewt9qsj7
+    official_item: OIT-sd08j04k60m0
+    language: fr
+    level: TRAP
+    front: 'Symfony 8.0 : un template affiche {{ message }}, où message vient de t(''welcome''). Que se passe-t-il ?'
+    back: 'Une RuntimeError : TranslatableMessage n''a plus de __toString() en 8.0. Il faut {{ message|trans }}.'
+    explanation: 'Exécuté contre 7.4.21, qui affichait la key brute, et 8.0.15, qui lève.'
+    memorization_justification: 'En 7.4 l''oubli de |trans passait inaperçu, la key s''affichait ; en 8.0 la page casse.'
+    verification_status: VERIFIED
+    reviewed_at: '2026-10-15'
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Translation/CHANGELOG.md
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Translation/CHANGELOG.md
+      branch: '8.0'
+      symbol_or_lines: '8.0: Remove TranslatableMessage::__toString()'
+      verified_at: '2026-10-15'

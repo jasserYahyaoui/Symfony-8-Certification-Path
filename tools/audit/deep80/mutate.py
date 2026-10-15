@@ -26,6 +26,10 @@ M=[
  # Three guards raise a TypeError for a non-int result; the check reads Symfony's message, so
  # removing Symfony's is_int() guard alone must make it fail.
  ('console.setcode-closure-typed-and-int','console/Command/InvokableCommand.php','        if (!\\is_int($statusCode)) {','        if (false) {'),
+ ('config.required-node-has-no-default','config/Definition/Builder/NodeDefinition.php','        if ($this->required) {','        if (false) {'),
+ ('config.required-node-has-no-default','config/Definition/Builder/NodeDefinition.php','        if ($this->default) {','        if (false) {'),
+ # G6 is an absence: the mutation restores __toString() and must turn the check red.
+ ('translation.translatable-not-stringable','translation/TranslatableMessage.php',('class TranslatableMessage implements TranslatableInterface','    public function getMessage(): string'),('class TranslatableMessage implements TranslatableInterface, \\Stringable','    public function __toString(): string { return $this->message; }\n\n    public function getMessage(): string')),
  ('validator.unexpected-value-vs-type','validator/Validator/RecursiveContextualValidator.php','            } catch (UnexpectedValueException $e) {','            } catch (\\LogicException $e) {'),
 ]
 ok=True

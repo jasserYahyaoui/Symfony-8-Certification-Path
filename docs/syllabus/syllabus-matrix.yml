@@ -4261,9 +4261,11 @@ items:
       - "CRS-q18xc1k4yvb9"
     flashcard_refs:
       - "FLC-2qe2jetwm5pq"
+      - "FLC-p6q3ewt9qsj7"
     question_refs:
       - "QST-6vv657ts3r2y"
       - "QST-q8q1ra28925h"
+      - "QST-zpp1r9fbs8vb"
     exercise_refs: []
     exam_refs:
       - "QST-t2dpk8eb1x43"
@@ -6071,6 +6073,8 @@ items:
         outcome: Situer configure() et loadExtension() à la compilation
       - id: OUT-vmzkkhjtf67j
         outcome: Expliquer l'effet de prependExtensionConfig()
+      - id: OUT-bfyfkyqnw1hv
+        outcome: "Énoncer qu'un node requis ne peut pas porter de default value"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -6096,9 +6100,11 @@ items:
       - "CRS-exs5dvtqa1as"
     flashcard_refs:
       - "FLC-dmvk9r2pqhsg"
+      - "FLC-7hbhn5dg15te"
     question_refs:
       - "QST-2q21a2srg5hr"
       - "QST-qzgxkh2b2pa5"
+      - "QST-kzd5923s8gg9"
     exercise_refs: []
     exam_refs:
       - "QST-5jr8w7tcqm2n"
@@ -6542,6 +6548,8 @@ items:
         outcome: 'Reconnaître l''effet de security: false'
       - id: OUT-7x0agpczf39n
         outcome: Utiliser debug:config pour la configuration résolue
+      - id: OUT-h0ct6qp4249p
+        outcome: "Choisir le niveau de expose_security_errors et prévoir ce qu'il masque"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -6561,9 +6569,11 @@ items:
       - "CRS-yvhg325ax38y"
     flashcard_refs:
       - "FLC-paer6jdxzr95"
+      - "FLC-64kmq5jkgba9"
     question_refs:
       - "QST-xpq3ys8psrac"
       - "QST-2eztey3aja7g"
+      - "QST-8h2bmweh5dxk"
     exercise_refs: []
     exam_refs:
       - "QST-h788rvr0rp3d"
@@ -7321,6 +7331,7 @@ items:
       - "CRS-hgkzgm1dh3my"
     flashcard_refs:
       - "FLC-7hfxx70j2rhg"
+      - "FLC-pefcdwnxy6ev"
     question_refs:
       - "QST-0v3j82n0d4m7"
       - "QST-9c3nh6jtp3px"
@@ -9471,6 +9482,7 @@ items:
       - "FLC-7pd9j9cfpxer"
       - "FLC-qqh239qh9bmb"
       - "FLC-d5w66y32a3ka"
+      - "FLC-t4se2rxpd497"
     question_refs:
       - "QST-jyjz9an9yt07"
       - "QST-xeygxgdd5586"

@@ -12,19 +12,19 @@ tait, ou se trompe. Quatre étapes, chacune reproductible par un script de
 
 `fetch_entries.py` lit `UPGRADE-8.0.md` et la section « 8.0 » des 59 CHANGELOG
 de composants, de bundles et de bridges, au tag `v8.0.15` :
-**307 entrées** (155 UPGRADE, 152 CHANGELOG), **164 uniques** une fois les doublons
-UPGRADE / CHANGELOG fusionnés. Le verdict de chacune est dans
-[`inventory.json`](inventory.json).
+**307 entrées** (155 UPGRADE, 152 CHANGELOG), **164 uniques** une fois les
+doublons UPGRADE / CHANGELOG fusionnés, dont **135 dans le périmètre**. Le verdict
+de chacune est dans [`inventory.json`](inventory.json).
 
 | Verdict | Entrées | Ce que cela veut dire |
 |---|---:|---|
-| `TAUGHT` | 70 | le corpus enseigne l'état 8.0 — identifiant trouvé avec un marqueur « retiré / 8.0 », ou lu en concordance |
+| `TAUGHT` | 69 | le corpus enseigne l'état 8.0 — identifiant trouvé avec un marqueur « retiré / 8.0 », ou lu en concordance |
 | `TAUGHT_IMPRECISE_FIXED` | 1 | enseigné, mais imprécis ; corrigé ici (`setCode()`, voir B) |
-| `GAP` | 6 | un changement examinable que le corpus ne dit pas |
+| `GAP` | 5 | un changement examinable que le corpus ne disait pas — comblés depuis, voir plus bas |
 | `MINOR_GAP` | 1 | `getRetryDelay()` : le `retryDelay` est enseigné, la method d'interface non |
 | `NOT_TAUGHT_NOT_CONTRADICTED` | 9 | absent du corpus, sans contradiction (formats fluent, `getTypes()` de PropertyInfo…) |
-| `NOT_EXAM_RELEVANT` | 53 | interne, infrastructure de test ou API hors item (cache warmers `final`, `TestCase`, OIDC…) |
-| `OUT_OF_SCOPE` | 24 | composant hors syllabus (Ldap, JsonStreamer, Webhook, Workflow, Intl…) |
+| `NOT_EXAM_RELEVANT` | 50 | interne, infrastructure de test ou API hors item (cache warmers `final`, `TestCase`, OIDC…) |
+| `OUT_OF_SCOPE` | 29 | composant hors syllabus (Ldap, JsonStreamer, Webhook, Workflow, Intl…) ou exclu par `docs/syllabus/exclusions.yml` (Doctrine, Monolog) |
 
 `NOT_EXAM_RELEVANT` est attribué par une liste de noms relue en entier, pas entrée
 par entrée : c'est le verdict le moins fin du tableau.
@@ -45,18 +45,34 @@ corrigée.
 Ce verdict porte sur le contenu lisible par ce script : les questions **HOLDOUT**
 sont exclues par leur pool et n'ont pas été lues.
 
-### Les lacunes
+### Les lacunes, et comment elles sont comblées
 
 | # | Changement 8.0 | Item | Preuve |
 |---|---|---|---|
 | G2 | un nœud de configuration ne peut pas être à la fois `isRequired()` et `defaultValue()` | Semantic configuration | lu : `NodeDefinition`, `InvalidDefinitionException`, dans les deux ordres |
 | G3 | l'extracteur de constructor de PropertyInfo activé par défaut | Serializer | CHANGELOG FrameworkBundle |
 | G4 | `hide_user_not_found` retiré ; `expose_security_errors` (`none` par défaut, `account_status`, `all`) | Security › Configuration | lu : `MainConfiguration`, `AuthenticatorManager::isSensitiveException()` |
-| G5 | plus d'auto-mapping d'entité Doctrine : `{id}` résout encore, tout autre parameter exige `#[MapEntity]` ou un *mapped route parameter* `{slug:post}` | Argument value resolvers | lu : diff `EntityValueResolver` 7.4.15 → 8.0.15 ; la syntaxe `{slug:post}` n'apparaît **nulle part** dans le corpus |
 | G6 | `TranslatableMessage` n'est plus `Stringable` | Translations | **exécuté** : `{{ m }}` rend `hello` en 7.4.21, lève en 8.0.15 |
 | G1 *(mineure)* | `RecoverableExceptionInterface::getRetryDelay()` | Retries and failures | lu : `SendFailedMessageForRetryListener::getWaitingTime()` |
 
-Elles sont traitées dans la livraison suivante, chacune exécutée avant d'être écrite.
+Comblées dans la livraison suivante, chacune prouvée avant d'être écrite :
+
+| # | Check exécuté | Contenu |
+|---|---|---|
+| G2 | `config.required-node-has-no-default` (Config 8.0.15, `symfony/config` ajouté au banc) | section « Requis ou par défaut, pas les deux », 1 outcome, flashcard, question LEARNING + COMPREHENSION |
+| G4 | — (`security-http` absent du banc : lu dans le code et la documentation 8.0) | section « Ce que l'échec révèle », 1 outcome, flashcard, question LEARNING + COMPREHENSION |
+| G6 | `translation.translatable-not-stringable` (échoue en 7.4.21) | paragraphe dans « L'object traduisible », flashcard, question LEARNING |
+| G3, G1 | — (lus dans le code) | une flashcard chacune ; le cours Serializer n'a plus que 75 mots de marge |
+
+**Erratum (même jour).** La première version de ce rapport comptait une lacune
+G5 — la fin de l'auto-mapping d'entité Doctrine et les *mapped route parameters*
+`{slug:post}` — et rangeait DoctrineBridge et MonologBridge dans le périmètre.
+Les deux sont exclus par `docs/syllabus/exclusions.yml` (`EXC-DOCTRINE`,
+`EXC-MONOLOG`, Master Plan §1.5). La règle `SCOPE-001` a refusé la question écrite
+pour G5 ; le contenu a été retiré plutôt qu'étiqueté `exclusion-note` pour passer,
+et cinq entrées sont reclassées `OUT_OF_SCOPE`. Les constats exécutés restent
+vrais — `{slug:post}` pose bien `_route_mapping` — mais ils ne sont pas à
+enseigner.
 
 ## B. Exécution différentielle 7.4.21 / 8.0.15
 
@@ -88,8 +104,8 @@ Pour le Validator, la plupart des faits ont un test amont (`testNullIsValid`,
 violation. Pour ceux-là, notre check est la seule garde.
 
 `mutate.py` casse la ligne de Symfony qui porte chaque comportement, vérifie que
-le check **échoue**, puis restaure le fichier au SHA-256 près : **14 mutations,
-14 prouvées**.
+le check **échoue**, puis restaure le fichier au SHA-256 près : **17 mutations,
+17 prouvées** (14 à la première livraison, 3 avec les lacunes comblées).
 
 **Défaut trouvé — checks Cache vacants pour la ligne citée.** Les trois faits F2
 (`beta = INF`, `beta = 0`, `$save = false`) citaient `CacheTrait.php` mais
@@ -136,7 +152,7 @@ scalaires YAML entre apostrophes, défaut corrigé.
 python3 tools/audit/deep80/fetch_entries.py   # inventaire A
 python3 tools/audit/deep80/kwic.py 'REGEX'     # concordance, HOLDOUT exclu par pool
 php tools/behavior/run.php                     # faits exécutés (8.0)
-python3 tools/audit/deep80/mutate.py           # C : 14 mutations, restauration SHA-256
+python3 tools/audit/deep80/mutate.py           # C : 17 mutations, restauration SHA-256
 python3 tools/audit/deep80/sense.py            # D : chaîne/string (spaCy requis)
 ```
 

@@ -51,6 +51,12 @@ official_sources:
     branch: "v3.22.0"
     symbol_or_lines: "named arguments"
     verified_at: "2026-09-24"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Translation/CHANGELOG.md"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Translation/CHANGELOG.md"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    symbol_or_lines: "8.0: Remove TranslatableMessage::__toString() method, use trans() or getMessage() instead"
+    verified_at: "2026-10-15"
 outcome_sections:
   OUT-p436jre6f29p: "Le filter"
   OUT-eh8yg0599jp9: "Le tag"
@@ -139,6 +145,11 @@ qui transporte ses parameters et son domain et se traduit à l'affichage par
 Retourner une key brute, depuis une enum par exemple, perd parameters et
 domain, et `translation:extract` ne la voit pas.
 
+Il ne s'affiche **que** traduit : en 8.0, `TranslatableMessage` n'a plus de
+`__toString()`. Exécuté contre 7.4.21 : `{{ message }}` y affichait la key
+brute ; en 8.0.15 il lève une `RuntimeError`, et seul `{{ message|trans }}`
+produit le texte.
+
 ## Pièges d'examen
 
 **L'ordre des arguments du filter est parameters, puis domain, puis locale.** Les
@@ -162,7 +173,7 @@ emplacement ordinaire — rien n'est pluralisé.
 - `%nom%` est une convention pour le filter, une obligation pour le tag.
 - Tag : `count`, `with`, `from`, `into`, dans cet ordre ; sortie non échappée.
 - Pluriel : ICU, file suffixé `+intl-icu`, `{nom}` ; barres = *legacy*.
-- `t()` produit un object traduit à l'affichage.
+- `t()` produit un object traduit à l'affichage — par `|trans` seulement en 8.0.
 
 ## Sources officielles
 
