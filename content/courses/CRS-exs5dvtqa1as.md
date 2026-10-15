@@ -92,7 +92,7 @@ FrameworkBundle 8.0.15 :
 | `client_id` fourni, rien d'autre | `timeout` vaut `30` |
 
 La troisième ligne est le piège : l'extension traite une configuration vide même
-quand l'application ne mentionne pas le bundle, donc un nœud `isRequired()` sans
+quand l'application ne mentionne pas le bundle, donc un node `isRequired()` sans
 valeur fait échouer la compilation.
 
 ## La forme moderne

@@ -424,7 +424,7 @@ flashcards:
   front: 'Symfony : #[WithHttpStatus(404)] s''applique-t-il à une exception qui implémente déjà HttpExceptionInterface ?'
   back: 'Non : l''attribute est ignoré, c''est `getStatusCode()` qui compte.'
   explanation: Lu dans `ErrorListener::logKernelException()`.
-  memorization_justification: Priorité de l'interface sur l'attribute.
+  memorization_justification: Priority de l'interface sur l'attribute.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php
@@ -612,7 +612,7 @@ flashcards:
   front: 'Symfony : router:match liste-t-il les routes essayées et leur raison d''échec ?'
   back: Seulement avec `-v` ; sans, il dit qu'aucune route ne correspond.
   explanation: Exécuté sur FrameworkBundle 8.0.15.
-  memorization_justification: Verbosité de router:match.
+  memorization_justification: Verbosity de router:match.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Command/RouterMatchCommand.php

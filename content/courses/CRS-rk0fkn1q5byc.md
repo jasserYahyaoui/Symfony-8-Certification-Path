@@ -62,11 +62,11 @@ le cache, le routage, le container —, pas le bundle qui l'a enregistrée.
 | `secrets:*` | gérer le coffre de secrets |
 | `make:*` | générer du code, si MakerBundle est installé |
 
-La liste **dépend des composants installés**. Relevé sur une application
+La liste **dépend des components installés**. Relevé sur une application
 FrameworkBundle 8.0.15 avec SecurityBundle, TwigBundle et Messenger : 9
 `debug:*` (dont `debug:firewall` et `debug:messenger`), 7 `cache:*`, 3 `lint:*`
 — `lint:container`, `lint:twig`, `lint:yaml`, pas de `lint:xliff` sans le
-composant Translation —, et cinq commands sans namespace : `about`,
+component Translation —, et cinq commands sans namespace : `about`,
 `completion`, `help`, `list`, `_complete`.
 
 Les `debug:*` sont celles qui reviennent le plus : elles répondent à « qu'est-ce
@@ -106,14 +106,14 @@ avoir écrit.
 
 **`bin/console` sans argument exécute `list`.**
 
-**Le préfixe n'indique pas le bundle d'origine** : il nomme le domaine.
+**Le préfixe n'indique pas le bundle d'origine** : il nomme le domain.
 
 ## Points clés
 
 - `list` et `help` sont les deux commands de découverte ; `list` est la
   command par défaut.
 - Namespaces : `debug:*` inspecte, `cache:*` vide, `lint:*` valide ; la
-  liste dépend des composants installés.
+  liste dépend des components installés.
 - Un nom s'abrège par segment tant qu'il n'est pas ambigu.
 - `--env` et `--no-debug` changent l'environment d'un lancement.
 

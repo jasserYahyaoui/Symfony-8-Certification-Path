@@ -10,11 +10,11 @@ flashcards:
   official_item: OIT-s601ppsyb9f7
   language: fr
   level: TRAP
-  front: Deux listeners ont les priorités 10 et -10. Lequel s'exécute en premier ?
+  front: Deux listeners ont les priorities 10 et -10. Lequel s'exécute en premier ?
   back: Celui à 10. Plus le nombre est élevé, plus le listener est appelé tôt ; les valeurs négatives sont permises
     et passent en dernier.
-  explanation: À priorité égale, c'est l'ordre d'ajout au répartiteur qui départage.
-  memorization_justification: L'analogie avec « priorité 1 » d'une queue suggère l'inverse.
+  explanation: À priority égale, c'est l'ordre d'ajout au dispatcher qui départage.
+  memorization_justification: L'analogie avec « priority 1 » d'une queue suggère l'inverse.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst
@@ -28,7 +28,7 @@ flashcards:
   level: RECALL
   front: Que fait exactement stopPropagation() sur un event ?
   back: Elle empêche les listeners pas encore appelés de l'être. Elle n'annule rien de ce qui a déjà été fait.
-  explanation: 'Son effet dépend donc entièrement des priorités : un listener appelé tôt peut couper la suite.'
+  explanation: 'Son effet dépend donc entièrement des priorities : un listener appelé tôt peut couper la suite.'
   memorization_justification: Le mot « stop » laisse croire à une annulation, alors qu'il ne s'agit que d'interrompre
     une string.
   verification_status: VERIFIED
@@ -43,7 +43,7 @@ flashcards:
   language: fr
   level: RECALL
   front: 'Symfony : quels arguments prend addListener() ?'
-  back: Le nom de l'event, un callable, et une priorité optionnelle (`0` par défaut).
+  back: Le nom de l'event, un callable, et une priority optionnelle (`0` par défaut).
   explanation: Documentation *Connecting Listeners*, branche 8.0.
   memorization_justification: Signature d'addListener().
   verification_status: VERIFIED
@@ -93,7 +93,7 @@ flashcards:
   front: 'Symfony : pourquoi un subscriber se réutilise-t-il plus facilement qu''un listener ?'
   back: Parce que la liste des events vit dans la class, par `getSubscribedEvents()`, et non dans une definition de service.
   explanation: Documentation *Using Event Subscribers*, branche 8.0.
-  memorization_justification: Abonné contre listener.
+  memorization_justification: Subscriber contre listener.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst
@@ -106,8 +106,8 @@ flashcards:
   official_item: OIT-s601ppsyb9f7
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi un listener reçoit-il aussi le nom de l''event et le répartiteur ?'
-  back: Pour distribuer d'autres events ou savoir sous quel nom il a été appelé ; le répartiteur passe toujours ces trois arguments.
+  front: 'Symfony : pourquoi un listener reçoit-il aussi le nom de l''event et le dispatcher ?'
+  back: Pour distribuer d'autres events ou savoir sous quel nom il a été appelé ; le dispatcher passe toujours ces trois arguments.
   explanation: 'Exécuté : le nom vaut la class de l''event quand `dispatch()` n''en reçoit pas.'
   memorization_justification: Arguments du listener.
   verification_status: VERIFIED
@@ -176,10 +176,10 @@ flashcards:
   official_item: OIT-s601ppsyb9f7
   language: fr
   level: TRAP
-  front: 'Symfony : deux listeners de priorité 0 s''exécutent-ils dans un ordre indéfini ?'
+  front: 'Symfony : deux listeners de priority 0 s''exécutent-ils dans un ordre indéfini ?'
   back: 'Non : dans l''ordre où ils ont été ajoutés.'
   explanation: 'Exécuté : `0`, `0`, `10`, `-5` ajoutés donnent `10`, les deux `0` dans l''ordre, `-5`.'
-  memorization_justification: Égalité de priorité.
+  memorization_justification: Égalité de priority.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst
@@ -246,9 +246,9 @@ flashcards:
   official_item: OIT-8xcczyjyyanz
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi l''effet de stopPropagation() dépend-il des priorités ?'
+  front: 'Symfony : pourquoi l''effet de stopPropagation() dépend-il des priorities ?'
   back: 'Parce qu''il n''empêche que les listeners suivants : l''ordre d''appel décide de qui a déjà tourné.'
-  explanation: 'Exécuté : arrêt à la priorité `5`, seuls `10` et `5` tournent.'
+  explanation: 'Exécuté : arrêt à la priority `5`, seuls `10` et `5` tournent.'
   memorization_justification: Arrêt et ordre.
   verification_status: VERIFIED
   official_sources:
@@ -269,7 +269,7 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony : pourquoi écrire une sous-classe d''Event plutôt qu''un GenericEvent ?'
-  back: 'Pour un contrat typé : des accesseurs explicites au lieu d''arguments non typés lus par key.'
+  back: 'Pour un contrat typé : des accessors explicites au lieu d''arguments non typés lus par key.'
   explanation: Documentation *The Generic Event Object*.
   memorization_justification: Sous-classe contre GenericEvent.
   verification_status: VERIFIED
@@ -301,7 +301,7 @@ flashcards:
   language: fr
   level: APPLICATION
   front: 'Symfony : transporter une command dans un event.'
-  back: Une sous-classe d'`Event` avec un constructeur qui reçoit la command et un `getOrder()`.
+  back: Une sous-classe d'`Event` avec un constructor qui reçoit la command et un `getOrder()`.
   explanation: Documentation *Creating and Dispatching an Event*.
   memorization_justification: Event porteur de données.
   verification_status: VERIFIED
@@ -334,7 +334,7 @@ flashcards:
   level: TRAP
   front: 'Symfony : stopPropagation() défait-il le travail des listeners déjà appelés ?'
   back: 'Non : il empêche seulement les suivants d''être appelés.'
-  explanation: 'Exécuté : le listener de priorité `10` a bien tourné.'
+  explanation: 'Exécuté : le listener de priority `10` a bien tourné.'
   memorization_justification: Portée de l'arrêt.
   verification_status: VERIFIED
   official_sources:

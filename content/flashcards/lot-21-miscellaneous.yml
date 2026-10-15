@@ -28,7 +28,7 @@ flashcards:
   language: fr
   level: TRAP
   front: 'Deux appels successifs à name() sur le même Finder : que cherche-t-on au final ?'
-  back: 'Les deux motifs à la fois. Le Finder est à état : un appel de method s''ajoute à la configuration au lieu
+  back: 'Les deux patterns à la fois. Le Finder est à état : un appel de method s''ajoute à la configuration au lieu
     de la remplacer.'
   explanation: Pour plusieurs recherches partageant une base commune, il faut cloner l'object.
   memorization_justification: On attend d'un setter qu'il écrase la valeur précédente ; ici il l'accumule.
@@ -84,7 +84,7 @@ flashcards:
   front: 'Symfony : quelle method d''IOExceptionInterface donne le path fautif ?'
   back: '`getPath()`.'
   explanation: Documentation *Error Handling*, branche 8.0.
-  memorization_justification: Accesseur du path.
+  memorization_justification: Accessor du path.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/filesystem.rst
@@ -202,7 +202,7 @@ flashcards:
   front: 'Symfony : appendToFile() est-il atomique comme dumpFile() ?'
   back: Non ; il peut seulement verrouiller le file pendant l'écriture, par son troisième argument.
   explanation: Documentation *appendToFile*, branche 8.0.
-  memorization_justification: Atomicité et verrou.
+  memorization_justification: Atomicité et lock.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/filesystem.rst
@@ -302,7 +302,7 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony : pourquoi ignoreVCSIgnored(true) peut-il différer de Git ?'
-  back: Parce que Symfony part du directory de recherche, là où Git part de la racine du dépôt.
+  back: Parce que Symfony part du directory de recherche, là où Git part de la racine du repository.
   explanation: Documentation *Version Control Files*.
   memorization_justification: Point de départ des .gitignore.
   verification_status: VERIFIED

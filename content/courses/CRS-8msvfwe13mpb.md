@@ -101,7 +101,7 @@ Elle indique la class que le form manipule. Sa default value est
 **devinée** de l'object passé : `createForm(TaskType::class, $task)` suffit à la
 fixer à `Task`. Vérifié par exécution (`symfony/form` 8.0.15) :
 
-| Création | `getData()` après soumission |
+| Création | `getData()` après submission |
 |---|---|
 | `data_class` déclarée, sans object | un `Task` neuf, instancié par `empty_data` |
 | ni `data_class` ni object | un array, `{"task": "x"}` |
@@ -119,7 +119,7 @@ property publique.
 
 Exécuté avec PropertyAccess 8.0 : un object qui a à la fois `public $dueDate` et
 `getDueDate()` est lu **par le getter** ; une method nue `dueDate()` est lue ;
-une property privée sans accesseur lève une `NoSuchPropertyException`.
+une property privée sans accessor lève une `NoSuchPropertyException`.
 
 ## Le field non mappé
 
@@ -138,7 +138,7 @@ Sans cela, `getForm()` échoue dès la lecture des données initiales :
 
 **Le nom du field n'est pas décoratif.** Le renommer casse le binding.
 
-**Les accesseurs passent avant la property publique** : un getter l'emporte.
+**Les accessors passent avant la property publique** : un getter l'emporte.
 
 **Le type omis est deviné par les *guessers***, pas par le type PHP ; à défaut,
 `TextType`.

@@ -12,7 +12,7 @@ flashcards:
   level: TRAP
   front: 'Path absent : que rend la lecture sur un array, et sur un object ?'
   back: Sur un array, null. Sur un object, une exception NoSuchPropertyException. Les deux défauts sont opposés,
-    et chacun se renverse par le constructeur d'accesseur.
+    et chacun se renverse par l'accessor builder.
   explanation: enableExceptionOnInvalidIndex() fait lever l'array ; disableExceptionOnInvalidPropertyPath() fait
     rendre null à l'object.
   memorization_justification: On attend un comportement uniforme d'une même method ; ici il dépend de la nature
@@ -45,7 +45,7 @@ flashcards:
   official_item: OIT-43pt66xsft9f
   language: fr
   level: RECALL
-  front: 'Symfony PropertyAccess : quelle method du constructeur d''accesseur active la lecture par __call() ?'
+  front: 'Symfony PropertyAccess : quelle method de l''accessor builder active la lecture par __call() ?'
   back: '`enableMagicCall()`.'
   explanation: Section *Magic __call() Method*, branche 8.0, et exécuté ; `__get()` et `__set()` sont actifs par défaut.
   memorization_justification: Activer __call.
@@ -61,10 +61,10 @@ flashcards:
   official_item: OIT-43pt66xsft9f
   language: fr
   level: RECALL
-  front: 'Symfony PropertyAccess : quel opérateur arrête l''évaluation d''un path sur un maillon null ?'
+  front: 'Symfony PropertyAccess : quel operator arrête l''évaluation d''un path sur un maillon null ?'
   back: '`?` : `person?.firstname` rend `null` si `person` vaut `null`.'
   explanation: Section *Accessing Nullable Property Paths*, branche 8.0, et exécuté ; sans `?`, `UnexpectedTypeException`.
-  memorization_justification: Opérateur nullsafe.
+  memorization_justification: Operator nullsafe.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/property_access.rst
@@ -169,7 +169,7 @@ flashcards:
   official_item: OIT-43pt66xsft9f
   language: fr
   level: TRAP
-  front: 'Symfony PropertyAccess : l''opérateur ? évite-t-il l''exception d''une property absente ?'
+  front: 'Symfony PropertyAccess : l''operator ? évite-t-il l''exception d''une property absente ?'
   back: 'Non : il n''arrête que sur `null` ; un object sans la property lève toujours `NoSuchPropertyException`.'
   explanation: 'Exécuté : `person?.firstname` sur un `person` non nul sans `firstname`.'
   memorization_justification: Null contre absent.

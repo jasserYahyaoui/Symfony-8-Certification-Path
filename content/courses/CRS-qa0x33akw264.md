@@ -59,7 +59,7 @@ langue par défaut.
 ## Comment Symfony normalise un tag de langue
 
 `getLanguages()` ne se contente pas de remplacer `-` par `_`. Chaque valeur
-passe par une décomposition en **trois composants** — langue, écriture, région —
+passe par une décomposition en **trois components** — langue, écriture, région —
 puis par une recomposition :
 
 ```php

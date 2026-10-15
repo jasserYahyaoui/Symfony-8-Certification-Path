@@ -29,7 +29,7 @@ code qui enregistre une command à la main plutôt que par le container.
 
 `OutputInterface` gagne **`isSilent()`** : le mode silencieux devient
 interrogeable depuis l'output, au même titre que les autres niveaux de
-verbosité.
+verbosity.
 
 `ProgressIndicator::finish()` reçoit `$finishedIndicator`.
 
@@ -89,7 +89,7 @@ Simple renommage, mais il touche tout enregistrement manuel de command.
 
 **`isSilent()`.**
 
-Le mode silencieux devient interrogeable comme les autres niveaux de verbosité.
+Le mode silencieux devient interrogeable comme les autres niveaux de verbosity.
 
 </details>
 
@@ -107,7 +107,7 @@ Les deux lignes du journal se répondent : prises ensemble, elles rendent l'attr
 <details>
 <summary>Pourquoi exiger des types sur les closures passées à `setCode()` ?</summary>
 
-Parce que le composant doit savoir quoi passer et quoi attendre en retour. Sans types, l'appel reposait sur une convention implicite.
+Parce que le component doit savoir quoi passer et quoi attendre en retour. Sans types, l'appel reposait sur une convention implicite.
 
 Du code qui fonctionnait sans types cesse de fonctionner.
 

@@ -44,7 +44,7 @@ path normal, et tout le reste une convention à installer.
 
 ## Rendre un template
 
-Deux methods, une différence de type de retour qui se retient mal :
+Deux methods, une différence de return type qui se retient mal :
 
 | Method | Retourne |
 |---|---|
@@ -91,12 +91,12 @@ code interne.
 
 ## JSON
 
-`json()` retourne une `JsonResponse`. Si le composant Serializer est disponible,
+`json()` retourne une `JsonResponse`. Si le component Serializer est disponible,
 il est utilisé ; sinon la method retombe sur `json_encode`. Elle accepte le
 statut, des headers et un contexte de serialization.
 
 Le contexte n'est pas décoratif : il est fusionné par-dessus les options
-d'encodage par défaut de `JsonResponse`, ce qui en fait l'entry point pour
+d'encoding par défaut de `JsonResponse`, ce qui en fait l'entry point pour
 les changer. Et sans Serializer, une donnée `null` est traitée à part — la
 Response porte la string `null`, pas un body vide.
 
@@ -113,7 +113,7 @@ default value : il n'y a pas de cas où le navigateur décide seul.
 
 ## Pièges d'examen
 
-**Deux methods de rendu, deux types de retour.** L'une retourne une `Response`
+**Deux methods de rendu, deux return types.** L'une retourne une `Response`
 prête à être retournée par le controller, l'autre une simple string. Retourner
 la string depuis un controller déclenche `kernel.view`, et sans listener pour
 la convertir, la Request échoue.
@@ -145,7 +145,7 @@ rendu, la vue seule — donc une string, pas une Response.
 - Le 422 demande **trois** conditions ; un statut explicite l'emporte, et un
   form non soumis ne compte pas.
 - `json()` utilise le Serializer s'il est installé ; le contexte porte les
-  options d'encodage.
+  options d'encoding.
 - `file()` télécharge par défaut ; `DISPOSITION_INLINE` pour afficher.
 
 ## Sources officielles

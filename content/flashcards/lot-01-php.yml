@@ -13,7 +13,7 @@ flashcards:
     official_item: OIT-46ry8d7dypmb
     language: fr
     front: "PHP : quelles nouveautés de langage PHP 8.4 apporte-t-il ?"
-    back: "Property hooks, visibilité asymétrique (private(set)), objects paresseux, attribute #[\\Deprecated], et new déréférençable sans parenthèses englobantes."
+    back: "Property hooks, visibilité asymétrique (private(set)), objects lazy, attribute #[\\Deprecated], et new déréférençable sans parenthèses englobantes."
     explanation: >-
       Symfony 8.0 exige PHP >= 8.4, donc ces cinq ajouts sont dans le
       périmètre examinable ; UPGRADING (8.4) les liste sous New Features > Core. Ne pas les confondre avec 8.3 (constantes de class
@@ -149,7 +149,7 @@ flashcards:
     back: "Des objects ReflectionAttribute — pas des instances. C'est newInstance() qui construit l'attribute."
     explanation: >-
       Tant que newInstance() n'est pas appelé, la class d'attribute n'est jamais
-      instanciée : ses validations et ses erreurs de constructeur n'apparaissent
+      instanciée : ses validations et ses erreurs de constructor n'apparaissent
       pas. Un attribute sans lecteur est totalement inerte.
     memorization_justification: >-
       Étape intermédiaire facile à oublier, et dont l'oubli produit un attribute
@@ -165,9 +165,9 @@ flashcards:
   - id: FLC-rs1m1pw77eb7
     official_item: OIT-vt0p9cacpkpd
     language: fr
-    front: 'PHP 8.4 : une class peut-elle redéfinir une constante déclarée dans une interface ?'
-    back: Oui, depuis PHP 8.1 — sauf si la constante est déclarée `final`.
-    explanation: 'La règle « une constante d''interface ne se surcharge jamais » a été vraie pendant
+    front: 'PHP 8.4 : une class peut-elle redéfinir une constant déclarée dans une interface ?'
+    back: Oui, depuis PHP 8.1 — sauf si la constant est déclarée `final`.
+    explanation: 'La règle « une constant d''interface ne se surcharge jamais » a été vraie pendant
       des années et reste la Response instinctive. Sur PHP 8.4 elle est fausse : seule `final` l''interdit.'
     memorization_justification: 'Attribution version-par-règle : la syntaxe ne dit pas à partir de quelle
       version la redéfinition est permise, et l''ancienne règle reste la Response réflexe.'

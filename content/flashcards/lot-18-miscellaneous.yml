@@ -201,7 +201,7 @@ flashcards:
   official_item: OIT-78k7kbfpgfxt
   language: fr
   level: TRAP
-  front: 'Symfony : beta = 0 désactive-t-il la mise en cache de la key ?'
+  front: 'Symfony : beta = 0 désactive-t-il le caching de la key ?'
   back: 'Non : seulement le recalcul anticipé ; la valeur reste en cache.'
   explanation: Documentation *Preventing Cache Stampede*, branche 8.0.
   memorization_justification: Portée de beta.

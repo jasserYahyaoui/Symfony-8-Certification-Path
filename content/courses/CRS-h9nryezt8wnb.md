@@ -127,7 +127,7 @@ try {
 }
 ```
 
-C'est le gain réel du composant : une erreur ne peut pas passer inaperçue.
+C'est le gain réel du component : une erreur ne peut pas passer inaperçue.
 
 Une réserve, lue dans `Filesystem::readFile()` (8.0) et exécutée : sur un
 **directory**, l'`IOException` est construite **sans path** — `getPath()`
@@ -154,7 +154,7 @@ pour `readFile()` sur un directory, où il rend `null`.
 
 - `Filesystem` agit, `Path` calcule des strings.
 - `mkdir()` récursive, mode 0777 par défaut, existant ignoré, `umask` appliqué.
-- `dumpFile()` atomique ; `appendToFile()` avec verrou optionnel ;
+- `dumpFile()` atomique ; `appendToFile()` avec lock optionnel ;
   `readFile()` lève au lieu de rendre `false`.
 - Échec = exception `IOExceptionInterface`, avec `getPath()`.
 

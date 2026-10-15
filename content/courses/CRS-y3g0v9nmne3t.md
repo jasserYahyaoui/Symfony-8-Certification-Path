@@ -41,14 +41,14 @@ outcome_sections:
   OUT-nxz3gazat4wf: "Les deux methods, en 8.0"
   OUT-f6ap8771qrtd: "Trois valeurs, pas deux"
   OUT-3hwcwd6n6vsq: "Trois valeurs, pas deux"
-  OUT-bb75dy1j7zcq: "Les quatre stratégies"
+  OUT-bb75dy1j7zcq: "Les quatre strategies"
   OUT-88k6kjx82v30: "Les deux cas limites"
 ---
 
 ## Objectif
 
 Écrire une décision d'authorization qui dépend de l'object, et savoir comment les
-votes de plusieurs voters sont agrégés — parce que la stratégie choisie change
+votes de plusieurs voters sont agrégés — parce que la strategy choisie change
 la Response à votes identiques.
 
 ## Prérequis
@@ -116,7 +116,7 @@ le voter ci-dessus a voté sans une ligne dans `services.yaml`.
 
 Un vote vaut `ACCESS_GRANTED` (1), `ACCESS_ABSTAIN` (0) ou `ACCESS_DENIED` (-1).
 L'abstention est le cas normal, et c'est ce qui permet à des voters
-indépendants de coexister : chacun ne se prononce que sur son domaine.
+indépendants de coexister : chacun ne se prononce que sur son domain.
 
 ```mermaid
 ---
@@ -135,16 +135,16 @@ flowchart TD
   NEXT -->|"aucun"| END(["rend le vote : ABSTAIN si rien n'était supporté, DENIED sinon"])
 ```
 
-## Les quatre stratégies
+## Les quatre strategies
 
 `security.access_decision_manager.strategy` accepte `affirmative` (défaut),
-`consensus`, `unanimous` et `priority` ; une stratégie maison passe par
+`consensus`, `unanimous` et `priority` ; une strategy maison passe par
 `strategy_service`.
 
-Les votants ne votent **pas tous** : l'`AccessDecisionManager` les interroge un
-par un, et la stratégie s'arrête dès que sa décision est acquise. Exécuté sur
-`AccessDecisionManager` 8.0.15, votants dans l'ordre indiqué, avec le journal
-des votants réellement interrogés :
+Les voters ne votent **pas tous** : l'`AccessDecisionManager` les interroge un
+par un, et la strategy s'arrête dès que sa décision est acquise. Exécuté sur
+`AccessDecisionManager` 8.0.15, voters dans l'ordre indiqué, avec le journal
+des voters réellement interrogés :
 
 | Votes | `affirmative` | `consensus` | `unanimous` | `priority` |
 |---|---|---|---|---|
@@ -158,9 +158,9 @@ des votants réellement interrogés :
 Ce que le tableau montre :
 
 - `affirmative` accorde au **premier** accord ; `unanimous` refuse au **premier**
-  refus ; `priority` suit le **premier** votant qui ne s'abstient pas ;
+  refus ; `priority` suit le **premier** voter qui ne s'abstient pas ;
   seul `consensus` interroge tout le monde, puisqu'il compte.
-- `priority` dépend de l'**ordre** des votants — la priorité de leur service.
+- `priority` dépend de l'**ordre** des voters — la priority de leur service.
 - `consensus` tranche une égalité par `allow_if_equal_granted_denied`, défaut
   `true` : accordé.
 
@@ -168,10 +168,10 @@ Ce que le tableau montre :
 
 **Égalité en `consensus`** : `allow_if_equal_granted_denied`, défaut `true`.
 
-**Tous abstenus**, quelle que soit la stratégie : `allow_if_all_abstain`, défaut
+**Tous abstenus**, quelle que soit la strategy : `allow_if_all_abstain`, défaut
 **`false`** — donc refusé. Cela vaut **aussi** pour `unanimous` : trois
-abstentions et aucun refus donnent un refus, pas un accord. Un attribut qu'aucun
-votant ne comprend — une faute de frappe — est donc refusé.
+abstentions et aucun refus donnent un refus, pas un accord. Un attribute qu'aucun
+voter ne comprend — une faute de frappe — est donc refusé.
 
 ```yaml
 security:
@@ -195,7 +195,7 @@ security:
 - `supports()` filter, `voteOnAttribute(…, ?Vote $vote = null)` décide ;
   `addReason()` explique un refus.
 - Trois valeurs de vote : 1, 0, -1.
-- Quatre stratégies ; `affirmative` par défaut, un accord suffit.
+- Quatre strategies ; `affirmative` par défaut, un accord suffit.
 - Cas limites : `allow_if_equal_granted_denied` (défaut `true`),
   `allow_if_all_abstain` (défaut `false`, `unanimous` compris).
 

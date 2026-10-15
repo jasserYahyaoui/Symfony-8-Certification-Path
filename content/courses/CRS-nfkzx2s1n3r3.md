@@ -39,19 +39,19 @@ official_sources:
     symbol_or_lines: "InputBag::get()"
     verified_at: "2026-09-24"
 outcome_sections:
-  OUT-y3ytkg8qf2rc: "Le motif recommandé"
+  OUT-y3ytkg8qf2rc: "Le pattern recommandé"
   OUT-68682qbtydht: "L'ordre des deux tests"
-  OUT-zr9efpstp5ny: "Le motif recommandé"
+  OUT-zr9efpstp5ny: "Le pattern recommandé"
   OUT-mj8bjkemt33a: "`submit()`, pour le contrôle fin"
   OUT-hkxn2p2xjmg7: "`submit()`, pour le contrôle fin"
 ---
 
 ## Objectif
 
-Traiter une soumission, dans le bon ordre, et connaître l'alternative à
+Traiter une submission, dans le bon ordre, et connaître l'alternative à
 `handleRequest()`.
 
-## Le motif recommandé
+## Le pattern recommandé
 
 Une **seule action** affiche et traite le form :
 
@@ -87,7 +87,7 @@ renvoie le `POST`.
 « Cannot check if an unsubmitted form is valid ». Vérifié par exécution. Un
 form soumis mais désactivé (`disabled`) est, lui, toujours valide.
 
-Après une soumission valide, l'object passé à `createForm()` est **déjà mis à
+Après une submission valide, l'object passé à `createForm()` est **déjà mis à
 jour** : `getData()` et la variable d'origine désignent la même chose.
 
 ## Le rendu qui suit
@@ -136,13 +136,13 @@ value » — exécuté avec HttpFoundation 8.0.15. La forme correcte est `all()`
 comme ci-dessus.
 
 Son second argument, `$clearMissing`, vaut `true` par défaut : les fields absents
-de la soumission sont mis à `null`. Le passer à `false` — le cas d'une Request
+de la submission sont mis à `null`. Le passer à `false` — le cas d'une Request
 `PATCH` — laisse les fields absents intacts. `handleRequest()` fait ce choix de
 lui-même : il appelle `submit($data, 'PATCH' !== $method)`.
 
 **Le piège qui va avec :** avec `$clearMissing = false`, la validation ne
 s'applique **qu'aux fields soumis**. Exécuté avec un `NotBlank` sur un field
-vide absent de la soumission : form **valide** ; le même field ajouté avec
+vide absent de la submission : form **valide** ; le même field ajouté avec
 `null` : **invalide**. C'est la parade documentée.
 
 ## Pièges d'examen
@@ -152,9 +152,9 @@ vide absent de la soumission : form **valide** ; le même field ajouté avec
 
 **Une Request d'une autre method que celle du form est ignorée.**
 
-**Après une soumission valide, l'object est déjà à jour.**
+**Après une submission valide, l'object est déjà à jour.**
 
-**La soumission manuelle vide les fields absents par défaut** ; `false` les
+**La submission manuelle vide les fields absents par défaut** ; `false` les
 préserve, et ne valide alors que ce qui a été soumis.
 
 ## Points clés

@@ -10,7 +10,7 @@ officiel, hors couverture.
 *« Remove `UserInterface::eraseCredentials()` and
 `TokenInterface::eraseCredentials()` »*.
 
-C'est la suppression la plus large du composant, parce que **toute** class
+C'est la suppression la plus large du component, parce que **toute** class
 user écrite avant la 8.0 implémentait cette method — souvent avec un
 corps vide, précisément parce que l'interface l'exigeait sans qu'on ait rien à
 effacer.
@@ -30,16 +30,16 @@ Trois lignes cohérentes entre elles :
 - `PersistentTokenInterface::getClass()` et `RememberMeDetails::getUserFqcn()`
   sont retirées ;
 - en étendant `RememberMeDetails`, le parameter `$userFqcn` doit être **retiré**
-  de la signature du constructeur.
+  de la signature du constructor.
 
 Le nom pleinement qualifié de la class user ne voyage donc plus chez le
-client. Une class qui redéfinit le constructeur sans supprimer ce parameter ne
+client. Une class qui redéfinit le constructor sans supprimer ce parameter ne
 correspond plus au parent.
 
 ## Un argument sur la décision d'accès
 
 `AccessDecisionStrategyInterface::decide()` reçoit `$accessDecision`. Une
-stratégie maison écrite pour la 7.x n'implémente plus l'interface telle qu'elle
+strategy maison écrite pour la 7.x n'implémente plus l'interface telle qu'elle
 est.
 
 ## Pièges d'examen
@@ -58,7 +58,7 @@ trois éléments d'API disparaissent avec lui.
   effacer via `__serialize()`.
 - Le FQCN user quitte le cookie remember-me.
 - `getClass()` et `getUserFqcn()` sont retirées ; `$userFqcn` quitte le
-  constructeur de `RememberMeDetails`.
+  constructor de `RememberMeDetails`.
 - `decide()` reçoit `$accessDecision`.
 
 ## Sources officielles
@@ -119,7 +119,7 @@ Un body vide ne casse rien ; un body utile devient du code mort.
 </details>
 
 <details>
-<summary>Une class étend `RememberMeDetails` et redéfinit le constructeur avec `$userFqcn`. Que faire ?</summary>
+<summary>Une class étend `RememberMeDetails` et redéfinit le constructor avec `$userFqcn`. Que faire ?</summary>
 
 Retirer ce parameter de la signature : le parent ne le prend plus.
 
@@ -139,7 +139,7 @@ La déclarer reste syntaxiquement valide — ce qui rend l'erreur invisible.
 </details>
 
 <details>
-<summary>Piège : « une stratégie de décision d'accès écrite pour la 7.x implémente encore l'interface. »</summary>
+<summary>Piège : « une strategy de décision d'accès écrite pour la 7.x implémente encore l'interface. »</summary>
 
 Non : `decide()` reçoit `$accessDecision` en 8.0.
 

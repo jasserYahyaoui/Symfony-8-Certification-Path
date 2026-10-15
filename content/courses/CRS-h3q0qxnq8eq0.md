@@ -62,7 +62,7 @@ public function edit(int $id): Response {}
 ```
 
 Deux routes peuvent donc partager exactement le même path et ne se distinguer
-que par la method — c'est le motif REST habituel.
+que par la method — c'est le pattern REST habituel.
 
 Écrire `HEAD` est d'ailleurs superflu : le matcher traite une Request `HEAD`
 comme un `GET` quand il compare les methods, donc `methods: ['GET']` accepte
@@ -79,7 +79,7 @@ nommé `_method` :
 ```
 
 Symfony ne lit ce field que si l'option `framework.http_method_override` vaut
-`true` ; elle vaut `false` par défaut. Le thème de form Twig ajoute le
+`true` ; elle vaut `false` par défaut. Le theme de form Twig ajoute le
 field caché dès que la method du form n'est ni `GET` ni `POST`, que
 l'option soit activée ou non.
 
@@ -116,7 +116,7 @@ field est ignoré et la Request reste un `POST`.
 **`methods: ['GET']` accepte `HEAD`.**
 
 **Deux routes peuvent partager exactement le même path** et ne différer que
-par la method : c'est le motif REST, et il rend la lecture de la liste des
+par la method : c'est le pattern REST, et il rend la lecture de la liste des
 routes indispensable.
 
 ## Points clés

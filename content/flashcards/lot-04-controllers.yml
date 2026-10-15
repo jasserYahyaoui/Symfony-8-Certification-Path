@@ -205,7 +205,7 @@ flashcards:
       il faut alors un listener de kernel.view. render() accepte en outre une
       Response en troisième argument pour imposer un statut.
     memorization_justification: >-
-      Deux noms quasi identiques pour deux types de retour différents ; l'erreur
+      Deux noms quasi identiques pour deux return types différents ; l'erreur
       ne se manifeste qu'à l'exécution.
     verification_status: VERIFIED
     official_sources:
@@ -218,14 +218,14 @@ flashcards:
     official_item: OIT-qr7gnht5s847
     language: fr
     level: RECALL
-    front: 'Symfony : où se trouve l''arbre de configuration `framework:` — dans le composant HttpKernel
+    front: 'Symfony : où se trouve l''arbre de configuration `framework:` — dans le component HttpKernel
       ou dans FrameworkBundle ?'
-    back: Dans FrameworkBundle. Le composant est autonome et ne porte aucune configuration.
-    explanation: 'Le composant porte le contrat `handle()`, la class `Kernel`, les events et les
+    back: Dans FrameworkBundle. Le component est autonome et ne porte aucune configuration.
+    explanation: 'Le component porte le contrat `handle()`, la class `Kernel`, les events et les
       resolvers. Le bundle câble : listeners, services tagués, arbre `framework:`, commands et routes
       internes.'
     memorization_justification: 'Partage arbitraire entre deux packages : chercher la configuration dans
-      le composant est l''erreur naturelle.'
+      le component est l''erreur naturelle.'
     verification_status: VERIFIED
     official_sources:
     - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Kernel.php
@@ -423,11 +423,11 @@ flashcards:
     official_item: OIT-qr7gnht5s847
     language: fr
     level: UNDERSTANDING
-    front: "Le composant HttpKernel fonctionne-t-il sans FrameworkBundle ?"
-    back: "Oui. L'inverse est faux : le bundle **câble** le composant, il ne le réécrit pas."
+    front: "Le component HttpKernel fonctionne-t-il sans FrameworkBundle ?"
+    back: "Oui. L'inverse est faux : le bundle **câble** le component, il ne le réécrit pas."
     explanation: >-
       Le contrat `handle()`, la class `Kernel`, les huit events, les
-      resolvers et les exceptions HTTP sont dans le composant. On peut écrire
+      resolvers et les exceptions HTTP sont dans le component. On peut écrire
       son propre framework avec cela seul.
     memorization_justification: >-
       Sens de la dependency, qui command toutes les questions « où se trouve
@@ -467,8 +467,8 @@ flashcards:
     official_item: OIT-qr7gnht5s847
     language: fr
     level: APPLICATION
-    front: "Vous cherchez l'arbre de configuration `framework:`. Composant ou bundle ?"
-    back: "**Bundle.** Un arbre de configuration suppose un service container, que le composant n'a pas."
+    front: "Vous cherchez l'arbre de configuration `framework:`. Component ou bundle ?"
+    back: "**Bundle.** Un arbre de configuration suppose un service container, que le component n'a pas."
     explanation: >-
       Le même critère class les commands `bin/console`, les listeners
       enregistrés, les resolvers tagués et les routes internes : tout cela
@@ -492,7 +492,7 @@ flashcards:
     front: "Vous voulez appeler `handle()` sur votre `Kernel`. Faut-il déclarer `HttpKernelInterface` ?"
     back: "Non. `KernelInterface` l'étend déjà ; la method est là par inheritance."
     explanation: >-
-      C'est ce qui permet au composant Runtime d'appeler `handle()` sur le
+      C'est ce qui permet au component Runtime d'appeler `handle()` sur le
       kernel d'une application sans rien savoir de plus que le contrat HTTP.
     memorization_justification: >-
       Question pratique dont la réponse dépend d'une relation d'inheritance qu'on
@@ -516,7 +516,7 @@ flashcards:
       Sans FrameworkBundle, il n'y a ni `MicroKernelTrait` pour les écrire à
       votre place, ni listeners enregistrés, ni arbre `framework:`.
     memorization_justification: >-
-      Transpose le partage composant / bundle en obligations concrètes, forme
+      Transpose le partage component / bundle en obligations concrètes, forme
       sous laquelle la question se pose.
     verification_status: VERIFIED
     official_sources:
@@ -532,10 +532,10 @@ flashcards:
     language: fr
     level: APPLICATION
     front: "`RouterListener` et `ErrorListener` : qui les enregistre ?"
-    back: "**FrameworkBundle.** Les classes viennent du composant, leur enregistrement vient du bundle."
+    back: "**FrameworkBundle.** Les classes viennent du component, leur enregistrement vient du bundle."
     explanation: >-
-      C'est la nuance du câblage : le composant fournit le code, le bundle le
-      branche sur le dispatcher avec ses priorités.
+      C'est la nuance du câblage : le component fournit le code, le bundle le
+      branche sur le dispatcher avec ses priorities.
     memorization_justification: >-
       Distingue l'existence d'une class de son enregistrement, deux choses que
       la question « d'où vient X ? » confond.
@@ -552,14 +552,14 @@ flashcards:
     official_item: OIT-qr7gnht5s847
     language: fr
     level: TRAP
-    front: "`AbstractController` appartient-elle au composant HttpKernel ?"
+    front: "`AbstractController` appartient-elle au component HttpKernel ?"
     back: "Non, au **bundle** : `src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php`."
     explanation: >-
       Le path équivalent sous `src/Symfony/Component/HttpKernel/` n'existe
       pas. La class suppose un container, donc un bundle.
     memorization_justification: >-
       Class omniprésente dans le code applicatif, qu'on rattache spontanément
-      au composant du même domaine.
+      au component du même domain.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
@@ -573,10 +573,10 @@ flashcards:
     official_item: OIT-qr7gnht5s847
     language: fr
     level: TRAP
-    front: "`MicroKernelTrait` vient-il du composant HttpKernel ?"
+    front: "`MicroKernelTrait` vient-il du component HttpKernel ?"
     back: "Non, du **bundle** : `src/Symfony/Bundle/FrameworkBundle/Kernel/MicroKernelTrait.php`."
     explanation: >-
-      C'est la frontière la plus utile du sujet : `Kernel` est au composant, le
+      C'est la frontière la plus utile du sujet : `Kernel` est au component, le
       trait au bundle. Le kernel d'une application étend la première et utilise
       le second.
     memorization_justification: >-
@@ -617,10 +617,10 @@ flashcards:
     official_item: OIT-qr7gnht5s847
     language: fr
     level: TRAP
-    front: "FrameworkBundle réécrit-il le comportement du composant HttpKernel ?"
+    front: "FrameworkBundle réécrit-il le comportement du component HttpKernel ?"
     back: "Non. Il **câble** : il enregistre des services, des listeners, une configuration et des commands."
     explanation: >-
-      Le cycle de la Request reste celui du composant. Croire à une
+      Le cycle de la Request reste celui du component. Croire à une
       réimplémentation fait chercher dans le bundle du code qui n'y est pas.
     memorization_justification: >-
       Le mot « bundle » évoque une surcouche fonctionnelle ; ici il ne s'agit
@@ -638,14 +638,14 @@ flashcards:
     official_item: OIT-ycc2c8tnv68h
     language: fr
     level: RECALL
-    front: "Que fait le composant Routing du nom de class pour fabriquer un nom de route ?"
+    front: "Que fait le component Routing du nom de class pour fabriquer un route name ?"
     back: "Il remplace les antislash par des tirets bas, ajoute un tiret bas et le nom de method, puis met tout en minuscules."
     explanation: >-
       `getDefaultRouteName()` ajoute ensuite un index numérique à partir de la
       deuxième route rencontrée dans la même class.
     memorization_justification: >-
       Trois opérations dans un ordre précis ; c'est l'étape que l'on saute en
-      supposant que le nom court vient directement du composant.
+      supposant que le nom court vient directement du component.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Loader/AttributeClassLoader.php"
@@ -659,13 +659,13 @@ flashcards:
     official_item: OIT-ycc2c8tnv68h
     language: fr
     level: RECALL
-    front: "Quelle class raccourcit le nom de route généré, et d'où vient-elle ?"
-    back: "`AttributeRouteControllerLoader`, de FrameworkBundle — pas du composant Routing."
+    front: "Quelle class raccourcit le route name généré, et d'où vient-elle ?"
+    back: "`AttributeRouteControllerLoader`, de FrameworkBundle — pas du component Routing."
     explanation: >-
       Elle étend `AttributeClassLoader` et redéfinit `getDefaultRouteName()`.
-      C'est le même partage composant / bundle que le chapitre précédent.
+      C'est le même partage component / bundle que le chapitre précédent.
     memorization_justification: >-
-      Le nom court est si familier qu'on l'attribue au composant ; savoir quelle
+      Le nom court est si familier qu'on l'attribue au component ; savoir quelle
       couche le produit est exactement ce que l'examen oppose.
     verification_status: VERIFIED
     official_sources:
@@ -681,7 +681,7 @@ flashcards:
     language: fr
     level: RECALL
     front: "Parmi les conventions de controller, laquelle est une obligation ?"
-    back: "L'unicité du nom de route dans l'application. Toutes les autres sont des conventions."
+    back: "L'unicité du route name dans l'application. Toutes les autres sont des conventions."
     explanation: >-
       Suffixe de class, suffixe de method, class de base, emplacement du
       template : rien de tout cela n'est imposé.
@@ -704,7 +704,7 @@ flashcards:
     front: "Pourquoi le nom généré est-il `app_lucky_number` et non `app_lucky_controller_number` ?"
     back: "Le loader du bundle retire le segment `controller_`. La casse n'est pas découpée, elle est aplatie."
     explanation: >-
-      Le composant produit `app_controller_luckycontroller_number` ; le bundle
+      Le component produit `app_controller_luckycontroller_number` ; le bundle
       remplace les segments `bundle_` et `controller_` par un tiret bas, puis
       écrase les tirets bas doublés.
     memorization_justification: >-
@@ -723,10 +723,10 @@ flashcards:
     official_item: OIT-ycc2c8tnv68h
     language: fr
     level: UNDERSTANDING
-    front: "Pourquoi le nom de route généré dépend-il de la présence de FrameworkBundle ?"
-    back: "Parce qu'il est fabriqué en deux couches : le composant le compose, le bundle redéfinit la method pour le raccourcir."
+    front: "Pourquoi le route name généré dépend-il de la présence de FrameworkBundle ?"
+    back: "Parce qu'il est fabriqué en deux couches : le component le compose, le bundle redéfinit la method pour le raccourcir."
     explanation: >-
-      Sans le bundle, le nom reste celui du composant. C'est la même frontière
+      Sans le bundle, le nom reste celui du component. C'est la même frontière
       que pour `AbstractController` et l'arbre de configuration.
     memorization_justification: >-
       Le mécanisme en deux couches explique d'un coup le nom court, le retrait
@@ -765,10 +765,10 @@ flashcards:
     official_item: OIT-ycc2c8tnv68h
     language: fr
     level: APPLICATION
-    front: "`AdminController::index` dans `App\\Controller`, sans option `name` : quel nom de route dans une application Symfony complète ?"
+    front: "`AdminController::index` dans `App\\Controller`, sans option `name` : quel route name dans une application Symfony complète ?"
     back: "`app_admin_index`."
     explanation: >-
-      Le composant donne `app_controller_admincontroller_index` ; le bundle
+      Le component donne `app_controller_admincontroller_index` ; le bundle
       retire les deux segments `controller_` puis écrase le tiret bas doublé.
     memorization_justification: >-
       Dérouler l'algorithme sur un cas neuf est la seule façon de vérifier qu'on
@@ -849,7 +849,7 @@ flashcards:
     official_item: OIT-ycc2c8tnv68h
     language: fr
     level: TRAP
-    front: "Piège : « le nom de route généré est écrit en snake case »."
+    front: "Piège : « le route name généré est écrit en snake case »."
     back: "Faux. Rien ne découpe la casse : `LuckyController` devient `luckycontroller`, pas `lucky_controller`."
     explanation: >-
       Le nom est mis en minuscules d'un block ; sa lisibilité vient du retrait
@@ -877,7 +877,7 @@ flashcards:
       différentes ; le code du loader traite les deux formes du suffixe.
     memorization_justification: >-
       « Plus utilisé » se transforme facilement en « plus supporté », et la
-      différence se voit sur un nom de route généré.
+      différence se voit sur un route name généré.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Routing/AttributeRouteControllerLoader.php"
@@ -891,10 +891,10 @@ flashcards:
     official_item: OIT-ycc2c8tnv68h
     language: fr
     level: TRAP
-    front: "Piège : « le snake case est la convention recommandée pour les noms de route »."
+    front: "Piège : « le snake case est la convention recommandée pour les route names »."
     back: "Non. La documentation le recommande pour les templates — files ET directories — avec deux extensions."
     explanation: >-
-      La première extension est le format produit par le template, pas le moteur
+      La première extension est le format produit par le template, pas l'engine
       de rendu, ce qui permet de servir plusieurs formats.
     memorization_justification: >-
       Deux conventions de nommage voisines dans le même chapitre ; les
@@ -979,10 +979,10 @@ flashcards:
     front: "Quelle valeur `setContainer()` renvoie-t-elle ?"
     back: "Le container précédent, ou `null` s'il n'y en avait pas. Elle ne renvoie pas `void`."
     explanation: >-
-      Le type de retour déclaré est nullable. Le container qui vient d'être
+      Le return type déclaré est nullable. Le container qui vient d'être
       remplacé est rendu à l'appelant.
     memorization_justification: >-
-      Un mutateur qui renvoie quelque chose est contre-intuitif ; on suppose
+      Un setter qui renvoie quelque chose est contre-intuitif ; on suppose
       `void` sans regarder la signature.
     verification_status: VERIFIED
     official_sources:
@@ -1066,7 +1066,7 @@ flashcards:
       Sans cet attribute il faudrait câbler l'appel à la main dans la definition
       de service de chaque controller.
     memorization_justification: >-
-      L'injection par mutateur est invisible dans le code du controller ;
+      L'injection par setter est invisible dans le code du controller ;
       l'attribute est le seul endroit où elle se lit.
     verification_status: VERIFIED
     official_sources:
@@ -1109,7 +1109,7 @@ flashcards:
       service ordinaire dont on appellerait les aides.
     memorization_justification: >-
       La visibilité `protected` dicte la façon de tester ; l'oublier conduit à
-      une stratégie de test qui ne peut pas fonctionner.
+      une strategy de test qui ne peut pas fonctionner.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
@@ -1189,7 +1189,7 @@ flashcards:
     front: "Piège : « `addLink()` ajoute le header `Link` à la Response courante »."
     back: "Non. Elle remplit l'attribute de Request `_links` ; un listener en fera le header."
     explanation: >-
-      Sans le composant WebLink, elle lève une `LogicException` au lieu de
+      Sans le component WebLink, elle lève une `LogicException` au lieu de
       produire quoi que ce soit.
     memorization_justification: >-
       C'est ce que dit le commentaire de la method, et ce n'est pas ce que fait
@@ -1214,7 +1214,7 @@ flashcards:
       elle ne contient que ce que la class a demandé.
     memorization_justification: >-
       Le nom de la property contredit le comportement réel ; c'est le cœur de
-      la question « container ou abonné ».
+      la question « container ou subscriber ».
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
@@ -1228,13 +1228,13 @@ flashcards:
     official_item: OIT-gqpj4rbt0hc7
     language: fr
     level: TRAP
-    front: "Piège : « `setContainer()` est un mutateur ordinaire qui ne renvoie rien »."
+    front: "Piège : « `setContainer()` est un setter ordinaire qui ne renvoie rien »."
     back: "Non. Elle renvoie le container précédent, ou `null` s'il n'y en avait pas."
     explanation: >-
-      Le type de retour est nullable, ce qui rend la method utilisable pour
+      Le return type est nullable, ce qui rend la method utilisable pour
       restaurer un container après l'avoir temporairement remplacé.
     memorization_justification: >-
-      Un mutateur qui renvoie une valeur est assez rare pour qu'on ne lise pas
+      Un setter qui renvoie une valeur est assez rare pour qu'on ne lise pas
       sa signature.
     verification_status: VERIFIED
     official_sources:
@@ -1255,7 +1255,7 @@ flashcards:
       Le JSON n'est lu qu'en second recours, quand le sac de form est
       vide. Ce n'est pas une union des deux sources.
     memorization_justification: >-
-      La priorité est invisible dans le nom de la method, et c'est elle qui
+      La priority est invisible dans le nom de la method, et c'est elle qui
       décide de ce qu'on lit réellement.
     verification_status: VERIFIED
     official_sources:
@@ -1271,7 +1271,7 @@ flashcards:
     language: fr
     level: RECALL
     front: "Dans quel sac atterrit un parameter déclaré dans le path de la route ?"
-    back: "Dans `attributes`, d'où il est passé au controller comme argument nommé."
+    back: "Dans `attributes`, d'où il est passé au controller comme named argument."
     explanation: >-
       Le même sac porte les keys internes du framework, notamment `_route` et
       `_controller`.
@@ -1460,9 +1460,9 @@ flashcards:
     language: fr
     level: APPLICATION
     front: "Un service appelle `getSession()` sur `RequestStack` hors de toute Request : que reçoit-il ?"
-    back: "Une `SessionNotFoundException`. C'est le seul accesseur de la pile qui lève au lieu de rendre `null`."
+    back: "Une `SessionNotFoundException`. C'est le seul accessor de la pile qui lève au lieu de rendre `null`."
     explanation: >-
-      Les trois accesseurs de Request rendent `null` ; la session est
+      Les trois accessors de Request rendent `null` ; la session est
       l'exception de la class.
     memorization_justification: >-
       Une exception isolée au milieu de methods nullables : le contrat n'est
@@ -1651,7 +1651,7 @@ flashcards:
     front: "Pourquoi un statut explicite empêche-t-il la promotion en 422 ?"
     back: "Parce que la promotion n'est tentée que si la Response est encore en 200 : un statut choisi n'est jamais écrasé."
     explanation: >-
-      Le test sur le statut vient avant la boucle sur les parameters, donc les
+      Le test sur le statut vient avant la loop sur les parameters, donc les
       forms ne sont même pas examinés.
     memorization_justification: >-
       Savoir lequel des deux mécanismes gagne est la seule façon de répondre à
@@ -1691,13 +1691,13 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "À quoi sert le contexte passé à `json()` quand le Serializer est installé ?"
-    back: "Il est fusionné par-dessus les options d'encodage par défaut de `JsonResponse` — c'est l'entry point pour les changer."
+    back: "Il est fusionné par-dessus les options d'encoding par défaut de `JsonResponse` — c'est l'entry point pour les changer."
     explanation: >-
       Sans Serializer, la method construit directement la Response et le
       contexte ne s'applique pas.
     memorization_justification: >-
       Un quatrième argument d'apparence facultative porte en fait le seul levier
-      sur l'encodage.
+      sur l'encoding.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
@@ -1922,7 +1922,7 @@ flashcards:
     language: fr
     level: RECALL
     front: "Sur combien de niveaux `setCookie()` indexe-t-elle les cookies, et lesquels ?"
-    back: "Trois : domaine, puis path, puis nom."
+    back: "Trois : domain, puis path, puis nom."
     explanation: >-
       Deux cookies de même nom sur des paths différents coexistent donc sans
       s'écraser.
@@ -1945,7 +1945,7 @@ flashcards:
     front: "Quel path `removeCookie()` vise-t-elle si on ne lui en donne pas ?"
     back: "La racine, `/`."
     explanation: >-
-      Sans path ni domaine corrects, elle ne trouve pas l'entrée à retirer :
+      Sans path ni domain corrects, elle ne trouve pas l'entrée à retirer :
       l'indexation se fait sur les trois niveaux.
     memorization_justification: >-
       Une default value silencieuse qui fait échouer l'appel sans message
@@ -2005,8 +2005,8 @@ flashcards:
     official_item: OIT-pfrzrr0qcmh3
     language: fr
     level: UNDERSTANDING
-    front: "Pourquoi `removeCookie()` prend-elle un path et un domaine, alors qu'un nom semblerait suffire ?"
-    back: "Parce que l'indexation est à trois niveaux : sans le bon path et le bon domaine, l'entrée visée n'est pas la bonne."
+    front: "Pourquoi `removeCookie()` prend-elle un path et un domain, alors qu'un nom semblerait suffire ?"
+    back: "Parce que l'indexation est à trois niveaux : sans le bon path et le bon domain, l'entrée visée n'est pas la bonne."
     explanation: >-
       Deux cookies de même nom peuvent coexister sur des paths différents, et
       seule la combinaison des trois les distingue.
@@ -2153,9 +2153,9 @@ flashcards:
     language: fr
     level: TRAP
     front: "Piège : « deux cookies de même nom ne peuvent pas coexister dans une Response »."
-    back: "Si : l'index est à trois niveaux, donc deux paths ou deux domaines différents les séparent."
+    back: "Si : l'index est à trois niveaux, donc deux paths ou deux domains différents les séparent."
     explanation: >-
-      C'est la raison d'être des arguments de path et de domaine sur les
+      C'est la raison d'être des arguments de path et de domain sur les
       methods de suppression.
     memorization_justification: >-
       L'unicité par nom paraît évidente et rend incompréhensibles les
@@ -2177,7 +2177,7 @@ flashcards:
     back: "Non. Un format autre que les deux prévus lève une `InvalidArgumentException`."
     explanation: >-
       Le format par défaut est le format à plat ; l'autre conserve
-      l'arborescence domaine, path, nom.
+      l'arborescence domain, path, nom.
     memorization_justification: >-
       Une default value fait supposer une tolérance ; la method valide
       strictement son argument.
@@ -2200,7 +2200,7 @@ flashcards:
       Toutes ont le même corps à la method appelée près, ce qui fait qu aucune
       d entre elles n est une consultation neutre.
     memorization_justification: >-
-      Le nombre exact montre que le démarrage paresseux ne distingue pas lecture
+      Le nombre exact montre que le démarrage lazy ne distingue pas lecture
       et test, ce que la documentation laisse croire.
     verification_status: VERIFIED
     official_sources:
@@ -2299,7 +2299,7 @@ flashcards:
     official_item: OIT-e41m74xaqhy7
     language: fr
     level: UNDERSTANDING
-    front: "Pourquoi le démarrage paresseux de la session rend-il une page cachable ?"
+    front: "Pourquoi le démarrage lazy de la session rend-il une page cachable ?"
     back: "Parce que `SessionListener` ne rend la Response privée que si la session a servi : une page qui n'y touche jamais garde ses headers de cache."
     explanation: >-
       Activer la session dans la configuration ne coûte donc rien tant que
@@ -2481,7 +2481,7 @@ flashcards:
     language: fr
     level: TRAP
     front: "Piège : « activer la session dans la configuration suffit à la démarrer »."
-    back: "Non. Le démarrage est paresseux : sans accès au sac d'attributes, aucune session n'est démarrée et aucun cookie n'est émis."
+    back: "Non. Le démarrage est lazy : sans accès au sac d'attributes, aucune session n'est démarrée et aucun cookie n'est émis."
     explanation: >-
       L activation rend la session disponible ; c est l usage qui la démarre.
     memorization_justification: >-
@@ -2611,7 +2611,7 @@ flashcards:
       Deux cas distincts sont couverts : sessions désactivées, et session dont la
       class n implémente pas l interface porteuse du sac de flashs.
     memorization_justification: >-
-      Le réflexe est d attendre un no-op ; comprendre le motif évite de chercher
+      Le réflexe est d attendre un no-op ; comprendre le pattern évite de chercher
       l erreur du côté du template.
     verification_status: VERIFIED
     official_sources:
@@ -2671,7 +2671,7 @@ flashcards:
     front: "Un template affiche app.flashes en haut de page puis à nouveau en bas. Que voit l user ?"
     back: "Les messages en haut seulement : la première lecture les a consommés."
     explanation: >-
-      La seconde boucle ne trouve plus rien. Il faut passer par la variante qui
+      La seconde loop ne trouve plus rien. Il faut passer par la variante qui
       ne consomme pas si l on veut afficher deux fois.
     memorization_justification: >-
       Le bug se présente comme un problème d affichage alors qu il vient de la
@@ -2797,7 +2797,7 @@ flashcards:
     front: "redirectToRoute() : par quelle method du controller passe-t-elle pour construire la Response ?"
     back: "Par redirect(), à qui elle transmet l URL générée par generateUrl() et le statut."
     explanation: >-
-      Les deux raccourcis partagent donc le même constructeur de RedirectResponse et les mêmes contrôles de statut.
+      Les deux raccourcis partagent donc le même constructor de RedirectResponse et les mêmes contrôles de statut.
     memorization_justification: >-
       Savoir que l une est bâtie sur l autre évite de leur prêter des comportements différents.
     verification_status: VERIFIED
@@ -2813,7 +2813,7 @@ flashcards:
     official_item: OIT-bwfqarnn6s2f
     language: fr
     level: RECALL
-    front: "Quels status codes le constructeur de RedirectResponse accepte-t-il ?"
+    front: "Quels status codes le constructor de RedirectResponse accepte-t-il ?"
     back: "201, 301, 302, 303, 307 et 308. Tout autre code lève une InvalidArgumentException."
     explanation: >-
       La vérification passe par isRedirect(), qui compare le statut à cette liste fermée.
@@ -2833,7 +2833,7 @@ flashcards:
     language: fr
     level: RECALL
     front: "Que contient l header Location produit par redirectToRoute('homepage') ?"
-    back: "Un path absolu comme /accueil, pas une URL complète avec schéma et hôte."
+    back: "Un path absolu comme /accueil, pas une URL complète avec schéma et host."
     explanation: >-
       generateUrl() est appelée sans type de référence, donc avec ABSOLUTE_PATH par défaut.
     memorization_justification: >-
@@ -2852,7 +2852,7 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "Pourquoi redirect($url, 304) lève-t-elle alors que 304 est un code 3xx ?"
-    back: "Parce que le constructeur ne teste pas la plage 3xx mais une liste fermée dont 304 est absent."
+    back: "Parce que le constructor ne teste pas la plage 3xx mais une liste fermée dont 304 est absent."
     explanation: >-
       isRedirection() couvre 300 à 399 ; isRedirect(), utilisée ici, ne retient que six codes.
     memorization_justification: >-
@@ -2871,11 +2871,11 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "Pourquoi un 301 sans Cache-Control fourni est-il davantage exposé au cache du navigateur ?"
-    back: "Parce que le constructeur retire l header Cache-Control dans ce cas précis."
+    back: "Parce que le constructor retire l header Cache-Control dans ce cas précis."
     explanation: >-
       La condition est double : statut 301, et aucun header cache-control passé par l appelant.
     memorization_justification: >-
-      Le lien entre le status code et le comportement de cache ne se voit que dans le constructeur.
+      Le lien entre le status code et le comportement de cache ne se voit que dans le constructor.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/RedirectResponse.php"
@@ -2892,9 +2892,9 @@ flashcards:
     front: "On passe $request->query->all() comme parameters à redirectToRoute(). Que devient la query string ?"
     back: "Elle est conservée : les parameters qui ne sont pas des variables du path partent en chaîne de Request."
     explanation: >-
-      Le générateur calcule les parameters en trop et les encode avec http_build_query.
+      Le generator calcule les parameters en trop et les encode avec http_build_query.
     memorization_justification: >-
-      C est un usage documenté qui repose sur un comportement du générateur, pas du controller.
+      C est un usage documenté qui repose sur un comportement du generator, pas du controller.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
@@ -2911,7 +2911,7 @@ flashcards:
     front: "On veut rediriger vers l ancre #result de la route app_lucky_number. Quel parameter passer ?"
     back: "La key spéciale _fragment : ['_fragment' => 'result']."
     explanation: >-
-      Le générateur retire _fragment des parameters en trop et l ajoute comme ancre en fin d URL.
+      Le generator retire _fragment des parameters en trop et l ajoute comme ancre en fin d URL.
     memorization_justification: >-
       Une key réservée préfixée d un tiret bas ne se devine pas.
     verification_status: VERIFIED
@@ -2930,7 +2930,7 @@ flashcards:
     front: "Un controller appelle redirect($url, 200). Que se passe-t-il ?"
     back: "Une InvalidArgumentException est levée : 200 n est pas un statut de redirect."
     explanation: >-
-      Le contrôle a lieu dans le constructeur de RedirectResponse, avant tout envoi.
+      Le contrôle a lieu dans le constructor de RedirectResponse, avant tout envoi.
     memorization_justification: >-
       Le cas révèle que le statut est validé, pas seulement transmis.
     verification_status: VERIFIED
@@ -2947,11 +2947,11 @@ flashcards:
     language: fr
     level: APPLICATION
     front: "Un form de recherche redirige vers l URL lue dans un parameter next de la Request. Quel risque ?"
-    back: "Un redirect non validé : un attaquant fabrique un lien vers votre domaine qui aboutit chez lui."
+    back: "Un redirect non validé : un attaquant fabrique un lien vers votre domain qui aboutit chez lui."
     explanation: >-
       redirect() ne vérifie pas sa destination ; la valeur doit être validée ou provenir d une route.
     memorization_justification: >-
-      Le motif du parameter de retour est courant et paraît inoffensif.
+      Le pattern du parameter de retour est courant et paraît inoffensif.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller.rst"
@@ -3003,7 +3003,7 @@ flashcards:
     official_item: OIT-bwfqarnn6s2f
     language: fr
     level: TRAP
-    front: "Piège : « redirect() refuse une URL externe au domaine »."
+    front: "Piège : « redirect() refuse une URL externe au domain »."
     back: "Non. Elle ne vérifie sa destination en aucune manière."
     explanation: >-
       C est la raison du danger documenté : toute URL venue de l user doit être validée avant.
@@ -3878,7 +3878,7 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "Pourquoi l URL produite par RedirectController en mode route est-elle absolue, contrairement à redirectToRoute() ?"
-    back: "Parce qu il génère la cible avec UrlGeneratorInterface::ABSOLUTE_URL, schéma et hôte compris."
+    back: "Parce qu il génère la cible avec UrlGeneratorInterface::ABSOLUTE_URL, schéma et host compris."
     explanation: >-
       redirectToRoute() passe par generateUrl() avec le path absolu par défaut.
     memorization_justification: >-
@@ -4013,7 +4013,7 @@ flashcards:
     official_item: OIT-8hs6e05vq91g
     language: fr
     level: RECALL
-    front: 'Quelle priorité portent RequestValueResolver et SessionValueResolver dans FrameworkBundle ?'
+    front: 'Quelle priority portent RequestValueResolver et SessionValueResolver dans FrameworkBundle ?'
     back: '120, au-dessus des resolvers à 100 dont RequestAttributeValueResolver.'
     explanation: >-
       DefaultValueResolver est à -100 et VariadicValueResolver à -150, en fin de string.
@@ -4090,7 +4090,7 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: 'Pourquoi un resolver maison peut-il utiliser yield au lieu de retourner un array ?'
-    back: 'Parce que le type de retour est iterable et qu ArgumentResolver parcourt le résultat par foreach.'
+    back: 'Parce que le return type est iterable et qu ArgumentResolver parcourt le résultat par foreach.'
     explanation: >-
       La documentation recommande un array ; le code accepte tout itérable.
     memorization_justification: >-
@@ -4113,7 +4113,7 @@ flashcards:
     explanation: >-
       Si la session manque, le premier renvoie un array vide et le second fournit la default value.
     memorization_justification: >-
-      L exemple n a de sens qu une fois l ordre des priorités connu.
+      L exemple n a de sens qu une fois l ordre des priorities connu.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Resources/config/web.php"
@@ -4242,7 +4242,7 @@ flashcards:
     language: fr
     level: TRAP
     front: 'Piège : « resolve() doit impérativement retourner un array ».'
-    back: 'Non. La documentation le recommande, mais le type est iterable : un générateur fonctionne aussi.'
+    back: 'Non. La documentation le recommande, mais le type est iterable : un generator fonctionne aussi.'
     explanation: >-
       Ce qui échoue, c est de retourner la valeur elle-même.
     memorization_justification: >-

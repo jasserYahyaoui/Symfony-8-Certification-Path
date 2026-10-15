@@ -43,7 +43,7 @@ framework:
             'App\Message\SendWelcomeEmail': async
 ```
 
-Messenger 8.0 fournit des ponts pour AMQP, Doctrine, Redis, Amazon SQS et
+Messenger 8.0 fournit des bridges pour AMQP, Doctrine, Redis, Amazon SQS et
 Beanstalkd, plus deux transports particuliers :
 
 - **`sync://`** — traite le message immédiatement, dans le même process ;
@@ -109,8 +109,8 @@ synchrone quand le reste part en file.
 
 ## Serialization
 
-Un transport asynchrone sérialise le message. Le sérialiseur par défaut de
-Messenger suffit dans la plupart des cas ; le composant Serializer peut le
+Un transport asynchrone sérialise le message. Le serializer par défaut de
+Messenger suffit dans la plupart des cas ; le component Serializer peut le
 remplacer quand un autre système doit lire la file. C'est cette étape qui impose
 qu'un message soit sérialisable, et qui explique qu'on n'y mette pas d'entité.
 

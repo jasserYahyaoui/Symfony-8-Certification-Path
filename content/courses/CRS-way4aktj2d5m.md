@@ -37,7 +37,7 @@ outcome_sections:
 
 ## Objectif
 
-Savoir ce que le composant valide, comment on l'appelle, et ce qu'il retourne.
+Savoir ce que le component valide, comment on l'appelle, et ce qu'il retourne.
 Les constraints elles-mêmes appartiennent aux items *Built-in validation
 constraints* et *Custom callback validators*.
 
@@ -56,7 +56,7 @@ le framework configure la lecture des constraints.
 
 ## Hors framework : le piège des attributes
 
-C'est un composant **autonome**, mais `Validation::createValidator()` construit
+C'est un component **autonome**, mais `Validation::createValidator()` construit
 un validator **qui ne lit pas les attributes** : `ValidatorBuilder` démarre avec
 la lecture des attributes désactivée. Exécuté avec `symfony/validator` 8.0.15,
 sur un object portant `#[Assert\NotBlank]` et `#[Assert\Email]` avec des valeurs
@@ -151,7 +151,7 @@ valeur candidate contre les constraints de la property.
 
 ## Points clés
 
-- Le composant confronte une valeur à des constraints ; il est autonome.
+- Le component confronte une valeur à des constraints ; il est autonome.
 - Hors framework, `enableAttributeMapping()` pour lire les attributes.
 - `validate()`, `validateProperty()`, `validatePropertyValue()`.
 - Retour : une `ConstraintViolationListInterface`, vide si tout est valide.

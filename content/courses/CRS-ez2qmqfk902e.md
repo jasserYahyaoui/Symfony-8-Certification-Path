@@ -35,8 +35,8 @@ official_sources:
     verified_at: "2026-09-16"
 outcome_sections:
   OUT-9vyq57j7gj6b: "L'interface"
-  OUT-81pzmq0sf6k9: "Le point central : les Responses sont paresseuses"
-  OUT-t602yfbqy21b: "Le point central : les Responses sont paresseuses"
+  OUT-81pzmq0sf6k9: "Le point central : les Responses sont lazy"
+  OUT-t602yfbqy21b: "Le point central : les Responses sont lazy"
   OUT-9bcphcvp1dp0: "La Response"
   OUT-a0z9e1zqpyxy: "La hiérarchie d'exceptions"
 ---
@@ -56,7 +56,7 @@ public function withOptions(array $options): static;
 
 Trois methods, injectées par autowiring via `HttpClientInterface`.
 
-## Le point central : les Responses sont paresseuses
+## Le point central : les Responses sont lazy
 
 **Le client est asynchrone par défaut.** `request()` rend la main
 immédiatement, avant que la Response ne soit arrivée. Rien n'est attendu tant
@@ -86,7 +86,7 @@ foreach ($client->stream($responses) as $response => $chunk) {
 }
 ```
 
-Inverser l'ordre — lire chaque Response dans la même boucle qui l'émet — rend
+Inverser l'ordre — lire chaque Response dans la même loop qui l'émet — rend
 l'ensemble séquentiel, sans aucune erreur visible.
 
 ## La Response
@@ -151,7 +151,7 @@ $client->request('POST', $url, [
 ```
 
 `json` et `body` sont exclusifs. Les **clients scopés** appliquent
-automatiquement des options aux URL correspondant à un motif, ce qui évite de
+automatiquement des options aux URL correspondant à un pattern, ce qui évite de
 répéter une base URL et un token.
 
 ## Tests
@@ -172,7 +172,7 @@ ailleurs les redirects, jusqu'à `max_redirects`, qui vaut `20`.
 **`request()` ne déclenche pas l'attente.** L'erreur classique est de croire
 que la Request est terminée à son retour.
 
-**Lire dans la boucle d'émission supprime le parallélisme.** Le code
+**Lire dans la loop d'émission supprime le parallélisme.** Le code
 fonctionne, il est juste séquentiel.
 
 **`getContent()` lève sur 404.** Il faut `getContent(false)` pour inspecter le
@@ -204,14 +204,14 @@ sur un body indécodable, et une panne réseau lève toujours.
 
 - `request()` est asynchrone ; l'attente survient à la première lecture.
 - Émettre toutes les Requests, puis lire — sinon pas de parallélisme.
-- Les accesseurs lèvent sur statut d'erreur, sauf avec `false`.
+- Les accessors lèvent sur statut d'erreur, sauf avec `false`.
 - `MockHttpClient` pour tester sans réseau.
 - Deux branches d'exceptions : transport (rien n'est arrivé) et HTTP (une
   Response est là) ; seule la seconde expose `getResponse()`.
 
 ## Aller lire la source
 
-- [Composant HttpClient](https://github.com/symfony/symfony-docs/blob/8.0/http_client.rst) — *Processing Responses*, Requests asynchrones
+- [Component HttpClient](https://github.com/symfony/symfony-docs/blob/8.0/http_client.rst) — *Processing Responses*, Requests asynchrones
 - [`HttpClientInterface`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/HttpClient/HttpClientInterface.php) — `request()`, `stream()`,
   `withOptions()` (branche 8.0, `6f841c0`)
 - [`HttpExceptionInterface`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/HttpClient/Exception/HttpExceptionInterface.php) — `getResponse()`, et les interfaces

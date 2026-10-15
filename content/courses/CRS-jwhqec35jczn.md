@@ -32,7 +32,7 @@ piège qui fait échouer une réutilisation d'object.
 
 ## Prérequis
 
-Les itérateurs PHP, et `SplFileInfo`.
+Les iterators PHP, et `SplFileInfo`.
 
 ## L'usage de base
 
@@ -74,7 +74,7 @@ foreach ((clone $finder)->name('partial_*') as $file) { }
 foreach ((clone $finder)->name('plugin_*') as $file) { }
 ```
 
-Sans le clonage, la seconde boucle chercherait `partial_*` **et** `plugin_*`.
+Sans le clonage, la seconde loop chercherait `partial_*` **et** `plugin_*`.
 Exécuté sur Finder 8.0.14 : un file après le premier `name()`, deux après le
 second, sur le même object.
 
@@ -89,11 +89,11 @@ $finder->in(__DIR__)->exclude('ruby');
 $finder->ignoreUnreadableDirs()->in(__DIR__);
 ```
 
-Le joker `*` est accepté, chaque motif devant résoudre vers au moins un
+Le joker `*` est accepté, chaque pattern devant résoudre vers au moins un
 directory. Les directories passés à `exclude()` sont **relatifs** à ceux donnés
 à `in()`.
 
-Le Finder reposant sur les itérateurs PHP, `in()` accepte aussi une URL avec un
+Le Finder reposant sur les iterators PHP, `in()` accepte aussi une URL avec un
 protocole supporté — `ftp://`, `zlib://`.
 
 ## Quoi chercher
@@ -116,7 +116,7 @@ Les métadonnées des VCS — Git, Mercurial — sont **ignorées par défaut** 
 
 `ignoreVCSIgnored(true)` applique en plus les règles des files `.gitignore`
 rencontrés. Un détail que la documentation prend soin de préciser : **Symfony
-part du directory de recherche**, là où Git part de la racine du dépôt. Pour un
+part du directory de recherche**, là où Git part de la racine du repository. Pour un
 comportement identique à Git, il faut donc lancer la recherche depuis cette
 racine.
 
@@ -137,7 +137,7 @@ Le parcours est **récursif par défaut** ; `depth()` le borne.
 `Finder` implémente `IteratorAggregate` : au-delà du `foreach`,
 `iterator_to_array()` et `iterator_count()` fonctionnent.
 
-Une précaution quand `in()` a été appelé **plusieurs fois** : un itérateur
+Une précaution quand `in()` a été appelé **plusieurs fois** : un iterator
 distinct est créé par emplacement, et les keys peuvent se répéter. Il faut alors
 passer **`false`** en second argument d'`iterator_to_array()`, sans quoi des
 résultats s'écrasent.

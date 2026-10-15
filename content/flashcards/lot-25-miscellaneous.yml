@@ -31,7 +31,7 @@ flashcards:
   language: fr
   level: RECALL
   front: 'Symfony Runtime : quel file le front controller charge-t-il, et qui le produit ?'
-  back: '`vendor/autoload_runtime.php`, produit par le plugin Composer du composant.'
+  back: '`vendor/autoload_runtime.php`, produit par le plugin Composer du component.'
   explanation: 'Section *Usage*, branche 8.0 ; exécuté : `composer dump-autoload --no-plugins` ne le recrée pas.'
   memorization_justification: Origine du file.
   verification_status: VERIFIED
@@ -123,7 +123,7 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony Runtime : pourquoi composer install --no-plugins casse-t-il les front controllers ?'
-  back: 'Parce que `autoload_runtime.php` est écrit par le plugin Composer du composant : sans plugin, le file requis n''existe pas.'
+  back: 'Parce que `autoload_runtime.php` est écrit par le plugin Composer du component : sans plugin, le file requis n''existe pas.'
   explanation: Avertissement de *Usage*, branche 8.0, et exécuté.
   memorization_justification: Dependency au plugin.
   verification_status: VERIFIED
@@ -177,7 +177,7 @@ flashcards:
   language: fr
   level: TRAP
   front: 'Symfony Runtime : que se passe-t-il si public/index.php charge vendor/autoload.php avant autoload_runtime.php ?'
-  back: 'Rien ne s''exécute : le runtime s''interrompt, le script va au bout, code de sortie `0`, aucun message.'
+  back: 'Rien ne s''exécute : le runtime s''interrompt, le script va au bout, exit code `0`, aucun message.'
   explanation: Lu dans `autoload_runtime.template` (8.0), qui s'arrête si `autoload.php` est déjà chargé, et exécuté.
   memorization_justification: Échec silencieux.
   verification_status: VERIFIED
@@ -194,7 +194,7 @@ flashcards:
   level: TRAP
   front: 'Symfony Runtime : le runtime est-il instancié avant que le script d''entrée soit inclus à nouveau ?'
   back: 'Non, pas dans le code 8.0 : le script est inclus d''abord, le runtime instancié ensuite — l''inverse de l''ordre documenté.'
-  explanation: Exécuté avec un runtime qui journalise son constructeur.
+  explanation: Exécuté avec un runtime qui journalise son constructor.
   memorization_justification: Ordre réel.
   verification_status: VERIFIED
   official_sources:

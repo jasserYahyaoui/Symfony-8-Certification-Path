@@ -121,7 +121,7 @@ activée par `twig/extra-bundle`. Les filters `format_*`, `markdown_to_html` ou
 
 ## Ce que Symfony ajoute
 
-Le bridge Twig apporte les extensions qui exposent les composants :
+Le bridge Twig apporte les extensions qui exposent les components :
 
 | Ajout | Origine |
 |---|---|
@@ -156,7 +156,7 @@ puis `trim` n'égale pas `trim` puis `slice` ; `trim` et `lower`, si.
 **Un filter de la documentation peut exiger un package.** `u`, `format_*`,
 `markdown_to_html` ne sont pas dans le cœur ; `truncate` n'existe pas du tout.
 
-**Ce que Symfony ajoute vient du pont, pas du moteur.** Les functions de route,
+**Ce que Symfony ajoute vient du bridge, pas de l'engine.** Les functions de route,
 d'asset, de translation et de form n'existent pas dans un Twig installé
 seul.
 
@@ -166,7 +166,7 @@ seul.
   test = `is`.
 - Les filters s'enchaînent de gauche à droite ; l'ordre compte s'ils ne
   commutent pas.
-- Arguments nommés ; functions fléchées pour `filter`, `map`, `reduce`, `sort`.
+- Named arguments ; functions fléchées pour `filter`, `map`, `reduce`, `sort`.
 - Packages `twig/*-extra` pour `u`, `format_*`… ; pas de `truncate` dans le cœur.
 - `#[AsTwigFilter]` et consorts depuis Twig 3.21 ; `debug:twig` donne
   l'inventaire réel.

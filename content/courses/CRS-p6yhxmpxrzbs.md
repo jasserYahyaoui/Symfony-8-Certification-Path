@@ -44,7 +44,7 @@ outcome_sections:
   OUT-ggw5eh2abp9f: "L'API qui surprend"
   OUT-jvfb807ka1q6: "Les pools du framework"
   OUT-wq0bg1r133y3: "PSR-6 : écrire soi-même"
-  OUT-8h04z2xxjp34: "PSR-16 et les ponts"
+  OUT-8h04z2xxjp34: "PSR-16 et les bridges"
 ---
 
 ## Objectif
@@ -60,7 +60,7 @@ Trois items voisins portent le mot « cache » et ne se recouvrent pas :
 |---|---|
 | *Caching* (HTTP) | les headers du protocole |
 | *HTTP Caching* (Miscellaneous) | le reverse proxy de Symfony |
-| **cette page** | le **composant Cache** : mettre des valeurs en cache dans le code |
+| **cette page** | le **component Cache** : mettre des valeurs en cache dans le code |
 
 ## Prérequis
 
@@ -71,7 +71,7 @@ La dependency injection et l'autowiring.
 | Terme | Definition |
 |---|---|
 | **Item** | une unité stockée : une key, une valeur |
-| **Pool** | un dépôt logique d'items ; toutes les opérations passent par lui |
+| **Pool** | un repository logique d'items ; toutes les opérations passent par lui |
 | **Adapter** | la class qui implémente le stockage réel — files, Redis… |
 | **Provider** | le service de connexion au stockage, notion propre au framework |
 
@@ -82,7 +82,7 @@ chacun reçoit un **namespace** dérivé de son nom. Exécuté, deux
 
 ## Deux approches, une recommandée
 
-Le composant en propose deux :
+Le component en propose deux :
 
 - les **Cache Contracts** — un rappel de recalcul, recommandé par la
   documentation : moins de code, et **protection contre la ruée par défaut** ;
@@ -90,7 +90,7 @@ Le composant en propose deux :
   tierce l'exige ;
 - **PSR-16** — un cache « simple », sans object item.
 
-Les adapters du composant parlent à la fois les Cache Contracts et PSR-6.
+Les adapters du component parlent à la fois les Cache Contracts et PSR-6.
 On choisit l'API selon le **contrat qu'attend le code consommateur**.
 
 ## L'API qui surprend
@@ -146,7 +146,7 @@ Ici, rien n'est écrit sans `save()`. Exécuté sur Cache 8.0.15, `FilesystemAda
 
 `expiresAfter()` et `expiresAt()` fixent l'échéance d'un item.
 
-## PSR-16 et les ponts
+## PSR-16 et les bridges
 
 `get('k', 'défaut')` rend le défaut au manque ; `has()` distingue un `null`
 stocké d'une absence. `Psr16Cache` fait d'un pool PSR-6 un cache PSR-16 ;
@@ -157,7 +157,7 @@ stocké d'une absence. `Psr16Cache` fait d'un pool PSR-6 un cache PSR-16 ;
 Quand une key coûteuse expire, les Requests simultanées la recalculent toutes.
 Les Cache Contracts l'évitent **sans configuration** :
 
-- un **verrou** : un seul process PHP recalcule une key donnée, par machine ;
+- un **lock** : un seul process PHP recalcule une key donnée, par machine ;
 - une **expiration anticipée probabiliste** : au lieu d'attendre l'échéance, un
   user au hasard se voit simuler un manque et recalcule, pendant que les
   autres continuent d'être servis depuis le cache.
@@ -227,7 +227,7 @@ dérivables du code source.
 - Item, pool, adapter, provider ; un namespace isole chaque pool.
 - Cache Contracts recommandés : `get()` et `delete()`, pas de `set()`.
 - Le rappel tourne au manque ou au recalcul anticipé, expose `isHit()` et `&$save`.
-- Anti-ruée intégré : verrou plus expiration anticipée réglée par `beta`.
+- Anti-ruée intégré : lock plus expiration anticipée réglée par `beta`.
 - `cache.app` pour les données, `cache.system` pour ce qui dérive du code.
 - `tag()` puis `invalidateTags()` pour effacer un group.
 - PSR-6 : `save()`, `saveDeferred()` + `commit()` ; PSR-16 : défaut et `has()`.

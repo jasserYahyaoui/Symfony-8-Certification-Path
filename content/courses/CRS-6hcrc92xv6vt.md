@@ -37,7 +37,7 @@ outcome_sections:
 ## Objectif
 
 Rendre testable du code qui dépend de l'heure. C'est la raison d'être du
-composant, énoncée telle quelle par la documentation : **découpler l'application
+component, énoncée telle quelle par la documentation : **découpler l'application
 de la clock système** pour pouvoir figer le temps.
 
 Le problème qu'il résout est concret. Une method qui appelle
@@ -51,7 +51,7 @@ La dependency injection, et `DateTimeImmutable`.
 
 ## Trois clocks, trois usages
 
-Le composant fournit une `ClockInterface` et trois implémentations :
+Le component fournit une `ClockInterface` et trois implémentations :
 
 | Implémentation | Ce qu'elle fait | Quand |
 |---|---|---|
@@ -88,7 +88,7 @@ class ExpirationChecker
 Le remplacement à retenir : **`$this->clock->now()` à la place de
 `new \DateTimeImmutable()`**. Rien d'autre ne change dans la logique.
 
-Une variante existe pour éviter le parameter de constructeur : le trait
+Une variante existe pour éviter le parameter de constructor : le trait
 **`ClockAwareTrait`**. Le container appelle son `setClock()`, et le service
 utilise ensuite **`$this->now()`**.
 
@@ -135,7 +135,7 @@ $later = now('+3 hours');
 
 `Clock` accepte n'importe quelle implémentation compatible **PSR-20** comme
 clock globale. La function `now()` rend l'heure courante et accepte un
-**modificateur** optionnel, dans les formats acceptés par le constructeur de
+**modificateur** optionnel, dans les formats acceptés par le constructor de
 `DateTime`.
 
 ## `DatePoint`
@@ -203,7 +203,7 @@ et c'est ce que rendent `NativeClock::now()` et `now()`.
 
 ## Points clés
 
-- Le composant existe pour découpler du temps système et rendre testable.
+- Le component existe pour découpler du temps système et rendre testable.
 - `NativeClock` en production, `MockClock` en test, `MonotonicClock` pour chronométrer.
 - `$this->clock->now()` remplace `new \DateTimeImmutable()`.
 - `MockClock` est figée ; `sleep()` et `modify()` la déplacent.

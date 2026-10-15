@@ -60,7 +60,7 @@ php bin/console debug:router --format=json
 `--method` filter la liste, mais garde les routes sans constraint de method,
 puisqu'elles acceptent tout verbe. `--format` vaut `txt` par défaut ; `xml`, `json` et `md` sont les autres.
 
-Passer un nom affiche le détail d'une route : path, hôte, schéma, methods,
+Passer un nom affiche le détail d'une route : path, host, schéma, methods,
 defaults, requirements, options. Le code de `RouterDebugCommand` (8.0) précise
 comment ce nom est lu :
 
@@ -81,18 +81,18 @@ php bin/console router:match /lucky/number/8
 php bin/console router:match /api/posts/1 --method=PUT --host=api.example.com --scheme=https
 ```
 
-L'argument n'est pas une URL complète : l'hôte, le schéma et la method se
+L'argument n'est pas une URL complète : le host, le schéma et la method se
 passent par les options `--host`, `--scheme` et `--method`, qui modifient le
 contexte du router avant l'appariement.
 
 Ce que la command affiche, d'après `RouterMatchCommand` :
 
 - chaque route qui correspond **presque**, avec la raison : constraint de
-  parameter, hôte, condition, schéma ou method (`TraceableUrlMatcher`) ;
+  parameter, host, condition, schéma ou method (`TraceableUrlMatcher`) ;
 - en mode verbeux (`-v`), aussi les routes qui ne correspondent pas ;
 - en cas de succès, le détail de la route, en relançant `debug:router` sur son
   nom ;
-- si aucune route ne correspond, une erreur et le code de sortie **1**.
+- si aucune route ne correspond, une erreur et l'exit code **1**.
 
 C'est la command à utiliser quand une URL n'exécute pas le controller attendu :
 elle répond directement à la question, là où `debug:router` demande de la
@@ -107,7 +107,7 @@ La première correspondance gagne, donc l'ordre affiché *est* la Response à
 **Deux commands, deux questions différentes.** L'une inventorie les routes,
 l'autre prend un path et dit laquelle répondrait.
 
-**`router:match` prend un path, pas une URL.** Hôte, schéma et method passent
+**`router:match` prend un path, pas une URL.** Host, schéma et method passent
 par des options ; sans elles, c'est le contexte par défaut du router qui
 s'applique.
 
@@ -120,7 +120,7 @@ s'applique.
   sortie.
 - Un nom exact ou partiel en argument affiche le détail d'une seule route.
 - `router:match <chemin>` dit quelle route correspondrait ; `--method`,
-  `--host`, `--scheme` fixent le contexte ; code de sortie 1 sans
+  `--host`, `--scheme` fixent le contexte ; exit code 1 sans
   correspondance.
 
 ## Sources officielles

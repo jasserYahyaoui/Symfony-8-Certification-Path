@@ -40,36 +40,36 @@ official_sources:
     branch: "8.0"
     verified_at: "2026-09-24"
 outcome_sections:
-  OUT-43tnheqyaw2v: "Le défaut : la stratégie dépend du nom du template"
-  OUT-mhbzxr5470xc: "Le défaut : la stratégie dépend du nom du template"
-  OUT-ss6r3pwx0fjy: "Les cinq stratégies"
+  OUT-43tnheqyaw2v: "Le défaut : la strategy dépend du nom du template"
+  OUT-mhbzxr5470xc: "Le défaut : la strategy dépend du nom du template"
+  OUT-ss6r3pwx0fjy: "Les cinq strategies"
   OUT-947gftrjzm6w: "Désactiver, avec parcimonie"
 ---
 
 ## Objectif
 
-Savoir ce que Twig échappe par défaut, avec quelle stratégie, et comment
+Savoir ce que Twig échappe par défaut, avec quelle strategy, et comment
 choisir la bonne selon l'endroit du document.
 
-## Le défaut : la stratégie dépend du nom du template
+## Le défaut : la strategy dépend du nom du template
 
 L'auto-escaping est **actif** dans une application Symfony. Mais sa
-stratégie n'est pas fixe : TwigBundle (8.0) règle l'option `autoescape` de Twig
-sur `'name'`, et Twig choisit alors la stratégie d'après l'**extension** du
+strategy n'est pas fixe : TwigBundle (8.0) règle l'option `autoescape` de Twig
+sur `'name'`, et Twig choisit alors la strategy d'après l'**extension** du
 template, `.twig` retiré (`FileExtensionEscapingStrategy::guess()`, v3.22.0) :
 
-| Template | Stratégie |
+| Template | Strategy |
 |---|---|
 | `page.html.twig`, et toute extension non listée | `html` |
 | `data.js.twig`, `data.json.twig` | `js` |
 | `style.css.twig` | `css` |
-| `email.txt.twig` | **aucun échappement** |
+| `email.txt.twig` | **aucun escaping** |
 
 Dans un template HTML, toute variable affichée par `{{ }}` est donc échappée sans
-rien demander. Un template `.txt.twig` — un courriel en texte brut, par exemple —
+rien demander. Un template `.txt.twig` — un email en texte brut, par exemple —
 affiche ses variables telles quelles.
 
-L'échappement a lieu **à l'affichage**, pas à l'affectation :
+L'escaping a lieu **à l'affichage**, pas à l'affectation :
 `{% set x = y %}` ne transforme rien.
 
 **Deux exceptions documentées.** Twig n'échappe pas les **expressions
@@ -77,14 +77,14 @@ statiques** : `{{ "<strong>world</strong>" }}` s'affiche en gras. Et les
 functions qui retournent du template — les macros, `parent()` — retournent un
 contenu considéré comme sûr.
 
-## Les cinq stratégies
+## Les cinq strategies
 
 Le contexte du document décide, et le mauvais choix laisse une faille ouverte :
 
-| Stratégie | Contexte visé |
+| Strategy | Contexte visé |
 |---|---|
 | `html` | corps HTML, ou valeur d'attribute **entre guillemets** |
-| `js` | string JavaScript ou JSON, encodée par séquences d'échappement |
+| `js` | string JavaScript ou JSON, encodée par séquences d'escaping |
 | `css` | tout ce qui est inséré dans du CSS |
 | `url` | un **sous-composant** d'URI ou un parameter, jamais une URI entière |
 | `html_attr` | nom d'attribute, ou valeur d'attribute **sans guillemets** |
@@ -94,8 +94,8 @@ n'est pas entre guillemets — `data-x={{ v }}` — `html` ne suffit plus. La
 documentation recommande d'ailleurs de mettre la valeur entre guillemets et
 d'employer `html`, `html_attr` étant moins performant.
 
-Pour la stratégie `html`, Twig utilise la function PHP `htmlspecialchars`. On
-peut enregistrer d'autres stratégies avec `EscaperRuntime::setEscaper()`
+Pour la strategy `html`, Twig utilise la function PHP `htmlspecialchars`. On
+peut enregistrer d'autres strategies avec `EscaperRuntime::setEscaper()`
 (Twig 3.10).
 
 ## Choisir explicitement
@@ -108,7 +108,7 @@ peut enregistrer d'autres stratégies avec `EscaperRuntime::setEscaper()`
 
 `e` est l'alias de `escape`.
 
-Twig évite le **double échappement** quand la stratégie du filter est celle de
+Twig évite le **double escaping** quand la strategy du filter est celle de
 l'auto-escaping — mais seulement si elle est écrite en dur.
 `|escape(strategy)`, avec une variable, est échappé deux fois ; la
 documentation conseille alors d'ajouter `|raw`.
@@ -119,7 +119,7 @@ documentation conseille alors d'ajouter `|raw`.
 dernier filter appliqué**. Le nom du filter est un avertissement : la valeur
 doit être sûre *par construction*, pas parce qu'elle semble sûre.
 
-Le tag `{% autoescape %}` change la stratégie sur un block — sans argument,
+Le tag `{% autoescape %}` change la strategy sur un block — sans argument,
 c'est `html` —, et `{% autoescape false %}` la coupe :
 
 ```html
@@ -130,29 +130,29 @@ c'est `html` —, et `{% autoescape false %}` la coupe :
 
 ## Pièges d'examen
 
-**La stratégie par défaut dépend de l'extension du template.** `.html.twig`
+**La strategy par défaut dépend de l'extension du template.** `.html.twig`
 échappe en HTML, `.js.twig` en JavaScript, `.txt.twig` n'échappe pas.
 
-**L'échappement a lieu à l'affichage, pas à l'affectation.** Ranger une valeur
+**L'escaping a lieu à l'affichage, pas à l'affectation.** Ranger une valeur
 dans une variable ne la transforme pas.
 
-**La stratégie HTML ne suffit pas dans un attribute sans guillemets.** C'est la
-stratégie dédiée aux attributes qu'il faut ; le mauvais choix laisse une faille
+**La strategy HTML ne suffit pas dans un attribute sans guillemets.** C'est la
+strategy dédiée aux attributes qu'il faut ; le mauvais choix laisse une faille
 ouverte sans rien signaler.
 
 **`raw` n'agit que s'il est le dernier filter.**
 
-**La stratégie d'URL vise un sous-composant, pas une URI entière.** L'appliquer
+**La strategy d'URL vise un sous-composant, pas une URI entière.** L'appliquer
 à une adresse complète la détruit.
 
 ## Points clés
 
-- Échappement actif ; stratégie choisie par l'extension du template
+- Escaping actif ; strategy choisie par l'extension du template
   (`autoescape: 'name'`) ; `.txt.twig` non échappé.
-- Cinq stratégies : `html`, `js`, `css`, `url`, `html_attr`.
+- Cinq strategies : `html`, `js`, `css`, `url`, `html_attr`.
 - `html_attr` pour un attribute sans guillemets ; `url` pour un sous-composant.
 - `e` est l'alias de `escape` ; `raw`, en dernier filter, désactive.
-- `{% autoescape %}` change ou coupe la stratégie sur un block.
+- `{% autoescape %}` change ou coupe la strategy sur un block.
 
 ## Sources officielles
 

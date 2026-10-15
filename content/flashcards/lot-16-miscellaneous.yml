@@ -84,7 +84,7 @@ flashcards:
   front: 'Symfony : pourquoi le tag {% trans %} est-il risqué avec un parameter user ?'
   back: Parce qu'elle n'échappe pas son output, parameters compris, contrairement au filter.
   explanation: 'Exécuté : `<i>x</i>` brut par le tag, échappé par le filter.'
-  memorization_justification: Échappement tag contre filter.
+  memorization_justification: Escaping tag contre filter.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst
@@ -132,7 +132,7 @@ flashcards:
   front: 'Symfony : traduire un message HTML de confiance avec le filter sans l''échapper.'
   back: '`{{ message|trans|raw }}`.'
   explanation: Documentation *Translations in Templates*, branche 8.0.
-  memorization_justification: Lever l'échappement.
+  memorization_justification: Lever l'escaping.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst
@@ -148,7 +148,7 @@ flashcards:
   front: 'Symfony : trans_default_domain s''applique-t-il aux templates inclus ?'
   back: 'Non : seulement au template courant.'
   explanation: 'Exécuté : `admin` dans le parent, `messages` dans l''inclus.'
-  memorization_justification: Portée du domaine par défaut.
+  memorization_justification: Portée du domain par défaut.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst
@@ -164,7 +164,7 @@ flashcards:
   front: 'Symfony : le filter |trans et le tag {% trans %} échappent-ils tous deux ?'
   back: 'Non : seul le filter échappe.'
   explanation: Documentation 8.0 et exécution.
-  memorization_justification: Différence d'échappement.
+  memorization_justification: Différence d'escaping.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst

@@ -98,7 +98,7 @@ en déduit souvent qu'un `dump()` oublié appelle une function absente en
 production. **C'est faux dans une application Symfony 8.0.** Lu dans les
 `composer.json` de la branche 8.0 : FrameworkBundle exige
 `symfony/error-handler`, qui exige `symfony/var-dumper` — en dependency
-ordinaire, pas `--dev`. Le composant est donc installé même avec
+ordinaire, pas `--dev`. Le component est donc installé même avec
 `composer install --no-dev`.
 
 Seul DebugBundle est vraiment absent. Exécuté sur un serveur web PHP, kernel en
@@ -126,7 +126,7 @@ configuration résulte d'une fusion :
 | `debug:autowiring` | quel type peut être injecté, et par quoi |
 | `debug:router` | quelles routes existent, dans quel ordre |
 | `router:match /chemin` | **quelle** route répond à cette URL, et pourquoi |
-| `debug:event-dispatcher` | quels listeners, dans quel ordre de priorité |
+| `debug:event-dispatcher` | quels listeners, dans quel ordre de priority |
 | `debug:config` | la configuration d'une extension, après fusion |
 | `debug:twig` | les functions, filters et paths connus de Twig |
 

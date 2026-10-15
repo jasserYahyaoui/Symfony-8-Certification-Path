@@ -85,7 +85,7 @@ flashcards:
     language: fr
     level: RECALL
     front: "Security : quel passport construire lorsqu'il n'y a aucun identifier à vérifier ?"
-    back: "SelfValidatingPassport — le constructeur de Passport exige des credentials."
+    back: "SelfValidatingPassport — le constructor de Passport exige des credentials."
     explanation: >-
       Passport::__construct(UserBadge $userBadge, CredentialsInterface
       $credentials, array $badges = []) rend les credentials obligatoires. Pour

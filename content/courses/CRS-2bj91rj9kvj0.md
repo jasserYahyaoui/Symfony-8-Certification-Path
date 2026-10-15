@@ -49,15 +49,15 @@ outcome_sections:
 ## Objectif
 
 Savoir ce que TwigBundle ajoute à Twig, où il cherche les templates, et quelles
-options de configuration comptent. La distinction composant / bridge / bundle
+options de configuration comptent. La distinction component / bridge / bundle
 est traitée dans le lot Symfony Architecture.
 
 ## Trois packages, trois roles
 
 | Package | Role |
 |---|---|
-| `twig/twig` | le moteur : la syntaxe, le compilateur, les filters de base |
-| `symfony/twig-bridge` | les extensions Twig qui exposent les composants Symfony — `path()`, `trans`, le rendu de form |
+| `twig/twig` | l'engine : la syntaxe, le compiler, les filters de base |
+| `symfony/twig-bridge` | les extensions Twig qui exposent les components Symfony — `path()`, `trans`, le rendu de form |
 | `symfony/twig-bundle` | l'intégration dans le framework : configuration, paths, services |
 
 `composer require symfony/twig-bundle` installe les trois : le bundle exige
@@ -98,7 +98,7 @@ d'étendre l'original : `{% extends '@!AcmeBlog/user/profile.html.twig' %}`.
 | `default_path` | déplace le directory des templates | `templates/` |
 | `paths` | ajoute des directories, nommés ou non | aucun |
 | `globals` | déclare des variables disponibles dans **tous** les templates | aucune |
-| `form_themes` | choisit le thème de rendu des forms | `form_div_layout.html.twig` |
+| `form_themes` | choisit le theme de rendu des forms | `form_div_layout.html.twig` |
 | `strict_variables` | fait échouer l'accès à une variable inexistante au lieu de retourner `null` | `%kernel.debug%` |
 | `cache` | compile les templates en PHP dans le cache | activé |
 
@@ -121,7 +121,7 @@ Dans `globals`, une valeur qui commence par `@` désigne un **service** ;
 
 ## Pièges d'examen
 
-**Trois packages, un seul à installer.** Le moteur, le pont et le bundle sont
+**Trois packages, un seul à installer.** L'engine, le bridge et le bundle sont
 distincts : c'est le bundle qui tire les deux autres, et c'est lui seul qui rend
 Twig configurable.
 
@@ -137,7 +137,7 @@ deux options différentes : l'une remplace, l'autre complète.
 
 ## Points clés
 
-- Moteur, bridge et bundle sont trois packages distincts ; le bundle configure.
+- Engine, bridge et bundle sont trois packages distincts ; le bundle configure.
 - Templates dans `templates/` par défaut, `twig.default_path` pour en changer.
 - `twig.paths` ajoute des directories, avec ou sans namespace.
 - Surcharge : `templates/bundles/NomDuBundle/` ; l'original sous `@!Nom`.

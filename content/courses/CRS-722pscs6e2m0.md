@@ -50,7 +50,7 @@ pour autant correcte.
 
 ## Ce que 8.4 ajoute au cœur du langage
 
-**Property hooks** — un accesseur défini sur la property elle-même, sans
+**Property hooks** — un accessor défini sur la property elle-même, sans
 getter ni setter séparés :
 
 ```php
@@ -85,7 +85,7 @@ class Book
 }
 ```
 
-**Objects paresseux** (`lazy objects`), initialisés au premier accès réel.
+**Objects lazy** (`lazy objects`), initialisés au premier accès réel.
 
 **`#[\Deprecated]`** — un attribute natif pour marquer une function, method ou
 constante obsolète.
@@ -97,11 +97,11 @@ parenthèses englobantes.
 
 | Version | Apports les plus examinables |
 |---|---|
-| 8.0 | Arguments nommés, promotion de constructeur, `match`, types union, `?->`, `static` en type de retour |
+| 8.0 | Named arguments, promotion de constructor, `match`, types union, `?->`, `static` en return type |
 | 8.1 | Enums, `readonly`, `never`, syntaxe de callable de première class `foo(...)`, constantes de class `final` |
 | 8.2 | `readonly` sur la class entière, types DNF, properties dynamiques dépréciées |
 | 8.3 | Constantes de class typées, `#[\Override]`, `json_validate()` |
-| 8.4 | Property hooks, visibilité asymétrique, objects paresseux, `#[\Deprecated]`, `new` déréférençable |
+| 8.4 | Property hooks, visibilité asymétrique, objects lazy, `#[\Deprecated]`, `new` déréférençable |
 
 ## Pièges d'examen
 
@@ -120,7 +120,7 @@ quelque chose ; sinon, erreur de compilation.
 ## Points clés
 
 - Symfony 8.0 impose PHP 8.4 : la syntaxe 8.4 est dans le périmètre.
-- 8.4 = property hooks, visibilité asymétrique, objects paresseux, `#[\Deprecated]`.
+- 8.4 = property hooks, visibilité asymétrique, objects lazy, `#[\Deprecated]`.
 - `readonly` (une seule écriture) ≠ `private(set)` (écritures limitées à la class).
 
 ## Sources officielles

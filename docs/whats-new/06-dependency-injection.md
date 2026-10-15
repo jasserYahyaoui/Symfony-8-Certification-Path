@@ -27,7 +27,7 @@ historique en YAML n'existe plus ; seule la forme explicite subsiste.
 **sans alternative** — le journal le dit ainsi.
 
 Disparaît également le format PHP fluide pour la semantic configuration : on
-instancie les constructeurs en ligne, avec l'array de configuration en
+instancie les constructors en ligne, avec l'array de configuration en
 argument, et on les retourne.
 
 ## Un service mal déclaré devient une erreur
@@ -146,7 +146,7 @@ L'ordre de citation du journal induit précisément cette inversion.
 <details>
 <summary>Piège : « la semantic configuration en PHP fluide reste possible. »</summary>
 
-Non : le format fluide est retiré. On instancie les constructeurs en ligne avec l'array de configuration en argument, et on les retourne.
+Non : le format fluide est retiré. On instancie les constructors en ligne avec l'array de configuration en argument, et on les retourne.
 
 C'est un changement d'écriture, pas seulement de style.
 

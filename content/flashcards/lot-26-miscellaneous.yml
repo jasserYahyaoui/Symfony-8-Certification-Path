@@ -68,7 +68,7 @@ flashcards:
   level: UNDERSTANDING
   front: 'Symfony Serializer : pourquoi une property privée sans getter n''apparaît-elle pas ?'
   back: 'Parce qu''`ObjectNormalizer` lit l''object par l''accès aux properties : properties publiques et methods `get`, `has`, `is`, `can`.'
-  explanation: 'Exécuté sur Serializer 8.0.15 : la privée avec getter sort, la privée ou protégée sans accesseur non.'
+  explanation: 'Exécuté sur Serializer 8.0.15 : la privée avec getter sort, la privée ou protégée sans accessor non.'
   memorization_justification: Portée réelle.
   verification_status: VERIFIED
   official_sources:
@@ -208,7 +208,7 @@ flashcards:
   level: TRAP
   front: 'Serializer construit avec [ObjectNormalizer, MoneyNormalizer] : qui normalise un object Money ?'
   back: ObjectNormalizer. Le premier normalizer qui accepte la valeur l'emporte, et il accepte presque tout object ; MoneyNormalizer
-    n'est jamais consulté. Dans le framework, ObjectNormalizer a la priorité -1000 et passe après les normalizers de l'application.
+    n'est jamais consulté. Dans le framework, ObjectNormalizer a la priority -1000 et passe après les normalizers de l'application.
   explanation: 'Exécuté sur Serializer 8.0.15 : price sort en {"cents":1250,"currency":"EUR"} au lieu de "12.50 EUR".'
   memorization_justification: On croit le normalizer le plus spécialisé choisi ; c'est le premier de la liste.
   verification_status: VERIFIED

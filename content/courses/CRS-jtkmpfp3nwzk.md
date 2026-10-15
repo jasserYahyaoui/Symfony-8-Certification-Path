@@ -40,11 +40,11 @@ celui dont on a besoin — sans apprendre de liste par cœur.
 ## D'où ils viennent
 
 Chaque bundle installé enregistre ses services dans le container. FrameworkBundle
-en apporte le gros : router, dispatcher d'events, HttpKernel, sérialiseur,
+en apporte le gros : router, dispatcher d'events, HttpKernel, serializer,
 validator, client HTTP, cache, système de files. TwigBundle ajoute Twig,
 SecurityBundle la security, et ainsi de suite.
 
-C'est pourquoi `composer require` suffit : la recette Flex active le bundle dans
+C'est pourquoi `composer require` suffit : la recipe Flex active le bundle dans
 `config/bundles.php`, le bundle enregistre ses services, et ils deviennent
 injectables.
 
@@ -61,7 +61,7 @@ php bin/console debug:container           # tous les identifiants
 
 `debug:autowiring` est la bonne : elle liste les **types** utilisables comme
 type-hint, ce qui est exactement la question qu'on se pose en écrivant un
-constructeur. Chaque ligne donne le type et le service visé :
+constructor. Chaque ligne donne le type et le service visé :
 `Psr\Log\LoggerInterface - alias:logger`.
 
 Son seul argument est un filter de recherche partielle ; sans résultat, la
@@ -87,7 +87,7 @@ toujours : `RequestStack`, `Filesystem` et `Twig\Environment` sont des
 
 ## Ce que l'exécution montre
 
-| Constructeur typé avec | Résultat |
+| Constructor typé avec | Résultat |
 |---|---|
 | `Psr\Log\LoggerInterface` | injecté : alias vers `logger` |
 | `Symfony\Component\HttpKernel\Log\Logger`, la class de `logger` | échec : « no such service exists. Try changing the type-hint to "Psr\Log\LoggerInterface" instead. » |

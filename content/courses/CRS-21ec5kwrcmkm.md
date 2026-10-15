@@ -17,7 +17,7 @@ official_sources:
 outcome_sections:
   OUT-bmtapjwv4je4: "Utiliser, étendre, implémenter"
   OUT-z81y6z00tr3t: "Utiliser, étendre, implémenter"
-  OUT-92tk3wgmcgkc: "Le piège des arguments nommés"
+  OUT-92tk3wgmcgkc: "Le piège des named arguments"
   OUT-4x6dvn65hj5v: "Les trois exclusions"
   OUT-xh1k5wmbaqwa: "final et @final"
 ---
@@ -103,9 +103,9 @@ Sont **hors** de la promesse :
 Une rupture est également tolérée lorsqu'elle est nécessaire pour corriger une
 faille de sécurité.
 
-## Le piège des arguments nommés
+## Le piège des named arguments
 
-Les **noms de parameters** ne sont couverts que pour les **constructeurs de
+Les **noms de parameters** ne sont couverts que pour les **constructors de
 classes d'attribute**. Partout ailleurs, `$service->method(timeout: 5)` peut
 casser en montant d'une mineure : le nom du parameter peut changer.
 
@@ -123,7 +123,7 @@ class n'est pas encore considérée finale.
 garanti : Symfony peut introduire le même nom en mineure. Les deux autres
 lignes visent le privé par réflexion, jamais garanti.
 
-**Les arguments nommés ne sont pas couverts**, sauf pour les constructeurs de
+**Les named arguments ne sont pas couverts**, sauf pour les constructors de
 classes d'attribute.
 
 **`@final` n'interdit rien techniquement.** Le code qui étend une class `@final`
@@ -150,7 +150,7 @@ LTS » sa seconde moitié.
 - Utiliser et implémenter : couverts. Étendre : couvert **sauf** ajout de
   property ou de method.
 - `@internal`, expérimental et translations internes sont hors promesse.
-- Arguments nommés garantis uniquement pour les constructeurs d'attributes.
+- Named arguments garantis uniquement pour les constructors d'attributes.
 - `@final` marque l'intention ; `final` l'impose.
 - Traits : tout est garanti, **privé compris** ; seule exception, `@internal`.
 - `@experimental` : une mineure seulement, jamais en LTS.

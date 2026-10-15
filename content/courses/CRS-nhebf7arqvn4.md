@@ -95,7 +95,7 @@ ce qui permet à `/search.json` et `/search.xml` de partager une route.
 
 ## Les formes courtes
 
-Le constructeur de `#[Route]` (8.0) accepte des arguments nommés sans souligné,
+Le constructor de `#[Route]` (8.0) accepte des named arguments sans souligné,
 qu'il recopie :
 
 | Argument | Devient |
@@ -114,13 +114,13 @@ qu'il recopie :
 )]
 ```
 
-Les deux écritures désignent la même chose : l'argument nommé pose simplement
+Les deux écritures désignent la même chose : le named argument pose simplement
 la default value du parameter réservé correspondant. En YAML, les keys
 `locale`, `format` et `stateless` jouent le même role.
 
 **Écart avec la documentation.** Son exemple ajoute `query: ['page' => 1]`, à
 l'attribute comme en YAML. Le code 8.0 n'a pas d'argument `query` dans le
-constructeur de `#[Route]` : PHP rejette un argument nommé inconnu, par une
+constructor de `#[Route]` : PHP rejette un named argument inconnu, par une
 `Error` « Unknown named parameter » (test `unknown_named_param.phpt` de
 php-src). Et `query` ne figure pas dans la liste des keys acceptées par le
 loader YAML, qui lève une `InvalidArgumentException` pour key non supportée.

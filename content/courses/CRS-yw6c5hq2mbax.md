@@ -102,9 +102,9 @@ serveur et la session de la Request courante, sans les headers
 Ce n'est pas gratuit ; la documentation avertit qu'intégrer beaucoup de
 controllers peut peser nettement sur les performances.
 
-## Les stratégies
+## Les strategies
 
-`render()` utilise la stratégie `inline` par défaut ; l'option `strategy` ou les
+`render()` utilise la strategy `inline` par défaut ; l'option `strategy` ou les
 functions `render_esi()`, `render_ssi()` et `render_hinclude()` en choisissent
 une autre. `fragment_uri()` rend l'URI d'un fragment sans l'exécuter.
 
@@ -146,7 +146,7 @@ appel de function.
 
 - `render(path(...))` / `render(url(...))` pour un controller routé ;
   `render(controller(...))` sans route.
-- Sub-Request `GET`, cookies et session partagés ; stratégie `inline` par
+- Sub-Request `GET`, cookies et session partagés ; strategy `inline` par
   défaut, `render_esi()` et consorts sinon.
 - `ignore_errors` vaut `!kernel.debug` ; Response non 2xx : exception.
 - `/_fragment` par défaut ; `framework.fragments` désactivé tant qu'on ne

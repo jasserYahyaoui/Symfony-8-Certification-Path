@@ -80,7 +80,7 @@ On lit souvent que `--no-dev` rend fatal un `dump()` oublié, la function
 n'étant plus installée. **C'est faux dans une application Symfony 8.0.** Lu dans
 les `composer.json` de la branche 8.0 : FrameworkBundle exige
 `symfony/error-handler`, qui exige `symfony/var-dumper` en dependency ordinaire.
-Le composant reste donc installé avec `--no-dev` : `dump()` existe en
+Le component reste donc installé avec `--no-dev` : `dump()` existe en
 production, et écrit son HTML dans la Response au lieu de lever une erreur. Le
 détail exécuté est sur la page *Code debugging*.
 
@@ -146,7 +146,7 @@ le directory du kernel est rendu sans erreur.
 **`--no-dev` ne retire pas `dump()`** d'une application FrameworkBundle :
 VarDumper arrive par ErrorHandler.
 
-**Aucun outil n'est prescrit** : FTP, dépôt versionné, PaaS ou script de
+**Aucun outil n'est prescrit** : FTP, repository versionné, PaaS ou script de
 deployment sont tous cités.
 
 ## Points clés

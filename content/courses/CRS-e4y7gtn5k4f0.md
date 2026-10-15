@@ -22,7 +22,7 @@ official_sources:
 outcome_sections:
   OUT-6tzwvmfwj408: "Ce qu'une interface contient"
   OUT-5vqwe44nsee5: "Ce qu'une interface contient"
-  OUT-7vt306wrfkb7: "Les constantes sont surchargeables — depuis PHP 8.1"
+  OUT-7vt306wrfkb7: "Les constants sont surchargeables — depuis PHP 8.1"
   OUT-ynfsf3qdn2mj: "Les properties d'interface — depuis PHP 8.4"
 ---
 
@@ -52,16 +52,16 @@ final class Article implements Cacheable, Stringable
 - Toutes les methods sont **implicitement `public` et abstraites**.
 - Une class peut implémenter **plusieurs** interfaces.
 - Une interface peut **étendre plusieurs** interfaces (`extends A, B`).
-- Les constantes sont autorisées.
+- Les constants sont autorisées.
 
 ## Ce qu'elle ne contient pas
 
 Aucun corps de method, aucune method `private` ou `protected`, aucune
 property **porteuse d'état**.
 
-## Les constantes sont surchargeables — depuis PHP 8.1
+## Les constants sont surchargeables — depuis PHP 8.1
 
-C'est le point que l'habitude fait rater. Avant PHP 8.1, une constante
+C'est le point que l'habitude fait rater. Avant PHP 8.1, une constant
 d'interface ne pouvait pas être redéfinie par la class qui l'implémente.
 Depuis 8.1, elle le peut — et Symfony 8.0 exige PHP 8.4 :
 
@@ -79,7 +79,7 @@ class Article implements Cacheable
 }
 ```
 
-C'est `final` sur la constante de l'interface qui interdit la surcharge, pas
+C'est `final` sur la constant de l'interface qui interdit la surcharge, pas
 l'interface elle-même.
 
 ## Les properties d'interface — depuis PHP 8.4
@@ -108,7 +108,7 @@ cas. `readonly` convient en revanche pour un `get` seul.
 
 ## Pièges d'examen
 
-**La règle d'avant 8.1 est la Response instinctive.** « Une constante d'interface
+**La règle d'avant 8.1 est la Response instinctive.** « Une constant d'interface
 ne se surcharge pas » a été vrai pendant des années ; sur PHP 8.4 c'est faux,
 sauf `final`.
 
@@ -134,4 +134,4 @@ La comparaison avec les abstract classes est traitée sous l'item
 
 - Manuel PHP — *Object Interfaces*, sections *Constants* et *Properties*
 - `php-src` branche `PHP-8.1`, file `UPGRADING` — modificateur `final` sur
-  les constantes de class (RFC `final_class_const`)
+  les constants de class (RFC `final_class_const`)

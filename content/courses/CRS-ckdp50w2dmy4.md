@@ -89,7 +89,7 @@ reçus d'un transport donné.
 Un même message peut avoir **plusieurs** handlers ; tous sont appelés. C'est
 voulu : un `OrderPlaced` peut déclencher une facture et une notification, écrits
 indépendamment. L'option `priority` ordonne, sans exclure. Exécuté : sans
-priorité, l'ordre d'enregistrement ; avec `priority: 10` sur le second, il passe
+priority, l'ordre d'enregistrement ; avec `priority: 10` sur le second, il passe
 **avant** le premier.
 
 L'Envelope porte alors un `HandledStamp` **par handler** :
@@ -105,19 +105,19 @@ seulement en traitement synchrone.
 ## Versionner un message
 
 Un message en attente dans une file a été sérialisé par l'ancien code et sera
-lu par le nouveau. Le sérialiseur par défaut, `PhpSerializer`, s'appuie sur
-`unserialize()`, qui **n'appelle pas le constructeur**. Exécuté : un message
+lu par le nouveau. Le serializer par défaut, `PhpSerializer`, s'appuie sur
+`unserialize()`, qui **n'appelle pas le constructor**. Exécuté : un message
 encodé avec une version, décodé avec la suivante, PHP 8.4 :
 
 | Changement de la class | Lecture de l'ancien message |
 |---|---|
-| property **promue** ajoutée au constructeur, avec défaut | **`Error`** à l'accès : « must not be accessed before initialization » |
+| property **promue** ajoutée au constructor, avec défaut | **`Error`** à l'accès : « must not be accessed before initialization » |
 | property **déclarée** ajoutée, avec défaut | lue avec sa default value |
 | property retirée | décodé, avec l'avertissement « Creation of dynamic property … is deprecated » |
 
 « Ajouter une property avec une default value est sûr » n'est donc vrai que
 pour une property **déclarée** : le défaut d'un parameter promu appartient au
-constructeur, que la désérialisation ne voit pas. Pour un changement de sens, on
+constructor, que la désérialisation ne voit pas. Pour un changement de sens, on
 introduit une **nouvelle class** et on garde l'ancienne le temps que les files
 se vident.
 

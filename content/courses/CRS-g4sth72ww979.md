@@ -29,13 +29,13 @@ official_sources:
     verified_at: "2026-09-30"
 outcome_sections:
   OUT-tct5sch3yndb: "Hacher"
-  OUT-0vbk74q4f9dg: "Quels anciens hachages restent lisibles"
+  OUT-0vbk74q4f9dg: "Quels anciens hashes restent lisibles"
   OUT-3h4gmgbt579q: "Migrer"
 ---
 
 ## Objectif
 
-Hacher et vérifier un password, savoir quels anciens hachages restent
+Hacher et vérifier un password, savoir quels anciens hashes restent
 lisibles après un changement d'algorithme, et faire migrer ceux qui ne le sont
 pas sans demander aux users de changer de password.
 
@@ -75,21 +75,21 @@ Exécuté avec password-hasher 8.0.8, sodium disponible :
 
 | Opération | Résultat |
 |---|---|
-| hachage par `auto` | préfixe `$2y$13$`, du bcrypt |
-| hachage argon2id existant, vérifié par `auto` | accepté, et `needsRehash()` vrai |
+| hash par `auto` | préfixe `$2y$13$`, du bcrypt |
+| hash argon2id existant, vérifié par `auto` | accepté, et `needsRehash()` vrai |
 
 Exécuté de bout en bout avec un provider `PasswordUpgraderInterface` : un
 user stocké en argon2id se connecte (200), et son password est
 **rehaché en bcrypt** (`$2y$13$`).
 
-## Quels anciens hachages restent lisibles
+## Quels anciens hashes restent lisibles
 
-Un hachage bcrypt ou argon2 **porte son algorithme** (`$2y$…`, `$argon2id$…`).
+Un hash bcrypt ou argon2 **porte son algorithme** (`$2y$…`, `$argon2id$…`).
 Un condensat `sha256` fait maison n'est qu'une suite de caractères
 hexadécimaux : rien ne dit comment le relire. Exécuté, `auto` sans
 `migrate_from` :
 
-| Hachage stocké | Vérifié ? |
+| Hash stocké | Vérifié ? |
 |---|---|
 | argon2id | oui |
 | pbkdf2, réglages par défaut | oui |
@@ -119,12 +119,12 @@ security:
 conditions : un `PasswordUpgradeBadge` sur le passport — `form_login`,
 `json_login` et `http_basic` l'ajoutent — et un object
 `PasswordUpgraderInterface` pour enregistrer le résultat, en pratique le
-provider. Exécuté, hachages `legacy` en base :
+provider. Exécuté, hashes `legacy` en base :
 
 | Provider | `migrate_from` | Résultat |
 |---|---|---|
 | implémente `PasswordUpgraderInterface` | oui | 200, `upgradePassword()` reçoit un `$2y$13$…` |
-| ne l'implémente pas | oui | 200, hachage **inchangé** |
+| ne l'implémente pas | oui | 200, hash **inchangé** |
 | l'un ou l'autre | non | **401** |
 
 Le user ne change pas de password et ne voit rien.
@@ -151,7 +151,7 @@ jamais sauvegardé — et rien ne le signale.
 
 - `UserPasswordHasherInterface::hashPassword($user, $plain)`.
 - `auto` : bcrypt pour hacher ; sodium et pbkdf2 seulement pour vérifier.
-- Un hachage auto-descriptif survit au changement ; un condensat maison exige
+- Un hash auto-descriptif survit au changement ; un condensat maison exige
   `migrate_from`.
 - Le réencodage a besoin d'un `PasswordUpgradeBadge` et d'un
   `PasswordUpgraderInterface`.

@@ -41,13 +41,13 @@ outcome_sections:
 ## Objectif
 
 Distinguer trois notions que le vocabulaire Symfony sépare strictement :
-**composant**, **bridge** et **bundle**.
+**component**, **bridge** et **bundle**.
 
-## Le composant
+## Le component
 
-Un composant est une bibliothèque PHP **autonome**, sans dependency au
+Un component est une bibliothèque PHP **autonome**, sans dependency au
 framework, qui résout un problème précis : HttpFoundation, Routing, Console,
-Finder, Validator. Chacun a son propre dépôt en lecture seule (`symfony/console`,
+Finder, Validator. Chacun a son propre repository en lecture seule (`symfony/console`,
 `symfony/routing`…), extrait du mono-dépôt `symfony/symfony`, et peut être
 installé seul dans n'importe quel projet PHP.
 
@@ -57,14 +57,14 @@ individuels.
 
 ## Le bridge
 
-Un bridge est le code d'**intégration entre un composant Symfony et une
+Un bridge est le code d'**intégration entre un component Symfony et une
 bibliothèque tierce**. Il n'a de sens que si les deux côtés sont présents, et
 il ne fait aucune intégration dans le framework lui-même.
 
 Le bridge Twig en est l'exemple canonique : il fournit les extensions Twig qui
-donnent accès aux fonctionnalités des composants Symfony — génération d'URL,
+donnent accès aux fonctionnalités des components Symfony — génération d'URL,
 rendu de form, translation — depuis un template. Sans Twig il est inutile,
-sans les composants il n'a rien à exposer.
+sans les components il n'a rien à exposer.
 
 Sur la branche 8.0, **trois** bridges sont publiés comme packages séparés et
 listés dans la key `replace` du mono-dépôt : `symfony/doctrine-bridge`,
@@ -86,11 +86,11 @@ ajoute des commands ou des routes. `FrameworkBundle`, `TwigBundle`,
 
 | | Autonome ? | Dépend d'un tiers ? | Configure le framework ? |
 |---|---|---|---|
-| Composant | oui | non | non |
+| Component | oui | non | non |
 | Bridge | non | oui | non |
 | Bundle | non | parfois | **oui** |
 
-L'enchaînement usuel se lit dans cet ordre : un **composant** apporte la
+L'enchaînement usuel se lit dans cet ordre : un **component** apporte la
 fonctionnalité, un **bridge** la relie à une bibliothèque tierce, un **bundle**
 la branche dans le framework et la rend configurable. C'est pourquoi un même
 outil apparaît parfois trois fois sous trois noms voisins.
@@ -100,14 +100,14 @@ outil apparaît parfois trois fois sous trois noms voisins.
 Le `composer.json` du mono-dépôt en porte deux, et elles ne disent pas la même
 chose.
 
-`replace` liste **65 packages**, et pas seulement des composants : cinq bundles y
+`replace` liste **65 packages**, et pas seulement des components : cinq bundles y
 figurent — `framework-bundle`, `security-bundle`, `twig-bundle`,
 `debug-bundle`, `web-profiler-bundle`. Un projet qui exige `symfony/console` est
 donc satisfait par `symfony/symfony`, sans que le package séparé soit installé.
 
 `provide` ne liste **aucun** package Symfony : uniquement des noms terminés par
 `-implementation` — `psr/log-implementation`, `psr/cache-implementation`,
-`symfony/event-dispatcher-implementation`. La key déclare que ce dépôt fournit
+`symfony/event-dispatcher-implementation`. La key déclare que ce repository fournit
 une implémentation de ces interfaces, ce qui satisfait une bibliothèque tierce
 qui l'exige.
 
@@ -122,7 +122,7 @@ qui l'exige.
 "require": { "php": ">=8.1.0" }
 ```
 
-**Il ne dépend d'aucun composant Symfony et d'aucune bibliothèque tierce.** Son
+**Il ne dépend d'aucun component Symfony et d'aucune bibliothèque tierce.** Son
 seul prérequis est PHP. Il n'a donc pas les « deux côtés » que la definition
 générale suppose — c'est un bridge par son nom et par son type déclaré, pas par
 sa structure de dependencies.
@@ -141,7 +141,7 @@ son absence de `replace` : installer `symfony/symfony` ne fournit **pas**
 
 ## Tips d'examen
 
-**Trois questions, trois réponses.** Peut-il vivre seul ? → composant. A-t-il
+**Trois questions, trois réponses.** Peut-il vivre seul ? → component. A-t-il
 besoin d'une bibliothèque tierce ? → bridge. Configure-t-il le framework ? →
 bundle.
 
@@ -155,12 +155,12 @@ la partage avec `PsrHttpMessage`.
 ## Pièges d'examen
 
 **Un bridge ne configure rien.** C'est la ligne qui sépare bridge et bundle :
-le bridge relie un composant à une bibliothèque tierce, le bundle branche le
+le bridge relie un component à une bibliothèque tierce, le bundle branche le
 tout dans le framework et apporte la configuration. Un bridge posé seul dans un
 projet Symfony n'enregistre aucun service.
 
-**Un composant ne dépend pas du framework.** L'installer dans un projet PHP
-quelconque est le test : si c'est impossible, ce n'est pas un composant.
+**Un component ne dépend pas du framework.** L'installer dans un projet PHP
+quelconque est le test : si c'est impossible, ce n'est pas un component.
 
 **`replace` n'est pas `require`.** Le `composer.json` du mono-dépôt déclare que
 `symfony/symfony` *remplace* chaque package individuel ; il ne les installe pas
@@ -168,8 +168,8 @@ en plus.
 
 ## Points clés
 
-- Composant = bibliothèque autonome, dépôt propre, utilisable hors framework.
-- Bridge = intégration composant ↔ bibliothèque tierce ; cinq directories,
+- Component = bibliothèque autonome, repository propre, utilisable hors framework.
+- Bridge = intégration component ↔ bibliothèque tierce ; cinq directories,
   dont trois listés dans `replace` ; `PhpUnit` et `PsrHttpMessage` n'y sont
   pas, et `PhpUnit` dément la definition.
 - Bundle = intégration dans le framework ; c'est lui qui configure.

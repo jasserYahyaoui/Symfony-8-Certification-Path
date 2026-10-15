@@ -38,7 +38,7 @@ official_sources:
     branch: "8.0"
     verified_at: "2026-09-30"
 outcome_sections:
-  OUT-tw22dh0mnngy: "Trois composants, trois responsabilités"
+  OUT-tw22dh0mnngy: "Trois components, trois responsabilités"
   OUT-3xr6hfb46rq2: "Pourquoi la séparation compte"
   OUT-sk1ndg394haz: "Qui dépend de qui"
 ---
@@ -48,13 +48,13 @@ outcome_sections:
 Séparer trois packages que l'on croit n'en former qu'un, et savoir lequel répond
 de quoi — et lequel dépend de l'autre.
 
-## Trois composants, trois responsabilités
+## Trois components, trois responsabilités
 
 | Package | Ce qu'il fournit |
 |---|---|
 | `symfony/security-core` | le modèle : `UserInterface`, tokens, voters, décision d'accès, hiérarchie des roles |
 | `symfony/security-csrf` | la génération et la vérification de tokens CSRF |
-| `symfony/password-hasher` | le hachage et la vérification des passwords |
+| `symfony/password-hasher` | le hash et la vérification des passwords |
 
 À quoi s'ajoutent `security-http`, qui branche le modèle sur la Request HTTP —
 firewalls, authenticators, entry points — et `SecurityBundle`, qui câble le
@@ -82,11 +82,11 @@ de `security-core` (`RuntimeException`, `InvalidArgumentException`).
 
 `password-hasher` sert dans une application sans authentication. Exécuté, seul
 dans un projet vide : `PasswordHasherFactory` avec l'algorithme `auto` produit un
-hachage `$2y$13$…`, `verify()` rend `true` pour le bon password et `false`
+hash `$2y$13$…`, `verify()` rend `true` pour le bon password et `false`
 sinon, et aucune class de `security-core` n'est chargée.
 
 `security-csrf` protège un form **sans firewall** — c'est ce qu'utilise le
-composant Form. Il installe `security-core`, mais n'exige ni authentication ni
+component Form. Il installe `security-core`, mais n'exige ni authentication ni
 configuration de sécurité. Aucun de ces packages ne dépend de Doctrine ni d'une
 base de données.
 
@@ -97,10 +97,10 @@ C'est la réponse à une question d'examen classique : hacher un password
 
 - `UserInterface` et le contrat user ;
 - les **tokens** (`TokenInterface`) et leur stockage ;
-- l'**authorization** : `AccessDecisionManager`, `Voter`, stratégies ;
+- l'**authorization** : `AccessDecisionManager`, `Voter`, strategies ;
 - la **hiérarchie des roles**.
 
-Ce composant ne **dépend** pas de HTTP : `http-foundation` n'y figure qu'en
+Ce component ne **dépend** pas de HTTP : `http-foundation` n'y figure qu'en
 `require-dev`. Quelques classes optionnelles s'en servent quand il est présent —
 `UsageTrackingTokenStorage` pour la session, `LazyResponseException` pour une
 Response, `ExpressionVoter` pour exposer la Request. C'est `security-http` qui
@@ -108,7 +108,7 @@ traduit une Request en tentative d'authentication et une décision en Response.
 
 ## Pièges d'examen
 
-**Le hachage n'est pas dans `security-core`** : il a son propre package,
+**Le hash n'est pas dans `security-core`** : il a son propre package,
 `password-hasher` — dont `security-core` dépend.
 
 **La protection CSRF n'est pas liée à l'authentication** : aucun firewall
@@ -124,7 +124,7 @@ appartiennent à `security-http`.
 
 - `security-core` = modèle, tokens, authorization, roles ; aucune dependency à HTTP.
 - `security-csrf` = tokens CSRF, sans firewall ; dépend de `security-core`.
-- `password-hasher` = hachage ; ne dépend de rien.
+- `password-hasher` = hash ; ne dépend de rien.
 - `security-http` relie le modèle à la Request ; `SecurityBundle` le configure.
 
 ## Sources officielles

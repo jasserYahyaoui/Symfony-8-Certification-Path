@@ -37,12 +37,12 @@ interrompre la string.
 
 ## Périmètre
 
-Le **répartiteur** — inscription, priorités, listeners contre abonnés — a son
+Le **dispatcher** — inscription, priorities, listeners contre subscribers — a son
 propre item officiel et n'est pas redit ici. Cette page porte sur l'object.
 
 ## Prérequis
 
-Le répartiteur d'events.
+Le dispatcher d'events.
 
 ## Une class de base délibérément pauvre
 
@@ -64,7 +64,7 @@ final class OrderPlacedEvent extends Event
 }
 ```
 
-Chaque listener accède alors à la command par `getOrder()`. C'est le motif
+Chaque listener accède alors à la command par `getOrder()`. C'est le pattern
 qu'emploie le framework lui-même : `ResponseEvent`, par exemple, expose de quoi
 lire **et remplacer** la Response.
 
@@ -79,12 +79,12 @@ public function onPlacedOrder(OrderPlacedEvent $event): void
 
 Les listeners de cet event **qui n'ont pas encore été appelés** ne le seront
 pas. Ceux déjà exécutés ne sont évidemment pas défaits. Exécuté avec des
-listeners de priorités `10`, `5` (qui arrête), `0` et `-5` : seuls `10` et `5`
+listeners de priorities `10`, `5` (qui arrête), `0` et `-5` : seuls `10` et `5`
 tournent.
 
 Deux conséquences pratiques :
 
-- l'arrêt dépend entièrement de **l'ordre d'appel**, donc des priorités ;
+- l'arrêt dépend entièrement de **l'ordre d'appel**, donc des priorities ;
 - côté déclencheur, `isPropagationStopped()` rend un bool permettant de
   savoir, après le `dispatch()`, si la string a été interrompue.
 
@@ -99,7 +99,7 @@ if ($event->isPropagationStopped()) {
 ## `GenericEvent`, quand une sous-classe ne se justifie pas
 
 Pour qui veut un seul object event dans toute l'application,
-`Symfony\Component\EventDispatcher\GenericEvent` suit le motif observateur
+`Symfony\Component\EventDispatcher\GenericEvent` suit le pattern observateur
 classique : il encapsule un **sujet**, plus des **arguments** optionnels.
 
 ```php
@@ -130,7 +130,7 @@ compte.
 **`stopPropagation()` n'annule rien** : elle empêche seulement les listeners
 suivants d'être appelés.
 
-**L'effet de l'arrêt dépend des priorités**, puisqu'il dépend de l'ordre.
+**L'effet de l'arrêt dépend des priorities**, puisqu'il dépend de l'ordre.
 
 **`isPropagationStopped()` se lit après le `dispatch()`**, côté déclencheur.
 
@@ -140,7 +140,7 @@ et `IteratorAggregate`, sur les mêmes arguments.
 ## Points clés
 
 - `Event` est minimale par conception : arrêt de propagation, rien de plus.
-- Transporter de la donnée = écrire une sous-classe exposant des accesseurs.
+- Transporter de la donnée = écrire une sous-classe exposant des accessors.
 - `stopPropagation()` coupe la suite ; `isPropagationStopped()` le révèle.
 - `GenericEvent` : un sujet, des arguments, `ArrayAccess`.
 

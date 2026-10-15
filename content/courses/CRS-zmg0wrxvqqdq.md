@@ -110,12 +110,12 @@ permanent.
   **410** si `permanent` est vrai — une ressource retirée pour de bon.
 - **Les parameters de la route courante sont transmis** à la route cible par
   défaut. C'est ce que `ignoreAttributes` coupe.
-- **L'URL générée est absolue** en mode `route` — schéma et hôte compris —,
+- **L'URL générée est absolue** en mode `route` — schéma et host compris —,
   à l'inverse de `redirectToRoute()`, qui produit un path.
 - **En mode `path`, la chaîne de Request est recopiée sur un path**, sans
   option pour s'en passer ; une URL complète — `https://…` ou `//…` — part
   telle quelle, **sans** elle (exécuté). Un path relatif est complété par le schéma,
-  l'hôte et le port, que `scheme`, `httpPort` et `httpsPort` permettent de fixer.
+  le host et le port, que `scheme`, `httpPort` et `httpsPort` permettent de fixer.
 
 ## `ErrorController`
 

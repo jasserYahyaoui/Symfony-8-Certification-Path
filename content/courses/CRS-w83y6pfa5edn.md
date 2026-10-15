@@ -76,7 +76,7 @@ Le **tag** `{% include %}` fait la même chose avec une autre syntaxe :
 La documentation de Twig 3.22 donne trois raisons de préférer la function :
 elle est sémantiquement plus juste — un tag ne devrait rien afficher — ;
 elle se compose, `{% set content = include('x.html.twig') %}` ou
-`{{ include('x.html.twig')|upper }}` ; et ses arguments nommés n'imposent aucun
+`{{ include('x.html.twig')|upper }}` ; et ses named arguments n'imposent aucun
 ordre.
 
 Par convention, un fragment destiné à être inclus est préfixé d'un souligné —
@@ -132,10 +132,10 @@ accepte exactement les mêmes arguments que le tag `include` : `with`, `only`,
 `ignore missing`. Le critère de choix : si le fragment est identique à chaque
 appel, `include` ; s'il faut en changer une partie, `embed`.
 
-Un avertissement de la documentation relie `embed` à l'échappement : un template
-embarqué n'a pas de nom, donc la stratégie d'échappement déduite de l'extension
+Un avertissement de la documentation relie `embed` à l'escaping : un template
+embarqué n'a pas de nom, donc l'escaping strategy déduite de l'extension
 ne s'applique pas comme attendu. Pour embarquer du CSS ou du JavaScript dans du
-HTML, on fixe la stratégie avec le tag `autoescape`.
+HTML, on fixe la strategy avec le tag `autoescape`.
 
 ## Pièges d'examen
 
@@ -144,7 +144,7 @@ fragment marche par accident tant que l'appelant possède la variable, puis
 casse ailleurs.
 
 **Restreindre le contexte s'écrit différemment selon la forme employée** — un
-mot-clé dans le tag, un argument nommé dans la function.
+mot-clé dans le tag, un named argument dans la function.
 
 **Tolérer l'absence aussi** : `ignore missing` en tag, `ignore_missing: true`
 en function.
@@ -156,8 +156,8 @@ en function.
 - `include()` en function, recommandée ; `{% include %}` en tag.
 - Contexte hérité par défaut ; `only` ou `with_context: false` le coupe.
 - Nom dynamique ou liste ; `ignore missing` / `ignore_missing: true`.
-- `embed` = `include` + redéfinition de blocks, mêmes arguments ; stratégie
-  d'échappement à fixer explicitement.
+- `embed` = `include` + redéfinition de blocks, mêmes arguments ; strategy
+  d'escaping à fixer explicitement.
 
 ## Sources officielles
 

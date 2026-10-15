@@ -111,7 +111,7 @@ règle le client. `followRedirects()` doit être appelée **avant** la Request.
 
 Le défaut n'est pas celui de BrowserKit. Lu dans le code 8.0 :
 `AbstractBrowser` déclare `$followRedirects = true`, mais `HttpKernelBrowser`
-— parent de `KernelBrowser` — le passe à `false` dans son constructeur. Un
+— parent de `KernelBrowser` — le passe à `false` dans son constructor. Un
 `HttpBrowser`, qui parle à un vrai serveur, suit donc les redirects ; le
 client de test, non. Exécuté, `GET /go` qui redirige vers `/hello` :
 

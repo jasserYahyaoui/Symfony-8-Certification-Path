@@ -56,7 +56,7 @@ le front controller jusqu'à l'envoi de la Response, et savoir **qui** fait quoi
 
 ## Prérequis
 
-Le composant HttpFoundation et le vocabulaire Request / Response.
+Le component HttpFoundation et le vocabulaire Request / Response.
 
 ## Le contrat
 
@@ -81,7 +81,7 @@ distingue le comportement de production du comportement de debug.
 
 **1. Le front controller.** `public/index.php` est le seul entry point. Il
 inclut `vendor/autoload_runtime.php` et retourne une function qui construit le
-`Kernel`. C'est le composant **Runtime** qui prend le relais : c'est lui, et non
+`Kernel`. C'est le component **Runtime** qui prend le relais : c'est lui, et non
 le file, qui crée la `Request` depuis les globales, appelle `handle()`, envoie
 la Response et déclenche `terminate()`.
 
@@ -159,7 +159,7 @@ levée, `handleRaw()` est interrompu et `$catch` décide :
 Autrement dit `kernel.finish_request` a lieu sur **les trois** paths : succès,
 exception rattrapée, exception relancée — **à une condition**. Une `\Error`
 n'entre dans ces branches que si `handleAllThrowables` est vrai :
-`framework.handle_all_throwables` le fait par défaut, mais le constructeur
+`framework.handle_all_throwables` le fait par défaut, mais le constructor
 d'`HttpKernel` le met à `false`. Exécuté avec une `TypeError` et ce défaut :
 seul `kernel.request` a lieu, ni `kernel.exception` ni `kernel.finish_request`.
 
@@ -257,8 +257,8 @@ rattrape.
 
 ## Sources officielles
 
-- [Composant HttpKernel, « The Request-Response Lifecycle »](https://github.com/symfony/symfony-docs/blob/8.0/components/http_kernel.rst)
+- [Component HttpKernel, « The Request-Response Lifecycle »](https://github.com/symfony/symfony-docs/blob/8.0/components/http_kernel.rst)
 - [Built-in Symfony Events, « Kernel Events »](https://github.com/symfony/symfony-docs/blob/8.0/reference/events.rst)
-- [Composant Runtime, section « Usage »](https://github.com/symfony/symfony-docs/blob/8.0/components/runtime.rst)
+- [Component Runtime, section « Usage »](https://github.com/symfony/symfony-docs/blob/8.0/components/runtime.rst)
 - [`HttpKernel` (le code du cycle)](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php)
 - [`HttpKernelInterface`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/HttpKernelInterface.php)

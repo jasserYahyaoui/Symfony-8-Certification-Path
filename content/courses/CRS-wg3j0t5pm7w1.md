@@ -100,13 +100,13 @@ default value, elle, n'est pas dans l'URL.
 
 ### La constraint s'applique aussi en génération
 
-Le générateur relit chaque constraint avant de produire l'URL. Ce qu'il fait
+Le generator relit chaque constraint avant de produire l'URL. Ce qu'il fait
 d'une valeur non conforme dépend de l'option `framework.router.strict_requirements` :
 
 | Valeur | Effet d'une valeur non conforme |
 |---|---|
 | `true` — **défaut** | `InvalidParameterException` : « Parameter "page" for route "blog_list" must match… » |
-| `false` | erreur journalisée, et le générateur rend une **string vide** |
+| `false` | erreur journalisée, et le generator rend une **string vide** |
 | `null` | aucune vérification |
 
 Le texte d'aide de l'option annonce `null` pour le cas `false` ; le code de la
@@ -133,7 +133,7 @@ rien ne prévienne.
 - Trois écritures : option, inline `{p<regex>}`, enum `Requirement`.
 - Une constraint peut contenir un parameter de configuration.
 - La default value peut ne pas respecter la constraint.
-- Le générateur vérifie la constraint : exception par défaut
+- Le generator vérifie la constraint : exception par défaut
   (`strict_requirements: true`).
 - `DIGITS` accepte `0` ; `POSITIVE_INT` non.
 

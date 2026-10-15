@@ -95,7 +95,7 @@ portant le cookie d'`alice` :
 | `lazy: true` | aucun |
 | sans `lazy` | `refreshUser(alice)` à chaque Request |
 
-La documentation ajoute que le mode paresseux évite d'ouvrir la session quand
+La documentation ajoute que le mode lazy évite d'ouvrir la session quand
 aucune authorization n'est demandée, ce qui garde la Request cachable. Dans cette
 exécution, le header `Cache-Control` de `/plain` est le même dans les deux
 modes ; l'effet mesuré est l'appel au provider évité.

@@ -33,7 +33,7 @@ Savoir sous quelle licence Symfony est publié et ce que cette licence autorise.
 ## La licence
 
 Symfony est publié sous licence **MIT**. La key `license` du `composer.json` du
-dépôt `symfony/symfony` porte la valeur `MIT`, et le file `LICENSE` à la
+repository `symfony/symfony` porte la valeur `MIT`, et le file `LICENSE` à la
 racine en donne le texte, avec pour titulaire du copyright **Fabien Potencier**.
 
 ## Ce qu'elle autorise

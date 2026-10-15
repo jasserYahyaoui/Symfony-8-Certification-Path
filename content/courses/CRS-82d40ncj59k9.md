@@ -31,13 +31,13 @@ Composer un message électronique et savoir quelle structure MIME il produit.
 
 ## Périmètre
 
-Ce composant **fabrique** le message ; il ne l'envoie pas. Le transport,
+Ce component **fabrique** le message ; il ne l'envoie pas. Le transport,
 l'envoi et les events appartiennent à l'item *Mailer*. L'envoi asynchrone
-appartient au composant Messenger (lot 11) et n'est pas réexpliqué ici.
+appartient au component Messenger (lot 11) et n'est pas réexpliqué ici.
 
 ## Deux API pour un même message
 
-Le composant offre deux niveaux :
+Le component offre deux niveaux :
 
 - `Email` — l'API haut niveau, chaînable, qui couvre les besoins courants ;
 - `Message` — l'API bas niveau, pour contrôler chaque partie à la main.
@@ -82,7 +82,7 @@ Chaque container a un rôle distinct :
 - `multipart/related` — des parties qui forment **un tout**, typiquement des
   images affichées dans le body.
 - `multipart/mixed` — des contenus **de natures différentes**, typiquement une
-  pièce jointe.
+  attachment.
 
 ## Les adresses
 
@@ -92,8 +92,8 @@ Chaque container a un rôle distinct :
 remplace.
 
 Les caractères UTF-8 sont admis dans la partie locale — **sauf pour l'adresse
-d'expéditeur**, afin d'éviter les problèmes de retour en cas de rebond.
-Exécuté : `Envelope` lève une `InvalidArgumentException` pour un expéditeur
+de sender**, afin d'éviter les problèmes de retour en cas de rebond.
+Exécuté : `Envelope` lève une `InvalidArgumentException` pour un sender
 `jösé@…`, accepte le même destinataire.
 
 L'arbre MIME présenté plus haut est exactement celui qu'`Email` produit pour
@@ -117,7 +117,7 @@ $mimeTypes->getExtensions('image/jpeg');
 $mimeTypes->getMimeTypes('js');
 ```
 
-Les arrays rendus sont **ordonnés par priorité** : le premier élément est le
+Les arrays rendus sont **ordonnés par priority** : le premier élément est le
 préféré. La documentation 8.0 illustre cet ordre par des valeurs que le code ne
 rend plus. Exécuté sur Mime 8.0.15 :
 
@@ -140,10 +140,10 @@ devineur maison implémente `MimeTypeGuesserInterface` et porte le tag
 
 **`guessMimeType()` ignore le nom du file** — il lit le contenu.
 
-**Les arrays de `MimeTypes` sont classés par priorité, pas alphabétiquement**
-— et la priorité réelle du code diffère de l'exemple de la documentation.
+**Les arrays de `MimeTypes` sont classés par priority, pas alphabétiquement**
+— et la priority réelle du code diffère de l'exemple de la documentation.
 
-**L'UTF-8 dans la partie locale est refusé pour l'expéditeur seul.**
+**L'UTF-8 dans la partie locale est refusé pour le sender seul.**
 
 ## Points clés
 

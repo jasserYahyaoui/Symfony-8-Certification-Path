@@ -56,7 +56,7 @@ outcome_sections:
   OUT-491pkbwc6e8x: "Les trois délimiteurs"
   OUT-4wpk7x3epxym: "`foo.bar` : l'ordre de résolution"
   OUT-ap22qz4fkjra: "`foo.bar` : l'ordre de résolution"
-  OUT-93svekvx55t0: "Les opérateurs"
+  OUT-93svekvx55t0: "Les operators"
   OUT-xpcwsqhycgnr: "`foo.bar` : l'ordre de résolution"
   OUT-je4qjh1s6yw0: "Affectation et espaces"
 ---
@@ -64,7 +64,7 @@ outcome_sections:
 ## Objectif
 
 Maîtriser la syntaxe de base de Twig 3.22 : les trois délimiteurs, la façon dont
-`foo.bar` est résolu, et le jeu d'opérateurs. C'est le socle des treize autres
+`foo.bar` est résolu, et le jeu d'operators. C'est le socle des treize autres
 items du lot.
 
 La version compte : le syllabus dit « Twig syntax **up to 3.22** version ». Ce
@@ -109,19 +109,19 @@ Trois conséquences pratiques. D'abord, le template ne sait pas s'il manipule un
 array ou un object, ce qui permet de commencer avec des arrays puis de passer
 à des objects sans toucher aux templates. Ensuite, un array est essayé **avant**
 un object : un object qui implémente `ArrayAccess` verra `$foo['bar']` gagner.
-Enfin, la constante de class passe **avant** toute method — si son nom
+Enfin, la constant de class passe **avant** toute method — si son nom
 correspond à la casse près, alors que les methods sont cherchées sans tenir
 compte de la casse. Exécuté : avec `const STATUS` et `getStatus()`,
-`{{ order.status }}` appelle le *getter* ; seule une constante nommée `status`
+`{{ order.status }}` appelle le *getter* ; seule une constant nommée `status`
 l'aurait masqué.
 
 > **Deux sources divergent sur l'étape 3.** La documentation Symfony 8.0
-> énumère sept étapes et ne mentionne pas la constante de class. La
-> documentation Twig v3.22.0 l'énumère, et le moteur l'implémente :
+> énumère sept étapes et ne mentionne pas la constant de class. La
+> documentation Twig v3.22.0 l'énumère, et l'engine l'implémente :
 > `CoreExtension::getAttribute()` teste `\defined($object::class.'::'.$item)`
 > entre la property et les methods. L'item du syllabus porte sur *Twig syntax
-> up to 3.22 version*, donc le moteur fait foi ; la liste Symfony est une
-> restitution abrégée, pas une contradiction. Retenir l'ordre du moteur, et
+> up to 3.22 version*, donc l'engine fait foi ; la liste Symfony est une
+> restitution abrégée, pas une contradiction. Retenir l'ordre de l'engine, et
 > savoir que l'énoncé d'examen peut n'en citer que sept.
 
 Pour forcer l'appel d'une method, il existe la syntaxe explicite
@@ -130,9 +130,9 @@ a ajouté l'expression entre parenthèses : `{{ user.(name) }}`,
 `{{ user.('first-name') }}`. La function `attribute()`, qui jouait ce role,
 est **dépréciée depuis 3.15**.
 
-## Les opérateurs
+## Les operators
 
-| Famille | Opérateurs |
+| Famille | Operators |
 |---|---|
 | Arithmétique | `+ - * / % // **` |
 | Comparaison | `== != < > <= >= <=>` |
@@ -188,7 +188,7 @@ depuis Twig 3.12** : la documentation renvoie aux modificateurs ci-dessus.
 - Neuf étapes de résolution pour `foo.bar`, array d'abord, constante de
   class avant les methods, `__call()` en dernier recours, `null` ou erreur au
   bout selon `strict_variables`.
-- Opérateurs logiques en mots ; `~` pour concaténer ; `//` pour la division
+- Operators logiques en mots ; `~` pour concaténer ; `//` pour la division
   entière.
 - `-` et `~` contrôlent les espaces ; `spaceless` est déprécié.
 

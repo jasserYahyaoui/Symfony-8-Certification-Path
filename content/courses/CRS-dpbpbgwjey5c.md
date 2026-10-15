@@ -41,12 +41,12 @@ official_sources:
 outcome_sections:
   OUT-eqkt5vg15zqf: "Deux functions"
   OUT-5g7zrabez2b4: "Deux functions"
-  OUT-b6ffjb05rkmr: "L'échappement"
+  OUT-b6ffjb05rkmr: "L'escaping"
 ---
 
 ## Objectif
 
-Générer une URL depuis un template. Le générateur lui-même et ses quatre types de
+Générer une URL depuis un template. Le generator lui-même et ses quatre types de
 référence sont traités dans le lot Routing.
 
 ## Deux functions
@@ -66,16 +66,16 @@ référence sont traités dans le lot Routing.
 Les deux premiers arguments sont communs : le nom de la route, puis un array
 de parameters. Le **troisième diffère** : `relative` pour `path()`,
 `schemeRelative` pour `url()`. `RoutingExtension` (Twig Bridge 8.0) se borne à
-traduire ce bool en type de référence avant d'appeler le générateur.
+traduire ce bool en type de référence avant d'appeler le generator.
 
-## Ce que le générateur décide seul
+## Ce que le generator décide seul
 
-Le comportement du générateur ne change pas parce qu'on l'appelle depuis un
+Le comportement du generator ne change pas parce qu'on l'appelle depuis un
 template. `UrlGenerator` peut **élargir** le type demandé :
 
 - une route dont le schéma exigé diffère de celui de la Request courante rend
   une URL absolue, même par `path()` ;
-- une route liée à un autre hôte rend une référence `//hôte/chemin`.
+- une route liée à un autre host rend une référence `//hôte/chemin`.
 
 Un parameter absent de la route devient une chaîne de Request, et une route
 inconnue lève `RouteNotFoundException`.
@@ -83,20 +83,20 @@ inconnue lève `RouteNotFoundException`.
 ## Deux functions voisines, sans route
 
 `HttpFoundationExtension` ajoute deux functions qui prennent un **path**, pas
-un nom de route :
+un route name :
 
-- `absolute_url('/images/logo.png')` rend l'URL absolue du path, sur l'hôte
+- `absolute_url('/images/logo.png')` rend l'URL absolue du path, sur le host
   courant — la documentation la combine avec `asset()` ;
 - `relative_path('http://example.com/human.txt')` rend le path relatif à la
   page courante, ici `../human.txt` depuis `/products/hover-board`.
 
 Sans Request disponible, `absolute_url()` se replie sur le contexte du router,
-et rend le path inchangé si aucun hôte n'y est défini.
+et rend le path inchangé si aucun host n'y est défini.
 
-## L'échappement
+## L'escaping
 
 `path()` et `url()` déclarent un `is_safe_callback` : leur output n'est
-dispensée d'échappement HTML que si l'appel n'a pas de parameters, ou un seul
+dispensée d'escaping HTML que si l'appel n'a pas de parameters, ou un seul
 parameter à valeur littérale. Sinon elle est échappée comme toute valeur — le
 `&` d'une chaîne de Request devient `&amp;`, ce qui est correct dans un
 attribute HTML.
@@ -111,19 +111,19 @@ relatif pour l'une, URL sans schéma pour l'autre.
 
 **La function de path peut retourner une URL absolue**, quand la route exige
 un autre schéma — ou une référence `//hôte/…` quand elle est liée à un autre
-hôte.
+host.
 
 **Un parameter absent de la route part en chaîne de Request** — une faute de
 frappe ne produit aucune erreur.
 
-**`absolute_url()` prend un path, pas un nom de route.**
+**`absolute_url()` prend un path, pas un route name.**
 
 ## Points clés
 
 - `path()` = path absolu, `url()` = URL absolue ; même nom et mêmes
   parameters.
 - Troisième argument `true` : path relatif (`path`), URL sans schéma (`url`).
-- Le générateur peut élargir la référence : schéma ou hôte différents.
+- Le generator peut élargir la référence : schéma ou host différents.
 - `absolute_url()` et `relative_path()` travaillent sur un path.
 - Jamais d'URL écrite à la main.
 

@@ -42,14 +42,14 @@ outcome_sections:
 
 ## Objectif
 
-Savoir ce que le composant Form protège automatiquement, et comment le
+Savoir ce que le component Form protège automatiquement, et comment le
 configurer. La vérification manuelle par `isCsrfTokenValid()` dans un controller
 appartient au lot Controllers.
 
 ## Ce qui est automatique
 
 Quand la protection est activée, un form ajoute un **field caché** portant
-un token, et vérifie ce token à la soumission. Un form soumis sans token
+un token, et vérifie ce token à la submission. Un form soumis sans token
 valide n'est pas valide : `isValid()` retourne `false`, sans qu'aucun code ne
 teste quoi que ce soit.
 
@@ -123,7 +123,7 @@ correspondre à la vérification côté controller.
 **Le token part avec le tag de closure du form.** Désactiver
 `render_rest` le fait disparaître.
 
-**Un form sans token valide est invalide** ; c'est le composant qui
+**Un form sans token valide est invalide** ; c'est le component qui
 refuse.
 
 **L'identifier par défaut est le nom du form**, pas une valeur commune.
@@ -133,7 +133,7 @@ refuse.
 
 ## Points clés
 
-- Field `_token` ajouté au form racine et vérifié à la soumission.
+- Field `_token` ajouté au form racine et vérifié à la submission.
 - `csrf_protection`, `csrf_field_name`, `csrf_token_id`, `csrf_message`.
 - Identifier par défaut : défaut du type, sinon nom du form.
 - Avec état : session ; sans état : `Origin`/`Referer`, activé par défaut avec

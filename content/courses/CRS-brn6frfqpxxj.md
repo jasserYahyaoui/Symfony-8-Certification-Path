@@ -35,13 +35,13 @@ outcome_sections:
 
 ## Objectif
 
-Situer le composant, et connaître le contrat d'une command — dont la valeur de
+Situer le component, et connaître le contrat d'une command — dont la valeur de
 retour, qui n'est pas facultative, et le moment où elle peut poser des questions.
 
 ## Ce qu'il fait
 
-Le composant Console transforme une class PHP en command de terminal :
-analyse des arguments, aide générée, sortie colorée, code de sortie. Il est
+Le component Console transforme une class PHP en command de terminal :
+analyse des arguments, aide générée, sortie colorée, exit code. Il est
 **autonome** : `symfony/console` s'installe seul dans n'importe quel projet PHP.
 
 Dans une application Symfony, `bin/console` est l'entry point, et
@@ -51,11 +51,11 @@ FrameworkBundle y branche les commands du framework et celles de `src/`.
 
 Une `Application` détient des commands, les résout par leur nom, et exécute
 celle qui correspond. Elle gère aussi ce qui est commun : `--help`, `--version`,
-`list`, les niveaux de verbosité, le code de sortie.
+`list`, les niveaux de verbosity, l'exit code.
 
 ## Le code de retour
 
-Une command **retourne un int**, et cet int devient le code de sortie du
+Une command **retourne un int**, et cet int devient l'exit code du
 process :
 
 ```php
@@ -73,7 +73,7 @@ un argument aberrant — plutôt qu'un traitement qui a échoué.
 
 Exécuté avec Console 8.0.15, par un vrai process :
 
-| La command… | Code de sortie |
+| La command… | Exit code |
 |---|---|
 | retourne `300` | **255** — plafonné par `Application::run()` |
 | lève une exception de code `3` | **3** |
@@ -96,7 +96,7 @@ La documentation nomme **trois** methods de cycle de vie, dans cet ordre :
 | `__invoke()` — ou `execute()` | faire le travail et retourner le code | **oui** |
 
 `configure()` n'appartient pas à cette liste : elle s'exécute **pendant le
-constructeur** — exécuté : `ctor-start`, `configure`, `ctor-end` — et elle ne
+constructor** — exécuté : `ctor-start`, `configure`, `ctor-end` — et elle ne
 concerne que le style classique (une class qui étend `Command`).
 
 `initialize()` et `interact()` sont des methods de `Command`. Une command
@@ -139,9 +139,9 @@ Un script automatisé doit donc passer `-n`, et une valeur obtenue dans
 
 ## Points clés
 
-- Composant autonome ; `bin/console` en est l'entry point dans le framework.
+- Component autonome ; `bin/console` en est l'entry point dans le framework.
 - Trois methods de cycle de vie : `initialize()`, `interact()`, `__invoke()` ;
-  `configure()` tourne dans le constructeur.
+  `configure()` tourne dans le constructor.
 - La command retourne `SUCCESS` (0), `FAILURE` (1) ou `INVALID` (2) ; une
   exception donne son code, ou 1.
 - `interact()` est sautée avec `-n`, `-q` ou `--silent` — pas faute de terminal.

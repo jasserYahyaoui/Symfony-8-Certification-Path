@@ -42,7 +42,7 @@ official_sources:
 outcome_sections:
   OUT-kym7hw6vad3k: "Rien n'est imposé, presque"
   OUT-fzeda7ytt9hf: "Le format `_controller`"
-  OUT-j9vdv1qav4by: "Le nom de route, et qui la factory"
+  OUT-j9vdv1qav4by: "Le route name, et qui la factory"
 ---
 
 ## Objectif
@@ -63,7 +63,7 @@ n'importe comment*, mais elle est suffixée `Controller` **par convention**.
 | method d'action | aucun suffixe `Action` | non — mais le suffixe reste reconnu |
 | class de base | étendre `AbstractController` | non |
 | template | `snake_case`, deux extensions | non |
-| nom de route | unique dans l'application | **oui** |
+| route name | unique dans l'application | **oui** |
 
 Une seule ligne porte un « oui ».
 
@@ -77,12 +77,12 @@ de method. C'est cette string que le router dépose dans l'attribute
 Pour une class **invocable**, la class seule suffit : `configureRoute()` écrit
 le nom de class sans `::` quand la method est `__invoke`.
 
-## Le nom de route, et qui la factory
+## Le route name, et qui la factory
 
 `name` omis, Symfony génère le nom — en **deux couches**, le même partage
-composant / bundle que le chapitre précédent.
+component / bundle que le chapitre précédent.
 
-Le composant Routing, dans `AttributeClassLoader::getDefaultRouteName()`,
+Le component Routing, dans `AttributeClassLoader::getDefaultRouteName()`,
 remplace les `\` du nom pleinement qualifié par des `_`, ajoute `_` puis le nom
 de la method, et met le tout **en minuscules** :
 
@@ -99,7 +99,7 @@ il remplace les segments `bundle_` et `controller_` par `_`, retire un suffixe
 `action` quand la method se termine par `Action` ou `_action`, puis écrase les
 `__` restants.
 
-| Method | Composant seul | Avec FrameworkBundle |
+| Method | Component seul | Avec FrameworkBundle |
 |---|---|---|
 | `LuckyController::number` | `app_controller_luckycontroller_number` | `app_lucky_number` |
 | `BlogController::showAction` | `app_controller_blogcontroller_showaction` | `app_blog_show` |
@@ -116,7 +116,7 @@ qu'une route reçoit un alias sur son nom de class seul.
 
 La documentation recommande le `snake_case` pour les files **et** les
 directories, et **deux extensions** : `index.html.twig`. La première est le
-format produit, pas le moteur de rendu.
+format produit, pas l'engine de rendu.
 
 ## Pièges d'examen
 
@@ -128,7 +128,7 @@ qu'étendre une class de base ne l'est.
 de `app_lucky_number` vient du **retrait** du segment `controller_`, pas d'une
 conversion de casse. Le `snake_case` est recommandé pour les **templates**.
 
-**Sans FrameworkBundle, le nom généré reste celui du composant.** Le nom court
+**Sans FrameworkBundle, le nom généré reste celui du component.** Le nom court
 est un apport du bundle.
 
 **Une deuxième route sur la même method ne collisionne pas** : elle reçoit un
@@ -139,23 +139,23 @@ loader du bundle le retire du nom généré.
 
 ## Tips d'examen
 
-**Une seule obligation à retenir** : l'unicité du nom de route. Tout le reste de
-cette page est une convention. Et pour trancher composant / bundle sur un nom
-généré : s'il contient `controller`, c'est le composant nu.
+**Une seule obligation à retenir** : l'unicité du route name. Tout le reste de
+cette page est une convention. Et pour trancher component / bundle sur un nom
+généré : s'il contient `controller`, c'est le component nu.
 
 ## Points clés
 
 - Le suffixe `Controller` est une convention, pas une constraint.
 - Le suffixe `Action` n'est plus utilisé, mais reste retiré du nom généré.
 - `_controller` = `FQCN::méthode`, ou le FQCN seul si la class est invocable.
-- Le nom généré vient du composant, puis est raccourci par FrameworkBundle.
-- Un nom de route doit être unique ; des alias fondés sur le FQCN existent en plus.
+- Le nom généré vient du component, puis est raccourci par FrameworkBundle.
+- Un route name doit être unique ; des alias fondés sur le FQCN existent en plus.
 - Les templates, eux, suivent le `snake_case` et portent deux extensions.
 
 ## Sources officielles
 
 - [Controller, section « A Basic Controller »](https://github.com/symfony/symfony-docs/blob/8.0/controller.rst)
 - [Routing, génération d'URL et alias de route](https://github.com/symfony/symfony-docs/blob/8.0/routing.rst)
-- [`AttributeClassLoader` (composant Routing)](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Loader/AttributeClassLoader.php)
+- [`AttributeClassLoader` (component Routing)](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Loader/AttributeClassLoader.php)
 - [`AttributeRouteControllerLoader` (FrameworkBundle)](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Routing/AttributeRouteControllerLoader.php)
 - [Templates, section « Template Naming »](https://github.com/symfony/symfony-docs/blob/8.0/templates.rst)

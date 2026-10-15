@@ -36,7 +36,7 @@ nommage propre aux controllers est traitée dans le lot Controllers.
 | Élément | Casse | Exemple |
 |---|---|---|
 | variables, functions, methods, arguments | `camelCase` | `hasSession()` |
-| parameters de configuration, noms de route, variables Twig | `snake_case` | `framework.csrf_protection` |
+| parameters de configuration, route names, variables Twig | `snake_case` | `framework.csrf_protection` |
 | constantes | `SCREAMING_SNAKE_CASE` | `InputArgument::IS_ARRAY` |
 | cas d'enum | `UpperCamelCase` | `InputArgumentMode::IsArray` |
 | classes, interfaces, traits, enums | `UpperCamelCase` | `ConsoleLogger` |
@@ -93,7 +93,7 @@ Dans les PHPDoc et les transtypages : `bool`, `int`, `float` — jamais `boolean
 ## Pièges d'examen
 
 **Un cas d'enum s'écrit `UpperCamelCase`, pas en majuscules.**
-`InputArgumentMode::IsArray`, alors que la constante de class équivalente
+`InputArgumentMode::IsArray`, alors que la constant de class équivalente
 s'écrit `IS_ARRAY`. Les deux cohabitent dans le même code.
 
 **`Abstract` est un préfixe ; `Interface`, `Trait` et `Exception` sont des

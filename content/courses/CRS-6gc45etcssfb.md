@@ -147,15 +147,15 @@ Remember-me et rehachage arrivent donc **après** `onAuthenticationSuccess()`.
 
 ## Passport ou SelfValidatingPassport
 
-Le constructeur de `Passport` **exige** des identifiants :
+Le constructor de `Passport` **exige** des credentials :
 
 ```php
 public function __construct(UserBadge $userBadge, CredentialsInterface $credentials, array $badges = [])
 ```
 
 Il n'existe donc pas de `Passport` sans credentials. Quand il n'y a rien à
-vérifier — jeton d'API déjà digne de confiance, en-tête signé en amont — c'est
-`SelfValidatingPassport` qu'il faut construire ; son constructeur ne prend que
+vérifier — token d'API déjà digne de confiance, header signé en amont — c'est
+`SelfValidatingPassport` qu'il faut construire ; son constructor ne prend que
 `UserBadge` et les badges.
 
 ```php
@@ -208,7 +208,7 @@ la key `remember_me` sur le firewall, et son activation : parameter
 ## Pièges d'examen
 
 **`supports()` = `null` n'est pas « redemande-moi »** : c'est l'authentication
-paresseuse, et seulement sur un firewall `lazy` avec état.
+lazy, et seulement sur un firewall `lazy` avec état.
 
 **`RememberMeBadge` n'active rien à lui seul** : sans `remember_me` ni
 activation, aucun cookie.
@@ -223,7 +223,7 @@ erreur de programmation, pas échec de connexion.
 ## Points clés
 
 - `authenticate()` renvoie un `Passport`, jamais un user.
-- `supports()` : `true`, `false`, ou `null` pour l'authentication paresseuse.
+- `supports()` : `true`, `false`, ou `null` pour l'authentication lazy.
 - `Passport` exige des credentials ; sans credentials, `SelfValidatingPassport`.
 - `UserBadge` est le seul badge obligatoire.
 - Un badge exprime une demande ; un badge non résolu fait échouer.

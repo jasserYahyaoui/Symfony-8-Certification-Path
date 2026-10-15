@@ -75,7 +75,7 @@ Le point de fond tient en une phrase : une deprecation Symfony est une notice
 Symfony, branche 8.0) : l'appel est `@trigger_error(…, \E_USER_DEPRECATED)`,
 et le message commence par `Since <paquet> <version>:`.
 
-Silencée veut dire déclenchée avec l'opérateur `@`. Conséquences directes :
+Silencée veut dire déclenchée avec l'operator `@`. Conséquences directes :
 
 - **rien n'échoue** — ni la Request, ni la command, ni le test ;
 - **rien n'apparaît dans l'output**, ni page ni console ;

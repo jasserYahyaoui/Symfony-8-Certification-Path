@@ -58,11 +58,11 @@ flashcards:
   official_item: OIT-se21g2xv6h4r
   language: fr
   level: RECALL
-  front: Que fait exactement le composant CssSelector ?
-  back: 'Il traduit un sélecteur CSS en expression XPath. Il ne parcourt aucun document : c''est DomCrawler qui
+  front: Que fait exactement le component CssSelector ?
+  back: 'Il traduit un selector CSS en expression XPath. Il ne parcourt aucun document : c''est DomCrawler qui
     parcourt.'
   explanation: filter() a donc besoin de CssSelector ; filterXpath() n'en a pas besoin.
-  memorization_justification: Les deux composants sont cités ensemble, ce qui fait croire à un role partagé.
+  memorization_justification: Les deux components sont cités ensemble, ce qui fait croire à un role partagé.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/css_selector.rst
@@ -476,7 +476,7 @@ flashcards:
   front: 'Symfony : .env.test.local l''emporte-t-il sur une variable déjà définie dans le shell ?'
   back: 'Non : une vraie variable d''environment l''emporte sur tous les files.'
   explanation: 'Exécuté : `A=shell` reste `shell` en `test`.'
-  memorization_justification: Priorité de l'environment réel.
+  memorization_justification: Priority de l'environment réel.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Dotenv/Dotenv.php
@@ -544,7 +544,7 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony : pourquoi le client de test ne suit-il pas les redirects alors qu''AbstractBrowser les suit par défaut ?'
-  back: Parce que `HttpKernelBrowser`, parent de `KernelBrowser`, met `followRedirects` à `false` dans son constructeur.
+  back: Parce que `HttpKernelBrowser`, parent de `KernelBrowser`, met `followRedirects` à `false` dans son constructor.
   explanation: 'Lu dans le code 8.0 ; exécuté : `isFollowingRedirects()` faux.'
   memorization_justification: Défaut redéfini.
   verification_status: VERIFIED
@@ -711,7 +711,7 @@ flashcards:
   official_item: OIT-se21g2xv6h4r
   language: fr
   level: RECALL
-  front: 'Symfony : quelle key d''extract() désigne le texte d''un nœud ?'
+  front: 'Symfony : quelle key d''extract() désigne le texte d''un node ?'
   back: '`_text` : `extract([''_text'', ''href''])`.'
   explanation: 'Exécuté : `[["Link X","/x"],["Link Y","/y"]]`.'
   memorization_justification: Extraction multiple.
@@ -750,7 +750,7 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony : pourquoi text() lève-t-il une exception sur une sélection vide ?'
-  back: 'Parce qu''il lit le premier nœud et qu''il n''y en a pas : « The current node list is empty. », sauf avec une default value.'
+  back: 'Parce qu''il lit le premier node et qu''il n''y en a pas : « The current node list is empty. », sauf avec une default value.'
   explanation: Exécuté avec DomCrawler 8.0.15.
   memorization_justification: Sélection vide.
   verification_status: VERIFIED
@@ -767,7 +767,7 @@ flashcards:
   level: UNDERSTANDING
   front: 'Symfony : pourquoi filter(''li'')->first() ne modifie-t-il pas la sélection d''origine ?'
   back: Parce que chaque method de parcours rend un nouveau `Crawler`.
-  explanation: 'Exécuté : la sélection d''origine compte toujours 3 nœuds.'
+  explanation: 'Exécuté : la sélection d''origine compte toujours 3 nodes.'
   memorization_justification: Parcours immuable.
   verification_status: VERIFIED
   official_sources:
@@ -781,7 +781,7 @@ flashcards:
   official_item: OIT-se21g2xv6h4r
   language: fr
   level: APPLICATION
-  front: 'Symfony : lire le texte brut d''un nœud, retours à la ligne compris.'
+  front: 'Symfony : lire le texte brut d''un node, retours à la ligne compris.'
   back: '`$crawler->text(null, false)`.'
   explanation: Par défaut, `text()` normalise les espaces.
   memorization_justification: Texte brut.
@@ -797,7 +797,7 @@ flashcards:
   official_item: OIT-se21g2xv6h4r
   language: fr
   level: APPLICATION
-  front: 'Symfony : obtenir un attribute d''un nœud qui peut ne pas exister, sans exception.'
+  front: 'Symfony : obtenir un attribute d''un node qui peut ne pas exister, sans exception.'
   back: '`$crawler->attr(''class'', ''none'')` : la default value si la sélection est vide.'
   explanation: 'Exécuté : `none` sur une sélection vide.'
   memorization_justification: Attribute facultatif.
@@ -831,7 +831,7 @@ flashcards:
   level: TRAP
   front: 'Symfony : est-il impossible d''obtenir un Form depuis l''élément <form> ?'
   back: 'Non : `filter(''#f'')->form()` fonctionne, mais aucun bouton n''est alors envoyé.'
-  explanation: La documentation du composant le montre ; exécuté.
+  explanation: La documentation du component le montre ; exécuté.
   memorization_justification: Form sans bouton.
   verification_status: VERIFIED
   official_sources:
@@ -851,7 +851,7 @@ flashcards:
   official_item: OIT-se21g2xv6h4r
   language: fr
   level: TRAP
-  front: 'Symfony : siblings() inclut-il le nœud courant ?'
+  front: 'Symfony : siblings() inclut-il le node courant ?'
   back: 'Non : seulement ses frères.'
   explanation: 'Exécuté : les deux autres `<li>`.'
   memorization_justification: Frères.
@@ -1297,10 +1297,10 @@ flashcards:
   official_item: OIT-bswvewkkkj1q
   language: fr
   level: APPLICATION
-  front: 'Symfony : envoyer toutes les Requests d''un test vers l''hôte en.example.com.'
+  front: 'Symfony : envoyer toutes les Requests d''un test vers le host en.example.com.'
   back: '`static::createClient([], [''HTTP_HOST'' => ''en.example.com''])`.'
-  explanation: 'Exécuté : l''hôte vaut encore à la deuxième Request.'
-  memorization_justification: Hôte du client.
+  explanation: 'Exécuté : le host vaut encore à la deuxième Request.'
+  memorization_justification: Host du client.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
@@ -1606,7 +1606,7 @@ flashcards:
   front: 'Symfony : pourquoi une deprecation n''apparaît-elle pas dans l''output, même avec display_errors actif ?'
   back: 'Parce que `trigger_deprecation()` la déclenche avec `@` : elle est silencée.'
   explanation: 'Exécuté : rien avec `trigger_deprecation()`, `Deprecated: …` avec `trigger_error()` sans `@`.'
-  memorization_justification: Role de l'opérateur @.
+  memorization_justification: Role de l'operator @.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/Deprecation/function.php

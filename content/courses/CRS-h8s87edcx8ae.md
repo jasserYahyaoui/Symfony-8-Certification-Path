@@ -24,8 +24,8 @@ official_sources:
 outcome_sections:
   OUT-5xtttnzd990y: "Elle est optionnelle"
   OUT-37kbkcyddm1r: "Les raccourcis sont `protected`"
-  OUT-j0pg9ejmv4hg: "Un abonné à des services, pas un container"
-  OUT-mzj3xrwsw6dr: "Un abonné à des services, pas un container"
+  OUT-j0pg9ejmv4hg: "Un subscriber à des services, pas un container"
+  OUT-mzj3xrwsw6dr: "Un subscriber à des services, pas un container"
 ---
 
 ## Objectif
@@ -42,7 +42,7 @@ comme une class de base *optionnelle*, dont on hérite pour gagner des
 raccourcis. Une class qui n'en hérite pas fonctionne exactement pareil, elle
 écrit simplement plus de code.
 
-Elle vient de **FrameworkBundle**, pas du composant HttpKernel.
+Elle vient de **FrameworkBundle**, pas du component HttpKernel.
 
 ## Les raccourcis sont `protected`
 
@@ -67,7 +67,7 @@ des raccourcis : ce sont les deux points d'attache de l'infrastructure,
 | Forms | `createForm()`, `createFormBuilder()` |
 | Divers | `addFlash()`, `getParameter()`, `addLink()` |
 
-## Un abonné à des services, pas un container
+## Un subscriber à des services, pas un container
 
 `AbstractController` implémente `ServiceSubscriberInterface`. Elle ne reçoit
 donc **pas** le container complet : `getSubscribedServices()` déclare **onze**
@@ -82,7 +82,7 @@ entrées, et elle reçoit un container restreint à celles-là.
 | `web_link.http_header_serializer` | `sendEarlyHints()` |
 
 Chaque valeur est préfixée par `?` : le service est **facultatif**. C'est ce qui
-permet d'utiliser la class sans Twig ou sans le composant Security ; le
+permet d'utiliser la class sans Twig ou sans le component Security ; le
 raccourci correspondant lève alors une exception au message explicite plutôt que
 d'échouer à l'autowiring.
 
@@ -97,7 +97,7 @@ d'action : Symfony injecte le service correspondant.
 
 `addLink()` n'écrit **rien dans la Response**. Elle dépose un provider de
 liens dans l'attribute de Request `_links` ; c'est un listener qui en fera
-le header `Link`. Sans le composant WebLink, elle lève une `LogicException`.
+le header `Link`. Sans le component WebLink, elle lève une `LogicException`.
 
 `sendEarlyHints()` envoie les headers **immédiatement**, avec le statut
 **103**, avant que la Response finale ne parte. C'est le seul raccourci de la
@@ -113,10 +113,10 @@ sous-classe : un test qui traiterait le controller comme un service ordinaire ne
 peut pas les invoquer de l'extérieur. Les deux seules methods `public` sont
 `setContainer()` et `getSubscribedServices()`.
 
-**Ce n'est pas le container.** La class est un *abonné* : onze services
+**Ce n'est pas le container.** La class est un *subscriber* : onze services
 déclarés, tous facultatifs, et rien d'autre n'est accessible.
 
-**Elle vient de FrameworkBundle**, pas du composant HttpKernel.
+**Elle vient de FrameworkBundle**, pas du component HttpKernel.
 
 **`addLink()` n'écrit pas dans la Response.** Elle remplit l'attribute de Request
 `_links` ; le header est produit plus tard par un listener.
@@ -128,7 +128,7 @@ présent dans le container » au hasard : il dit que la class fonctionne sans, e
 que le raccourci concerné lèvera une exception si on l'appelle quand même —
 sauf `json()` : sans Serializer, il se rabat sur `JsonResponse` et
 `json_encode()`, exécuté. Sans router, `generateUrl()` lève une
-`ServiceNotFoundException` du localisateur, pas une `LogicException`.
+`ServiceNotFoundException` du locator, pas une `LogicException`.
 
 **Pour situer un raccourci** : s'il produit une Response, il est dans le lot 04 ;
 s'il touche à la security, il en délègue tout à l'un des trois services de

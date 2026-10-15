@@ -52,7 +52,7 @@ limite de ce mécanisme.
 
 ## L'option `condition`
 
-Elle prend une expression du composant ExpressionLanguage, évaluée à
+Elle prend une expression du component ExpressionLanguage, évaluée à
 l'appariement. Si elle est fausse, la route ne correspond pas.
 
 ```php
@@ -81,7 +81,7 @@ construit pas d'object `Request` pour évaluer la condition.
 
 | Variable | Contenu |
 |---|---|
-| `context` | le `RequestContext` : method, hôte, schéma, port |
+| `context` | le `RequestContext` : method, host, schéma, port |
 | `request` | l'object `Request` complet |
 | `params` | les parameters de route déjà appariés |
 
@@ -95,7 +95,7 @@ Deux functions complètent le jeu, fournies par FrameworkBundle :
   `#[AsRoutingConditionService]` ou par le tag `routing.condition_service`.
   Sans alias, on le désigne par son identifier, le nom de sa class.
 
-`service()` ne passe que par un localisateur des services ainsi étiquetés : une
+`service()` ne passe que par un locator des services ainsi étiquetés : une
 condition n'atteint pas le reste du container. Une expression peut aussi
 contenir un parameter de configuration, entre pourcents.
 
@@ -114,7 +114,7 @@ Si aucune autre route ne correspond, la Response est un 404.
 
 > Les conditions **ne sont pas prises en compte lors de la génération d'URL**.
 
-Le générateur ne connaît ni la Request courante ni l'agent user : il ne
+Le generator ne connaît ni la Request courante ni l'agent user : il ne
 peut pas évaluer l'expression. Une route protégée par une `condition` reste donc
 parfaitement générable, y compris vers un contexte où elle ne correspondrait
 pas. Une condition filter l'entrée, elle ne documente pas l'output.

@@ -53,7 +53,7 @@ flashcards:
   front: Quelles deux sections de security.yaml appliquent la première correspondance ?
   back: 'firewalls et access_control — mais elles décident de deux choses différentes : comment on s''authentifie,
     et ce qu''il faut pour entrer.'
-  explanation: Dans les deux, l'entrée sans motif se déclare en dernier.
+  explanation: Dans les deux, l'entrée sans pattern se déclare en dernier.
   memorization_justification: Les deux règles se ressemblent et on les fusionne à tort.
   verification_status: VERIFIED
   official_sources:
@@ -120,7 +120,7 @@ flashcards:
   front: Changer algorithm en cours de route casse-t-il les passwords existants ?
   back: 'Pas s''ils sont en bcrypt, argon2 ou pbkdf2 par défaut : `auto` sait les vérifier. Un condensat maison, `sha256` par exemple, est refusé sans `migrate_from`.'
   explanation: 'Exécuté avec SecurityBundle 8.0.15 : condensat `sha256` hexadécimal, `auto` sans `migrate_from`, connexion refusée en 401 ; avec `migrate_from`, 200.'
-  memorization_justification: Limite du hachage auto-descriptif.
+  memorization_justification: Limite du hash auto-descriptif.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/passwords.rst
@@ -164,7 +164,7 @@ flashcards:
   language: fr
   level: RECALL
   front: 'Un voter accorde, un autre refuse : quelle est la décision ?'
-  back: 'Avec affirmative, la stratégie par défaut : accorde. Avec unanimous : refuse.'
+  back: 'Avec affirmative, la strategy par défaut : accorde. Avec unanimous : refuse.'
   explanation: 'unanimous signifie « aucun refus », pas « tous accordent » : les abstentions n''empêchent
     rien.'
   memorization_justification: 'Le défaut affirmative surprend : un seul accord suffit malgré un refus.'
@@ -203,7 +203,7 @@ flashcards:
   level: RECALL
   front: 'Symfony : quel package fournit UserInterface, les tokens, les voters et la hiérarchie des roles ?'
   back: '`symfony/security-core`.'
-  explanation: Le hachage est dans `password-hasher`, les firewalls dans `security-http`.
+  explanation: Le hash est dans `password-hasher`, les firewalls dans `security-http`.
   memorization_justification: Contenu de security-core.
   verification_status: VERIFIED
   official_sources:
@@ -267,7 +267,7 @@ flashcards:
   level: APPLICATION
   front: 'Symfony : un script CLI doit hacher des passwords, sans users ni firewall. Que requérir ?'
   back: '`composer require symfony/password-hasher`, puis `PasswordHasherFactory` avec l''algorithme `auto`.'
-  explanation: 'Exécuté : hachage `$2y$13$…`, `verify()` vrai pour le bon password, faux sinon.'
+  explanation: 'Exécuté : hash `$2y$13$…`, `verify()` vrai pour le bon password, faux sinon.'
   memorization_justification: Usage autonome.
   verification_status: VERIFIED
   official_sources:
@@ -289,7 +289,7 @@ flashcards:
   level: APPLICATION
   front: 'Symfony : protéger un form par CSRF dans une application sans security configurée. De quoi a-t-on besoin ?'
   back: '`symfony/security-csrf` — aucun firewall, aucune key `security:` ; le package installe `security-core` au passage.'
-  explanation: C'est ainsi que le composant Form protège ses forms.
+  explanation: C'est ainsi que le component Form protège ses forms.
   memorization_justification: CSRF sans authentication.
   verification_status: VERIFIED
   official_sources:
@@ -331,7 +331,7 @@ flashcards:
   official_item: OIT-942znmbjwvad
   language: fr
   level: TRAP
-  front: 'Symfony : le hachage vit-il dans security-core ?'
+  front: 'Symfony : le hash vit-il dans security-core ?'
   back: 'Non : dans `password-hasher` — mais `security-core` en **dépend**.'
   explanation: Deux packages distincts, reliés par un `require`.
   memorization_justification: Package confondu avec dependency.
@@ -355,7 +355,7 @@ flashcards:
   level: TRAP
   front: 'Symfony : faut-il un firewall pour utiliser un token CSRF ?'
   back: 'Non : `security-csrf` ne demande ni firewall ni authentication.'
-  explanation: Le composant Form s'en sert dans des applications sans aucune configuration de sécurité.
+  explanation: Le component Form s'en sert dans des applications sans aucune configuration de sécurité.
   memorization_justification: CSRF lié à tort à l'authentication.
   verification_status: VERIFIED
   official_sources:
@@ -543,7 +543,7 @@ flashcards:
   level: RECALL
   front: 'Symfony : quelles sont les trois valeurs qu''un voter peut rendre ?'
   back: '`ACCESS_GRANTED`, `ACCESS_DENIED`, `ACCESS_ABSTAIN`.'
-  explanation: Constantes de `VoterInterface` ; la stratégie transforme ces votes en décision.
+  explanation: Constantes de `VoterInterface` ; la strategy transforme ces votes en décision.
   memorization_justification: Vocabulaire des votes.
   verification_status: VERIFIED
   official_sources:
@@ -653,7 +653,7 @@ flashcards:
   official_item: OIT-3qgn13f7zvqx
   language: fr
   level: TRAP
-  front: 'Symfony : sous la stratégie affirmative, tous les voters sont-ils consultés ?'
+  front: 'Symfony : sous la strategy affirmative, tous les voters sont-ils consultés ?'
   back: 'Non : le premier vote favorable arrête la consultation. Exécuté, le second voter n''est même pas interrogé sur `supports()`.'
   explanation: L'`AccessDecisionManager` rend les votes un par un ; `AffirmativeStrategy` rend `true` au premier `ACCESS_GRANTED`.
   memorization_justification: Consultation supposée exhaustive.
@@ -692,7 +692,7 @@ flashcards:
   language: fr
   level: TRAP
   front: 'Symfony : un voter d''object appelé sans sujet refuse-t-il l''accès ?'
-  back: 'Non : s''il ne supporte pas l''attribute et le sujet, il **s''abstient** ; la décision revient à la stratégie.'
+  back: 'Non : s''il ne supporte pas l''attribute et le sujet, il **s''abstient** ; la décision revient à la strategy.'
   explanation: '`Voter::vote()` rend `ACCESS_ABSTAIN` quand `supports()` est faux.'
   memorization_justification: Abstention confondue avec refus.
   verification_status: VERIFIED
@@ -709,7 +709,7 @@ flashcards:
   level: RECALL
   front: 'Symfony : quelles sont les quatre sections principales de security.yaml ?'
   back: '`password_hashers`, `providers`, `firewalls`, `access_control` — plus `role_hierarchy`.'
-  explanation: Hachage, origine des users, manière de s'authentifier, conditions d'accès.
+  explanation: Hash, origine des users, manière de s'authentifier, conditions d'accès.
   memorization_justification: Plan du file.
   verification_status: VERIFIED
   official_sources:
@@ -757,7 +757,7 @@ flashcards:
   level: UNDERSTANDING
   front: 'Symfony : pourquoi l''erreur d''un firewall fourre-tout déclaré en premier est-elle difficile à voir ?'
   back: 'Parce qu''elle est silencieuse : la configuration est acceptée, et le firewall suivant n''est jamais atteint.'
-  explanation: 'Exécuté : `main` sans motif avant `api` — `/api/fw` pris par `main`, cookie de session posé.'
+  explanation: 'Exécuté : `main` sans pattern avant `api` — `/api/fw` pris par `main`, cookie de session posé.'
   memorization_justification: Erreur d'ordre silencieuse.
   verification_status: VERIFIED
   official_sources:
@@ -901,8 +901,8 @@ flashcards:
   level: RECALL
   front: 'Symfony : quelle interface permet à un provider de recevoir un password réencodé ?'
   back: '`PasswordUpgraderInterface`, method `upgradePassword()`.'
-  explanation: C'est ce qui rend la migration de hachage transparente.
-  memorization_justification: Migration du hachage.
+  explanation: C'est ce qui rend la migration de hash transparente.
+  memorization_justification: Migration du hash.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/User/PasswordUpgraderInterface.php
@@ -1204,7 +1204,7 @@ flashcards:
   front: 'Symfony : sans lazy, une page qui n''utilise pas le user recharge-t-elle celui-ci ?'
   back: 'Oui, si la Request porte un cookie de session : `refreshUser()` est appelé à chaque Request.'
   explanation: Exécuté avec un provider qui compte ses appels.
-  memorization_justification: Coût caché d'un firewall non paresseux.
+  memorization_justification: Coût caché d'un firewall non lazy.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Http/Firewall/ContextListener.php
@@ -1266,7 +1266,7 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony : pourquoi checkPreAuth() est-il appelé même quand le password est faux ?'
-  back: Parce qu'il écoute `CheckPassportEvent` en priorité 256, avant la vérification des identifiers.
+  back: Parce qu'il écoute `CheckPassportEvent` en priority 256, avant la vérification des identifiers.
   explanation: 'Exécuté : `alice` avec un mauvais password passe par `checkPreAuth()`, puis reçoit 401.'
   memorization_justification: Ordre des listeners.
   verification_status: VERIFIED
@@ -1408,7 +1408,7 @@ flashcards:
   front: 'Symfony : quelles methods UserPasswordHasherInterface déclare-t-elle ?'
   back: '`hashPassword()`, `isPasswordValid()` et `needsRehash()`, chacune recevant le user.'
   explanation: Le user détermine le hasher configuré.
-  memorization_justification: Contrat du service de hachage.
+  memorization_justification: Contrat du service de hash.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/PasswordHasher/Hasher/UserPasswordHasherInterface.php
@@ -1437,7 +1437,7 @@ flashcards:
   official_item: OIT-ta627mbwfz7m
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi auto vérifie-t-il un hachage argon2id sans le produire lui-même ?'
+  front: 'Symfony : pourquoi auto vérifie-t-il un hash argon2id sans le produire lui-même ?'
   back: 'Parce qu''`auto` est une **string** : `native` hache, `sodium` et `pbkdf2` ne servent qu''à vérifier.'
   explanation: 'Exécuté : argon2id accepté, `needsRehash()` vrai, puis rehaché en `$2y$13$` à la connexion.'
   memorization_justification: Chaîne de hashers.
@@ -1470,7 +1470,7 @@ flashcards:
   language: fr
   level: APPLICATION
   front: 'Symfony : migrer des passwords stockés en sha256 hexadécimal (une itération) vers auto.'
-  back: 'Déclarer `legacy: { algorithm: sha256, encode_as_base64: false, iterations: 1 }`, puis `algorithm: auto` et `migrate_from: [legacy]` sur la class user ; un provider `PasswordUpgraderInterface` enregistre le nouveau hachage.'
+  back: 'Déclarer `legacy: { algorithm: sha256, encode_as_base64: false, iterations: 1 }`, puis `algorithm: auto` et `migrate_from: [legacy]` sur la class user ; un provider `PasswordUpgraderInterface` enregistre le nouveau hash.'
   explanation: 'Exécuté : 200, `upgradePassword()` reçoit un `$2y$13$…`.'
   memorization_justification: Configuration de migration.
   verification_status: VERIFIED
@@ -1508,7 +1508,7 @@ flashcards:
   language: fr
   level: TRAP
   front: 'Symfony : auto choisit-il argon2 quand sodium est installé ?'
-  back: 'Non : `auto` hache en bcrypt ; sodium ne sert qu''à vérifier les hachages argon2 existants.'
+  back: 'Non : `auto` hache en bcrypt ; sodium ne sert qu''à vérifier les hashes argon2 existants.'
   explanation: 'Exécuté avec sodium disponible : `$2y$13$`.'
   memorization_justification: Croyance en un choix selon l'installation.
   verification_status: VERIFIED
@@ -1530,7 +1530,7 @@ flashcards:
   language: fr
   level: TRAP
   front: 'Symfony : migrate_from sans PasswordUpgraderInterface échoue-t-il bruyamment ?'
-  back: 'Non : la connexion réussit (200) et le hachage reste l''ancien, sans message.'
+  back: 'Non : la connexion réussit (200) et le hash reste l''ancien, sans message.'
   explanation: Exécuté avec un provider qui n'implémente pas l'interface.
   memorization_justification: Échec silencieux.
   verification_status: VERIFIED
@@ -1793,7 +1793,7 @@ flashcards:
   official_item: OIT-cwfr5t1ngj23
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi roles: [ROLE_ADMIN, ROLE_EDITOR] vaut-il « l''un ou l''autre » même en stratégie unanimous ?'
+  front: 'Symfony : pourquoi roles: [ROLE_ADMIN, ROLE_EDITOR] vaut-il « l''un ou l''autre » même en strategy unanimous ?'
   back: Parce qu'un seul voter, celui des roles, examine les deux attributes et accorde dès que le user en a un.
   explanation: 'Exécuté : `ROLE_EDITOR` seul obtient 200 en `affirmative` comme en `unanimous`.'
   memorization_justification: Un voter, plusieurs attributes.
@@ -1810,9 +1810,9 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony : pourquoi roles + allow_if accorde-t-il l''accès dès qu''une seule condition est vraie ?'
-  back: Parce que `allow_if` est ajouté aux attributes et jugé par un autre voter ; la stratégie `affirmative` accorde au premier vote favorable.
+  back: Parce que `allow_if` est ajouté aux attributes et jugé par un autre voter ; la strategy `affirmative` accorde au premier vote favorable.
   explanation: 'Exécuté : expression vraie, sans `ROLE_ADMIN`, 200 ; en `unanimous`, 403.'
-  memorization_justification: Combinaison par la stratégie.
+  memorization_justification: Combinaison par la strategy.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/SecurityBundle/DependencyInjection/SecurityExtension.php
@@ -1848,7 +1848,7 @@ flashcards:
   language: fr
   level: APPLICATION
   front: 'Symfony : exiger à la fois ROLE_ADMIN et une condition allow_if.'
-  back: Changer la stratégie de décision, en `unanimous` par exemple — comme le conseille la documentation ; elle vaut alors pour toute l'application.
+  back: Changer la strategy de décision, en `unanimous` par exemple — comme le conseille la documentation ; elle vaut alors pour toute l'application.
   explanation: 'Exécuté : en `unanimous`, la même règle refuse (403) le user qui n''a que l''expression vraie.'
   memorization_justification: Obtenir un « et ».
   verification_status: VERIFIED
@@ -1960,7 +1960,7 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony : pourquoi un authenticator lazy appelle-t-il quand même authenticate() sur un firewall stateless ?'
-  back: 'Parce que `SecurityExtension` ne crée un contexte paresseux que si le firewall **n''est pas** sans état : `lazy` y est ignoré.'
+  back: 'Parce que `SecurityExtension` ne crée un contexte lazy que si le firewall **n''est pas** sans état : `lazy` y est ignoré.'
   explanation: 'Exécuté : `supports()` à `null`, `stateless: true`, `authenticate()` appelé sur une page qui ne lit pas le user.'
   memorization_justification: Interaction lazy / stateless.
   verification_status: VERIFIED
@@ -2013,7 +2013,7 @@ flashcards:
   official_item: OIT-s3jh7wg5km19
   language: fr
   level: APPLICATION
-  front: 'Symfony : un authenticator maison doit poser le cookie remember-me sans case à cocher.'
+  front: 'Symfony : un authenticator maison doit poser le cookie remember-me sans checkbox.'
   back: Ajouter `(new RememberMeBadge())->enable()` au passport, avec `remember_me` configuré sur le firewall.
   explanation: 'Exécuté : badge activé, sans parameter `_remember_me`, cookie posé.'
   memorization_justification: Activation du badge.
@@ -2100,9 +2100,9 @@ flashcards:
   language: fr
   level: RECALL
   front: 'Symfony : quelles valeurs accepte access_decision_manager.strategy ?'
-  back: '`affirmative` (défaut), `consensus`, `unanimous`, `priority` ; une stratégie maison passe par `strategy_service`.'
+  back: '`affirmative` (défaut), `consensus`, `unanimous`, `priority` ; une strategy maison passe par `strategy_service`.'
   explanation: Lu dans `MainConfiguration`.
-  memorization_justification: Liste des stratégies.
+  memorization_justification: Liste des strategies.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/SecurityBundle/DependencyInjection/MainConfiguration.php
@@ -2131,10 +2131,10 @@ flashcards:
   official_item: OIT-kqm5mxq4jnkj
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi seule la stratégie consensus interroge-t-elle tous les voters ?'
+  front: 'Symfony : pourquoi seule la strategy consensus interroge-t-elle tous les voters ?'
   back: Parce qu'elle compte les voix ; `affirmative` s'arrête au premier accord, `unanimous` au premier refus, `priority` au premier vote non abstenu.
   explanation: Exécuté avec un journal des voters interrogés.
-  memorization_justification: Consultation paresseuse.
+  memorization_justification: Consultation lazy.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/Authorization/Strategy/UnanimousStrategy.php
@@ -2178,7 +2178,7 @@ flashcards:
   front: 'Symfony : exiger qu''aucun voter ne refuse, avec au moins un accord.'
   back: '`security.access_decision_manager.strategy: unanimous`.'
   explanation: 'Tous abstenus : `allow_if_all_abstain` décide, `false` par défaut.'
-  memorization_justification: Choix de stratégie.
+  memorization_justification: Choix de strategy.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/SecurityBundle/DependencyInjection/MainConfiguration.php
@@ -2214,7 +2214,7 @@ flashcards:
   language: fr
   level: TRAP
   front: 'Symfony : tous les voters sont-ils toujours interrogés ?'
-  back: 'Non : ils le sont un par un, et la stratégie s''arrête dès que sa décision est acquise ; seul `consensus` les interroge tous.'
+  back: 'Non : ils le sont un par un, et la strategy s''arrête dès que sa décision est acquise ; seul `consensus` les interroge tous.'
   explanation: 'Exécuté : en `affirmative`, un premier accord laisse les suivants sans être interrogés.'
   memorization_justification: Consultation supposée totale.
   verification_status: VERIFIED

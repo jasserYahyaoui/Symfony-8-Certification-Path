@@ -65,9 +65,9 @@ les options de `RedirectController` appartiennent au lot Controllers.
 
 ## Qui redirige, et comment
 
-Le `UrlMatcher` du composant Routing ne redirige jamais : il lève
+Le `UrlMatcher` du component Routing ne redirige jamais : il lève
 `ResourceNotFoundException`, qui devient un 404. Le redirect n'existe que
-si le matcher implémente `RedirectableUrlMatcherInterface`. Le composant n'en
+si le matcher implémente `RedirectableUrlMatcherInterface`. Le component n'en
 fournit qu'une abstract class, dont la method `redirect()` reste à écrire ;
 l'implémentation concrète est celle de FrameworkBundle,
 `RedirectableCompiledUrlMatcher`.
@@ -108,7 +108,7 @@ perdu.
 **Le redirect passe avant une route générique.** Avec une route `/foo/`
 suivie d'une route `/{name}`, une Request `GET /foo` est redirigée vers
 `/foo/` ; elle ne tombe pas sur `/{name}`. Le test `testFallbackPage` du
-composant l'établit.
+component l'établit.
 
 ## Le schéma
 
@@ -122,7 +122,7 @@ Elle agit dans les deux sens, et c'est le point à retenir.
 
 **À la génération** : l'URL de `login` utilise toujours HTTPS. Conséquence
 visible dans un template — `path('login')` produit le path absolu `/login`,
-sans hôte, si la Request courante est déjà en HTTPS, mais une **URL absolue**
+sans host, si la Request courante est déjà en HTTPS, mais une **URL absolue**
 `https://example.com/login` si elle est en HTTP, puisqu'il faut bien changer de
 schéma.
 
@@ -140,7 +140,7 @@ schéma.
 Le schéma peut être imposé à tout un group de routes au moment de leur import
 (`schemes` sur l'entrée d'import). Derrière un proxy qui termine TLS, la
 documentation avertit que `schemes`, combiné à une configuration de proxy
-incorrecte, produit une boucle de redirect.
+incorrecte, produit une loop de redirect.
 
 ## Depuis une route
 
@@ -156,10 +156,10 @@ forme d'URL reçoit un 404.
 
 **Le schéma agit à l'appariement *et* à la génération.** Une Request dans le
 mauvais schéma est redirigée ; et l'URL générée devient absolue dès que le
-schéma courant diffère, alors qu'elle serait restée un path sans hôte
+schéma courant diffère, alors qu'elle serait restée un path sans host
 (`ABSOLUTE_PATH`, pas `RELATIVE_PATH`).
 
-**Le composant seul ne redirige pas.** Son `UrlMatcher` échoue en 404 ;
+**Le component seul ne redirige pas.** Son `UrlMatcher` échoue en 404 ;
 c'est le matcher de FrameworkBundle qui sait rediriger.
 
 **Aucun controller applicatif n'intervient.** Le matcher route la Request vers

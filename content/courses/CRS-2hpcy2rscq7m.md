@@ -41,8 +41,8 @@ official_sources:
     branch: "8.0"
     verified_at: "2026-09-21"
 outcome_sections:
-  OUT-dbz79ewzqdg9: "Listener ou abonné"
-  OUT-ces5mycxj5zx: "Priorité"
+  OUT-dbz79ewzqdg9: "Listener ou subscriber"
+  OUT-ces5mycxj5zx: "Priority"
   OUT-xfcs32dwmgx2: "Propagation"
   OUT-2x9c1gjdj7t5: "Le catalogue du kernel"
   OUT-p34x8sjgctbp: "Le catalogue du kernel"
@@ -50,7 +50,7 @@ outcome_sections:
 
 ## Objectif
 
-Maîtriser le composant EventDispatcher — listeners, abonnés, priorités,
+Maîtriser le component EventDispatcher — listeners, subscribers, priorities,
 propagation — et connaître le catalogue des events du kernel avec ce que
 chacun autorise. Le déroulé de la Request est traité dans *Request handling* ;
 on s'intéresse ici au **mécanisme** et aux **pouvoirs** de chaque event.
@@ -59,7 +59,7 @@ on s'intéresse ici au **mécanisme** et aux **pouvoirs** de chaque event.
 
 Le trajet d'une Request et le vocabulaire Request / Response.
 
-## Listener ou abonné
+## Listener ou subscriber
 
 Deux façons de réagir à un event, avec la même mécanique dessous.
 
@@ -69,7 +69,7 @@ Un **listener** (*listener*) est un callable enregistré depuis l'extérieur :
 $dispatcher->addListener('acme.foo', [$listener, 'onFooAction'], 10);
 ```
 
-Un **abonné** (*subscriber*) est une class qui déclare elle-même à quoi elle
+Un **subscriber** (*subscriber*) est une class qui déclare elle-même à quoi elle
 s'abonne, via la method **statique** `getSubscribedEvents()` de
 `EventSubscriberInterface`. Elle retourne un array indexé par nom d'event,
 dont la valeur est soit le nom d'une method, soit un couple
@@ -84,14 +84,14 @@ détecté par autoconfiguration, un listener se déclare par le tag
 `kernel.event_listener` ou par l'attribute `#[AsEventListener]`, dont les
 parameters sont `event`, `method`, `priority` et `dispatcher`.
 
-## Priorité
+## Priority
 
-La priorité est un int, **positif ou négatif**, qui vaut `0` par défaut.
+La priority est un int, **positif ou négatif**, qui vaut `0` par défaut.
 
 > **Plus le nombre est grand, plus tôt le listener est appelé.**
 
-C'est le sens que l'intuition inverse volontiers : la priorité `-255` s'exécute
-*après* la priorité `0`, et la priorité `255` *avant*. À priorité égale, les
+C'est le sens que l'intuition inverse volontiers : la priority `-255` s'exécute
+*après* la priority `0`, et la priority `255` *avant*. À priority égale, les
 listeners sont appelés dans l'ordre où ils ont été ajoutés au dispatcher.
 
 `php bin/console debug:event-dispatcher <événement>` donne l'ordre réel.
@@ -156,9 +156,9 @@ attribute*. Un type union, lui, abonne le listener à chacun des events.
 `addListener()` et `addSubscriber()` ont leurs symétriques, `removeListener()`
 et `removeSubscriber()`. Deux methods d'introspection complètent l'ensemble :
 `hasListeners($nom)` et `getListenerPriority($nom, $listener)`, qui rend la
-priorité réelle ou `null` si le listener n'est pas enregistré.
+priority réelle ou `null` si le listener n'est pas enregistré.
 
-L'ordre, lui, est établi par un `krsort()` sur les priorités — un tri **par key
+L'ordre, lui, est établi par un `krsort()` sur les priorities — un tri **par key
 décroissante**, ce qui est la formulation la plus directe de « plus le nombre
 est grand, plus tôt ».
 
@@ -183,11 +183,11 @@ premier intervient après `kernel.response`, le second après l'envoi.
 
 ## Pièges d'examen
 
-- Priorité haute = **tôt** ; une priorité négative est parfaitement valide.
+- Priority haute = **tôt** ; une priority négative est parfaitement valide.
 - `stopPropagation()` n'arrête qu'un event, pas la Request.
 - `getSubscribedEvents()` est **statique**.
 - `kernel.terminate` ne peut plus rien changer à la Response.
-- Les constantes sont sur `KernelEvents` ; leurs valeurs sont les strings
+- Les constants sont sur `KernelEvents` ; leurs valeurs sont les strings
   `kernel.*`.
 - `dispatch()` sans nom explicite utilise le **nom de la class**, pas une
   string pointée.
@@ -198,7 +198,7 @@ premier intervient après `kernel.response`, le second après l'envoi.
 
 ## Tips d'examen
 
-**`krsort` est le mot à retenir pour la priorité.** Tri par key décroissante :
+**`krsort` est le mot à retenir pour la priority.** Tri par key décroissante :
 255 avant 0 avant −255. Si le sens s'échappe, le nom de la function le rend.
 
 **Deux questions pour classer un event.** La réponse existe-t-elle déjà ?
@@ -207,8 +207,8 @@ plus rien).
 
 ## Points clés
 
-- Listener et abonné diffèrent par qui déclare l'abonnement, pas par l'effet.
-- Priorité entière, défaut `0`, décroissante dans l'ordre d'appel.
+- Listener et subscriber diffèrent par qui déclare l'abonnement, pas par l'effet.
+- Priority entière, défaut `0`, décroissante dans l'ordre d'appel.
 - Huit events de kernel, tous dérivés de `KernelEvent`.
 - Chaque event a un pouvoir propre : ce que l'un permet, l'autre l'interdit.
 - `dispatch(object $event, ?string $eventName = null): object` — nom par défaut
@@ -219,7 +219,7 @@ plus rien).
 
 ## Sources officielles
 
-- [Composant EventDispatcher](https://github.com/symfony/symfony-docs/blob/8.0/components/event_dispatcher.rst)
+- [Component EventDispatcher](https://github.com/symfony/symfony-docs/blob/8.0/components/event_dispatcher.rst)
 - [KernelEvents (branche 8.0)](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/KernelEvents.php)
 - [`EventDispatcher` (le code du dispatch)](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/EventDispatcher/EventDispatcher.php)
 - [`Event` des contrats, et `StoppableEventInterface`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/EventDispatcher/Event.php)

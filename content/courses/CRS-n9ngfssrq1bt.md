@@ -69,7 +69,7 @@ code de Security Core 8.0.15, Security HTTP 8.0.14 ou SecurityBundle 8.0.15
 ne l'appelle.
 
 `getUserIdentifier()` retourne l'identifier **d'affichage et de recherche** —
-courriel, nom de connexion — pas nécessairement la key primaire. C'est la valeur
+email, nom de connexion — pas nécessairement la key primaire. C'est la valeur
 que le provider reçoit dans `loadUserByIdentifier()`.
 
 ## `getRoles()` : aucun minimum imposé
@@ -101,7 +101,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 }
 ```
 
-C'est cette interface que le système de hachage attend.
+C'est cette interface que le système de hash attend.
 
 ## Comparer deux users
 
@@ -131,7 +131,7 @@ Un compte désactivé ou expiré ne se refuse pas dans `getRoles()` : c'est le r
 d'un **user checker**, déclaré sur le firewall par `user_checker`. Lu dans
 `UserCheckerListener` :
 
-- `checkPreAuth()` écoute `CheckPassportEvent` en priorité 256, donc **avant**
+- `checkPreAuth()` écoute `CheckPassportEvent` en priority 256, donc **avant**
   la vérification du password ;
 - `checkPostAuth()` écoute `AuthenticationSuccessEvent`, et reçoit en 8.0 le
   token en second argument.

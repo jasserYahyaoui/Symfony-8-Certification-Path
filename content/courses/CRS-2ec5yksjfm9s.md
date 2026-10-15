@@ -64,7 +64,7 @@ la chaîne de Request** : un parameter `?x=` ne peut pas être protégé ici.
 
 | Key | Ce qu'elle contraint |
 |---|---|
-| `path`, `host` | le path, l'hôte — expressions régulières |
+| `path`, `host` | le path, le host — expressions régulières |
 | `ips` (ou `ip`) | l'adresse du client, masques acceptés |
 | `port`, `methods` | le port, les methods HTTP |
 | `route` | le nom de la route |
@@ -86,7 +86,7 @@ Une fois la règle choisie, trois options imposent l'accès :
   redirect **301** vers `https://…`.
 
 Plusieurs exigences ne s'additionnent donc pas : elles sont soumises ensemble
-à la stratégie de décision. Exécuté avec SecurityBundle 8.0.15 :
+à la strategy de décision. Exécuté avec SecurityBundle 8.0.15 :
 
 | Règle | `affirmative` (défaut) | `unanimous` |
 |---|---|---|
@@ -95,9 +95,9 @@ Plusieurs exigences ne s'additionnent donc pas : elles sont soumises ensemble
 | même règle, visiteur anonyme | **200** | 401 |
 | `roles: [ROLE_USER, IS_AUTHENTICATED_FULLY]`, user sans `ROLE_USER` | **200** | 403 |
 
-Deux roles ensemble valent « l'un ou l'autre » quelle que soit la stratégie, car
+Deux roles ensemble valent « l'un ou l'autre » quelle que soit la strategy, car
 c'est le même voter qui les examine. Dès que deux voters interviennent — un
-role et une expression, un role et un état d'authentication —, la stratégie
+role et une expression, un role et un état d'authentication —, la strategy
 décide : « ou » en `affirmative`, « et » en `unanimous`. La documentation
 l'avertit pour `roles` + `allow_if`.
 
@@ -121,9 +121,9 @@ title: Ce que la règle exige
 ---
 flowchart TD
   accTitle: Comment access_control applique les exigences d'une règle
-  accDescr: Une règle sans roles ni allow_if laisse passer. Sinon roles et allow_if sont passés ensemble à decide(), avec la Request pour sujet, et la stratégie tranche. Accordé, la Request continue. Refusé, une AccessDeniedException donne 403 à un user connu, et l'entry point à un anonyme.
+  accDescr: Une règle sans roles ni allow_if laisse passer. Sinon roles et allow_if sont passés ensemble à decide(), avec la Request pour sujet, et la strategy tranche. Accordé, la Request continue. Refusé, une AccessDeniedException donne 403 à un user connu, et l'entry point à un anonyme.
   ATTR{"roles ou allow_if ?"} -->|"non"| PASS(["la Request continue"])
-  ATTR -->|"oui"| DEC{"decide(), selon la stratégie"}
+  ATTR -->|"oui"| DEC{"decide(), selon la strategy"}
   DEC -->|"accordé"| GO(["la Request continue"])
   DEC -->|"refusé"| DENY(["refus : 403, ou entry point"])
 ```
@@ -145,7 +145,7 @@ cumulées.
 
 **`path` est une expression régulière**, comparée sans la chaîne de Request.
 
-**`roles` + `allow_if` accorde si l'un des deux suffit**, avec la stratégie par
+**`roles` + `allow_if` accorde si l'un des deux suffit**, avec la strategy par
 défaut.
 
 **Aucune règle ne correspond : aucune restriction.**
@@ -158,7 +158,7 @@ défaut.
 - Correspondance : `path`, `host`, `ips`, `port`, `methods`, `route`,
   `attributes`, ou un `request_matcher` seul.
 - Exigence : `roles`, `allow_if`, `requires_channel` ; plusieurs attributes sont
-  tranchés par la stratégie.
+  tranchés par la strategy.
 - Protège des URL, pas des objects.
 
 ## Sources officielles

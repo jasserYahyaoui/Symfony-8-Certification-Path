@@ -2,7 +2,7 @@
 
 ## Objectif
 
-Trois composants dont les suppressions se ressemblent. Page d'enrichissement :
+Trois components dont les suppressions se ressemblent. Page d'enrichissement :
 hors périmètre officiel, hors couverture.
 
 ## Serializer : une interface fusionne, une signature s'élargit
@@ -17,13 +17,13 @@ C'est la conséquence d'une autre ligne du même journal :
 arguments supplémentaires ; en les remontant dans l'interface de base, la
 distinction n'avait plus de raison d'être.
 
-Disparaissent aussi la gestion du caractère d'échappement CSV — la constante et
+Disparaissent aussi la gestion du caractère d'escaping CSV — la constant et
 la method de contexte associée — et une method dont le nom portait une faute
 de frappe, au profit de l'orthographe correcte.
 
-## Le XML recule dans les trois composants
+## Le XML recule dans les trois components
 
-| Composant | Ce qui disparaît |
+| Component | Ce qui disparaît |
 |---|---|
 | Validator | la configuration **implicite** des options de constraint en XML |
 | Form | le file `validation.xml`, remplacé par des attributes sur la class `Form` |
@@ -33,7 +33,7 @@ Le mouvement est le même que dans Routing et DependencyInjection : la
 configuration passe aux attributes, et les formats hérités sont retirés plutôt
 que dépréciés une fois de plus.
 
-Serializer suit aussi Routing sur un point précis : les accesseurs des classes
+Serializer suit aussi Routing sur un point précis : les accessors des classes
 d'attributes sont retirés **au profit de properties publiques**.
 
 ## Form : un défaut qui change de valeur
@@ -65,7 +65,7 @@ DependencyInjection, Validator et Form.
 
 - `NameConverterInterface` reçoit class, format et contexte ;
   `AdvancedNameConverterInterface` est retirée.
-- L'échappement CSV disparaît du Serializer.
+- L'escaping CSV disparaît du Serializer.
 - `UrlType::default_protocol` passe de `'http'` à `null`.
 - Le format XML recule partout, au profit des attributes.
 

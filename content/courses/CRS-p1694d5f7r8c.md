@@ -62,7 +62,7 @@ definition créée par `register()` a `isPublic()` à `false`.
 Un service privé n'est pas caché : il est simplement **inaccessible depuis
 l'extérieur du container**. Exécuté après `compile()` : `get()` sur un service
 privé lève une `ServiceNotFoundException`, « removed or inlined when the
-container was compiled ». L'intérêt est double — le compilateur peut l'inliner
+container was compiled ». L'intérêt est double — le compiler peut l'inliner
 ou le retirer s'il n'est référencé nulle part, et une référence vers un service
 inexistant produit une erreur claire dès la compilation.
 

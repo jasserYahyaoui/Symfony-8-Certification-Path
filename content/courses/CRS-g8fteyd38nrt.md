@@ -55,7 +55,7 @@ Trois mécanismes s'y superposent :
 - **`autowire`** — les arguments sont résolus par type ;
 - **`autoconfigure`** — une class qui implémente une interface connue reçoit
   automatiquement le tag correspondant : un `EventSubscriberInterface` devient un
-  abonné, une `Command` une command, sans une ligne de configuration.
+  subscriber, une `Command` une command, sans une ligne de configuration.
 
 Résultat : écrire la class suffit. On ne déclare explicitement que l'exception.
 
@@ -120,7 +120,7 @@ clair.
 `_defaults`. La documentation 8.0 le signale en avertissement.
 
 Exécuté : un service déclaré dans `when@dev` sans `_defaults`, dont le
-constructeur attend un `LoggerInterface`, n'est pas autowiré. L'erreur n'arrive
+constructor attend un `LoggerInterface`, n'est pas autowiré. L'erreur n'arrive
 qu'à l'instanciation, et elle ne nomme pas la cause : `ArgumentCountError` —
 « Too few arguments to function …::__construct(), 0 passed ». Avec un
 `_defaults: { autowire: true }` dans le block, le même service reçoit le logger.

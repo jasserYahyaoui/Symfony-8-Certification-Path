@@ -52,7 +52,7 @@ official_sources:
     symbol_or_lines: "IfNode::__construct(), TrueTest"
     verified_at: "2026-09-24"
 outcome_sections:
-  OUT-n2sny821kd8p: "La boucle"
+  OUT-n2sny821kd8p: "La loop"
   OUT-16dbq9y7rz76: "La variable `loop`"
   OUT-rjj1wzpn63ph: "La variable `loop`"
   OUT-d2d8w5y3z51h: "Filtrer et découper"
@@ -62,9 +62,9 @@ outcome_sections:
 ## Objectif
 
 Parcourir une séquence, connaître la variable `loop` et sa limite, le scope
-d'une boucle, et écrire une condition sans se tromper sur ce qui est « vide ».
+d'une loop, et écrire une condition sans se tromper sur ce qui est « vide ».
 
-## La boucle
+## La loop
 
 ```html
 {% for user in users %}
@@ -84,7 +84,7 @@ function `range()` accepte un pas différent de 1.
 
 ## La variable `loop`
 
-Disponible dans le body de la boucle :
+Disponible dans le body de la loop :
 
 | Variable | Contenu |
 |---|---|
@@ -100,17 +100,17 @@ Disponible dans le body de la boucle :
 **La limite à connaître :** `loop.length`, `loop.revindex`, `loop.revindex0` et
 `loop.last` ne sont disponibles que pour un **array PHP** ou un object
 implémentant `Countable`. Le code compilé par `ForNode` ne les renseigne que
-dans ce cas : sur un générateur ou un itérateur ordinaire, ces keys n'existent
+dans ce cas : sur un generator ou un iterator ordinaire, ces keys n'existent
 pas — Twig ne peut pas connaître la taille sans consommer la séquence.
 
 `loop.index` et `loop.first`, eux, fonctionnent toujours.
 
-## Le scope d'une boucle
+## Le scope d'une loop
 
-Une boucle a sa propre portée. Une variable **créée** par `{% set %}` dans le
+Une loop a sa propre portée. Une variable **créée** par `{% set %}` dans le
 corps n'existe plus après `{% endfor %}` ; une variable **déclarée avant** la
-boucle garde en revanche la dernière valeur qu'elle y a reçue. `ForNode` le
-compile ainsi : à l'output, seules les keys du contexte d'avant la boucle sont
+loop garde en revanche la dernière valeur qu'elle y a reçue. `ForNode` le
+compile ainsi : à l'output, seules les keys du contexte d'avant la loop sont
 conservées. Pour cumuler un total, on le déclare donc avant.
 
 ## Filtrer et découper
@@ -142,8 +142,8 @@ les éléments sautés, et `loop.last` peut tomber sur un élément non affiché
 Les tests s'écrivent avec `is` et se nient par `is not`. `CoreExtension`
 (3.22) enregistre `constant`, `defined`, `divisible by`, `empty`, `even`,
 `iterable`, `mapping`, `null` (alias `none`), `odd`, `same as` et `sequence` —
-plus `true`, que le compilateur pose lui-même sur chaque condition d'un `if`.
-Twig n'a pas d'opérateur `===` : la comparaison stricte s'écrit avec le
+plus `true`, que le compiler pose lui-même sur chaque condition d'un `if`.
+Twig n'a pas d'operator `===` : la comparaison stricte s'écrit avec le
 **test** `same as`.
 
 ## Vrai, faux, vide : trois questions différentes
@@ -165,14 +165,14 @@ dans un `if`, mais `empty`.
 
 ## Pièges d'examen
 
-**La moitié des properties de boucle n'existent pas sur un itérateur** ; l'index
+**La moitié des properties de loop n'existent pas sur un iterator** ; l'index
 et le test de première itération, si.
 
 **L'index commence à 1.**
 
-**La clause `else` d'une boucle se déclenche sur une séquence vide.**
+**La clause `else` d'une loop se déclenche sur une séquence vide.**
 
-**Une variable créée dans une boucle n'en sort pas** ; déclarée avant, elle
+**Une variable créée dans une loop n'en sort pas** ; déclarée avant, elle
 garde sa dernière valeur.
 
 **`0` est faux mais n'est pas vide ; une collection vide est vraie mais vide.**
@@ -183,13 +183,13 @@ garde sa dernière valeur.
   `range()` produisent des suites.
 - `loop.index` commence à **1** ; `length`, `revindex`, `revindex0` et `last`
   exigent un array ou `Countable`.
-- Portée propre à la boucle ; déclarer avant pour garder une valeur.
+- Portée propre à la loop ; déclarer avant pour garder une valeur.
 - Pas de `break` ni de `continue` : `filter`, `slice`, `sort`.
-- Tests par `is` / `is not` ; `same as` pour `===`, absent comme opérateur.
+- Tests par `is` / `is not` ; `same as` pour `===`, absent comme operator.
 - Condition nue = règles de PHP ; `empty` = règles de `testEmpty()`.
 
 ## Sources officielles
 
 - [Twig 3.22, tag `for`](https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/for.rst) et [`ForNode`](https://github.com/twigphp/Twig/blob/v3.22.0/src/Node/ForNode.php)
-- [Twig 3.22, tag `if`](https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/if.rst) et [tag `set`, portée des boucles](https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/set.rst)
+- [Twig 3.22, tag `if`](https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/if.rst) et [tag `set`, portée des loops](https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/set.rst)
 - [Twig 3.22, tests](https://github.com/twigphp/Twig/blob/v3.22.0/doc/tests/index.rst), [`empty`](https://github.com/twigphp/Twig/blob/v3.22.0/doc/tests/empty.rst) et [`CoreExtension`](https://github.com/twigphp/Twig/blob/v3.22.0/src/Extension/CoreExtension.php)

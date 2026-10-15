@@ -58,8 +58,8 @@ chacun hérite.
 | **Boutons** | `ButtonType`, `ResetType`, `SubmitType` |
 | **Base** | `FormType` |
 
-Les types UID exigent le composant Uid. Exécuté sans lui : le form se
-construit et se rend, puis la soumission lève une `Error`, class `Uuid`
+Les types UID exigent le component Uid. Exécuté sans lui : le form se
+construit et se rend, puis la submission lève une `Error`, class `Uuid`
 introuvable.
 
 ## Limites de périmètre
@@ -96,9 +96,9 @@ réel :
 | `multiple` | `expanded` | Rendu |
 |---|---|---|
 | `false` | `false` | `<select>` |
-| `false` | `true` | boutons radio |
+| `false` | `true` | radio buttons |
 | `true` | `false` | `<select multiple>` |
-| `true` | `true` | cases à cocher |
+| `true` | `true` | checkboxes |
 
 Dans `choices`, la **key est le libellé**, la **valeur est la donnée**. Exécuté
 avec `['France' => 'fr']` : soumettre `fr` donne la donnée `'fr'` ; soumettre

@@ -79,11 +79,11 @@ Ils s'écrivent aussi **dans le nom**, séparés par une barre verticale. Le
 #[AsCommand(name: 'app:create-user|app:add-user|app:new-user')]
 ```
 
-C'est la même chose que le parameter `aliases` : le constructeur de l'attribute
+C'est la même chose que le parameter `aliases` : le constructor de l'attribute
 fusionne les deux dans une seule string séparée par `|`.
 
 Un **premier segment vide** cache la command : `name: '|app:secret'` équivaut
-à `hidden: true`. Lu dans le constructeur de `Command` (8.0), puis exécuté :
+à `hidden: true`. Lu dans le constructor de `Command` (8.0), puis exécuté :
 `app:secret` absente de `list`, et exécutable (code 0).
 
 ## Pourquoi la description compte
@@ -92,7 +92,7 @@ Renseigner la description **dans l'attribute** plutôt que par `setDescription()
 permet à Symfony de la lire **sans instancier la class**. `bin/console list`
 n'a alors pas à construire chaque command de l'application pour afficher son
 array. Exécuté sur FrameworkBundle 8.0.15, deux commands dont le
-constructeur se signale :
+constructor se signale :
 
 | Description posée… | Class construite par `list` |
 |---|---|
@@ -132,9 +132,9 @@ protected function configure(): void
 ```
 
 Le point que l'examen teste est **le moment de son appel** : `configure()` est
-appelée **à la fin du constructeur** de `Command`, pas au lancement de la
+appelée **à la fin du constructor** de `Command`, pas au lancement de la
 command — exécuté : `ctor-start`, `configure`, `ctor-end`. D'où la conséquence contre-intuitive : si la command définit son
-propre constructeur, il faut affecter ses properties **avant** l'appel à
+propre constructor, il faut affecter ses properties **avant** l'appel à
 `parent::__construct()`, sinon elles ne sont pas encore là quand `configure()`
 s'exécute :
 
@@ -170,7 +170,7 @@ application FrameworkBundle 8.0.
 - La description dans l'attribute est lue sans instancier la class ; dans
   `configure()`, elle force la construction.
 - Les alias s'écrivent dans le nom avec `|`, ou par `aliases`.
-- `configure()` (style classique) est appelée à la fin du constructeur.
+- `configure()` (style classique) est appelée à la fin du constructor.
 
 ## Sources officielles
 

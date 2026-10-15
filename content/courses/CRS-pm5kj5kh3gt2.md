@@ -64,7 +64,7 @@ Le file **retourne une function**. Il ne construit pas la Response, ne
 l'envoie pas, et n'appelle rien.
 
 `vendor/autoload_runtime.php` est produit automatiquement par le **plugin
-Composer** du composant. Avec `--no-plugins`, il n'est pas créé — exécuté :
+Composer** du component. Avec `--no-plugins`, il n'est pas créé — exécuté :
 file supprimé, `composer dump-autoload --no-plugins` ne le recrée pas.
 
 Ce que le script retourne est contrôlé. Exécuté sur Runtime 8.0.14 :
@@ -88,7 +88,7 @@ La documentation 8.0 les énumère ainsi :
 
 Le code inverse les deux premières : `autoload_runtime.php` inclut d'abord le
 script, puis instancie le runtime. Exécuté avec un runtime qui journalise son
-constructeur : *script returns closure*, puis *runtime constructed*, puis
+constructor : *script returns closure*, puis *runtime constructed*, puis
 *closure called*, puis *app run*. Le code l'emporte.
 
 **La seconde exécution est le piège.** Exécuté, avec une écriture dans un
@@ -107,7 +107,7 @@ produit donc deux fois. La documentation demande qu'il n'y en ait aucun.
 **Charger `vendor/autoload.php` avant** désactive tout : le premier
 `require_once` de `autoload_runtime.php` rend alors `true`, et le file
 s'interrompt. Exécuté : le script va jusqu'au bout, l'application ne tourne
-pas, code de sortie `0`, aucun message.
+pas, exit code `0`, aucun message.
 
 ## Les arguments sont résolus par type *et* par nom
 
