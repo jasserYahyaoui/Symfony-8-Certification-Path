@@ -1880,7 +1880,7 @@ flashcards:
   language: fr
   level: TRAP
   front: 'Symfony : un parameter de Request comme ?admin=1 peut-il servir dans path ?'
-  back: 'Non : la correspondance se fait sans la chaîne de Request ; il faut refuser dans le code PHP.'
+  back: 'Non : la correspondance se fait sans la query string ; il faut refuser dans le code PHP.'
   explanation: Avertissement de la documentation 8.0.
   memorization_justification: Portée de path.
   verification_status: VERIFIED

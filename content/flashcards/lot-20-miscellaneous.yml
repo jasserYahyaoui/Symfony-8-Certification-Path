@@ -30,7 +30,7 @@ flashcards:
   back: Elle empêche les listeners pas encore appelés de l'être. Elle n'annule rien de ce qui a déjà été fait.
   explanation: 'Son effet dépend donc entièrement des priorities : un listener appelé tôt peut couper la suite.'
   memorization_justification: Le mot « stop » laisse croire à une annulation, alors qu'il ne s'agit que d'interrompre
-    une string.
+    la propagation.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst
@@ -285,7 +285,7 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony : pourquoi le déclencheur lit-il isPropagationStopped() après dispatch() ?'
-  back: Pour savoir si un listener a interrompu la string et réagir en conséquence.
+  back: Pour savoir si un listener a interrompu la propagation et réagir en conséquence.
   explanation: Documentation *Stopping Event Flow/Propagation*.
   memorization_justification: Lecture côté déclencheur.
   verification_status: VERIFIED

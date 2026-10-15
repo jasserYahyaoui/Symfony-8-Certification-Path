@@ -46,7 +46,7 @@ qu'on veut changer.
 
 ## Prérequis
 
-Le cycle requête-réponse et l'event `kernel.exception`.
+Le cycle Request-Response et l'event `kernel.exception`.
 
 ## Tout est une exception
 

@@ -30,7 +30,7 @@ outcome_sections:
   OUT-gvjp79xbcjsb: "L'obtenir"
   OUT-8y8ytxt6m5v1: "Les parameters de route"
   OUT-y2d9m024g5gk: "Les parameters de route"
-  OUT-axr8r9fatztr: "Corps et chaîne de Request"
+  OUT-axr8r9fatztr: "Body et query string"
 ---
 
 ## Objectif
@@ -81,9 +81,9 @@ Trois accessors, et ils diffèrent pendant une **sub-Request** :
 `getSession()` est l'exception : elle ne rend pas `null`, elle **lève** une
 `SessionNotFoundException`.
 
-## Corps et chaîne de Request
+## Body et query string
 
-`$request->query` porte la chaîne de Request. Pour le body, `getPayload()` est
+`$request->query` porte la query string. Pour le body, `getPayload()` est
 la method à connaître — mais son comportement n'est pas symétrique, et c'est
 tout l'intérêt de la question.
 

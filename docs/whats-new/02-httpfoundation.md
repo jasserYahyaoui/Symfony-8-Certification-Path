@@ -112,7 +112,7 @@ Le mécanisme subsiste pour les autres methods.
 <details>
 <summary>Du code en 7.x appelle `$request->get('id')`. Que devient-il en 8.0 ?</summary>
 
-Il échoue : la method n'existe plus. Il faut choisir le sac — `attributes` pour un parameter de route, `query` pour la chaîne de Request, `request` pour un form.
+Il échoue : la method n'existe plus. Il faut choisir le sac — `attributes` pour un parameter de route, `query` pour la query string, `request` pour un form.
 
 Le choix du sac est justement ce que l'ancienne method dispensait de faire.
 

@@ -75,7 +75,7 @@ En Twig, `path()` correspond au path absolu et `url()` à l'URL absolue.
 ## Les parameters en trop
 
 Un parameter passé au generator mais **absent de la definition de la route**
-n'est pas ignoré : il est ajouté en **chaîne de Request**.
+n'est pas ignoré : il est ajouté en **query string**.
 
 ```php
 $this->generateUrl('blog', ['page' => 2, 'category' => 'Symfony']);
@@ -85,7 +85,7 @@ $this->generateUrl('blog', ['page' => 2, 'category' => 'Symfony']);
 Deux nuances du code :
 
 - un parameter en trop **égal à la default value** de même nom est
-  **retiré** : il n'apparaît pas dans la chaîne de Request ;
+  **retiré** : il n'apparaît pas dans la query string ;
 - la key réservée `_query` fournit un array de parameters de Request, qui
   **l'emportent** sur les parameters en trop de même nom. Une valeur qui n'est pas
   un array lève une `InvalidParameterException`.
@@ -114,15 +114,15 @@ génération et rattraper `RouteNotFoundException`.
 
 ## Pièges d'examen
 
-**Un parameter absent de la route n'est pas ignoré : il part en chaîne de
-Request.** Une faute de frappe dans un nom de parameter ne produit donc aucune
+**Un parameter absent de la route n'est pas ignoré : il part en query
+string.** Une faute de frappe dans un nom de parameter ne produit donc aucune
 erreur — juste une URL avec un parameter en trop.
 
 **Un object en parameter supplémentaire est converti, selon le code 8.0.** Les
 properties publiques d'abord, en array ; `__toString()` seulement s'il n'en a
 pas. La documentation dit encore le contraire.
 
-**Un parameter en trop égal au défaut disparaît de la chaîne de Request.**
+**Un parameter en trop égal au défaut disparaît de la query string.**
 
 **Le type de référence par défaut est le path absolu, pas l'URL absolue.**
 Générer un lien pour un email demande de le dire explicitement.
@@ -132,7 +132,7 @@ Générer un lien pour un email demande de le dire explicitement.
 - `generateUrl()`, `generate()`, `path()`, `url()` — jamais d'URL écrite à la
   main.
 - Quatre types de référence ; `ABSOLUTE_PATH` par défaut.
-- Un parameter hors route devient une chaîne de Request.
+- Un parameter hors route devient une query string.
 - Object en trop : properties publiques en array, sinon `Stringable` en chaîne.
 - `_query` : un array, prioritaire sur les parameters en trop.
 - Tester l'existence d'une route par `RouteNotFoundException`.

@@ -1134,10 +1134,10 @@ flashcards:
     front: "Pourquoi `getClientIp()` ne renvoie-t-il pas la première adresse de `X-Forwarded-For` ?"
     back: "Parce qu'il renvoie l'adresse non fiable la **plus proche du serveur** : tout ce qui est à sa gauche a été écrit par un maillon auquel on ne fait pas confiance."
     explanation: >-
-      Symfony complète la string avec `REMOTE_ADDR`, retire les adresses des
+      Symfony complète la chaîne d'adresses avec `REMOTE_ADDR`, retire les adresses des
       proxys déclarés de confiance, puis renverse ce qui reste et prend le
       premier élément. Le client d'origine n'est donc obtenu que si **toute** la
-      string est déclarée. C'est le comportement sûr : la partie gauche de
+      chaîne de proxies est déclarée. C'est le comportement sûr : la partie gauche de
       le header est falsifiable par le client.
     memorization_justification: >-
       La règle « le client est la première adresse » est vraie dans le cas
@@ -1815,7 +1815,7 @@ flashcards:
       renvoie le message reçu en contenu d'une Response 200. D'où l'interdiction
       du body, et l'avertissement de la RFC de ne jamais y mettre de données
       sensibles — elles reviendraient dans la Response. `Max-Forwards` limite la
-      longueur de la string parcourue.
+      longueur de la chaîne de proxies parcourue.
     memorization_justification: >-
       Deux safe methods mais non cacheables, avec pour TRACE une interdiction
       explicite qu'aucune autre method ne porte.

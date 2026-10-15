@@ -99,7 +99,7 @@ flashcards:
   front: 'Themes de form : dans quel ordre les blocks sont-ils cherchés ?'
   back: "Du plus spécifique au plus général : le block unique _formulaire_champ_partie, puis celui du type, puis ceux des types parents, jusqu'à form_partie."
   explanation: Le block le plus spécifique commence par un souligné et porte le nom du form puis
-    celui du field. C'est cette string qui permet de personnaliser à n'importe quel niveau.
+    celui du field. C'est cette chaîne de repli qui permet de personnaliser à n'importe quel niveau.
   memorization_justification: Chaîne de repli à trois niveaux dont la syntaxe du block le plus spécifique
     — souligné initial, nom du form, nom du field — ne s'invente pas.
   verification_status: VERIFIED
@@ -656,7 +656,7 @@ flashcards:
   level: UNDERSTANDING
   front: 'Symfony Forms : quels type guessers FrameworkBundle 8.0 enregistre-t-il ?'
   back: '`ValidatorTypeGuesser` et `EnumFormTypeGuesser`, sous le tag `form.type_guesser` ; le bridge Doctrine fournit `DoctrineOrmTypeGuesser` pour les entités.'
-  explanation: D'autres se déclarent avec la même tag ; la string retient la proposition de plus haute confiance (`Guess::getBestGuess()`).
+  explanation: D'autres se déclarent avec la même tag ; la chaîne de guessers retient la proposition de plus haute confiance (`Guess::getBestGuess()`).
   memorization_justification: Situe l'origine des types devinés.
   verification_status: VERIFIED
   official_sources:
@@ -1909,7 +1909,7 @@ flashcards:
   language: fr
   level: TRAP
   front: 'Symfony Forms : M1 puis M2 sont ajoutés par addModelTransformer(). Lequel transforme la model data en premier ?'
-  back: '`M2`, le dernier ajouté : `addModelTransformer()` insère en tête de la string.'
+  back: '`M2`, le dernier ajouté : `addModelTransformer()` insère en tête de la chaîne de transformers.'
   explanation: 'Exécuté avec `M1`, `M2`, `V1`, `V2` : données posées `M2 → M1 → V1 → V2`, submission `V2 → V1 → M1 → M2`. `addViewTransformer()`, lui, ajoute à la fin.'
   memorization_justification: Asymétrie de `FormConfigBuilder` entre les deux methods.
   verification_status: VERIFIED

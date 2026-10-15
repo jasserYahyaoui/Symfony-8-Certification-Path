@@ -89,8 +89,8 @@ l'option soit activée ou non.
 - Le header `X-HTTP-METHOD-OVERRIDE` est lu **en premier**, et il ne dépend pas
   de `http_method_override` : cette option ne gouverne que le parameter
   `_method`.
-- Le parameter `_method` est cherché dans le body, puis dans la string de
-  Request.
+- Le parameter `_method` est cherché dans le body, puis dans la query
+  string.
 - Un remplacement vers `GET`, `HEAD`, `CONNECT` ou `TRACE` est ignoré.
 - Le nom est d'abord mis en majuscules : `_method=put` est accepté et donne
   `PUT`. Seul un nom qui contient alors autre chose que des lettres — un

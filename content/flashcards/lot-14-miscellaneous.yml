@@ -454,7 +454,7 @@ flashcards:
   language: fr
   level: RECALL
   front: 'Symfony : que rend dump($x) ?'
-  back: 'La valeur reçue, `$x` : on peut l''insérer dans une string d''appels.'
+  back: 'La valeur reçue, `$x` : on peut l''insérer dans une chaîne d''appels.'
   explanation: 'Exécuté : `$v = dump([''k'' => 1])` rend l''array.'
   memorization_justification: Return value de dump().
   verification_status: VERIFIED

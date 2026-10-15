@@ -37,11 +37,11 @@ outcome_sections:
 ## Objectif
 
 Intercepter un message pendant qu'il traverse le bus, savoir combien de fois la
-string s'exécute, et où se place un middleware maison.
+chaîne de middlewares s'exécute, et où se place un middleware maison.
 
 ## Ce qu'un middleware voit
 
-Le bus n'appelle pas le handler directement : il fait traverser une **string de
+Le bus n'appelle pas le handler directement : il fait traverser une **chaîne de
 middleware**, chacun recevant l'**enveloppe** — donc le message *et* ses stamps.
 
 ```php
@@ -60,7 +60,7 @@ final class AuditMiddleware implements MiddlewareInterface
 ```
 
 `$stack->next()->handle(...)` passe au suivant. **Ne pas l'appeler interrompt la
-string** : le message n'atteint jamais son handler. Exécuté avec Messenger
+chaîne de middlewares** : le message n'atteint jamais son handler. Exécuté avec Messenger
 8.0.15, un middleware qui rend l'Envelope sans appeler la suite pour un message
 `Halt` **sans handler** : aucun handler appelé, aucun `HandledStamp`, et **aucune
 exception** — la `NoHandlerForMessageException` est levée par
@@ -72,7 +72,7 @@ remplacer, agir avant *et* après l'appel suivant.
 
 ## Deux passages en asynchrone
 
-La string est traversée **deux fois** pour un message asynchrone : à l'envoi,
+La chaîne de middlewares est traversée **deux fois** pour un message asynchrone : à l'envoi,
 quand il est dispatché, puis à la réception, quand le worker le récupère du
 transport. Exécuté, deux middleware `A` et `B` déclarés dans cet ordre, un
 message routé vers un transport :
@@ -104,7 +104,7 @@ handle_message
 ```
 
 `handle_message` (`HandleMessageMiddleware`) appelle les handlers et ferme la
-string ; `send_message` (`SendMessageMiddleware`) envoie au transport juste
+chaîne de middlewares ; `send_message` (`SendMessageMiddleware`) envoie au transport juste
 avant. Un middleware déclaré dans `middleware:` s'insère donc **avant** l'envoi
 et le traitement — ce qui lui permet d'interrompre l'un et l'autre. Quand le
 component Lock est activé, `deduplicate_middleware` s'ajoute en fin de premier
@@ -141,7 +141,7 @@ signale pas. `allow_no_senders` vaut `true` par défaut.
 **Ne pas appeler `$stack->next()` arrête tout** — silencieusement, même pour un
 message sans handler.
 
-**La string s'exécute deux fois** en asynchrone : à l'envoi et à la réception ;
+**La chaîne de middlewares s'exécute deux fois** en asynchrone : à l'envoi et à la réception ;
 `ReceivedStamp` les distingue.
 
 **Le middleware reçoit l'Envelope**, pas le message nu : les stamps sont

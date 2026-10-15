@@ -3193,7 +3193,7 @@ jobs:
             || missing="$missing l10acl:no-request-matcher"
           grep -aq 'should not be specified' /tmp/l10r-acl \
             || missing="$missing l10acl:no-matcher-error"
-          grep -aq 'chaîne de Request' /tmp/l10r-acl \
+          grep -aq 'comparée sans la query string' /tmp/l10r-acl \
             || missing="$missing l10acl:no-query-string"
           if [ -n "$missing" ]; then
             echo "::error::Lot 10 refinement missing from the access control rules page:$missing"
@@ -5056,6 +5056,31 @@ jobs:
             fail=1
           else
             echo "ok  second-pass  lot-01 enums: pure enum value access warns and yields null, modification throws an Error"
+          fi
+          # Remediation P1.3, lot 08: null and '' per constraint, 8.0 named arguments, and a custom
+          # Constraint with its ConstraintValidator. Each needle is absent from master before the change.
+          for page in built-in-validation-constraints violations-builder; do
+            code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+              -o "/tmp/p13-$page" -w '%{http_code}' "$BASE_URL/docs/courses/lot-08/$page")
+            if [ "$code" != "200" ]; then
+              echo "::error::Remediation P1.3: page lot-08/$page serves $code"
+              fail=1
+            fi
+          done
+          missing=""
+          grep -aqF -- 'la longueur 0 est mesurée' /tmp/p13-built-in-validation-constraints \
+            || missing="$missing p13bi:no-empty-string-length"
+          grep -aqF -- 'Configurer une constraint en 8.0' /tmp/p13-built-in-validation-constraints \
+            || missing="$missing p13bi:no-named-arguments"
+          grep -aqF -- 'Une constraint sur mesure' /tmp/p13-violations-builder \
+            || missing="$missing p13vb:no-custom-constraint"
+          grep -aqF -- 'est son travail, pour laisser' /tmp/p13-violations-builder \
+            || missing="$missing p13vb:no-null-is-the-validator-job"
+          if [ -n "$missing" ]; then
+            echo "::error::Remediation P1.3 missing from lot 08:$missing"
+            fail=1
+          else
+            echo "ok  remediation  P1.3 lot-08: null and empty string per constraint, 8.0 named arguments, custom constraint"
           fi
           # Second pass extension, lot 22 (Mailer): with Messenger, sending is deferred only when SendEmailMessage is routed to an async transport.
           code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \

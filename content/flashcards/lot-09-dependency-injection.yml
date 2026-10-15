@@ -591,7 +591,7 @@ flashcards:
   front: 'Symfony : pourquoi composer require suffit-il à rendre un service injectable ?'
   back: La recipe Flex active le bundle dans `config/bundles.php`, et le bundle enregistre ses services avec leurs alias de type.
   explanation: Composer installe du code ; c'est le bundle qui peuple le container.
-  memorization_justification: String package → bundle → service.
+  memorization_justification: Chaîne de responsabilités package → bundle → service.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/quick_tour/flex_recipes.rst

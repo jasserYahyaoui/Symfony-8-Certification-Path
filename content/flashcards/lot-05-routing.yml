@@ -179,7 +179,7 @@ flashcards:
     language: fr
     level: RECALL
     front: 'Symfony : que devient un parameter passé à la génération d''URL et absent de la route ?'
-    back: Il part en chaîne de Request — aucune erreur n'est levée.
+    back: Il part en query string — aucune erreur n'est levée.
     explanation: 'Une faute de frappe dans un nom de parameter ne produit donc aucun message : juste
       une URL avec un parameter en trop. Le type de référence par défaut est par ailleurs le path
       absolu, pas l''URL absolue.'
@@ -1258,11 +1258,11 @@ flashcards:
     language: fr
     level: RECALL
     front: 'À quoi sert la key réservée _query passée au generator ?'
-    back: 'À fournir un array de parameters de chaîne de Request, prioritaires sur les parameters en trop de même nom.'
+    back: 'À fournir un array de parameters de query string, prioritaires sur les parameters en trop de même nom.'
     explanation: >-
       Une valeur qui n est pas un array lève une InvalidParameterException.
     memorization_justification: >-
-      La key permet de distinguer explicitement ce qui va dans la chaîne de Request.
+      La key permet de distinguer explicitement ce qui va dans la query string.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
@@ -1409,7 +1409,7 @@ flashcards:
     official_item: OIT-81b2c0jmv2j3
     language: fr
     level: TRAP
-    front: 'Piège : « tout parameter en trop apparaît toujours dans la chaîne de Request ».'
+    front: 'Piège : « tout parameter en trop apparaît toujours dans la query string ».'
     back: 'Non. Celui qui égale la default value de même nom est retiré.'
     explanation: >-
       Le filtrage s applique avant la construction de la string.
@@ -1591,9 +1591,9 @@ flashcards:
     language: fr
     level: APPLICATION
     front: "Symfony : route /search/ ; un form envoie GET /search?q=php. Quelle URL le navigateur charge-t-il ensuite ?"
-    back: "/search/?q=php, après un 301 : la chaîne de Request est recopiée."
+    back: "/search/?q=php, après un 301 : la query string est recopiée."
     explanation: >-
-      urlRedirectAction() ajoute la chaîne de Request d'origine à l'URL cible.
+      urlRedirectAction() ajoute la query string d'origine à l'URL cible.
     memorization_justification: >-
       Sans cette règle, on croirait la recherche perdue par le redirect.
     verification_status: VERIFIED
@@ -1748,7 +1748,7 @@ flashcards:
     official_item: OIT-4pgc74ctc3vc
     language: fr
     level: UNDERSTANDING
-    front: "Symfony 8.0 : une default value _query posée sur une route ajoute-t-elle une chaîne de Request à l'URL générée ?"
+    front: "Symfony 8.0 : une default value _query posée sur une route ajoute-t-elle une query string à l'URL générée ?"
     back: "Non. UrlGenerator ne lit _query que dans les parameters passés à generate()."
     explanation: >-
       La documentation présente _query comme utilisable dans une route ou un import ; le code 8.0 ignore cette default value à la génération.
@@ -1833,7 +1833,7 @@ flashcards:
     front: "Symfony : en Twig, produisez /articles?page=2#top pour la route articles."
     back: "path('articles', {_query: {page: 2}, _fragment: 'top'})"
     explanation: >-
-      _query doit être un array ; _fragment est retiré des parameters avant la chaîne de Request et ajouté après #.
+      _query doit être un array ; _fragment est retiré des parameters avant la query string et ajouté après #.
     memorization_justification: >-
       Combiner les deux parameters réservés de génération dans un seul appel.
     verification_status: VERIFIED

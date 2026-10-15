@@ -5,7 +5,7 @@ title: "Built-in validation constraints"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-29"
+reviewed_at: "2026-10-15"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/map.rst.inc"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/reference/constraints/map.rst.inc"
@@ -17,11 +17,38 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "NotBlankValidator::validate"
     verified_at: "2026-09-01"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraints/LengthValidator.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Constraints/LengthValidator.php"
+    branch: "8.0"
+    symbol_or_lines: "validate(): returns on null only"
+    verified_at: "2026-10-15"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraints/EmailValidator.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Constraints/EmailValidator.php"
+    branch: "8.0"
+    symbol_or_lines: "validate(): returns on null and on the empty string"
+    verified_at: "2026-10-15"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraints/CollectionValidator.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Constraints/CollectionValidator.php"
+    branch: "8.0"
+    symbol_or_lines: "missingFieldsMessage, extraFieldsMessage, Required, Optional"
+    verified_at: "2026-10-15"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraints/Choice.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Constraints/Choice.php"
+    branch: "8.0"
+    symbol_or_lines: "__construct(): first parameter $options, an array is refused"
+    verified_at: "2026-10-15"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/CHANGELOG.md"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/CHANGELOG.md"
+    branch: "8.0"
+    symbol_or_lines: "8.0: Url requireTld defaults to true; options no longer configured implicitly"
+    verified_at: "2026-10-15"
 outcome_sections:
   OUT-zxecwdwyhgng: "Les familles"
   OUT-wkzdab0t8y8n: "Les distinctions qui décident"
   OUT-ca39zvmah4sj: "Les constraints de structure"
   OUT-8hwwtw34wdgt: "Les constraints de structure"
+  OUT-kyt7yfamw0aq: "null et la string vide"
+  OUT-bkrt4hz3td66: "Configurer une constraint en 8.0"
 ---
 
 ## Objectif
@@ -77,19 +104,54 @@ satisfait `EqualTo(1)`, pas `IdenticalTo(1)`.
 **`Length` contre `Count`** : la première mesure une string, en caractères —
 `'été'` fait 3 —, la seconde une collection.
 
+## null et la string vide
+
+Une constraint de valeur **ignore `null`** : ce n'est pas son role de dire si la
+valeur est obligatoire. Exécuté sur `symfony/validator` 8.0.15, `Length`,
+`Email`, `Regex`, `Choice`, `Positive`, `Count`, `Url` et `Type` ne signalent
+rien sur `null`. Seules `NotNull` et `NotBlank` le refusent.
+
+La string vide n'est pas `null`, et les constraints ne la traitent pas toutes
+de la même façon :
+
+| Constraint sur `''` | Résultat |
+|---|---|
+| `Email`, `Regex`, `Url`, `Type('string')` | acceptée : le validator rend la main |
+| `Length(min: 3)` | violation : la longueur 0 est mesurée |
+| `Choice(choices: ['a'])` | violation : `''` n'est pas un choix |
+| `Positive` | violation |
+
+Un field obligatoire porte donc `NotBlank` **en plus** de sa constraint de
+format : `Email` seule laisse passer `null` et `''`.
+
+## Configurer une constraint en 8.0
+
+Les options se passent en **named arguments**. Le CHANGELOG 8.0 retire la
+configuration implicite par array. Piège : le premier parameter de `Choice` est
+encore `$options`. `#[Assert\Choice(['draft', 'published'])]` lève donc une
+`InvalidArgumentException` à la lecture des metadata ; il faut
+`choices: ['draft', 'published']`.
+
+Autre changement 8.0 : `requireTld` de `Url` vaut `true` par défaut. Exécuté,
+`http://localhost` échoue avec `new Url()` et passe avec `requireTld: false`.
+
 ## Les constraints de structure
 
 Elles ne testent pas une valeur, elles en organisent d'autres :
 
 - `All` applique une constraint à **chaque élément** d'un array ;
-- `Collection` associe une constraint à **chaque key** d'un array ;
+- `Collection` associe une constraint à **chaque key** d'un array. Une key
+  absente donne `This field is missing.` à `[key]`, une key en trop
+  `This field was not expected.` — sauf `allowMissingFields` ou
+  `allowExtraFields`. `Required` exige la key, pas une valeur non nulle ;
 - `Sequentially` arrête à la **première** constraint violée : exécuté, `'ab'`
   contre `Length(min: 5)` puis `Email` donne une violation, deux sans
   `Sequentially` ;
 - `AtLeastOneOf` réussit si **une** des constraints réussit ; si toutes
   échouent, il produit **une** violation qui les résume ;
 - `When` n'applique une constraint que si une expression est vraie ;
-- `Compound` regroupe un jeu de constraints réutilisable sous un seul nom.
+- `Compound` regroupe un jeu de constraints réutilisable sous un seul nom ;
+  toutes s'exécutent, comme une liste simple.
 
 ## Pièges d'examen
 
@@ -104,6 +166,10 @@ violations sur la même property.
 
 **`DivisibleBy` est rangée en comparaison.**
 
+**`Email` seule accepte `null` et `''`.** L'obligation vient de `NotBlank`.
+
+**`Choice(['a', 'b'])` lève une exception en 8.0** : `choices:` est nommé.
+
 ## Points clés
 
 - Les familles se reconnaissent ; la liste exhaustive se consulte.
@@ -111,8 +177,11 @@ violations sur la même property.
 - `EqualTo` = `==`, `IdenticalTo` = `===`.
 - `All`, `Collection`, `Sequentially`, `AtLeastOneOf`, `When` organisent les
   autres constraints.
+- `null` passe toute constraint de valeur ; `''` dépend de la constraint.
+- 8.0 : named arguments ; `Url` exige un TLD par défaut.
 
 ## Sources officielles
 
 - [Référence des constraints](https://github.com/symfony/symfony-docs/blob/8.0/reference/constraints/map.rst.inc)
+- [`LengthValidator`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Constraints/LengthValidator.php), [`EmailValidator`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Constraints/EmailValidator.php), [`CollectionValidator`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Constraints/CollectionValidator.php), [`Choice`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Constraints/Choice.php) et le [CHANGELOG du Validator](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/CHANGELOG.md), branche 8.0
 - [`NotBlankValidator`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Constraints/NotBlankValidator.php)

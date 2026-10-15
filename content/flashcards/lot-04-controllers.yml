@@ -162,7 +162,7 @@ flashcards:
     back: "Toujours un array : vide si elle ne sait pas résoudre, un élément pour une valeur, plusieurs pour un variadique."
     explanation: >-
       Un array vide signifie « je passe la main » et n'est pas une erreur. Le
-      premier resolver qui fournit une valeur arrête la string.
+      premier resolver qui fournit une valeur arrête la chaîne de resolvers.
     memorization_justification: >-
       Retourner directement la valeur est l'erreur d'implémentation classique ;
       la raison — les arguments variadiques — n'est pas devinable.
@@ -1087,7 +1087,7 @@ flashcards:
       Le service `twig` est déclaré facultatif, donc le controller s'instancie
       normalement ; l'échec est reporté au raccourci qui en a besoin.
     memorization_justification: >-
-      Savoir OÙ la string casse est ce qui distingue un diagnostic correct d'une
+      Savoir OÙ la chaîne d'appels casse est ce qui distingue un diagnostic correct d'une
       chasse au mauvais endroit.
     verification_status: VERIFIED
     official_sources:
@@ -2890,7 +2890,7 @@ flashcards:
     language: fr
     level: APPLICATION
     front: "On passe $request->query->all() comme parameters à redirectToRoute(). Que devient la query string ?"
-    back: "Elle est conservée : les parameters qui ne sont pas des variables du path partent en chaîne de Request."
+    back: "Elle est conservée : les parameters qui ne sont pas des variables du path partent en query string."
     explanation: >-
       Le generator calcule les parameters en trop et les encode avec http_build_query.
     memorization_justification: >-
@@ -3897,12 +3897,12 @@ flashcards:
     language: fr
     level: APPLICATION
     front: "Une route RedirectController en mode path reçoit ?page=2. Le redirect garde-t-il ce parameter ?"
-    back: "Oui si path est un path : la chaîne de Request est recopiée, sans option pour s en passer. Non si path est une URL complète (https://… ou //…) : elle part telle quelle."
+    back: "Oui si path est un path : la query string est recopiée, sans option pour s en passer. Non si path est une URL complète (https://… ou //…) : elle part telle quelle."
     explanation: >-
       keepQueryParams n existe que pour le mode route. Exécuté sur
       FrameworkBundle 8.0 avec ?page=2 : le path /target redirige vers
       http://localhost/target?page=2, l URL https://example.org/target vers
-      elle-même, sans la chaîne de Request.
+      elle-même, sans la query string.
     memorization_justification: >-
       Le cas inverse la règle apprise sur keepQueryParams.
     verification_status: VERIFIED
@@ -4016,7 +4016,7 @@ flashcards:
     front: 'Quelle priority portent RequestValueResolver et SessionValueResolver dans FrameworkBundle ?'
     back: '120, au-dessus des resolvers à 100 dont RequestAttributeValueResolver.'
     explanation: >-
-      DefaultValueResolver est à -100 et VariadicValueResolver à -150, en fin de string.
+      DefaultValueResolver est à -100 et VariadicValueResolver à -150, en fin de chaîne de resolvers.
     memorization_justification: >-
       Les valeurs exactes décident de qui gagne quand plusieurs resolvers pourraient répondre.
     verification_status: VERIFIED
@@ -4035,7 +4035,7 @@ flashcards:
     front: 'Que lève ArgumentResolver quand aucun resolver ne fournit de valeur pour un argument ?'
     back: 'Une RuntimeException indiquant que le controller requiert un argument qui n a pas pu être résolu.'
     explanation: >-
-      Chaque resolver peut passer la main ; c est l échec de toute la string qui produit l erreur.
+      Chaque resolver peut passer la main ; c est l échec de toute la chaîne de resolvers qui produit l erreur.
     memorization_justification: >-
       On confond facilement le refus d un resolver et l échec de l ensemble.
     verification_status: VERIFIED
@@ -4073,7 +4073,7 @@ flashcards:
     front: 'Quels resolvers portent le tag controller.targeted_value_resolver dans FrameworkBundle ?'
     back: 'RequestPayloadValueResolver et QueryParameterValueResolver.'
     explanation: >-
-      Ils sont retirés de la string ordinaire et ne s exécutent que si un attribute les désigne.
+      Ils sont retirés de la chaîne de resolvers ordinaire et ne s exécutent que si un attribute les désigne.
     memorization_justification: >-
       Connaître la liste explique pourquoi les attributes Map sont indispensables à ces resolvers.
     verification_status: VERIFIED
@@ -4127,7 +4127,7 @@ flashcards:
     official_item: OIT-8hs6e05vq91g
     language: fr
     level: UNDERSTANDING
-    front: 'Pourquoi #[ValueResolver] ne réduit-il pas la string au seul resolver épinglé ?'
+    front: 'Pourquoi #[ValueResolver] ne réduit-il pas la chaîne de resolvers au seul resolver épinglé ?'
     back: 'Parce qu ArgumentResolver ajoute derrière lui RequestAttributeValueResolver puis DefaultValueResolver.'
     explanation: >-
       Un argument épinglé peut donc encore recevoir un attribute de Request ou sa default value.

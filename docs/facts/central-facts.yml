@@ -228,3 +228,100 @@ facts:
     behavior_check: cache.psr-bridges
     content: [CRS-p6yhxmpxrzbs, QST-3va6n5ybkba5]
     forbidden: []
+  validator.null-passes-value-constraints:
+    finding: P1.3
+    official_item: OIT-9x3strrjdng7
+    statement: >-
+      A value constraint ignores null: Length, Email, Regex, Choice, Positive, Count, Url and Type report nothing on it.
+      Only NotNull and NotBlank refuse null.
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraints/LengthValidator.php
+    behavior_check: validator.null-passes-value-constraints
+    content: [CRS-569y6hb7fwj5, FLC-t2dp9na2nv8d, QST-n7y4xagppx56]
+    forbidden: []
+  validator.empty-string-split:
+    finding: P1.3
+    official_item: OIT-9x3strrjdng7
+    statement: >-
+      The empty string is not null. Email, Regex and Url return at once on it; Length measures a length of 0, and Choice
+      and Positive report it.
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraints/EmailValidator.php
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraints/LengthValidator.php
+    behavior_check: validator.empty-string-split
+    content: [CRS-569y6hb7fwj5, FLC-t2dp9na2nv8d, QST-axp7pjs0gkx9, QST-n7y4xagppx56]
+    forbidden:
+      - "/\\bEmail\\b[^.\\n]{0,40}\\b(refuse|rejette|rejects)\\b[^.\\n]{0,20}(la string vide|the empty string)/u"
+  validator.options-array-refused:
+    finding: P1.3
+    official_item: OIT-9x3strrjdng7
+    statement: >-
+      Symfony 8.0 configures constraints by named arguments. The first parameter of Choice is still $options, so
+      Choice(['a', 'b']) throws an InvalidArgumentException; choices: must be named.
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraints/Choice.php
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/CHANGELOG.md
+    behavior_check: validator.options-array-refused
+    content: [CRS-569y6hb7fwj5, FLC-84x56c7s0fpd, QST-f1bervatv72c]
+    forbidden: []
+  validator.url-requires-tld-by-default:
+    finding: P1.3
+    official_item: OIT-9x3strrjdng7
+    statement: In 8.0 requireTld defaults to true, so new Url() refuses http://localhost.
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/CHANGELOG.md
+    behavior_check: validator.url-requires-tld-by-default
+    content: [CRS-569y6hb7fwj5, QST-tjerswa74bd5]
+    forbidden: []
+  validator.collection-missing-and-extra:
+    finding: P1.3
+    official_item: OIT-9x3strrjdng7
+    statement: >-
+      Collection reports a missing key and an unexpected key at [key], unless allowMissingFields or allowExtraFields.
+      Required requires the key, not a non-null value.
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraints/CollectionValidator.php
+    behavior_check: validator.collection-missing-and-extra
+    content: [CRS-569y6hb7fwj5]
+    forbidden: []
+  validator.list-sequentially-compound:
+    finding: P1.3
+    official_item: OIT-9x3strrjdng7
+    statement: A list of constraints runs them all, Sequentially stops at the first violation, and Compound runs all of its own.
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraints/SequentiallyValidator.php
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraints/Compound.php
+    behavior_check: validator.list-sequentially-compound
+    content: [CRS-569y6hb7fwj5]
+    forbidden: []
+  validator.custom-constraint-defaults:
+    finding: P1.3
+    official_item: OIT-0wnxbapegqhv
+    statement: >-
+      A custom constraint is validated by its class name followed by Validator, targets a property by default and is in
+      the Default group. Put on a class without overriding getTargets(), it throws a ConstraintDefinitionException.
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraint.php
+    behavior_check: validator.custom-constraint-defaults
+    content: [CRS-d235sja3h7y2, FLC-5n69katpvnnd, QST-v6s83rdh77nq]
+    forbidden: []
+  validator.custom-validator-sees-null:
+    finding: P1.3
+    official_item: OIT-0wnxbapegqhv
+    statement: A custom validator is called with null too; returning early on it is the validator's own job.
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/custom_constraint.rst
+    behavior_check: validator.custom-validator-sees-null
+    content: [CRS-d235sja3h7y2, FLC-5n69katpvnnd, QST-v6s83rdh77nq]
+    forbidden: []
+  validator.unexpected-value-vs-type:
+    finding: P1.3
+    official_item: OIT-0wnxbapegqhv
+    statement: >-
+      An UnexpectedValueException thrown by a validator becomes the violation "This value should be of type ...";
+      an UnexpectedTypeException propagates.
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Validator/RecursiveContextualValidator.php
+    behavior_check: validator.unexpected-value-vs-type
+    content: [CRS-d235sja3h7y2, QST-ed52tkyz4n4h]
+    forbidden: []

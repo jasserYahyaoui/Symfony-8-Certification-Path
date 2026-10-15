@@ -2619,7 +2619,7 @@ flashcards:
     explanation: >-
       Sans cela, une page d'erreur défaillante provoquerait une récursion. Le
       kernel journalise l'échec, raccroche l'exception d'origine au bout de la
-      string, et relance.
+      chaîne d'exceptions, et relance.
     memorization_justification: >-
       Cas limite dont la Response intuitive — « oui, elle repasse par
       kernel.exception » — est fausse et produirait une loop.
