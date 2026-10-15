@@ -124,7 +124,10 @@ terms:
   - {fr: [journalisation], en: logging, en_plural: logging, gender: m, elide: false}
   - {fr: [paquet, paquets], en: package, en_plural: packages, gender: m, elide: false}
   - {fr: [bloc, blocs], en: block, en_plural: blocks, gender: m, elide: false}
-  - {fr: [filtre, filtres], en: filter, en_plural: filters, gender: m, elide: false}
+  # « filtre » is also the verb filtrer: « le requirement filtre l'URL ». The
+  # conjugated verb is followed by its object or by « par »; « filtre par
+  # défaut » stays a noun. Eleven verbs had become « filter » (2026-10-15).
+  - {fr: [filtre, filtres], en: filter, en_plural: filters, gender: m, elide: false, keep: ['\bfiltre(nt)? (la|les|l[''’\x02]|une|un|des|par (?!défaut)|sur|selon)\b']}
   - {fr: [commande, commandes], en: command, en_plural: commands, gender: f, elide: false}
   - {fr: [groupe, groupes], en: group, en_plural: groups, gender: m, elide: false}
   - {fr: [requête, requêtes], en: Request, en_plural: Requests, gender: f, elide: false}

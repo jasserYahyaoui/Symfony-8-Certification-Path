@@ -1924,7 +1924,7 @@ flashcards:
     front: "Une Request est un POST. Que renvoie `$request->isMethodCacheable()` ?"
     back: "`false` — alors que RFC 9110 §9.2.3 définit bien une sémantique de cache pour POST."
     explanation: >-
-      Les deux Responses sont justes, chacune dans son référentiel : une question
+      Les deux affirmations sont justes, chacune dans son référentiel : une question
       sur la RFC et une question sur Symfony n'appellent pas la même. Et la
       liste de Symfony a un scope réel : `Response::isNotModified()` s'ouvre
       sur `isMethodCacheable()`, donc la validation conditionnelle suit
@@ -2889,7 +2889,7 @@ flashcards:
     front: "RFC 9110 §12 : quelles sont les deux formes de content negotiation, et leurs synonymes ?"
     back: "Proactive, dite *server-driven* — le serveur choisit ; réactive, dite *agent-driven* — le serveur liste des alternatives et le client choisit."
     explanation: >-
-      Le synonyme donne la Response à chaque fois : *server-driven* = le serveur
+      Le synonyme donne la key à chaque fois : *server-driven* = le serveur
       décide, *agent-driven* = l'agent décide. La négociation réactive suppose un
       aller-retour supplémentaire ; c'est ce que sert `300 Multiple Choices`.
       L'examen vise la proactive, mais la question peut porter sur la

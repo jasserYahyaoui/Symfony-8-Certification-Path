@@ -117,7 +117,7 @@ Si aucune autre route ne correspond, la Response est un 404.
 Le generator ne connaît ni la Request courante ni l'agent user : il ne
 peut pas évaluer l'expression. Une route protégée par une `condition` reste donc
 parfaitement générable, y compris vers un contexte où elle ne correspondrait
-pas. Une condition filter l'entrée, elle ne documente pas l'output.
+pas. Une condition filtre l'entrée, elle ne documente pas l'output.
 
 C'est la différence de fond avec `requirements`, qui compte dans les deux sens.
 
@@ -127,8 +127,8 @@ C'est la différence de fond avec `requirements`, qui compte dans les deux sens.
 par une condition reste parfaitement générable, y compris vers un contexte où
 elle ne correspondrait pas.
 
-**Une condition filter l'entrée ; elle ne documente pas l'output.** C'est toute
-la différence avec une constraint de parameter, qui vaut dans les deux sens.
+**Une condition filtre l'entrée ; elle ne documente pas l'output.** C'est toute
+la différence avec un requirement de parameter, qui vaut dans les deux sens.
 
 **L'expression est compilée en PHP, pas interprétée à chaque Request.** Elle est
 compilée une fois dans le cache du router ; seul le PHP qui en résulte

@@ -95,7 +95,7 @@ et `HEAD`**, avec un **301** :
 Le redirect va toujours vers la forme déclarée par la route, dans les deux
 sens. Le code ajoute trois conditions que l'array ne montre pas :
 
-- la route doit accepter `GET` : aucune constraint `methods`, ou une liste qui
+- la route doit accepter `GET` : aucune restriction `methods`, ou une liste qui
   contient `GET` ;
 - la racine `/` n'est jamais concernée ;
 - un `POST` vers `/foo` pour une route `/foo/` n'est **pas** redirigé. Aucune

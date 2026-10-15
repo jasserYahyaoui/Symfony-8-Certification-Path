@@ -88,7 +88,7 @@ L'accès passe alors par deux headers de Response :
 | `X-Debug-Token` | le token du profil |
 | `X-Debug-Token-Link` | l'URL directe du profil |
 
-L'URL `/_profiler` liste tous les profils. C'est la Response à « je n'ai pas de
+L'URL `/_profiler` liste tous les profils. C'est la solution à « je n'ai pas de
 barre, comment je vois le profil ? ».
 
 ## Le stockage n'est pas permanent

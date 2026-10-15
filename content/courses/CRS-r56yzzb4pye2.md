@@ -71,7 +71,7 @@ Request depuis un template.
 | `app.user` | le user courant, ou `null` s'il n'est pas authentifié |
 | `app.request` | l'object `Request` courant |
 | `app.session` | la session, ou `null` si la Request n'en a pas |
-| `app.flashes` | les flash messages ; `app.flashes('notice')` filter par type |
+| `app.flashes` | les flash messages ; `app.flashes('notice')` filtre par type |
 | `app.environment` | `dev`, `prod`… |
 | `app.debug` | le mode debug |
 | `app.token` | le token de sécurité |

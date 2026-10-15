@@ -353,7 +353,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 - NOUVEAU · **Routing : HTTP methods matching** (MINIMAL) — 21 min · 497 mots · 2 questions, 5 questions de compréhension, 8 flashcards
 - NOUVEAU · **Routing : User's locale guessing** (STANDARD) — 29 min · 590 mots · 4 questions, 5 questions de compréhension, 12 flashcards
-- NOUVEAU · **Routing : Router debugging** (MINIMAL) — 22 min · 525 mots · 3 questions, 5 questions de compréhension, 8 flashcards
+- NOUVEAU · **Routing : Router debugging** (MINIMAL) — 22 min · 521 mots · 3 questions, 5 questions de compréhension, 8 flashcards
 - NOUVEAU · **Dependency Injection : Dependency Injection component** (STANDARD) — 26 min · 599 mots · 3 questions, 5 questions de compréhension, 11 flashcards
 - Révision **J+3** (11 min) — Routing : Special internal routing attributes · Routing : Domain name matching · Routing : Conditional request matching
 - Révision **J+7** (10 min) — Controllers : The flash messages · Controllers : HTTP redirects · Controllers : Internal redirects
@@ -768,7 +768,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Mardi 24 novembre 2026
 
 - NOUVEAU · **Console : Built-in commands** (MINIMAL) — 28 min · 485 mots · 3 questions, 7 questions de compréhension, 11 flashcards
-- NOUVEAU · **Console : Custom commands** (STANDARD) — 33 min · 712 mots · 4 questions, 6 questions de compréhension, 11 flashcards
+- NOUVEAU · **Console : Custom commands** (STANDARD) — 33 min · 712 mots · 4 questions, 6 questions de compréhension, 12 flashcards
 - NOUVEAU · **Console : Configuration** (STANDARD) — 34 min · 693 mots · 4 questions, 7 questions de compréhension, 11 flashcards
 - NOUVEAU · **Console : Options and arguments (using PHP attributes)** (STANDARD) — 22 min · 827 mots · 4 questions, 7 questions de compréhension, 11 flashcards
 - Révision **J+1** (18 min) — Templating with Twig : String interpolation · Templating with Twig : Assets management · Templating with Twig : Debugging variables · Console : Console component

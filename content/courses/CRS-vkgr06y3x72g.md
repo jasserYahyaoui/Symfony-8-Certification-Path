@@ -36,7 +36,7 @@ outcome_sections:
   OUT-w99f0fjydtp0: "La règle de base"
   OUT-fhjj5c6d002g: "Tout ce qui suit un parameter facultatif doit l'être"
   OUT-qva279gdyyra: "Le point d'exclamation"
-  OUT-33d0j3zrrwmz: "Défaut et constraint"
+  OUT-33d0j3zrrwmz: "Défaut et requirement"
 ---
 
 ## Objectif
@@ -57,7 +57,7 @@ L'endroit où on l'écrit dépend du format :
 | YAML / PHP | option `defaults` |
 | inline | `{page?1}` dans le path |
 
-La forme inline se combine avec une constraint inline :
+La forme inline se combine avec un requirement inline :
 `/blog/{page<[0-9]+>?1}`. Un `?` sans valeur, `{page?}`, donne la valeur par
 défaut `null` : l'argument du controller doit alors être nullable.
 
@@ -72,7 +72,7 @@ path ne rend rien facultatif.
 
 ## Tout ce qui suit un parameter facultatif doit l'être
 
-C'est la constraint structurelle de l'item. `/blog/{slug}/{page}` accepte
+C'est la règle structurelle de l'item. `/blog/{slug}/{page}` accepte
 plusieurs parameters facultatifs, mais **tout ce qui vient après un parameter
 facultatif doit être facultatif aussi**.
 
@@ -98,9 +98,9 @@ l'appariement** : `/blog` ne correspond plus, seul `/blog/1` correspond.
 
 Le `!` agit donc des deux côtés — génération **et** appariement.
 
-## Défaut et constraint
+## Défaut et requirement
 
-La default value n'a pas à satisfaire la constraint du parameter. Elle n'est
+La default value n'a pas à satisfaire le requirement du parameter. Elle n'est
 pas issue de l'URL, donc elle n'est pas filtrée.
 
 ## Pièges d'examen
@@ -118,8 +118,8 @@ importante n'est jamais facultative pour le compiler.
 **Un défaut d'argument ne compte que si le path porte un parameter du même
 nom.**
 
-**La default value n'a pas à satisfaire la constraint du parameter.** La
-constraint porte sur ce qui vient de l'URL, pas sur ce que la route fournit
+**La default value n'a pas à satisfaire le requirement du parameter.** Le
+requirement porte sur ce qui vient de l'URL, pas sur ce que la route fournit
 elle-même.
 
 ## Points clés
@@ -131,7 +131,7 @@ elle-même.
 - `{!page}` force la default value dans l'URL générée **et** rend `page`
   obligatoire à l'appariement.
 - `{page?}` : défaut `null`, argument nullable.
-- La default value peut violer la constraint.
+- La default value peut violer le requirement.
 
 ## Sources officielles
 

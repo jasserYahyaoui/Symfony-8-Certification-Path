@@ -80,7 +80,7 @@ Le **compiler pass** est le niveau au-dessous — il intervient pendant
 la compilation du container et permet ce que la configuration ne permet pas :
 supprimer une definition, modifier celle d'un autre bundle, ajouter un argument.
 
-## Le controller a deux Responses
+## Le controller a deux cas
 
 Le document ouvre sa section par une condition : **« si le controller est un
 service, voir la section suivante »** — la décoration. La route de même path

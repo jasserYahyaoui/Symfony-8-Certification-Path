@@ -41,13 +41,13 @@ outcome_sections:
 
 ## Objectif
 
-Contraindre la valeur d'un parameter de route, et savoir quand cette constraint
+Contraindre la valeur d'un parameter de route, et savoir quand ce requirement
 s'applique.
 
 ## Le problème qu'elle résout
 
 `/blog/{page}` et `/blog/{slug}` sont indiscernables : un parameter accepte
-n'importe quelle valeur. Sans constraint, `/blog/mon-article` correspond aux
+n'importe quelle valeur. Sans requirement, `/blog/mon-article` correspond aux
 deux, et c'est la **première route déclarée** qui gagne.
 
 `requirements` associe à chaque parameter une **expression régulière PHP** que
@@ -87,20 +87,20 @@ complexe ; c'est un arbitrage, pas une règle.
 
 ## Ce qui est autorisé
 
-Une constraint peut contenir un **parameter de configuration**, ce qui permet de
+Un requirement peut contenir un **parameter de configuration**, ce qui permet de
 définir une expression compliquée une fois et de la réutiliser. Elle accepte
 aussi les **properties Unicode PCRE** : `\p{Lu}` correspond à toute majuscule,
 dans n'importe quelle langue.
 
 ## Deux pièges
 
-Une default value **n'est pas tenue** de satisfaire la constraint. La
-documentation le dit explicitement. La constraint filter l'URL entrante ; la
+Une default value **n'est pas tenue** de satisfaire le requirement. La
+documentation le dit explicitement. Le requirement filtre l'URL entrante ; la
 default value, elle, n'est pas dans l'URL.
 
-### La constraint s'applique aussi en génération
+### Le requirement s'applique aussi en génération
 
-Le generator relit chaque constraint avant de produire l'URL. Ce qu'il fait
+Le generator relit chaque requirement avant de produire l'URL. Ce qu'il fait
 d'une valeur non conforme dépend de l'option `framework.router.strict_requirements` :
 
 | Valeur | Effet d'une valeur non conforme |
@@ -115,15 +115,15 @@ branche 8.0 retourne `''`. La même aide suggère `true` en développement,
 
 ## Pièges d'examen
 
-**Sans constraint, deux routes de même forme sont départagées par l'ordre de
+**Sans requirement, deux routes de même forme sont départagées par l'ordre de
 déclaration**, pas par ce qui « ressemble » le plus. Contraindre le parameter
 rend l'ordre indifférent — c'est le vrai service rendu.
 
-**Une constraint est une expression régulière PHP**, avec ce que cela implique :
+**Un requirement est une expression régulière PHP**, avec ce que cela implique :
 les properties Unicode fonctionnent, et une expression fragile passe sans que
 rien ne prévienne.
 
-**La constraint vaut aussi à la génération.** Générer `blog_list` avec
+**Le requirement vaut aussi à la génération.** Générer `blog_list` avec
 `page: 'abc'` lève une exception par défaut.
 
 ## Points clés
@@ -131,9 +131,9 @@ rien ne prévienne.
 - `requirements` = expression régulière PHP ; toute la route échoue si elle n'est
   pas vérifiée.
 - Trois écritures : option, inline `{p<regex>}`, enum `Requirement`.
-- Une constraint peut contenir un parameter de configuration.
-- La default value peut ne pas respecter la constraint.
-- Le generator vérifie la constraint : exception par défaut
+- Un requirement peut contenir un parameter de configuration.
+- La default value peut ne pas respecter le requirement.
+- Le generator vérifie le requirement : exception par défaut
   (`strict_requirements: true`).
 - `DIGITS` accepte `0` ; `POSITIVE_INT` non.
 

@@ -695,7 +695,7 @@ flashcards:
   official_item: OIT-se21g2xv6h4r
   language: fr
   level: RECALL
-  front: 'Symfony : quelle method du Crawler filter par expression XPath sans CssSelector ?'
+  front: 'Symfony : quelle method du Crawler filtre par expression XPath sans CssSelector ?'
   back: '`filterXpath()` ; `filter()` exige CssSelector.'
   explanation: Sans CssSelector, `filter()` lève une `LogicException` qui propose `filterXpath`.
   memorization_justification: XPath ou CSS.

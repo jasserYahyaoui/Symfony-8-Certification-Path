@@ -36,15 +36,25 @@ verbosity.
 ## Une constraint de typage
 
 *« Ensure closures set via `Command::setCode()` method have proper parameter and
-return types »*. Une closure passée à `setCode()` doit désormais être typée
-correctement. Du code qui marchait sans types ne passe plus.
+return types »*. Exécuté sur 8.0.15 contre 7.4.21, la règle porte sur deux
+points, et elle tombe **à l'exécution** (`run()`), pas à `setCode()` qui accepte
+toute closure :
+
+| Closure passée à `setCode()` | 7.4 | 8.0 |
+|---|---|---|
+| parameters non typés | `run()` rend 0 | `LogicException` : *must have a named type* |
+| typée, ne rend pas un `int` | `run()` rend 0 | `TypeError` : *must return an integer value* |
+| typée, `return 0` | 0 | 0 |
+
+Un return type déclaré n'est pas exigé : c'est la **valeur** rendue qui doit
+être un `int`.
 
 ## Pièges d'examen
 
 **`getDefaultName()` n'existe plus.** Une proposition qui redéfinit cette
 method statique décrit du code antérieur à la 8.0.
 
-**`AsCommand` est `final`** : en hériter est impossible, donc toute Response qui
+**`AsCommand` est `final`** : en hériter est impossible, donc toute proposition qui
 propose un attribute dérivé est fausse.
 
 **`add()` n'est pas dépréciée, elle est retirée** — ce n'est plus un
@@ -56,7 +66,7 @@ avertissement, c'est une erreur.
   `final`.
 - `Application::add()` est remplacée par `addCommand()`.
 - `OutputInterface` gagne `isSilent()`.
-- Les closures de `setCode()` doivent être typées.
+- Une closure de `setCode()` doit typer ses parameters et rendre un `int` ; sinon `run()` échoue.
 
 ## Sources officielles
 

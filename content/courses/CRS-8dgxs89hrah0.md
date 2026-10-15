@@ -46,7 +46,7 @@ Diagnostiquer un problème de routage avec les deux commands prévues pour cela.
 
 Elle liste toutes les routes **dans l'ordre où Symfony les évalue**. C'est ce
 détail qui en fait un outil de diagnostic et non un simple inventaire : comme la
-première correspondance gagne, l'ordre est la Response à « pourquoi est-ce
+première correspondance gagne, l'ordre explique « pourquoi est-ce
 l'autre route qui répond ? ».
 
 ```bash
@@ -57,7 +57,7 @@ php bin/console debug:router --method=GET
 php bin/console debug:router --format=json
 ```
 
-`--method` filter la liste, mais garde les routes sans constraint de method,
+`--method` filtre la liste, mais garde les routes sans restriction de method,
 puisqu'elles acceptent tout verbe. `--format` vaut `txt` par défaut ; `xml`, `json` et `md` sont les autres.
 
 Passer un nom affiche le détail d'une route : path, host, schéma, methods,
@@ -87,7 +87,7 @@ contexte du router avant l'appariement.
 
 Ce que la command affiche, d'après `RouterMatchCommand` :
 
-- chaque route qui correspond **presque**, avec la raison : constraint de
+- chaque route qui correspond **presque**, avec la raison : requirement de
   parameter, host, condition, schéma ou method (`TraceableUrlMatcher`) ;
 - en mode verbeux (`-v`), aussi les routes qui ne correspondent pas ;
 - en cas de succès, le détail de la route, en relançant `debug:router` sur son
@@ -101,7 +101,7 @@ déduire d'une liste.
 ## Pièges d'examen
 
 **La liste des routes est donnée dans l'ordre d'évaluation, pas alphabétique.**
-La première correspondance gagne, donc l'ordre affiché *est* la Response à
+La première correspondance gagne, donc l'ordre affiché *est* l'explication de
 « pourquoi est-ce l'autre route qui répond ? ».
 
 **Deux commands, deux questions différentes.** L'une inventorie les routes,

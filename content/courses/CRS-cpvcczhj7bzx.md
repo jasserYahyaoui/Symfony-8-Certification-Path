@@ -83,7 +83,7 @@ if ($file) {
 Le test est nécessaire : avec `required: false`, `getData()` retourne `null`
 quand rien n'a été envoyé.
 
-## Ce que `FileType` filter
+## Ce que `FileType` écarte
 
 Un listener `PRE_SUBMIT` de `FileType` ne garde que de vrais files
 téléversés, reconnus par le handler de Request. Exécuté : une **string**

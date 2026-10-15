@@ -1,0 +1,1537 @@
+[
+ {
+  "component": "AssetMapper",
+  "source": "CHANGELOG",
+  "text": "Remove `ImportMapConfigReader::splitPackageNameAndFilePath()`, use `ImportMapEntry::splitPackageNameAndFilePath()` instead"
+ },
+ {
+  "component": "AssetMapper",
+  "source": "CHANGELOG",
+  "text": "Make argument `$projectDir` of `ImportMapRequireCommand` mandatory"
+ },
+ {
+  "component": "BrowserKit",
+  "source": "CHANGELOG",
+  "text": "Remove `AbstractBrowser::useHtml5Parser()`; the native HTML5 parser is used unconditionally"
+ },
+ {
+  "component": "Cache",
+  "source": "CHANGELOG",
+  "text": "Remove `CouchbaseBucketAdapter`, use `CouchbaseCollectionAdapter` instead"
+ },
+ {
+  "component": "Config",
+  "source": "CHANGELOG",
+  "text": "Remove support for accessing the internal scope of the loader in PHP config files, use only its public API instead"
+ },
+ {
+  "component": "Config",
+  "source": "CHANGELOG",
+  "text": "Add argument `$singular` to `NodeBuilder::arrayNode()`"
+ },
+ {
+  "component": "Config",
+  "source": "CHANGELOG",
+  "text": "Add argument `$info` to `ArrayNodeDefinition::canBeDisabled()` and `canBeEnabled()`"
+ },
+ {
+  "component": "Config",
+  "source": "CHANGELOG",
+  "text": "Ensure configuration nodes do not have both `isRequired()` and `defaultValue()`"
+ },
+ {
+  "component": "Config",
+  "source": "CHANGELOG",
+  "text": "Remove generation of fluent methods in config builders"
+ },
+ {
+  "component": "Console",
+  "source": "CHANGELOG",
+  "text": "Make `AsCommand` attribute class `final`"
+ },
+ {
+  "component": "Console",
+  "source": "CHANGELOG",
+  "text": "Remove methods `Command::getDefaultName()` and `Command::getDefaultDescription()` in favor of the `#[AsCommand]` attribute"
+ },
+ {
+  "component": "Console",
+  "source": "CHANGELOG",
+  "text": "Ensure closures set via `Command::setCode()` method have proper parameter and return types"
+ },
+ {
+  "component": "Console",
+  "source": "CHANGELOG",
+  "text": "Add method `isSilent()` to `OutputInterface`"
+ },
+ {
+  "component": "Console",
+  "source": "CHANGELOG",
+  "text": "Remove deprecated `Symfony\\Component\\Console\\Application::add()` method in favor of `Symfony\\Component\\Console\\Application::addCommand()`"
+ },
+ {
+  "component": "Console",
+  "source": "CHANGELOG",
+  "text": "Add argument `$finishedIndicator` to `ProgressIndicator::finish()`"
+ },
+ {
+  "component": "DependencyInjection",
+  "source": "CHANGELOG",
+  "text": "Remove support for using `$this` or the loader's internal scope from PHP config files; use the `$loader` variable instead"
+ },
+ {
+  "component": "DependencyInjection",
+  "source": "CHANGELOG",
+  "text": "Remove `ExtensionInterface::getXsdValidationBasePath()` and `getNamespace()` without alternatives, the XML configuration format is no longer supported"
+ },
+ {
+  "component": "DependencyInjection",
+  "source": "CHANGELOG",
+  "text": "Add argument `$throwOnAbstract` to `ContainerBuilder::findTaggedResourceIds()`"
+ },
+ {
+  "component": "DependencyInjection",
+  "source": "CHANGELOG",
+  "text": "Registering a service without a class when its id is a non-existing FQCN throws an error"
+ },
+ {
+  "component": "DependencyInjection",
+  "source": "CHANGELOG",
+  "text": "Remove `#[TaggedIterator]` and `#[TaggedLocator]` attributes, replaced by `#[AutowireLocator]` and `#[AutowireIterator]`"
+ },
+ {
+  "component": "DependencyInjection",
+  "source": "CHANGELOG",
+  "text": "Remove `ContainerBuilder::getAutoconfiguredAttributes()`, replaced by `ContainerBuilder::getAttributeAutoconfigurators()`"
+ },
+ {
+  "component": "DependencyInjection",
+  "source": "CHANGELOG",
+  "text": "Remove `!tagged` tag, use `!tagged_iterator` instead"
+ },
+ {
+  "component": "DependencyInjection",
+  "source": "CHANGELOG",
+  "text": "Add argument `$target` to `ContainerBuilder::registerAliasForArgument()`"
+ },
+ {
+  "component": "DependencyInjection",
+  "source": "CHANGELOG",
+  "text": "Remove support for the XML configuration format"
+ },
+ {
+  "component": "DependencyInjection",
+  "source": "CHANGELOG",
+  "text": "Remove the fluent PHP format for semantic configuration, instantiate builders inline with the config array as argument and return them instead"
+ },
+ {
+  "component": "DoctrineBridge",
+  "source": "CHANGELOG",
+  "text": "Remove support for auto-mapping Doctrine entities to controller arguments; use explicit mapping instead"
+ },
+ {
+  "component": "DoctrineBridge",
+  "source": "CHANGELOG",
+  "text": "Make `ProxyCacheWarmer` class `final`"
+ },
+ {
+  "component": "DoctrineBridge",
+  "source": "CHANGELOG",
+  "text": "Remove `AbstractDoctrineExtension`, the code is incorporated into the extension classes of Doctrine bundles"
+ },
+ {
+  "component": "DomCrawler",
+  "source": "CHANGELOG",
+  "text": "Remove argument `$useHtml5Parser` of `Crawler`'s constructor; the native HTML5 parser is used unconditionally"
+ },
+ {
+  "component": "ExpressionLanguage",
+  "source": "CHANGELOG",
+  "text": "Remove support for passing `null` as the allowed variable names to `ExpressionLanguage::lint()` and `Parser::lint()`,"
+ },
+ {
+  "component": "Form",
+  "source": "CHANGELOG",
+  "text": "Change default value of `default_protocol` option in `UrlType` from `'http'` to `null`"
+ },
+ {
+  "component": "Form",
+  "source": "CHANGELOG",
+  "text": "Remove the `VersionAwareTest` trait, use feature detection instead"
+ },
+ {
+  "component": "Form",
+  "source": "CHANGELOG",
+  "text": "Remove deprecated `ResizeFormListener::preSetData()` method, use `postSetData()` instead"
+ },
+ {
+  "component": "Form",
+  "source": "CHANGELOG",
+  "text": "Remove `validation.xml` in `Resources/config`, replaced by attributes on the `Form` class"
+ },
+ {
+  "component": "FrameworkBundle",
+  "source": "CHANGELOG",
+  "text": "Remove the `WorkflowDumpCommand` class; the `workflow:dump` command works the same as before but its class is now defined in the Workflow component"
+ },
+ {
+  "component": "FrameworkBundle",
+  "source": "CHANGELOG",
+  "text": "Remove `errors.xml` and `webhook.xml` routing configuration files (use their PHP equivalent instead)"
+ },
+ {
+  "component": "FrameworkBundle",
+  "source": "CHANGELOG",
+  "text": "Enable the property info constructor extractor by default"
+ },
+ {
+  "component": "FrameworkBundle",
+  "source": "CHANGELOG",
+  "text": "Remove deprecated `Symfony\\Bundle\\FrameworkBundle\\Console\\Application::add()` method in favor of `Symfony\\Bundle\\FrameworkBundle\\Console\\Application::addCommand()`"
+ },
+ {
+  "component": "FrameworkBundle",
+  "source": "CHANGELOG",
+  "text": "Make `Router` class `final`"
+ },
+ {
+  "component": "FrameworkBundle",
+  "source": "CHANGELOG",
+  "text": "Make `SerializerCacheWarmer` class `final`"
+ },
+ {
+  "component": "FrameworkBundle",
+  "source": "CHANGELOG",
+  "text": "Make `Translator` class `final`"
+ },
+ {
+  "component": "FrameworkBundle",
+  "source": "CHANGELOG",
+  "text": "Make `TranslationsCacheWarmer` class `final`"
+ },
+ {
+  "component": "FrameworkBundle",
+  "source": "CHANGELOG",
+  "text": "Make `ValidatorCacheWarmer` class `final`"
+ },
+ {
+  "component": "FrameworkBundle",
+  "source": "CHANGELOG",
+  "text": "Remove autowiring aliases for `RateLimiterFactory`; use `RateLimiterFactoryInterface` instead"
+ },
+ {
+  "component": "FrameworkBundle",
+  "source": "CHANGELOG",
+  "text": "Remove `session.sid_length` and `session.sid_bits_per_character` config options"
+ },
+ {
+  "component": "FrameworkBundle",
+  "source": "CHANGELOG",
+  "text": "Remove the `router.cache_dir` config option"
+ },
+ {
+  "component": "FrameworkBundle",
+  "source": "CHANGELOG",
+  "text": "Remove the `validation.cache` option"
+ },
+ {
+  "component": "FrameworkBundle",
+  "source": "CHANGELOG",
+  "text": "Remove `TranslationUpdateCommand` in favor of `TranslationExtractCommand`"
+ },
+ {
+  "component": "FrameworkBundle",
+  "source": "CHANGELOG",
+  "text": "Remove `ConfigBuilderCacheWarmer`, return PHP arrays from your config instead"
+ },
+ {
+  "component": "HtmlSanitizer",
+  "source": "CHANGELOG",
+  "text": "Remove `MastermindsParser`; use `NativeParser` instead"
+ },
+ {
+  "component": "HtmlSanitizer",
+  "source": "CHANGELOG",
+  "text": "Add argument `$context` to `ParserInterface::parse()`"
+ },
+ {
+  "component": "HttpClient",
+  "source": "CHANGELOG",
+  "text": "Remove support for passing an instance of `StoreInterface` as `$cache` argument to `CachingHttpClient` constructor, use a `TagAwareCacheInterface` instead"
+ },
+ {
+  "component": "HttpClient",
+  "source": "CHANGELOG",
+  "text": "Remove support for amphp/http-client < 5"
+ },
+ {
+  "component": "HttpClient",
+  "source": "CHANGELOG",
+  "text": "Remove setLogger() methods on decorators; configure the logger on the wrapped client directly instead"
+ },
+ {
+  "component": "HttpFoundation",
+  "source": "CHANGELOG",
+  "text": "Drop HTTP method override support for methods GET, HEAD, CONNECT and TRACE"
+ },
+ {
+  "component": "HttpFoundation",
+  "source": "CHANGELOG",
+  "text": "Add argument `$subtypeFallback` to `Request::getFormat()`"
+ },
+ {
+  "component": "HttpFoundation",
+  "source": "CHANGELOG",
+  "text": "Remove the following deprecated session options from `NativeSessionStorage`: `referer_check`, `use_only_cookies`, `use_trans_sid`, `sid_length`, `sid_bits_per_character`, `trans_sid_hosts`, `trans_sid_tags`"
+ },
+ {
+  "component": "HttpFoundation",
+  "source": "CHANGELOG",
+  "text": "Trigger PHP warning when using `Request::sendHeaders()` after headers have already been sent; use a `StreamedResponse` instead"
+ },
+ {
+  "component": "HttpFoundation",
+  "source": "CHANGELOG",
+  "text": "Add arguments `$v4Bytes` and `$v6Bytes` to `IpUtils::anonymize()`"
+ },
+ {
+  "component": "HttpFoundation",
+  "source": "CHANGELOG",
+  "text": "Add argument `$partitioned` to `ResponseHeaderBag::clearCookie()`"
+ },
+ {
+  "component": "HttpFoundation",
+  "source": "CHANGELOG",
+  "text": "Add argument `$expiration` to `UriSigner::sign()`"
+ },
+ {
+  "component": "HttpFoundation",
+  "source": "CHANGELOG",
+  "text": "Remove `Request::get()`, use properties `->attributes`, `query` or `request` directly instead"
+ },
+ {
+  "component": "HttpFoundation",
+  "source": "CHANGELOG",
+  "text": "Remove accepting null `$format` argument to `Request::setFormat()`"
+ },
+ {
+  "component": "HttpKernel",
+  "source": "CHANGELOG",
+  "text": "Remove `AddAnnotatedClassesToCachePass`"
+ },
+ {
+  "component": "HttpKernel",
+  "source": "CHANGELOG",
+  "text": "Remove `Extension::getAnnotatedClassesToCompile()` and `Extension::addAnnotatedClassesToCompile()`"
+ },
+ {
+  "component": "HttpKernel",
+  "source": "CHANGELOG",
+  "text": "Remove `Kernel::getAnnotatedClassesToCompile()` and `Kernel::setAnnotatedClassCache()`"
+ },
+ {
+  "component": "HttpKernel",
+  "source": "CHANGELOG",
+  "text": "Make `ServicesResetter` class `final`"
+ },
+ {
+  "component": "HttpKernel",
+  "source": "CHANGELOG",
+  "text": "Add argument `$logChannel` to `ErrorListener::logException()`"
+ },
+ {
+  "component": "HttpKernel",
+  "source": "CHANGELOG",
+  "text": "Add argument `$event` to `DumpListener::configure()`"
+ },
+ {
+  "component": "HttpKernel",
+  "source": "CHANGELOG",
+  "text": "Replace `__sleep/wakeup()` by `__(un)serialize()` on kernels and data collectors"
+ },
+ {
+  "component": "HttpKernel",
+  "source": "CHANGELOG",
+  "text": "Add method `getShareDir()` to `KernelInterface`"
+ },
+ {
+  "component": "Intl",
+  "source": "CHANGELOG",
+  "text": "Remove `Symfony\\Component\\Intl\\Transliterator\\EmojiTransliterator`, use `Symfony\\Component\\Emoji\\EmojiTransliterator` instead"
+ },
+ {
+  "component": "JsonStreamer",
+  "source": "CHANGELOG",
+  "text": "Remove `$streamToNativeValueTransformers` from `PropertyMetadata`"
+ },
+ {
+  "component": "Ldap",
+  "source": "CHANGELOG",
+  "text": "Remove the `sizeLimit` option of `AbstractQuery`"
+ },
+ {
+  "component": "Ldap",
+  "source": "CHANGELOG",
+  "text": "Remove `LdapUser::eraseCredentials()` in favor of `__serialize()`"
+ },
+ {
+  "component": "Ldap",
+  "source": "CHANGELOG",
+  "text": "Add methods for `saslBind()` and `whoami()` to `ConnectionInterface` and `LdapInterface`"
+ },
+ {
+  "component": "Mailer",
+  "source": "CHANGELOG",
+  "text": "Remove `TransportFactoryTestCase`, extend `AbstractTransportFactoryTestCase` instead"
+ },
+ {
+  "component": "Messenger",
+  "source": "CHANGELOG",
+  "text": "Remove `text` format when using the `messenger:stats` command; use `txt` instead"
+ },
+ {
+  "component": "Messenger",
+  "source": "CHANGELOG",
+  "text": "Add method `getRetryDelay()` to `RecoverableExceptionInterface`"
+ },
+ {
+  "component": "Mime",
+  "source": "CHANGELOG",
+  "text": "Replace `__sleep/wakeup()` by `__(un)serialize()` on `AbstractPart` implementations"
+ },
+ {
+  "component": "MonologBridge",
+  "source": "CHANGELOG",
+  "text": "Remove `NotFoundActivationStrategy`, use `HttpCodeActivationStrategy` instead"
+ },
+ {
+  "component": "Notifier",
+  "source": "CHANGELOG",
+  "text": "Remove `TransportFactoryTestCase`, extend `AbstractTransportFactoryTestCase` instead."
+ },
+ {
+  "component": "OptionsResolver",
+  "source": "CHANGELOG",
+  "text": "Remove support for nested options definition via `setDefault()`, use `setOptions()` instead"
+ },
+ {
+  "component": "Routing",
+  "source": "CHANGELOG",
+  "text": "Remove support for accessing the internal scope of the loader in PHP config files, use only its public API instead"
+ },
+ {
+  "component": "Routing",
+  "source": "CHANGELOG",
+  "text": "Providing a non-array `_query` parameter to `UrlGenerator` causes an `InvalidParameterException`"
+ },
+ {
+  "component": "Routing",
+  "source": "CHANGELOG",
+  "text": "Remove the protected `AttributeClassLoader::$routeAnnotationClass` property and the `setRouteAnnotationClass()` method, use `AttributeClassLoader::setRouteAttributeClass()` instead"
+ },
+ {
+  "component": "Routing",
+  "source": "CHANGELOG",
+  "text": "Remove class aliases in the `Annotation` namespace, use attributes instead"
+ },
+ {
+  "component": "Routing",
+  "source": "CHANGELOG",
+  "text": "Remove getters and setters in attribute classes in favor of public properties"
+ },
+ {
+  "component": "Routing",
+  "source": "CHANGELOG",
+  "text": "Remove support for the XML configuration format"
+ },
+ {
+  "component": "SecurityBundle",
+  "source": "CHANGELOG",
+  "text": "Remove the deprecated `hide_user_not_found` configuration option, use `expose_security_errors` instead"
+ },
+ {
+  "component": "SecurityBundle",
+  "source": "CHANGELOG",
+  "text": "Remove the deprecated `algorithm` and `key` options from the OIDC token handler configuration, use `algorithms` and `keyset` instead"
+ },
+ {
+  "component": "SecurityBundle",
+  "source": "CHANGELOG",
+  "text": "Remove `LazyFirewallContext::__invoke()`"
+ },
+ {
+  "component": "SecurityBundle",
+  "source": "CHANGELOG",
+  "text": "Make `ExpressionCacheWarmer` class `final`"
+ },
+ {
+  "component": "SecurityBundle",
+  "source": "CHANGELOG",
+  "text": "Remove autowiring aliases for `RateLimiterFactory`; use `RateLimiterFactoryInterface` instead"
+ },
+ {
+  "component": "SecurityCore",
+  "source": "CHANGELOG",
+  "text": "Add argument `$accessDecision` to `AccessDecisionStrategyInterface::decide()`"
+ },
+ {
+  "component": "SecurityCore",
+  "source": "CHANGELOG",
+  "text": "Remove `PersistentTokenInterface::getClass()`"
+ },
+ {
+  "component": "SecurityCore",
+  "source": "CHANGELOG",
+  "text": "Remove the user FQCN from the remember-me cookie"
+ },
+ {
+  "component": "SecurityCore",
+  "source": "CHANGELOG",
+  "text": "Remove `RememberMeToken::getSecret()`"
+ },
+ {
+  "component": "SecurityCore",
+  "source": "CHANGELOG",
+  "text": "Remove `UserInterface::eraseCredentials()` and `TokenInterface::eraseCredentials()`,"
+ },
+ {
+  "component": "SecurityCore",
+  "source": "CHANGELOG",
+  "text": "Add argument `$accessDecision` to `AccessDecisionManagerInterface::decide()` and `AuthorizationCheckerInterface::isGranted()`"
+ },
+ {
+  "component": "SecurityCore",
+  "source": "CHANGELOG",
+  "text": "Add argument `$vote` to `VoterInterface::vote()` and `Voter::voteOnAttribute()`"
+ },
+ {
+  "component": "SecurityCore",
+  "source": "CHANGELOG",
+  "text": "Add argument `$token` to `UserCheckerInterface::checkPostAuth()`"
+ },
+ {
+  "component": "SecurityCore",
+  "source": "CHANGELOG",
+  "text": "Make `UserChainProvider` implement `AttributesBasedUserProviderInterface`"
+ },
+ {
+  "component": "SecurityHttp",
+  "source": "CHANGELOG",
+  "text": "When extending the `RememberMeDetails` class and overriding its constructor, the `$userFqcn` parameter has to be removed from its signature:"
+ },
+ {
+  "component": "SecurityHttp",
+  "source": "CHANGELOG",
+  "text": "Remove `RememberMeDetails::getUserFqcn()`"
+ },
+ {
+  "component": "SecurityHttp",
+  "source": "CHANGELOG",
+  "text": "Remove callable firewall listeners support, extend `AbstractListener` or implement `FirewallListenerInterface` instead"
+ },
+ {
+  "component": "SecurityHttp",
+  "source": "CHANGELOG",
+  "text": "Remove `AbstractListener::__invoke`"
+ },
+ {
+  "component": "SecurityHttp",
+  "source": "CHANGELOG",
+  "text": "Throw a `BadCredentialsException` when passing an empty string as `$userIdentifier` argument to `UserBadge` constructor"
+ },
+ {
+  "component": "SecurityHttp",
+  "source": "CHANGELOG",
+  "text": "Accept only `ExposeSecurityLevel` enums for `AuthenticatorManager`'s `$exposeSecurityErrors` argument"
+ },
+ {
+  "component": "SecurityHttp",
+  "source": "CHANGELOG",
+  "text": "Respectively accept only `AlgorithmManager` and `JWKSet` for `OidcTokenHandler`'s `$signatureAlgorithm` and `$signatureKeyset` arguments"
+ },
+ {
+  "component": "SecurityHttp",
+  "source": "CHANGELOG",
+  "text": "Add argument `$attributes` to `UserAuthenticatorInterface::authenticateUser()`"
+ },
+ {
+  "component": "Serializer",
+  "source": "CHANGELOG",
+  "text": "Remove `CsvEncoder::ESCAPE_CHAR_KEY` constant and escape character functionality"
+ },
+ {
+  "component": "Serializer",
+  "source": "CHANGELOG",
+  "text": "Remove `CsvEncoderContextBuilder::withEscapeChar()` method"
+ },
+ {
+  "component": "Serializer",
+  "source": "CHANGELOG",
+  "text": "Remove `AbstractNormalizerContextBuilder::withDefaultContructorArguments()`, use `withDefaultConstructorArguments()` instead"
+ },
+ {
+  "component": "Serializer",
+  "source": "CHANGELOG",
+  "text": "Change signature of `NameConverterInterface::normalize()` and `NameConverterInterface::denormalize()` methods:"
+ },
+ {
+  "component": "Serializer",
+  "source": "CHANGELOG",
+  "text": "Remove `AdvancedNameConverterInterface`, use `NameConverterInterface` instead"
+ },
+ {
+  "component": "Serializer",
+  "source": "CHANGELOG",
+  "text": "Remove `ClassMetadataFactoryCompiler`, `CompiledClassMetadataFactory` and `CompiledClassMetadataCacheWarmer`"
+ },
+ {
+  "component": "Serializer",
+  "source": "CHANGELOG",
+  "text": "Remove class aliases in the `Annotation` namespace, use attributes instead"
+ },
+ {
+  "component": "Serializer",
+  "source": "CHANGELOG",
+  "text": "Remove getters in attribute classes in favor of public properties"
+ },
+ {
+  "component": "String",
+  "source": "CHANGELOG",
+  "text": "Replace `__sleep/wakeup()` by `__(un)serialize()` on string implementations"
+ },
+ {
+  "component": "Translation",
+  "source": "CHANGELOG",
+  "text": "Remove the `$escape` parameter from `CsvFileLoader::setCsvControl()`"
+ },
+ {
+  "component": "Translation",
+  "source": "CHANGELOG",
+  "text": "Make `DataCollectorTranslator` class `final`"
+ },
+ {
+  "component": "Translation",
+  "source": "CHANGELOG",
+  "text": "Remove `ProviderFactoryTestCase`, extend `AbstractProviderFactoryTestCase` instead"
+ },
+ {
+  "component": "Translation",
+  "source": "CHANGELOG",
+  "text": "Remove `TranslatableMessage::__toString()` method, use `trans()` or `getMessage()` instead"
+ },
+ {
+  "component": "TwigBridge",
+  "source": "CHANGELOG",
+  "text": "Remove support for passing a tag to the constructor of `FormThemeNode`"
+ },
+ {
+  "component": "TwigBundle",
+  "source": "CHANGELOG",
+  "text": "Make `TemplateCacheWarmer` class `final`"
+ },
+ {
+  "component": "TwigBundle",
+  "source": "CHANGELOG",
+  "text": "Remove the `base_template_class` config option"
+ },
+ {
+  "component": "TypeInfo",
+  "source": "CHANGELOG",
+  "text": "Constructing a `CollectionType` instance as a list that is not an array throws an `InvalidArgumentException`"
+ },
+ {
+  "component": "TypeInfo",
+  "source": "CHANGELOG",
+  "text": "Remove the third `$asList` argument of `TypeFactoryTrait::iterable()`, use `TypeFactoryTrait::list()` instead"
+ },
+ {
+  "component": "Uid",
+  "source": "CHANGELOG",
+  "text": "Add argument `$format` to `Uuid::isValid()`"
+ },
+ {
+  "component": "Validator",
+  "source": "CHANGELOG",
+  "text": "Remove support for configuring constraint options implicitly with the XML format"
+ },
+ {
+  "component": "Validator",
+  "source": "CHANGELOG",
+  "text": "Remove support for configuring constraint options implicitly with the YAML format"
+ },
+ {
+  "component": "Validator",
+  "source": "CHANGELOG",
+  "text": "Remove support for passing associative arrays to `GroupSequence`"
+ },
+ {
+  "component": "Validator",
+  "source": "CHANGELOG",
+  "text": "Change the default value of the `$requireTld` option of the `Url` constraint to `true`"
+ },
+ {
+  "component": "Validator",
+  "source": "CHANGELOG",
+  "text": "Add method `getGroupProvider()` to `ClassMetadataInterface`"
+ },
+ {
+  "component": "Validator",
+  "source": "CHANGELOG",
+  "text": "Replace `__sleep/wakeup()` by `__(un)serialize()`  on `GenericMetadata` implementations"
+ },
+ {
+  "component": "Validator",
+  "source": "CHANGELOG",
+  "text": "Remove the `getRequiredOptions()` and `getDefaultOption()` methods from the `All`, `AtLeastOneOf`, `CardScheme`, `Collection`,"
+ },
+ {
+  "component": "Validator",
+  "source": "CHANGELOG",
+  "text": "Remove support for evaluating options in the base `Constraint` class. Initialize properties in the constructor of the concrete constraint"
+ },
+ {
+  "component": "Validator",
+  "source": "CHANGELOG",
+  "text": "Remove the `getRequiredOptions()` method from the base `Constraint` class. Use mandatory constructor arguments instead."
+ },
+ {
+  "component": "Validator",
+  "source": "CHANGELOG",
+  "text": "Remove the `normalizeOptions()` and `getDefaultOption()` methods of the base `Constraint` class without replacements."
+ },
+ {
+  "component": "Validator",
+  "source": "CHANGELOG",
+  "text": "Remove support for passing an array of options to the `Composite` constraint class. Initialize the properties referenced with `getNestedConstraints()`"
+ },
+ {
+  "component": "Validator",
+  "source": "CHANGELOG",
+  "text": "Remove `Bic::INVALID_BANK_CODE_ERROR` constant. This error code was not used in the Bic constraint validator anymore"
+ },
+ {
+  "component": "VarExporter",
+  "source": "CHANGELOG",
+  "text": "Restrict `ProxyHelper::generateLazyProxy()` to generating abstraction-based lazy decorators; use native lazy proxies otherwise"
+ },
+ {
+  "component": "VarExporter",
+  "source": "CHANGELOG",
+  "text": "Remove `LazyGhostTrait` and `LazyProxyTrait`, use native lazy objects instead"
+ },
+ {
+  "component": "VarExporter",
+  "source": "CHANGELOG",
+  "text": "Remove `ProxyHelper::generateLazyGhost()`, use native lazy objects instead"
+ },
+ {
+  "component": "WebProfilerBundle",
+  "source": "CHANGELOG",
+  "text": "Remove `profiler.xml` and `wdt.xml` routing configuration files (use their PHP equivalent instead)"
+ },
+ {
+  "component": "Webhook",
+  "source": "CHANGELOG",
+  "text": "Add argument `$request` to `RequestParserInterface::createSuccessfulResponse()` and `RequestParserInterface::createRejectedResponse()`"
+ },
+ {
+  "component": "Workflow",
+  "source": "CHANGELOG",
+  "text": "Add method `getEnabledTransition()` to `WorkflowInterface`"
+ },
+ {
+  "component": "Workflow",
+  "source": "CHANGELOG",
+  "text": "Add `$nbToken` argument to `Marking::mark()` and `Marking::unmark()`"
+ },
+ {
+  "component": "Workflow",
+  "source": "CHANGELOG",
+  "text": "Add `$asArc` argument to `Transition::getFroms()` and `Transition::getTos()`"
+ },
+ {
+  "component": "Workflow",
+  "source": "CHANGELOG",
+  "text": "Remove `Event::getWorkflow()` method"
+ },
+ {
+  "component": "Yaml",
+  "source": "CHANGELOG",
+  "text": "Remove support for parsing duplicate mapping keys whose value is `null`"
+ },
+ {
+  "component": "AssetMapper",
+  "source": "UPGRADE",
+  "text": "Remove `ImportMapConfigReader::splitPackageNameAndFilePath()`, use `ImportMapEntry::splitPackageNameAndFilePath()` instead"
+ },
+ {
+  "component": "BrowserKit",
+  "source": "UPGRADE",
+  "text": "Remove `AbstractBrowser::useHtml5Parser()`; the native HTML5 parser is used unconditionally"
+ },
+ {
+  "component": "Cache",
+  "source": "UPGRADE",
+  "text": "Remove `CouchbaseBucketAdapter`, use `CouchbaseCollectionAdapter` instead"
+ },
+ {
+  "component": "Config",
+  "source": "UPGRADE",
+  "text": "Remove support for accessing the internal scope of the loader in PHP config files, use only its public API instead"
+ },
+ {
+  "component": "Config",
+  "source": "UPGRADE",
+  "text": "Add argument `$singular` to `NodeBuilder::arrayNode()`"
+ },
+ {
+  "component": "Config",
+  "source": "UPGRADE",
+  "text": "Add argument `$info` to `ArrayNodeDefinition::canBeDisabled()` and `canBeEnabled()`"
+ },
+ {
+  "component": "Config",
+  "source": "UPGRADE",
+  "text": "Ensure configuration nodes do not have both `isRequired()` and `defaultValue()`"
+ },
+ {
+  "component": "Config",
+  "source": "UPGRADE",
+  "text": "Remove generation of fluent methods in config builders"
+ },
+ {
+  "component": "Console",
+  "source": "UPGRADE",
+  "text": "The `AsCommand` attribute class is now `final`"
+ },
+ {
+  "component": "Console",
+  "source": "UPGRADE",
+  "text": "Remove methods `Command::getDefaultName()` and `Command::getDefaultDescription()` in favor of the `#[AsCommand]` attribute"
+ },
+ {
+  "component": "Console",
+  "source": "UPGRADE",
+  "text": "Add argument `$finishedIndicator` to `ProgressIndicator::finish()`"
+ },
+ {
+  "component": "Console",
+  "source": "UPGRADE",
+  "text": "Ensure closures set via `Command::setCode()` method have proper parameter and return types"
+ },
+ {
+  "component": "Console",
+  "source": "UPGRADE",
+  "text": "Add method `isSilent()` to `OutputInterface`"
+ },
+ {
+  "component": "Console",
+  "source": "UPGRADE",
+  "text": "Remove deprecated `Symfony\\Component\\Console\\Application::add()` method in favor of `Symfony\\Component\\Console\\Application::addCommand()`"
+ },
+ {
+  "component": "DependencyInjection",
+  "source": "UPGRADE",
+  "text": "Remove support for using `$this` or the loader's internal scope from PHP config files; use the `$loader` variable instead"
+ },
+ {
+  "component": "DependencyInjection",
+  "source": "UPGRADE",
+  "text": "Remove `ExtensionInterface::getXsdValidationBasePath()` and `getNamespace()` without alternatives, the XML configuration format is no longer supported"
+ },
+ {
+  "component": "DependencyInjection",
+  "source": "UPGRADE",
+  "text": "Add argument `$throwOnAbstract` to `ContainerBuilder::findTaggedResourceIds()`"
+ },
+ {
+  "component": "DependencyInjection",
+  "source": "UPGRADE",
+  "text": "Registering a service without a class when its id is a non-existing FQCN throws an error"
+ },
+ {
+  "component": "DependencyInjection",
+  "source": "UPGRADE",
+  "text": "Replace `#[TaggedIterator]` and `#[TaggedLocator]` attributes with `#[AutowireLocator]` and `#[AutowireIterator]`"
+ },
+ {
+  "component": "DependencyInjection",
+  "source": "UPGRADE",
+  "text": "Remove `!tagged` tag, use `!tagged_iterator` instead"
+ },
+ {
+  "component": "DependencyInjection",
+  "source": "UPGRADE",
+  "text": "Remove the `ContainerBuilder::getAutoconfiguredAttributes()` method, use `getAttributeAutoconfigurators()` instead to retrieve all the callbacks for a specific attribute class"
+ },
+ {
+  "component": "DependencyInjection",
+  "source": "UPGRADE",
+  "text": "Add argument `$target` to `ContainerBuilder::registerAliasForArgument()`"
+ },
+ {
+  "component": "DependencyInjection",
+  "source": "UPGRADE",
+  "text": "Remove support for the fluent PHP format for semantic configuration, instantiate builders inline with the config array as argument and return them instead:"
+ },
+ {
+  "component": "DoctrineBridge",
+  "source": "UPGRADE",
+  "text": "Remove the `DoctrineExtractor::getTypes()` method, use `DoctrineExtractor::getType()` instead"
+ },
+ {
+  "component": "DoctrineBridge",
+  "source": "UPGRADE",
+  "text": "Remove support for auto-mapping Doctrine entities to controller arguments; use explicit mapping instead"
+ },
+ {
+  "component": "DoctrineBridge",
+  "source": "UPGRADE",
+  "text": "Make `ProxyCacheWarmer` class `final`"
+ },
+ {
+  "component": "DomCrawler",
+  "source": "UPGRADE",
+  "text": "Remove argument `$useHtml5Parser` of `Crawler`'s constructor; the native HTML5 parser is used unconditionally"
+ },
+ {
+  "component": "ExpressionLanguage",
+  "source": "UPGRADE",
+  "text": "Remove support for passing `null` as the allowed variable names to `ExpressionLanguage::lint()` and `Parser::lint()`,"
+ },
+ {
+  "component": "Form",
+  "source": "UPGRADE",
+  "text": "The `default_protocol` option in `UrlType` now defaults to `null` instead of `'http'`"
+ },
+ {
+  "component": "Form",
+  "source": "UPGRADE",
+  "text": "Made `ResizeFormListener::postSetData()` method `final`"
+ },
+ {
+  "component": "Form",
+  "source": "UPGRADE",
+  "text": "Remove the `VersionAwareTest` trait, use feature detection instead"
+ },
+ {
+  "component": "Form",
+  "source": "UPGRADE",
+  "text": "Remove deprecated `ResizeFormListener::preSetData()` method, use `postSetData()` instead"
+ },
+ {
+  "component": "Form",
+  "source": "UPGRADE",
+  "text": "Remove `validation.xml` in `Resources/config`, replaced by attributes on the `Form` class"
+ },
+ {
+  "component": "FrameworkBundle",
+  "source": "UPGRADE",
+  "text": "Remove the `WorkflowDumpCommand` class; the `workflow:dump` command and its class were moved to the Workflow component, but the command still works as before"
+ },
+ {
+  "component": "FrameworkBundle",
+  "source": "UPGRADE",
+  "text": "Remove `errors.xml` and `webhook.xml` routing configuration files (use their PHP equivalent instead)"
+ },
+ {
+  "component": "FrameworkBundle",
+  "source": "UPGRADE",
+  "text": "Make `Router` class `final`"
+ },
+ {
+  "component": "FrameworkBundle",
+  "source": "UPGRADE",
+  "text": "Make `SerializerCacheWarmer` class `final`"
+ },
+ {
+  "component": "FrameworkBundle",
+  "source": "UPGRADE",
+  "text": "Make `Translator` class `final`"
+ },
+ {
+  "component": "FrameworkBundle",
+  "source": "UPGRADE",
+  "text": "Make `ConfigBuilderCacheWarmer` class `final`"
+ },
+ {
+  "component": "FrameworkBundle",
+  "source": "UPGRADE",
+  "text": "Make `TranslationsCacheWarmer` class `final`"
+ },
+ {
+  "component": "FrameworkBundle",
+  "source": "UPGRADE",
+  "text": "Make `ValidatorCacheWarmer` class `final`"
+ },
+ {
+  "component": "FrameworkBundle",
+  "source": "UPGRADE",
+  "text": "Remove autowiring aliases for `RateLimiterFactory`; use `RateLimiterFactoryInterface` instead"
+ },
+ {
+  "component": "FrameworkBundle",
+  "source": "UPGRADE",
+  "text": "Remove `session.sid_length` and `session.sid_bits_per_character` config options"
+ },
+ {
+  "component": "FrameworkBundle",
+  "source": "UPGRADE",
+  "text": "Remove the `router.cache_dir` config option"
+ },
+ {
+  "component": "FrameworkBundle",
+  "source": "UPGRADE",
+  "text": "Remove the `validation.cache` option"
+ },
+ {
+  "component": "FrameworkBundle",
+  "source": "UPGRADE",
+  "text": "Remove `TranslationUpdateCommand` in favor of `TranslationExtractCommand`"
+ },
+ {
+  "component": "FrameworkBundle",
+  "source": "UPGRADE",
+  "text": "Remove deprecated `--show-arguments` option from `debug:container` command"
+ },
+ {
+  "component": "HtmlSanitizer",
+  "source": "UPGRADE",
+  "text": "Remove `MastermindsParser`; use `NativeParser` instead"
+ },
+ {
+  "component": "HtmlSanitizer",
+  "source": "UPGRADE",
+  "text": "Add argument `$context` to `ParserInterface::parse()`"
+ },
+ {
+  "component": "HttpFoundation",
+  "source": "UPGRADE",
+  "text": "Drop HTTP method override support for methods GET, HEAD, CONNECT and TRACE"
+ },
+ {
+  "component": "HttpFoundation",
+  "source": "UPGRADE",
+  "text": "Add argument `$subtypeFallback` to `Request::getFormat()`"
+ },
+ {
+  "component": "HttpFoundation",
+  "source": "UPGRADE",
+  "text": "Remove the following deprecated session options from `NativeSessionStorage`: `referer_check`, `use_only_cookies`, `use_trans_sid`, `sid_length`, `sid_bits_per_character`, `trans_sid_hosts`, `trans_sid_tags`"
+ },
+ {
+  "component": "HttpFoundation",
+  "source": "UPGRADE",
+  "text": "Trigger PHP warning when using `Request::sendHeaders()` after headers have already been sent; use a `StreamedResponse` instead"
+ },
+ {
+  "component": "HttpFoundation",
+  "source": "UPGRADE",
+  "text": "Add arguments `$v4Bytes` and `$v6Bytes` to `IpUtils::anonymize()`"
+ },
+ {
+  "component": "HttpFoundation",
+  "source": "UPGRADE",
+  "text": "Add argument `$partitioned` to `ResponseHeaderBag::clearCookie()`"
+ },
+ {
+  "component": "HttpFoundation",
+  "source": "UPGRADE",
+  "text": "Add argument `$expiration` to `UriSigner::sign()`"
+ },
+ {
+  "component": "HttpFoundation",
+  "source": "UPGRADE",
+  "text": "Remove `Request::get()`, use properties `->attributes`, `query` or `request` directly instead"
+ },
+ {
+  "component": "HttpFoundation",
+  "source": "UPGRADE",
+  "text": "Remove accepting null `$format` argument to `Request::setFormat()`"
+ },
+ {
+  "component": "HttpClient",
+  "source": "UPGRADE",
+  "text": "Remove support for passing an instance of `StoreInterface` as `$cache` argument to `CachingHttpClient` constructor, use a `TagAwareCacheInterface` instead"
+ },
+ {
+  "component": "HttpClient",
+  "source": "UPGRADE",
+  "text": "Remove support for amphp/http-client < 5"
+ },
+ {
+  "component": "HttpClient",
+  "source": "UPGRADE",
+  "text": "Remove setLogger() methods on decorators; configure the logger on the wrapped client directly instead"
+ },
+ {
+  "component": "HttpKernel",
+  "source": "UPGRADE",
+  "text": "Remove `AddAnnotatedClassesToCachePass`"
+ },
+ {
+  "component": "HttpKernel",
+  "source": "UPGRADE",
+  "text": "Remove `Extension::getAnnotatedClassesToCompile()` and `Extension::addAnnotatedClassesToCompile()`"
+ },
+ {
+  "component": "HttpKernel",
+  "source": "UPGRADE",
+  "text": "Remove `Kernel::getAnnotatedClassesToCompile()` and `Kernel::setAnnotatedClassCache()`"
+ },
+ {
+  "component": "HttpKernel",
+  "source": "UPGRADE",
+  "text": "Make `ServicesResetter` class `final`"
+ },
+ {
+  "component": "HttpKernel",
+  "source": "UPGRADE",
+  "text": "Add argument `$logChannel` to `ErrorListener::logException()`"
+ },
+ {
+  "component": "HttpKernel",
+  "source": "UPGRADE",
+  "text": "Add argument `$event` to `DumpListener::configure()`"
+ },
+ {
+  "component": "HttpKernel",
+  "source": "UPGRADE",
+  "text": "Replace `__sleep/wakeup()` by `__(un)serialize()` on kernels and data collectors"
+ },
+ {
+  "component": "HttpKernel",
+  "source": "UPGRADE",
+  "text": "Add method `getShareDir()` to `KernelInterface`"
+ },
+ {
+  "component": "Intl",
+  "source": "UPGRADE",
+  "text": "Remove `Symfony\\Component\\Intl\\Transliterator\\EmojiTransliterator`, use `Symfony\\Component\\Emoji\\EmojiTransliterator` instead"
+ },
+ {
+  "component": "JsonStreamer",
+  "source": "UPGRADE",
+  "text": "Remove `$streamToNativeValueTransformers` argument of `PropertyMetadata::__construct()`, use `$valueTransformer` instead"
+ },
+ {
+  "component": "JsonStreamer",
+  "source": "UPGRADE",
+  "text": "Remove `PropertyMetadata::getNativeToStreamValueTransformer()` and `PropertyMetadata::getStreamToNativeValueTransformers()`, use `PropertyMetadata::getValueTransformers()` instead"
+ },
+ {
+  "component": "JsonStreamer",
+  "source": "UPGRADE",
+  "text": "Remove `PropertyMetadata::withNativeToStreamValueTransformers()` and `PropertyMetadata::withStreamToNativeValueTransformers()`, use `PropertyMetadata::withValueTransformers()` instead"
+ },
+ {
+  "component": "JsonStreamer",
+  "source": "UPGRADE",
+  "text": "Remove `PropertyMetadata::withAdditionalNativeToStreamValueTransformer()` and `PropertyMetadata::withAdditionalStreamToNativeValueTransformer`, use `PropertyMetadata::withAdditionalValueTransformer()` instead"
+ },
+ {
+  "component": "Ldap",
+  "source": "UPGRADE",
+  "text": "Remove the `sizeLimit` option of `AbstractQuery`"
+ },
+ {
+  "component": "Ldap",
+  "source": "UPGRADE",
+  "text": "Remove `LdapUser::eraseCredentials()` in favor of `__serialize()`"
+ },
+ {
+  "component": "Ldap",
+  "source": "UPGRADE",
+  "text": "Add methods for `saslBind()` and `whoami()` to `ConnectionInterface` and `LdapInterface`"
+ },
+ {
+  "component": "Mailer",
+  "source": "UPGRADE",
+  "text": "Remove `TransportFactoryTestCase`, extend `AbstractTransportFactoryTestCase` instead"
+ },
+ {
+  "component": "Messenger",
+  "source": "UPGRADE",
+  "text": "Remove `text` format when using the `messenger:stats` command"
+ },
+ {
+  "component": "Messenger",
+  "source": "UPGRADE",
+  "text": "Add method `getRetryDelay()` to `RecoverableExceptionInterface`"
+ },
+ {
+  "component": "Mime",
+  "source": "UPGRADE",
+  "text": "Replace `__sleep/wakeup()` by `__(un)serialize()` on `AbstractPart` implementations"
+ },
+ {
+  "component": "MonologBridge",
+  "source": "UPGRADE",
+  "text": "Remove `NotFoundActivationStrategy`, use `HttpCodeActivationStrategy` instead"
+ },
+ {
+  "component": "Notifier",
+  "source": "UPGRADE",
+  "text": "Remove the Sms77 Notifier bridge"
+ },
+ {
+  "component": "Notifier",
+  "source": "UPGRADE",
+  "text": "Remove `TransportFactoryTestCase`, extend `AbstractTransportFactoryTestCase` instead."
+ },
+ {
+  "component": "OptionsResolver",
+  "source": "UPGRADE",
+  "text": "Remove support for nested options definition via `setDefault()`, use `setOptions()` instead"
+ },
+ {
+  "component": "PropertyInfo",
+  "source": "UPGRADE",
+  "text": "Remove the `PropertyTypeExtractorInterface::getTypes()` method, use `PropertyTypeExtractorInterface::getType()` instead"
+ },
+ {
+  "component": "PropertyInfo",
+  "source": "UPGRADE",
+  "text": "Remove the `ConstructorArgumentTypeExtractorInterface::getTypesFromConstructor()` method, use `ConstructorArgumentTypeExtractorInterface::getTypeFromConstructor()` instead"
+ },
+ {
+  "component": "PropertyInfo",
+  "source": "UPGRADE",
+  "text": "Remove the `Type` class, use `Symfony\\Component\\TypeInfo\\Type` class from `symfony/type-info` instead"
+ },
+ {
+  "component": "Routing",
+  "source": "UPGRADE",
+  "text": "Remove support for accessing the internal scope of the loader in PHP config files, use only its public API instead"
+ },
+ {
+  "component": "Routing",
+  "source": "UPGRADE",
+  "text": "Providing a non-array `_query` parameter to `UrlGenerator` causes an `InvalidParameterException`"
+ },
+ {
+  "component": "Routing",
+  "source": "UPGRADE",
+  "text": "Remove the protected `AttributeClassLoader::$routeAnnotationClass` property and the `setRouteAnnotationClass()` method, use `AttributeClassLoader::setRouteAttributeClass()` instead"
+ },
+ {
+  "component": "Routing",
+  "source": "UPGRADE",
+  "text": "Remove class aliases in the `Annotation` namespace, use attributes instead"
+ },
+ {
+  "component": "Routing",
+  "source": "UPGRADE",
+  "text": "Remove getters and setters in attribute classes in favor of public properties"
+ },
+ {
+  "component": "Security",
+  "source": "UPGRADE",
+  "text": "When extending the `RememberMeDetails` class and overriding its constructor, the `$userFqcn` parameter has to be removed from its signature:"
+ },
+ {
+  "component": "Security",
+  "source": "UPGRADE",
+  "text": "Add argument `$accessDecision` to `AccessDecisionStrategyInterface::decide()`"
+ },
+ {
+  "component": "Security",
+  "source": "UPGRADE",
+  "text": "Remove `PersistentTokenInterface::getClass()` and `RememberMeDetails::getUserFqcn()`"
+ },
+ {
+  "component": "Security",
+  "source": "UPGRADE",
+  "text": "Remove the user FQCN from the remember-me cookie"
+ },
+ {
+  "component": "Security",
+  "source": "UPGRADE",
+  "text": "Remove `UserInterface::eraseCredentials()` and `TokenInterface::eraseCredentials()`;"
+ },
+ {
+  "component": "Security",
+  "source": "UPGRADE",
+  "text": "Throw a `BadCredentialsException` when passing an empty string as `$userIdentifier` argument to `UserBadge` constructor"
+ },
+ {
+  "component": "Security",
+  "source": "UPGRADE",
+  "text": "Accept only `ExposeSecurityLevel` enums for `AuthenticatorManager`'s `$exposeSecurityErrors` argument"
+ },
+ {
+  "component": "Security",
+  "source": "UPGRADE",
+  "text": "Respectively accept only `AlgorithmManager` and `JWKSet` for `OidcTokenHandler`'s `$signatureAlgorithm` and `$signatureKeyset` arguments"
+ },
+ {
+  "component": "Security",
+  "source": "UPGRADE",
+  "text": "Remove callable firewall listeners support, extend `AbstractListener` or implement `FirewallListenerInterface` instead"
+ },
+ {
+  "component": "Security",
+  "source": "UPGRADE",
+  "text": "Remove `AbstractListener::__invoke`"
+ },
+ {
+  "component": "Security",
+  "source": "UPGRADE",
+  "text": "Remove `LazyFirewallContext::__invoke()`"
+ },
+ {
+  "component": "Security",
+  "source": "UPGRADE",
+  "text": "Remove `RememberMeToken::getSecret()`"
+ },
+ {
+  "component": "Security",
+  "source": "UPGRADE",
+  "text": "Add argument `$accessDecision` to `AccessDecisionManagerInterface::decide()` and `AuthorizationCheckerInterface::isGranted()`"
+ },
+ {
+  "component": "Security",
+  "source": "UPGRADE",
+  "text": "Add argument `$vote` to `VoterInterface::vote()` and `Voter::voteOnAttribute()`"
+ },
+ {
+  "component": "Security",
+  "source": "UPGRADE",
+  "text": "Add argument `$token` to `UserCheckerInterface::checkPostAuth()`"
+ },
+ {
+  "component": "Security",
+  "source": "UPGRADE",
+  "text": "Add argument `$attributes` to `UserAuthenticatorInterface::authenticateUser()`"
+ },
+ {
+  "component": "Security",
+  "source": "UPGRADE",
+  "text": "Make `UserChainProvider` implement `AttributesBasedUserProviderInterface`"
+ },
+ {
+  "component": "SecurityBundle",
+  "source": "UPGRADE",
+  "text": "Remove the deprecated `hide_user_not_found` configuration option, use `expose_security_errors` instead"
+ },
+ {
+  "component": "SecurityBundle",
+  "source": "UPGRADE",
+  "text": "Make `ExpressionCacheWarmer` class `final`"
+ },
+ {
+  "component": "SecurityBundle",
+  "source": "UPGRADE",
+  "text": "Remove the deprecated `algorithm` and `key` options from the OIDC token handler configuration, use `algorithms` and `keyset` instead"
+ },
+ {
+  "component": "SecurityBundle",
+  "source": "UPGRADE",
+  "text": "Remove autowiring aliases for `RateLimiterFactory`; use `RateLimiterFactoryInterface` instead"
+ },
+ {
+  "component": "Serializer",
+  "source": "UPGRADE",
+  "text": "Remove escape character functionality from `CsvEncoder`"
+ },
+ {
+  "component": "Serializer",
+  "source": "UPGRADE",
+  "text": "Remove `AbstractNormalizerContextBuilder::withDefaultContructorArguments()`, use `withDefaultConstructorArguments()` instead"
+ },
+ {
+  "component": "Serializer",
+  "source": "UPGRADE",
+  "text": "Change signature of `NameConverterInterface::normalize()` and `NameConverterInterface::denormalize()` methods:"
+ },
+ {
+  "component": "Serializer",
+  "source": "UPGRADE",
+  "text": "Remove `AdvancedNameConverterInterface`, use `NameConverterInterface` instead"
+ },
+ {
+  "component": "Serializer",
+  "source": "UPGRADE",
+  "text": "Remove `ClassMetadataFactoryCompiler`, `CompiledClassMetadataFactory` and `CompiledClassMetadataCacheWarmer`"
+ },
+ {
+  "component": "Serializer",
+  "source": "UPGRADE",
+  "text": "Remove class aliases in the `Annotation` namespace, use attributes instead"
+ },
+ {
+  "component": "Serializer",
+  "source": "UPGRADE",
+  "text": "Remove getters in attribute classes in favor of public properties"
+ },
+ {
+  "component": "Translation",
+  "source": "UPGRADE",
+  "text": "Remove the `$escape` parameter from `CsvFileLoader::setCsvControl()`"
+ },
+ {
+  "component": "Translation",
+  "source": "UPGRADE",
+  "text": "Remove `TranslatableMessage::__toString()` method, use `trans()` or `getMessage()` instead"
+ },
+ {
+  "component": "Translation",
+  "source": "UPGRADE",
+  "text": "Make `DataCollectorTranslator` class `final`"
+ },
+ {
+  "component": "Translation",
+  "source": "UPGRADE",
+  "text": "Remove `ProviderFactoryTestCase`, extend `AbstractProviderFactoryTestCase` instead"
+ },
+ {
+  "component": "String",
+  "source": "UPGRADE",
+  "text": "Replace `__sleep/wakeup()` by `__(un)serialize()` on string implementations"
+ },
+ {
+  "component": "TwigBridge",
+  "source": "UPGRADE",
+  "text": "Remove support for passing a tag to the constructor of `FormThemeNode`"
+ },
+ {
+  "component": "TwigBridge",
+  "source": "UPGRADE",
+  "text": "Remove `text` format from the `debug:twig` command, use the `txt` format instead"
+ },
+ {
+  "component": "TwigBundle",
+  "source": "UPGRADE",
+  "text": "Make `TemplateCacheWarmer` class `final`"
+ },
+ {
+  "component": "TwigBundle",
+  "source": "UPGRADE",
+  "text": "Remove the `base_template_class` config option"
+ },
+ {
+  "component": "TypeInfo",
+  "source": "UPGRADE",
+  "text": "Constructing a `CollectionType` instance as a list that is not an array throws an `InvalidArgumentException`"
+ },
+ {
+  "component": "TypeInfo",
+  "source": "UPGRADE",
+  "text": "Remove the third `$asList` argument of `TypeFactoryTrait::iterable()`, use `TypeFactoryTrait::list()` instead"
+ },
+ {
+  "component": "Uid",
+  "source": "UPGRADE",
+  "text": "Add argument `$format` to `Uuid::isValid()`"
+ },
+ {
+  "component": "Validator",
+  "source": "UPGRADE",
+  "text": "Remove support for configuring constraint options implicitly with the XML format"
+ },
+ {
+  "component": "Validator",
+  "source": "UPGRADE",
+  "text": "Remove support for configuring constraint options implicitly with the YAML format"
+ },
+ {
+  "component": "Validator",
+  "source": "UPGRADE",
+  "text": "Remove support for passing associative arrays to `GroupSequence`"
+ },
+ {
+  "component": "Validator",
+  "source": "UPGRADE",
+  "text": "Change the default value of the `$requireTld` option of the `Url` constraint to `true`"
+ },
+ {
+  "component": "Validator",
+  "source": "UPGRADE",
+  "text": "Add method `getGroupProvider()` to `ClassMetadataInterface`"
+ },
+ {
+  "component": "Validator",
+  "source": "UPGRADE",
+  "text": "Replace `__sleep/wakeup()` by `__(un)serialize()`  on `GenericMetadata` implementations"
+ },
+ {
+  "component": "Validator",
+  "source": "UPGRADE",
+  "text": "Remove the `getRequiredOptions()` and `getDefaultOption()` methods from the `All`, `AtLeastOneOf`, `CardScheme`, `Collection`,"
+ },
+ {
+  "component": "Validator",
+  "source": "UPGRADE",
+  "text": "Remove support for evaluating options in the base `Constraint` class. Initialize properties in the constructor of the concrete constraint"
+ },
+ {
+  "component": "Validator",
+  "source": "UPGRADE",
+  "text": "Remove the `getRequiredOptions()` method from the base `Constraint` class. Use mandatory constructor arguments instead."
+ },
+ {
+  "component": "Validator",
+  "source": "UPGRADE",
+  "text": "Remove the `normalizeOptions()` and `getDefaultOption()` methods of the base `Constraint` class without replacements."
+ },
+ {
+  "component": "Validator",
+  "source": "UPGRADE",
+  "text": "Remove support for passing an array of options to the `Composite` constraint class. Initialize the properties referenced with `getNestedConstraints()`"
+ },
+ {
+  "component": "Validator",
+  "source": "UPGRADE",
+  "text": "Remove `Bic::INVALID_BANK_CODE_ERROR` constant. This error code was not used in the Bic constraint validator anymore"
+ },
+ {
+  "component": "VarExporter",
+  "source": "UPGRADE",
+  "text": "Restrict `ProxyHelper::generateLazyProxy()` to generating abstraction-based lazy decorators; use native lazy proxies otherwise"
+ },
+ {
+  "component": "VarExporter",
+  "source": "UPGRADE",
+  "text": "Remove `LazyGhostTrait` and `LazyProxyTrait`, use native lazy objects instead"
+ },
+ {
+  "component": "VarExporter",
+  "source": "UPGRADE",
+  "text": "Remove `ProxyHelper::generateLazyGhost()`, use native lazy objects instead"
+ },
+ {
+  "component": "Webhook",
+  "source": "UPGRADE",
+  "text": "Add argument `$request` to `RequestParserInterface::createSuccessfulResponse()` and `RequestParserInterface::createRejectedResponse()`"
+ },
+ {
+  "component": "WebProfilerBundle",
+  "source": "UPGRADE",
+  "text": "Remove `profiler.xml` and `wdt.xml` routing configuration files (use their PHP equivalent instead)"
+ },
+ {
+  "component": "Workflow",
+  "source": "UPGRADE",
+  "text": "Add method `getEnabledTransition()` to `WorkflowInterface`"
+ },
+ {
+  "component": "Workflow",
+  "source": "UPGRADE",
+  "text": "Add `$nbToken` argument to `Marking::mark()` and `Marking::unmark()`"
+ },
+ {
+  "component": "Workflow",
+  "source": "UPGRADE",
+  "text": "Add `$asArc` argument to `Transition::getFroms()` and `Transition::getTos()`"
+ },
+ {
+  "component": "Workflow",
+  "source": "UPGRADE",
+  "text": "Remove `Event::getWorkflow()` method"
+ },
+ {
+  "component": "Yaml",
+  "source": "UPGRADE",
+  "text": "Remove support for parsing duplicate mapping keys whose value is `null`"
+ }
+]
