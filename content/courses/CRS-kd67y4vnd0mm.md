@@ -72,7 +72,7 @@ l'imposer, appeler `allowCustomResponseCode()` **avant** de définir la Response
 Le listener intégré n'a pas un entry point mais quatre, et deux d'entre eux
 sont sur `kernel.exception` :
 
-| Event | Method | Priorité |
+| Event | Method | Priority |
 |---|---|---|
 | `kernel.exception` | `logKernelException` | **0** |
 | `kernel.exception` | `onKernelException` | **−128** |
@@ -99,9 +99,9 @@ En production, si l'exception survient pendant `kernel.terminate`,
 ## HttpExceptionInterface
 
 C'est cette interface qui relie une exception PHP à un statut HTTP. Les
-exceptions du composant HttpKernel l'implémentent : `NotFoundHttpException`
+exceptions du component HttpKernel l'implémentent : `NotFoundHttpException`
 (404), `AccessDeniedHttpException` (403), `BadRequestHttpException` (400), et la
-class générique `HttpException`, dont le statut est passé au constructeur.
+class générique `HttpException`, dont le statut est passé au constructor.
 
 Une exception applicative — une `\InvalidArgumentException`, une
 `\PDOException` — ne l'implémente pas : sans intervention, elle donne 500.
@@ -137,7 +137,7 @@ la class mère ne dit rien du statut. Seule l'interface le dit.
 
 **`setResponse()` met fin au traitement de l'erreur** — l'`ErrorListener`
 intégré ne prend plus la main, et la page d'erreur n'est pas produite. Mais le
-**log**, lui, a déjà eu lieu : il passe à la priorité 0, la page d'erreur à
+**log**, lui, a déjà eu lieu : il passe à la priority 0, la page d'erreur à
 −128.
 
 **« Elle n'implémente pas l'interface, donc 500 » est trop rapide.**
@@ -150,7 +150,7 @@ chaînée en `previous`.
 
 ## Tips d'examen
 
-**Deux priorités à retenir, et ce sont les mêmes.** `0` pour le log, `−128`
+**Deux priorities à retenir, et ce sont les mêmes.** `0` pour le log, `−128`
 pour la page d'erreur — et `−128` aussi pour `removeCspHeader`. Tout ce qui
 construit passe en dernier.
 

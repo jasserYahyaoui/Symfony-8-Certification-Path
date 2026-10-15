@@ -95,8 +95,8 @@ class Kernel extends BaseKernel implements CompilerPassInterface
 }
 ```
 
-Le kernel n'est pas enregistré à la priorité par défaut : `Kernel` l'ajoute en
-`TYPE_BEFORE_OPTIMIZATION` avec la priorité **-10000** (relu dans
+Le kernel n'est pas enregistré à la priority par défaut : `Kernel` l'ajoute en
+`TYPE_BEFORE_OPTIMIZATION` avec la priority **-10000** (relu dans
 `HttpKernel\Kernel`, 8.0.15), donc après les passes des bundles de la même étape.
 
 La convention est de placer les passes d'un bundle dans
@@ -104,20 +104,20 @@ La convention est de placer les passes d'un bundle dans
 
 ## Les cinq étapes
 
-`addCompilerPass()` prend un **type** et une **priorité**. Les types sont les
+`addCompilerPass()` prend un **type** et une **priority**. Les types sont les
 constantes de `PassConfig`, dans cet ordre d'exécution :
 
-| Constante | Moment | Passes du composant, relues en 8.0.15 |
+| Constante | Moment | Passes du component, relues en 8.0.15 |
 |---|---|---|
-| `TYPE_BEFORE_OPTIMIZATION` | **le défaut** — tout est encore là | autoconfiguration, `instanceof`, à la priorité 100 |
+| `TYPE_BEFORE_OPTIMIZATION` | **le défaut** — tout est encore là | autoconfiguration, `instanceof`, à la priority 100 |
 | `TYPE_OPTIMIZE` | résolution | `AutowirePass`, parameters, bindings, alias, decorators |
 | `TYPE_BEFORE_REMOVING` | juste avant le nettoyage | aucune par défaut |
 | `TYPE_REMOVE` | suppression | `RemoveUnusedDefinitionsPass`, inlining |
 | `TYPE_AFTER_REMOVING` | après le nettoyage | paths chauds, préchargement |
 
 Exécuté, sept passes enregistrées dans le désordre s'exécutent dans cet ordre :
-priorité 10, 0 puis -5 de l'étape par défaut, puis `optimize`, `beforeRemoving`,
-`remove`, `after`. **La priorité la plus haute passe en premier** ; elle vaut `0`
+priority 10, 0 puis -5 de l'étape par défaut, puis `optimize`, `beforeRemoving`,
+`remove`, `after`. **La priority la plus haute passe en premier** ; elle vaut `0`
 par défaut.
 
 ## Ce que l'étape rend visible
@@ -128,12 +128,12 @@ Le choix n'est pas décoratif. Trois exécutions le montrent :
 |---|---|
 | ajoute une référence à un service privé en `TYPE_BEFORE_REMOVING` | le service est conservé et injecté |
 | la même en `TYPE_AFTER_REMOVING` | `compile()` et le vidage en PHP **passent** ; l'instanciation du consommateur lève `ServiceNotFoundException` — « The "priv" service or alias has been removed or inlined when the container was compiled » |
-| lit un tag posé par `registerForAutoconfiguration()`, priorité 0 | le service tagué est vu |
-| la même, priorité 200 | **rien** : l'autoconfiguration, à 100, n'a pas encore eu lieu |
+| lit un tag posé par `registerForAutoconfiguration()`, priority 0 | le service tagué est vu |
+| la même, priority 200 | **rien** : l'autoconfiguration, à 100, n'a pas encore eu lieu |
 
 Une passe qui **ajoute** une référence à un service privé doit donc s'exécuter
 avant `TYPE_REMOVE` ; une passe qui veut observer le container final se place en
-`TYPE_AFTER_REMOVING` ; et une priorité élevée dans l'étape par défaut ne voit
+`TYPE_AFTER_REMOVING` ; et une priority élevée dans l'étape par défaut ne voit
 pas encore les tags d'autoconfiguration.
 
 ## Passe ou configuration
@@ -147,10 +147,10 @@ s'exécute pas à la compilation.
 ## Pièges d'examen
 
 - Une passe manipule des **definitions**, jamais des instances.
-- Le type par défaut est `TYPE_BEFORE_OPTIMIZATION`, priorité `0`.
+- Le type par défaut est `TYPE_BEFORE_OPTIMIZATION`, priority `0`.
 - Câbler un service privé **après** `TYPE_REMOVE` échoue : il a déjà disparu —
   et l'erreur n'arrive qu'à l'exécution, pas à la compilation.
-- Priorité haute = **plus tôt**, à type égal — au-delà de 100, avant
+- Priority haute = **plus tôt**, à type égal — au-delà de 100, avant
   l'autoconfiguration.
 - Le noyau-passe tourne à -10000, après les passes de bundle de son étape.
 - Une passe s'exécute **une fois**, à la compilation — jamais par Request.

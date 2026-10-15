@@ -40,27 +40,27 @@ official_sources:
     branch: "8.0"
     verified_at: "2026-09-24"
 outcome_sections:
-  OUT-jsv2v128z17j: "Le composant"
-  OUT-25y9qjcp8wgy: "Le composant"
-  OUT-qpav59c60vb3: "Le composant"
+  OUT-jsv2v128z17j: "Le component"
+  OUT-25y9qjcp8wgy: "Le component"
+  OUT-qpav59c60vb3: "Le component"
   OUT-bn50g0may31c: "Ce que FrameworkBundle ajoute encore"
 ---
 
 ## Objectif
 
-Séparer le **composant** Routing de ce que **FrameworkBundle** en fait dans une
+Séparer le **component** Routing de ce que **FrameworkBundle** en fait dans une
 application, et savoir quel morceau vient d'où. La déclaration d'une route est
 traitée par l'item *Configuration (YAML and PHP attributes)*.
 
-## Le composant
+## Le component
 
 Sa description officielle tient en une phrase : *« Maps an HTTP request to a set
 of configuration variables »*. Une route ne désigne pas un controller au sens du
-composant ; elle produit un **jeu de variables**, dont `_controller` n'est
+component ; elle produit un **jeu de variables**, dont `_controller` n'est
 qu'une parmi d'autres.
 
 Sa liste de dependencies tient en deux entrées : PHP 8.4 et un package de
-contrats. **Aucun autre composant Symfony.** C'est ce qui
+contrats. **Aucun autre component Symfony.** C'est ce qui
 permet de l'installer seul dans un projet qui n'utilise pas le framework.
 
 Ses classes centrales :
@@ -71,20 +71,20 @@ Ses classes centrales :
 | `RouteCollection` | l'ensemble ordonné des routes |
 | `UrlMatcher` | de l'URL vers les variables — le **matching** |
 | `UrlGenerator` | des variables vers l'URL — la **génération** |
-| `RequestContext` | hôte, schéma, method, port courants |
-| `Router` | assemble un loader, un matcher et un générateur |
+| `RequestContext` | host, schéma, method, port courants |
+| `Router` | assemble un loader, un matcher et un generator |
 
 Les deux sens — apparier et générer — sont deux classes distinctes. C'est ce qui
 explique qu'une option puisse compter pour l'un et pas pour l'autre.
 
 ## Trois morceaux, trois origines
 
-Le découpage « composant / bundle » ne suffit pas : un troisième acteur tient
+Le découpage « component / bundle » ne suffit pas : un troisième acteur tient
 le listener.
 
 | Morceau | Class fournie par | Ce que fait FrameworkBundle |
 |---|---|---|
-| `Router`, matcher, générateur | **Routing** | déclare `router.default` avec le matcher `RedirectableCompiledUrlMatcher` et le générateur `CompiledUrlGenerator`, compilés dans le cache |
+| `Router`, matcher, generator | **Routing** | déclare `router.default` avec le matcher `RedirectableCompiledUrlMatcher` et le generator `CompiledUrlGenerator`, compilés dans le cache |
 | `RouterListener` | **HttpKernel** | l'enregistre comme service `router_listener` |
 | loader `routing.controllers` | **Routing** (`AttributeServicesLoader`) | tag `routing.controller` toute class portant `#[Route]` |
 
@@ -94,7 +94,7 @@ câbler.
 
 ### Ce que fait le listener
 
-Il écoute `kernel.request` à la priorité **32**, et :
+Il écoute `kernel.request` à la priority **32**, et :
 
 - **saute** le routage si la Request porte déjà `_controller` — c'est ce qui
   évite de router à nouveau une sub-Request de `forward()` ;
@@ -129,10 +129,10 @@ par un 404 : sa method `redirect()` renvoie vers
 **`RouterListener` appartient à HttpKernel, pas à FrameworkBundle.** Le bundle
 l'enregistre ; il ne le définit pas.
 
-**Apparier et générer sont deux classes distinctes.** Le générateur ne voit pas
+**Apparier et générer sont deux classes distinctes.** Le generator ne voit pas
 la Request ; il ne peut pas évaluer ce qui en dépend.
 
-**Le composant ne dépend d'aucun autre composant Symfony.**
+**Le component ne dépend d'aucun autre component Symfony.**
 
 **Une route produit des variables, pas un controller.**
 
@@ -143,7 +143,7 @@ de directory.
 
 ## Points clés
 
-- Le composant fait correspondre une Request à des **variables**.
+- Le component fait correspondre une Request à des **variables**.
 - Il est autonome : PHP et un package de contrats, rien d'autre.
 - `UrlMatcher` et `UrlGenerator` sont deux classes séparées.
 - `RouterListener` : HttpKernel, `kernel.request` à 32 ; 404 et 405.
@@ -151,7 +151,7 @@ de directory.
 
 ## Sources officielles
 
-- [composer.json du composant Routing](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/composer.json)
+- [composer.json du component Routing](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/composer.json)
 - [UrlGeneratorInterface, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Generator/UrlGeneratorInterface.php)
 - [`RouterListener`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/EventListener/RouterListener.php)
 - [Services de routage de FrameworkBundle](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Resources/config/routing.php)

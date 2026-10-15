@@ -120,7 +120,7 @@ public function index(): Response
 }
 ```
 
-La règle de priorité est explicite dans la documentation et vaut d'être
+La règle de priority est explicite dans la documentation et vaut d'être
 retenue : **les headers posés dans le controller l'emportent sur ceux
 configurés par l'attribute.** L'attribute fixe une politique par défaut ; le code
 peut la contredire. Exécuté : `#[Cache(maxage: 60)]` et `setMaxAge(10)` dans

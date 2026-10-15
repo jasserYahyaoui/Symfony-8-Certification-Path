@@ -35,14 +35,14 @@ outcome_sections:
 
 ## Objectif
 
-Comprendre ce que le composant Form fait réellement : convertir un object
+Comprendre ce que le component Form fait réellement : convertir un object
 applicatif en fields HTML, et le path inverse. C'est ce modèle qui explique
 tout le reste du lot.
 
 ## Le problème résolu
 
 Un navigateur n'envoie que du texte. Une application manipule des objects. Le
-composant tient les deux bouts : il construit les fields à partir d'un object, et
+component tient les deux bouts : il construit les fields à partir d'un object, et
 reconstruit l'object à partir de ce que le navigateur renvoie.
 
 Il est **autonome** : utilisable hors du framework, comme HttpFoundation.
@@ -57,16 +57,16 @@ C'est le modèle central, et il porte trois noms qu'il faut savoir distinguer :
 | **Normalized data** | une représentation intermédiaire, identique au modèle pour la plupart des types | `getNormData()` |
 | **View data** | le format des fields HTML, essentiellement des strings, puisque c'est ce qu'un navigateur envoie | `getViewData()` |
 
-Les **transformateurs de modèle** relient modèle et normalisée ; les
-**transformateurs de vue** relient normalisée et vue.
+Les **model transformers** relient modèle et normalisée ; les
+**view transformers** relient normalisée et vue.
 
 ## L'exemple du `DateType` — et une erreur de la documentation
 
 La documentation 8.0 illustre les couches avec un `DateType` rendu en trois
-listes déroulantes et donne, pour la donnée normalisée, un array d'ints
+listes déroulantes et donne, pour la norm data, un array d'ints
 `['year' => 2026, 'month' => 10, 'day' => 18]`. **Le code dit autre chose.**
-`DateType` n'ajoute un transformateur de modèle que pour les formats d'entrée
-autres que `datetime` ; son transformateur de vue, `DateTimeToArrayTransformer`,
+`DateType` n'ajoute un model transformer que pour les formats d'entrée
+autres que `datetime` ; son view transformer, `DateTimeToArrayTransformer`,
 part d'un `DateTime`. Exécuté avec `symfony/form` 8.0.15 :
 
 | Option `input` | Model data | Normalized data | View data |
@@ -75,7 +75,7 @@ part d'un `DateTime`. Exécuté avec `symfony/form` 8.0.15 :
 | `array` | `['year' => 2026, …]` | `DateTime` | `['year' => '2026', …]` |
 | `string` | `'2026-10-18'` | `DateTime` | `['year' => '2026', …]` |
 
-La donnée normalisée d'un `DateType` est **toujours un `DateTime`** : c'est le
+La norm data d'un `DateType` est **toujours un `DateTime`** : c'est le
 format pivot vers lequel chaque format d'entrée est ramené. L'array
 d'ints est la donnée **modèle** quand `input` vaut `array`. La vue, elle, est
 bien un array de strings.
@@ -85,18 +85,18 @@ indépendant du format que l'application choisit pour ses données.
 
 ## Les deux sens
 
-**Au rendu** : donnée du modèle → transformateurs de modèle → donnée normalisée
-→ transformateurs de vue → donnée de vue → HTML.
+**Au rendu** : model data → model transformers → norm data
+→ view transformers → view data → HTML.
 
-**À la soumission** : valeurs brutes de la Request → transformateurs de vue à
-l'envers → donnée normalisée → transformateurs de modèle à l'envers → donnée du
+**À la submission** : valeurs brutes de la Request → view transformers à
+l'envers → norm data → model transformers à l'envers → donnée du
 modèle, réécrite dans l'object.
 
-Les mêmes transformateurs servent dans les deux sens ; c'est leur method
-inverse qui est appelée à la soumission.
+Les mêmes transformers servent dans les deux sens ; c'est leur method
+inverse qui est appelée à la submission.
 
 Les events de form s'insèrent à des niveaux précis : `PRE_SUBMIT`
-reçoit les valeurs brutes, `SUBMIT` la donnée normalisée, `POST_SUBMIT` la
+reçoit les valeurs brutes, `SUBMIT` la norm data, `POST_SUBMIT` la
 donnée entièrement transformée — l'item *Form events* de ce lot.
 
 ## Quand cela devient visible
@@ -104,7 +104,7 @@ donnée entièrement transformée — l'item *Form events* de ce lot.
 La plupart du temps ces couches restent invisibles. Elles apparaissent dans deux
 situations : quand un field ne s'affiche pas ou ne se soumet pas comme prévu —
 `getNormData()` et `getViewData()` servent alors au diagnostic —, et quand on
-écrit un transformateur — l'item *Data transformers* de ce lot.
+écrit un transformer — l'item *Data transformers* de ce lot.
 
 ## Pièges d'examen
 
@@ -112,22 +112,22 @@ situations : quand un field ne s'affiche pas ou ne se soumet pas comme prévu �
 intermédiaire est identique au modèle pour la plupart des types, ce qui la rend
 facile à oublier.
 
-**La donnée normalisée d'un `DateType` est un `DateTime`**, pas l'array
+**La norm data d'un `DateType` est un `DateTime`**, pas l'array
 d'ints de l'exemple documenté.
 
 **La vue est faite de strings.** Un navigateur n'envoie que du texte.
 
-**Le composant est autonome.** Ce n'est pas une fonctionnalité de
+**Le component est autonome.** Ce n'est pas une fonctionnalité de
 FrameworkBundle.
 
 ## Points clés
 
-- Composant autonome ; il traduit entre objects et fields HTML.
+- Component autonome ; il traduit entre objects et fields HTML.
 - Trois couches : model (`getData()`), normalized (`getNormData()`), view
   (`getViewData()`).
-- Transformateurs de modèle entre modèle et normalisée ; de vue entre
+- Model transformers entre modèle et normalisée ; de vue entre
   normalisée et vue.
-- Le rendu descend model → view ; la soumission remonte view → model.
+- Le rendu descend model → view ; la submission remonte view → model.
 - `DateType` : normalisée = `DateTime`, quel que soit `input`.
 
 ## Sources officielles

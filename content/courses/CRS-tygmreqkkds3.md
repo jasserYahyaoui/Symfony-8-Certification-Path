@@ -37,16 +37,16 @@ outcome_sections:
   OUT-dvn4fe5a95kf: "Ce que FrameworkBundle ajoute"
   OUT-9n7kqntbxaap: "Trois interfaces, et ce que chacune apporte"
   OUT-wtvmvsdmdz41: "Ce que FrameworkBundle ajoute"
-  OUT-8a4ygtt2rwe5: "Ce que le composant fournit"
+  OUT-8a4ygtt2rwe5: "Ce que le component fournit"
 ---
 
 ## Objectif
 
-Séparer ce que le **composant** HttpKernel fournit de ce que **FrameworkBundle**
+Séparer ce que le **component** HttpKernel fournit de ce que **FrameworkBundle**
 y ajoute. Le déroulé d'une Request et le catalogue des events sont traités
 dans le lot Symfony Architecture ; on regarde ici le partage des roles.
 
-## Ce que le composant fournit
+## Ce que le component fournit
 
 HttpKernel est autonome. Il contient :
 
@@ -60,7 +60,7 @@ HttpKernel est autonome. Il contient :
 - les exceptions HTTP, dont `NotFoundHttpException`.
 
 Avec cela seul, on peut écrire son propre framework : c'est le sens de la
-phrase « le composant est le cœur de n'importe quelle application ».
+phrase « le component est le cœur de n'importe quelle application ».
 
 ## Trois interfaces, et ce que chacune apporte
 
@@ -77,13 +77,13 @@ chacune** :
 
 | Interface | Ce qu'elle ajoute |
 |---|---|
-| `KernelInterface` | dix-sept methods — `boot()`, `shutdown()`, `registerBundles()`, `getBundle()`, `locateResource()`, les accesseurs de directories… **et `handle()` par inheritance** |
+| `KernelInterface` | dix-sept methods — `boot()`, `shutdown()`, `registerBundles()`, `getBundle()`, `locateResource()`, les accessors de directories… **et `handle()` par inheritance** |
 | `RebootableInterface` | `reboot(?string $warmupDir): void` |
 | `TerminableInterface` | `terminate(Request, Response): void` |
 
 ## Ce que FrameworkBundle ajoute
 
-FrameworkBundle est le **câblage**. Il ne réécrit rien du composant ; il
+FrameworkBundle est le **câblage**. Il ne réécrit rien du component ; il
 l'installe dans un service container et lui donne des collaborateurs :
 
 | Apport | Effet |
@@ -97,7 +97,7 @@ l'installe dans un service container et lui donne des collaborateurs :
 | `MicroKernelTrait` | configuration du kernel sans files séparés |
 
 La frontière la plus utile à retenir passe entre deux classes voisines :
-`Kernel` appartient au **composant** HttpKernel, `MicroKernelTrait` appartient
+`Kernel` appartient au **component** HttpKernel, `MicroKernelTrait` appartient
 au **bundle**. Le `Kernel` d'une application Symfony étend la première et
 utilise le second.
 
@@ -118,16 +118,16 @@ un trait appelle sans réflexion une method privée de la class qui l'utilise.
 
 ## Pièges d'examen
 
-**Le composant fonctionne sans le bundle.** HttpKernel est autonome : le contrat
+**Le component fonctionne sans le bundle.** HttpKernel est autonome : le contrat
 `handle()`, la class `Kernel`, les events et les resolvers sont dans le
-composant. On peut écrire un framework avec cela seul.
+component. On peut écrire un framework avec cela seul.
 
 **FrameworkBundle ne réécrit rien ; il câble.** Listeners enregistrés,
 resolvers tagués comme services, arbre de configuration `framework:`, commands
 `bin/console`, routes internes. Chercher l'arbre de configuration dans le
-composant, c'est ne pas le trouver.
+component, c'est ne pas le trouver.
 
-**`AbstractController` vient du bundle**, pas du composant — c'est le même
+**`AbstractController` vient du bundle**, pas du component — c'est le même
 partage. Le path le prouve :
 `src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php` existe,
 le path équivalent sous `src/Symfony/Component/HttpKernel/` **n'existe pas**.
@@ -138,8 +138,8 @@ le path équivalent sous `src/Symfony/Component/HttpKernel/` **n'existe pas**.
 
 ## Tips d'examen
 
-**Deux questions pour trancher composant / bundle.** Cela fonctionne-t-il sans
-service container ? → composant. Cela apparaît-il dans
+**Deux questions pour trancher component / bundle.** Cela fonctionne-t-il sans
+service container ? → component. Cela apparaît-il dans
 `config/packages/framework.yaml` ou dans `bin/console` ? → bundle.
 
 **Trois interfaces, une method chacune sauf la première.** `reboot()` et
@@ -148,11 +148,11 @@ service container ? → composant. Cela apparaît-il dans
 
 ## Points clés
 
-- Le composant définit le contrat et le kernel ; le bundle le câble.
+- Le component définit le contrat et le kernel ; le bundle le câble.
 - `Kernel` implémente `KernelInterface`, `RebootableInterface` et
   `TerminableInterface`.
 - `AbstractController`, `MicroKernelTrait` et l'arbre `framework:` viennent du
-  bundle, pas du composant.
+  bundle, pas du component.
 - Sans FrameworkBundle, HttpKernel fonctionne toujours — l'inverse est faux.
 - `KernelInterface` **étend** `HttpKernelInterface` : un `Kernel` porte
   `handle()` par inheritance.

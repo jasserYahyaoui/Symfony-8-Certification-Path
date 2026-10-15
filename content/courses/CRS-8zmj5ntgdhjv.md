@@ -37,7 +37,7 @@ outcome_sections:
 ## Objectif
 
 Déclarer une valeur de configuration et l'injecter. *Quelle* valeur mérite un
-parameter plutôt qu'une variable d'environment ou une constante est traité
+parameter plutôt qu'une variable d'environment ou une constant est traité
 dans *Official best practices* (lot Symfony Architecture).
 
 ## Le parameter

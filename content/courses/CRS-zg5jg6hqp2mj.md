@@ -29,7 +29,7 @@ official_sources:
     symbol_or_lines: "Forms — filter(...)->form()"
     verified_at: "2026-10-02"
 outcome_sections:
-  OUT-01wet8kg01yc: "Deux composants, un role chacun"
+  OUT-01wet8kg01yc: "Deux components, un role chacun"
   OUT-0cm314bnvwqx: "Parcourir"
   OUT-3vvzqtq2z234: "Cliquer et soumettre"
 ---
@@ -37,16 +37,16 @@ outcome_sections:
 ## Objectif
 
 Parcourir le document rendu, en extraire une valeur, et cliquer ou soumettre —
-c'est le composant qui donne au test l'accès au HTML.
+c'est le component qui donne au test l'accès au HTML.
 
 ## Prérequis
 
-L'object client, et les sélecteurs CSS.
+L'object client, et les selectors CSS.
 
-## Deux composants, un role chacun
+## Deux components, un role chacun
 
-**DomCrawler** parcourt le document et en extrait des nœuds. **CssSelector**
-ne parcourt rien : il **traduit un sélecteur CSS en expression XPath**. Le
+**DomCrawler** parcourt le document et en extrait des nodes. **CssSelector**
+ne parcourt rien : il **traduit un selector CSS en expression XPath**. Le
 premier utilise le second.
 
 C'est la distinction que l'examen teste. XPath est plus puissant mais illisible ;
@@ -60,7 +60,7 @@ $crawler->filter('h1.title');        // sélecteur CSS
 $crawler->filterXpath('//h1');       // expression XPath
 ```
 
-`filter()` exige le composant CssSelector ; `filterXpath()` non. Lu dans
+`filter()` exige le component CssSelector ; `filterXpath()` non. Lu dans
 `Crawler` (8.0) : sans lui, `LogicException` « To filter with a CSS selector,
 install the CssSelector component… Or use filterXpath instead. »
 
@@ -77,15 +77,15 @@ $crawler->filter('input[type=submit]')
 
 | Method | Ce qu'elle rend |
 |---|---|
-| `eq(1)` | le nœud à cet index — `0` est le premier |
+| `eq(1)` | le node à cet index — `0` est le premier |
 | `first()`, `last()` | le premier, le dernier |
-| `siblings()` | les frères, **le nœud courant exclu** |
+| `siblings()` | les frères, **le node courant exclu** |
 | `nextAll()`, `previousAll()` | les frères après, avant |
 | `ancestors()` | les ascendants, jusqu'à `<html>` |
 | `children()` | les enfants directs |
-| `reduce($fn)` | retire les nœuds pour lesquels la function rend `false` ; tout autre retour garde le nœud |
+| `reduce($fn)` | retire les nodes pour lesquels la function rend `false` ; tout autre retour garde le node |
 
-`count($crawler)` donne le nombre de nœuds retenus.
+`count($crawler)` donne le nombre de nodes retenus.
 
 ## Extraire
 
@@ -99,7 +99,7 @@ $crawler->each(fn ($node, $i) => $node->attr('href'));
 ```
 
 Le point à retenir : **`text()` et `attr()` ne portent que sur le premier
-nœud** ; `extract()` et `each()` portent sur tous. La key `_text` d'`extract()`
+node** ; `extract()` et `each()` portent sur tous. La key `_text` d'`extract()`
 désigne le texte plutôt qu'un attribute.
 
 Exécuté avec DomCrawler 8.0.15 :
@@ -141,7 +141,7 @@ détermine ce qui est envoyé. Le premier argument de `submitForm()` est le
 texte, l'`id` ou le `name` d'un `<button>` ou d'un `<input type="submit">`.
 
 Le code accepte pourtant aussi le `<form>` lui-même — la documentation du
-composant le montre : `$crawler->filter('.form-vertical')->form()`. Exécuté,
+component le montre : `$crawler->filter('.form-vertical')->form()`. Exécuté,
 un form à deux boutons `Save` (`a=A`) et `Delete` (`b=B`) :
 
 | Origine du `Form` | Valeurs envoyées |
@@ -153,16 +153,16 @@ un form à deux boutons `Save` (`a=A`) et `Delete` (`b=B`) :
 Depuis le `<form>`, aucun bouton n'est envoyé, et les attributes `formaction` et
 `formmethod` d'un bouton ne s'appliquent pas.
 
-Sur les fields : `select()` pour une liste ou un bouton radio, `tick()` pour une
+Sur les fields : `select()` pour une liste ou un radio button, `tick()` pour une
 case, `upload()` pour un file.
 
 ## Pièges d'examen
 
 **CssSelector ne parcourt pas le DOM** : il traduit CSS en XPath.
 
-**`text()` et `attr()` ne lisent que le premier nœud.**
+**`text()` et `attr()` ne lisent que le premier node.**
 
-**`siblings()` exclut le nœud courant.**
+**`siblings()` exclut le node courant.**
 
 **On sélectionne un bouton pour obtenir un form** quand le bouton compte ;
 le `<form>` seul marche aussi, mais n'envoie aucun bouton.
@@ -177,8 +177,8 @@ n'est pas modifié.
 
 - DomCrawler parcourt ; CssSelector traduit CSS en XPath.
 - `filter()` en CSS, `filterXpath()` en XPath.
-- Parcours chaînable, immuable ; `count()` pour le nombre de nœuds.
-- `text()`/`attr()` sur le premier nœud, `extract()`/`each()` sur tous.
+- Parcours chaînable, immuable ; `count()` pour le nombre de nodes.
+- `text()`/`attr()` sur le premier node, `extract()`/`each()` sur tous.
 - `selectButton()->form()`, puis `$client->submit($form)`.
 
 ## Sources officielles

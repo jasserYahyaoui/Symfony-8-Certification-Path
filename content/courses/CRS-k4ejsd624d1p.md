@@ -99,7 +99,7 @@ pose le tag toute seule pour une class placée dans `src/`.
 
 Plusieurs extensions d'un même type s'ordonnent par l'attribute **`priority`**
 du tag : 0 par défaut, la plus haute passe la première. Exécuté avec
-`FormPass` : trois extensions de priorités -5, 0 et 20 sont chargées dans
+`FormPass` : trois extensions de priorities -5, 0 et 20 sont chargées dans
 l'ordre 20, 0, -5.
 
 La documentation précise que cet attribute exige de **déclarer le service
@@ -123,7 +123,7 @@ et ne peut pas être vide.
 
 **Étendre le type racine touche tous les fields, pas les boutons.**
 
-**La priorité se règle sur le tag**, dans la configuration du service.
+**La priority se règle sur le tag**, dans la configuration du service.
 
 ## Points clés
 

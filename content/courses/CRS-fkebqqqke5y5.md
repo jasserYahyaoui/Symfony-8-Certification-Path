@@ -91,7 +91,7 @@ désigne bien l'original.
 ## Empiler des decorators
 
 Plusieurs services peuvent décorer la même cible. L'ordre est donné par
-`decoration_priority`, entier valant `0` par défaut : **une priorité plus haute
+`decoration_priority`, entier valant `0` par défaut : **une priority plus haute
 est appliquée plus tôt**, donc enveloppe la cible en premier — et se retrouve
 donc **au plus près d'elle**, pas à l'extérieur.
 
@@ -108,7 +108,7 @@ Le container produit `new Baz(new Bar(new Foo()))`. `Bar`, prioritaire, est
 collé à `Foo` ; `Baz`, moins prioritaire, est la couche externe — donc la
 première appelée à l'exécution.
 
-Exécuté : priorités 5 et 1 donnent `Baz(Bar(Foo))`. À priorité égale, l'ordre de
+Exécuté : priorities 5 et 1 donnent `Baz(Bar(Foo))`. À priority égale, l'ordre de
 déclaration départage : `bar` puis `baz` donnent `baz(bar(Foo))`, l'ordre
 inverse `bar(baz(Foo))` — le premier déclaré est le plus interne.
 
@@ -141,7 +141,7 @@ App\P6\Mailer, App\P6\LoggingMailer given ». Typé avec l'interface, il reçoit
 
 **L'original n'est pas supprimé** : il devient `<décorateur>.inner`.
 
-**La priorité la plus haute est la plus interne.** Elle est appliquée en
+**La priority la plus haute est la plus interne.** Elle est appliquée en
 premier, donc enveloppe directement le service décoré ; c'est la plus basse qui
 finit à l'extérieur.
 

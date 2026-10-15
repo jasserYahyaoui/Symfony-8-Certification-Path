@@ -40,7 +40,7 @@ Poser un flash message, savoir où il est stocké et quand il disparaît.
 
 Un flash message est un message de **session** conçu pour être utilisé
 exactement une fois : il disparaît automatiquement dès qu'il est récupéré. C'est
-le mécanisme du motif *Post / Redirect / Get* — on traite, on pose un message,
+le mécanisme du pattern *Post / Redirect / Get* — on traite, on pose un message,
 on redirige, et la page suivante l'affiche puis l'oublie.
 
 Comme c'est de la session, poser un flash **démarre la session**.

@@ -68,7 +68,7 @@ La documentation 8.0 en liste dix :
 | `SendMessageToTransportsEvent` | avant l'envoi vers les transports |
 | `MessageSentToTransportsEvent` | après l'envoi, une fois même pour plusieurs transports |
 | `WorkerStartedEvent` | le worker démarre |
-| `WorkerRunningEvent` | à chaque boucle, y compris **à vide** |
+| `WorkerRunningEvent` | à chaque loop, y compris **à vide** |
 | `WorkerMessageReceivedEvent` | un message vient d'être récupéré |
 | `WorkerMessageHandledEvent` | un message a été traité avec succès |
 | `WorkerMessageFailedEvent` | le handler a levé |
@@ -80,7 +80,7 @@ Le code 8.0 en contient un onzième, `WorkerMessageSkipEvent`, émis par
 `messenger:failed:retry` quand on choisit de ne pas rejouer un message.
 
 Ce qui compte est la **forme** : un couple avant/après à l'envoi, et un cycle
-complet côté worker — démarrage, boucle, réception, succès ou échec, retry,
+complet côté worker — démarrage, loop, réception, succès ou échec, retry,
 arrêt.
 
 ## Ce qu'un listener peut changer
@@ -98,21 +98,21 @@ qu'on attribue souvent au seul middleware.
 
 **`WorkerMessageFailedEvent`** porte l'exception et dit si le message sera
 rejoué : `willRetry()`. Mais `willRetry()` est **positionné** par
-`SendFailedMessageForRetryListener`, à la priorité 100. Exécuté, un message qui
+`SendFailedMessageForRetryListener`, à la priority 100. Exécuté, un message qui
 sera réessayé :
 
 | Listener | `willRetry()` |
 |---|---|
-| priorité 150 | `false` |
-| priorité 0 (défaut) | `true` |
+| priority 150 | `false` |
+| priority 0 (défaut) | `true` |
 
-Un listener qui passe avant 100 lit toujours `false`. Le transport d'échec, lui,
+Un listener qui passe avant 100 lit toujours `false`. Le failure transport, lui,
 écoute à -100.
 
 **`WorkerRunningEvent`** est émis à **chaque itération**, même quand la file est
 vide, et `isWorkerIdle()` le signale. Exécuté, file vide, `--time-limit=2
 --sleep=0.5` : 4 émissions, toutes à vide. Un traitement coûteux placé là
-s'exécute en boucle.
+s'exécute en loop.
 
 ## Un exemple
 
@@ -126,7 +126,7 @@ public function onFailed(WorkerMessageFailedEvent $event): void
 }
 ```
 
-La priorité par défaut, 0, place ce listener **après** la décision de retry.
+La priority par défaut, 0, place ce listener **après** la décision de retry.
 
 ## Pièges d'examen
 
@@ -134,7 +134,7 @@ La priorité par défaut, 0, place ce listener **après** la décision de retry.
 tourner en permanence.
 
 **`WorkerMessageFailedEvent` n'est pas un abandon** : `willRetry()` dit s'il
-reste des tentatives — à condition d'écouter après la priorité 100.
+reste des tentatives — à condition d'écouter après la priority 100.
 
 **Un message non routé n'émet aucun event Messenger** : seul un middleware
 le voit.
@@ -147,7 +147,7 @@ le voit.
 - Dix events documentés, onze dans le code : deux à l'envoi, le reste
   autour du worker.
 - Les events ne couvrent que l'envoi vers un transport et le worker.
-- `willRetry()` n'est fiable qu'après la priorité 100.
+- `willRetry()` n'est fiable qu'après la priority 100.
 - `WorkerRunningEvent` est émis même à vide.
 
 ## Sources officielles

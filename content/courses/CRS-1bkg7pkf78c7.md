@@ -30,7 +30,7 @@ outcome_sections:
 
 ## Objectif
 
-Faire construire un service par autre chose que son constructeur, et connaître
+Faire construire un service par autre chose que son constructor, et connaître
 les écritures de l'option `factory`.
 
 ## Quand c'est nécessaire
@@ -73,10 +73,10 @@ que des objects.
 
 ## Les arguments
 
-`arguments` est passé **à la factory**, pas au constructeur — puisque le
-constructeur n'est pas appelé. C'est la confusion la plus fréquente.
+`arguments` est passé **à la factory**, pas au constructor — puisque le
+constructor n'est pas appelé. C'est la confusion la plus fréquente.
 
-Exécuté : avec `factory: [null, 'create']`, le constructeur de la class est
+Exécuté : avec `factory: [null, 'create']`, le constructor de la class est
 appelé **0** fois, `create()` **1** fois, et deux `get()` rendent le même object
 — un service issu d'une factory reste partagé.
 
@@ -84,7 +84,7 @@ appelé **0** fois, `create()` **1** fois, et deux `get()` rendent le même obje
 
 `#[Autoconfigure(constructor: 'create')]` désigne une method statique de la
 class elle-même comme fabrique, sans toucher à `services.yaml`. Exécuté : le
-service est construit par la method, le constructeur n'est pas appelé.
+service est construit par la method, le constructor n'est pas appelé.
 
 ## Ce que le container retient
 
@@ -97,7 +97,7 @@ stdClass given ».
 
 ## Pièges d'examen
 
-**Les arguments vont à la factory.** Le constructeur du service n'est pas
+**Les arguments vont à la factory.** Le constructor du service n'est pas
 appelé du tout.
 
 **`[null, 'create']` désigne la class du service**, pas une function globale.
@@ -110,7 +110,7 @@ consommateur.
 
 ## Points clés
 
-- Une factory construit le service à la place du constructeur.
+- Une factory construit le service à la place du constructor.
 - Cinq écritures : class statique, `null` pour soi-même, `@service` + method,
   `@service` invocable, function.
 - `arguments` alimente la factory ; le service reste partagé.

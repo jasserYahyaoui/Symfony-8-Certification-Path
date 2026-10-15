@@ -53,13 +53,13 @@ outcome_sections:
 ## Objectif
 
 Référencer une ressource publique depuis un template, et savoir ce que le
-composant Asset fait du path.
+component Asset fait du path.
 
 ## Limite de périmètre
 
 Les outils de construction d'assets — AssetMapper, Webpack Encore — sont
 **exclus du périmètre de l'examen** (`docs/syllabus/exclusions.yml`). Ce qui
-reste ici est la function Twig et la configuration du composant Asset.
+reste ici est la function Twig et la configuration du component Asset.
 
 ## La function
 
@@ -72,8 +72,8 @@ Sa signature est `asset(path, packageName = null)` (`AssetExtension`, Twig
 Bridge 8.0). Le path est relatif à `public/`, sans barre oblique initiale.
 
 Elle n'est pas cosmétique : elle applique le préfixe de base de l'application —
-utile lorsque le site n'est pas servi à la racine du domaine, ce qui est le cas
-de ce projet même — et la stratégie de version configurée.
+utile lorsque le site n'est pas servi à la racine du domain, ce qui est le cas
+de ce projet même — et la strategy de version configurée.
 
 ## Ce que fait le package, dans l'ordre
 
@@ -82,7 +82,7 @@ ne se combinent pas. Sa method `getUrl()` :
 
 1. rend **inchangée** une URL absolue (`https://…`, `//…`) — ni préfixe ni
    version ;
-2. applique la stratégie de version ;
+2. applique la strategy de version ;
 3. rend le résultat tel quel s'il commence par `/` : **pas de préfixe de
    base** ;
 4. sinon, préfixe le path par la base.
@@ -139,7 +139,7 @@ Pour une URL absolue — un e-mail, un tag de partage —, on combine avec
 - Path relatif à `public/`, sans barre initiale.
 - `asset()` applique la version puis le préfixe de base.
 - Second argument facultatif : le nom du package.
-- Version statique, stratégie ou manifeste — une seule à la fois.
+- Version statique, strategy ou manifeste — une seule à la fois.
 
 ## Sources officielles
 

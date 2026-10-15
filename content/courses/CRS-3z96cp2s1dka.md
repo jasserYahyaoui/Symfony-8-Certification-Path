@@ -46,7 +46,7 @@ dans le résultat.
 
 ## Périmètre
 
-Le syllabus exclut les **ponts vers des services tiers** : les formats fournis
+Le syllabus exclut les **bridges vers des services tiers** : les formats fournis
 par des projets extérieurs ne sont pas au programme.
 
 L'accès aux valeurs par path appartient au lot 24 (PropertyAccess) ; il est
@@ -82,7 +82,7 @@ Le service par défaut compose une **liste triée de normalizers** et **un seul
 encoder**, celui du format demandé.
 
 `ObjectNormalizer` est le principal : il travaille par réflexion et s'appuie sur
-le composant d'accès aux properties.
+le component d'accès aux properties.
 
 Encoders fournis par défaut : **JSON, XML, CSV, YAML**. Exécuté, l'array
 `['k' => 'v']` donne `{"k":"v"}`, `<response><k>v</k></response>`, `k` puis `v`
@@ -91,7 +91,7 @@ sur deux lignes, et `{ k: v }`. Un format sans encoder lève une
 
 ## Ce qui est pris par défaut
 
-`ObjectNormalizer` lit l'object par le composant d'accès aux properties : les
+`ObjectNormalizer` lit l'object par le component d'accès aux properties : les
 properties **publiques**, et les methods dont le nom commence par `get`, `has`,
 `is` ou `can`, préfixe retiré. Exécuté sur Serializer 8.0.15 :
 
@@ -100,7 +100,7 @@ properties **publiques**, et les methods dont le nom commence par `get`, `has`,
 | property publique | oui |
 | property privée avec `getWithGetter()` | oui, sous `withGetter` |
 | `isActive()`, `hasKids()`, `canFly()` | oui : `active`, `kids`, `fly` |
-| property protégée ou privée sans accesseur | **non** |
+| property protégée ou privée sans accessor | **non** |
 | `fetchThing()` | non : préfixe inconnu |
 
 `#[Ignore]` exclut définitivement une property ou une method.
@@ -157,7 +157,7 @@ Exécuté avec un `MoneyNormalizer` qui rend `"12.50 EUR"` :
 | `[ObjectNormalizer, MoneyNormalizer]` | `{"cents":1250,"currency":"EUR"}` |
 
 `ObjectNormalizer` accepte presque tout object : placé devant, il avale aussi les
-dates. Le framework l'enregistre avec la priorité **−1000**, si bien qu'un
+dates. Le framework l'enregistre avec la priority **−1000**, si bien qu'un
 normalizer de l'application, autoconfiguré, passe avant lui.
 
 ## Dénormaliser
@@ -185,7 +185,7 @@ properties nulles, `datetime_format` change le format des dates — exécuté,
 ## Les références circulaires
 
 Deux objects qui se pointent l'un l'autre feraient boucler la normalization. Le
-composant lève une `CircularReferenceException`.
+component lève une `CircularReferenceException`.
 
 **Le seuil est réglable** par la key `circular_reference_limit` du contexte :
 c'est le nombre de fois qu'un même object est sérialisé avant d'être considéré

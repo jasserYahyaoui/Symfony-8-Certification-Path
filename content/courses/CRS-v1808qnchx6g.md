@@ -20,7 +20,7 @@ official_sources:
     verified_at: "2026-10-02"
 outcome_sections:
   OUT-gemxb3z58qyr: "Le nom du file n'est pas décoratif"
-  OUT-f181kwzbmq80: "Les deux syntaxes d'espace réservé"
+  OUT-f181kwzbmq80: "Les deux syntaxes de placeholder"
   OUT-z28gpra0mn3s: "La cascade de repli"
 ---
 
@@ -32,7 +32,7 @@ file Symfony va lire — c'est là que se jouent les surprises.
 ## Périmètre
 
 L'énoncé officiel le précise : **les utilitaires d'accès aux données ICU du
-composant Intl ne sont pas inclus**. Cette page ne traite donc pas des classes
+component Intl ne sont pas inclus**. Cette page ne traite donc pas des classes
 qui listent pays, langues ou devises.
 
 Elle traite en revanche **ICU MessageFormat**, qui appartient à la translation et
@@ -59,7 +59,7 @@ $translator->trans('say_hello', ['%name%' => 'Fabien']);
 $translator->trans('Hello World', domain: 'app');
 ```
 
-Les messages se rangent en **domaines** ; le domaine par défaut est `messages`.
+Les messages se rangent en **domains** ; le domain par défaut est `messages`.
 
 Le point important sur `trans()` : **si le message n'est pas dans le catalogue,
 la string d'origine est retournée**. Aucune erreur, aucun message vide. Une
@@ -68,29 +68,29 @@ telle quelle.
 
 ## Le nom du file n'est pas décoratif
 
-Chaque file suit le motif **`domaine.locale.chargeur`** :
+Chaque file suit le pattern **`domaine.locale.chargeur`** :
 
 ```text
 messages.fr_FR.yaml
 admin.en.xlf
 ```
 
-- **domaine** — le group de messages ;
+- **domain** — le group de messages ;
 - **locale** — `en`, `en_GB`… ;
-- **loader** — l'extension choisit l'analyseur : `yaml`, `xlf`, `php`, `csv`,
+- **loader** — l'extension choisit le parser : `yaml`, `xlf`, `php`, `csv`,
   `json`, `ini`, `po`, `mo`…
 
 La documentation recommande YAML pour un projet simple et XLIFF lorsque des
 translators ou des outils spécialisés interviennent.
 
 Symfony lit d'abord le directory **`translations/` du projet**, puis celui des
-bundles. La priorité du projet est ce qui permet de **redéfinir** la translation
+bundles. La priority du projet est ce qui permet de **redéfinir** la translation
 d'un bundle — et la redéfinition se fait **key par key** : seules les keys
 surchargées ont besoin d'être présentes dans le file prioritaire.
 
 Un **nouveau** catalogue exige un `cache:clear` pour être découvert.
 
-## Les deux syntaxes d'espace réservé
+## Les deux syntaxes de placeholder
 
 C'est la distinction la plus testable de l'item.
 
@@ -99,7 +99,7 @@ C'est la distinction la plus testable de l'item.
 | File | `messages.en.yaml` | `messages+intl-icu.en.yaml` |
 | Écriture | `Hello %name%!` | `Hello {name}!` |
 
-Le suffixe **`+intl-icu`** dans le nom du domaine est ce qui déclenche le
+Le suffixe **`+intl-icu`** dans le nom du domain est ce qui déclenche le
 traitement par `MessageFormatter`. Sans lui, le remplacement est un `strtr`
 littéral des keys passées. Exécuté sur `Hello {name}!`, sans `+intl-icu` :
 `['name' => 'Ann']` donne `Hello {Ann}!` ; `['{name}' => 'Ann']` donne
@@ -131,7 +131,7 @@ l'anglais n'a que `one` et `other`, le russe en a quatre.
 
 Le filter traduit une **expression** ; le tag, un **block statique**. La
 notation `%var%` est **obligatoire** avec le tag. Les messages traduits sont
-échappés par défaut ; `|raw` après `|trans` lève l'échappement. **Le tag,
+échappés par défaut ; `|raw` après `|trans` lève l'escaping. **Le tag,
 elle, n'échappe rien** — parameters compris. Exécuté avec `<i>x</i>` en
 parameter : `&lt;i&gt;` par le filter, `<i>x</i>` brut par le tag.
 

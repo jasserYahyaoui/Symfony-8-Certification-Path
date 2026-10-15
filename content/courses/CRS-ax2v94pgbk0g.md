@@ -38,7 +38,7 @@ outcome_sections:
 ## Objectif
 
 Attacher des constraints à une class PHP, et savoir jusqu'où la validation
-descend. Les scopes — property, accesseur, class — sont traités dans
+descend. Les scopes — property, accessor, class — sont traités dans
 *Validation scopes*.
 
 ## Les quatre formats de déclaration
@@ -58,7 +58,7 @@ class Author
 }
 ```
 
-Une property **privée** est lue sans accesseur : exécuté avec
+Une property **privée** est lue sans accessor : exécuté avec
 `symfony/validator` 8.0.15, `#[Assert\NotBlank]` sur une property privée vide
 produit sa violation.
 
@@ -129,12 +129,12 @@ Symfony 8.0 documente `#[ExtendsValidationFor(Product::class)]`, posé sur une
 class séparée — souvent abstraite — dont les constraints s'ajoutent à celles
 de `Product`, comme si elles y étaient déclarées.
 
-Hors framework, le lien se déclare au constructeur :
+Hors framework, le lien se déclare au constructor :
 `addAttributeMappings([Product::class => [MyProductValidation::class]])`.
 Exécuté : l'attribute seul ne suffit pas (aucune violation) ; avec la
 correspondance, la constraint `Length(min: 10)` s'applique. Une property
 absente de la class cible est refusée : la documentation annonce une
-`MappingException` ; le composant seul, exécuté, lève une `ValidatorException`,
+`MappingException` ; le component seul, exécuté, lève une `ValidatorException`,
 « Property "nope" does not exist in class "Product". ».
 
 ## Pièges d'examen

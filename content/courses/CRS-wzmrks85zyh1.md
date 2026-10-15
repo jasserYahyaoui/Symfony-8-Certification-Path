@@ -25,7 +25,7 @@ official_sources:
     verified_at: "2026-09-29"
 outcome_sections:
   OUT-tgzkeywcr2c5: "Les trois cibles"
-  OUT-wdhsjrrpmggk: "L'accesseur"
+  OUT-wdhsjrrpmggk: "L'accessor"
   OUT-v2t6031e9x7s: "La class"
 ---
 
@@ -36,13 +36,13 @@ que les autres ne permettent pas.
 
 ## Les trois cibles
 
-Une constraint s'applique à une **property**, à un **accesseur**, ou à la
+Une constraint s'applique à une **property**, à un **accessor**, ou à la
 **class entière**.
 
 | Cible | Ce qu'elle valide | Quand la choisir |
 |---|---|---|
 | property | la valeur stockée | le cas courant |
-| accesseur | la valeur **retournée** par une method | la règle est calculée |
+| accessor | la valeur **retournée** par une method | la règle est calculée |
 | class | l'object entier | la règle croise plusieurs properties |
 
 ## La property
@@ -55,7 +55,7 @@ private string $name;
 La visibilité n'a aucune importance : le validator lit la property par
 réflexion, y compris `private`.
 
-## L'accesseur
+## L'accessor
 
 C'est le scope qui se retient mal. Une constraint peut porter sur la valeur de
 retour d'une method dont le nom commence par **`get`**, **`is`** ou **`has`**.
@@ -94,7 +94,7 @@ chargement ; c'est l'appel qui casse.
 Certaines constraints s'appliquent à l'object lui-même, `Callback` en tête. Une
 constraint personnalisée y accède en retournant `Constraint::CLASS_CONSTRAINT`
 depuis sa method `getTargets()` ; par défaut, elle retourne
-`Constraint::PROPERTY_CONSTRAINT`, qui couvre properties **et** accesseurs.
+`Constraint::PROPERTY_CONSTRAINT`, qui couvre properties **et** accessors.
 Exécuté : `NotBlank` retourne `'property'`, `Callback` les deux cibles.
 
 C'est la seule portée qui voit **toutes** les properties à la fois, donc la seule
@@ -104,12 +104,12 @@ violation à `end` par `atPath('end')`.
 
 ## Pièges d'examen
 
-**Un accesseur doit s'appeler `get…`, `is…` ou `has…`** ; sinon, une
+**Un accessor doit s'appeler `get…`, `is…` ou `has…`** ; sinon, une
 `MappingException`, pas un oubli silencieux.
 
-**La visibilité ne bloque rien**, ni sur une property ni sur un accesseur.
+**La visibilité ne bloque rien**, ni sur une property ni sur un accessor.
 
-**Le path d'une violation d'accesseur perd le préfixe** : `isPasswordSafe`
+**Le path d'une violation d'accessor perd le préfixe** : `isPasswordSafe`
 donne `passwordSafe`.
 
 **Une règle qui croise deux properties n'est pas une constraint de property** :
@@ -117,8 +117,8 @@ il lui faut le scope class.
 
 ## Points clés
 
-- Trois portées : property, accesseur, class.
-- L'accesseur exige un nom en `get`/`is`/`has`, sans argument ; la visibilité
+- Trois portées : property, accessor, class.
+- L'accessor exige un nom en `get`/`is`/`has`, sans argument ; la visibilité
   est libre.
 - Mauvais nom : `MappingException` ; argument requis : `ArgumentCountError`.
 - Le scope class est le seul à voir l'object entier ; `getTargets()` le

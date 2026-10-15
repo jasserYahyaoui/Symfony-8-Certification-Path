@@ -24,11 +24,11 @@ Trois lignes qui vont ensemble :
   `setRouteAnnotationClass()` sont retirées, au profit de
   `setRouteAttributeClass()` ;
 - les alias de classes du namespace `Annotation` sont retirés ;
-- les accesseurs des classes d'attributes sont retirés **au profit de properties
+- les accessors des classes d'attributes sont retirés **au profit de properties
   publiques**.
 
 Le dernier point est le plus facile à manquer : on ne lit plus un attribute de
-route par un accesseur, on lit sa property.
+route par un accessor, on lit sa property.
 
 ## Un parameter mal typé devient une erreur
 
@@ -45,7 +45,7 @@ genre de régression qu'une migration révèle en production si on ne l'a pas lu
 avertissement.
 
 **Les attributes de route s'écrivent par properties publiques**, plus par
-accesseurs.
+accessors.
 
 **`_query` mal typé lève** au lieu d'être ignoré ou converti.
 
@@ -53,7 +53,7 @@ accesseurs.
 
 - Plus de format XML pour les routes.
 - `setRouteAttributeClass()` remplace `setRouteAnnotationClass()`.
-- Les classes d'attributes exposent des properties publiques, pas des accesseurs.
+- Les classes d'attributes exposent des properties publiques, pas des accessors.
 - Un `_query` non array lève une `InvalidParameterException`.
 
 ## Sources officielles
@@ -85,7 +85,7 @@ Les alias de classes du namespace `Annotation` sont retirés également.
 ### Compréhension
 
 <details>
-<summary>Pourquoi les classes d'attributes de route n'ont-elles plus d'accesseurs ?</summary>
+<summary>Pourquoi les classes d'attributes de route n'ont-elles plus d'accessors ?</summary>
 
 Parce qu'elles exposent des **properties publiques**. Un attribute est une structure de données lue par le loader, pas un object à encapsuler.
 
@@ -114,7 +114,7 @@ Aucun repli, aucun avertissement : le support est retiré.
 </details>
 
 <details>
-<summary>Du code passe une string comme `_query` au générateur d'URL. Résultat en 8.0 ?</summary>
+<summary>Du code passe une string comme `_query` au generator d'URL. Résultat en 8.0 ?</summary>
 
 Une **`InvalidParameterException`**. En 7.x la valeur passait.
 
@@ -134,9 +134,9 @@ Plus que déconseillé : **retiré**. Il n'est plus lu du tout.
 </details>
 
 <details>
-<summary>Piège : « on lit la valeur d'un attribute de route avec son accesseur. »</summary>
+<summary>Piège : « on lit la valeur d'un attribute de route avec son accessor. »</summary>
 
-Non : les accesseurs sont retirés au profit de properties publiques.
+Non : les accessors sont retirés au profit de properties publiques.
 
 Facile à manquer dans une ligne de journal qui en cite trois autres.
 

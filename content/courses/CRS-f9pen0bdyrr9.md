@@ -128,7 +128,7 @@ sert à *spécialiser* un type, pas à l'imbriquer.
 
 Un type est un service ordinaire. L'autoconfiguration le détecte : il n'y a rien
 à déclarer tant qu'il vit dans `src/`. Il peut donc recevoir des dependencies par
-son constructeur.
+son constructor.
 
 ## Pièges d'examen
 

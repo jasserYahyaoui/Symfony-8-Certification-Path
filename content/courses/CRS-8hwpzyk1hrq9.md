@@ -31,7 +31,7 @@ outcome_sections:
 ## Objectif
 
 Savoir qui décide qu'un accès est accordé, et par quel path. Les voters
-eux-mêmes et les stratégies ont leur propre item.
+eux-mêmes et les strategies ont leur propre item.
 
 ## La question posée
 
@@ -52,12 +52,12 @@ if ($security->isGranted('POST_EDIT', $post)) { }
 
 `isGranted($attribute, $subject)` délègue à l'`AccessDecisionManager`. Celui-ci
 interroge les voters, chacun retournant l'une de trois valeurs : accordé,
-refusé, ou **abstention**. Une **stratégie** transforme ces votes en décision
+refusé, ou **abstention**. Une **strategy** transforme ces votes en décision
 unique.
 
 Les voters ne sont pas forcément **tous** interrogés : l'`AccessDecisionManager`
-leur demande leur vote **un par un** (un générateur), et la stratégie peut
-s'arrêter avant la fin. Exécuté avec SecurityBundle 8.0.15, stratégie par défaut
+leur demande leur vote **un par un** (un generator), et la strategy peut
+s'arrêter avant la fin. Exécuté avec SecurityBundle 8.0.15, strategy par défaut
 `affirmative`, deux voters supportant `EDIT` — le premier accorde, le second
 refuserait : le journal ne montre que `A.supports(EDIT)`, `A.vote`. Le second
 n'a pas même été consulté. `AffirmativeStrategy::decide()` rend `true` au
@@ -114,7 +114,7 @@ d'entrée — redirect pour un form, 401 pour HTTP Basic.
 ## Points clés
 
 - `isGranted($attribute, $subject)` interroge l'`AccessDecisionManager`.
-- Les voters sont consultés un par un ; la stratégie peut conclure avant la fin.
+- Les voters sont consultés un par un ; la strategy peut conclure avant la fin.
 - Trois familles d'attributes : role, état d'authentication, verbe métier.
 - 403 pour un user connu ; pour un anonyme, la Response de l'entry point.
 

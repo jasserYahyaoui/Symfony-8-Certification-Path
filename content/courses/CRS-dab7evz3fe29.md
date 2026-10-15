@@ -51,7 +51,7 @@ Accept: text/html,application/xhtml+xml,application/json;q=0.9,*/*;q=0.8
 
 Chaque valeur porte un facteur de qualité `q` entre `0` et `1`, valant `1.0`
 par défaut. La spécificité ne départage pas deux types : elle décide **quel
-motif fixe le `q` d'un type donné**. Pour `text/html`, c'est `text/html` avant
+pattern fixe le `q` d'un type donné**. Pour `text/html`, c'est `text/html` avant
 `text/*`, lui-même avant `*/*` — quelles que soient les qualités écrites.
 
 ## Côté Symfony
@@ -85,7 +85,7 @@ généralement préférable en pratique.
 `getAcceptableContentTypes()` trie sur la qualité décroissante puis sur
 **l'ordre d'écriture du client** — pas sur la spécificité, et sans retirer les
 items `q=0`. La règle de spécificité ci-dessus est celle de la RFC ; elle ne
-s'applique pas à cet accesseur.
+s'applique pas à cet accessor.
 
 `getPreferredFormat()` ne commence pas par négocier : il consulte d'abord
 `getRequestFormat()`, donc l'attribute `_format` de la route ou un
@@ -118,7 +118,7 @@ serveur décide seul et doit dire sur quoi il s'est fondé — d'où `Vary`.
 - en l'absence de `q`, le poids vaut `1`.
 
 Pour `Accept-Language`, la RFC ajoute un avertissement utile : certains
-destinataires traitent l'ordre d'écriture comme une priorité décroissante entre
+destinataires traitent l'ordre d'écriture comme une priority décroissante entre
 valeurs de même qualité, « however, this behavior cannot be relied upon ».
 
 ## `Vary: *`
@@ -154,7 +154,7 @@ précédent ». Seul `q` class.
 Le mot *driven* du synonyme donne la Response : *server-driven* contre
 *agent-driven*.
 
-**Côté Symfony, deux accesseurs ne négocient pas ce qu'on croit.**
+**Côté Symfony, deux accessors ne négocient pas ce qu'on croit.**
 `getAcceptableContentTypes()` trie sur la qualité puis sur l'ordre d'écriture —
 ni sur la spécificité, ni en retirant les `q=0`. `getPreferredFormat()` consulte
 `_format` **avant** `Accept`.
@@ -162,7 +162,7 @@ ni sur la spécificité, ni en retirant les `q=0`. `getPreferredFormat()` consul
 ## Points clés
 
 - Une ressource, plusieurs représentations ; le client préfère, le serveur choisit.
-- `q` par défaut `1.0` ; `q=0` refuse ; la spécificité choisit le motif qui
+- `q` par défaut `1.0` ; `q=0` refuse ; la spécificité choisit le pattern qui
   fixe le `q` d'un type, elle ne class pas deux types entre eux.
 - `getAcceptableContentTypes()` renvoie une liste déjà triée.
 - Négocier impose `Vary` ; `406` si rien ne convient.

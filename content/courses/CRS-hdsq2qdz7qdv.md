@@ -116,7 +116,7 @@ public function send(bool $flush = true): static
 
 `send()` n'est pas une method de controller. Le controller **rend** une
 `Response` ; elle est émise une seule fois, plus haut, par le runner du
-composant Runtime derrière `public/index.php`.
+component Runtime derrière `public/index.php`.
 
 `sendHeaders()` envoie le statut et les headers, `sendContent()` fait un `echo`
 du body. Deux détails valent d'être connus :
@@ -148,7 +148,7 @@ second toute la class 2xx.
 **Un `RedirectResponse` renvoie 302 par défaut** ; un permanent demande
 `new RedirectResponse($url, 301)`.
 
-**Son constructeur valide le statut avec `isRedirect()`** et lève une
+**Son constructor valide le statut avec `isRedirect()`** et lève une
 `\InvalidArgumentException` sinon. Conséquence directe de la liste ci-dessus :
 `new RedirectResponse($url, 304)` **échoue**, alors que
 `new RedirectResponse($url, 201)` est **accepté**.
@@ -166,7 +166,7 @@ pour valider le statut d'un `RedirectResponse` à la construction. Retenir la
 liste, c'est retenir les deux comportements.
 
 **`JsonResponse` n'écrit pas le JSON de `json_encode()`** : elle ajoute quatre
-options d'échappement HTML. Comparer les données décodées, jamais la string.
+options d'escaping HTML. Comparer les données décodées, jamais la string.
 
 ## Points clés
 
@@ -184,4 +184,4 @@ options d'échappement HTML. Comparer les données décodées, jamais la string.
   `sendContent()` l. 385, `send()` l. 399 (branche 8.0, `6f841c0`)
 - [`HttpKernelRunner`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Runtime/Runner/Symfony/HttpKernelRunner.php) — `run()` : `send(false)` l. 36 puis
   `terminate()` l. 48 (branche 8.0)
-- [Composant HttpFoundation](https://github.com/symfony/symfony-docs/blob/8.0/components/http_foundation.rst)
+- [Component HttpFoundation](https://github.com/symfony/symfony-docs/blob/8.0/components/http_foundation.rst)

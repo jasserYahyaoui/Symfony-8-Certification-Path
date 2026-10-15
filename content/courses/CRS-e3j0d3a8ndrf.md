@@ -38,7 +38,7 @@ Décrire la fraîcheur et la validation d'une Response par ses headers, et savoi
 lequel s'adresse à quel cache.
 
 > **Périmètre.** Cette page couvre les **headers du protocole**. Le reverse
-> proxy Symfony et les stratégies d'expiration et de validation qu'il implémente
+> proxy Symfony et les strategies d'expiration et de validation qu'il implémente
 > appartiennent à l'item *HTTP Caching (reverse proxies, expiration,
 > validation)* du sujet Miscellaneous.
 

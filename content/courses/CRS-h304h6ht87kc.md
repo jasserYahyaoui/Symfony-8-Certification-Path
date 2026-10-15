@@ -39,7 +39,7 @@ ne rend pas.
 
 ## Périmètre
 
-Le syllabus exclut les **ponts vers des services tiers** : leurs DSN et leur
+Le syllabus exclut les **bridges vers des services tiers** : leurs DSN et leur
 configuration ne sont pas au programme. Seuls les transports intégrés le sont.
 
 La composition du message — `Email`, adresses, parties MIME — appartient à
@@ -67,7 +67,7 @@ configuration de `sendmail` échappe à l'application. Si `php.ini` utilise
 `sendmail -t`, il n'y a **pas de remontée d'erreur** et les headers `Bcc` ne
 sont **pas retirés**.
 
-Un caractère réservé d'URI dans l'identifier, le password ou l'hôte doit
+Un caractère réservé d'URI dans l'identifier, le password ou le host doit
 être encodé.
 
 ## Envoyer
@@ -84,11 +84,11 @@ public function sendEmail(MailerInterface $mailer): Response
 }
 ```
 
-**Le point à retenir** : si l'application dispose du composant Messenger,
+**Le point à retenir** : si l'application dispose du component Messenger,
 la documentation dit que les messages partent **asynchrones par défaut**. Le
 code en fixe la condition : `send()` distribue un `SendEmailMessage` sur le bus,
 qui ne diffère l'envoi que si ce message est **routé** vers un transport
-asynchrone. Exécuté : sans routage, le courriel part pendant `send()` ; routé
+asynchrone. Exécuté : sans routage, l'email part pendant `send()` ; routé
 vers un transport `in-memory://`, il y reste en attente.
 
 ## Ce que rend l'envoi
@@ -143,10 +143,10 @@ plus dans les octets envoyés, et il est même retiré de l'object `Email` d'ori
 
 ```mermaid
 ---
-title: Un courriel, de Mailer::send() au transport
+title: Un email, de Mailer::send() au transport
 ---
 flowchart TD
-  accTitle: Le parcours d'un courriel envoyé par Mailer::send()
+  accTitle: Le parcours d'un email envoyé par Mailer::send()
   accDescr: Sans bus Messenger, Mailer::send() appelle le transport tout de suite. Avec un bus, un premier MessageEvent marqué queued est dispatché, et s'il est rejeté rien n'est envoyé. Sinon un SendEmailMessage part sur le bus. Routé vers un transport asynchrone, il attend un worker. Non routé, son handler appelle le transport pendant dispatch(). Le transport dispatche à son tour MessageEvent. Rejeté, il rend null sans exception. Sinon il envoie, puis dispatche SentMessageEvent et rend un SentMessage, ou FailedMessageEvent et relance l'erreur.
   SEND["Mailer::send()"] --> BUS{"bus Messenger ?"}
   BUS -->|"non"| T["TransportInterface::send()"]

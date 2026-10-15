@@ -33,7 +33,7 @@ outcome_sections:
   OUT-8beznche62fc: "InputBag n'accepte que des scalaires"
   OUT-w17b65zev3y5: "InputBag n'accepte que des scalaires"
   OUT-g11rrz2thqp0: "Client et proxys"
-  OUT-04bvez73yte3: "L'hôte, et la seconde liste de confiance"
+  OUT-04bvez73yte3: "Le host, et la seconde liste de confiance"
 ---
 
 ## Objectif
@@ -86,7 +86,7 @@ $request->query->all('tags');   // ['php', 'http'] — correct
 `InputBag::get()` lève une `BadRequestException` si la valeur n'est pas un
 scalaire. La raison est défensive : un array reçu là où un scalaire est
 attendu doit échouer bruyamment plutôt que de se propager. Pour une valeur
-multiple, `all()` est l'accesseur prévu.
+multiple, `all()` est l'accessor prévu.
 
 `$attributes` est un `ParameterBag` sans cette restriction, parce que son
 contenu vient de l'application, pas du client.
@@ -149,7 +149,7 @@ confiance.
 `getClientIps()` renvoie la liste complète, « la plus fiable d'abord » selon son
 propre docblock, et conseille de lui préférer `getClientIp()`.
 
-## L'hôte, et la seconde liste de confiance
+## Le host, et la seconde liste de confiance
 
 `X-Forwarded-For` n'est pas le seul header que le client contrôle. `Host` l'est
 aussi, et `getHost()` le lit — d'abord `X-Forwarded-Host` si la Request vient
@@ -157,21 +157,21 @@ d'un proxy de confiance, sinon le header `Host`, sinon `SERVER_NAME`, sinon
 `SERVER_ADDR`. Le port est retiré et la valeur passée en minuscules.
 
 Un `Host` falsifié empoisonne tout ce qui est construit à partir de lui : une
-URL absolue dans un courriel de réinitialisation de password, une key de
+URL absolue dans un email de réinitialisation de password, une key de
 cache. La parade est une **seconde** liste, distincte des proxys :
 
 ```php
 Request::setTrustedHosts(['^(.+\.)?example\.com$']);
 ```
 
-`getHost()` lève alors une `SuspiciousOperationException` sur un hôte hors
-liste — et aussi sur un hôte syntaxiquement invalide, avant même la liste.
+`getHost()` lève alors une `SuspiciousOperationException` sur un host hors
+liste — et aussi sur un host syntaxiquement invalide, avant même la liste.
 
 **Ce sont des expressions régulières, et elles ne sont pas ancrées pour vous.**
-Chaque motif est enveloppé en `{motif}i` : insensible à la casse, et surtout
+Chaque pattern est enveloppé en `{motif}i` : insensible à la casse, et surtout
 **non ancré**. `setTrustedHosts(['example.com'])` accepte donc
-`example.com.attaquant.test`, puisque le motif y est trouvé en sous-chaîne — et
-le point non échappé accepte en prime `exampleXcom`. Un motif de confiance
+`example.com.attaquant.test`, puisque le pattern y est trouvé en sous-chaîne — et
+le point non échappé accepte en prime `exampleXcom`. Un pattern de confiance
 s'écrit avec `^`, `$` et des points échappés, faute de quoi la liste donne
 l'apparence d'une protection sans en être une.
 
@@ -205,7 +205,7 @@ une Request arbitraire — tests, sub-Requests ; la seconde lit les superglobale
 **Deux listes, deux dangers** : `trusted_proxies` garde `X-Forwarded-For`,
 `trusted_hosts` garde `Host`. Vides par défaut toutes les deux.
 
-**Un motif d'hôte est une expression régulière non ancrée** : sans `^` ni `$`,
+**Un host pattern est une expression régulière non ancrée** : sans `^` ni `$`,
 la sous-chaîne suffit.
 
 ## Points clés
@@ -220,7 +220,7 @@ la sous-chaîne suffit.
 
 ## Aller lire la source
 
-- [Composant HttpFoundation](https://github.com/symfony/symfony-docs/blob/8.0/components/http_foundation.rst) — *Accessing Request Data*,
+- [Component HttpFoundation](https://github.com/symfony/symfony-docs/blob/8.0/components/http_foundation.rst) — *Accessing Request Data*,
   `createFromGlobals()`, `create()`
 - [`Request`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php) — `setTrustedHosts()` l. 642, `getHost()` l. 1132,
   sacs publics l. 94-130, `getClientIp()` l. 821,

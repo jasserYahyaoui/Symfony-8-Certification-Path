@@ -2,7 +2,7 @@
 
 ## Objectif
 
-Savoir ce que la 8.0 retire et ajoute dans le composant qui porte la Request et
+Savoir ce que la 8.0 retire et ajoute dans le component qui porte la Request et
 la Response. Page d'enrichissement : hors périmètre officiel, hors couverture.
 
 ## Ce qui disparaît
@@ -20,7 +20,7 @@ donnée venait. Le journal est explicite : *« use properties `->attributes`,
 
 Les sept options de session retirées sont celles qui configuraient les
 mécanismes hérités de PHP : contrôle du référent, identifier en URL, longueur
-et alphabet de l'identifier, hôtes et tags de propagation.
+et alphabet de l'identifier, hosts et tags de propagation.
 
 ## Ce qui change de comportement
 

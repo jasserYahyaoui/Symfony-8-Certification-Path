@@ -76,10 +76,10 @@ locale appartiennent aux lots Internationalisation et Routing.
 
 Dans le code de `TranslationExtension` (Twig Bridge 8.0), la signature est
 `trans(arguments = [], domain = null, locale = null, count = null)` : **parameters,
-domaine, locale**, puis un compte qui renseigne `%count%`. Un domaine omis vaut
+domain, locale**, puis un compte qui renseigne `%count%`. Un domain omis vaut
 `messages`, une locale omise vaut la locale courante.
 
-Twig accepte les **arguments nommés** : `|trans(domain: 'store')` — ou
+Twig accepte les **named arguments** : `|trans(domain: 'store')` — ou
 `domain = 'store'`, l'autre séparateur admis par Twig 3.22 — évite l'array
 vide.
 
@@ -107,7 +107,7 @@ fonctionnent aussi, pourvu que la key de l'array corresponde exactement.
 - Le body doit être du texte simple.
 - Un pourcent littéral se double : `%percent%%%`.
 
-`{% trans_default_domain 'app' %}` fixe le domaine du template courant — et de
+`{% trans_default_domain 'app' %}` fixe le domain du template courant — et de
 lui seul : un template inclus garde `messages`, pour éviter les effets de bord.
 
 ## Échappé ou non
@@ -134,15 +134,15 @@ les intervalles personnalisés, `]0,1000]`.
 ## L'object traduisible
 
 `t('notification.welcome', {…}, 'domaine')` construit un `TranslatableMessage`,
-qui transporte ses parameters et son domaine et se traduit à l'affichage par
+qui transporte ses parameters et son domain et se traduit à l'affichage par
 `|trans`, dans la locale courante — ou celle passée en deuxième argument.
 Retourner une key brute, depuis une enum par exemple, perd parameters et
-domaine, et `translation:extract` ne la voit pas.
+domain, et `translation:extract` ne la voit pas.
 
 ## Pièges d'examen
 
-**L'ordre des arguments du filter est parameters, domaine, locale.** Les
-arguments nommés évitent de le deviner.
+**L'ordre des arguments du filter est parameters, puis domain, puis locale.** Les
+named arguments évitent de le deviner.
 
 **Une string en deuxième argument** n'est une locale que pour un object
 traduisible ; ailleurs, c'est une erreur.
@@ -158,7 +158,7 @@ emplacement ordinaire — rien n'est pluralisé.
 
 ## Points clés
 
-- `|trans(paramètres, domaine, locale, count)` ; arguments nommés admis.
+- `|trans(paramètres, domaine, locale, count)` ; named arguments admis.
 - `%nom%` est une convention pour le filter, une obligation pour le tag.
 - Tag : `count`, `with`, `from`, `into`, dans cet ordre ; sortie non échappée.
 - Pluriel : ICU, file suffixé `+intl-icu`, `{nom}` ; barres = *legacy*.

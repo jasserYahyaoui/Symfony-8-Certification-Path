@@ -106,7 +106,7 @@ public function __construct(
 
 Un locator peut aussi être construit à partir d'un **tag** —
 `#[AutowireLocator('app.handler')]` —, ce qui donne une table de correspondance
-paresseuse : exécuté (voir *Tags*), les keys sont l'`index` de chaque service
+lazy : exécuté (voir *Tags*), les keys sont l'`index` de chaque service
 quand il en a un, son identifier sinon.
 
 ## Hériter
@@ -138,7 +138,7 @@ rend `false`.
 
 ## Points clés
 
-- Un locator est un container restreint et paresseux, pour « beaucoup de
+- Un locator est un container restreint et lazy, pour « beaucoup de
   dependencies, une seule utilisée ».
 - `ServiceSubscriberInterface` + `getSubscribedServices()` statique, ou
   `#[AutowireLocator]`.

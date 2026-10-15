@@ -69,7 +69,7 @@ class CreateUserCommand
 }
 ```
 
-Le point à noter : **elle n'étend pas `Command`**. La constante `Command::SUCCESS`
+Le point à noter : **elle n'étend pas `Command`**. La constant `Command::SUCCESS`
 reste utilisée pour la lisibilité, mais l'inheritance n'est plus nécessaire.
 
 ## Comment Symfony la trouve
@@ -102,7 +102,7 @@ Conséquences :
 
 ## Les dependencies
 
-La command étant un service, on injecte **par le constructeur** :
+La command étant un service, on injecte **par le constructor** :
 
 ```php
 #[AsCommand(name: 'app:create-user')]
@@ -143,7 +143,7 @@ class CreateUserCommand extends Command
 La documentation la nomme *legacy syntax* et recommande la forme invocable.
 Elle garde une utilité concrète : `initialize()` est une method de `Command`,
 sans équivalent par attribute. Une command qui en a besoin étend `Command` — et
-peut alors définir `__invoke()` ou `execute()` ; lu dans le constructeur de
+peut alors définir `__invoke()` ou `execute()` ; lu dans le constructor de
 `Command`, une sous-classe qui ne redéfinit pas `execute()` mais est invocable
 passe par `__invoke()`.
 
@@ -167,7 +167,7 @@ riche.
 **Une command invocable n'étend rien.** L'ancienne obligation d'hériter de
 `Command` n'existe plus.
 
-**`__invoke()` doit retourner un `int`.** C'est le code de sortie du process.
+**`__invoke()` doit retourner un `int`.** C'est l'exit code du process.
 
 **`#[AsCommand]` exige un `name`.** C'est le seul parameter obligatoire ;
 `description`, `aliases`, `hidden`, `help` et `usages` sont facultatifs.
@@ -185,7 +185,7 @@ Seul `initialize()` reste propre à `Command`.
 - Class ordinaire + `#[AsCommand(name: …)]` + `__invoke(): int`.
 - L'attribute, ou l'inheritance de `Command`, déclenche l'autoconfiguration du
   tag `console.command`.
-- Dependencies par le constructeur : la command est un service.
+- Dependencies par le constructor : la command est un service.
 - `extends Command` avec `execute()` reste supporté, et nécessaire pour
   `initialize()` ; l'interaction passe aussi par `#[Ask]` et `#[Interact]`.
 

@@ -33,17 +33,17 @@ passe quand ce path n'existe pas.
 
 ## Périmètre
 
-Les conventions d'accesseurs par lesquelles un nom de field se résout sur un
+Les conventions d'accessors par lesquelles un nom de field se résout sur un
 object sont enseignées avec les **forms** (lot 07), qui les utilisent pour
 lier un field à une property ; elles ne sont pas reprises ici.
 
 Le path de property porté par une violation de constraint appartient au
 **Validator** (lot 08) : c'est un libellé décrivant *où* la violation est
-survenue, pas un path exécuté par ce composant.
+survenue, pas un path exécuté par ce component.
 
 ## Deux notations, deux cibles
 
-C'est la distinction fondatrice du composant :
+C'est la distinction fondatrice du component :
 
 ```php
 $propertyAccessor->getValue($person, '[first_name]');  // un tableau
@@ -80,7 +80,7 @@ C'est le piège central de l'item, et il ne se déduit pas.
 | property d'object | `birthday` inexistante | **lève** `NoSuchPropertyException` |
 
 Un array pardonne, un object non. Les deux comportements se renversent par le
-constructeur d'accesseur, `PropertyAccess::createPropertyAccessorBuilder()` :
+accessor builder, `PropertyAccess::createPropertyAccessorBuilder()` :
 
 - `enableExceptionOnInvalidIndex()` fait lever l'array, par une
   `NoSuchIndexException` ;
@@ -102,7 +102,7 @@ path absent. Exécuté, `$person` à `null` sur un `Comment` :
 | `person.firstname` | `UnexpectedTypeException` |
 | `person?.firstname` | `null`, évaluation arrêtée |
 
-L'opérateur `?` ne couvre **que** le `null` : si `person` est un object sans
+L'operator `?` ne couvre **que** le `null` : si `person` est un object sans
 `firstname`, `person?.firstname` lève toujours `NoSuchPropertyException`.
 
 ## Demander avant d'appeler
@@ -118,7 +118,7 @@ if ($propertyAccessor->isWritable($person, 'firstName')) {
 
 **Elles ne sont pas sans effet.** La documentation dit qu'`isReadable()` évite
 d'appeler `getValue()` ; elle ne dit pas qu'elle évite le getter. Lu dans
-`PropertyAccessor::isReadable()` (8.0) et exécuté avec des accesseurs qui
+`PropertyAccessor::isReadable()` (8.0) et exécuté avec des accessors qui
 journalisent leurs appels :
 
 | Appel | Methods de l'object appelées |
@@ -134,7 +134,7 @@ effet de bord s'exécute donc.
 ## Les methods magiques
 
 Autre asymétrie : `__get()` est utilisée **par défaut**, tandis que `__call()`
-doit être **activée** explicitement par le constructeur de l'accesseur,
+doit être **activée** explicitement par l'accessor builder,
 `enableMagicCall()`. `__set()` est, lui aussi, actif par défaut.
 
 Exécuté : sans `enableMagicCall()`, une lecture qui ne passerait que par
@@ -145,7 +145,7 @@ Exécuté : sans `enableMagicCall()`, une lecture qui ne passerait que par
 Pour une property de collection, l'écriture passe par les methods d'ajout et
 de retrait. Quand celles-ci ne portent pas les préfixes attendus, un extractor
 par réflexion configuré avec les préfixes réellement employés est fourni à
-l'accesseur.
+l'accessor.
 
 Exécuté, sur un object qui possède aussi `setChildren()` :
 
@@ -173,7 +173,7 @@ Les deux défauts sont opposés.
 ## Points clés
 
 - `[index]` pour un array, `.propriété` pour un object, mélangeables.
-- Défauts opposés sur path absent, renversables par le constructeur.
+- Défauts opposés sur path absent, renversables par l'accessor builder.
 - `isReadable()` / `isWritable()` rendent un bool au lieu de lever ;
   `isReadable()` exécute le getter.
 - `?` rend `null` sur un maillon `null`.

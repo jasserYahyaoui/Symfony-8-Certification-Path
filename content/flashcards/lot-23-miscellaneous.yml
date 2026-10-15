@@ -31,7 +31,7 @@ flashcards:
   level: RECALL
   front: 'Symfony Process : quel délai total un process reçoit-il par défaut ?'
   back: 60 secondes.
-  explanation: 'Lu dans le constructeur de `Process` (8.0) et exécuté : `getTimeout()` rend `60`.'
+  explanation: 'Lu dans le constructor de `Process` (8.0) et exécuté : `getTimeout()` rend `60`.'
   memorization_justification: Délai par défaut.
   verification_status: VERIFIED
   official_sources:
@@ -84,9 +84,9 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony Process : pourquoi l''array d''arguments est-il la forme recommandée ?'
-  back: Parce que chaque argument passe tel quel, sans échappement à écrire ni shell à traverser.
+  back: Parce que chaque argument passe tel quel, sans escaping à écrire ni shell à traverser.
   explanation: 'Exécuté : `[''printf'', ''%s'', ''a b;c $HOME'']` affiche `a b;c $HOME`, littéral.'
-  memorization_justification: Pas d'échappement.
+  memorization_justification: Pas d'escaping.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/process.rst
@@ -105,7 +105,7 @@ flashcards:
   official_item: OIT-qkcr4bat6dsb
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony Process : pourquoi désactiver l''output interdit-il le délai d''inactivité ?'
+  front: 'Symfony Process : pourquoi désactiver l''output interdit-il l''idle timeout ?'
   back: 'Parce que ce délai se mesure depuis la dernière sortie produite : sans sortie collectée, il n''a rien à observer.'
   explanation: 'Exécuté : `LogicException` dans les deux ordres d''appel.'
   memorization_justification: Inactivité et sortie.

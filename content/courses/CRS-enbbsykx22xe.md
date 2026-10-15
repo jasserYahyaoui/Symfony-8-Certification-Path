@@ -85,7 +85,7 @@ utilisé ici, compare aussi les roles.
 ## Les providers fournis
 
 SecurityBundle 8.0 enregistre `memory` et `ldap` (`SecurityBundle::build()`), et
-reconnaît `chain` et `id` dans sa configuration. `entity` vient du pont
+reconnaît `chain` et `id` dans sa configuration. `entity` vient du bridge
 Doctrine (`EntityFactory`) et n'existe qu'avec l'intégration Doctrine. Exécuté,
 sans elle : « Unrecognized option "entity" under "security.providers.users".
 Available options are "chain", "id", "ldap", "memory". »
@@ -116,7 +116,7 @@ Un firewall utilise **un** provider. Quand plusieurs sont déclarés, chaque
 firewall doit désigner le sien par la key `provider`, sinon la configuration est
 ambiguë et échoue.
 
-## Mettre à jour le hachage
+## Mettre à jour le hash
 
 Un provider qui implémente `PasswordUpgraderInterface` reçoit le password
 réencodé quand l'algorithme a changé. C'est ce qui rend la migration
@@ -144,7 +144,7 @@ Doctrine. `id` branche un provider maison.
   avec état, et un user modifié perd son token.
 - Keys : `memory`, `ldap`, `chain`, `id` ; `entity` avec Doctrine.
 - Un firewall = un provider ; à plusieurs, il faut le désigner.
-- `PasswordUpgraderInterface` rend la migration de hachage transparente.
+- `PasswordUpgraderInterface` rend la migration de hash transparente.
 
 ## Sources officielles
 

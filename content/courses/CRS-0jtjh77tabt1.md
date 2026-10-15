@@ -59,7 +59,7 @@ abstract class Repository
   `abstract`.
 - La class fille doit implémenter toutes les methods abstraites, sauf à être
   elle-même abstraite, avec une visibilité **égale ou plus permissive** et une signature compatible.
-- Une abstract class peut avoir un constructeur, des properties et des
+- Une abstract class peut avoir un constructor, des properties et des
   methods concrètes.
 
 ## Interface ou abstract class ?
@@ -68,12 +68,12 @@ abstract class Repository
 |---|---|---|
 | Corps de method | Non | Oui |
 | Properties d'état | Non | Oui |
-| Constructeur | Signature seulement, déconseillée | Oui |
+| Constructor | Signature seulement, déconseillée | Oui |
 | Visibilité | Publique uniquement | `public` ou `protected` |
 | Nombre par class | Plusieurs | **Une seule** |
 
 La règle pratique : une interface décrit **ce qu'un object sait faire** ; une
-abstract class fournit **du comportement partagé**. Un besoin de constructeur
+abstract class fournit **du comportement partagé**. Un besoin de constructor
 ou d'état commun tranche pour l'abstract class.
 
 ## Pièges d'examen

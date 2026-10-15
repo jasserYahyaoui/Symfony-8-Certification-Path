@@ -24,7 +24,7 @@ official_sources:
 outcome_sections:
   OUT-m2fxjk4j2mc1: "Ce qu'il remplace"
   OUT-qr20ybf8za07: "Sa place"
-  OUT-jgk2rwhep0vm: "Les trois accesseurs, exactement"
+  OUT-jgk2rwhep0vm: "Les trois accessors, exactement"
 ---
 
 ## Objectif
@@ -49,8 +49,8 @@ testable — impossible avec des superglobales.
 
 ## Sa place
 
-C'est un composant **autonome** : il s'installe et s'utilise dans n'importe quel
-projet PHP, sans le framework et sans dépendre d'un autre composant Symfony.
+C'est un component **autonome** : il s'installe et s'utilise dans n'importe quel
+projet PHP, sans le framework et sans dépendre d'un autre component Symfony.
 
 L'inverse n'est pas vrai. Le contrat du kernel — `handle(Request): Response` —
 est écrit dans le vocabulaire de HttpFoundation, et tout le framework en dépend.
@@ -58,18 +58,18 @@ C'est la brique la plus basse de la pile HTTP de Symfony.
 
 ## RequestStack
 
-Le composant fournit `RequestStack`, la pile des Requests en cours de
+Le component fournit `RequestStack`, la pile des Requests en cours de
 traitement. Un service ne reçoit pas la Request par injection — elle change à
 chaque appel, un service non : il reçoit `RequestStack` et demande
 `getCurrentRequest()`. La pile distingue aussi la main Request
 (`getMainRequest()`) de la Request parente (`getParentRequest()`).
 
-## Les trois accesseurs, exactement
+## Les trois accessors, exactement
 
-`RequestStack` est une pile, et les trois accesseurs sont trois positions dans
+`RequestStack` est une pile, et les trois accessors sont trois positions dans
 cette pile :
 
-| Accesseur | Ce qu'il rend | Si la pile est vide |
+| Accessor | Ce qu'il rend | Si la pile est vide |
 |---|---|---|
 | `getCurrentRequest()` | le **dernier** empilé — `end($requests)` | `null` |
 | `getMainRequest()` | le **premier** — `$requests[0]` | `null` |
@@ -101,9 +101,9 @@ indépendance.
 $session = $requestStack->getSession();   // SessionNotFoundException si aucune
 ```
 
-Contrairement aux trois accesseurs de Request, celui-ci **lève** une
+Contrairement aux trois accessors de Request, celui-ci **lève** une
 `SessionNotFoundException` quand la pile est vide ou quand la Request courante
-n'a pas de session — cohérent avec son type de retour, `SessionInterface` sans
+n'a pas de session — cohérent avec son return type, `SessionInterface` sans
 `?`.
 
 ## Tips d'examen
@@ -114,7 +114,7 @@ n'a pas de session — cohérent avec son type de retour, `SessionInterface` san
 **`getParentRequest()` sur la main Request rend `null`**, pas la Request
 elle-même.
 
-**Le seul accesseur qui lève est `getSession()`** — les autres rendent `null`.
+**Le seul accessor qui lève est `getSession()`** — les autres rendent `null`.
 
 **Un service reçoit `RequestStack`, jamais `Request`.** Le service est construit
 une fois ; la Request change à chaque appel.
@@ -126,7 +126,7 @@ fois, la Request change à chaque appel : c'est `RequestStack` que l'on injecte,
 et `getCurrentRequest()` que l'on appelle.
 
 **La dependency va dans un seul sens.** HttpFoundation ne dépend d'aucun
-composant Symfony ; c'est le framework qui dépend de lui, puisque le contrat du
+component Symfony ; c'est le framework qui dépend de lui, puisque le contrat du
 kernel est écrit dans son vocabulaire.
 
 ## Points clés
@@ -134,11 +134,11 @@ kernel est écrit dans son vocabulaire.
 - HttpFoundation remplace les superglobales PHP par des objects fabricables.
 - `Request::create()` construit une Request sans serveur web : c'est ce qui rend
   la pile testable.
-- Composant autonome, utilisable hors framework ; c'est le framework qui en
+- Component autonome, utilisable hors framework ; c'est le framework qui en
   dépend, pas l'inverse.
 - La Request courante s'obtient par `RequestStack`, jamais par injection.
 
 ## Sources officielles
 
-- [Composant HttpFoundation](https://github.com/symfony/symfony-docs/blob/8.0/components/http_foundation.rst)
+- [Component HttpFoundation](https://github.com/symfony/symfony-docs/blob/8.0/components/http_foundation.rst)
 - [RequestStack (branche 8.0)](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/RequestStack.php)

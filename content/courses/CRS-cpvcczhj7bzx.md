@@ -66,7 +66,7 @@ de modification, où l'absence de file signifie « garder l'existant ».
 **`constraints`** : un field non mappé ne profite pas des constraints déclarées
 sur l'entité ; on les pose sur le field. Exécuté : un `b.pdf` passe, un `b.txt`
 échoue avec le message d'extension. L'option `extensions` de `File` exige le
-composant **Mime** : sans lui, `FileValidator` lève une `LogicException`.
+component **Mime** : sans lui, `FileValidator` lève une `LogicException`.
 
 ## Récupérer le file
 
@@ -104,7 +104,7 @@ n'échoue pas : l'entité reçoit le path temporaire.
 
 **Les constraints d'un field non mappé se déclarent sur le field.**
 
-**`extensions` sans le composant Mime** : `LogicException`.
+**`extensions` sans le component Mime** : `LogicException`.
 
 ## Points clés
 

@@ -72,7 +72,7 @@ final class PaymentDeclined extends \RuntimeException
 }
 ```
 
-**Une class PHP ne peut pas implémenter `Throwable` directement.** Le moteur
+**Une class PHP ne peut pas implémenter `Throwable` directement.** L'engine
 l'interdit : il faut étendre `Exception` ou `Error`. Une interface de marquage
 propre à l'application, elle, reste possible :
 

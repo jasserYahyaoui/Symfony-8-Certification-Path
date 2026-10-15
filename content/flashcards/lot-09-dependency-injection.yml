@@ -39,7 +39,7 @@ flashcards:
   front: Quelle command répond à « quel type puis-je type-hinter ? »
   back: debug:autowiring. debug:container liste les identifiers, pas les types câblables.
   explanation: Les deux commands répondent à deux questions différentes ; c'est la première que l'on
-    se pose en écrivant un constructeur.
+    se pose en écrivant un constructor.
   memorization_justification: Les deux noms se ressemblent et on prend l'une pour l'autre.
   verification_status: VERIFIED
   official_sources:
@@ -94,8 +94,8 @@ flashcards:
   official_item: OIT-adhs2ny9hc5f
   language: fr
   level: TRAP
-  front: 'decoration_priority : la priorité la plus haute finit-elle à l''extérieur ?'
-  back: 'Non, à l''intérieur. Appliquée en premier, elle enveloppe la cible directement : priorités 5
+  front: 'decoration_priority : la priority la plus haute finit-elle à l''extérieur ?'
+  back: 'Non, à l''intérieur. Appliquée en premier, elle enveloppe la cible directement : priorities 5
     puis 1 donnent Baz(Bar(Foo)).'
   explanation: « Appliquée en premier » veut dire « construit en premier », donc au plus près du service
     décoré.
@@ -111,7 +111,7 @@ flashcards:
   official_item: OIT-83sac57rw0xn
   language: fr
   level: TRAP
-  front: Que produit un tag qu'aucune passe ni aucun itérateur ne lit ?
+  front: Que produit un tag qu'aucune passe ni aucun iterator ne lit ?
   back: Rien, et sans erreur. Un tag est un tag inerte tant que quelque chose ne la collecte pas.
   explanation: 'C''est la même logique que pour un attribute PHP : la donnée ne produit un effet que par
     son lecteur.'
@@ -145,10 +145,10 @@ flashcards:
   language: fr
   level: RECALL
   front: Avec une factory, à qui arguments est-il passé ?
-  back: À la factory. Le constructeur du service n'est pas appelé du tout.
-  explanation: Le container enregistre la valeur retournée par la factory ; le constructeur est hors
+  back: À la factory. Le constructor du service n'est pas appelé du tout.
+  explanation: Le container enregistre la valeur retournée par la factory ; le constructor est hors
     du path.
-  memorization_justification: La key s'appelle arguments, ce qui évoque le constructeur.
+  memorization_justification: La key s'appelle arguments, ce qui évoque le constructor.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/factories.rst
@@ -263,7 +263,7 @@ flashcards:
   language: fr
   level: RECALL
   front: 'DependencyInjection : quelles sont les trois formes d''injection, et laquelle est la voie normale ?'
-  back: Constructeur (voie normale, dependency obligatoire), mutateur (facultatif ou cycle), property (déconseillée).
+  back: Constructor (voie normale, dependency obligatoire), setter (facultatif ou cycle), property (déconseillée).
   explanation: La property se déclare par `Definition::setProperty()` ; exécuté.
   memorization_justification: Classement des formes d'injection.
   verification_status: VERIFIED
@@ -342,7 +342,7 @@ flashcards:
   official_item: OIT-92ctf3sy3ddk
   language: fr
   level: APPLICATION
-  front: 'DependencyInjection : passer un parameter smtp_host au constructeur d''un service.'
+  front: 'DependencyInjection : passer un parameter smtp_host au constructor d''un service.'
   back: '`$c->setParameter(''smtp_host'', ''smtp.acme.test''); $c->register(''transport'', SmtpTransport::class)->addArgument(''%smtp_host%'');`'
   explanation: La valeur `%smtp_host%` est remplacée par le parameter ; exécuté.
   memorization_justification: Syntaxe des parameters.
@@ -455,7 +455,7 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony : pourquoi rendre un service privé améliore-t-il les erreurs ?'
-  back: 'Parce que le compilateur connaît tous ses usages : une référence vers un service inexistant échoue dès la compilation, sur n''importe quelle page.'
+  back: 'Parce que le compiler connaît tous ses usages : une référence vers un service inexistant échoue dès la compilation, sur n''importe quelle page.'
   explanation: Argument donné par `alias_private.rst`, avec l'optimisation de l'instanciation.
   memorization_justification: Intérêt réel de la visibilité privée.
   verification_status: VERIFIED
@@ -534,9 +534,9 @@ flashcards:
   official_item: OIT-dy7108w6bf4z
   language: fr
   level: RECALL
-  front: 'Symfony : d''où viennent le router, le validator ou le sérialiseur que l''on n''a jamais déclarés ?'
+  front: 'Symfony : d''où viennent le router, le validator ou le serializer que l''on n''a jamais déclarés ?'
   back: 'Des bundles installés, FrameworkBundle en tête : chaque bundle enregistre ses services dans le container.'
-  explanation: TwigBundle ajoute Twig, SecurityBundle la security ; la recette Flex active le bundle dans `config/bundles.php`.
+  explanation: TwigBundle ajoute Twig, SecurityBundle la security ; la recipe Flex active le bundle dans `config/bundles.php`.
   memorization_justification: Origine des services intégrés.
   verification_status: VERIFIED
   official_sources:
@@ -589,7 +589,7 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony : pourquoi composer require suffit-il à rendre un service injectable ?'
-  back: La recette Flex active le bundle dans `config/bundles.php`, et le bundle enregistre ses services avec leurs alias de type.
+  back: La recipe Flex active le bundle dans `config/bundles.php`, et le bundle enregistre ses services avec leurs alias de type.
   explanation: Composer installe du code ; c'est le bundle qui peuple le container.
   memorization_justification: String package → bundle → service.
   verification_status: VERIFIED
@@ -620,7 +620,7 @@ flashcards:
   official_item: OIT-dy7108w6bf4z
   language: fr
   level: APPLICATION
-  front: 'Symfony : quel type écrire pour recevoir le logger dans un constructeur ?'
+  front: 'Symfony : quel type écrire pour recevoir le logger dans un constructor ?'
   back: '`Psr\Log\LoggerInterface` : c''est l''alias vers `logger`.'
   explanation: '`LoggerPass` l''ajoute si aucun service ne porte déjà ce nom.'
   memorization_justification: Type-hint le plus courant.
@@ -698,7 +698,7 @@ flashcards:
   level: TRAP
   front: 'Symfony : sans TwigBundle, peut-on injecter Twig\Environment parce que twig/twig est installé ?'
   back: 'Non : « no such service exists ». Le service `twig` et son alias viennent du bundle, pas du package.'
-  explanation: 'Exécuté : le même constructeur s''injecte avec TwigBundle, échoue sans.'
+  explanation: 'Exécuté : le même constructor s''injecte avec TwigBundle, échoue sans.'
   memorization_justification: Package installé ≠ service enregistré.
   verification_status: VERIFIED
   official_sources:
@@ -851,7 +851,7 @@ flashcards:
   front: 'Symfony : un pourcent seul, comme dans ''50% off'', casse-t-il la valeur d''un parameter ?'
   back: 'Non : il reste tel quel. Seuls deux pourcents encadrant un texte **sans espace** forment une référence ; `''5%off%now''` cherche le parameter `off`.'
   explanation: '`ParameterBag::resolveString()` applique `%%|%([^%\s]+)%`. Doubler reste la règle sûre.'
-  memorization_justification: Échappement mal compris.
+  memorization_justification: Escaping mal compris.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/ParameterBag/ParameterBag.php
@@ -977,7 +977,7 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony : pourquoi les arguments explicites se nomment-ils $nom plutôt que par position ?'
-  back: 'Pour qu''une déclaration survive à un réordonnancement du constructeur : `$directory` vise l''argument de ce nom, où qu''il soit.'
+  back: 'Pour qu''une déclaration survive à un réordonnancement du constructor : `$directory` vise l''argument de ce nom, où qu''il soit.'
   explanation: '`@id` référence un service, `%param%` un parameter, `$nom` un argument.'
   memorization_justification: Trois préfixes à ne pas confondre.
   verification_status: VERIFIED
@@ -1176,10 +1176,10 @@ flashcards:
   official_item: OIT-adhs2ny9hc5f
   language: fr
   level: APPLICATION
-  front: 'Symfony : deux decorators de priorité 0 sur la même cible. Lequel est le plus interne ?'
+  front: 'Symfony : deux decorators de priority 0 sur la même cible. Lequel est le plus interne ?'
   back: 'Le premier déclaré : exécuté, `bar` puis `baz` donnent `baz(bar(Foo))`.'
-  explanation: À priorité égale, l'ordre de déclaration départage.
-  memorization_justification: Égalité de priorité.
+  explanation: À priority égale, l'ordre de déclaration départage.
+  memorization_justification: Égalité de priority.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Compiler/DecoratorServicePass.php
@@ -1254,8 +1254,8 @@ flashcards:
   level: RECALL
   front: 'Symfony : quel attribute injecte tous les services portant un tag ?'
   back: '`#[AutowireIterator(''app.handler'')]` ; en YAML, `!tagged_iterator app.handler`.'
-  explanation: '`#[AutowireLocator]` et `!tagged_locator` injectent un localisateur indexé.'
-  memorization_justification: Forme attribute de l'itérateur.
+  explanation: '`#[AutowireLocator]` et `!tagged_locator` injectent un locator indexé.'
+  memorization_justification: Forme attribute de l'iterator.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Attribute/AutowireIterator.php
@@ -1274,9 +1274,9 @@ flashcards:
   official_item: OIT-83sac57rw0xn
   language: fr
   level: RECALL
-  front: 'Symfony : quelle option d''un itérateur tagué retire certains services ?'
+  front: 'Symfony : quelle option d''un iterator tagué retire certains services ?'
   back: '`exclude` : exécuté, `exclude: [FaxHandler::class]` rend les autres.'
-  explanation: '`exclude_self` (vrai par défaut) retire aussi le service qui reçoit l''itérateur.'
+  explanation: '`exclude_self` (vrai par défaut) retire aussi le service qui reçoit l''iterator.'
   memorization_justification: Option de filtrage.
   verification_status: VERIFIED
   official_sources:
@@ -1290,9 +1290,9 @@ flashcards:
   official_item: OIT-83sac57rw0xn
   language: fr
   level: RECALL
-  front: 'Symfony : quelle method statique fournit la priorité par défaut d''un service tagué ?'
+  front: 'Symfony : quelle method statique fournit la priority par défaut d''un service tagué ?'
   back: '`getDefaultPriority()`, tant qu''aucun `index_by` n''est donné.'
-  explanation: 'Exécuté : 5 place le service juste après celui de priorité 10.'
+  explanation: 'Exécuté : 5 place le service juste après celui de priority 10.'
   memorization_justification: Method conventionnelle.
   verification_status: VERIFIED
   official_sources:
@@ -1306,10 +1306,10 @@ flashcards:
   official_item: OIT-83sac57rw0xn
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi un itérateur tagué ne construit-il pas ses services à l''injection ?'
-  back: 'Parce qu''il s''agit d''un générateur réembobinable : chaque service est construit quand l''itération l''atteint.'
+  front: 'Symfony : pourquoi un iterator tagué ne construit-il pas ses services à l''injection ?'
+  back: 'Parce qu''il s''agit d''un generator réembobinable : chaque service est construit quand l''itération l''atteint.'
   explanation: 'Exécuté : après construction du consommateur, aucun handler n''est construit.'
-  memorization_justification: Paresse de l'itérateur.
+  memorization_justification: Paresse de l'iterator.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/tags.rst
@@ -1322,7 +1322,7 @@ flashcards:
   official_item: OIT-83sac57rw0xn
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi implémenter EventSubscriberInterface suffit-il pour devenir abonné ?'
+  front: 'Symfony : pourquoi implémenter EventSubscriberInterface suffit-il pour devenir subscriber ?'
   back: Parce que FrameworkExtension appelle `registerForAutoconfiguration(EventSubscriberInterface::class)` et ajoute le tag `kernel.event_subscriber`.
   explanation: 'Relu en 8.0.15 : l''interface ne porte pas `#[AutoconfigureTag]` ; l''effet est le même, le moyen diffère.'
   memorization_justification: Mécanisme réel de l'autoconfiguration.
@@ -1377,7 +1377,7 @@ flashcards:
   language: fr
   level: TRAP
   front: 'Symfony : #[AsTaggedItem(index: ''sms'')] donne-t-il la key sms dans #[AutowireIterator(''app.handler'')] ?'
-  back: 'Non : sans `indexAttribute`, l''itérateur a des keys entières `0, 1, 2…`. La key `sms` n''apparaît qu''avec `index_by` ou dans un localisateur.'
+  back: 'Non : sans `indexAttribute`, l''iterator a des keys entières `0, 1, 2…`. La key `sms` n''apparaît qu''avec `index_by` ou dans un locator.'
   explanation: Exécuté avec dependency-injection 8.0.15.
   memorization_justification: Index supposé toujours appliqué.
   verification_status: VERIFIED
@@ -1527,7 +1527,7 @@ flashcards:
   language: fr
   level: TRAP
   front: 'Symfony : un bundle ajouté mais jamais configuré par l''application échappe-t-il à isRequired() ?'
-  back: 'Non : l''extension traite une configuration vide, et le nœud requis fait échouer la compilation.'
+  back: 'Non : l''extension traite une configuration vide, et le node requis fait échouer la compilation.'
   explanation: Exécuté avec FrameworkBundle 8.0.15, sans file `acme_social.yaml`.
   memorization_justification: Bundle supposé inactif.
   verification_status: VERIFIED
@@ -1620,7 +1620,7 @@ flashcards:
   level: RECALL
   front: 'Symfony : quel attribute désigne une method statique de la class comme fabrique ?'
   back: '`#[Autoconfigure(constructor: ''create'')]`.'
-  explanation: 'Exécuté : le service vient de la method, le constructeur n''est pas appelé.'
+  explanation: 'Exécuté : le service vient de la method, le constructor n''est pas appelé.'
   memorization_justification: Fabrique déclarée depuis la class.
   verification_status: VERIFIED
   official_sources:
@@ -1640,8 +1640,8 @@ flashcards:
   official_item: OIT-h2n7d7dbr56p
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi arguments alimente-t-il la factory et pas le constructeur ?'
-  back: 'Parce que le constructeur n''est pas appelé : exécuté, 0 appel au constructeur, 1 appel à `create()`.'
+  front: 'Symfony : pourquoi arguments alimente-t-il la factory et pas le constructor ?'
+  back: 'Parce que le constructor n''est pas appelé : exécuté, 0 appel au constructor, 1 appel à `create()`.'
   explanation: Le container enregistre la valeur retournée par la factory.
   memorization_justification: Path de construction.
   verification_status: VERIFIED
@@ -1754,7 +1754,7 @@ flashcards:
   level: TRAP
   front: 'Symfony : faut-il une key factory_arguments pour passer des arguments à une factory ?'
   back: 'Non : cette key n''existe pas ; `arguments` va à la factory.'
-  explanation: Le constructeur n'étant pas appelé, rien n'est passé ailleurs.
+  explanation: Le constructor n'étant pas appelé, rien n'est passé ailleurs.
   memorization_justification: Key inventée.
   verification_status: VERIFIED
   official_sources:
@@ -1784,8 +1784,8 @@ flashcards:
   official_item: OIT-3y0b9gxyandm
   language: fr
   level: RECALL
-  front: 'Symfony : à quelle étape et quelle priorité un Kernel qui implémente CompilerPassInterface est-il enregistré ?'
-  back: '`TYPE_BEFORE_OPTIMIZATION`, priorité **-10000** : après les passes de bundle de la même étape.'
+  front: 'Symfony : à quelle étape et quelle priority un Kernel qui implémente CompilerPassInterface est-il enregistré ?'
+  back: '`TYPE_BEFORE_OPTIMIZATION`, priority **-10000** : après les passes de bundle de la même étape.'
   explanation: Relu dans `HttpKernel\Kernel` (8.0.15).
   memorization_justification: Place de la passe applicative.
   verification_status: VERIFIED
@@ -1816,10 +1816,10 @@ flashcards:
   official_item: OIT-3y0b9gxyandm
   language: fr
   level: UNDERSTANDING
-  front: 'Symfony : pourquoi une passe de priorité 200 en TYPE_BEFORE_OPTIMIZATION ne voit-elle pas les tags d''autoconfiguration ?'
-  back: 'Parce que l''autoconfiguration s''exécute dans cette étape à la priorité 100 : à 200, elle n''a pas encore eu lieu.'
-  explanation: 'Exécuté : à la priorité 0, le service tagué est vu ; à 200, la liste est vide.'
-  memorization_justification: Priorité et visibilité.
+  front: 'Symfony : pourquoi une passe de priority 200 en TYPE_BEFORE_OPTIMIZATION ne voit-elle pas les tags d''autoconfiguration ?'
+  back: 'Parce que l''autoconfiguration s''exécute dans cette étape à la priority 100 : à 200, elle n''a pas encore eu lieu.'
+  explanation: 'Exécuté : à la priority 0, le service tagué est vu ; à 200, la liste est vide.'
+  memorization_justification: Priority et visibilité.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Compiler/PassConfig.php
@@ -1896,10 +1896,10 @@ flashcards:
   official_item: OIT-3y0b9gxyandm
   language: fr
   level: TRAP
-  front: 'Symfony : à étape égale, une passe de priorité 0 passe-t-elle avant une passe de priorité 10 ?'
-  back: 'Non : priorité haute d''abord. Exécuté : 10, puis 0, puis -5.'
+  front: 'Symfony : à étape égale, une passe de priority 0 passe-t-elle avant une passe de priority 10 ?'
+  back: 'Non : priority haute d''abord. Exécuté : 10, puis 0, puis -5.'
   explanation: '`PassConfig::sortPasses()` trie par `krsort`.'
-  memorization_justification: Sens de la priorité.
+  memorization_justification: Sens de la priority.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Compiler/PassConfig.php
@@ -2030,7 +2030,7 @@ flashcards:
   official_item: OIT-wm3qdqemtap9
   language: fr
   level: TRAP
-  front: 'Symfony : un argument nommé $shoutyTransfomer (faute de frappe) lève-t-il une erreur ?'
+  front: 'Symfony : un named argument $shoutyTransfomer (faute de frappe) lève-t-il une erreur ?'
   back: 'Non : il retombe **en silence** sur l''alias par défaut. Exécuté, il reçoit `rot13`.'
   explanation: 'C''est l''avantage de `#[Target]` : la même faute y lève « no such target exists ».'
   memorization_justification: Faute de frappe silencieuse.

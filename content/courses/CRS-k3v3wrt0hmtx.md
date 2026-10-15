@@ -72,7 +72,7 @@ blocks.
 ## Hors d'un block : une erreur, pas un oubli silencieux
 
 Dans un template qui étend un parent, du texte ou un `{{ … }}` écrit hors de tout
-block **n'est pas ignoré** : le compilateur de Twig 3.22 lève une
+block **n'est pas ignoré** : le compiler de Twig 3.22 lève une
 `Twig\Error\SyntaxError` : `A template that extends another one cannot include
 content outside Twig blocks` (`Parser::filterBodyNodes()`, fixture de test
 `child_contents_outside_blocks.test`). Seuls les blancs sont tolérés.
@@ -93,7 +93,7 @@ remplir et le contenu qui le remplit : deux blocks de même nom rendraient
 l'inheritance ambigu.
 
 Rien n'empêche en revanche d'empiler les niveaux — `base` → `layout de section`
-→ `page` — et c'est le motif habituel.
+→ `page` — et c'est le pattern habituel.
 
 ## L'inheritance dynamique
 

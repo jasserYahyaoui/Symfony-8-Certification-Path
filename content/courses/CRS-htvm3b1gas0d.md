@@ -21,12 +21,12 @@ official_sources:
 outcome_sections:
   OUT-svr2vz7ebkv7: "Injection ou récupération"
   OUT-6ah70qtk60fe: "Trois formes d'injection"
-  OUT-dvs57dgffn57: "Le composant"
+  OUT-dvs57dgffn57: "Le component"
 ---
 
 ## Objectif
 
-Savoir ce que le composant résout, et distinguer l'injection de la récupération.
+Savoir ce que le component résout, et distinguer l'injection de la récupération.
 Le container lui-même — definitions, visibilité, compilation — est traité dans
 *Service container*.
 
@@ -59,8 +59,8 @@ class Mailer
 
 | Forme | Écriture | Quand |
 |---|---|---|
-| **constructeur** | argument du constructeur | dependency **obligatoire** — la voie normale |
-| **mutateur** | `setLogger()`, souvent `#[Required]` | dependency facultative, ou cycle à casser |
+| **constructor** | argument du constructor | dependency **obligatoire** — la voie normale |
+| **setter** | `setLogger()`, souvent `#[Required]` | dependency facultative, ou cycle à casser |
 | **property** | property publique, `Definition::setProperty()` | déconseillée : casse l'encapsulation |
 
 ## Injection ou récupération
@@ -78,7 +78,7 @@ container n'est pas injecté dans les services applicatifs. Le cas légitime —
 beaucoup de dependencies dont peu servent à chaque appel — a sa propre Response,
 le *service locator*, traité dans son item.
 
-## Le composant
+## Le component
 
 `symfony/dependency-injection` est **autonome**. Hors framework, on construit un
 `ContainerBuilder`, on y déclare des definitions, puis on appelle `compile()` :
@@ -119,7 +119,7 @@ public, or stop using the container directly and use dependency injection ».
 **Injection ≠ récupération.** Recevoir le container n'est pas de l'injection de
 dependencies, même si le container est injecté.
 
-**Le constructeur est la voie normale**, le mutateur l'exception ; l'inverse
+**Le constructor est la voie normale**, le setter l'exception ; l'inverse
 n'est pas vrai.
 
 **Un service est privé par défaut** : après `compile()`, il n'est plus
@@ -130,10 +130,10 @@ récupérable par `get()` s'il n'a pas été rendu public.
 ## Points clés
 
 - La class déclare ses besoins ; quelqu'un d'autre les fournit.
-- Constructeur pour l'obligatoire, mutateur pour le facultatif ou un cycle.
+- Constructor pour l'obligatoire, setter pour le facultatif ou un cycle.
 - Recevoir le container entier n'est pas de l'injection : c'est de la
   récupération, et cela masque les dependencies.
-- `ContainerBuilder` + `compile()` : composant autonome ; services privés par
+- `ContainerBuilder` + `compile()` : component autonome ; services privés par
   défaut, container figé après compilation.
 
 ## Sources officielles

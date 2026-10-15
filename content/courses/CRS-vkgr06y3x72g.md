@@ -90,7 +90,7 @@ l'inclusion de la default value, on préfixe le nom du parameter par `!` :
 /blog/{!page}
 ```
 
-La documentation n'en décrit que cet effet. Le compilateur de routes en montre
+La documentation n'en décrit que cet effet. Le compiler de routes en montre
 un second : un parameter marqué `!` est dit *important*, et
 `RouteCompiler` ne rend facultative qu'une variable « not important » qui a une
 default value. Avec `{!page}`, `page` redevient **obligatoire à
@@ -113,7 +113,7 @@ parameter **toujours obligatoire**, default value ou non.
 de force s'écrit `{!page}`.
 
 **`{!page}` rend aussi le parameter obligatoire à l'appariement.** Une variable
-importante n'est jamais facultative pour le compilateur.
+importante n'est jamais facultative pour le compiler.
 
 **Un défaut d'argument ne compte que si le path porte un parameter du même
 nom.**

@@ -36,7 +36,7 @@ outcome_sections:
 
 ## Objectif
 
-Savoir quels outils le composant fournit déjà, pour ne pas réécrire une barre de
+Savoir quels outils le component fournit déjà, pour ne pas réécrire une barre de
 progression ni une saisie interactive à la main.
 
 ## Prérequis
@@ -50,7 +50,7 @@ La documentation 8.0 en recense neuf :
 | Helper | Ce qu'il fait |
 |---|---|
 | `QuestionHelper` | poser une question au user |
-| `ProgressBar` | une barre de progression sur une tâche de longueur connue |
+| `ProgressBar` | une progress bar sur une tâche de longueur connue |
 | `ProgressIndicator` | un indicateur d'activité quand la longueur est inconnue |
 | `Table` | afficher des données en array |
 | `Tree` | afficher une arborescence |

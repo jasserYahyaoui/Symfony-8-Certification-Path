@@ -24,13 +24,13 @@ outcome_sections:
   OUT-whjhhhcq1kg3: "Les methods"
   OUT-m9sv8pew063t: "Validation, puis normalization"
   OUT-jc8c1h1nznhd: "Validation, puis normalization"
-  OUT-rz5njbv8fvrm: "Options paresseuses"
+  OUT-rz5njbv8fvrm: "Options lazy"
   OUT-c7879v7m2pqb: "Le problème résolu"
 ---
 
 ## Objectif
 
-Déclarer et contraindre les options d'un form type. Le composant sert
+Déclarer et contraindre les options d'un form type. Le component sert
 partout où une class accepte un array d'options, pas seulement dans les
 forms.
 
@@ -70,7 +70,7 @@ puis `setDefault('a', 1)` résout `['a' => 1]` ; `isRequired('a')` reste vrai,
 fournit la valeur d'une option que son parent exige. Sans défaut ni valeur :
 `MissingOptionsException`, « The required option "a" is missing. ».
 
-## Options paresseuses
+## Options lazy
 
 Une default value peut être une closure recevant les options déjà
 résolues, ce qui permet à une option de dépendre d'une autre :
@@ -85,7 +85,7 @@ Le parameter doit être typé **`Options`**. La documentation le signale, et
 l'exécution le confirme : une closure non typée devient **elle-même** la
 default value — l'option résolue est un object `Closure`.
 
-L'ordre de déclaration n'a pas d'importance : exécuté, une option paresseuse
+L'ordre de déclaration n'a pas d'importance : exécuté, une option lazy
 déclarée avant celle dont elle dépend se résout correctement. Un second
 parameter reçoit la default value précédente.
 
@@ -137,7 +137,7 @@ une option seulement définie est absente du résultat.
 **Une option requise peut avoir un défaut** : elle reste requise, mais n'est plus
 manquante.
 
-**Une option paresseuse exige le type `Options`** ; sans lui, la closure est la
+**Une option lazy exige le type `Options`** ; sans lui, la closure est la
 valeur.
 
 **Le normalisateur s'exécute après la validation** : il ne rattrape pas une
@@ -152,7 +152,7 @@ valeur refusée.
 - `setAllowedTypes` et `setAllowedValues` contrôlent, puis `setNormalizer`
   transforme.
 - Une option inconnue lève une exception qui liste les options définies.
-- Défaut paresseux : closure typée `Options`.
+- Défaut lazy : closure typée `Options`.
 - Imbrication : `setOptions()`.
 
 ## Sources officielles

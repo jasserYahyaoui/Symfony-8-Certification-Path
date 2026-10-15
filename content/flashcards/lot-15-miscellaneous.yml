@@ -195,7 +195,7 @@ flashcards:
   language: fr
   level: TRAP
   front: 'Symfony : la documentation prescrit-elle un outil de deployment ?'
-  back: 'Non : elle énumère les étapes ; FTP, dépôt, PaaS ou script sont cités.'
+  back: 'Non : elle énumère les étapes ; FTP, repository, PaaS ou script sont cités.'
   explanation: '*How to Deploy a Symfony Application*, branche 8.0.'
   memorization_justification: Aucun outil imposé.
   verification_status: VERIFIED

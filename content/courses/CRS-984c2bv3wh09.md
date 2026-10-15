@@ -121,7 +121,7 @@ au même titre que 405, 410, 414 et 501.
 - `307`/`308` préservent la method ; `301`/`302` ne la garantissent pas ;
   `303` impose un `GET`.
 - `415` = le body reçu, `406` = la représentation demandée.
-- Les constantes `Response::HTTP_*` évitent les codes magiques.
+- Les constants `Response::HTTP_*` évitent les codes magiques.
 
 ## Aller lire la source
 

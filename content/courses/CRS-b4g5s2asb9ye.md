@@ -48,7 +48,7 @@ connaisse nommément.
 
 Un tag est une **tag sur une definition**. Il ne fait rien par lui-même :
 quelque chose doit le lire — un compiler pass, ou l'injection d'un
-itérateur de services tagués.
+iterator de services tagués.
 
 ```yaml
 services:
@@ -84,7 +84,7 @@ class HandlerChain
         arguments: [!tagged_iterator app.handler]
 ```
 
-L'argument reçoit un itérable **paresseux** : les services tagués ne sont
+L'argument reçoit un itérable **lazy** : les services tagués ne sont
 instanciés qu'à l'itération. Exécuté avec `symfony/dependency-injection`
 8.0.15 : après construction de `HandlerChain`, aucun handler n'est
 construit. L'option `exclude` en retire certains — exécuté,
@@ -109,7 +109,7 @@ moyen : `FrameworkExtension` appelle
 
 Un tag porte des attributes, dont deux sont conventionnels :
 
-- **`priority`** — l'ordre dans l'itérateur ; **la plus haute passe en premier** ;
+- **`priority`** — l'ordre dans l'iterator ; **la plus haute passe en premier** ;
 - **`index`** — la key sous laquelle le service apparaît.
 
 `#[AsTaggedItem]` les pose depuis la class :
@@ -128,15 +128,15 @@ indexé `sms` :
 | `#[AutowireIterator('app.handler', indexAttribute: 'key')]` | `sms`, puis les noms de class |
 | `#[AutowireLocator('app.handler')]` | `sms`, puis les noms de class |
 
-Un itérateur simple reste une **liste** ; c'est `indexAttribute` — `index_by` en
-YAML — ou un localisateur qui en fait une table de correspondance.
+Un iterator simple reste une **liste** ; c'est `indexAttribute` — `index_by` en
+YAML — ou un locator qui en fait une table de correspondance.
 
 Une method statique peut fournir les default values. `getDefaultPriority()`
-donne la priorité : exécuté, 5 place le service juste après `sms`. Pour la key,
+donne la priority : exécuté, 5 place le service juste après `sms`. Pour la key,
 le nom de la method **dérive de l'attribute d'index** : avec `index_by: key`,
 c'est `getDefaultKeyName()`, sauf si `default_index_method` en nomme une autre.
 Exécuté : une method `getDefaultIndexName()` n'est appelée que si on la nomme.
-La priorité suit la même règle : sous `index_by: key`, la method attendue
+La priority suit la même règle : sous `index_by: key`, la method attendue
 devient `getDefaultKeyPriority()` (`TaggedIteratorArgument`), et le
 `getDefaultPriority()` du service est ignoré — exécuté, il perd sa place.
 
@@ -155,19 +155,19 @@ en debug.
 
 **`priority` haute = appelé en premier**, comme pour les event listeners.
 
-**L'itérateur est paresseux** : les services ne sont pas construits tant qu'on
+**L'iterator est lazy** : les services ne sont pas construits tant qu'on
 n'itère pas.
 
-**Un itérateur sans `index_by` a des keys entières**, même si les services
+**Un iterator sans `index_by` a des keys entières**, même si les services
 déclarent un `index`.
 
 ## Points clés
 
-- Un tag tag une definition ; un lecteur — passe ou itérateur — lui donne un sens.
-- `!tagged_iterator` et `#[AutowireIterator]` injectent la collection, paresseuse.
+- Un tag tag une definition ; un lecteur — passe ou iterator — lui donne un sens.
+- `!tagged_iterator` et `#[AutowireIterator]` injectent la collection, lazy.
 - `#[AutoconfigureTag]` sur une interface tague ses implémentations.
 - `priority` ordonne (haute d'abord) ; `index` ne donne une key que sous
-  `index_by` ou dans un localisateur.
+  `index_by` ou dans un locator.
 
 ## Sources officielles
 

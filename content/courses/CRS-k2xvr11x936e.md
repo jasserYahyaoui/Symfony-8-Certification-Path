@@ -63,9 +63,9 @@ confond volontiers.
 
 La quatrième ligne est la plus contre-intuitive : la recommandation officielle
 est de **ne pas** faire un parameter de configuration d'une option qui change
-rarement, mais une constante de class — parce qu'une constante est lisible
+rarement, mais une constant de class — parce qu'une constant est lisible
 partout, y compris dans un template, alors qu'un parameter exige l'accès au
-container. Le prix à payer est qu'une constante est difficile à redéfinir dans
+container. Le prix à payer est qu'une constant est difficile à redéfinir dans
 un test.
 
 Les parameters applicatifs se préfixent par `app.` pour éviter les collisions,
@@ -106,7 +106,7 @@ les bundles sont pour le code partagé entre projets.
 précisément ce que le document déconseille, parce que la class doit pouvoir
 servir à la création comme à l'édition.
 
-**`auto` n'est pas un algorithme.** C'est un sélecteur ; ce qu'il choisit
+**`auto` n'est pas un algorithme.** C'est un selector ; ce qu'il choisit
 aujourd'hui est `bcrypt`.
 
 ## Tips d'examen

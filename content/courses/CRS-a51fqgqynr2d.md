@@ -34,8 +34,8 @@ official_sources:
     verified_at: "2026-10-08"
 outcome_sections:
   OUT-wc78qqp1pj1p: "L'obtenir"
-  OUT-vvctkweagzvz: "Le démarrage est paresseux"
-  OUT-srphtyf5qzqs: "Le démarrage est paresseux"
+  OUT-vvctkweagzvz: "Le démarrage est lazy"
+  OUT-srphtyf5qzqs: "Le démarrage est lazy"
   OUT-7t4egm4bdr19: "L'API"
 ---
 
@@ -57,7 +57,7 @@ Trois paths, selon l'endroit :
 Le deuxième fonctionne grâce au `SessionValueResolver` : typer l'argument avec
 `SessionInterface` suffit.
 
-## Le démarrage est paresseux
+## Le démarrage est lazy
 
 C'est le point le plus interrogé. La session n'est **pas** démarrée parce que la
 configuration l'active ; elle démarre lorsqu'on **lit, écrit ou même teste** une
@@ -141,7 +141,7 @@ vérification suffit à rendre la page non cachable par un proxy partagé — sa
 émettre de cookie tant que la session reste vide.
 
 **Activer la session dans la configuration ne la démarre pas.** Le démarrage est
-paresseux ; une page qui n'y touche jamais n'émet aucun cookie de session.
+lazy ; une page qui n'y touche jamais n'émet aucun cookie de session.
 
 **`invalidate()` n'est pas l'opposé de `migrate()`, elle l'utilise.** Elle vide
 le stockage puis appelle `migrate(true, …)`. La suppression des données vient du
@@ -169,7 +169,7 @@ ne part que si la session contient une donnée.
 
 - `$request->getSession()`, argument typé `SessionInterface`, ou `RequestStack`
   dans un service.
-- Démarrage paresseux : lire, écrire **ou tester** démarre la session — sept
+- Démarrage lazy : lire, écrire **ou tester** démarre la session — sept
   methods passent par le même accès au sac.
 - Une page qui n'y touche pas n'émet pas de cookie de session.
 - `invalidate()` = `clear()` du stockage **puis** `migrate(true, …)`.

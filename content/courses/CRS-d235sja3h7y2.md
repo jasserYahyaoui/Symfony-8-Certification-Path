@@ -19,7 +19,7 @@ official_sources:
     verified_at: "2026-09-01"
 outcome_sections:
   OUT-x2rv3kwasf88: "Les deux façons"
-  OUT-y8sak1s2672z: "Le constructeur n'écrit rien tout seul"
+  OUT-y8sak1s2672z: "Le builder n'écrit rien tout seul"
   OUT-eq4vjk7mmyxm: "Ce que l'on peut régler"
   OUT-nb6w1gbs0ndt: "Les emplacements du message"
 ---
@@ -35,17 +35,17 @@ des deux methods du contexte utiliser.
 
 ```php
 $context->addViolation('Message {{ v }}', ['{{ v }}' => $v]); // direct
-$context->buildViolation('Message')->addViolation();        // par le constructeur
+$context->buildViolation('Message')->addViolation();        // par le builder
 ```
 
 `addViolation()` ajoute la violation immédiatement, au path courant ; elle
 accepte déjà les parameters du message en second argument. `buildViolation()`
-retourne un **constructeur** que l'on configure avant de valider — c'est la
+retourne un **builder** que l'on configure avant de valider — c'est la
 forme à connaître, parce que c'est la seule qui permet de choisir le field visé,
 le code ou la valeur fautive. Elle accepte elle aussi les parameters en second
 argument.
 
-## Le constructeur n'écrit rien tout seul
+## Le builder n'écrit rien tout seul
 
 C'est le piège central de l'item : `buildViolation()` **ne crée aucune
 violation**. Elle prépare un object ; tant que `addViolation()` n'est pas appelée
@@ -103,7 +103,7 @@ rend `'built {{ v }}'`, `getMessage()` le texte rempli.
 la string, la validation passe alors que la règle est violée.
 
 **`addViolation()` existe des deux côtés** : sur le contexte, elle enregistre
-directement ; sur le constructeur, elle termine la string. Ce ne sont pas les
+directement ; sur le builder, elle termine la string. Ce ne sont pas les
 mêmes methods.
 
 **Sans `atPath()`, une violation de portée class reste attachée à l'object** et

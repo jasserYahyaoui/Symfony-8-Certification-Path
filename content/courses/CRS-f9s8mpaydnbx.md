@@ -35,7 +35,7 @@ et pourquoi ils diffèrent.
 | supprimer ou manipuler une definition | **compiler pass** |
 | un form type | **extension de form type** |
 | une constraint de validation | validation groups — la constraint ne se remplace pas |
-| une translation | file dans `translations/` portant le **même domaine** |
+| une translation | file dans `translations/` portant le **même domain** |
 | une route | ne pas l'importer du tout, ou copier le file et importer sa copie |
 | un controller **non-service** | route de **même path**, chargée **avant** celle du bundle |
 | un controller **qui est un service** | **décoration**, comme n'importe quel service |
@@ -63,7 +63,7 @@ nouveau, **même en mode debug**.
 
 Le piège vient quand on ne veut surcharger qu'un block : écrire
 `{% extends "@AcmeUser/registration/confirmed.html.twig" %}` dans le template qui
-surcharge ce même template produit une **boucle infinie** : le nom résout vers la
+surcharge ce même template produit une **loop infinie** : le nom résout vers la
 surcharge, c'est-à-dire vers lui-même. La solution est le préfixe spécial `!` :
 
 ```html
@@ -90,11 +90,11 @@ le plus souvent.
 
 ## Les translations ne dépendent pas des bundles
 
-Le document est explicite : elles sont liées à un **domaine**, pas à un bundle.
+Le document est explicite : elles sont liées à un **domain**, pas à un bundle.
 Un file du `translations/` du projet surcharge donc celui d'un bundle dès
-qu'il porte le même domaine, sans rien déclarer — créer
+qu'il porte le même domain, sans rien déclarer — créer
 `translations/AcmeUserBundle.es.yaml` à la racine suffit. Le nom du bundle
-n'apparaît là que parce qu'il **est** le nom du domaine.
+n'apparaît là que parce qu'il **est** le nom du domain.
 
 ## La validation ne se surcharge pas
 
@@ -105,7 +105,7 @@ suppose que le bundle ait prévu des **validation groups**.
 
 ## Pièges d'examen
 
-**Étendre le template que l'on surcharge crée une boucle infinie.** Le nom résout
+**Étendre le template que l'on surcharge crée une loop infinie.** Le nom résout
 vers la surcharge, donc vers lui-même. Le préfixe `@!` désigne l'original et
 rompt le cycle.
 
@@ -121,8 +121,8 @@ compiler pass.
 renvoie d'abord à la décoration ; la route de même path est la Response de
 repli, pour un controller qui n'est pas un service.
 
-**Une translation se surcharge par le domaine, pas par le bundle.** Le nom du
-bundle dans le nom de file n'est que le nom du domaine.
+**Une translation se surcharge par le domain, pas par le bundle.** Le nom du
+bundle dans le nom de file n'est que le nom du domain.
 
 ## Tips d'examen
 
@@ -135,11 +135,11 @@ pas, et le routage, qui ne s'importe jamais tout seul.
 ## Points clés
 
 - Templates : `templates/bundles/<NomDuBundle>/`, même path relatif.
-- `@!` évite la boucle infinie quand on étend le template que l'on surcharge.
+- `@!` évite la loop infinie quand on étend le template que l'on surcharge.
 - Services : décoration ; manipulations avancées : compiler pass.
 - Validation : les constraints s'ajoutent, elles ne se remplacent pas.
 - Controller : décoration s'il est un service, route de même path sinon.
-- Translations : par **domaine**, depuis `translations/` du projet.
+- Translations : par **domain**, depuis `translations/` du projet.
 - Mapping : attributes et associations, et seulement via une *mapped superclass*.
 
 ## Sources officielles

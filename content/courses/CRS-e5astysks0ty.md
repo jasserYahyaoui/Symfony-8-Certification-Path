@@ -115,7 +115,7 @@ deployment ne l'atteint pas.
 **`messenger:stop-workers` ne tue pas** : elle demande un arrêt après le message
 courant.
 
-**Plusieurs transports : priorité stricte**, pas de tourniquet.
+**Plusieurs transports : priority stricte**, pas de tourniquet.
 
 **Les services sont partagés entre messages**, sauf ceux qui implémentent
 `ResetInterface` ; `--no-reset` supprime même cette remise à zéro.
@@ -125,7 +125,7 @@ un worker.
 
 ## Points clés
 
-- `messenger:consume` ; plusieurs transports = priorité par l'ordre, reprise au
+- `messenger:consume` ; plusieurs transports = priority par l'ordre, reprise au
   premier après chaque message.
 - `--limit`, `--memory-limit`, `--time-limit`, `--failure-limit` ; un superviseur
   relance.

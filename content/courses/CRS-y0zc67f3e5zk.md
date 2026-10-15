@@ -67,7 +67,7 @@ title: Application::doRunCommand()
 ---
 flowchart TD
   accTitle: L'ordre des events autour d'une command console
-  accDescr: Sans dispatcher, la command s'exécute seule, sans aucun event. Avec un dispatcher, console.command est dispatché. Si un listener appelle disableCommand(), la command n'est pas exécutée et le code vaut 113. Sinon elle s'exécute. Une exception mène à console.error, où poser le code 0 abandonne l'erreur. Dans tous les cas console.terminate est dispatché, puis l'erreur restante est relancée, ou le code de sortie de l'event est rendu.
+  accDescr: Sans dispatcher, la command s'exécute seule, sans aucun event. Avec un dispatcher, console.command est dispatché. Si un listener appelle disableCommand(), la command n'est pas exécutée et le code vaut 113. Sinon elle s'exécute. Une exception mène à console.error, où poser le code 0 abandonne l'erreur. Dans tous les cas console.terminate est dispatché, puis l'erreur restante est relancée, ou l'exit code de l'event est rendu.
   D{"dispatcher ?"} -->|"non"| ALONE(["exécution seule, aucun event"])
   D -->|"oui"| CMD["console.command"]
   CMD --> DIS{"disableCommand() ?"}
@@ -88,7 +88,7 @@ ou mesurer une durée d'exécution.
 
 Exécuté avec Console 8.0.15, une `Application` munie d'un dispatcher :
 
-| Cas | Événements | Code |
+| Cas | Events | Code |
 |---|---|---|
 | succès | `COMMAND`, exécution, `TERMINATE:0` | 0 |
 | `disableCommand()` | `COMMAND`, **`TERMINATE:113`** — pas d'exécution | 113 |
@@ -100,21 +100,21 @@ Exécuté avec Console 8.0.15, une `Application` munie d'un dispatcher :
 
 ## `COMMAND` — avant
 
-`ConsoleCommandEvent` donne accès à la commande, à l'entrée et à la sortie avant
+`ConsoleCommandEvent` donne accès à la command, à l'entrée et à l'output avant
 qu'elles ne lui soient passées. On peut donc y ajouter une option, forcer une
-verbosité — ou empêcher l'exécution :
+verbosity — ou empêcher l'exécution :
 
 ```php
 $event->disableCommand();
 ```
 
-La commande n'est alors pas lancée, et le processus sort avec le code
+La command n'est alors pas lancée, et le process sort avec le code
 `ConsoleCommandEvent::RETURN_CODE_DISABLED`, qui vaut **113**. Cette valeur
 particulière permet de distinguer « refusée » de « échouée » (1).
 
 ## `ERROR` — rattraper
 
-`ConsoleErrorEvent` porte l'erreur et le code de sortie :
+`ConsoleErrorEvent` porte l'erreur et l'exit code :
 
 ```php
 $event->getError();
@@ -124,7 +124,7 @@ $event->setExitCode(0);
 
 `setExitCode(0)` a un effet fort : l'`Application` considère alors qu'il n'y a
 plus d'erreur à propager, et l'exception est abandonnée. C'est le mécanisme qui
-permet de traiter une erreur attendue sans faire échouer le processus.
+permet de traiter une erreur attendue sans faire échouer le process.
 
 `ERROR` couvre tout `Throwable` — les erreurs PHP autant que les exceptions.
 Exécuté : une `TypeError` déclenche `ERROR` puis `TERMINATE`, et n'est relancée
@@ -133,30 +133,30 @@ défaut, qui la laisse remonter.
 
 ## `TERMINATE` — après
 
-`ConsoleTerminateEvent` porte le code de sortie et permet de le remplacer :
+`ConsoleTerminateEvent` porte l'exit code et permet de le remplacer :
 
 ```php
 $event->getExitCode();
 $event->setExitCode(1);
 ```
 
-Le code final du processus est celui que porte cet événement **après** le
-dispatch, pas celui qu'a retourné la commande. Un écouteur de `TERMINATE` peut
+Le code final du process est celui que porte cet event **après** le
+dispatch, pas celui qu'a retourné la command. Un listener de `TERMINATE` peut
 donc transformer un succès en échec, et réciproquement.
 
-Il expose aussi `getInterruptingSignal()` : non nul quand la commande a été
+Il expose aussi `getInterruptingSignal()` : non nul quand la command a été
 interrompue par un signal.
 
 ## `SIGNAL` — pendant
 
 Émis à la réception d'un signal POSIX (`SIGINT`, `SIGTERM`). `ConsoleSignalEvent`
 expose `getHandlingSignal()`, `setExitCode()` et `abortExit()` — cette dernière
-laisse la commande poursuivre au lieu de terminer le processus. Le cas d'usage
-est l'arrêt propre d'un travailleur de longue durée.
+laisse la command poursuivre au lieu de terminer le process. Le cas d'usage
+est l'arrêt propre d'un worker de longue durée.
 
 ## S'abonner
 
-Comme pour tout autre événement :
+Comme pour tout autre event :
 
 ```php
 class CommandLogger implements EventSubscriberInterface
@@ -189,7 +189,7 @@ quand même dispatché.
 - Ordre : `COMMAND` → exécution → (`ERROR`) → `TERMINATE`, toujours.
 - `disableCommand()` empêche l'exécution et sort avec 113.
 - `ERROR` peut remplacer l'erreur ou l'annuler par `setExitCode(0)`.
-- Le code de sortie final est celui porté par `TERMINATE`.
+- L'exit code final est celui porté par `TERMINATE`.
 
 ## Sources officielles
 

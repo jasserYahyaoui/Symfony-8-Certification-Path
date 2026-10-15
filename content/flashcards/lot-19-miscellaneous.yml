@@ -30,7 +30,7 @@ flashcards:
   front: 'Symfony : quelle class rend NativeClock::now() en 8.0 ?'
   back: '`DatePoint`, une sous-classe de `DateTimeImmutable`.'
   explanation: Lu dans `NativeClock.php` et exécuté.
-  memorization_justification: Type de retour de now().
+  memorization_justification: Return type de now().
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Clock/NativeClock.php

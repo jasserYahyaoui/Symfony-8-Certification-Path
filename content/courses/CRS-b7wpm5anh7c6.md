@@ -149,7 +149,7 @@ Exécuté sur un container compilé (DependencyInjection 8.0.15) :
 
 ## ExpressionLanguage
 
-Le composant compile et évalue des expressions d'une ligne, souvent booléennes.
+Le component compile et évalue des expressions d'une ligne, souvent booléennes.
 Deux modes :
 
 ```php
@@ -170,7 +170,7 @@ $el->compile('1 + 2');    // '(1 + 2)' — compilé en PHP, donc cachable
 | même appel, `Parser::IGNORE_UNKNOWN_FUNCTIONS` | aucune erreur |
 | `lint('1 +', null)` | `TypeError` : en 8.0, `$names` est un `array` |
 
-Dans le framework, ce composant est ce qui rend possible une condition écrite en
+Dans le framework, ce component est ce qui rend possible une condition écrite en
 configuration plutôt qu'en PHP — une condition de route, une règle
 d'authorization.
 

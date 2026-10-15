@@ -66,7 +66,7 @@ public function list(): Response { /* ... */ }
 Les arguments suivent les règles d'appel habituelles, et les deux syntaxes —
 positionnelle et nommée — sont acceptées. Ce qu'ils peuvent contenir est
 défini positivement : des **valeurs littérales ou des expressions
-constantes**. Sont donc admis un littéral, une constante, une constante de
+constantes**. Sont donc admis un littéral, une constant, une constant de
 class, un cas d'enum, un array de ces éléments et, depuis PHP 8.1,
 une instanciation `new`, ce qui permet d'imbriquer des attributes — exécuté :
 `#[Outer([new Inner('a')])]`. En revanche, ni appel de function ni variable,
@@ -107,7 +107,7 @@ lecture par réflexion.
 ## Points clés
 
 - `#[Attribute]` avec des drapeaux de cible ; `IS_REPEATABLE` pour répéter.
-- Arguments = expressions constantes, arguments nommés autorisés.
+- Arguments = expressions constantes, named arguments autorisés.
 - `getAttributes()` → `ReflectionAttribute` ; `newInstance()` construit l'object.
 - Un attribute est de la donnée : sans lecteur, il ne produit aucun effet.
 

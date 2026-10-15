@@ -88,7 +88,7 @@ Trois détails lus dans `AppVariable` (8.0) :
 - `app.flashes` accepte aussi une liste de types et rend alors un array
   `type => messages` ; sans session compatible, il rend un array vide ;
 - une property dont le service manque **lève une `RuntimeException`** :
-  `app.user` et `app.token` sans le composant Security installé, par exemple —
+  `app.user` et `app.token` sans le component Security installé, par exemple —
   « The "app.user" variable is not available. » Seul `app.flashes` retombe sur
   un array vide.
 
@@ -113,7 +113,7 @@ Twig seul par `Environment::addGlobal()`.
 
 La documentation de Twig le précise : les globales sont disponibles dans tous
 les templates **et dans les macros**, qui ne voient pourtant pas les variables du
-template qui les appelle. C'est adapté à une constante d'application ; ce n'est
+template qui les appelle. C'est adapté à une constant d'application ; ce n'est
 pas un substitut au passage de variables, qui reste la voie normale pour les
 données d'une page.
 
@@ -131,7 +131,7 @@ démarre, avec l'effet que cela a sur la cachabilité de la page.
 **Le user courant vaut `null` quand personne n'est authentifié.** Lire
 `app.user.email` lève alors une `RuntimeError` — « Impossible to access an
 attribute ("email") on a null variable » — en mode strict, actif en `dev` par
-défaut, et rend `null` sinon. Et `app.user` lève une exception si le composant
+défaut, et rend `null` sinon. Et `app.user` lève une exception si le component
 Security n'est pas installé.
 
 **`_self`, `_context`, `_charset` existent sans Symfony.** Ce sont les globales

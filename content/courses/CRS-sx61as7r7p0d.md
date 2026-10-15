@@ -59,7 +59,7 @@ Changer le path d'une route met alors à jour tous les liens.
 ## Les quatre types de référence
 
 Le troisième argument de `generate()` — et de `generateUrl()` — choisit la forme
-de l'URL. Les constantes sont sur `UrlGeneratorInterface` :
+de l'URL. Les constants sont sur `UrlGeneratorInterface` :
 
 | Constante | Valeur | Résultat |
 |---|---|---|
@@ -68,13 +68,13 @@ de l'URL. Les constantes sont sur `UrlGeneratorInterface` :
 | `RELATIVE_PATH` | `2` | `../blog/2`, relatif au path courant |
 | `NETWORK_PATH` | `3` | `//example.com/blog/2`, qui reprend le schéma courant |
 
-La constante qui vaut `0` n'est **pas** le défaut : c'est l'URL absolue.
+La constant qui vaut `0` n'est **pas** le défaut : c'est l'URL absolue.
 
 En Twig, `path()` correspond au path absolu et `url()` à l'URL absolue.
 
 ## Les parameters en trop
 
-Un parameter passé au générateur mais **absent de la definition de la route**
+Un parameter passé au generator mais **absent de la definition de la route**
 n'est pas ignoré : il est ajouté en **chaîne de Request**.
 
 ```php
@@ -125,7 +125,7 @@ pas. La documentation dit encore le contraire.
 **Un parameter en trop égal au défaut disparaît de la chaîne de Request.**
 
 **Le type de référence par défaut est le path absolu, pas l'URL absolue.**
-Générer un lien pour un courriel demande de le dire explicitement.
+Générer un lien pour un email demande de le dire explicitement.
 
 ## Points clés
 

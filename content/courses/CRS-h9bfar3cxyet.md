@@ -107,7 +107,7 @@ handle_message
 string ; `send_message` (`SendMessageMiddleware`) envoie au transport juste
 avant. Un middleware déclaré dans `middleware:` s'insère donc **avant** l'envoi
 et le traitement — ce qui lui permet d'interrompre l'un et l'autre. Quand le
-composant Lock est activé, `deduplicate_middleware` s'ajoute en fin de premier
+component Lock est activé, `deduplicate_middleware` s'ajoute en fin de premier
 group.
 
 ## Déclarer

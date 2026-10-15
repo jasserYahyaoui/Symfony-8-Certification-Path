@@ -79,13 +79,13 @@ Autrement dit : pour annuler une écriture qu'on vient de faire dans le même
 controller, `removeCookie()`. Pour effacer un cookie que le client possède déjà,
 `clearCookie()`.
 
-## Un cookie est indexé par domaine, path et nom
+## Un cookie est indexé par domain, path et nom
 
 `setCookie()` ne range pas les cookies par nom seul, mais sur **trois niveaux** :
-domaine, puis path, puis nom. Deux cookies portant le même nom sur des paths
+domain, puis path, puis nom. Deux cookies portant le même nom sur des paths
 différents coexistent donc sans s'écraser.
 
-C'est pourquoi `removeCookie()` prend un path et un domaine en plus du nom :
+C'est pourquoi `removeCookie()` prend un path et un domain en plus du nom :
 sans eux, elle viserait la mauvaise entrée. Son path par défaut est `/`.
 
 `getCookies()` rend la liste, à plat par défaut ; le format `array` conserve
@@ -120,7 +120,7 @@ le client ? Oui → `clearCookie()`. Non, je viens de le poser → `removeCookie
 - `$response->headers` est un `ResponseHeaderBag` : `setCookie()`,
   `removeCookie()`, `clearCookie()`, `getCookies()`.
 - `removeCookie()` annule l'envoi ; `clearCookie()` envoie une expiration passée.
-- Les cookies sont indexés par domaine, path puis nom — d'où les arguments de
+- Les cookies sont indexés par domain, path puis nom — d'où les arguments de
   `removeCookie()`, dont le path vaut `/` par défaut.
 - `setcookie()` de PHP contourne l'object `Response` ; ne pas l'utiliser.
 

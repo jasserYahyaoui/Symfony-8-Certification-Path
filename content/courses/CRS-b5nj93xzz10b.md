@@ -51,7 +51,7 @@ Rendre un form dans un template, du plus court au plus contrôlé.
 | `form_help(form.champ)` | le texte d'aide |
 | `form_rest(form)` | tous les fields non encore rendus |
 
-Rendu réel, exécuté avec `symfony/twig-bridge` 8.0.15 et Twig 3.22, thème par
+Rendu réel, exécuté avec `symfony/twig-bridge` 8.0.15 et Twig 3.22, theme par
 défaut, pour un field `task` avec une aide :
 
 ```html
@@ -74,7 +74,7 @@ même quand on a rendu les fields un par un.
 
 Exécuté : un field caché non rendu explicitement apparaît avec `form_end(form)`
 et disparaît avec `form_end(form, {'render_rest': false})`. Pour le token, cela
-veut dire une soumission refusée.
+veut dire une submission refusée.
 
 ## Un field ne se rend qu'une fois
 

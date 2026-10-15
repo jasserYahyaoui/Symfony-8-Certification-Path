@@ -52,15 +52,15 @@ niveau. Les trois couches sont définies dans l'item *Form component*.
 | Method | Sens | Appelée |
 |---|---|---|
 | `transform()` | modèle → vue | quand les données sont posées sur le form |
-| `reverseTransform()` | vue → modèle | à la soumission |
+| `reverseTransform()` | vue → modèle | à la submission |
 
 C'est l'erreur classique : `reverseTransform()` n'est pas « l'inverse de ce qu'on
 veut », c'est le path de retour, celui qui traite la donnée du navigateur.
 
 `transform()` n'est **pas** appelée au rendu. Exécuté avec `symfony/form`
-8.0.15 et des transformateurs qui journalisent : `getForm()` sur des données
-initiales les appelle, `createView()` n'appelle rien. Après une soumission
-réussie, les `transform()` des transformateurs de vue sont rappelées pour
+8.0.15 et des transformers qui journalisent : `getForm()` sur des données
+initiales les appelle, `createView()` n'appelle rien. Après une submission
+réussie, les `transform()` des view transformers sont rappelées pour
 resynchroniser la vue.
 
 ## Deux niveaux d'attachement
@@ -72,8 +72,8 @@ $builder->get('issue')->addViewTransformer($transformer);
 
 | Method | Convertit entre |
 |---|---|
-| `addModelTransformer()` | donnée du **modèle** et donnée normalisée |
-| `addViewTransformer()` | donnée **normalisée** et donnée de vue |
+| `addModelTransformer()` | donnée du **modèle** et norm data |
+| `addViewTransformer()` | donnée **normalisée** et view data |
 
 Le choix dépend de ce que l'on convertit. Transformer un numéro saisi en object
 métier est une affaire de modèle ; changer le format d'affichage d'une valeur
@@ -90,11 +90,11 @@ données posées : M2 → M1 → V1 → V2
 soumission     : V2 → V1 → M1 → M2   (reverseTransform)
 ```
 
-Le dernier transformateur de modèle ajouté est donc le plus proche du modèle.
+Le dernier model transformer ajouté est donc le plus proche du modèle.
 
 ## Signaler un échec
 
-Quand la valeur soumise ne peut pas être convertie, le transformateur lève
+Quand la valeur soumise ne peut pas être convertie, le transformer lève
 `TransformationFailedException`. Exécuté : le field n'est plus
 **synchronisé** (`isSynchronized()` à `false`), sa donnée vaut `null`, sa donnée
 de vue garde la saisie `'42'`, et le form est invalide avec
@@ -112,19 +112,19 @@ Toute autre exception **sort** de `submit()` : exécuté, une
 ## Valeurs vides
 
 La documentation demande que `transform()` rende, pour `null`, l'équivalent vide
-du type **cible** : string vide, `0` pour un int, `0.0` pour un flottant. Un
-transformateur qui produit une string rend donc `''`. Retourner `null` quand
+du type **cible** : string vide, `0` pour un int, `0.0` pour un float. Un
+transformer qui produit une string rend donc `''`. Retourner `null` quand
 même ne casse pas un field texte : exécuté, sa variable de vue `value` vaut
 `''`.
 
 Dans l'autre sens, la convention de l'interface est que `reverseTransform()`
 retourne `null` pour une string vide. Exécuté sur un field texte laissé vide :
-un transformateur de **vue** reçoit `''`, un transformateur de **modèle** reçoit
+un transformer de **vue** reçoit `''`, un transformer de **modèle** reçoit
 déjà `null`.
 
 ## Le raccourci
 
-`CallbackTransformer` prend les deux functions en arguments de constructeur —
+`CallbackTransformer` prend les deux functions en arguments de constructor —
 `transform` puis `reverseTransform` — et évite d'écrire une class pour une
 conversion d'une ligne.
 
@@ -148,9 +148,9 @@ Traiter le vide dans chaque function suffit : `null` donne `''` dans un sens,
 **`transform()` s'exécute quand les données sont posées, pas au rendu.**
 
 **Le sens des deux methods se lit depuis le modèle.** L'une va vers la vue,
-l'autre fait le path de retour à la soumission.
+l'autre fait le path de retour à la submission.
 
-**Modèle et vue ne s'attachent pas au même endroit**, et les transformateurs de
+**Modèle et vue ne s'attachent pas au même endroit**, et les transformers de
 modèle s'empilent en tête.
 
 **Un échec se signale par l'exception dédiée** ; tout autre type sort de
@@ -163,7 +163,7 @@ modèle s'empilent en tête.
 ## Points clés
 
 - `transform()` : modèle → vue, à la pose des données ; `reverseTransform()` :
-  retour, à la soumission.
+  retour, à la submission.
 - `addModelTransformer()` insère en tête ; `addViewTransformer()` ajoute à la
   fin.
 - `TransformationFailedException` : field non synchronisé, erreur

@@ -110,7 +110,7 @@ items:
       - id: OUT-qcb24vqg8pkt
         outcome: "Énoncer le scope réel de private (class déclarante, pas instance)"
       - id: OUT-2tvh0svv8jhg
-        outcome: "Appliquer readonly et la promotion de constructeur correctement"
+        outcome: "Appliquer readonly et la promotion de constructor correctement"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -221,14 +221,14 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Concept important exigeant distinction et application : deux règles de PHP 8.4 déplacent l'item hors de la simple reconnaissance. Une constante d'interface est surchargeable depuis 8.1, sauf si elle est déclarée final, et l'ancienne règle contraire reste la Response instinctive ; et depuis 8.4 une interface déclare des properties en précisant get, set ou les deux, ce qui demande de décider quel membre de class satisfait la déclaration — une property readonly n'y suffit pas. La comparaison avec les abstract classes appartient toujours à l'item Abstract classes, qui en est le propriétaire.
+      Concept important exigeant distinction et application : deux règles de PHP 8.4 déplacent l'item hors de la simple reconnaissance. Une constant d'interface est surchargeable depuis 8.1, sauf si elle est déclarée final, et l'ancienne règle contraire reste la Response instinctive ; et depuis 8.4 une interface déclare des properties en précisant get, set ou les deux, ce qui demande de décider quel membre de class satisfait la déclaration — une property readonly n'y suffit pas. La comparaison avec les abstract classes appartient toujours à l'item Abstract classes, qui en est le propriétaire.
     learning_outcomes:
       - id: OUT-6tzwvmfwj408
         outcome: "Identifier ce qu'une interface peut déclarer et ce qu'elle ne peut pas"
       - id: OUT-5vqwe44nsee5
         outcome: "Énoncer les règles d'implémentation et d'extension multiples"
       - id: OUT-7vt306wrfkb7
-        outcome: "Décider si une constante d'interface peut être surchargée par la class qui l'implémente"
+        outcome: "Décider si une constant d'interface peut être surchargée par la class qui l'implémente"
       - id: OUT-ynfsf3qdn2mj
         outcome: "Choisir le membre de class qui satisfait une property d'interface déclarée get et set"
     required_assessment_modes:
@@ -374,7 +374,7 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Concept important exigeant distinction et application : Error et Exception sont deux branches sœurs sous Throwable, si bien que catch (Exception) laisse passer les erreurs du moteur. C'est une erreur de conception fréquente qui ne se révèle qu'en production.
+      Concept important exigeant distinction et application : Error et Exception sont deux branches sœurs sous Throwable, si bien que catch (Exception) laisse passer les erreurs de l'engine. C'est une erreur de conception fréquente qui ne se révèle qu'en production.
     learning_outcomes:
       - id: OUT-xwdtmfm9hzsc
         outcome: "Situer Error, Exception et Throwable dans la hiérarchie"
@@ -678,7 +678,7 @@ items:
       - id: OUT-g11rrz2thqp0
         outcome: "Expliquer pourquoi getClientIp() exige des trusted proxies"
       - id: OUT-04bvez73yte3
-        outcome: "Expliquer pourquoi un motif de trusted host non ancré ne protège pas"
+        outcome: "Expliquer pourquoi un pattern de trusted host non ancré ne protège pas"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -1142,7 +1142,7 @@ items:
     classification: OFFICIAL
     content_level: MINIMAL
     content_level_justification: >-
-      Vu comme item d'architecture, le composant se réduit à trois faits : il remplace les
+      Vu comme item d'architecture, le component se réduit à trois faits : il remplace les
       superglobales par des objects fabricables, il est autonome et c'est le framework qui en dépend,
       et il fournit RequestStack. Le modèle des sacs et la constraint de InputBag::get() sont déjà
       traités par l'item HTTP request du lot 02, et l'usage de Request et Response dans un controller
@@ -1151,9 +1151,9 @@ items:
       - id: OUT-m2fxjk4j2mc1
         outcome: "Énoncer ce que HttpFoundation remplace et pourquoi cela rend la pile testable"
       - id: OUT-qr20ybf8za07
-        outcome: "Justifier que le composant est autonome et que la dependency va du framework vers lui"
+        outcome: "Justifier que le component est autonome et que la dependency va du framework vers lui"
       - id: OUT-jgk2rwhep0vm
-        outcome: "Citer le role de RequestStack et de ses trois accesseurs"
+        outcome: "Citer le role de RequestStack et de ses trois accessors"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
@@ -1202,14 +1202,14 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Flex se résume à quatre faits — plugin Composer, alias, recette, symfony.lock — mais chacun est
-      exigible et les deux dépôts de recettes ont des comportements distincts. Le format MINIMAL ne
+      Flex se résume à quatre faits — plugin Composer, alias, recipe, symfony.lock — mais chacun est
+      exigible et les deux repositories de recipes ont des comportements distincts. Le format MINIMAL ne
       porterait pas cette dernière distinction.
     learning_outcomes:
       - id: OUT-p7r2daxac21t
         outcome: "Énoncer que Flex est un plugin Composer"
       - id: OUT-n6w2cz5vwgsw
-        outcome: "Distinguer un alias d'une recette"
+        outcome: "Distinguer un alias d'une recipe"
       - id: OUT-ach5wc85h25x
         outcome: "Justifier que symfony.lock est committé"
       - id: OUT-svxn0t2pskq8
@@ -1318,12 +1318,12 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      La distinction composant / bridge / bundle est un critère à appliquer, pas un fait à retenir :
+      La distinction component / bridge / bundle est un critère à appliquer, pas un fait à retenir :
       la question posée est toujours « lequel est-ce ? ». Un array à trois critères est nécessaire,
       un traitement approfondi ne l'est pas.
     learning_outcomes:
       - id: OUT-21jyzfg4a961
-        outcome: "Définir un composant, un bridge et un bundle"
+        outcome: "Définir un component, un bridge et un bundle"
       - id: OUT-tvjm3k5gjnb4
         outcome: "Classer un package Symfony dans l'une des trois catégories"
       - id: OUT-vzswg6fmf7fr
@@ -1520,7 +1520,7 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Une seule règle en cascade a trois branches, plus une interface et une method d'échappement.
+      Une seule règle en cascade a trois branches, plus une interface et une method d'escaping.
       C'est court mais contre-intuitif — un 204 devient 500 — donc au-dessus de MINIMAL, et sans
       procédure à dérouler, donc en dessous de DEEP.
     learning_outcomes:
@@ -1576,21 +1576,21 @@ items:
     classification: OFFICIAL
     content_level: DEEP
     content_level_justification: >-
-      Deux corps de connaissance se superposent : la mécanique du dispatcher — listener, abonné,
-      priorité signée, propagation — et le catalogue des huit events du kernel, chacun avec un
+      Deux corps de connaissance se superposent : la mécanique du dispatcher — listener, subscriber,
+      priority signée, propagation — et le catalogue des huit events du kernel, chacun avec un
       pouvoir propre. Le tableau des pouvoirs est ce qui sépare une bonne d'une mauvaise réponse, et
       il ne tient pas dans un format STANDARD.
     learning_outcomes:
       - id: OUT-dbz79ewzqdg9
         outcome: "Distinguer un listener d'un subscriber et leur mode d'enregistrement"
       - id: OUT-ces5mycxj5zx
-        outcome: "Énoncer la sémantique de la priorité et sa default value"
+        outcome: "Énoncer la sémantique de la priority et sa default value"
       - id: OUT-xfcs32dwmgx2
         outcome: "Délimiter l'effet de stopPropagation()"
       - id: OUT-2x9c1gjdj7t5
         outcome: "Associer chaque event du kernel à sa class et à son pouvoir"
       - id: OUT-p34x8sjgctbp
-        outcome: "Nommer les constantes de KernelEvents"
+        outcome: "Nommer les constants de KernelEvents"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -1712,7 +1712,7 @@ items:
     content_level: STANDARD
     content_level_justification: >-
       La promesse est un array de cas d'usage, pas un mécanisme : on l'applique, on ne la déroule
-      pas. Deux exceptions étroites — arguments nommés, ajout de membre dans une class étendue —
+      pas. Deux exceptions étroites — named arguments, ajout de membre dans une class étendue —
       imposent plus qu'un format MINIMAL.
     learning_outcomes:
       - id: OUT-bmtapjwv4je4
@@ -1720,7 +1720,7 @@ items:
       - id: OUT-z81y6z00tr3t
         outcome: "Identifier les cas non garantis lors de l'extension d'une class"
       - id: OUT-92tk3wgmcgkc
-        outcome: "Énoncer le scope de la garantie sur les arguments nommés"
+        outcome: "Énoncer le scope de la garantie sur les named arguments"
       - id: OUT-4x6dvn65hj5v
         outcome: "Citer les exclusions : @internal, experimental, translations internes"
       - id: OUT-xh1k5wmbaqwa
@@ -1827,7 +1827,7 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Un mécanisme différent par sous-système, et deux pièges réels : la boucle infinie du template
+      Un mécanisme différent par sous-système, et deux pièges réels : la loop infinie du template
       surcharge et l'impossibilité de remplacer une constraint de validation. C'est un array plus
       deux avertissements, pas un mécanisme à dérouler.
     learning_outcomes:
@@ -1942,14 +1942,14 @@ items:
     content_level_justification: >-
       Une liste de PSR ne serait que de la reconnaissance, mais la ligne de partage entre implémentée,
       suivie et pontée est la seule chose réellement interrogée, et elle demande un critère. STANDARD
-      suffit ; le détail du pont PSR-7 n'appelle pas de traitement approfondi.
+      suffit ; le détail du bridge PSR-7 n'appelle pas de traitement approfondi.
     learning_outcomes:
       - id: OUT-t5v0mavn0je1
         outcome: "Citer les PSR implémentées par Symfony"
       - id: OUT-3we3dc646hxk
         outcome: "Distinguer une PSR implémentée d'une PSR suivie"
       - id: OUT-sqrkr5sjqqz1
-        outcome: "Énoncer que PSR-7 et PSR-17 passent par un pont"
+        outcome: "Énoncer que PSR-7 et PSR-17 passent par un bridge"
       - id: OUT-tga0d0zxwpvv
         outcome: "Associer le container à PSR-11 et le dispatcher à PSR-14"
     required_assessment_modes:
@@ -2063,18 +2063,18 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Le partage des roles entre le composant et le bundle est un critère à appliquer, avec une liste
+      Le partage des roles entre le component et le bundle est un critère à appliquer, avec une liste
       d'apports à connaître. Le déroulé de la Request appartient au lot 03 ; ce qui reste ici est une
       répartition, pas un mécanisme, donc au-dessus de MINIMAL et en dessous de DEEP.
     learning_outcomes:
       - id: OUT-dvn4fe5a95kf
-        outcome: "Distinguer ce que fournit le composant HttpKernel de ce qu'ajoute FrameworkBundle"
+        outcome: "Distinguer ce que fournit le component HttpKernel de ce qu'ajoute FrameworkBundle"
       - id: OUT-9n7kqntbxaap
         outcome: "Citer les interfaces implémentées par la class Kernel"
       - id: OUT-wtvmvsdmdz41
         outcome: "Situer AbstractController et MicroKernelTrait du côté du bundle"
       - id: OUT-8a4ygtt2rwe5
-        outcome: "Énoncer que le composant fonctionne sans le bundle"
+        outcome: "Énoncer que le component fonctionne sans le bundle"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
@@ -2132,7 +2132,7 @@ items:
     content_level: MINIMAL
     content_level_justification: >-
       Un array de conventions dont la seule information réellement utile est qu'aucune n'est
-      obligatoire, plus le format de _controller et la génération du nom de route. Les conventions
+      obligatoire, plus le format de _controller et la génération du route name. Les conventions
       générales du framework sont un item distinct du lot 03.
     learning_outcomes:
       - id: OUT-kym7hw6vad3k
@@ -2254,7 +2254,7 @@ items:
     content_level_justification: >-
       Vu depuis le controller, l'item se réduit à trois faits : le type-hint suffit, les parameters de
       route passent par attributes et sont appariés par nom, getPayload() lit le body. Le modèle des
-      sacs appartient à l'item HTTP request du lot 02 et le composant à l'item HttpFoundation du lot
+      sacs appartient à l'item HTTP request du lot 02 et le component à l'item HttpFoundation du lot
       03.
     learning_outcomes:
       - id: OUT-gvjp79xbcjsb
@@ -2313,7 +2313,7 @@ items:
       - id: OUT-4wrmsr0a1xvb
         outcome: "Énoncer l'obligation de retourner une Response et ce qui arrive sinon"
       - id: OUT-5ram2kxkc3de
-        outcome: "Distinguer render() de renderView() par leur type de retour"
+        outcome: "Distinguer render() de renderView() par leur return type"
       - id: OUT-k5603xv7233j
         outcome: "Énoncer le statut retourne par render() avec un form invalide"
       - id: OUT-fy6864mta4ff
@@ -2420,7 +2420,7 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Trois voies d'accès, un démarrage paresseux dont la conséquence sur la cachabilité n'est pas
+      Trois voies d'accès, un démarrage lazy dont la conséquence sur la cachabilité n'est pas
       devinable, et deux methods de sécurité que l'on confond. Cela dépasse le format MINIMAL sans
       constituer une procédure ordonnée.
     learning_outcomes:
@@ -2847,14 +2847,14 @@ items:
     content_level: DEEP
     content_level_justification: >-
       C'est le mécanisme qui explique la moitié du lot : un contrat au retour contre-intuitif, une
-      string ordonnée par priorité où le premier servi arrête tout, un catalogue de dix resolvers, et
+      string ordonnée par priority où le premier servi arrête tout, un catalogue de dix resolvers, et
       la notion de resolver cible dont les attributes Map... ne sont que la forme confortable. Chacune
       de ces couches change la réponse à une question, et l'ordre lui-même est note.
     learning_outcomes:
       - id: OUT-np4jrjh0phfs
-        outcome: "Énoncer le contrat de ValueResolverInterface::resolve et son type de retour"
+        outcome: "Énoncer le contrat de ValueResolverInterface::resolve et son return type"
       - id: OUT-5kafbd3d9nt8
-        outcome: "Expliquer la sélection par priorité et l'arrêt au premier resolver servi"
+        outcome: "Expliquer la sélection par priority et l'arrêt au premier resolver servi"
       - id: OUT-mtg83g8mv3bb
         outcome: "Justifier l'ordre entre SessionValueResolver et DefaultValueResolver"
       - id: OUT-cbtvxgfkskae
@@ -2917,19 +2917,19 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Le partage des roles entre composant et bundle demande une liste de classes et une liste
-      d'apports, plus la distinction matcher / générateur qui explique pourquoi une option peut
+      Le partage des roles entre component et bundle demande une liste de classes et une liste
+      d'apports, plus la distinction matcher / generator qui explique pourquoi une option peut
       compter dans un seul sens. Ce n'est pas un mécanisme à dérouler, mais cela dépasse le format
       MINIMAL.
     learning_outcomes:
       - id: OUT-jsv2v128z17j
-        outcome: "Énoncer ce que le composant produit à partir d'une Request"
+        outcome: "Énoncer ce que le component produit à partir d'une Request"
       - id: OUT-25y9qjcp8wgy
-        outcome: "Nommer les classes centrales du composant et leur role"
+        outcome: "Nommer les classes centrales du component et leur role"
       - id: OUT-qpav59c60vb3
         outcome: "Distinguer UrlMatcher de UrlGenerator"
       - id: OUT-bn50g0may31c
-        outcome: "Citer ce que FrameworkBundle ajoute au composant"
+        outcome: "Citer ce que FrameworkBundle ajoute au component"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
@@ -3162,7 +3162,7 @@ items:
       - id: OUT-t5wbk2v6vn3y
         outcome: "Générer une URL depuis un controller, un service et un template"
       - id: OUT-5t7q7sa1385e
-        outcome: "Associer chaque constante de type de référence à sa forme d'URL"
+        outcome: "Associer chaque constant de type de référence à sa forme d'URL"
       - id: OUT-dqnskk31jve5
         outcome: "Énoncer le sort d'un parameter absent de la definition de route"
       - id: OUT-hz0pwe66gz3a
@@ -3335,14 +3335,14 @@ items:
     content_level: MINIMAL
     content_level_justification: >-
       Une option, un comportement par défaut, et la réutilisation des mécanismes déjà connus de
-      defaults et requirements. Il n'y a rien de propre à l'hôte à expliquer une fois ce point établi.
+      defaults et requirements. Il n'y a rien de propre au host à expliquer une fois ce point établi.
     learning_outcomes:
       - id: OUT-wtvymxrjxf80
-        outcome: "Contraindre une route à un nom d'hôte"
+        outcome: "Contraindre une route à un nom de host"
       - id: OUT-kz98mvtwphqc
         outcome: "Énoncer le comportement en l'absence d'option host"
       - id: OUT-ac8d2dvvjma9
-        outcome: "Paramétrer l'hôte avec defaults et requirements"
+        outcome: "Paramétrer le host avec defaults et requirements"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
@@ -3608,7 +3608,7 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Le partage entre moteur, bridge et bundle, plus cinq options de configuration dont
+      Le partage entre engine, bridge et bundle, plus cinq options de configuration dont
       strict_variables change un comportement observable, et deux commands. C'est une répartition à
       appliquer, pas un mécanisme à dérouler.
     learning_outcomes:
@@ -3666,9 +3666,9 @@ items:
     content_level: DEEP
     content_level_justification: >-
       C'est le socle des treize autres items, et il porte une procédure ordonnée dont l'ordre est note
-      : les étapes de résolution de foo.bar, avec l'array essayé avant la property, la constante
+      : les étapes de résolution de foo.bar, avec l'array essayé avant la property, la constant
       de class avant les methods et strict_variables au bout. S'y ajoutent trois délimiteurs à ne
-      pas confondre et un jeu d'opérateurs dont trois pièges reviennent. La version compte : le
+      pas confondre et un jeu d'operators dont trois pièges reviennent. La version compte : le
       syllabus dit up to 3.22 version.
     learning_outcomes:
       - id: OUT-491pkbwc6e8x
@@ -3678,7 +3678,7 @@ items:
       - id: OUT-ap22qz4fkjra
         outcome: Expliquer l'effet de strict_variables sur la dernière étape
       - id: OUT-93svekvx55t0
-        outcome: Choisir l'opérateur correct pour concaténer, comparer et tester
+        outcome: Choisir l'operator correct pour concaténer, comparer et tester
       - id: OUT-xpcwsqhycgnr
         outcome: 'Distinguer ?: de ??'
       - id: OUT-je4qjh1s6yw0
@@ -3738,14 +3738,14 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Cinq stratégies dont le choix dépend du contexte du document, et une frontière html / html_attr
+      Cinq strategies dont le choix dépend du contexte du document, et une frontière html / html_attr
       qui décide de la présence d'une faille. Le moment d'application — à l'affichage — n'est pas
       devinable. Plus qu'un fait, moins qu'une procédure.
     learning_outcomes:
       - id: OUT-43tnheqyaw2v
-        outcome: Énoncer la stratégie active par défaut et le moment de son application
+        outcome: Énoncer la strategy active par défaut et le moment de son application
       - id: OUT-mhbzxr5470xc
-        outcome: Associer chaque stratégie au contexte qu'elle protège
+        outcome: Associer chaque strategy au contexte qu'elle protège
       - id: OUT-ss6r3pwx0fjy
         outcome: Distinguer html de html_attr sur un attribute sans guillemets
       - id: OUT-947gftrjzm6w
@@ -3923,7 +3923,7 @@ items:
     content_level: STANDARD
     content_level_justification: >-
       La distinction filter / function est un critère à appliquer, l'ordre d'enchaînement a une
-      conséquence, et la provenance des extensions Symfony — le bridge, pas le moteur — relie l'item
+      conséquence, et la provenance des extensions Symfony — le bridge, pas l'engine — relie l'item
       au lot 03. Trois choses à articuler, pas une à retenir.
     learning_outcomes:
       - id: OUT-cqhgw19wwy6g
@@ -4114,7 +4114,7 @@ items:
     classification: OFFICIAL
     content_level: MINIMAL
     content_level_justification: >-
-      Deux functions, une différence, un troisième argument rarement utile. Le générateur, ses quatre
+      Deux functions, une différence, un troisième argument rarement utile. Le generator, ses quatre
       types de référence et le sort des parameters surnuméraires appartiennent à l'item URLs
       génération du lot 05 ; les reprendre ici serait de la duplication.
     learning_outcomes:
@@ -4225,7 +4225,7 @@ items:
       L'organisation des catalogues appartient au lot 16.
     learning_outcomes:
       - id: OUT-p436jre6f29p
-        outcome: Employer le filter trans avec parameters, domaine et locale
+        outcome: Employer le filter trans avec parameters, domain et locale
       - id: OUT-eh8yg0599jp9
         outcome: Employer le tag trans et trans_default_domain
       - id: OUT-ke17qw8mxwms
@@ -4286,7 +4286,7 @@ items:
     classification: OFFICIAL
     content_level: MINIMAL
     content_level_justification: >-
-      Une syntaxe, une constraint sur le type de guillemets, un échappement. Trois faits courts, sans
+      Une syntaxe, une constraint sur le type de guillemets, un escaping. Trois faits courts, sans
       mécanisme à dérouler ; l'alternative ~ est déjà posée par l'item de syntaxe.
     learning_outcomes:
       - id: OUT-rve93x3e2gjq
@@ -4445,14 +4445,14 @@ items:
     content_level_justification: >-
       Les trois couches de données et les deux sens de traversée forment le modèle mental dont dépend
       tout le lot. C'est un modèle à comprendre, avec un exemple qui les sépare nettement, mais aucune
-      procédure à dérouler : les transformateurs eux-mêmes sont un item distinct.
+      procédure à dérouler : les transformers eux-mêmes sont un item distinct.
     learning_outcomes:
       - id: OUT-teejhc73n9se
-        outcome: Énoncer le problème que le composant résout
+        outcome: Énoncer le problème que le component résout
       - id: OUT-xysy1a4vx444
         outcome: Nommer les trois couches de données et leur contenu
       - id: OUT-v7z96yxzjbvx
-        outcome: Décrire le sens de traversée au rendu et à la soumission
+        outcome: Décrire le sens de traversée au rendu et à la submission
       - id: OUT-hqxn9f5pmxnp
         outcome: Situer createForm() et getData() sur la couche modèle
     required_assessment_modes:
@@ -4560,7 +4560,7 @@ items:
       dépasse le format MINIMAL sans constituer un mécanisme à plusieurs étages.
     learning_outcomes:
       - id: OUT-y3ytkg8qf2rc
-        outcome: Traiter une soumission dans une action unique
+        outcome: Traiter une submission dans une action unique
       - id: OUT-68682qbtydht
         outcome: Énoncer l'ordre de isSubmitted() et isValid()
       - id: OUT-zr9efpstp5ny
@@ -4738,7 +4738,7 @@ items:
       - id: OUT-ak7tm95dph6x
         outcome: Nommer les cinq parties d'un field
       - id: OUT-n3gb1pbjv5sn
-        outcome: Appliquer un thème globalement, par template, ou sur place avec _self
+        outcome: Appliquer un theme globalement, par template, ou sur place avec _self
       - id: OUT-yz2mbwg9ee93
         outcome: Énoncer l'ordre de consultation de twig.form_thèmes
     required_assessment_modes:
@@ -5008,7 +5008,7 @@ items:
     content_level_justification: >-
       Cinq events en deux phases, dans un ordre fixe, dont deux seulement autorisent une
       modification de structure ; un verrouillage à partir de SUBMIT ; la validation portée par un
-      listener sur POST_SUBMIT ; et un motif contre-intuitif pour les fields dépendants, qui
+      listener sur POST_SUBMIT ; et un pattern contre-intuitif pour les fields dépendants, qui
       s'ajoutent au parent. Chaque étage change la Response, et l'ordre lui-même est note.
     learning_outcomes:
       - id: OUT-v8srdqc4xxjy
@@ -5124,7 +5124,7 @@ items:
     content_level: STANDARD
     content_level_justification: >-
       Sept methods dont trois se confondent — setDefaults, setDefined, setRequired — plus les défauts
-      paresseux qui permettent à une option d'en dépendre d'une autre. Le composant sert au-delà des
+      lazy qui permettent à une option d'en dépendre d'une autre. Le component sert au-delà des
       forms, ce qui justifie de le traiter pour lui-même.
     learning_outcomes:
       - id: OUT-whjhhhcq1kg3
@@ -5134,7 +5134,7 @@ items:
       - id: OUT-jc8c1h1nznhd
         outcome: Employer un normalizer
       - id: OUT-rz5njbv8fvrm
-        outcome: Écrire un défaut paresseux dépendant d'une autre option
+        outcome: Écrire un défaut lazy dépendant d'une autre option
       - id: OUT-c7879v7m2pqb
         outcome: Énoncer ce qui arrive à une option inconnue
     required_assessment_modes:
@@ -5184,7 +5184,7 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Trois methods d'entrée aux roles distincts, et un type de retour qui n'est ni un bool ni
+      Trois methods d'entrée aux roles distincts, et un return type qui n'est ni un bool ni
       une exception. Le candidat doit choisir la method et interpréter la liste de violations, ce
       qui est une application, pas une reconnaissance.
     learning_outcomes:
@@ -5361,14 +5361,14 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Trois portées dont deux se confondent, une règle de nommage arbitraire pour l'accesseur, et une
+      Trois portées dont deux se confondent, une règle de nommage arbitraire pour l'accessor, et une
       portée class qui seule permet une règle croisée. Le candidat doit choisir le scope d'après la
       règle à exprimer.
     learning_outcomes:
       - id: OUT-tgzkeywcr2c5
         outcome: Nommer les trois portées d'une constraint
       - id: OUT-wdhsjrrpmggk
-        outcome: Énoncer la règle de nommage d'un accesseur validable
+        outcome: Énoncer la règle de nommage d'un accessor validable
       - id: OUT-v2t6031e9x7s
         outcome: Choisir le scope class pour une règle croisée
     required_assessment_modes:
@@ -5589,7 +5589,7 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Deux methods du contexte aux roles différents, et une chaîne de constructeur dont l'oubli du
+      Deux methods du contexte aux roles différents, et une chaîne de constructor dont l'oubli du
       dernier maillon ne produit aucune erreur. Le candidat doit aussi savoir attribuer une violation
       à un field, ce qui est une application.
     learning_outcomes:
@@ -5660,9 +5660,9 @@ items:
       - id: OUT-svr2vz7ebkv7
         outcome: Distinguer injection et récupération de services
       - id: OUT-6ah70qtk60fe
-        outcome: Choisir constructeur ou mutateur selon l'obligation de la dependency
+        outcome: Choisir constructor ou setter selon l'obligation de la dependency
       - id: OUT-dvs57dgffn57
-        outcome: Situer le composant comme autonome et nommer compile()
+        outcome: Situer le component comme autonome et nommer compile()
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -5770,7 +5770,7 @@ items:
     content_level: MINIMAL
     content_level_justification: >-
       Reconnaissance : d'où viennent les services non déclarés, et quelle command répond à la
-      question qu'on se pose en écrivant un constructeur. Aucune liste à mémoriser, aucune
+      question qu'on se pose en écrivant un constructor. Aucune liste à mémoriser, aucune
       distinction fine à opérer.
     learning_outcomes:
       - id: OUT-q8fq5v0gn6nh
@@ -5819,7 +5819,7 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Deux syntaxes voisines résolues à des moments différents, un échappement littéral, et des
+      Deux syntaxes voisines résolues à des moments différents, un escaping littéral, et des
       processeurs qui se composent de droite à gauche. Le candidat doit choisir la bonne forme pour
       une constraint donnée.
     learning_outcomes:
@@ -5888,7 +5888,7 @@ items:
       - id: OUT-bqf7brva4nwe
         outcome: Séparer découverte, autowire et autoconfigure
       - id: OUT-j5rpdd6qsy3y
-        outcome: Déclarer un service explicite avec arguments nommés
+        outcome: Déclarer un service explicite avec named arguments
       - id: OUT-rf33669d3w01
         outcome: Énoncer le scope de _defaults
       - id: OUT-112hac96j8hg
@@ -5938,7 +5938,7 @@ items:
     content_level: STANDARD
     content_level_justification: >-
       Un mécanisme transparent pour les consommateurs, un service original conserve sous un autre
-      identifier, et un ordre de pile contre-intuitif : la priorité la plus haute est la plus
+      identifier, et un ordre de pile contre-intuitif : la priority la plus haute est la plus
       interne. Ce dernier point se rate systématiquement.
     learning_outcomes:
       - id: OUT-tv6pkb930kss
@@ -5992,14 +5992,14 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Un tag est inerte sans lecteur, l'itérateur est paresseux, et deux attributes conventionnels —
+      Un tag est inerte sans lecteur, l'iterator est lazy, et deux attributes conventionnels —
       priority et index — changent respectivement l'ordre et la forme de la collection. Le candidat
       doit appliquer, pas seulement reconnaître.
     learning_outcomes:
       - id: OUT-deqvr7c2bvsf
         outcome: Énoncer qu'un tag sans lecteur ne produit rien
       - id: OUT-enhmt34n32vh
-        outcome: Injecter une collection taguée paresseuse
+        outcome: Injecter une collection taguée lazy
       - id: OUT-e2wn6rtf32vb
         outcome: Ordonner par priority et indexer par index
       - id: OUT-ejv3jffbt4xd
@@ -6111,7 +6111,7 @@ items:
     content_level_justification: >-
       Quatre écritures de l'option factory à distinguer, dont le null qui désigne la class
       elle-même, et une règle contre-intuitive : arguments alimente la factory et non le
-      constructeur, qui n'est pas appelé.
+      constructor, qui n'est pas appelé.
     learning_outcomes:
       - id: OUT-rrswf59s7t5a
         outcome: Choisir l'écriture de factory selon la nature du callable
@@ -6163,7 +6163,7 @@ items:
     classification: OFFICIAL
     content_level: DEEP
     content_level_justification: >-
-      Un point d'extension du compilateur avec cinq étapes ordonnées, une priorité décroissante à
+      Un point d'extension du compiler avec cinq étapes ordonnées, une priority décroissante à
       l'intérieur de chaque étape, et une conséquence structurelle : l'étape choisie décide de ce qui
       existe encore, TYPE_REMOVE ayant déjà supprimé les services privés non références. Raisonnement
       multi-étapes, où chaque étage change la Response.
@@ -6293,7 +6293,7 @@ items:
     content_level: STANDARD
     content_level_justification: >-
       Une frontière à tenir avec la récupération de services, une method statique dont l'oubli du
-      parent:: en inheritance échoue silencieusement, et un comportement paresseux qui est la raison
+      parent:: en inheritance échoue silencieusement, et un comportement lazy qui est la raison
       d'être du mécanisme.
     learning_outcomes:
       - id: OUT-3c8n410rjew2
@@ -6355,7 +6355,7 @@ items:
       doit attribuer une responsabilité, pas réciter une liste.
     learning_outcomes:
       - id: OUT-tw22dh0mnngy
-        outcome: Attribuer une responsabilité au bon composant
+        outcome: Attribuer une responsabilité au bon component
       - id: OUT-3xr6hfb46rq2
         outcome: Énoncer que password-hasher s'utilise seul et que security-csrf se passe de firewall
       - id: OUT-sk1ndg394haz
@@ -6749,14 +6749,14 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Une signature contre-intuitive, un changement d'algorithme inoffensif pour un hachage
+      Une signature contre-intuitive, un changement d'algorithme inoffensif pour un hash
       auto-descriptif mais pas pour un condensat maison, et une migration transparente dont l'échec
       est silencieux si le provider ne l'implémente pas.
     learning_outcomes:
       - id: OUT-tct5sch3yndb
         outcome: Appeler hashPassword() avec les bons arguments
       - id: OUT-0vbk74q4f9dg
-        outcome: Prévoir quels hachages existants restent vérifiables après un changement d'algorithme
+        outcome: Prévoir quels hashes existants restent vérifiables après un changement d'algorithme
       - id: OUT-3h4gmgbt579q
         outcome: Configurer migrate_from et nommer sa dependency
     required_assessment_modes:
@@ -6910,7 +6910,7 @@ items:
     classification: OFFICIAL
     content_level: DEEP
     content_level_justification: >-
-      Concept structurel et fréquemment confondu : trois abstractions distinctes (authenticator, passport, badge) dont les roles sont régulièrement intervertis, un contrat d'interface à cinq methods, un choix binaire Passport/SelfValidatingPassport impose par la signature du constructeur, et des badges dont l'effet dépend de la configuration du firewall. La capacité DIAGNOSE est requise : reconnaître la definition ne suffit pas à corriger un flux d'authentication défaillant.
+      Concept structurel et fréquemment confondu : trois abstractions distinctes (authenticator, passport, badge) dont les roles sont régulièrement intervertis, un contrat d'interface à cinq methods, un choix binaire Passport/SelfValidatingPassport impose par la signature du constructor, et des badges dont l'effet dépend de la configuration du firewall. La capacité DIAGNOSE est requise : reconnaître la definition ne suffit pas à corriger un flux d'authentication défaillant.
     learning_outcomes:
       - id: OUT-hqgj8aj8agf2
         outcome: "Nommer les cinq methods d'AuthenticatorInterface et leur role"
@@ -6985,7 +6985,7 @@ items:
     content_level: DEEP
     content_level_justification: >-
       Deux methods dont l'une signifie abstention et non refus, trois valeurs de vote, quatre
-      stratégies d'agrégation qui donnent des Responses opposées sur les mêmes votes, et deux options
+      strategies d'agrégation qui donnent des Responses opposées sur les mêmes votes, et deux options
       de cas limite dont les défauts diffèrent. Chaque étage change la Response.
     learning_outcomes:
       - id: OUT-nxz3gazat4wf
@@ -6995,7 +6995,7 @@ items:
       - id: OUT-3hwcwd6n6vsq
         outcome: Énumérer les trois valeurs de vote
       - id: OUT-bb75dy1j7zcq
-        outcome: Distinguer les quatre stratégies sur des votes identiques
+        outcome: Distinguer les quatre strategies sur des votes identiques
       - id: OUT-88k6kjx82v30
         outcome: Énoncer les défauts de allow_if_equal_granted_denied et allow_if_all_abstain
     required_assessment_modes:
@@ -7004,7 +7004,7 @@ items:
       - "EXAM"
     minimum_evidence: >-
       Niveau DEEP : 3 questions uniques minimum dont une de diagnostic, réussies sur 2 sessions
-      distinctes dont une en mode examen, et restitution des quatre stratégies sans support.
+      distinctes dont une en mode examen, et restitution des quatre strategies sans support.
     exclusion_boundaries: "None stated by the syllabus for this item."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -7057,7 +7057,7 @@ items:
       message sans le traiter. Le candidat doit interpréter un extrait, pas réciter un glossaire.
     learning_outcomes:
       - id: OUT-c3q6angezzhs
-        outcome: Nommer les six concepts du composant
+        outcome: Nommer les six concepts du component
       - id: OUT-w4ahdf9xdh5w
         outcome: Énoncer ce que dispatch() fait et ne fait pas
       - id: OUT-rr0nvj9b8x0z
@@ -7222,7 +7222,7 @@ items:
       entre messages.
     learning_outcomes:
       - id: OUT-n57edsf6gz2k
-        outcome: Consommer une file et exprimer une priorité par l'ordre
+        outcome: Consommer une file et exprimer une priority par l'ordre
       - id: OUT-k3t8watc85cw
         outcome: Justifier les options de limite
       - id: OUT-d5r5yrf58x1s
@@ -7274,13 +7274,13 @@ items:
     classification: OFFICIAL
     content_level: DEEP
     content_level_justification: >-
-      Trois mécanismes superposés dont l'ordre décide : la stratégie de retry avec son délai
+      Trois mécanismes superposés dont l'ordre décide : la strategy de retry avec son délai
       exponentiel, deux exceptions qui la court-circuitent dans les deux sens, et un transport
       d'échec dont l'absence fait perdre le message. Le comptage des tentatives et l'enchaînement
       complet exigent un raisonnement multi-étapes.
     learning_outcomes:
       - id: OUT-7rq6sxm6qqr3
-        outcome: Configurer une stratégie de retry et compter les tentatives
+        outcome: Configurer une strategy de retry et compter les tentatives
       - id: OUT-y57ephy9n9ey
         outcome: Distinguer Unrecoverable et Recoverable
       - id: OUT-d866n6yn58qx
@@ -7295,7 +7295,7 @@ items:
       - "EXAM"
     minimum_evidence: >-
       Niveau DEEP : 3 questions uniques minimum dont une de diagnostic, réussies sur 2 sessions
-      distinctes dont une en mode examen, et restitution des quatre stratégies sans support.
+      distinctes dont une en mode examen, et restitution des quatre strategies sans support.
     exclusion_boundaries: "Third-party transports (Doctrine, Redis, Amazon SQS, etc.) and their usage/configuration is not included."
     version_constraints: "Symfony 8.0"
     official_sources:
@@ -7454,7 +7454,7 @@ items:
       liste.
     learning_outcomes:
       - id: OUT-b3610kc2cj3b
-        outcome: Situer le composant et son entry point dans le framework
+        outcome: Situer le component et son entry point dans le framework
       - id: OUT-jc4865ayfy98
         outcome: Ordonner initialize(), interact() et la method d'exécution
       - id: OUT-a1qc1gqac172
@@ -7608,7 +7608,7 @@ items:
     content_level: STANDARD
     content_level_justification: >-
       Le moment d'appel de configure() est contre-intuitif et gouverne une règle d'écriture du
-      constructeur. Le candidat doit raisonner sur un ordre d'exécution.
+      constructor. Le candidat doit raisonner sur un ordre d'exécution.
     learning_outcomes:
       - id: OUT-axs8gacjytk9
         outcome: 'Nommer les parameters de #[AsCommand]'
@@ -7669,7 +7669,7 @@ items:
       - id: OUT-dvv3qwaprsck
         outcome: Déduire le mode d'un parameter depuis son type et sa default value
       - id: OUT-2tyae0a8545m
-        outcome: Relier les attributes aux constantes InputArgument et InputOption
+        outcome: Relier les attributes aux constants InputArgument et InputOption
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -7883,7 +7883,7 @@ items:
       reconnaissance de vocabulaire.
     learning_outcomes:
       - id: OUT-8fna7evcc7x4
-        outcome: Nommer les six niveaux de verbosité
+        outcome: Nommer les six niveaux de verbosity
       - id: OUT-wv0q7kcb8q1t
         outcome: Distinguer --quiet de --silent
     required_assessment_modes:
@@ -8094,7 +8094,7 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Deux composants aux roles distincts, une API de parcours immuable, et la sélection d'un
+      Deux components aux roles distincts, une API de parcours immuable, et la sélection d'un
       form par son bouton. Rien ici ne s'obtient par simple reconnaissance.
     learning_outcomes:
       - id: OUT-01wet8kg01yc
@@ -8308,7 +8308,7 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Deux couches et quatre accesseurs dont les noms invitent à l'erreur inverse. Le candidat doit
+      Deux couches et quatre accessors dont les noms invitent à l'erreur inverse. Le candidat doit
       trancher lequel rend quoi.
     learning_outcomes:
       - id: OUT-az102q4grt31
@@ -8679,12 +8679,12 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Le nom du file gouverne le chargement, deux syntaxes d'espace réservé coexistent selon un
+      Le nom du file gouverne le chargement, deux syntaxes de placeholder coexistent selon un
       suffixe, et le repli comporte une étape parente que l'intuition saute. Le candidat doit
       diagnostiquer un cas, pas réciter une liste.
     learning_outcomes:
       - id: OUT-gemxb3z58qyr
-        outcome: Nommer un catalogue selon domaine.locale.loader
+        outcome: Nommer un catalogue selon domain.locale.loader
       - id: OUT-f181kwzbmq80
         outcome: Distinguer %name% du format classique de {name} d'ICU, et ce qui déclenche ICU
       - id: OUT-z28gpra0mn3s
@@ -8733,14 +8733,14 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Une machinerie à activer, une règle de priorité contre-intuitive entre attribute et controller,
+      Une machinerie à activer, une règle de priority contre-intuitive entre attribute et controller,
       et trois limites du cache HTTP à appliquer à un cas. Ce n'est pas de la reconnaissance de
       vocabulaire.
     learning_outcomes:
       - id: OUT-edevbpg23scq
         outcome: Activer et tracer le reverse proxy de Symfony
       - id: OUT-dvk4cpkj78nz
-        outcome: 'Déclarer une politique par #[Cache] et connaître sa priorité'
+        outcome: 'Déclarer une politique par #[Cache] et connaître sa priority'
       - id: OUT-81d6pteaq67a
         outcome: 'Énoncer les limites : URI comme key, safe methods, invalidation hors protocole'
     required_assessment_modes:
@@ -8860,7 +8860,7 @@ items:
       pas reconnaître un vocabulaire.
     learning_outcomes:
       - id: OUT-80sdaactjvcg
-        outcome: 'Expliquer pourquoi le composant existe : découpler du temps système'
+        outcome: 'Expliquer pourquoi le component existe : découpler du temps système'
       - id: OUT-yw73vkeyaqnd
         outcome: Choisir entre NativeClock, MockClock et MonotonicClock
       - id: OUT-bs7xcm74q6v9
@@ -8909,13 +8909,13 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Une règle de priorité contre-intuitive dont dépend l'ordre d'exécution, et deux façons de
+      Une règle de priority contre-intuitive dont dépend l'ordre d'exécution, et deux façons de
       s'inscrire aux avantages distincts. Le candidat doit ordonner un cas concret, pas citer une API.
     learning_outcomes:
       - id: OUT-c43j65gh5pth
-        outcome: Inscrire un listener et lire l'effet de sa priorité
+        outcome: Inscrire un listener et lire l'effet de sa priority
       - id: OUT-m0svgqcarref
-        outcome: Distinguer listener et abonné, et leurs avantages respectifs
+        outcome: Distinguer listener et subscriber, et leurs avantages respectifs
       - id: OUT-gawacg0bt5r5
         outcome: Expliquer ce qui sert de nom quand dispatch() n'en reçoit pas
     required_assessment_modes:
@@ -8966,7 +8966,7 @@ items:
       silencieux — que le candidat doit distinguer sur un cas, non énumérer.
     learning_outcomes:
       - id: OUT-0mnzvybywnv8
-        outcome: Choisir l'opération adaptée parmi celles du composant
+        outcome: Choisir l'opération adaptée parmi celles du component
       - id: OUT-p4ef3jhd70w3
         outcome: Expliquer ce que garantit l'écriture atomique
       - id: OUT-9zm5ea8e1m2y
@@ -9124,7 +9124,7 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Le raisonnement porte sur ce que rend un envoi et sur le moment où il part : MailerInterface ne rend rien parce que l'envoi peut être différé, TransportInterface rend un SentMessage et envoie toujours de façon synchrone, et Messenger rend l'asynchrone le défaut. Le nombre de transports et d'options du composant n'est pas de la complexité, et les ponts tiers sont hors périmètre.
+      Le raisonnement porte sur ce que rend un envoi et sur le moment où il part : MailerInterface ne rend rien parce que l'envoi peut être différé, TransportInterface rend un SentMessage et envoie toujours de façon synchrone, et Messenger rend l'asynchrone le défaut. Le nombre de transports et d'options du component n'est pas de la complexité, et les bridges tiers sont hors périmètre.
     learning_outcomes:
       - id: OUT-2q2fdnv4mhv9
         outcome: Choisir un transport intégré et reconnaître celui que la documentation déconseille
@@ -9189,7 +9189,7 @@ items:
       - id: OUT-0rk3gn6523qv
         outcome: Reconnaître que la devinette de type MIME inspecte le contenu et non le nom du file
       - id: OUT-1c0gmbpg2341
-        outcome: Connaître la restriction UTF-8 propre à l'adresse d'expéditeur
+        outcome: Connaître la restriction UTF-8 propre à l'adresse de sender
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -9237,7 +9237,7 @@ items:
       Le raisonnement porte sur le moment où l'appel rend la main et sur ce qui interrompt le
       process : run() et mustRun() attendent là où start() rend la main tout de suite, et un
       délai configuré n'est pas surveillé sur un process asynchrone. Le nombre de methods du
-      composant — signaux, pid, TTY, chercheurs d'exécutable — n'est pas de la complexité.
+      component — signaux, pid, TTY, chercheurs d'exécutable — n'est pas de la complexité.
     learning_outcomes:
       - id: OUT-4h80hb7ky1wt
         outcome: Choisir entre un lancement bloquant et un lancement asynchrone, et savoir lequel lève
@@ -9246,7 +9246,7 @@ items:
       - id: OUT-hsn9hab7spvy
         outcome: Savoir que le délai par défaut vaut 60 secondes et qu'un process asynchrone impose une vérification explicite
       - id: OUT-ew0th9575tfe
-        outcome: Distinguer le délai total du délai d'inactivité
+        outcome: Distinguer le délai total de l'idle timeout
       - id: OUT-z054mp760r1h
         outcome: Connaître les conséquences de la désactivation de l'output
     required_assessment_modes:
@@ -9295,15 +9295,15 @@ items:
     content_level_justification: >-
       Le raisonnement porte sur la notation du path et sur la prévision de l'échec : un index de
       array absent rend null là où une property d'object absente lève, et les deux défauts se
-      renversent séparément. Le nombre de methods de l'accesseur n'est pas de la complexité, et les
-      conventions d'accesseurs sont enseignées et évaluées avec les forms (lot 07).
+      renversent séparément. Le nombre de methods de l'accessor n'est pas de la complexité, et les
+      conventions d'accessors sont enseignées et évaluées avec les forms (lot 07).
     learning_outcomes:
       - id: OUT-1mrdfqr9nk4q
         outcome: Distinguer la notation par crochets de la notation par point et les combiner dans un path
       - id: OUT-f3nt0swctvqd
         outcome: Prévoir le comportement d'un path absent selon que la cible est un array ou un object
       - id: OUT-bhjp8tarh8e7
-        outcome: Savoir que chacun de ces deux défauts se renverse par le constructeur d'accesseur
+        outcome: Savoir que chacun de ces deux défauts se renverse par l'accessor builder
       - id: OUT-6h3qaavna2z8
         outcome: Interroger la lisibilité ou l'inscriptibilité d'un path sans l'exécuter
       - id: OUT-xd2zq134swyh
@@ -9416,9 +9416,9 @@ items:
       change seule le résultat : la forme normalisée dépend du normalizer élu — array pour un object,
       string pour une date ou une enum ; l'élection suit l'ordre des normalizers, et ObjectNormalizer
       placé devant un normalizer spécialisé l'avale ; groups, Ignore et SerializedName n'agissent que si
-      les métadonnées sont branchées ; à la dénormalisation, le contrôle des types dépend d'un extractor,
+      les métadonnées sont branchées ; à la denormalization, le contrôle des types dépend d'un extractor,
       sans lequel PHP convertit en silence. Les erreurs naissent de leurs combinaisons, qu'un array de
-      definitions ne fait pas voir. Les ponts tiers restent hors périmètre.
+      definitions ne fait pas voir. Les bridges tiers restent hors périmètre.
     learning_outcomes:
       - id: OUT-g6j22cqpx1ga
         outcome: Séparer le role des normalizers de celui des encoders et prévoir la forme normalisée (array, string, scalaire)
@@ -9433,7 +9433,7 @@ items:
       - id: OUT-hkvn3vxj4fyb
         outcome: Prévoir quel normalizer traite une valeur selon leur ordre, et écrire un normalizer dédié
       - id: OUT-m8wfdy7569p8
-        outcome: Prévoir la dénormalisation — contrôle des types selon l'extractor, erreurs collectées, object à remplir
+        outcome: Prévoir la denormalization — contrôle des types selon l'extractor, erreurs collectées, object à remplir
       - id: OUT-cf0sd5w3fzhe
         outcome: Régler un appel par le contexte — valeurs nulles omises, format des dates
     required_assessment_modes:

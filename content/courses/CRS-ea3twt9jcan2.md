@@ -36,7 +36,7 @@ outcome_sections:
 ## Objectif
 
 Savoir comment un controller obtient la Request et où atterrissent les
-parameters de route. Le modèle des sacs appartient au lot HTTP, le composant
+parameters de route. Le modèle des sacs appartient au lot HTTP, le component
 lui-même au lot Symfony Architecture.
 
 ## L'obtenir
@@ -55,7 +55,7 @@ un **service**, en revanche, la Request ne s'injecte pas : on injecte
 ## Les parameters de route
 
 Un parameter déclaré dans le path de la route est déposé dans
-`$request->attributes`, puis passé au controller **comme argument nommé** :
+`$request->attributes`, puis passé au controller **comme named argument** :
 
 ```php
 #[Route('/lucky/number/{max}')]
@@ -70,7 +70,7 @@ notamment `_route` et `_controller`.
 
 ### `RequestStack` porte une pile, pas une Request
 
-Trois accesseurs, et ils diffèrent pendant une **sub-Request** :
+Trois accessors, et ils diffèrent pendant une **sub-Request** :
 
 | Method | Rend |
 |---|---|
@@ -132,8 +132,8 @@ la Request.
 
 **Deux questions pour choisir où lire.** La donnée est-elle dans l'URL après le
 point d'interrogation ? → `query`. Vient-elle du path de la route ? →
-`attributes`, et donc d'un argument nommé. Vient-elle du body ? →
-`getPayload()`, en gardant en tête sa priorité au form.
+`attributes`, et donc d'un named argument. Vient-elle du body ? →
+`getPayload()`, en gardant en tête sa priority au form.
 
 ## Points clés
 

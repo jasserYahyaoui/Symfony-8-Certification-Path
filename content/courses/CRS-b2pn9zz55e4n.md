@@ -45,35 +45,35 @@ outcome_sections:
 ## Objectif
 
 Modifier un form pendant son cycle de vie : ajouter un field selon la
-donnée, assainir une valeur brute, réagir après la soumission. C'est le
+donnée, assainir une valeur brute, réagir après la submission. C'est le
 mécanisme qui rend un form dynamique.
 
 ## Prérequis
 
-Les trois couches de données du composant Form, et le dispatcher d'events.
+Les trois couches de données du component Form, et le dispatcher d'events.
 
 ## Deux moments, cinq events
 
 Le cycle se divise en deux phases : la **mise en place** de la donnée initiale,
-et la **soumission**.
+et la **submission**.
 
 ### Mise en place
 
 Les entrées numérotées sont les events. Les lignes en retrait entre elles ne
-sont pas des events : ce sont les transformations que le composant effectue.
+sont pas des events : ce sont les transformations que le component effectue.
 
 1. **`PRE_SET_DATA`** — la donnée du **modèle**, avant toute transformation. Les
    fields ne sont pas encore tous construits : **c'est ici qu'on en ajoute ou
    qu'on en retire** en fonction de la donnée initiale.
 
-   *→ le composant calcule les trois représentations*
+   *→ le component calcule les trois représentations*
 
 2. **`POST_SET_DATA`** — les trois représentations existent. Bon endroit pour
    décider en connaissant l'état complet, par exemple « l'object est-il neuf ou
    existant ? ». On peut encore y ajouter ou retirer des fields, même si la
    documentation préfère `PRE_SET_DATA`.
 
-### Soumission
+### Submission
 
 3. **`PRE_SUBMIT`** — la donnée **brute de la Request**, non transformée :
    strings et arrays, plus les objects `UploadedFile` d'un field de file.
@@ -86,13 +86,13 @@ sont pas des events : ce sont les transformations que le composant effectue.
    mais les enfants ont **déjà été soumis** : la documentation dit qu'on ne peut
    plus ajouter ni retirer de field.
 
-   *→ le composant transforme la normalisée en modèle*
+   *→ le component transforme la normalisée en modèle*
 
 5. **`POST_SUBMIT`** — `$event->getData()` rend la donnée de **vue** ; la
-   donnée du modèle se lit par `$event->getForm()->getData()`. La structure de
+   model data se lit par `$event->getForm()->getData()`. La structure de
    *ce* form est figée. **La validation s'exécute par un listener sur cet
    event**, ce qui explique qu'un object peuplé et validé soit disponible une
-   fois la soumission terminée.
+   fois la submission terminée.
 
 ## Ce que dit le code sur le verrouillage
 
@@ -107,13 +107,13 @@ listener du form racine qui ajoute un field `extra` :
 | `SUBMIT` | accepté, **sans erreur** | **jamais soumis**, garde sa donnée initiale |
 | `POST_SUBMIT` | `AlreadySubmittedException` | — |
 
-Le verrou de `SUBMIT` est donc fonctionnel, pas une exception : un field ajouté
-là est silencieusement ignoré par la soumission. L'exception n'arrive qu'à
+Le lock de `SUBMIT` est donc fonctionnel, pas une exception : un field ajouté
+là est silencieusement ignoré par la submission. L'exception n'arrive qu'à
 `POST_SUBMIT`, avec « You cannot add children to a submitted form. ».
 
 ## Ce que porte chaque event
 
-Exécuté sur un field texte muni d'un transformateur de modèle entre l'int
+Exécuté sur un field texte muni d'un model transformer entre l'int
 `5` et la string `'n:5'`, puis soumis avec `'n:7'` :
 
 | Event | `$event->getData()` | `$event->getForm()->getData()` |
@@ -137,7 +137,7 @@ lit la donnée sur l'event.
 | adapter la structure à la donnée initiale | `PRE_SET_DATA`, ou `POST_SET_DATA` |
 | assainir la donnée brute soumise | `PRE_SUBMIT` |
 | ajouter des fields d'après la valeur soumise | `PRE_SUBMIT` sur le **parent**, ou `POST_SUBMIT` sur l'**enfant** |
-| modifier la donnée normalisée | `SUBMIT` |
+| modifier la norm data | `SUBMIT` |
 | réagir après coup, journaliser | `POST_SUBMIT` |
 
 La question qui tranche entre `PRE_SET_DATA` et `PRE_SUBMIT` est celle que pose
@@ -148,7 +148,7 @@ la donnée **soumise**, qui vient de la Request ?
 
 Un field dépendant d'un autre ne peut pas s'ajouter depuis son propre
 `POST_SUBMIT` au form lui-même : sa structure est figée. On l'ajoute au
-**form parent**, depuis l'event de l'enfant. C'est ce qui rend le motif
+**form parent**, depuis l'event de l'enfant. C'est ce qui rend le pattern
 des listes dépendantes contre-intuitif à écrire.
 
 L'ordre de propagation explique pourquoi cela fonctionne : au `POST_SUBMIT` de
@@ -162,7 +162,7 @@ title: Un parent et son enfant, exécuté avec Form 8.0.15
 ---
 sequenceDiagram
   accTitle: L'ordre des events d'un form parent et de son enfant
-  accDescr: À la mise en place, PRE_SET_DATA du parent, puis PRE_SET_DATA et POST_SET_DATA de l'enfant, puis POST_SET_DATA du parent. À la soumission, PRE_SUBMIT du parent, puis l'enfant est soumis entièrement, PRE_SUBMIT, SUBMIT et POST_SUBMIT, avant que le parent ne passe à SUBMIT puis POST_SUBMIT. Au POST_SUBMIT de l'enfant, le parent n'est pas encore soumis, et un field qui lui est ajouté à ce moment est soumis avec la valeur de la Request. La validation part du POST_SUBMIT de la racine.
+  accDescr: À la mise en place, PRE_SET_DATA du parent, puis PRE_SET_DATA et POST_SET_DATA de l'enfant, puis POST_SET_DATA du parent. À la submission, PRE_SUBMIT du parent, puis l'enfant est soumis entièrement, PRE_SUBMIT, SUBMIT et POST_SUBMIT, avant que le parent ne passe à SUBMIT puis POST_SUBMIT. Au POST_SUBMIT de l'enfant, le parent n'est pas encore soumis, et un field qui lui est ajouté à ce moment est soumis avec la valeur de la Request. La validation part du POST_SUBMIT de la racine.
   participant P as parent
   participant E as enfant
   Note over P,E: mise en place
@@ -171,7 +171,7 @@ sequenceDiagram
   E->>E: PRE_SET_DATA
   E->>E: POST_SET_DATA
   P->>P: POST_SET_DATA
-  Note over P,E: soumission
+  Note over P,E: submission
   P->>P: PRE_SUBMIT
   P->>E: submit()
   E->>E: PRE_SUBMIT
@@ -182,15 +182,15 @@ sequenceDiagram
   P->>P: POST_SUBMIT (validation)
 ```
 
-La validation, elle, ne part que du formulaire **racine** : `ValidationListener`
-écoute le `POST_SUBMIT` de chaque formulaire, mais n'agit que si
+La validation, elle, ne part que du form **racine** : `ValidationListener`
+écoute le `POST_SUBMIT` de chaque form, mais n'agit que si
 `isRoot()` est vrai, et valide alors tout l'arbre. Exécuté : dans le `POST_SUBMIT` d'un enfant, aucune
-erreur de validation n'existe encore ; dans un écouteur `POST_SUBMIT` de la
-racine, de même priorité mais enregistré après, l'erreur `NotBlank` est déjà là.
+erreur de validation n'existe encore ; dans un listener `POST_SUBMIT` de la
+racine, de même priority mais enregistré après, l'erreur `NotBlank` est déjà là.
 
 ## Comment s'abonner
 
-Sur le constructeur, pour un cas local :
+Sur le constructor, pour un cas local :
 
 ```php
 $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
@@ -211,7 +211,7 @@ construit, son dispatcher est un `ImmutableEventDispatcher`.
   téléversés — pas d'object du modèle.
 - **À `SUBMIT`, `add()` ne lève rien**, mais le field ajouté n'est jamais
   soumis ; l'exception n'arrive qu'à `POST_SUBMIT`.
-- **`POST_SUBMIT` porte la donnée de vue** ; le modèle est sur le form.
+- **`POST_SUBMIT` porte la view data** ; le modèle est sur le form.
 - Dans `PRE_SET_DATA`, **`$form->getData()` lève une exception** : lire
   `$event->getData()`.
 - La validation s'exécute sur le `POST_SUBMIT` de la **racine**, pas avant.

@@ -96,7 +96,7 @@ la key `extra.src-dir` seule laisse l'autochargement pointer sur l'ancien
 path. Et `public/` se **renomme** sans rien d'autre, mais se **déplace** en
 corrigeant le path de `vendor/autoload_runtime.php` dans `public/index.php`.
 
-## Les quatre accesseurs du kernel
+## Les quatre accessors du kernel
 
 `Kernel` en expose quatre, pas deux, et leurs default values ne sont pas
 symétriques :
@@ -109,7 +109,7 @@ symétriques :
 | `getLogDir()` | `<projet>/var/log` — **sans** l'environment |
 
 Le cache est cloisonné par environment, le log ne l'est pas. `getShareDir()`
-sert aux montages partagés entre plusieurs frontaux ; c'est le seul accesseur
+sert aux montages partagés entre plusieurs frontaux ; c'est le seul accessor
 qui peut rendre `null`, et le parameter de container `%kernel.share_dir%` n'est
 alors pas enregistré.
 
@@ -171,5 +171,5 @@ le serveur web qui tranche, pas le framework.
 
 - [Best Practices, « Use the Default Directory Structure »](https://github.com/symfony/symfony-docs/blob/8.0/best_practices.rst)
 - [Override the Default Directory Structure](https://github.com/symfony/symfony-docs/blob/8.0/configuration/override_dir_structure.rst)
-- [`Kernel` (composant HttpKernel)](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Kernel.php)
+- [`Kernel` (component HttpKernel)](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Kernel.php)
 - [`MicroKernelTrait` (FrameworkBundle)](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Kernel/MicroKernelTrait.php)

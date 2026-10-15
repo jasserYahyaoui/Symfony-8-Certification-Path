@@ -61,9 +61,9 @@ Une barre oblique inverse neutralise l'interpolation :
 {{ "premier \#{1 + 2} dernier" }}
 ```
 
-## Les séquences d'échappement, dans les deux guillemets
+## Les séquences d'escaping, dans les deux guillemets
 
-Contrairement à PHP, Twig traite les séquences d'échappement **aussi entre
+Contrairement à PHP, Twig traite les séquences d'escaping **aussi entre
 guillemets simples** : le `Lexer` passe toute string littérale par la même
 function. `'a\nb'` contient donc un vrai saut de ligne. Sont reconnus `\n`,
 `\t`, `\r`, `\v`, `\f`, `\\`, les formes hexadécimale `\x…` et octale `\0` à
@@ -75,7 +75,7 @@ Un path Windows s'écrit donc en doublant la barre : `'c:\\Program Files'`.
 
 ## L'alternative
 
-L'opérateur `~` concatène, et reste souvent plus lisible sur deux fragments :
+L'operator `~` concatène, et reste souvent plus lisible sur deux fragments :
 
 ```html
 {{ "Bonjour #{user.name} !" }}
@@ -95,14 +95,14 @@ signale l'erreur.
 **`\n` est un saut de ligne même entre guillemets simples**, à l'inverse de
 PHP.
 
-**L'opérateur d'addition ne concatène pas.**
+**L'operator d'addition ne concatène pas.**
 
 ## Points clés
 
 - `#{expression}`, toute expression admise.
 - **Guillemets doubles uniquement** ; en guillemets simples, c'est du texte.
 - `\#{…}` échappe l'interpolation.
-- Séquences d'échappement traitées dans les deux guillemets ; échappement
+- Séquences d'escaping traitées dans les deux guillemets ; escaping
   inconnu déprécié depuis 3.12.
 - `~` est l'alternative ; `+` n'est pas une concaténation.
 

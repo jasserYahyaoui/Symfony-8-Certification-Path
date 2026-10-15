@@ -83,13 +83,13 @@ return $this->redirectToRoute('homepage', [], Response::HTTP_MOVED_PERMANENTLY);
 ```
 
 Un 301 est mis en cache par le navigateur, parfois durablement. C'est la raison
-de ne l'employer que pour un déplacement réellement permanent. Le constructeur y
+de ne l'employer que pour un déplacement réellement permanent. Le constructor y
 contribue : sur un 301, si l'appelant n'a fourni aucun `Cache-Control`, il
 **retire** ce header.
 
 ### Tous les 3xx ne sont pas acceptés
 
-Le constructeur vérifie le statut par `isRedirect()`, qui n'admet que
+Le constructor vérifie le statut par `isRedirect()`, qui n'admet que
 **201, 301, 302, 303, 307 et 308**. Tout autre code lève une
 `InvalidArgumentException` — y compris **304**, pourtant dans la plage 3xx, et
 200. À l'inverse, 201 passe. Une URL vide lève aussi.
@@ -102,13 +102,13 @@ Le constructeur vérifie le statut par `isRedirect()`, qui n'admet que
   query string d'origine ;
 - la key spéciale `_fragment` ajoute une ancre à l'URL générée ;
 - `$this->redirectToRoute($request->attributes->get('_route'))` redirige vers la
-  route courante, ce qui sert le motif *Post / Redirect / Get*.
+  route courante, ce qui sert le pattern *Post / Redirect / Get*.
 
 ## Le danger de `redirect()`
 
 `redirect()` **ne vérifie pas sa destination**. Passer une valeur venue de
 le user y ouvre un redirect non validé : un attaquant fabrique un
-lien vers votre domaine qui renvoie vers le sien. Toute URL redirigée doit être
+lien vers votre domain qui renvoie vers le sien. Toute URL redirigée doit être
 validée, ou provenir d'une route.
 
 ## Pièges d'examen

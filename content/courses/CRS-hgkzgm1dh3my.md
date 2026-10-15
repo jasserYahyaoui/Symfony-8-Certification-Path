@@ -33,11 +33,11 @@ official_sources:
     symbol_or_lines: "runWorker() on the failure transport receiver"
     verified_at: "2026-10-02"
 outcome_sections:
-  OUT-7rq6sxm6qqr3: "La stratégie de retry"
-  OUT-y57ephy9n9ey: "Court-circuiter la stratégie"
-  OUT-d866n6yn58qx: "Le transport d'échec"
+  OUT-7rq6sxm6qqr3: "La strategy de retry"
+  OUT-y57ephy9n9ey: "Court-circuiter la strategy"
+  OUT-d866n6yn58qx: "Le failure transport"
   OUT-jd6ca4q02538: "L'enchaînement complet"
-  OUT-4f772gc14626: "Le transport d'échec"
+  OUT-4f772gc14626: "Le failure transport"
 ---
 
 ## Objectif
@@ -67,7 +67,7 @@ plupart des échecs sont temporaires : base indisponible, API en timeout.
 Le nombre de tentatives est fini. Sans configuration de repli, un message qui a
 épuisé ses tentatives est **abandonné**.
 
-## La stratégie de retry
+## La strategy de retry
 
 ```yaml
 framework:
@@ -94,7 +94,7 @@ repartent pas à la même seconde. Calculé avec `MultiplierRetryStrategy` :
 tentatives en tout. Exécuté avec un handler qui échoue toujours : **4**
 tentatives.
 
-## Court-circuiter la stratégie
+## Court-circuiter la strategy
 
 Deux familles d'exceptions changent la décision, dans les deux sens :
 
@@ -114,11 +114,11 @@ que le retry soit refusé.
 
 La première est la plus utile. Un message invalide — un identifier qui
 n'existera jamais — ne deviendra pas valide en le rejouant. C'est la
-distinction de fond : **la stratégie traite l'échec temporaire,
+distinction de fond : **la strategy traite l'échec temporaire,
 `Unrecoverable` l'échec permanent**. La seconde se manie avec prudence : sans
-condition de sortie, elle boucle.
+condition de sortie, elle loop.
 
-## Le transport d'échec
+## Le failure transport
 
 ```yaml
 framework:
@@ -172,8 +172,8 @@ flowchart TD
 ```
 
 Chaque étage change la Response, et c'est l'ordre qui compte : une
-`UnrecoverableMessageHandlingException` saute la stratégie mais **pas** le
-transport d'échec.
+`UnrecoverableMessageHandlingException` saute la strategy mais **pas** le
+failure transport.
 
 ## Pièges d'examen
 

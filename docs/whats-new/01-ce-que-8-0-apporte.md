@@ -42,14 +42,14 @@ en PHP 8.3 ne peut pas faire tourner Symfony 8, quel que soit le reste du code.
 
 ## Où sont vraiment les nouveautés
 
-Les composants récents — `TypeInfo`, `JsonPath`, `JsonStreamer`, `ObjectMapper` —
+Les components récents — `TypeInfo`, `JsonPath`, `JsonStreamer`, `ObjectMapper` —
 existent bien dans la 8.0, mais leur journal de modifications les fait démarrer
 en **7.1** et **7.3**. Ils sont nouveaux pour qui vient de la 6.x, pas apportés
 par la 8.0.
 
-Les sections `8.0` des journaux de composants, elles, contiennent des
+Les sections `8.0` des journaux de components, elles, contiennent des
 suppressions **et** quelques ajouts d'arguments ou de methods. Ce sont eux que
-les pages suivantes de ce chapitre détaillent, composant par composant.
+les pages suivantes de ce chapitre détaillent, component par component.
 
 ## Pièges d'examen
 
@@ -60,7 +60,7 @@ fausse : la fonctionnalité existe aussi en 7.4. La 8.0 apporte une **absence**.
 deprecations **avant**, sur 7.4, parce qu'après le code n'existe plus pour
 avertir.
 
-**Confondre « nouveau composant » et « nouveau en 8.0 »** : les composants
+**Confondre « nouveau component » et « nouveau en 8.0 »** : les components
 récents datent de 7.1 à 7.3.
 
 ## Points clés
@@ -139,7 +139,7 @@ Une bonne réponse consiste ici à corriger la prémisse, pas à chercher un exe
 ### Pièges
 
 <details>
-<summary>Piège : « `TypeInfo`, `JsonPath` et `JsonStreamer` sont les nouveaux composants de la 8.0. »</summary>
+<summary>Piège : « `TypeInfo`, `JsonPath` et `JsonStreamer` sont les nouveaux components de la 8.0. »</summary>
 
 Non — leurs journaux les font démarrer en **7.1** et **7.3**. Ils sont nouveaux pour qui vient de la 6.x, pas apportés par la 8.0.
 

@@ -41,16 +41,16 @@ official_sources:
 outcome_sections:
   OUT-wtvymxrjxf80: "L'option `host`"
   OUT-kz98mvtwphqc: "L'option `host`"
-  OUT-ac8d2dvvjma9: "L'hôte accepte des parameters"
+  OUT-ac8d2dvvjma9: "Le host accepte des parameters"
 ---
 
 ## Objectif
 
-Faire dépendre une route du nom d'hôte de la Request.
+Faire dépendre une route du nom de host de la Request.
 
 ## L'option `host`
 
-Elle exige que l'hôte HTTP de la Request entrante corresponde à une valeur :
+Elle exige que le host HTTP de la Request entrante corresponde à une valeur :
 
 ```php
 #[Route('/', name: 'mobile_homepage', host: 'm.example.com')]
@@ -58,16 +58,16 @@ Elle exige que l'hôte HTTP de la Request entrante corresponde à une valeur :
 ```
 
 Deux routes peuvent ainsi partager le **même path** et ne se distinguer que
-par l'hôte. Sans `host`, une route accepte n'importe quel hôte.
+par le host. Sans `host`, une route accepte n'importe quel host.
 
-La comparaison **ignore la casse** : le matcher met l'hôte de la Request en
-minuscules, et l'expression régulière compilée pour l'hôte porte le drapeau
+La comparaison **ignore la casse** : le matcher met le host de la Request en
+minuscules, et l'expression régulière compilée pour le host porte le drapeau
 `i`. Une constraint `EN|FR|DE` accepte donc `en.example.com`, et l'attribute
 vaut alors `en` (test `testHostIsCaseInsensitive`).
 
-## L'hôte accepte des parameters
+## Le host accepte des parameters
 
-C'est ce qui rend l'option utile aux applications multi-locataires : l'hôte se
+C'est ce qui rend l'option utile aux applications multi-locataires : le host se
 parameter comme un path, avec default values et constraints.
 
 ```php
@@ -81,23 +81,23 @@ parameter comme un path, avec default values et constraints.
 ```
 
 `defaults` et `requirements` sont les mêmes options que pour un parameter de
-path : il n'y a pas de key séparée pour l'hôte. Le parameter apparié est
+path : il n'y a pas de key séparée pour le host. Le parameter apparié est
 disponible comme n'importe quel autre, en attribute de Request et en argument de
 controller.
 
-## Une default value d'hôte ne rend rien facultatif
+## Une default value de host ne rend rien facultatif
 
 C'est la différence avec le path. Dans `RouteCompiler`, le calcul du premier
-parameter facultatif n'est fait **que pour le path** : un parameter d'hôte est
+parameter facultatif n'est fait **que pour le path** : un parameter de host est
 toujours exigé à l'appariement. Avec la route ci-dessus, une Request vers
 `example.com` ne correspond pas, malgré la default value `m`.
 
 La default value sert à la **génération** : la documentation la justifie
 ainsi, sinon il faudrait fournir `subdomain` à chaque URL générée.
 
-## Générer vers un autre hôte
+## Générer vers un autre host
 
-Quand l'hôte de la route diffère de celui de la Request courante,
+Quand le host de la route diffère de celui de la Request courante,
 `UrlGenerator` ne peut pas produire un simple path. Il bascule alors de
 `ABSOLUTE_PATH`, le type par défaut, vers `NETWORK_PATH` :
 
@@ -108,32 +108,32 @@ Quand l'hôte de la route diffère de celui de la Request courante,
 
 Le résultat est une URL **relative au schéma** — sans `http:` ni `https:` — et
 non une URL absolue. `url()` produit, lui, toujours l'URL absolue complète. La
-constraint de l'hôte est vérifiée à la génération comme celle d'un parameter de
+constraint du host est vérifiée à la génération comme celle d'un parameter de
 path.
 
 ## Pièges d'examen
 
-**Sans constraint d'hôte, une route accepte n'importe quel hôte.** L'absence de
-l'option n'est pas une restriction implicite au domaine principal.
+**Sans constraint de host, une route accepte n'importe quel host.** L'absence de
+l'option n'est pas une restriction implicite au domain principal.
 
-**Une default value d'hôte ne sert qu'à la génération.** Contrairement au
+**Une default value de host ne sert qu'à la génération.** Contrairement au
 path, elle ne rend pas le parameter facultatif à l'appariement.
 
-**`path()` vers un autre hôte donne `//hôte/chemin`**, pas `https://hôte/chemin`.
+**`path()` vers un autre host donne `//hôte/chemin`**, pas `https://hôte/chemin`.
 
-**L'hôte ignore la casse**, constraint comprise.
+**Le host ignore la casse**, constraint comprise.
 
 **Deux routes peuvent partager le même path** et ne se distinguer que par
-l'hôte : la route sans `host` doit donc venir après celle qui en a un, sinon
+le host : la route sans `host` doit donc venir après celle qui en a un, sinon
 elle capte toutes les Requests.
 
 ## Points clés
 
-- `host` contraint le nom d'hôte ; sans elle, tout hôte correspond.
+- `host` contraint le nom de host ; sans elle, tout host correspond.
 - Comparaison insensible à la casse.
-- Parameters d'hôte : `defaults` et `requirements` ordinaires, mais toujours
+- Parameters de host : `defaults` et `requirements` ordinaires, mais toujours
   exigés à l'appariement.
-- Hôte différent de la Request courante : `path()` produit un `NETWORK_PATH`.
+- Host différent de la Request courante : `path()` produit un `NETWORK_PATH`.
 
 ## Sources officielles
 

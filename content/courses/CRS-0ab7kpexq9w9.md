@@ -35,7 +35,7 @@ outcome_sections:
 
 ## Objectif
 
-Lire l'entrée et écrire l'output par les deux abstractions du composant, sans
+Lire l'entrée et écrire l'output par les deux abstractions du component, sans
 jamais toucher `$argv`, `echo` ni `STDOUT` directement. C'est ce découplage qui
 rend une command testable.
 
@@ -127,7 +127,7 @@ $output->writeln('<info>terminé</info>');
 ```
 
 Une string venant du user ou d'une base doit passer par
-`OutputFormatter::escape()`. Exécuté : sans échappement, `<info>x</info>` venu
+`OutputFormatter::escape()`. Exécuté : sans escaping, `<info>x</info>` venu
 du user s'affiche `x`, le tag interprété ; échappé, il s'affiche
 tel quel. Un tag inconnu — `<script>` — passe intacte dans les deux cas.
 
@@ -163,7 +163,7 @@ Elle expose aussi `getErrorStyle()`, qui rend la même API branchée sur `STDERR
 
 ## Pièges d'examen
 
-**Ne jamais utiliser `echo`** : l'output échapperait à la verbosité, au
+**Ne jamais utiliser `echo`** : l'output échapperait à la verbosity, au
 formateur et aux tests.
 
 **`getErrorOutput()` n'appartient pas à `OutputInterface`** mais à
@@ -182,7 +182,7 @@ parameter PHP.
 
 - `InputInterface` : `getArgument`, `getOption`, `hasOption`, `isInteractive`.
 - `ArgvInput`, `ArrayInput`, `StringInput` — même contrat, sources différentes.
-- `OutputInterface` : `write`, `writeln`, verbosité, formateur.
+- `OutputInterface` : `write`, `writeln`, verbosity, formateur.
 - Quatre tags par défaut ; échapper ce qui vient de l'extérieur.
 - `getErrorOutput()` pour `STDERR` ; `SymfonyStyle` pour tout le reste.
 

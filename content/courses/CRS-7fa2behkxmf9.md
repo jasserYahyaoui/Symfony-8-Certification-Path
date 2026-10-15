@@ -174,4 +174,4 @@ qu'un cookie créé sans arguments est nu.
   `withPartitioned()` l. 262, serialization de `partitioned` l. 313 (branche 8.0, `6f841c0`)
 - [Brouillon httpbis « Cookies »](https://github.com/httpwg/http-extensions/blob/main/draft-ietf-httpbis-rfc6265bis.md) — préfixes `__Secure-` et `__Host-` : exigences
   serveur, puis « Cookie Name Prefixes » pour celles du navigateur
-- [Composant HttpFoundation](https://github.com/symfony/symfony-docs/blob/8.0/components/http_foundation.rst)
+- [Component HttpFoundation](https://github.com/symfony/symfony-docs/blob/8.0/components/http_foundation.rst)

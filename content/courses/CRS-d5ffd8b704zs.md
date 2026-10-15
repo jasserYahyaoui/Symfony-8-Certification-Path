@@ -80,8 +80,8 @@ variadicité, présence d'une default value, attributes.
 La documentation le formule ainsi : retourner **toujours un array** — vide s'il
 ne sait pas résoudre l'argument, à un élément pour une valeur, à plusieurs pour
 un argument variadique. Le type déclaré est `iterable`, et `ArgumentResolver`
-parcourt le résultat par `foreach` : un générateur fonctionne aussi. Retourner
-la valeur elle-même est l'erreur classique — le type de retour la refuse.
+parcourt le résultat par `foreach` : un generator fonctionne aussi. Retourner
+la valeur elle-même est l'erreur classique — le return type la refuse.
 
 ## Ce que fait `ArgumentResolver`
 
@@ -100,9 +100,9 @@ string qui en produit une.
 ## L'ordre
 
 Les services tagués `controller.argument_value_resolver` sont triés par
-**priorité**, lue dans la configuration de FrameworkBundle :
+**priority**, lue dans la configuration de FrameworkBundle :
 
-| Priorité | Resolvers |
+| Priority | Resolvers |
 |---|---|
 | 120 | `RequestValueResolver`, `SessionValueResolver` |
 | 100 | `RequestAttributeValueResolver`, `BackedEnumValueResolver`, `UidValueResolver`, `DateTimeValueResolver` |
@@ -130,9 +130,9 @@ défaut, un type nullable reçoit déjà `null` par `DefaultValueResolver`.
 | `RequestValueResolver` | un argument typé `Request` ou une sous-classe |
 | `SessionValueResolver` | un argument typé `SessionInterface` |
 | `BackedEnumValueResolver` | un cas d'enum depuis un parameter de route |
-| `UidValueResolver` | un identifier du composant Uid |
+| `UidValueResolver` | un identifier du component Uid |
 | `DateTimeValueResolver` | un `\DateTimeInterface` depuis une string — un `DateTimeImmutable` si le type est l'interface |
-| `ServiceValueResolver` | un service, lu dans le localisateur propre à l'action, par nom d'argument |
+| `ServiceValueResolver` | un service, lu dans le locator propre à l'action, par nom d'argument |
 | `DefaultValueResolver` | la default value, ou `null` pour un type nullable |
 | `VariadicValueResolver` | un argument variadique depuis un attribute array |
 
@@ -182,7 +182,7 @@ invalide devient `null` au lieu de lever.
 ## Points clés
 
 - `ValueResolverInterface::resolve()` + `ArgumentMetadata`, retour itérable.
-- Tag `controller.argument_value_resolver`, ordre par priorité, premier servi.
+- Tag `controller.argument_value_resolver`, ordre par priority, premier servi.
 - 120 pour `Request`/`Session`, 100 pour les attributes, −100 pour le défaut.
 - Épingler : épinglé, puis attributes, puis défaut.
 - URL invalide → 404 ; corps invalide → 422.
@@ -192,6 +192,6 @@ invalide devient `null` au lieu de lever.
 - [Value Resolvers](https://github.com/symfony/symfony-docs/blob/8.0/controller/value_resolver.rst)
 - [Controller, « Automatic Mapping Of The Request »](https://github.com/symfony/symfony-docs/blob/8.0/controller.rst)
 - [`ArgumentResolver`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Controller/ArgumentResolver.php)
-- [Priorités dans FrameworkBundle](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Resources/config/web.php)
+- [Priorities dans FrameworkBundle](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Resources/config/web.php)
 - [`MapQueryParameter`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Attribute/MapQueryParameter.php)
 - [PHP 8.4, nullable implicite déprécié](https://github.com/php/doc-en/blob/master/appendices/migration84/deprecated.xml)

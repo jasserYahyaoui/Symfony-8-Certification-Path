@@ -67,7 +67,7 @@ toute enum implémente `UnitEnum`.
 ## Ce qu'une enum peut faire
 
 Methods, methods statiques, constantes, implémentation d'interfaces, et
-attributes. Une constante peut désigner un cas, créant un alias.
+attributes. Une constant peut désigner un cas, créant un alias.
 
 ```php
 enum Suit: string implements Colorful
@@ -93,7 +93,7 @@ enum Suit: string implements Colorful
 singletons. `$suit->value` est en lecture seule : toute modification, directe ou
 indirecte, lève une `Error` — « Cannot modify readonly property », exécuté.
 
-**Pas de constructeur**, pas d'inheritance (`extends` interdit), pas
+**Pas de constructor**, pas d'inheritance (`extends` interdit), pas
 d'instanciation par `new`.
 
 ## Pièges d'examen
@@ -103,7 +103,7 @@ d'instanciation par `new`.
 testée.
 
 **Redéfinir `from()` ou `tryFrom()` sur une enum adossée est une erreur
-fatale.** Ces methods sont fournies par le moteur.
+fatale.** Ces methods sont fournies par l'engine.
 
 **`cases()` sur une enum adossée renvoie les cas, pas les valeurs.** Pour les
 valeurs : `array_column(Suit::cases(), 'value')`.

@@ -31,7 +31,7 @@ outcome_sections:
 
 ## Objectif
 
-Régler le client avant ou pendant la Request : headers, hôte, session,
+Régler le client avant ou pendant la Request : headers, host, session,
 comportement face aux exceptions.
 
 ## Prérequis

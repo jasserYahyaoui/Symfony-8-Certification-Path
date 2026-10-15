@@ -31,7 +31,7 @@ signalée, et quand le code déprécié disparaît.
 Deux règles encadrent le calendrier, et elles sont symétriques :
 
 - une deprecation ne peut être introduite que dans la **prochaine version
-  mineure** du composant concerné — exceptionnellement dans une version
+  mineure** du component concerné — exceptionnellement dans une version
   antérieure encore maintenue, si elle est critique ;
 - du code déprécié ne peut être **supprimé que dans la prochaine version
   majeure**, donc environ tous les deux ans.
@@ -77,7 +77,7 @@ dépréciée, l'appel se place **après les déclarations `use`**, avant la clas
 Une deprecation n'est complète que si elle est documentée aux trois endroits,
 **dans la même pull request** :
 
-1. le `CHANGELOG.md` du composant concerné ;
+1. le `CHANGELOG.md` du component concerné ;
 2. le `UPGRADE-<version mineure>.md` — la deprecation ;
 3. le `UPGRADE-<version majeure>.md` — la suppression à venir.
 
@@ -103,7 +103,7 @@ CHANGELOG
  * Add `MagicConfig` that allows configuring things
 ```
 
-Le file concerné est celui **du composant, du bridge ou du bundle modifié**.
+Le file concerné est celui **du component, du bridge ou du bundle modifié**.
 Les `CHANGELOG-*` à la racine de `symfony/symfony` sont **générés
 automatiquement** à la préparation des versions et ne doivent jamais être
 modifiés à la main.
@@ -112,7 +112,7 @@ modifiés à la main.
 
 La trace écrite ci-dessus accompagne la **deprecation**. La **suppression**,
 deux ans plus tard, en exige une quatrième : les conséquences doivent être
-ajoutées au `CHANGELOG.md` du composant, dans la même pull request que la
+ajoutées au `CHANGELOG.md` du component, dans la même pull request que la
 suppression.
 
 ```markdown
@@ -134,7 +134,7 @@ par la suppression de ce qui était déprécié.
 **`trigger_deprecation()` n'appartient pas au framework.** Elle vient d'un
 package de contrats dédié, installé à part — précisément pour qu'une bibliothèque
 puisse l'appeler sans dépendre de Symfony. Chercher la function dans un
-composant, c'est ne pas la trouver.
+component, c'est ne pas la trouver.
 
 **Rien ne naît déprécié.** Une nouvelle class ne peut pas être introduite
 dépréciée, ni contenir des methods dépréciées ; une nouvelle method non plus.
@@ -148,7 +148,7 @@ décrit les conséquences, dans la pull request qui supprime.
 
 **Les `CHANGELOG-*` de la racine ne se modifient pas à la main.** Ils sont
 générés à la préparation des versions. Celui qu'on édite est celui du
-**composant**.
+**component**.
 
 ## Tips d'examen
 

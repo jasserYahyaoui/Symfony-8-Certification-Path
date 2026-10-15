@@ -69,12 +69,12 @@ Elles se ressemblent et se confondent :
 - dans `firewalls`, le **premier `pattern`** correspondant prend la Request ;
 - dans `access_control`, la **première règle** correspondante s'applique.
 
-Dans les deux cas, les entrées suivantes sont ignorées, et l'entrée sans motif
+Dans les deux cas, les entrées suivantes sont ignorées, et l'entrée sans pattern
 doit venir en dernier. Exécuté avec SecurityBundle 8.0.15 :
 
 | Configuration | Résultat |
 |---|---|
-| `main` sans motif déclaré **avant** `api` (`^/api`, sans état) | aucune erreur ; `/api/fw` est pris par `main`, qui pose un cookie de session |
+| `main` sans pattern déclaré **avant** `api` (`^/api`, sans état) | aucune erreur ; `/api/fw` est pris par `main`, qui pose un cookie de session |
 | `^/rules` en `PUBLIC_ACCESS` avant `^/rules/a` en `ROLE_ADMIN` | `/rules/a` répond 200 à un anonyme |
 
 Aucune des deux erreurs d'ordre n'est signalée : l'effet est silencieux.
@@ -82,7 +82,7 @@ Aucune des deux erreurs d'ordre n'est signalée : l'effet est silencieux.
 ## `security: false` éteint tout
 
 Un firewall `security: false` n'a **aucun listener** — ni authentication, ni
-contrôle d'accès. `SecurityExtension` le traite à part et rend une liste
+access control. `SecurityExtension` le traite à part et rend une liste
 de listeners vide ; or c'est l'`AccessListener` du firewall qui applique
 `access_control`. Exécuté : firewall `free` (`^/free`, `security: false`) et une
 règle `access_control` exigeant `ROLE_ADMIN` sur `^/free` — `/free/page` répond
@@ -117,13 +117,13 @@ correspondance**, et ce sont deux décisions différentes.
 **Un firewall `security: false` désactive aussi `access_control`** pour ses URL :
 aucun listener, aucune règle appliquée.
 
-**Un firewall sans motif déclaré en premier capte tout, sans erreur.**
+**Un firewall sans pattern déclaré en premier capte tout, sans erreur.**
 
 **Plusieurs providers imposent de nommer celui de chaque firewall.**
 
 ## Points clés
 
-- Quatre sections : hachage, providers, firewalls, contrôle d'accès.
+- Quatre sections : hash, providers, firewalls, access control.
 - Firewall = comment on s'authentifie ; `access_control` = ce qu'il faut pour
   entrer, appliqué par le firewall.
 - Première correspondance dans les deux listes ; le fourre-tout en dernier.

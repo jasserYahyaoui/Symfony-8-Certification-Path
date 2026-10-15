@@ -30,13 +30,13 @@ outcome_sections:
 
 ## Objectif
 
-Nommer correctement les concepts du composant et comprendre ce que
+Nommer correctement les concepts du component et comprendre ce que
 « dispatcher » veut dire. Transports, handlers et middleware ont chacun leur
 item.
 
 ## Le problème résolu
 
-Certaines tâches n'ont pas à retarder la Response : envoyer un courriel,
+Certaines tâches n'ont pas à retarder la Response : envoyer un email,
 redimensionner une image, appeler une API lente. Messenger permet de **décider
 plus tard** — le controller émet un message et rend la main ; un autre process
 le traite.

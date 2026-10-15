@@ -92,7 +92,7 @@ flashcards:
   front: 'Symfony : pourquoi setMaxAge(10) dans l''action l''emporte-t-il sur #[Cache(maxage: 60)] ?'
   back: Parce que le listener de l'attribute, sur `kernel.response`, ne pose `max-age` que si la Response n'en a pas.
   explanation: 'Exécuté : `max-age=10`.'
-  memorization_justification: Mécanisme de priorité.
+  memorization_justification: Mécanisme de priority.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/CacheAttributeListener.php

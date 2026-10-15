@@ -171,9 +171,9 @@ public function list(): Response { /* ... */ }
 public function show(string $slug): Response { /* ... */ }
 ```
 
-Une `priority` plus élevée est évaluée en premier ; à priorité égale, l'ordre
+Une `priority` plus élevée est évaluée en premier ; à priority égale, l'ordre
 de déclaration départage. Dans l'attribute, l'argument vaut `null` : la route
-hérite alors de la priorité posée par un `#[Route]` au niveau de la class, et à
+hérite alors de la priority posée par un `#[Route]` au niveau de la class, et à
 défaut de `0`.
 
 ## Erreurs fréquentes
@@ -190,7 +190,7 @@ défaut de `0`.
 essayées.** Une route générale placée avant une route spécifique masque
 définitivement la seconde.
 
-**La priorité est une option d'attribute, pas de YAML.** En YAML on déplace une
+**La priority est une option d'attribute, pas de YAML.** En YAML on déplace une
 ligne ; écrire la key fait échouer le chargement.
 
 **Les deux formats n'ont pas le même jeu d'options.** L'environment et l'alias

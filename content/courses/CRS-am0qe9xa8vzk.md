@@ -33,7 +33,7 @@ qui l'interrompt.
 
 ## Périmètre
 
-Ce composant lance un programme **externe**. Les commands de l'application,
+Ce component lance un programme **externe**. Les commands de l'application,
 leur entrée-sortie et leur cycle appartiennent au lot 12 (Console). Différer un
 travail vers un worker appartient au lot 11 (Messenger). Les opérations sur les
 files appartiennent au lot 21 (Filesystem). Le cycle du kernel HTTP
@@ -42,7 +42,7 @@ appartient au lot 03.
 ## Ce qu'il remplace
 
 `Process` exécute une command dans un sous-processus en gérant les différences
-entre systèmes **et l'échappement des arguments**. Il remplace `exec()`,
+entre systèmes **et l'escaping des arguments**. Il remplace `exec()`,
 `passthru()`, `shell_exec()` et `system()`.
 
 ```php
@@ -59,14 +59,14 @@ echo $process->getOutput();
 ## Array ou string
 
 Le **array d'arguments est la forme recommandée** : il évite tout
-échappement et laisse passer les signaux.
+escaping et laisse passer les signaux.
 
 Une string ne se justifie que pour utiliser une fonctionnalité du shell —
 redirect, exécution conditionnelle. Elle passe alors par la factory
-`Process::fromShellCommandline()`, et **l'échappement comme la portabilité
+`Process::fromShellCommandline()`, et **l'escaping comme la portabilité
 deviennent votre affaire**. Les arguments variables passent par des variables
 d'environment, dont la syntaxe de référence dépend du système ; la forme
-`"${:NOM}"`, propre au composant, reste portable.
+`"${:NOM}"`, propre au component, reste portable.
 
 Exécuté sur Process 8.0.13 :
 
@@ -80,7 +80,7 @@ Exécuté sur Process 8.0.13 :
 
 | Appel | Rend la main | En cas d'échec |
 |---|---|---|
-| `run()` | à la fin du process | rend un code de sortie |
+| `run()` | à la fin du process | rend un exit code |
 | `mustRun()` | à la fin du process | lève `ProcessFailedException` |
 | `start()` | **immédiatement** | rien : à vous de vérifier |
 
@@ -93,7 +93,7 @@ jusqu'à la fin.
 ## Récupérer l'output
 
 `getOutput()` rend **toute** l'output standard, `getErrorOutput()` toute la
-sortie d'erreur. `getIncrementalOutput()` ne rend que **ce qui est arrivé
+error output. `getIncrementalOutput()` ne rend que **ce qui est arrivé
 depuis le dernier appel**. Exécuté avec `echo one; sleep 0.3; echo two` :
 `"one\n"` en cours d'exécution, puis `"two\n"` après `wait()`, tandis que
 `getOutput()` rend les deux.
@@ -117,7 +117,7 @@ Un process **hérite de toutes les variables du système**. Pour en retirer
 une, il faut la passer à `false` — pas la laisser de côté. Exécuté avec une
 variable `P23VAR` définie dans le parent :
 
-| Quatrième argument du constructeur | `P23VAR` dans l'enfant |
+| Quatrième argument du constructor | `P23VAR` dans l'enfant |
 |---|---|
 | absent | héritée |
 | `['OTHER' => 'x']` | **toujours héritée** |
@@ -161,7 +161,7 @@ ne s'arrête qu'au bout du délai.
 ## Pièges d'examen
 
 **L'array d'arguments est la forme recommandée** ; la string transfère
-l'échappement et la portabilité à l'appelant.
+l'escaping et la portabilité à l'appelant.
 
 **Le délai par défaut est de 60 secondes**, et sur un process asynchrone il
 faut appeler `checkTimeout()` soi-même.

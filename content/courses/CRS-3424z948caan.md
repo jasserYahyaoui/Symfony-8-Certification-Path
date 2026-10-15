@@ -28,7 +28,7 @@ official_sources:
 outcome_sections:
   OUT-zqwbp11av4pr: "`self` contre `static`"
   OUT-qcb24vqg8pkt: "Visibilité"
-  OUT-2tvh0svv8jhg: "Promotion de constructeur"
+  OUT-2tvh0svv8jhg: "Promotion de constructor"
 ---
 
 ## Objectif
@@ -51,7 +51,7 @@ public private(set) string $title;   // lisible partout, écrivable par la class
 `private` est lié à la **class déclarante**, pas à l'instance : deux instances
 de la même class accèdent mutuellement à leurs membres privés.
 
-## Promotion de constructeur
+## Promotion de constructor
 
 ```php
 final class Money
@@ -120,7 +120,7 @@ pas en avoir, ou elle serait déjà initialisée.
 - `self` = class de déclaration ; `static` = class appelée.
 - `readonly` : une seule écriture, depuis la class ou une fille
   (`protected(set)` implicite en 8.4) ; l'object reste mutable.
-- La promotion de constructeur déclare, type et affecte en une fois.
+- La promotion de constructor déclare, type et affecte en une fois.
 
 ## Sources officielles
 

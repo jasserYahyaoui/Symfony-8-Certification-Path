@@ -79,7 +79,7 @@ template, macros exclues.
 - La **function** : la documentation montre
   `{{ dump(blog_posts: articles, user: app.user) }}`. Or `DumpExtension`
   déclare `dump(Environment $env, array $context)` sans argument variadique, et
-  Twig 3.22 rejette alors les arguments nommés : **`SyntaxError: Unknown
+  Twig 3.22 rejette alors les named arguments : **`SyntaxError: Unknown
   arguments`**, reproduit en exécutant Twig 3.22 avec une function déclarée à
   l'identique. Les arguments positionnels, eux, passent.
 

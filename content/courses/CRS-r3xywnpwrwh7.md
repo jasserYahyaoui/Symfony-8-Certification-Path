@@ -30,7 +30,7 @@ outcome_sections:
   OUT-tdmyt1j1t4xx: "La chaîne de recherche"
   OUT-zphxh7z24zht: "La chaîne de recherche"
   OUT-ak7tm95dph6x: "Les parties d'un field"
-  OUT-n3gb1pbjv5sn: "Où appliquer un thème"
+  OUT-n3gb1pbjv5sn: "Où appliquer un theme"
   OUT-yz2mbwg9ee93: "Trois exemples documentés qui échouent"
 ---
 
@@ -39,10 +39,10 @@ outcome_sections:
 Changer le HTML produit par le rendu d'un form, au bon niveau de
 spécificité.
 
-## Ce qu'est un thème
+## Ce qu'est un theme
 
-Un thème est un template Twig qui définit les **blocks** utilisés pour rendre les
-fields. Symfony en fournit plusieurs, dont `form_div_layout.html.twig`, le thème
+Un theme est un template Twig qui définit les **blocks** utilisés pour rendre les
+fields. Symfony en fournit plusieurs, dont `form_div_layout.html.twig`, le theme
 par défaut.
 
 ## La chaîne de recherche
@@ -55,7 +55,7 @@ nommé `user`, exécuté avec `symfony/form` 8.0.15 :
 ["form", "text", "email", "_user_contact"]
 ```
 
-Le rendu cherche du **plus spécifique au plus général**, dans tous les thèmes
+Le rendu cherche du **plus spécifique au plus général**, dans tous les themes
 à chaque niveau avant de descendre :
 
 ```text
@@ -65,7 +65,7 @@ text_widget            →  (jamais atteint ici)
 form_widget
 ```
 
-Le thème par défaut **définit `email_widget`**, et **aucun** thème livré ne
+Le theme par défaut **définit `email_widget`**, et **aucun** theme livré ne
 définit `text_widget`. Conséquence vérifiée par rendu réel : un `text_widget`
 personnalisé change les fields `TextType`, mais **pas** les fields `EmailType`,
 dont le block plus spécifique est trouvé d'abord. Chaque field remonte ainsi sa
@@ -84,11 +84,11 @@ form puis celui du field.
 | `_help` | le texte d'aide |
 | `_errors` | les erreurs |
 
-## Où appliquer un thème
+## Où appliquer un theme
 
 **Globalement**, par `twig.form_themes`. La liste est parcourue **de la fin vers
-le début** : le dernier thème listé est consulté en premier. Exécuté avec deux
-thèmes définissant le même block : c'est toujours le dernier qui gagne.
+le début** : le dernier theme listé est consulté en premier. Exécuté avec deux
+themes définissant le même block : c'est toujours le dernier qui gagne.
 
 **Pour un template**, par le tag `{% form_theme form 'form/fields.html.twig' %}`.
 
@@ -110,16 +110,16 @@ ne fournit pas. Rendu réel avec twig-bridge 8.0.15 :
 
 Le premier s'explique par la string : l'appel imbriqué descend à `text_widget`,
 absent, puis à `form_widget`, dont `form_widget_simple` prend `text` par défaut.
-Pour envelopper un field e-mail sans perdre son type, on importe le thème par
+Pour envelopper un field e-mail sans perdre son type, on importe le theme par
 défaut avec `{% use 'form_div_layout.html.twig' %}` et on appelle `parent()`
 dans `email_widget`, qui, lui, existe : exécuté, l'output garde
 `type="email"`.
 
 ## Pièges d'examen
 
-**La liste des thèmes est parcourue de la fin vers le début.**
+**La liste des themes est parcourue de la fin vers le début.**
 
-**`text_widget` n'existe dans aucun thème livré** ; `email_widget`, si.
+**`text_widget` n'existe dans aucun theme livré** ; `email_widget`, si.
 
 **Un field remonte sa propre lignée** : un block de type parent ne s'applique
 pas quand un block plus spécifique existe.
@@ -130,7 +130,7 @@ pas quand un block plus spécifique existe.
 
 ## Points clés
 
-- Thème = template de blocks ; défaut `form_div_layout.html.twig`.
+- Theme = template de blocks ; défaut `form_div_layout.html.twig`.
 - Recherche : préfixe unique, type, types parents, `form_`.
 - Cinq parties : `_row`, `_label`, `_widget`, `_help`, `_errors`.
 - `twig.form_themes` : le dernier gagne ; `{% form_theme %}` ; `_self` avec

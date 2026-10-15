@@ -57,7 +57,7 @@ flashcards:
   level: RECALL
   front: Quelles methods peuvent porter une constraint de validation ?
   back: Celles dont le nom commence par get, is ou has, sans argument — quelle que soit la visibilité.
-  explanation: "Le scope accesseur valide la valeur retournée, ce qui permet une règle calculée au moment de la validation. Un autre nom lève une MappingException."
+  explanation: "Le scope accessor valide la valeur retournée, ce qui permet une règle calculée au moment de la validation. Un autre nom lève une MappingException."
   memorization_justification: La règle de nommage est arbitraire et ne se déduit pas ; la liberté de visibilité
     surprend.
   verification_status: VERIFIED
@@ -126,7 +126,7 @@ flashcards:
   language: fr
   level: TRAP
   front: Que produit une string buildViolation() qui ne finit pas par addViolation() ?
-  back: Rien. Le constructeur prépare la violation ; seule addViolation() l'enregistre.
+  back: Rien. Le builder prépare la violation ; seule addViolation() l'enregistre.
   explanation: La validation passe alors sans erreur alors que la règle est violée, ce qui en fait un
     défaut silencieux.
   memorization_justification: L'oubli du dernier maillon ne produit ni erreur ni avertissement.
@@ -262,7 +262,7 @@ flashcards:
   front: 'OptionsResolver : restreindre l''option email aux adresses valides avec une constraint du Validator.'
   back: '`$resolver->setAllowedValues(''email'', Validation::createIsValidCallable(new Assert\Email()))`.'
   explanation: La function produite retourne `false` pour une valeur invalide. Exemple documenté dans `validation.rst` et `options_resolver.rst`.
-  memorization_justification: Pont entre deux composants.
+  memorization_justification: Bridge entre deux components.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Validation.php
@@ -432,7 +432,7 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Validator hors framework : #[ExtendsValidationFor] suffit-il à étendre la validation d''une class ?'
-  back: 'Non : le composant seul a besoin de la correspondance, `addAttributeMappings([Product::class => [MyProductValidation::class]])`.'
+  back: 'Non : le component seul a besoin de la correspondance, `addAttributeMappings([Product::class => [MyProductValidation::class]])`.'
   explanation: 'Exécuté : l''attribute seul ne produit aucune violation ; avec la correspondance, la constraint ajoutée s''applique.'
   memorization_justification: Ce que le framework fait à la place du développeur.
   verification_status: VERIFIED
@@ -655,10 +655,10 @@ flashcards:
   official_item: OIT-ttwpe00f32q9
   language: fr
   level: TRAP
-  front: 'Validator : un accesseur contraint isOk(int $x) attend un argument. Que se passe-t-il ?'
+  front: 'Validator : un accessor contraint isOk(int $x) attend un argument. Que se passe-t-il ?'
   back: 'Une `ArgumentCountError` à la validation : le chargement ne vérifie pas l''absence d''argument, l''appel échoue.'
   explanation: Exécuté. La règle « sans argument » n'est donc pas contrôlée à la lecture des métadonnées.
-  memorization_justification: Deux conditions de l'accesseur, deux échecs différents.
+  memorization_justification: Deux conditions de l'accessor, deux échecs différents.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Mapping/Loader/AttributeLoader.php
@@ -688,7 +688,7 @@ flashcards:
   language: fr
   level: RECALL
   front: 'Validator : sur quelles trois cibles une constraint peut-elle être posée ?'
-  back: Une property, un accesseur (`get`, `is`, `has`), ou la class entière.
+  back: Une property, un accessor (`get`, `is`, `has`), ou la class entière.
   explanation: Section « Constraint Targets » de `validation.rst` (8.0).
   memorization_justification: Les trois portées de l'item.
   verification_status: VERIFIED
@@ -704,7 +704,7 @@ flashcards:
   language: fr
   level: RECALL
   front: 'Validator : que retourne getTargets() par défaut, et que couvre cette valeur ?'
-  back: '`Constraint::PROPERTY_CONSTRAINT` (`''property''`), qui couvre les properties et les accesseurs.'
+  back: '`Constraint::PROPERTY_CONSTRAINT` (`''property''`), qui couvre les properties et les accessors.'
   explanation: 'Exécuté : `NotBlank` retourne `''property''` ; `Callback` retourne les deux cibles.'
   memorization_justification: Cible déclarée par la constraint elle-même.
   verification_status: VERIFIED
@@ -735,8 +735,8 @@ flashcards:
   official_item: OIT-ttwpe00f32q9
   language: fr
   level: UNDERSTANDING
-  front: 'Validator : une constraint peut-elle être posée sur un accesseur privé ou statique ?'
-  back: 'Oui : la visibilité est libre, et un accesseur statique est accepté.'
+  front: 'Validator : une constraint peut-elle être posée sur un accessor privé ou statique ?'
+  back: 'Oui : la visibilité est libre, et un accessor statique est accepté.'
   explanation: 'Exécuté : `private function isPasswordSafe()` et `public static function isOk()` produisent leur violation.'
   memorization_justification: Ni la visibilité ni le mot-clé static ne bloquent.
   verification_status: VERIFIED
@@ -753,7 +753,7 @@ flashcards:
   level: APPLICATION
   front: 'Validator : valider que le password ne reprend pas le prénom, sans property dédiée.'
   back: '`#[Assert\IsTrue(message: ''…'')]` sur une method `isPasswordSafe(): bool` qui compare les deux valeurs.'
-  explanation: Exemple documenté du scope accesseur ; la violation porte le path `passwordSafe`.
+  explanation: Exemple documenté du scope accessor ; la violation porte le path `passwordSafe`.
   memorization_justification: Règle calculée au moment de la validation.
   verification_status: VERIFIED
   official_sources:
@@ -789,10 +789,10 @@ flashcards:
   official_item: OIT-ttwpe00f32q9
   language: fr
   level: RECALL
-  front: 'Validator : le préfixe get, is ou has d''un accesseur contraint est-il sensible à la casse ?'
+  front: 'Validator : le préfixe get, is ou has d''un accessor contraint est-il sensible à la casse ?'
   back: 'Non : `AttributeLoader` teste `/^(get|is|has)(.+)$/i`.'
   explanation: 'Exécuté : une method `ISOK()` est acceptée, violation au path `oK`.'
-  memorization_justification: Détail du motif de reconnaissance.
+  memorization_justification: Détail du pattern de reconnaissance.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Mapping/Loader/AttributeLoader.php
@@ -948,7 +948,7 @@ flashcards:
   front: 'Form Symfony : n''appliquer que le group registration à la validation d''un form.'
   back: 'L''option `validation_groups` du type : `''validation_groups'' => [''registration'']`.'
   explanation: C'est l'équivalent, dans un form, du troisième argument de `validate()`.
-  memorization_justification: Pont entre form et validator.
+  memorization_justification: Bridge entre form et validator.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/groups.rst
@@ -1310,7 +1310,7 @@ flashcards:
   language: fr
   level: TRAP
   front: 'Validator : $context->addViolation() accepte-t-il des parameters de message ?'
-  back: 'Oui : `addViolation(string $message, array $params = [])`. Seuls le path, le code et la valeur fautive exigent le constructeur.'
+  back: 'Oui : `addViolation(string $message, array $params = [])`. Seuls le path, le code et la valeur fautive exigent le builder.'
   explanation: 'Signature de `ExecutionContextInterface` (8.0) ; exécuté : `''direct {{ v }}''` devient `''direct p''`.'
   memorization_justification: On croit la forme directe sans réglage possible.
   verification_status: VERIFIED
@@ -1328,7 +1328,7 @@ flashcards:
   front: 'Validator : quelles methods offre ConstraintViolationBuilderInterface ?'
   back: '`atPath`, `setParameter`, `setParameters`, `setTranslationDomain`, `disableTranslation`, `setInvalidValue`, `setPlural`, `setCode`, `setCause`, et `addViolation` pour terminer.'
   explanation: Dix methods dans l'interface 8.0.
-  memorization_justification: Surface du constructeur.
+  memorization_justification: Surface du constructor.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Violation/ConstraintViolationBuilderInterface.php
@@ -1390,7 +1390,7 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Validator : pourquoi une string buildViolation()->setParameter() sans fin ne signale-t-elle rien ?'
-  back: Parce que `buildViolation()` ne fait que préparer un constructeur ; seul son `addViolation()` enregistre la violation.
+  back: Parce que `buildViolation()` ne fait que préparer un builder ; seul son `addViolation()` enregistre la violation.
   explanation: 'Exécuté : aucune violation pour une string non terminée.'
   memorization_justification: Défaut silencieux central de l'item.
   verification_status: VERIFIED

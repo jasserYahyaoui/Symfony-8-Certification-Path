@@ -145,9 +145,16 @@ def rewrite(text, report, where):
     return text
 
 
+# A fenced block, from its opening line to its closing one. Matched as a whole,
+# so the closing ``` of one block can never be taken for the opening of the
+# next: until 2026-10-15 a single pattern excluded ```mermaid by a lookahead and
+# then read the CLOSING fence of a diagram as an opening one, protecting all the
+# prose after it up to the next fence. « écouteur » and « formulaire » survived
+# that way under the form-events diagram.
+FENCE = re.compile(r"(^```[^\n]*\n.*?^```[ \t]*$)", re.DOTALL | re.MULTILINE)
+
 PROTECT = re.compile(
-    r"(```(?!mermaid)[^\n]*\n.*?```"   # code fences, mermaid excepted
-    r"|`[^`\n]*`"                       # inline code
+    r"(`[^`\n]*`"                       # inline code
     r"|\]\([^)]*\)"                     # link targets
     r"|<[^>\n]+>"                       # HTML tags
     r"|https?://\S+)",                  # bare URLs
@@ -155,13 +162,34 @@ PROTECT = re.compile(
 )
 
 
+def rewrite_inline(text, report, where):
+    parts = PROTECT.split(text)
+    return ''.join(p if i % 2 else rewrite(p, report, where) for i, p in enumerate(parts))
+
+
 def rewrite_prose(text, report, where, single_quoted=False):
     if single_quoted:
         text = text.replace("''", '\x02')
-    parts = PROTECT.split(text)
-    out = ''.join(p if i % 2 else rewrite(p, report, where) for i, p in enumerate(parts))
+    out = ''
+    for i, part in enumerate(FENCE.split(text)):
+        if not i % 2:
+            out += rewrite_inline(part, report, where)
+        elif part.startswith('```mermaid'):
+            # A diagram's labels are prose the learner reads: rewritten too,
+            # its fence lines and directives (accTitle: …) left as they are.
+            first, _, rest = part.partition('\n')
+            out += first + '\n' + rewrite_inline(rest, report, where)
+        else:
+            out += part
     apostrophe = "''" if single_quoted else "'"
     return out.replace('\x02', apostrophe).replace('\x01', apostrophe)
+
+
+HEADING = re.compile(r'^## (.+?)\s*$', re.MULTILINE)
+
+
+def headings(body):
+    return HEADING.findall(FENCE.sub('', body))
 
 
 def course(path, report):
@@ -171,7 +199,16 @@ def course(path, report):
     end = s.index('\n---\n', 4) + 5
     if 'language: fr' not in s[:end]:
         return s
-    return s[:end] + rewrite_prose(s[end:], report, path.name)
+    front, body = s[:end], s[end:]
+    new_body = rewrite_prose(body, report, path.name)
+    # A renamed heading carries its outcome_sections entries with it (rule
+    # SEC-001): the map names headings, and the headings keep their order.
+    before, after = headings(body), headings(new_body)
+    if len(before) == len(after):
+        for old, new in zip(before, after):
+            if old != new:
+                front = front.replace(': "' + old + '"\n', ': "' + new + '"\n')
+    return front + new_body
 
 
 KEY = re.compile(r"^(?P<ind>\s*)(?P<dash>- )?(?P<key>[A-Za-z_]+):(?: (?P<rest>.*))?$")

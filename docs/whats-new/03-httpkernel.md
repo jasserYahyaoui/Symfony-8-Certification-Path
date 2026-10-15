@@ -3,7 +3,7 @@
 ## Objectif
 
 Ce que la 8.0 change dans le kernel. Page d'enrichissement : hors périmètre
-officiel, hors couverture. Elle complète le partage composant / bundle traité
+officiel, hors couverture. Elle complète le partage component / bundle traité
 dans le parcours de révision.
 
 ## Une method de plus sur `KernelInterface`
@@ -110,7 +110,7 @@ Chercher l'équivalent, c'est chercher ce que le journal n'annonce pas.
 <details>
 <summary>Un data collector maison déclare `__sleep()`. Que faut-il faire en 8.0 ?</summary>
 
-Le porter vers `__serialize()` / `__unserialize()` : c'est la paire que le composant utilise désormais.
+Le porter vers `__serialize()` / `__unserialize()` : c'est la paire que le component utilise désormais.
 
 Laisser `__sleep()` ne lève pas forcément, mais ne produit plus l'effet attendu.
 

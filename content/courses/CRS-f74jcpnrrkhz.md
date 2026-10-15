@@ -31,7 +31,7 @@ outcome_sections:
 ## Objectif
 
 Savoir quelles recommandations du PHP-FIG Symfony **implémente**, lesquelles il
-**suit**, et laquelle il ne supporte que par un pont.
+**suit**, et laquelle il ne supporte que par un bridge.
 
 ## Les PSR implémentées
 
@@ -39,7 +39,7 @@ La key `provide` du `composer.json` de `symfony/symfony` est la Response
 autoritative. Elle compte **quinze** entrées, et les PSR n'en sont qu'une part :
 **huit** `psr/*`, **cinq** contrats Symfony, **deux** HTTPlug.
 
-| PSR | Object | Composant Symfony |
+| PSR | Object | Component Symfony |
 |---|---|---|
 | **PSR-3** | Logger | intégration de logging |
 | **PSR-6** | Cache | Cache |
@@ -97,8 +97,8 @@ Deux recommandations ne s'implémentent pas — elles se respectent.
 implémentées nativement. HttpFoundation a son propre modèle `Request` /
 `Response`, antérieur à PSR-7 et mutable là où PSR-7 est immuable.
 
-L'interopérabilité passe donc par un **pont** dédié,
-`symfony/psr-http-message-bridge`, qui convertit dans les deux sens. Le pont ne
+L'interopérabilité passe donc par un **bridge** dédié,
+`symfony/psr-http-message-bridge`, qui convertit dans les deux sens. Le bridge ne
 fournit pas d'implémentation PSR-7 : il faut lui en installer une, par exemple
 `nyholm/psr7`.
 
@@ -108,8 +108,8 @@ pour PSR-7, il faut convertir.
 ## Pièges d'examen
 
 **PSR-7 n'est pas implémentée.** C'est la seule de la liste qui demande un
-pont — `symfony/psr-http-message-bridge` — **plus** une implémentation tierce,
-que le pont ne fournit pas. Pour toutes les autres, Symfony *est*
+bridge — `symfony/psr-http-message-bridge` — **plus** une implémentation tierce,
+que le bridge ne fournit pas. Pour toutes les autres, Symfony *est*
 l'implémentation.
 
 **Implémentée et suivie ne sont pas la même chose.** PSR-4 et PSR-12 se

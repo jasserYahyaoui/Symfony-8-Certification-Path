@@ -40,7 +40,7 @@ dans 9110 ; ce qui relevait de la syntaxe de trame HTTP/1.1 passe dans **9112**.
 La Table 1 du §1.4 marque d'ailleurs cette ligne d'un astérisque, seule de son
 array.
 
-**7234 n'y figure pas du tout** : la mise en cache est reprise par **RFC 9111**.
+**7234 n'y figure pas du tout** : le caching est repris par **RFC 9111**.
 
 **2818 y figure**, alors qu'on l'oublie presque toujours : c'est *HTTP Over
 TLS*, et son contenu rejoint 9110.
@@ -54,7 +54,7 @@ Table 1 qui donnent la nuance.
 | RFC | Périmètre |
 |---|---|
 | **9110** | Sémantique : methods, status codes, fields de header, négociation |
-| 9111 | Mise en cache |
+| 9111 | Caching |
 | 9112 | HTTP/1.1 (syntaxe de la trame) |
 | 9113 | HTTP/2 |
 | 9114 | HTTP/3 |

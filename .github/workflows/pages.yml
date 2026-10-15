@@ -553,7 +553,7 @@ jobs:
           missing=""
           grep -aq '>Mémorisation<' /tmp/l3r-httpfoundation || missing="$missing httpfoundation:no-recall-heading"
           grep -aq '>Pièges<' /tmp/l3r-httpfoundation || missing="$missing httpfoundation:no-trap-heading"
-          grep -aq 'Les trois accesseurs, exactement' /tmp/l3r-httpfoundation \
+          grep -aq 'Les trois accessors, exactement' /tmp/l3r-httpfoundation \
             || missing="$missing httpfoundation:no-accessors-section"
           grep -aq 'un-compatible with other features' /tmp/l3r-httpfoundation \
             || missing="$missing httpfoundation:no-esi-warning"
@@ -647,7 +647,7 @@ jobs:
           grep -aq '>Mémorisation<' /tmp/l3r-codeorg || missing="$missing codeorg:no-recall-heading"
           grep -aq '>Application<' /tmp/l3r-codeorg || missing="$missing codeorg:no-application-heading"
           grep -aq '>Pièges<' /tmp/l3r-codeorg || missing="$missing codeorg:no-trap-heading"
-          grep -aq 'Les quatre accesseurs du kernel' /tmp/l3r-codeorg \
+          grep -aq 'Les quatre accessors du kernel' /tmp/l3r-codeorg \
             || missing="$missing codeorg:no-kernel-accessors-section"
           grep -aq 'getShareDir' /tmp/l3r-codeorg || missing="$missing codeorg:no-share-dir"
           grep -aq 'getEnvDir' /tmp/l3r-codeorg || missing="$missing codeorg:no-env-dir"
@@ -3428,7 +3428,7 @@ jobs:
             || missing="$missing l11ev:no-refused-handling"
           grep -aq 'WorkerMessageSkipEvent' /tmp/l11r-events \
             || missing="$missing l11ev:no-eleventh-event"
-          grep -aq 'priorité 150' /tmp/l11r-events \
+          grep -aq 'priority 150' /tmp/l11r-events \
             || missing="$missing l11ev:no-retry-priority"
           if [ -n "$missing" ]; then
             echo "::error::Lot 11 refinement missing from the events page:$missing"
