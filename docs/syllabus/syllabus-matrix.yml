@@ -2847,7 +2847,7 @@ items:
     content_level: DEEP
     content_level_justification: >-
       C'est le mécanisme qui explique la moitié du lot : un contrat au retour contre-intuitif, une
-      string ordonnée par priority où le premier servi arrête tout, un catalogue de dix resolvers, et
+      chaîne de resolvers ordonnée par priority où le premier servi arrête tout, un catalogue de dix resolvers, et
       la notion de resolver cible dont les attributes Map... ne sont que la forme confortable. Chacune
       de ces couches change la réponse à une question, et l'ordre lui-même est note.
     learning_outcomes:
@@ -5310,6 +5310,10 @@ items:
         outcome: Choisir entre All et Collection
       - id: OUT-8hwwtw34wdgt
         outcome: Reconnaître le role de Sequentially et d'AtLeastOneOf
+      - id: OUT-kyt7yfamw0aq
+        outcome: Prédire le sort de null et de la string vide selon la constraint
+      - id: OUT-bkrt4hz3td66
+        outcome: Configurer une constraint 8.0 par named arguments et connaître le défaut de requireTld
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -5335,9 +5339,13 @@ items:
       - "CRS-569y6hb7fwj5"
     flashcard_refs:
       - "FLC-7p2ygq8ft3x4"
+      - "FLC-t2dp9na2nv8d"
+      - "FLC-84x56c7s0fpd"
     question_refs:
       - "QST-9zsx244xw271"
       - "QST-fh0eh8ct9m8r"
+      - "QST-axp7pjs0gkx9"
+      - "QST-f1bervatv72c"
     exercise_refs: []
     exam_refs:
       - "QST-q91f8w8t909e"
@@ -5596,11 +5604,13 @@ items:
       - id: OUT-x2rv3kwasf88
         outcome: Distinguer addViolation() de buildViolation() sur le contexte
       - id: OUT-y8sak1s2672z
-        outcome: Énoncer qu'une string sans addViolation() n'enregistre rien
+        outcome: Énoncer qu'une chaîne d'appels sans addViolation() n'enregistre rien
       - id: OUT-eq4vjk7mmyxm
         outcome: Attribuer une violation à une property par atPath()
       - id: OUT-nb6w1gbs0ndt
         outcome: Remplir un emplacement de message par setParameter()
+      - id: OUT-7m4ym18awd8g
+        outcome: "Écrire une Constraint et son ConstraintValidator : validatedBy(), null, UnexpectedValueException"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -5626,9 +5636,11 @@ items:
       - "CRS-d235sja3h7y2"
     flashcard_refs:
       - "FLC-crtrxfbtxbrw"
+      - "FLC-5n69katpvnnd"
     question_refs:
       - "QST-egqjqhe0s1vv"
       - "QST-r3bv4np3ttcs"
+      - "QST-v6s83rdh77nq"
     exercise_refs: []
     exam_refs:
       - "QST-vp3ys4f6xypm"
@@ -7340,13 +7352,13 @@ items:
       soupçonne pas. Les deux se diagnostiquent, ils ne se reconnaissent pas.
     learning_outcomes:
       - id: OUT-se3m27j02981
-        outcome: Écrire un middleware et continuer la string
+        outcome: Écrire un middleware et continuer la chaîne de middlewares
       - id: OUT-f1z737x6w2pv
         outcome: Énoncer l'effet d'un $stack->next() omis
       - id: OUT-gcjncj08dwdf
-        outcome: Énoncer que la string s'exécute deux fois en asynchrone
+        outcome: Énoncer que la chaîne de middlewares s'exécute deux fois en asynchrone
       - id: OUT-kc77500x8et6
-        outcome: Situer HandleMessageMiddleware en bout de string
+        outcome: Situer HandleMessageMiddleware en bout de chaîne de middlewares
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -9071,7 +9083,7 @@ items:
     content_level: STANDARD
     content_level_justification: >-
       Une class de base volontairement pauvre, dont la seule capacité — arrêter la propagation — a un
-      effet qui dépend de l'ordre. Le candidat doit raisonner sur une string d'appels.
+      effet qui dépend de l'ordre. Le candidat doit raisonner sur une chaîne d'appels.
     learning_outcomes:
       - id: OUT-90fn81pm7q7x
         outcome: Expliquer pourquoi une sous-classe d'event est la norme

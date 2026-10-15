@@ -2438,3 +2438,178 @@ questions:
     branch: '8.0'
     symbol_or_lines: setParameter(), atPath(), setCode()
     verified_at: '2026-10-09'
+- id: QST-n7y4xagppx56
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-kyt7yfamw0aq
+  version: 1
+  official_topic: Data Validation
+  official_item: OIT-9x3strrjdng7
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    How many violations does each call return?
+
+    ```php
+    $v->validate(null, new Assert\Length(min: 3));
+    $v->validate('', new Assert\Length(min: 3));
+    $v->validate('', new Assert\Url());
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-15'
+  tags:
+  - constraints
+  choices:
+  - id: CHO-p24cna50nwwm
+    text: 0, 1, 0
+    correct: true
+  - id: CHO-0sp1j1v90kex
+    text: 1, 1, 1
+    correct: false
+    explanation: Neither constraint treats a missing value as an error; null passes Length.
+  - id: CHO-dr66vmfn69v0
+    text: 0, 0, 0
+    correct: false
+    explanation: Length returns early on null only. The empty string has a length of 0, below 3.
+  - id: CHO-ajkbk3xnwfj7
+    text: 0, 1, 1
+    correct: false
+    explanation: UrlValidator returns at once on the empty string.
+  explanation: Executed with Validator 8.0.15. A value constraint ignores null. On the empty string, Length still measures
+    a length while Url returns at once.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraints/LengthValidator.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Constraints/LengthValidator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'validate(): returns on null only'
+    verified_at: '2026-10-15'
+- id: QST-tjerswa74bd5
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-bkrt4hz3td66
+  version: 1
+  official_topic: Data Validation
+  official_item: OIT-9x3strrjdng7
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: An application moves to Symfony 8.0 and keeps `new Assert\Url()` with no option. What happens to 'http://localhost'?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-15'
+  tags:
+  - constraints
+  - symfony-8
+  choices:
+  - id: CHO-15drbe7r65gc
+    text: It is now refused, since a TLD is required by default
+    correct: true
+  - id: CHO-1ebagjzta8ja
+    text: It is still accepted, since localhost is a valid host name
+    correct: false
+    explanation: That was the behaviour before requireTld changed its default.
+  - id: CHO-n0bt19sdhnbb
+    text: Url throws until requireTld is passed explicitly
+    correct: false
+    explanation: The option has a default, true, so no argument is required.
+  - id: CHO-8wzhthtztw3d
+    text: It is accepted unless the protocols option leaves out http
+    correct: false
+    explanation: The protocols are not the issue; the missing top-level domain is.
+  explanation: The 8.0 CHANGELOG changes the default of requireTld to true. Executed with Validator 8.0.15, 'http://localhost'
+    fails new Url() and passes once requireTld is set to false.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/CHANGELOG.md
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/CHANGELOG.md
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: '8.0: Change the default value of the $requireTld option of the Url constraint to true'
+    verified_at: '2026-10-15'
+- id: QST-ed52tkyz4n4h
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-7m4ym18awd8g
+  version: 1
+  official_topic: Data Validation
+  official_item: OIT-0wnxbapegqhv
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    SlugValidator throws `new UnexpectedValueException($value, 'string')` for any value that is not a string. What does `$list` hold?
+
+    ```php
+    $list = $validator->validate(['x'], new Slug());
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-15'
+  tags:
+  - custom-constraint
+  choices:
+  - id: CHO-qdasfcg3k5sn
+    text: 'One violation, "This value should be of type string."'
+    correct: true
+  - id: CHO-7nrdqxtvwqte
+    text: Nothing, because validate() rethrows the UnexpectedValueException to the caller
+    correct: false
+    explanation: The validator catches it and turns it into a violation.
+  - id: CHO-g1dbar1yfma7
+    text: No violation, because a custom validator skips non-string values on its own
+    correct: false
+    explanation: Nothing is skipped on its own; the exception is what reports the wrong type.
+  - id: CHO-9ddc3h661wwx
+    text: 'One violation carrying the generic message "This value is not valid."'
+    correct: false
+    explanation: The message names the expected type given to the exception.
+  explanation: RecursiveContextualValidator catches UnexpectedValueException and builds the violation "This value should
+    be of type {{ type }}." from the expected type. An UnexpectedTypeException, by contrast, propagates. Executed with
+    Validator 8.0.15.
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Validator/RecursiveContextualValidator.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Validator/RecursiveContextualValidator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'validateInGroup(): catch UnexpectedValueException, build a Type violation'
+    verified_at: '2026-10-15'

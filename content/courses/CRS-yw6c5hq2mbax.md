@@ -89,7 +89,7 @@ fragment en cache séparément avec ESI.
 `controller(nom, attributs, query)` construit un simple `ControllerReference` —
 il n'exécute rien ; c'est `render()` qui le fait. Les attributes deviennent des
 attributes de la sub-Request (des objects y sont admis en mode `inline`), le
-troisième argument des parameters de chaîne de Request.
+troisième argument des parameters de query string.
 
 ## Ce que cela déclenche
 

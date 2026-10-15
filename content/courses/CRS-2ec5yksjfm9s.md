@@ -60,7 +60,7 @@ anonyme.
 ## Ce qui fait correspondre une règle
 
 `path` est une expression régulière, pas un préfixe littéral, comparée **sans
-la chaîne de Request** : un parameter `?x=` ne peut pas être protégé ici.
+la query string** : un parameter `?x=` ne peut pas être protégé ici.
 
 | Key | Ce qu'elle contraint |
 |---|---|
@@ -143,7 +143,7 @@ cumulées.
 
 **Du plus spécifique au plus général**, sinon la règle fine devient inatteignable.
 
-**`path` est une expression régulière**, comparée sans la chaîne de Request.
+**`path` est une expression régulière**, comparée sans la query string.
 
 **`roles` + `allow_if` accorde si l'un des deux suffit**, avec la strategy par
 défaut.

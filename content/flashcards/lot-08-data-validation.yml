@@ -125,7 +125,7 @@ flashcards:
   official_item: OIT-0wnxbapegqhv
   language: fr
   level: TRAP
-  front: Que produit une string buildViolation() qui ne finit pas par addViolation() ?
+  front: Que produit une chaîne d'appels buildViolation() qui ne finit pas par addViolation() ?
   back: Rien. Le builder prépare la violation ; seule addViolation() l'enregistre.
   explanation: La validation passe alors sans erreur alors que la règle est violée, ce qui en fait un
     défaut silencieux.
@@ -1389,9 +1389,9 @@ flashcards:
   official_item: OIT-0wnxbapegqhv
   language: fr
   level: UNDERSTANDING
-  front: 'Validator : pourquoi une string buildViolation()->setParameter() sans fin ne signale-t-elle rien ?'
+  front: 'Validator : pourquoi une string d''appels buildViolation()->setParameter() sans fin ne signale-t-elle rien ?'
   back: Parce que `buildViolation()` ne fait que préparer un builder ; seul son `addViolation()` enregistre la violation.
-  explanation: 'Exécuté : aucune violation pour une string non terminée.'
+  explanation: 'Exécuté : aucune violation pour une string d''appels non terminée.'
   memorization_justification: Défaut silencieux central de l'item.
   verification_status: VERIFIED
   official_sources:
@@ -1461,3 +1461,66 @@ flashcards:
     branch: '8.0'
     symbol_or_lines: ConstraintViolationBuilderInterface
     verified_at: '2026-09-25'
+- id: FLC-t2dp9na2nv8d
+  official_item: OIT-9x3strrjdng7
+  language: fr
+  level: TRAP
+  front: 'Validator : Length(min: 3) et Email, sur null puis sur la string vide ?'
+  back: "null passe les deux : une constraint de valeur ignore null. '' passe Email, mais échoue sur Length : la longueur 0 est mesurée. L'obligation vient de NotBlank."
+  explanation: "Exécuté sur symfony/validator 8.0.15 : LengthValidator ne rend la main que sur null, EmailValidator sur null et ''."
+  memorization_justification: "On croit qu'une constraint de format rend le field obligatoire, et que null et '' se valent."
+  verification_status: VERIFIED
+  reviewed_at: '2026-10-15'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraints/LengthValidator.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Constraints/LengthValidator.php
+    branch: '8.0'
+    symbol_or_lines: 'validate(): returns on null only'
+    verified_at: '2026-10-15'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraints/EmailValidator.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Constraints/EmailValidator.php
+    branch: '8.0'
+    symbol_or_lines: 'validate(): returns on null and on the empty string'
+    verified_at: '2026-10-15'
+- id: FLC-84x56c7s0fpd
+  official_item: OIT-9x3strrjdng7
+  language: fr
+  level: TRAP
+  front: "Symfony 8.0 : que fait #[Assert\\Choice(['draft', 'published'])] ?"
+  back: "Une InvalidArgumentException : le premier parameter de Choice est encore $options, et un array d'options n'est plus admis. Écrire choices: ['draft', 'published']."
+  explanation: "Exécuté sur 8.0.15 : l'exception part à la lecture des metadata, au premier validate() de l'object."
+  memorization_justification: La forme positionnelle a longtemps été celle de la documentation et se lit comme correcte.
+  verification_status: VERIFIED
+  reviewed_at: '2026-10-15'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraints/Choice.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Constraints/Choice.php
+    branch: '8.0'
+    symbol_or_lines: '__construct(): first parameter $options, an array is refused'
+    verified_at: '2026-10-15'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/CHANGELOG.md
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/CHANGELOG.md
+    branch: '8.0'
+    symbol_or_lines: '8.0: Url requireTld defaults to true; options no longer configured implicitly'
+    verified_at: '2026-10-15'
+- id: FLC-5n69katpvnnd
+  official_item: OIT-0wnxbapegqhv
+  language: fr
+  level: UNDERSTANDING
+  front: "Constraint maison Slug : quel validator l'exécute, et que doit-il faire de null ?"
+  back: "SlugValidator : validatedBy() rend le nom de la class suivi de Validator. Il reçoit aussi null et doit rendre la main sans violation. Un mauvais type se signale par UnexpectedValueException, convertie en violation."
+  explanation: "Exécuté sur 8.0.15 : le validator est appelé avec null ; une UnexpectedValueException donne « This value should be of type string. », une UnexpectedTypeException remonte."
+  memorization_justification: Les constraints natives ignorent null ; un validator maison ne le fait que si on l'écrit.
+  verification_status: VERIFIED
+  reviewed_at: '2026-10-15'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/custom_constraint.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/validation/custom_constraint.rst
+    branch: '8.0'
+    symbol_or_lines: Creating the Validator itself
+    verified_at: '2026-10-15'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Validator/RecursiveContextualValidator.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Validator/RecursiveContextualValidator.php
+    branch: '8.0'
+    symbol_or_lines: 'validateInGroup(): catch UnexpectedValueException, build a Type violation'
+    verified_at: '2026-10-15'

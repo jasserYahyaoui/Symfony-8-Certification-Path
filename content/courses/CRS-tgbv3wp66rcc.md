@@ -78,7 +78,7 @@ comme controller, avec `permanent` à `true`. D'où trois conséquences, lues
 dans le code 8.0 :
 
 - le statut est **301** (permanent, sans demande de conserver la method) ;
-- la **chaîne de Request** d'origine est recopiée sur l'URL cible ;
+- la **query string** d'origine est recopiée sur l'URL cible ;
 - l'attribute `_route` porte le nom de la route trouvée ; seul le controller
   est remplacé.
 
@@ -163,7 +163,7 @@ schéma courant diffère, alors qu'elle serait restée un path sans host
 c'est le matcher de FrameworkBundle qui sait rediriger.
 
 **Aucun controller applicatif n'intervient.** Le matcher route la Request vers
-`RedirectController` ; le 301 conserve la chaîne de Request.
+`RedirectController` ; le 301 conserve la query string.
 
 ## Points clés
 

@@ -41,7 +41,7 @@ que Symfony ajoute à PHPUnit — c'est là que se joue la lisibilité du test.
 
 ## Prérequis
 
-Les trois types de tests, et le cycle requête-réponse.
+Les trois types de tests, et le cycle Request-Response.
 
 ## Le squelette
 

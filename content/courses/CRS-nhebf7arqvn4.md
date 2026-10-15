@@ -85,7 +85,7 @@ préfixés d'un souligné. La documentation en liste cinq :
 | `_format` | fixe le *request format* de la Request | `Request::getRequestFormat()` |
 | `_locale` | fixe la locale de la Request | `LocaleListener` |
 | `_fragment` | ajoute l'identifier de fragment — la partie après `#` | `UrlGenerator` |
-| `_query` | ajoute des parameters de chaîne de Request à l'URL générée | `UrlGenerator` |
+| `_query` | ajoute des parameters de query string à l'URL générée | `UrlGenerator` |
 
 `_format` mérite un mot : la valeur appariée devient le format de la Request.
 Au moment de `Response::prepare()`, si la Response **n'a pas encore** de header

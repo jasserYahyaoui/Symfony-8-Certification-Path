@@ -108,7 +108,7 @@ ne fournit pas. Rendu réel avec twig-bridge 8.0.15 :
 | `{% use 'form_div_layout.html.twig' %}` puis `text_widget` avec `parent()` | `RuntimeError` : aucun trait ne définit `text_widget` |
 | `use … with text_widget as base_text_widget` | `RuntimeError` : block non défini dans le trait |
 
-Le premier s'explique par la string : l'appel imbriqué descend à `text_widget`,
+Le premier s'explique par la chaîne de blocks : l'appel imbriqué descend à `text_widget`,
 absent, puis à `form_widget`, dont `form_widget_simple` prend `text` par défaut.
 Pour envelopper un field e-mail sans perdre son type, on importe le theme par
 défaut avec `{% use 'form_div_layout.html.twig' %}` et on appelle `parent()`

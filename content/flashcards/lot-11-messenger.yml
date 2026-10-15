@@ -86,7 +86,7 @@ flashcards:
   back: 'Deux fois : à l''envoi, puis à la réception par le worker.'
   explanation: Un middleware qui journalise écrit donc deux lignes ; le ReceivedStamp distingue les deux
     passages.
-  memorization_justification: On raisonne comme sur une Request HTTP, qui ne traverse la string qu'une
+  memorization_justification: On raisonne comme sur une Request HTTP, qui ne traverse la chaîne de listeners qu'une
     fois.
   verification_status: VERIFIED
   official_sources:
@@ -982,7 +982,7 @@ flashcards:
   level: RECALL
   front: 'Symfony : quelle method un middleware Messenger implémente-t-il ?'
   back: '`handle(Envelope $envelope, StackInterface $stack): Envelope`, de `MiddlewareInterface`.'
-  explanation: La suite de la string s'appelle par `$stack->next()->handle($envelope, $stack)`.
+  explanation: La suite de la chaîne de middlewares s'appelle par `$stack->next()->handle($envelope, $stack)`.
   memorization_justification: Signature du middleware.
   verification_status: VERIFIED
   official_sources:
@@ -1013,8 +1013,8 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony : pourquoi un middleware qui ne rappelle pas la suite évite-t-il même la NoHandlerForMessageException ?'
-  back: Parce que cette exception est levée par `HandleMessageMiddleware`, en fin de string, qui n'est alors jamais atteint.
-  explanation: 'Exécuté : message sans handler, string interrompue, aucune exception.'
+  back: Parce que cette exception est levée par `HandleMessageMiddleware`, en fin de chaîne de middlewares, qui n'est alors jamais atteint.
+  explanation: 'Exécuté : message sans handler, chaîne de middlewares interrompue, aucune exception.'
   memorization_justification: Interruption silencieuse.
   verification_status: VERIFIED
   official_sources:

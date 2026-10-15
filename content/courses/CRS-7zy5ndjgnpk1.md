@@ -97,8 +97,8 @@ Le constructor vérifie le statut par `isRedirect()`, qui n'admet que
 ## Parameters utiles
 
 - `$this->redirectToRoute('app_lucky_number', ['max' => 10])` — parameters de route ;
-- un parameter qui n'est **pas** une variable du path part en chaîne de
-  Request : `redirectToRoute('blog_show', $request->query->all())` conserve la
+- un parameter qui n'est **pas** une variable du path part en query
+  string : `redirectToRoute('blog_show', $request->query->all())` conserve la
   query string d'origine ;
 - la key spéciale `_fragment` ajoute une ancre à l'URL générée ;
 - `$this->redirectToRoute($request->attributes->get('_route'))` redirige vers la

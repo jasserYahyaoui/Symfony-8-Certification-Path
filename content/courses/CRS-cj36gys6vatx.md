@@ -79,7 +79,7 @@ Le choix dépend de ce que l'on convertit. Transformer un numéro saisi en objec
 métier est une affaire de modèle ; changer le format d'affichage d'une valeur
 déjà normalisée est une affaire de vue.
 
-## L'ordre d'une string
+## L'ordre d'une chaîne de transformers
 
 `FormConfigBuilder::addViewTransformer()` **ajoute à la fin** ;
 `addModelTransformer()` **insère en tête**. Exécuté avec `M1`, `M2`, `V1`, `V2`

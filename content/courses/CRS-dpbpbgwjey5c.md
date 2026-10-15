@@ -77,7 +77,7 @@ template. `UrlGenerator` peut **élargir** le type demandé :
   une URL absolue, même par `path()` ;
 - une route liée à un autre host rend une référence `//hôte/chemin`.
 
-Un parameter absent de la route devient une chaîne de Request, et une route
+Un parameter absent de la route devient une query string, et une route
 inconnue lève `RouteNotFoundException`.
 
 ## Deux functions voisines, sans route
@@ -98,7 +98,7 @@ et rend le path inchangé si aucun host n'y est défini.
 `path()` et `url()` déclarent un `is_safe_callback` : leur output n'est
 dispensée d'escaping HTML que si l'appel n'a pas de parameters, ou un seul
 parameter à valeur littérale. Sinon elle est échappée comme toute valeur — le
-`&` d'une chaîne de Request devient `&amp;`, ce qui est correct dans un
+`&` d'une query string devient `&amp;`, ce qui est correct dans un
 attribute HTML.
 
 Une URL ne s'écrit jamais à la main dans un template : changer le path d'une
@@ -113,7 +113,7 @@ relatif pour l'une, URL sans schéma pour l'autre.
 un autre schéma — ou une référence `//hôte/…` quand elle est liée à un autre
 host.
 
-**Un parameter absent de la route part en chaîne de Request** — une faute de
+**Un parameter absent de la route part en query string** — une faute de
 frappe ne produit aucune erreur.
 
 **`absolute_url()` prend un path, pas un route name.**

@@ -69,7 +69,7 @@ entries:
     fr: écouteur d'événement
     topic: Symfony Architecture
     note: >-
-      Un *listener* s'abonne à un événement depuis la configuration ; un
+      Un *listener* s'abonne à un event depuis la configuration ; un
       *subscriber* déclare lui-même ses abonnements. L'examen utilise les deux
       mots.
     see: Event dispatcher and kernel events
@@ -85,7 +85,7 @@ entries:
     fr: dépréciation
     topic: Symfony Architecture
     note: >-
-      Une dépréciation *annonce* un retrait futur ; elle ne casse rien dans la
+      Une deprecation *annonce* un retrait futur ; elle ne casse rien dans la
       version qui l'introduit.
     see: Deprecations best practices
   - en: Release management
@@ -110,8 +110,8 @@ entries:
     fr: redirection
     topic: Controllers
     note: >-
-      *HTTP redirect* renvoie une réponse 3xx au navigateur ; *internal
-      redirect* (forward) réexécute un contrôleur sans aller-retour client.
+      *HTTP redirect* renvoie une Response 3xx au navigateur ; *internal
+      redirect* (forward) réexécute un controller sans aller-retour client.
       L'examen oppose les deux.
     see: HTTP redirects
   - en: Forward
@@ -133,8 +133,8 @@ entries:
     topic: Routing
     note: >-
       *Requirement* restreint la valeur acceptée ; *default* fournit une valeur
-      quand le paramètre est absent. Deux mécanismes distincts sur le même
-      paramètre.
+      quand le parameter est absent. Deux mécanismes distincts sur le même
+      parameter.
     see: Restrict URL parameters
   - en: Default value
     fr: valeur par défaut
@@ -166,8 +166,8 @@ entries:
     fr: héritage de gabarit
     topic: Templating with Twig
     note: >-
-      L'héritage (`extends`) remplace des blocs ; l'inclusion (`include`) insère
-      un gabarit entier. L'examen teste la différence.
+      L'inheritance (`extends`) remplace des blocks ; l'inclusion (`include`) insère
+      un template entier. L'examen teste la différence.
     see: Template inheritance
   - en: Template include
     fr: inclusion de gabarit
@@ -177,7 +177,7 @@ entries:
     fr: filtre
     topic: Templating with Twig
     note: >-
-      Un filtre transforme une valeur reçue à gauche du `|` ; une fonction est
+      Un filter transforme une valeur reçue à gauche du `|` ; une function est
       appelée avec ses arguments. Même bibliothèque, deux syntaxes.
     see: Filters and functions
   - en: Pluralization
@@ -222,8 +222,8 @@ entries:
     fr: portée de validation
     topic: Data Validation
     note: >-
-      La portée dit *où* la contrainte est posée : propriété, accesseur ou
-      classe. À ne pas confondre avec le *groupe*, qui dit *quand* elle
+      Le scope dit *où* la constraint est posée : property, accessor ou
+      class. À ne pas confondre avec le *group*, qui dit *quand* elle
       s'applique.
     see: Validation scopes
   - en: Validation group
@@ -234,7 +234,7 @@ entries:
     fr: séquence de groupes
     topic: Data Validation
     note: >-
-      Une séquence arrête la validation au premier groupe en échec.
+      Une séquence arrête la validation au premier group en échec.
     see: Group sequence
   - en: Violation
     fr: violation
@@ -265,7 +265,7 @@ entries:
     fr: étiquette
     topic: Dependency Injection
     note: >-
-      Une étiquette est inerte tant qu'une passe de compilation ou un itérateur
+      Un tag est inerte tant qu'un compiler pass ou un iterator
       ne la collecte pas.
     see: Tags
   - en: Compiler pass
@@ -286,7 +286,7 @@ entries:
     fr: authentification
     topic: Security
     note: >-
-      L'authentification établit *qui* est l'utilisateur ; l'autorisation décide
+      L'authentication établit *qui* est le user ; l'authorization décide
       *ce qu'il peut faire*. Le couple 401 / 403 suit la même frontière.
     see: Authentication
   - en: Authorization
@@ -297,7 +297,7 @@ entries:
     fr: pare-feu
     topic: Security
     note: >-
-      Un seul pare-feu traite une requête — le premier dont le `pattern`
+      Un seul firewall traite une Request — le premier dont le `pattern`
       correspond. Les règles `access_control` sont une seconde liste, également
       à première correspondance.
     see: Firewalls
@@ -321,8 +321,8 @@ entries:
     fr: passeport
     topic: Security
     note: >-
-      Le passeport transporte l'utilisateur et ses *badges* pendant
-      l'authentification ; il ne survit pas à la requête.
+      Le passport transporte le user et ses *badges* pendant
+      l'authentication ; il ne survit pas à la Request.
     see: Authenticators, Passports and Badges
   - en: Badge
     fr: badge
@@ -349,14 +349,14 @@ entries:
     fr: gestionnaire de message
     topic: Messenger
     note: >-
-      Plusieurs gestionnaires peuvent traiter le même message ; tous sont
+      Plusieurs handlers peuvent traiter le même message ; tous sont
       appelés.
     see: Messages and handlers
   - en: Worker
     fr: worker
     topic: Messenger
     note: >-
-      Terme conservé en anglais dans les cours : c'est le nom de la commande
+      Terme conservé en anglais dans les cours : c'est le nom de la command
       (`messenger:consume`) et du concept dans la documentation.
     see: Workers
   - en: Retry
@@ -367,7 +367,7 @@ entries:
     fr: middleware
     topic: Messenger
     note: >-
-      Terme conservé en anglais. La chaîne s'exécute deux fois pour un message
+      Terme conservé en anglais. La chaîne de middlewares s'exécute deux fois pour un message
       asynchrone : à l'envoi, puis à la réception.
     see: Middleware
 
@@ -396,8 +396,8 @@ entries:
     fr: test unitaire
     topic: Automated Tests
     note: >-
-      Un test unitaire isole une classe ; un test fonctionnel traverse le
-      noyau via le `Client`.
+      Un unit test isole une class ; un functional test traverse le
+      kernel via le `Client`.
     see: Unit tests with PHPUnit
   - en: Functional test
     fr: test fonctionnel
@@ -454,13 +454,13 @@ entries:
     fr: énumération
     topic: PHP
     note: >-
-      Une énumération *backed* porte une valeur scalaire ; une énumération pure
+      Une enum *backed* porte une valeur scalaire ; une enum pure
       n'en a pas.
     see: Enums
   - en: Late static binding
     fr: résolution statique tardive
     topic: PHP
     note: >-
-      `self` désigne la classe où le code est écrit, `static` celle qui a
+      `self` désigne la class où le code est écrit, `static` celle qui a
       réellement appelé. C'est l'erreur silencieuse classique.
     see: Object Oriented Programming

@@ -1,7 +1,7 @@
 """Rewrite French prose so Symfony, PHP and HTTP terms stay in English.
 
-The list and the owner's decision are in docs/policy/terminology.yml; the same
-list is enforced by tests/Integration/TerminologyTest.php.
+The list and the owner's decision are in docs/policy/terminology.yml; CI
+enforces it by running this script with --check.
 
     python3 tools/terminology/apply.py            # rewrite in place
     python3 tools/terminology/apply.py --check    # list, write nothing; exit 1 if any
@@ -9,7 +9,7 @@ list is enforced by tests/Integration/TerminologyTest.php.
 Scope: course bodies (front matter untouched), French flashcards (front, back,
 explanation, memorization_justification), the French fields of the matrix
 (content_level_justification, outcome, minimum_evidence) and the « what's
-new » pages. Code fences other than ```mermaid, inline code, link targets and
+new » pages, and the notes of the FR / EN glossary. Code fences other than ```mermaid, inline code, link targets and
 HTML tags are never touched. The rewrite is idempotent.
 
 A replacement that changes the grammatical gender (une étiquette → un tag) is
@@ -272,6 +272,13 @@ def main():
     p = ROOT / 'docs/syllabus/syllabus-matrix.yml'
     before = p.read_text(encoding='utf-8')
     after = yaml_fields(p, {'content_level_justification', 'outcome', 'minimum_evidence'}, report, re.compile(r'^  - id: OIT-'), False)
+    if after != before:
+        changed[p] = after
+    # The glossary's « fr » column is the French rendering on purpose; only its
+    # notes are prose, and they follow the courses.
+    p = ROOT / 'docs/syllabus/glossary.yml'
+    before = p.read_text(encoding='utf-8')
+    after = yaml_fields(p, {'note'}, report, re.compile(r'^  - en: '), False)
     if after != before:
         changed[p] = after
     for line in report:

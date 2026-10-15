@@ -66,7 +66,7 @@ Le trajet d'une Request et l'event `kernel.controller_arguments`.
 
 ## Le contrat
 
-Le kernel ne sait pas remplir un argument : il délègue à une string de
+Le kernel ne sait pas remplir un argument : il délègue à une chaîne de
 **resolvers**. Chacun implémente `ValueResolverInterface`, dont l'unique
 method est :
 
@@ -87,7 +87,7 @@ la valeur elle-même est l'erreur classique — le return type la refuse.
 
 Pour chaque argument, il appelle les resolvers dans l'ordre :
 
-- le **premier** qui produit au moins une valeur **arrête** la string pour cet
+- le **premier** qui produit au moins une valeur **arrête** la chaîne de resolvers pour cet
   argument ;
 - plus d'une valeur pour un argument non variadique lève une
   `InvalidArgumentException` ;
@@ -95,7 +95,7 @@ Pour chaque argument, il appelle les resolvers dans l'ordre :
   « Controller … requires the "$x" argument that could not be resolved ».
 
 Un array vide passe donc la main sans erreur ; c'est l'échec de **toute** la
-string qui en produit une.
+chaîne de resolvers qui en produit une.
 
 ## L'ordre
 
@@ -146,7 +146,7 @@ enum, une date ou un identifier Uid.
 
 Deux resolvers portent un autre tag, `controller.targeted_value_resolver` :
 `RequestPayloadValueResolver` et `QueryParameterValueResolver`. Ils sont
-**retirés de la string** et ne s'exécutent que si un attribute les désigne.
+**retirés de la chaîne de resolvers** et ne s'exécutent que si un attribute les désigne.
 
 `#[ValueResolver]` épingle un resolver par son nom — pour ceux du framework,
 leur FQCN. La chaîne de l'argument devient alors **trois** resolvers : celui
@@ -158,8 +158,8 @@ Les attributes de correspondance sont la forme confortable du même mécanisme :
 
 | Attribute | Source | Échec par défaut |
 |---|---|---|
-| `#[MapQueryParameter]` | un parameter de la chaîne de Request | **404** |
-| `#[MapQueryString]` | la chaîne de Request entière, vers un object | **404** |
+| `#[MapQueryParameter]` | un parameter de la query string | **404** |
+| `#[MapQueryString]` | la query string entière, vers un object | **404** |
 | `#[MapRequestPayload]` | le body de la Request, vers un object | **422** |
 | `#[MapUploadedFile]` | un file téléversé | **422** |
 
@@ -173,7 +173,7 @@ invalide devient `null` au lieu de lever.
 - La documentation dit « toujours un array » ; le type est `iterable`.
 - Un array vide passe la main ; si aucun resolver ne fournit de valeur, une
   `RuntimeException` est levée.
-- Le premier resolver qui fournit une valeur **arrête** la string.
+- Le premier resolver qui fournit une valeur **arrête** la chaîne de resolvers.
 - Une valeur invalide dans l'URL donne **404**, pas 400.
 - `#[MapQueryParameter]` échoue en **404**, `#[MapRequestPayload]` en **422**.
 - Un resolver ciblé ne s'exécute pas sans son attribute.

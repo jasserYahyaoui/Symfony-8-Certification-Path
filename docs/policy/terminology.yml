@@ -144,7 +144,14 @@ terms:
   - {fr: [booléen, booléens], en: bool, en_plural: bools, gender: m, elide: false, needs_determiner: true}
   - {fr: [énumération, énumérations], en: enum, en_plural: enums, gender: f, elide: true}
   - {fr: [fermeture, fermetures], en: closure, en_plural: closures, gender: f, elide: false}
-  - {fr: [chaîne, chaînes], en: string, en_plural: strings, gender: f, elide: false, keep: ['chaînes? de (?!caractères)', 'en chaîne', 'chaîn(é|er|age)']}
+  # « chaîne » is a string only when it holds characters. A chain — of calls,
+  # middlewares, resolvers, proxies, transformers — is written « chaîne de … »
+  # or « chaîne d'… », which the keep patterns protect; a bare « la chaîne » is
+  # read as a string. On 2026-10-15 forty-odd chains had become « string »
+  # (« termine la string », « la string de middleware ») and were restored by
+  # hand. « chaîne de requête » is the query string, and has its own entry.
+  - {fr: [chaîne de requête, chaînes de requête, chaîne de Request, chaînes de Request], en: query string, en_plural: query strings, gender: f, elide: false}
+  - {fr: [chaîne, chaînes], en: string, en_plural: strings, gender: f, elide: false, keep: ['chaînes?\s+de\s(?!caractères)', 'chaînes?\s+d[''’]', 'en chaîne', 'chaîn(é|er|age)']}
   - {fr: [tableau, tableaux], en: array, en_plural: arrays, gender: m, elide: true, keep: ['tableaux? (ci-dessous|suivants?|des |récapitul|précédent|ci-contre)', '(ce|ces|le|un) tableaux? (montre|résume|donne|liste|compare|ci-)', 'dans (le|ce) tableau', 'du tableau (ci|suivant|précédent)']}
   - {fr: [fichier, fichiers], en: file, en_plural: files, gender: m, elide: false}
   - {fr: [répertoire, répertoires], en: directory, en_plural: directories, gender: m, elide: false}

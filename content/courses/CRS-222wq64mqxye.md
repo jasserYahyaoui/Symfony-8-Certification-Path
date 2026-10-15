@@ -125,7 +125,7 @@ confiance sont déclarés (`Request::setTrustedProxies()` ou la configuration
 
 **Quelle adresse est renvoyée, une fois les proxys déclarés.** `X-Forwarded-For`
 est une liste : chaque proxy traversé ajoute la sienne à droite. Symfony complète
-la string avec `REMOTE_ADDR`, **retire toute adresse appartenant à un proxy de
+la chaîne d'adresses avec `REMOTE_ADDR`, **retire toute adresse appartenant à un proxy de
 confiance**, puis **renverse** ce qui reste. `getClientIp()` renvoie le premier
 élément du résultat, c'est-à-dire l'adresse non fiable **la plus proche du
 serveur**.
@@ -140,7 +140,7 @@ $request->getClientIp();    // '203.0.113.7' — il ne reste qu'une adresse
 $request->getClientIp();    // '5.6.7.8', et non '1.2.3.4'
 ```
 
-Le client d'origine n'est donc renvoyé **que si toute la string
+Le client d'origine n'est donc renvoyé **que si toute la chaîne
 d'intermédiaires est déclarée de confiance**. Dès qu'un saut non déclaré
 subsiste, c'est lui qu'on obtient — et c'est le comportement sûr, puisque tout
 ce qui se trouve à sa gauche est écrit par un maillon auquel on ne fait pas
@@ -190,7 +190,7 @@ client — et c'est le comportement sûr.
 
 **`getClientIp()` ne renvoie pas « la plus à gauche ».** Il renvoie l'adresse
 non fiable la plus proche du serveur — ce qui coïncide avec le client d'origine
-uniquement quand toute la string est déclarée de confiance. Fonder une
+uniquement quand toute la chaîne de proxies est déclarée de confiance. Fonder une
 allow-list sur la lecture inverse revient à faire confiance à une valeur que le
 client contrôle.
 
@@ -215,7 +215,7 @@ la sous-chaîne suffit.
 - `getPayload()` lit JSON comme form-data, et retourne un `InputBag`.
 - `getClientIp()` n'est fiable qu'avec des trusted proxies déclarés, et renvoie
   l'adresse non fiable la plus proche du serveur : le client d'origine seulement
-  si toute la string est de confiance.
+  si toute la chaîne de proxies est de confiance.
 - `createFromGlobals()` lit les superglobales ; `create()` fabrique une Request.
 
 ## Aller lire la source

@@ -93,7 +93,7 @@ exclusifs : `route` pour viser une route, `path` pour un path ou une URL.
 | Option | Effet |
 |---|---|
 | `permanent: true` | 301 au lieu de 302 |
-| `keepQueryParams: true` | conserve la chaîne de Request — mode `route` seulement |
+| `keepQueryParams: true` | conserve la query string — mode `route` seulement |
 | `keepRequestMethod: true` | conserve la method HTTP |
 | `ignoreAttributes` | `true` n'en transmet aucun, un array retire ceux-là |
 
@@ -112,7 +112,7 @@ permanent.
   défaut. C'est ce que `ignoreAttributes` coupe.
 - **L'URL générée est absolue** en mode `route` — schéma et host compris —,
   à l'inverse de `redirectToRoute()`, qui produit un path.
-- **En mode `path`, la chaîne de Request est recopiée sur un path**, sans
+- **En mode `path`, la query string est recopiée sur un path**, sans
   option pour s'en passer ; une URL complète — `https://…` ou `//…` — part
   telle quelle, **sans** elle (exécuté). Un path relatif est complété par le schéma,
   le host et le port, que `scheme`, `httpPort` et `httpsPort` permettent de fixer.
@@ -133,8 +133,8 @@ configuration.
 **`route` et `path` ensemble lèvent une exception** : les modes sont exclusifs,
 et le code le vérifie.
 
-**`keepQueryParams` n'existe qu'en mode `route`.** En mode `path`, la string de
-Request suit un path, jamais une URL complète.
+**`keepQueryParams` n'existe qu'en mode `route`.** En mode `path`, la query
+string suit un path, jamais une URL complète.
 
 **Un `maxAge` seul rend la Response publique.** Il faut `private: true` pour
 l'éviter.

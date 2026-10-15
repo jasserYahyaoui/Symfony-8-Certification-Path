@@ -2339,7 +2339,7 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "Twig : l'output de path() est-il échappé comme une variable ?"
-    back: "Elle en est dispensée seulement sans parameters, ou avec un seul parameter à valeur littérale ; sinon elle est échappée, et le `&` d'une chaîne de Request devient `&amp;`."
+    back: "Elle en est dispensée seulement sans parameters, ou avec un seul parameter à valeur littérale ; sinon elle est échappée, et le `&` d'une query string devient `&amp;`."
     explanation: >-
       C'est le role de `RoutingExtension::isUrlGenerationSafe()`, déclaré comme `is_safe_callback` des deux functions.
     memorization_justification: >-
@@ -2442,7 +2442,7 @@ flashcards:
     front: "Twig : pourquoi render(controller(...)) coûte-t-il plus cher qu'un include ?"
     back: "Chaque appel lance une sub-Request GET complète dans le kernel (`SUB_REQUEST`) : listeners, controller, rendu."
     explanation: >-
-      Un include rend un template avec le contexte courant ; un fragment refait le cycle requête-réponse. La documentation avertit de l'impact sur les performances.
+      Un include rend un template avec le contexte courant ; un fragment refait le cycle Request-Response. La documentation avertit de l'impact sur les performances.
     memorization_justification: >-
       Fonde le choix entre include et fragment.
     verification_status: VERIFIED

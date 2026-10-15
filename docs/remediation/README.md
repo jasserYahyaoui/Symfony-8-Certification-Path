@@ -56,7 +56,7 @@ an idea: it stops the old sentence returning, not every way of being wrong.
 | F5 | Content metrics read as candidate mastery | **VÉRIFIÉ** (local) | see P1.7 |
 | F6 | Roadmap / mock texts out of sync | **VÉRIFIÉ** (local) — mock texts derived; comprehension load budgeted, exam moved to 29 Dec by owner decision | see P2.5 |
 | F7 | Too few multiple-answer questions | **VÉRIFIÉ** — P1.6: +33, then +10 for PHP and Automated Tests (4 VALIDATION, 39 LEARNING in all), every choice executed or read in its source | see P1.6 |
-| F8 | Unsourced "not examinable" restrictions | **EN COURS** — Serializer (P1.5) and Cache (P1.4) extended, VÉRIFIÉ; P1.1–P1.3, P2.7 À FAIRE | see P1.5 |
+| F8 | Unsourced "not examinable" restrictions | **EN COURS** — Serializer (P1.5), Cache (P1.4) and Validator (P1.3) extended, VÉRIFIÉ; P1.1, P1.2, P2.7 À FAIRE | see P1.5, P1.3 |
 | F9 | PHP source 404 and mutable branch URLs | **BLOQUÉ** (the last 404 is in a HOLDOUT question) — pinning À FAIRE | see P2.6 |
 | F10 | No per-card recall record; comprehension stores nothing | **EN COURS** — comprehension recorded (P2.4, VÉRIFIÉ local); per-card recall À FAIRE (P2.3) | see P2.4 |
 
@@ -303,12 +303,51 @@ citation, so a format change has to be designed with it, not applied in bulk.
 
 ## Next action
 
-P1.3 (Validator: constraint behaviours, compositions, a custom Constraint and
-ConstraintValidator), then P1.2 (Form collections and mapping), then P1.1 (PHP
-API beyond « what's new »). Each the same way: execute first in
-`tools/behavior`, then write; decide the level on the item, never on a word
-count. P1.6 still owes multiple-answer questions in VALIDATION, which moves the
-Mock 1–3 blueprints and must be done with them.
+P1.2 (Form collections and mapping), then P1.1 (PHP API beyond « what's
+new »). Each the same way: execute first in `tools/behavior`, then write;
+decide the level on the item, never on a word count.
+
+### P1.3 — Validator: constraint behaviours and a custom constraint (F8, part)
+
+Executed first, on Validator 8.0.15 (`tools/behavior/checks/validator.php`,
+nine checks, each mutated once to prove it fails, then restored byte-identically
+under SHA-256):
+
+| Behaviour | Result |
+|---|---|
+| `null` | every value constraint passes it (`Length`, `Email`, `Regex`, `Choice`, `Positive`, `Count`, `Url`, `Type`); only `NotNull` and `NotBlank` refuse it |
+| `''` | `Email`, `Regex`, `Url`, `Type('string')` return at once; `Length(min: 3)`, `Choice`, `Positive` report it |
+| `new Choice(['a'])` | `InvalidArgumentException`: the first parameter is still `$options`, refused in 8.0 (7.4 deprecated the list form); the attribute throws at the first `validate()` |
+| `new Url()` on `http://localhost` | a violation: 8.0 makes `requireTld` default to `true` |
+| `Collection` | `[age]` « This field is missing. », `[zip]` « This field was not expected. »; `Required` holds the key, not a non-null value |
+| list / `Sequentially` / `Compound` | 2 / 1 / 2 violations: only `Sequentially` stops |
+| custom `Slug` | `validatedBy()` = `SlugValidator`; property target; on a class `ConstraintDefinitionException` |
+| custom validator | called with `null`; `UnexpectedValueException` → « This value should be of type string. »; `UnexpectedTypeException` propagates |
+
+Not taught: `When`, which needs `symfony/expression-language`, absent from
+`tools/behavior`; a claim about it would not have been executed.
+
+**Level: unchanged (STANDARD)** on both items. The additions are rules a
+question can bite on, not a new mechanism to reason through; both courses stay
+under the 900-word STANDARD budget.
+
+Content: three outcomes (`OUT-kyt7yfamw0aq`, `OUT-bkrt4hz3td66`,
+`OUT-7m4ym18awd8g`), three course sections (« null et la string vide »,
+« Configurer une constraint en 8.0 » on *Built-in validation constraints*,
+« Une constraint sur mesure » on *Violations builder*), three flashcards, three
+LEARNING questions (two multiple-answer, executed by
+`tools/behavior/questions/validator-p13.php`; one `hard` code question) and
+three COMPREHENSION questions; nine central facts.
+
+**Found on the way — a terminology defect.** The « chaîne → string » rule of
+#401 had turned forty-odd *chains* into strings: the `buildViolation()` method
+chain (« elle termine la string »), the Messenger middleware chain, the argument
+resolver chain, the `X-Forwarded-For` proxy chain, form transformers and type
+guessers. « Chaîne de requête » had become « chaîne de Request » instead of
+*query string*, about thirty-five times. Each was restored by an exact, counted
+replacement; the rule now protects « chaîne de … » and « chaîne d'… », and
+« chaîne de requête » maps to *query string*. The glossary notes, which no rule
+read, are now in the tool's scope.
 
 ### P1.6 — Multiple-answer questions (F7)
 

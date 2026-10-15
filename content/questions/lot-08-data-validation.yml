@@ -1708,3 +1708,197 @@ questions:
     branch: '8.0'
     symbol_or_lines: buildViolation() returns a builder; addViolation() adds the violation to the context
     verified_at: '2026-09-12'
+- id: QST-axp7pjs0gkx9
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-kyt7yfamw0aq
+  version: 1
+  official_topic: Data Validation
+  official_item: OIT-9x3strrjdng7
+  domain: symfony
+  subtopic: constraints
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: multiple
+  required_answer_count: 2
+  question: "On Symfony 8.0, which constraints report a violation when the value is the empty string ''? (Choose 2)"
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-15'
+  tags:
+  - constraints
+  - empty-values
+  choices:
+  - id: CHO-0mx991wecdmn
+    text: '`Length(min: 3)`'
+    correct: true
+  - id: CHO-k76sfs5q9x1f
+    text: "`Choice(choices: ['a'])`"
+    correct: true
+  - id: CHO-zzfap4rr0spz
+    text: '`Email()`'
+    correct: false
+    explanation: EmailValidator returns on null and on the empty string; requiring a value is the job of NotBlank.
+  - id: CHO-7pkp1vpcjp1n
+    text: "`Regex(pattern: '/^\\d+$/')`"
+    correct: false
+    explanation: RegexValidator also returns on the empty string, so the pattern is never tried.
+  explanation: "Executed with Validator 8.0.15. Every value constraint ignores null. On '' Email, Regex and Url return
+    at once, while Length measures a length of 0 and Choice finds no matching choice."
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraints/LengthValidator.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Constraints/LengthValidator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'validate(): returns on null only'
+    verified_at: '2026-10-15'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraints/EmailValidator.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Constraints/EmailValidator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'validate(): returns on null and on the empty string'
+    verified_at: '2026-10-15'
+- id: QST-f1bervatv72c
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-bkrt4hz3td66
+  version: 1
+  official_topic: Data Validation
+  official_item: OIT-9x3strrjdng7
+  domain: symfony
+  subtopic: constraints
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    On Symfony 8.0, what happens when this object is validated?
+
+    ```php
+    class Post
+    {
+        #[Assert\Choice(['draft', 'published'])]
+        public string $status = 'archived';
+    }
+
+    $validator->validate(new Post());
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 70
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-15'
+  tags:
+  - constraints
+  - symfony-8
+  choices:
+  - id: CHO-g7gw44cst9t6
+    text: It throws an InvalidArgumentException
+    correct: true
+  - id: CHO-rybg3799y47k
+    text: 'It returns one violation: "The value you selected is not a valid choice."'
+    correct: false
+    explanation: That is the result once the list is passed as choices, a named argument.
+  - id: CHO-ga9ppw1hnc1g
+    text: It returns no violation, because the array is read as options and ignored
+    correct: false
+    explanation: The options array is not ignored. Choice refuses it in its constructor.
+  - id: CHO-rnay752mx9dz
+    text: It triggers a deprecation, then validates against the two choices
+    correct: false
+    explanation: That was 7.4, which deprecated a list of choices as the first argument. 8.0 refuses it.
+  explanation: "The first parameter of the Choice constructor is still $options, and 8.0 refuses an options array: the
+    attribute throws when the metadata is loaded, at the first validate(). Executed with Validator 8.0.15; the fix is
+    choices: ['draft', 'published']."
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraints/Choice.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Constraints/Choice.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: '__construct(): first parameter $options, an array is refused'
+    verified_at: '2026-10-15'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/CHANGELOG.md
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/CHANGELOG.md
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: '7.4: list of choices as first argument deprecated; 8.0: options no longer configured implicitly'
+    verified_at: '2026-10-15'
+- id: QST-v6s83rdh77nq
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-7m4ym18awd8g
+  version: 1
+  official_topic: Data Validation
+  official_item: OIT-0wnxbapegqhv
+  domain: symfony
+  subtopic: custom-constraint
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: multiple
+  required_answer_count: 2
+  question: A Slug constraint that does not override validatedBy() or getTargets(), and a SlugValidator written as in the
+    custom constraint documentation. Which statements hold on Symfony 8.0? (Choose 2)
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 70
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-15'
+  tags:
+  - custom-constraint
+  choices:
+  - id: CHO-aybwtny53wvg
+    text: SlugValidator is used for it
+    correct: true
+  - id: CHO-3adnjyeq4rf4
+    text: The validator also runs for null
+    correct: true
+  - id: CHO-n9rat3kewref
+    text: '`#[Slug]` can be put on a class as it stands'
+    correct: false
+    explanation: getTargets() defaults to a property target; on a class it throws a ConstraintDefinitionException.
+  - id: CHO-89c740t10hzy
+    text: An UnexpectedValueException thrown by the validator aborts validate()
+    correct: false
+    explanation: The validator turns it into a violation, "This value should be of type string.".
+  explanation: "validatedBy() defaults to the class name followed by Validator. The validator is called for every value,
+    null included, which is why the documented one returns early on null and ''. Executed with Validator 8.0.15."
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/custom_constraint.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/validation/custom_constraint.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: Creating the Constraint Class; Creating the Validator itself
+    verified_at: '2026-10-15'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraint.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Constraint.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: "validatedBy(): static::class.'Validator'; getTargets(): PROPERTY_CONSTRAINT"
+    verified_at: '2026-10-15'

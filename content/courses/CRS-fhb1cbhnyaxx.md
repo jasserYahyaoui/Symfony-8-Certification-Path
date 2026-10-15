@@ -86,7 +86,7 @@ Deux conséquences pratiques :
 
 - l'arrêt dépend entièrement de **l'ordre d'appel**, donc des priorities ;
 - côté déclencheur, `isPropagationStopped()` rend un bool permettant de
-  savoir, après le `dispatch()`, si la string a été interrompue.
+  savoir, après le `dispatch()`, si la propagation a été interrompue.
 
 ```php
 $dispatcher->dispatch($event, 'foo.event');
