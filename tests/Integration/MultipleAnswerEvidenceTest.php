@@ -33,6 +33,7 @@ final class MultipleAnswerEvidenceTest extends TestCase
         'QST-h13r88e3t040' => 'release process: a policy document',
         'QST-szaz294k89ed' => 'special routing parameters: the list the routing documentation gives',
         'QST-sws8a7kgyd2f' => 'AbstractController signatures: FrameworkBundle is not installed in tools/behavior',
+        'QST-fvx988xhq7gw' => 'WebTestCase assertions: FrameworkBundle\'s assertion traits, not installed in tools/behavior',
     ];
 
     /** @return array<string, true> */

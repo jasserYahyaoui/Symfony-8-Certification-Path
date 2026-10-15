@@ -2659,3 +2659,60 @@ questions:
       branch: '8.0'
       symbol_or_lines: VERBOSITY_* constants
       verified_at: '2026-10-14'
+  # P1.6, second batch (2026-10-15): PHP and Automated Tests.
+  - id: QST-rs3tsp2rj4ka
+    question_archetype: BEHAVIOR_PREDICTION
+    assesses_outcomes:
+    - OUT-e2qhdj18dvjh
+    version: 1
+    official_topic: Automated Tests
+    official_item: OIT-vj24gwq6r1r4
+    domain: symfony
+    subtopic: deprecations
+    language: en
+    difficulty: medium
+    cognitive_level: UNDERSTAND
+    exam_skill: RECOGNIZE
+    type: mcq
+    answer_mode: multiple
+    required_answer_count: 2
+    question: Code calls `trigger_deprecation('acme/lib', '1.2', 'Old thing is deprecated')`.
+      Which statements are true? (Choose 2)
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 75
+    classification: OFFICIAL
+    pool: VALIDATION
+    verification_status: VERIFIED
+    reviewers:
+    - tech-lead
+    reviewed_at: '2026-10-15'
+    tags:
+    - deprecation
+    choices:
+    - id: CHO-ycpt12z0e2k5
+      text: It raises an E_USER_DEPRECATED error.
+      correct: true
+    - id: CHO-fvm0rp1pe3y3
+      text: 'Its message reads "Since acme/lib 1.2: Old thing is deprecated".'
+      correct: true
+    - id: CHO-bfaqa90bze0j
+      text: It throws an exception the caller has to catch.
+      correct: false
+      explanation: 'Nothing is thrown: execution continues normally.'
+    - id: CHO-wnr1y6hqveky
+      text: With display_errors on and no error handler, the notice is printed.
+      correct: false
+      explanation: 'The call is silenced with @: nothing is printed unless a handler collects
+        it.'
+    explanation: 'Executed with symfony/deprecation-contracts: a registered error handler received
+      E_USER_DEPRECATED (16384) with the message "Since acme/lib 1.2: Old thing is deprecated",
+      inside a silenced call; without a handler and with display_errors on, nothing was printed
+      and execution continued.'
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/Deprecation/function.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/Deprecation/function.php
+      branch: '8.0'
+      symbol_or_lines: 'trigger_deprecation(): @trigger_error(..., E_USER_DEPRECATED)'
+      verified_at: '2026-10-15'
