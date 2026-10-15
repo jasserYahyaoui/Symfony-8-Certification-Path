@@ -1414,7 +1414,7 @@ flashcards:
   front: 'Validator : depuis un Callback de class, signaler une adresse e-mail refusée sur le field email, avec un code stable et la valeur du field.'
   back: '`$context->buildViolation(''La valeur {{ value }} est refusée.'')->setParameter(''{{ value }}'', $this->email)->atPath(''email'')->setInvalidValue($this->email)->setCode(''EMAIL_REFUSED'')->addViolation();`'
   explanation: '`atPath()` place l''erreur, `setInvalidValue()` corrige la valeur fautive, `setCode()` l''identifie.'
-  memorization_justification: String complète typique.
+  memorization_justification: Chaîne d'appels complète typique.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Violation/ConstraintViolationBuilderInterface.php

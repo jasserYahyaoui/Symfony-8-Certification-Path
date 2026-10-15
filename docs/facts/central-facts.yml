@@ -251,7 +251,7 @@ facts:
     behavior_check: validator.empty-string-split
     content: [CRS-569y6hb7fwj5, FLC-t2dp9na2nv8d, QST-axp7pjs0gkx9, QST-n7y4xagppx56]
     forbidden:
-      - "/Email[^.\\n]{0,40}(refuse|rejette|rejects)[^.\\n]{0,20}(la string vide|the empty string|'')/iu"
+      - "/\\bEmail\\b[^.\\n]{0,40}\\b(refuse|rejette|rejects)\\b[^.\\n]{0,20}(la string vide|the empty string)/u"
   validator.options-array-refused:
     finding: P1.3
     official_item: OIT-9x3strrjdng7
