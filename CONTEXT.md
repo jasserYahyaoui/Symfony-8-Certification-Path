@@ -1,6 +1,6 @@
 # CONTEXT.md — Session continuity (Master Plan §23)
 
-**Last updated:** 2026-10-14 (remédiation F1–F10 : P0, P1.4, P1.5, P1.7, P2.4, P2.5 livrés ; examen le 29 décembre)
+**Last updated:** 2026-10-15 (remédiation : P0, P1.4–P1.7, P2.4, P2.5 livrés ; terminologie anglaise ; examens blancs 1 à 6 avec correction ; examen le 29 décembre)
 
 ---
 
@@ -16,6 +16,12 @@ Branche de travail : `claude/symfony-8-certification-plan-phmkau`.
 | Date d'examen → 29 décembre (option B du propriétaire), charge de compréhension comptée | #397 | `c4c5348` | smoke 115538068644 **success, lu** |
 | P1.5 Serializer : ordre des normaliseurs, extracteur de types, OBJECT_TO_POPULATE, contexte ; promu DEEP | #398 | `afe8926` | smoke 115735269277 **success, lu** |
 | P1.4 Cache : PSR-6, PSR-16, ponts ; promu DEEP | #399 | `effce50` | smoke 115749438772 **success, lu** |
+| Terminologie : listener, Request, service container… restent en anglais (`tools/terminology/apply.py --check` en CI) ; attentes du smoke alignées | #401, #402, #403 | `4dfd8e7`, `3fcc0fd`, `a743cf2` | smoke **success, lu** après #403 (identifiant non recopié ici) |
+| Examens blancs 1 à 6 au format officiel (75 q, 90 min, anglais), menu `/examens` avec recommandation, tirages 7+ | #404 | `b4e578c` | smoke 115970550815 **success, lu** |
+| Correction détaillée après soumission, chaque erreur liée à sa section de cours (`outcome_sections`, règle SEC-001) | #405 | `fd0afa2` | smoke **FAIL** (ancre « Points clés » renommée), corrigé par #406 |
+| Smoke : ancre des points clés = id explicite | #406 | `91e694a` | smoke 116058594758 **success, lu** |
+| P1.6 : 33 questions à réponses multiples, chaque choix exécuté (`tools/behavior/questions/`) | #407 | `30a71ba` | smoke 116108055298 **success, lu** |
+| P1.6, second lot : PHP et Automated Tests (+10) | #408 | `cb639f2` | smoke 116334255807 **success, lu** — « 10/9/9/9/9/9 » questions multiples par examen |
 
 Nouveau : `tools/behavior/` (Symfony 8.0.* verrouillé, 10 faits exécutés en CI),
 `docs/facts/central-facts.yml` + `CentralFactsTest` (le retour d'une ancienne
@@ -37,11 +43,27 @@ travaux : 343 tests, 23 546 assertions.
   déplacé au **29 décembre 2026**, rythme inchangé (160/220 min) ; la charge de
   compréhension (26,4 h) est comptée. Mock 4 le 26 décembre.
 
+Tests réellement exécutés le 2026-10-15 sur #408 : `validate` 0 bloquant ;
+`gate-full` 366 tests, 27 374 assertions OK, a11y 0 violation ; 11 audits +
+lot01 + fr2 : 0 constat ; preuves PF (24 cas), PFC, A10P, L27P OK, restauration
+identique ; `tools/behavior/run.php` 56 faits, 0 échec ; contrôles UI
+verify-exams, exam-correction, practice, simulations OK.
+
+**Incident consigné** (`docs/remediation/README.md`, P1.6 second lot) : un script
+de profilage a affiché le début de quatre énoncés HOLDOUT (filtre sur le nom de
+fichier et non sur le pool). Non utilisés ; les scripts filtrent désormais
+`pool != HOLDOUT`.
+
+**À savoir avant d'ajouter une question :** une seule question VALIDATION par
+item (audit L1-4, tests des payloads Mock 1–3) ; au plus cinq questions par
+item du lot 01, holdout compris (L1-5) ; une question à réponses multiples
+s'accompagne d'une exécution par choix dans `tools/behavior/questions/` ou
+d'une raison dans `MultipleAnswerEvidenceTest::DOCUMENTARY`.
+
 **Prochaine action :** P1.3 Validator, puis P1.2 Form (collections), puis P1.1
-PHP. Toujours : exécuter d'abord dans `tools/behavior` (18 faits aujourd'hui),
-écrire ensuite, et décider du niveau sur l'item, jamais sur un compte de mots.
-P1.6 doit encore des questions à réponses multiples en VALIDATION (0 à ce jour),
-ce qui modifie les blueprints des Mocks 1 à 3.
+PHP, puis P2.3 (rappel par carte). Toujours : exécuter d'abord dans
+`tools/behavior`, écrire ensuite, et décider du niveau sur l'item, jamais sur un
+compte de mots.
 
 ---
 
