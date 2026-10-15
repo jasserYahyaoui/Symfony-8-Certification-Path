@@ -203,25 +203,25 @@
   "component": "DoctrineBridge",
   "source": "CHANGELOG",
   "entry": "Remove support for auto-mapping Doctrine entities to controller arguments; use explicit mapping instead",
-  "scope": "in",
-  "verdict": "GAP",
-  "evidence": "G5: mapped route parameters {slug:post} absent from the corpus"
+  "scope": "out",
+  "verdict": "OUT_OF_SCOPE",
+  "evidence": "excluded by docs/syllabus/exclusions.yml (EXC-DOCTRINE), Master Plan §1.5"
  },
  {
   "component": "DoctrineBridge",
   "source": "CHANGELOG",
   "entry": "Make `ProxyCacheWarmer` class `final`",
-  "scope": "in",
-  "verdict": "TAUGHT",
-  "evidence": "identifier found with an 8.0 marker in: 03-httpkernel.md, 04-console.md, CRS-0jtjh77tabt1.md"
+  "scope": "out",
+  "verdict": "OUT_OF_SCOPE",
+  "evidence": "excluded by docs/syllabus/exclusions.yml (EXC-DOCTRINE), Master Plan §1.5"
  },
  {
   "component": "DoctrineBridge",
   "source": "CHANGELOG",
   "entry": "Remove `AbstractDoctrineExtension`, the code is incorporated into the extension classes of Doctrine bundles",
-  "scope": "in",
-  "verdict": "NOT_EXAM_RELEVANT",
-  "evidence": "internal, test-infrastructure or out-of-item API; no syllabus item examines it"
+  "scope": "out",
+  "verdict": "OUT_OF_SCOPE",
+  "evidence": "excluded by docs/syllabus/exclusions.yml (EXC-DOCTRINE), Master Plan §1.5"
  },
  {
   "component": "DomCrawler",
@@ -627,9 +627,9 @@
   "component": "MonologBridge",
   "source": "CHANGELOG",
   "entry": "Remove `NotFoundActivationStrategy`, use `HttpCodeActivationStrategy` instead",
-  "scope": "in",
-  "verdict": "NOT_EXAM_RELEVANT",
-  "evidence": "internal, test-infrastructure or out-of-item API; no syllabus item examines it"
+  "scope": "out",
+  "verdict": "OUT_OF_SCOPE",
+  "evidence": "excluded by docs/syllabus/exclusions.yml (EXC-MONOLOG), Master Plan §1.5"
  },
  {
   "component": "Notifier",
@@ -1203,9 +1203,9 @@
   "component": "DoctrineBridge",
   "source": "UPGRADE",
   "entry": "Remove the `DoctrineExtractor::getTypes()` method, use `DoctrineExtractor::getType()` instead",
-  "scope": "in",
-  "verdict": "NOT_EXAM_RELEVANT",
-  "evidence": "internal, test-infrastructure or out-of-item API; no syllabus item examines it"
+  "scope": "out",
+  "verdict": "OUT_OF_SCOPE",
+  "evidence": "excluded by docs/syllabus/exclusions.yml (EXC-DOCTRINE), Master Plan §1.5"
  },
  {
   "component": "Form",

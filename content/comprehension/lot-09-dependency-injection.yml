@@ -3601,3 +3601,55 @@ questions:
     branch: '8.0'
     symbol_or_lines: createNotFoundException()
     verified_at: '2026-10-09'
+- id: QST-31ajknw5d0qs
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-bfyfkyqnw1hv
+  version: 1
+  official_topic: Dependency Injection
+  official_item: OIT-qj4xfkhwdrx7
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'A bundle wants its api_key option to be mandatory. Which node definition does Config 8.0 accept?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-15'
+  tags:
+  - configuration
+  choices:
+  - id: CHO-4tambnc4y78k
+    text: '->scalarNode(''api_key'')->isRequired()->end()'
+    correct: true
+  - id: CHO-p0sthm52sjma
+    text: '->scalarNode(''api_key'')->isRequired()->defaultNull()->end()'
+    correct: false
+    explanation: 'defaultNull() is a default value: refused on a required node.'
+  - id: CHO-wzqmxx77a6q9
+    text: '->scalarNode(''api_key'')->defaultValue('''')->isRequired()->end()'
+    correct: false
+    explanation: 'The order does not matter: both orders are refused.'
+  - id: CHO-x452ya3gtwwe
+    text: '->scalarNode(''api_key'')->isRequired()->defaultValue(null)->end()'
+    correct: false
+    explanation: 'A null default is still a default value.'
+  explanation: 'Required and defaulted are exclusive in Config 8.0; any default on a required node throws an InvalidDefinitionException when the tree is built. Executed with Config 8.0.15.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Config/Definition/Builder/NodeDefinition.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Config/Definition/Builder/NodeDefinition.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'defaultValue() and isRequired(): InvalidDefinitionException when both are set'
+    verified_at: '2026-10-15'

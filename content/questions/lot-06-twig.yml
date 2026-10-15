@@ -3175,3 +3175,64 @@ questions:
     branch: '8.0'
     symbol_or_lines: Linting Twig Templates
     verified_at: '2026-09-11'
+- id: QST-zpp1r9fbs8vb
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-txry0vy6q09r
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-sd08j04k60m0
+  domain: symfony
+  subtopic: translations
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    On Symfony 8.0, what does rendering this template do?
+
+    ```twig
+    {% set greeting = t('welcome') %}
+    <p>{{ greeting }}</p>
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-15'
+  tags:
+  - translations
+  - symfony-8
+  choices:
+  - id: CHO-kqk2n9ttabdt
+    text: 'It throws a RuntimeError'
+    correct: true
+  - id: CHO-6n69m3shc06p
+    text: 'It prints welcome, the untranslated key'
+    correct: false
+    explanation: 'That was 7.4, where TranslatableMessage still had __toString().'
+  - id: CHO-vpgmcf96z5a5
+    text: 'It prints the translation in the current locale'
+    correct: false
+    explanation: 'Only the trans filter translates the object.'
+  - id: CHO-fb244p109ypm
+    text: 'It prints an empty paragraph'
+    correct: false
+    explanation: 'Twig cannot convert the object to a string at all.'
+  explanation: 'Symfony 8.0 removed TranslatableMessage::__toString(), so Twig cannot print the object; {{ greeting|trans }} is required. Executed against 7.4.21, which printed the key, and 8.0.15, which throws.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Translation/CHANGELOG.md
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Translation/CHANGELOG.md
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: '8.0: Remove TranslatableMessage::__toString()'
+    verified_at: '2026-10-15'

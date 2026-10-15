@@ -17,11 +17,24 @@ official_sources:
     symbol_or_lines: "createFirewall() — security false returns an empty listener list; security.access_listener"
     branch: "8.0"
     verified_at: "2026-09-30"
+  - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/configuration/security.rst"
+    readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/reference/configuration/security.rst"
+    repository: "symfony/symfony-docs"
+    branch: "8.0"
+    symbol_or_lines: "expose_security_errors"
+    verified_at: "2026-10-15"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Http/Authentication/AuthenticatorManager.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Http/Authentication/AuthenticatorManager.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    symbol_or_lines: "isSensitiveException(); a sensitive exception becomes BadCredentialsException"
+    verified_at: "2026-10-15"
 outcome_sections:
   OUT-mrdkwy4adq6q: "Ce qui décide de quoi"
   OUT-wnw02nsyvmyg: "Les deux règles d'ordre"
   OUT-d69mg4gn25dt: "`security: false` éteint tout"
   OUT-7x0agpczf39n: "Vérifier"
+  OUT-h0ct6qp4249p: "Ce que l'échec révèle"
 ---
 
 ## Objectif
@@ -98,6 +111,26 @@ Dès qu'il y en a deux, chaque firewall doit nommer le sien. Exécuté, sans key
 authenticator on "main" firewall is ambiguous as there is more than one
 registered provider. »
 
+## Ce que l'échec révèle
+
+Un message « ce user n'existe pas » dit à un attaquant quels identifiers sont
+valides. L'option **`security.expose_security_errors`** — à la racine de
+`security`, pas dans un firewall — règle ce qui sort ;
+`hide_user_not_found`, son ancêtre, n'existe plus en 8.0.
+
+| Valeur | User inconnu | Statut du compte (bloqué, expiré) |
+|---|---|---|
+| `none` (défaut) | masqué | masqué |
+| `account_status` | masqué | montré, si le password était correct (documentation 8.0) |
+| `all` | montré | montré |
+
+Lu dans `AuthenticatorManager::isSensitiveException()` (8.0) : une exception
+jugée sensible est remplacée par `BadCredentialsException('Bad credentials.')`
+avant d'atteindre l'authenticator. Seules ces deux familles sont jamais
+masquées — `UserNotFoundException` et `AccountStatusException`, sauf sa
+variante `CustomUserMessageAccountStatusException` ; un token CSRF invalide,
+par exemple, reste visible.
+
 ## Vérifier
 
 ```bash
@@ -121,6 +154,9 @@ aucun listener, aucune règle appliquée.
 
 **Plusieurs providers imposent de nommer celui de chaque firewall.**
 
+**Par défaut, un user inconnu et un mauvais password donnent la même erreur** :
+`expose_security_errors` vaut `none`.
+
 ## Points clés
 
 - Quatre sections : hash, providers, firewalls, access control.
@@ -129,6 +165,7 @@ aucun listener, aucune règle appliquée.
 - Première correspondance dans les deux listes ; le fourre-tout en dernier.
 - `security: false` : ni authentication ni `access_control`.
 - `debug:config security` montre la configuration réellement appliquée.
+- `expose_security_errors` : `none` par défaut, `account_status`, `all`.
 
 ## Sources officielles
 

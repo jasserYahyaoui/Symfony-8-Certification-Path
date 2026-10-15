@@ -1326,3 +1326,24 @@ flashcards:
     branch: '8.0'
     symbol_or_lines: handle() — SendMessageToTransportsEvent only when the envelope has senders
     verified_at: '2026-10-02'
+- id: FLC-pefcdwnxy6ev
+  official_item: OIT-76x1t7z916f4
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony 8.0 : une exception maison implémente RecoverableExceptionInterface. Que doit-elle fournir, et à quoi sert-ce ?'
+  back: 'getRetryDelay(): ?int, en millisecondes. Une valeur remplace le délai de la retry strategy ; null la laisse décider. Plusieurs exceptions enveloppées : le plus petit délai gagne.'
+  explanation: 'Lu dans SendFailedMessageForRetryListener::getWaitingTime() (8.0). RecoverableMessageHandlingException le reçoit en quatrième argument, retryDelay.'
+  memorization_justification: 'La method entre dans l''interface en 8.0 ; une class maison écrite pour la 7.x ne se charge plus.'
+  verification_status: VERIFIED
+  reviewed_at: '2026-10-15'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/EventListener/SendFailedMessageForRetryListener.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/EventListener/SendFailedMessageForRetryListener.php
+    branch: '8.0'
+    symbol_or_lines: 'getWaitingTime()'
+    verified_at: '2026-10-15'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Exception/RecoverableExceptionInterface.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/Exception/RecoverableExceptionInterface.php
+    branch: '8.0'
+    symbol_or_lines: 'getRetryDelay(): ?int'
+    verified_at: '2026-10-15'

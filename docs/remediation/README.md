@@ -300,6 +300,7 @@ citation, so a format change has to be designed with it, not applied in bulk.
 | P1.5 Serializer | #398 | squash `afe8926` | smoke 115735269277 success, log read (519 LEARNING, 615 outcomes, lot-26 comprehension 18) |
 | P1.4 Cache | #399 | squash `effce50` | smoke 115749438772 success, log read (lot-18 comprehension 16, 1 122 in all) |
 | P1.3 Validator | #412 | squash `1284271` | smoke 116625759008 success, log read (295 ok, 0 error; « ok remediation P1.3 lot-08 ») |
+| Deep audit 8.0 (report, Cache checks, terminology senses) | #413 | squash `ebdefeb` | smoke 116661090571 success, log read (295 ok, 0 error) |
 | P1.7, P2.4, P2.5 (part) | #395, CI green | squash `6c1448c` | job « Production smoke test » 115498368380 success, log read. It checks served pages and payloads, not the client-side progression table, which the CI a11y audit renders. |
 
 ## Next action

@@ -341,3 +341,26 @@ facts:
     behavior_check: console.setcode-closure-typed-and-int
     content: [FLC-an8ypmrag2p3]
     forbidden: []
+  config.required-node-has-no-default:
+    finding: deep-audit-8.0
+    official_item: OIT-qj4xfkhwdrx7
+    statement: >-
+      Config 8.0 refuses a node that is both required and defaulted: isRequired() then defaultValue(), the
+      reverse order, and isRequired() then defaultNull() each throw an InvalidDefinitionException when the tree
+      is built. isRequired() alone builds.
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Config/Definition/Builder/NodeDefinition.php
+    behavior_check: config.required-node-has-no-default
+    content: [CRS-exs5dvtqa1as, FLC-7hbhn5dg15te, QST-kzd5923s8gg9, QST-31ajknw5d0qs]
+    forbidden: []
+  translation.translatable-not-stringable:
+    finding: deep-audit-8.0
+    official_item: OIT-sd08j04k60m0
+    statement: >-
+      TranslatableMessage has no __toString() in 8.0: Twig printing it without |trans throws a RuntimeError,
+      where 7.4 printed the raw key. {{ message|trans }} translates it.
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Translation/CHANGELOG.md
+    behavior_check: translation.translatable-not-stringable
+    content: [CRS-q18xc1k4yvb9, FLC-p6q3ewt9qsj7, QST-zpp1r9fbs8vb]
+    forbidden: []

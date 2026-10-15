@@ -2268,3 +2268,19 @@ flashcards:
     branch: '8.0'
     symbol_or_lines: 'public static function getSubscribedServices(): array'
     verified_at: '2026-09-30'
+- id: FLC-7hbhn5dg15te
+  official_item: OIT-qj4xfkhwdrx7
+  language: fr
+  level: TRAP
+  front: 'Symfony 8.0 : un node de configuration déclaré isRequired()->defaultValue(30). Que se passe-t-il ?'
+  back: 'Une InvalidDefinitionException dès la construction de l''arbre : « cannot be required and have a default value ». Dans les deux ordres, et avec defaultNull() aussi.'
+  explanation: 'Exécuté sur Config 8.0.15. Le choix est l''un ou l''autre : obligatoire sans valeur, ou facultatif avec une default value.'
+  memorization_justification: 'Les deux appels se lisent comme une précaution redondante ; en 8.0 la combinaison est refusée.'
+  verification_status: VERIFIED
+  reviewed_at: '2026-10-15'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Config/Definition/Builder/NodeDefinition.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Config/Definition/Builder/NodeDefinition.php
+    branch: '8.0'
+    symbol_or_lines: 'defaultValue() and isRequired(): InvalidDefinitionException when both are set'
+    verified_at: '2026-10-15'

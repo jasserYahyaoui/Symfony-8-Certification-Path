@@ -53,18 +53,18 @@ ordinary French as a term (entrée, modèle, vue, rappel, lot) are not listed; t
 file says why. The explanations stay in French — §5 is unchanged — only the
 terms are not translated.
 
-## Measured state (2026-10-15, 779 questions)
+## Measured state (2026-10-15, 782 questions)
 
 | §5 requirement | Measured | Verdict |
 |---|---|---|
-| ≥ 50% of advanced (`hard`) questions in English | 287 of 288 = **99.7%** | **PASS** |
+| ≥ 50% of advanced (`hard`) questions in English | 289 of 290 = **99.7%** | **PASS** |
 | Mock 3 primarily English (`VALIDATION`) | 141 of 141 = **100%** | **PASS** |
 | Mock 4 100% English (`HOLDOUT`) | 75 of 75 = **100%** | **PASS** |
 | Beginner practice may be French (`LEARNING`) | 21 French, all `LEARNING` (7 `easy`, 13 `medium`, 1 `hard`) | **PASS** — permitted |
 | French-to-English certification glossary | 81 entries, `docs/syllabus/glossary.yml`, rendered at `/docs/syllabus/glossary` | **PASS** |
 | Acceptable timed performance in English | not yet exercised | **NOT_APPLICABLE** until the mocks are sat |
 
-Whole corpus: **758 English, 21 French**.
+Whole corpus: **761 English, 21 French**.
 
 The remediation of 2026-10-14 (P1.5, Serializer) added three English `LEARNING`
 questions, two of them `hard`, taking the corpus to 731 and the advanced
@@ -75,7 +75,9 @@ multiple-answer questions, 3 `VALIDATION` and 30 `LEARNING`, 8 of them
 (2026-10-15, PHP and Automated Tests) added 10 more, 1 `VALIDATION` and 9
 `LEARNING`, 2 `hard`: the corpus is 776 and the denominator 286. P1.3
 (Validator) added three English `LEARNING` questions, two of them `hard`: the
-corpus is 779 and the denominator 288. Comprehension questions are not part of these figures: they
+corpus is 779 and the denominator 288. The deep audit of 8.0 then added three
+English `LEARNING` questions, two of them `hard`: the corpus is 782 and the
+denominator 290. Comprehension questions are not part of these figures: they
 live in their own pool and banks (ADR-0010).
 
 The corpus grew by eleven since the Lot 07 reading, across two units refined back to
