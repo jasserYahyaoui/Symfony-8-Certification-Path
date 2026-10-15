@@ -184,7 +184,7 @@ flashcards:
       500 sinon — à moins d'appeler allowCustomResponseCode() avant de la
       définir.
     memorization_justification: >-
-      Règle en cascade à trois branches dont l'ordre change la Response, et dont
+      Règle en cascade à trois branches dont l'ordre change le résultat, et dont
       la conclusion — « mon 204 devient 404, ou 500 » — contredit frontalement
       l'intuition.
     verification_status: VERIFIED
@@ -2978,7 +2978,7 @@ flashcards:
       dispatchés.
     memorization_justification: >-
       Confusion classique entre arrêter un event et arrêter le traitement ;
-      les deux Responses sont plausibles sans la règle.
+      les deux propositions sont plausibles sans la règle.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst"
@@ -4082,7 +4082,7 @@ flashcards:
       de troisième niveau. Le file se lit ainsi du plus récent au plus
       ancien.
     memorization_justification: >-
-      Détail d'ordre que les deux Responses rendent plausibles, et qui se vérifie
+      Détail d'ordre que les deux propositions rendent plausibles, et qui se vérifie
       d'un coup d'œil sur un extrait.
     verification_status: VERIFIED
     official_sources:
@@ -5086,7 +5086,7 @@ flashcards:
     front: "Comment vérifier qu'une PSR est implémentée par Symfony, sans mémoriser la liste ?"
     back: "Chercher `psr/<nom>-implementation` dans la key `provide` du `composer.json` du mono-dépôt."
     explanation: >-
-      Le nom du package virtuel donne la Response directement. Absent de
+      Le nom du package virtuel donne la solution directement. Absent de
       `provide` ⇒ non implémentée, quelle que soit l'impression laissée par
       l'usage.
     memorization_justification: >-

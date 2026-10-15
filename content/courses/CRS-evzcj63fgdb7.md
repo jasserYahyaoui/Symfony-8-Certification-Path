@@ -79,7 +79,7 @@ contact:
         _locale: en|fr|de
 ```
 
-La constraint gagne à être écrite comme parameter de configuration, pour éviter
+Le requirement gagne à être écrit comme parameter de configuration, pour éviter
 de répéter la liste des locales dans chaque route.
 
 Le travail est fait par `LocaleListener`, qui écoute `kernel.request` avec la
@@ -101,7 +101,7 @@ route :
 ```
 
 `AttributeClassLoader` crée une route par locale — `about_us.en`,
-`about_us.nl` — avec la default value `_locale`, une constraint sur
+`about_us.nl` — avec la default value `_locale`, un requirement sur
 `_locale` et une valeur `_canonical_route`. L'entrée sans key devient la route
 `about_us` elle-même, sans locale. En attributes, il faut passer l'array par
 le parameter nommé `path`.

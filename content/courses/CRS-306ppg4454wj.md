@@ -76,7 +76,7 @@ Une **function** produit une valeur à partir de ses arguments :
 
 La règle pratique : si l'on part d'une valeur, c'est un filter ; si l'on part de
 rien, c'est une function. `date` existe sous les deux formes — `now|date(...)`
-filter une date, `date()` en construit une — ce qui en fait un bon révélateur de
+filtre une date, `date()` en construit une — ce qui en fait un bon révélateur de
 la distinction. Troisième famille, à ne pas confondre : les **tests**, appliqués
 par `is` — `is defined`, `is empty`, `is iterable`.
 
@@ -133,7 +133,7 @@ Le bridge Twig apporte les extensions qui exposent les components :
 | `dump()` | VarDumper |
 
 `php bin/console debug:twig` liste ce qui est réellement disponible dans
-l'application, filters, functions, tests et globales — c'est la Response fiable,
+l'application, filters, functions, tests et globales — c'est la source fiable,
 plutôt qu'une liste apprise par cœur.
 
 ## En ajouter

@@ -20,10 +20,32 @@ $removeDir = static function (string $dir): void {
     rmdir($dir);
 };
 
+/*
+ * The F2 checks run on both implementations of get(): ArrayAdapter has its own,
+ * every adapter extending AbstractAdapter (FilesystemAdapter here) goes through
+ * Contracts' CacheTrait::doGet(). Until 2026-10-15 they ran on ArrayAdapter
+ * only while the facts cite CacheTrait, and a mutation of CacheTrait left them
+ * green (deep audit, docs/audit/deep-8.0/). $onEachGet runs $check on a fresh
+ * pool of each kind and returns the first failure, prefixed by the adapter.
+ */
+$onEachGet = static function (callable $check) use ($tempDir, $removeDir): ?string {
+    $dir = $tempDir();
+    try {
+        foreach (['ArrayAdapter' => static fn () => new ArrayAdapter(), 'FilesystemAdapter' => static fn () => new FilesystemAdapter('f2', 0, $dir)] as $name => $make) {
+            if (null !== $failure = $check($make())) {
+                return "$name: $failure";
+            }
+        }
+
+        return null;
+    } finally {
+        $removeDir($dir);
+    }
+};
+
 return [
     // F2: a present key does not guarantee the callback is skipped.
-    'cache.callback-runs-on-hit-with-beta-inf' => static function (): ?string {
-        $cache = new ArrayAdapter();
+    'cache.callback-runs-on-hit-with-beta-inf' => static fn (): ?string => $onEachGet(static function ($cache): ?string {
         $cache->get('k', static fn (): string => 'v1');
         if (!$cache->getItem('k')->isHit()) {
             return 'the key was not stored before the second call';
@@ -44,11 +66,10 @@ return [
             'v2' !== $cache->getItem('k')->get() => 'the recomputed value was not saved',
             default => null,
         };
-    },
+    }),
     // F2: with no early expiration (beta=0) a fresh hit is served without the callback,
     // and beta=0 does not disable the cache itself.
-    'cache.beta-zero-serves-hit' => static function (): ?string {
-        $cache = new ArrayAdapter();
+    'cache.beta-zero-serves-hit' => static fn (): ?string => $onEachGet(static function ($cache): ?string {
         $cache->get('k', static fn (): string => 'v1', 0.0);
         $ran = false;
         $value = $cache->get('k', static function () use (&$ran): string {
@@ -69,10 +90,9 @@ return [
         }
 
         return null;
-    },
+    }),
     // F2: $save=false returns the value without storing it.
-    'cache.save-false-not-stored' => static function (): ?string {
-        $cache = new ArrayAdapter();
+    'cache.save-false-not-stored' => static fn (): ?string => $onEachGet(static function ($cache): ?string {
         $value = $cache->get('k', static function (ItemInterface $item, bool &$save): string {
             $save = false;
 
@@ -83,7 +103,7 @@ return [
         }
 
         return $cache->getItem('k')->isHit() ? 'the value was stored although $save was false' : null;
-    },
+    }),
     // F2 (pool isolation): two adapters on one directory are isolated by their
     // namespace, not by being two objects.
     'cache.pools-isolated-by-namespace' => static function (): ?string {

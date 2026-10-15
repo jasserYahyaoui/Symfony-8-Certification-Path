@@ -53,6 +53,7 @@ facts:
       beta=INF on a stored key, the callback runs, isHit() is true inside it, and its value is saved.
     sources:
       - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/Cache/CacheTrait.php
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Cache/Adapter/ArrayAdapter.php
     behavior_check: cache.callback-runs-on-hit-with-beta-inf
     content: [CRS-p6yhxmpxrzbs, FLC-5ph49r9vszd1, QST-ch9mc2vedk60]
     forbidden:
@@ -68,6 +69,7 @@ facts:
       An item without an expiry is never elected for early recomputation.
     sources:
       - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/Cache/CacheTrait.php
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Cache/Adapter/ArrayAdapter.php
     behavior_check: cache.beta-zero-serves-hit
     content: [QST-4312r4ah4gn2]
     forbidden: []
@@ -77,6 +79,7 @@ facts:
     statement: Setting the by-reference $save to false returns the callback value without storing it.
     sources:
       - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/Cache/CacheTrait.php
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Cache/Adapter/ArrayAdapter.php
     behavior_check: cache.save-false-not-stored
     content: [CRS-p6yhxmpxrzbs]
     forbidden: []
@@ -324,4 +327,17 @@ facts:
       - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Validator/RecursiveContextualValidator.php
     behavior_check: validator.unexpected-value-vs-type
     content: [CRS-d235sja3h7y2, QST-ed52tkyz4n4h]
+    forbidden: []
+  console.setcode-closure-typed-and-int:
+    finding: deep-audit-8.0
+    official_item: OIT-kbg00jqxxwhq
+    statement: >-
+      Console 8.0 accepts any closure in setCode(), then fails at run(): an untyped parameter raises a
+      LogicException, and a typed closure that does not return an int raises a TypeError. Both returned 0
+      on 7.4. A declared return type is not required.
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/CHANGELOG.md
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Command/InvokableCommand.php
+    behavior_check: console.setcode-closure-typed-and-int
+    content: [FLC-an8ypmrag2p3]
     forbidden: []

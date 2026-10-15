@@ -1,0 +1,1314 @@
+[
+ {
+  "component": "AssetMapper",
+  "source": "CHANGELOG",
+  "entry": "Remove `ImportMapConfigReader::splitPackageNameAndFilePath()`, use `ImportMapEntry::splitPackageNameAndFilePath()` instead",
+  "scope": "out",
+  "verdict": "OUT_OF_SCOPE",
+  "evidence": "component outside the official syllabus"
+ },
+ {
+  "component": "AssetMapper",
+  "source": "CHANGELOG",
+  "entry": "Make argument `$projectDir` of `ImportMapRequireCommand` mandatory",
+  "scope": "out",
+  "verdict": "OUT_OF_SCOPE",
+  "evidence": "component outside the official syllabus"
+ },
+ {
+  "component": "BrowserKit",
+  "source": "CHANGELOG",
+  "entry": "Remove `AbstractBrowser::useHtml5Parser()`; the native HTML5 parser is used unconditionally",
+  "scope": "in",
+  "verdict": "NOT_EXAM_RELEVANT",
+  "evidence": "read in context (concordance)"
+ },
+ {
+  "component": "Cache",
+  "source": "CHANGELOG",
+  "entry": "Remove `CouchbaseBucketAdapter`, use `CouchbaseCollectionAdapter` instead",
+  "scope": "in",
+  "verdict": "NOT_EXAM_RELEVANT",
+  "evidence": "internal, test-infrastructure or out-of-item API; no syllabus item examines it"
+ },
+ {
+  "component": "Config",
+  "source": "CHANGELOG",
+  "entry": "Remove support for accessing the internal scope of the loader in PHP config files, use only its public API instead",
+  "scope": "in",
+  "verdict": "NOT_TAUGHT_NOT_CONTRADICTED",
+  "evidence": "read in context (concordance)"
+ },
+ {
+  "component": "Config",
+  "source": "CHANGELOG",
+  "entry": "Add argument `$singular` to `NodeBuilder::arrayNode()`",
+  "scope": "in",
+  "verdict": "NOT_EXAM_RELEVANT",
+  "evidence": "internal, test-infrastructure or out-of-item API; no syllabus item examines it"
+ },
+ {
+  "component": "Config",
+  "source": "CHANGELOG",
+  "entry": "Add argument `$info` to `ArrayNodeDefinition::canBeDisabled()` and `canBeEnabled()`",
+  "scope": "in",
+  "verdict": "NOT_EXAM_RELEVANT",
+  "evidence": "internal, test-infrastructure or out-of-item API; no syllabus item examines it"
+ },
+ {
+  "component": "Config",
+  "source": "CHANGELOG",
+  "entry": "Ensure configuration nodes do not have both `isRequired()` and `defaultValue()`",
+  "scope": "in",
+  "verdict": "GAP",
+  "evidence": "G2: InvalidDefinitionException, read at v8.0.15; not taught"
+ },
+ {
+  "component": "Config",
+  "source": "CHANGELOG",
+  "entry": "Remove generation of fluent methods in config builders",
+  "scope": "in",
+  "verdict": "NOT_TAUGHT_NOT_CONTRADICTED",
+  "evidence": "read in context (concordance)"
+ },
+ {
+  "component": "Console",
+  "source": "CHANGELOG",
+  "entry": "Make `AsCommand` attribute class `final`",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: 03-httpkernel.md, 04-console.md, CRS-0jtjh77tabt1.md"
+ },
+ {
+  "component": "Console",
+  "source": "CHANGELOG",
+  "entry": "Remove methods `Command::getDefaultName()` and `Command::getDefaultDescription()` in favor of the `#[AsCommand]` attribute",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: 04-console.md"
+ },
+ {
+  "component": "Console",
+  "source": "CHANGELOG",
+  "entry": "Ensure closures set via `Command::setCode()` method have proper parameter and return types",
+  "scope": "in",
+  "verdict": "TAUGHT_IMPRECISE_FIXED",
+  "evidence": "read in context (concordance)"
+ },
+ {
+  "component": "Console",
+  "source": "CHANGELOG",
+  "entry": "Add method `isSilent()` to `OutputInterface`",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: 04-console.md, FLC-ppbs28zwndt1"
+ },
+ {
+  "component": "Console",
+  "source": "CHANGELOG",
+  "entry": "Remove deprecated `Symfony\\Component\\Console\\Application::add()` method in favor of `Symfony\\Component\\Console\\Application::addCommand()`",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: 04-console.md"
+ },
+ {
+  "component": "Console",
+  "source": "CHANGELOG",
+  "entry": "Add argument `$finishedIndicator` to `ProgressIndicator::finish()`",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: 04-console.md"
+ },
+ {
+  "component": "DependencyInjection",
+  "source": "CHANGELOG",
+  "entry": "Remove support for using `$this` or the loader's internal scope from PHP config files; use the `$loader` variable instead",
+  "scope": "in",
+  "verdict": "NOT_TAUGHT_NOT_CONTRADICTED",
+  "evidence": "no course writes $this in a PHP config file (grep)"
+ },
+ {
+  "component": "DependencyInjection",
+  "source": "CHANGELOG",
+  "entry": "Remove `ExtensionInterface::getXsdValidationBasePath()` and `getNamespace()` without alternatives, the XML configuration format is no longer supported",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: 06-dependency-injection.md"
+ },
+ {
+  "component": "DependencyInjection",
+  "source": "CHANGELOG",
+  "entry": "Add argument `$throwOnAbstract` to `ContainerBuilder::findTaggedResourceIds()`",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: 06-dependency-injection.md"
+ },
+ {
+  "component": "DependencyInjection",
+  "source": "CHANGELOG",
+  "entry": "Registering a service without a class when its id is a non-existing FQCN throws an error",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "read in context (concordance)"
+ },
+ {
+  "component": "DependencyInjection",
+  "source": "CHANGELOG",
+  "entry": "Remove `#[TaggedIterator]` and `#[TaggedLocator]` attributes, replaced by `#[AutowireLocator]` and `#[AutowireIterator]`",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: 06-dependency-injection.md"
+ },
+ {
+  "component": "DependencyInjection",
+  "source": "CHANGELOG",
+  "entry": "Remove `ContainerBuilder::getAutoconfiguredAttributes()`, replaced by `ContainerBuilder::getAttributeAutoconfigurators()`",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: 06-dependency-injection.md"
+ },
+ {
+  "component": "DependencyInjection",
+  "source": "CHANGELOG",
+  "entry": "Remove `!tagged` tag, use `!tagged_iterator` instead",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: 06-dependency-injection.md, CRS-b4g5s2asb9ye.md"
+ },
+ {
+  "component": "DependencyInjection",
+  "source": "CHANGELOG",
+  "entry": "Add argument `$target` to `ContainerBuilder::registerAliasForArgument()`",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: 06-dependency-injection.md, FLC-hntww5zsn5h4"
+ },
+ {
+  "component": "DependencyInjection",
+  "source": "CHANGELOG",
+  "entry": "Remove support for the XML configuration format",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "read in context (concordance)"
+ },
+ {
+  "component": "DependencyInjection",
+  "source": "CHANGELOG",
+  "entry": "Remove the fluent PHP format for semantic configuration, instantiate builders inline with the config array as argument and return them instead",
+  "scope": "in",
+  "verdict": "NOT_TAUGHT_NOT_CONTRADICTED",
+  "evidence": "read in context (concordance)"
+ },
+ {
+  "component": "DoctrineBridge",
+  "source": "CHANGELOG",
+  "entry": "Remove support for auto-mapping Doctrine entities to controller arguments; use explicit mapping instead",
+  "scope": "in",
+  "verdict": "GAP",
+  "evidence": "G5: mapped route parameters {slug:post} absent from the corpus"
+ },
+ {
+  "component": "DoctrineBridge",
+  "source": "CHANGELOG",
+  "entry": "Make `ProxyCacheWarmer` class `final`",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: 03-httpkernel.md, 04-console.md, CRS-0jtjh77tabt1.md"
+ },
+ {
+  "component": "DoctrineBridge",
+  "source": "CHANGELOG",
+  "entry": "Remove `AbstractDoctrineExtension`, the code is incorporated into the extension classes of Doctrine bundles",
+  "scope": "in",
+  "verdict": "NOT_EXAM_RELEVANT",
+  "evidence": "internal, test-infrastructure or out-of-item API; no syllabus item examines it"
+ },
+ {
+  "component": "DomCrawler",
+  "source": "CHANGELOG",
+  "entry": "Remove argument `$useHtml5Parser` of `Crawler`'s constructor; the native HTML5 parser is used unconditionally",
+  "scope": "in",
+  "verdict": "NOT_EXAM_RELEVANT",
+  "evidence": "read in context (concordance)"
+ },
+ {
+  "component": "ExpressionLanguage",
+  "source": "CHANGELOG",
+  "entry": "Remove support for passing `null` as the allowed variable names to `ExpressionLanguage::lint()` and `Parser::lint()`,",
+  "scope": "in",
+  "verdict": "NOT_EXAM_RELEVANT",
+  "evidence": "internal, test-infrastructure or out-of-item API; no syllabus item examines it"
+ },
+ {
+  "component": "Form",
+  "source": "CHANGELOG",
+  "entry": "Change default value of `default_protocol` option in `UrlType` from `'http'` to `null`",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: 08-serializer-validator-form.md"
+ },
+ {
+  "component": "Form",
+  "source": "CHANGELOG",
+  "entry": "Remove the `VersionAwareTest` trait, use feature detection instead",
+  "scope": "in",
+  "verdict": "NOT_EXAM_RELEVANT",
+  "evidence": "internal, test-infrastructure or out-of-item API; no syllabus item examines it"
+ },
+ {
+  "component": "Form",
+  "source": "CHANGELOG",
+  "entry": "Remove deprecated `ResizeFormListener::preSetData()` method, use `postSetData()` instead",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: 08-serializer-validator-form.md"
+ },
+ {
+  "component": "Form",
+  "source": "CHANGELOG",
+  "entry": "Remove `validation.xml` in `Resources/config`, replaced by attributes on the `Form` class",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: 08-serializer-validator-form.md"
+ },
+ {
+  "component": "FrameworkBundle",
+  "source": "CHANGELOG",
+  "entry": "Remove the `WorkflowDumpCommand` class; the `workflow:dump` command works the same as before but its class is now defined in the Workflow component",
+  "scope": "in",
+  "verdict": "NOT_EXAM_RELEVANT",
+  "evidence": "internal, test-infrastructure or out-of-item API; no syllabus item examines it"
+ },
+ {
+  "component": "FrameworkBundle",
+  "source": "CHANGELOG",
+  "entry": "Remove `errors.xml` and `webhook.xml` routing configuration files (use their PHP equivalent instead)",
+  "scope": "in",
+  "verdict": "NOT_EXAM_RELEVANT",
+  "evidence": "internal, test-infrastructure or out-of-item API; no syllabus item examines it"
+ },
+ {
+  "component": "FrameworkBundle",
+  "source": "CHANGELOG",
+  "entry": "Enable the property info constructor extractor by default",
+  "scope": "in",
+  "verdict": "GAP",
+  "evidence": "G3: not taught"
+ },
+ {
+  "component": "FrameworkBundle",
+  "source": "CHANGELOG",
+  "entry": "Remove deprecated `Symfony\\Bundle\\FrameworkBundle\\Console\\Application::add()` method in favor of `Symfony\\Bundle\\FrameworkBundle\\Console\\Application::addCommand()`",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: 04-console.md"
+ },
+ {
+  "component": "FrameworkBundle",
+  "source": "CHANGELOG",
+  "entry": "Make `Router` class `final`",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: 03-httpkernel.md, 04-console.md, CRS-0jtjh77tabt1.md"
+ },
+ {
+  "component": "FrameworkBundle",
+  "source": "CHANGELOG",
+  "entry": "Make `SerializerCacheWarmer` class `final`",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: 03-httpkernel.md, 04-console.md, CRS-0jtjh77tabt1.md"
+ },
+ {
+  "component": "FrameworkBundle",
+  "source": "CHANGELOG",
+  "entry": "Make `Translator` class `final`",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: 03-httpkernel.md, 04-console.md, CRS-0jtjh77tabt1.md"
+ },
+ {
+  "component": "FrameworkBundle",
+  "source": "CHANGELOG",
+  "entry": "Remove autowiring aliases for `RateLimiterFactory`; use `RateLimiterFactoryInterface` instead",
+  "scope": "in",
+  "verdict": "NOT_EXAM_RELEVANT",
+  "evidence": "internal, test-infrastructure or out-of-item API; no syllabus item examines it"
+ },
+ {
+  "component": "FrameworkBundle",
+  "source": "CHANGELOG",
+  "entry": "Remove `session.sid_length` and `session.sid_bits_per_character` config options",
+  "scope": "in",
+  "verdict": "NOT_EXAM_RELEVANT",
+  "evidence": "internal, test-infrastructure or out-of-item API; no syllabus item examines it"
+ },
+ {
+  "component": "FrameworkBundle",
+  "source": "CHANGELOG",
+  "entry": "Remove the `router.cache_dir` config option",
+  "scope": "in",
+  "verdict": "NOT_EXAM_RELEVANT",
+  "evidence": "internal, test-infrastructure or out-of-item API; no syllabus item examines it"
+ },
+ {
+  "component": "FrameworkBundle",
+  "source": "CHANGELOG",
+  "entry": "Remove the `validation.cache` option",
+  "scope": "in",
+  "verdict": "NOT_EXAM_RELEVANT",
+  "evidence": "internal, test-infrastructure or out-of-item API; no syllabus item examines it"
+ },
+ {
+  "component": "FrameworkBundle",
+  "source": "CHANGELOG",
+  "entry": "Remove `TranslationUpdateCommand` in favor of `TranslationExtractCommand`",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "read in context (concordance)"
+ },
+ {
+  "component": "FrameworkBundle",
+  "source": "CHANGELOG",
+  "entry": "Remove `ConfigBuilderCacheWarmer`, return PHP arrays from your config instead",
+  "scope": "in",
+  "verdict": "NOT_EXAM_RELEVANT",
+  "evidence": "internal, test-infrastructure or out-of-item API; no syllabus item examines it"
+ },
+ {
+  "component": "HtmlSanitizer",
+  "source": "CHANGELOG",
+  "entry": "Remove `MastermindsParser`; use `NativeParser` instead",
+  "scope": "out",
+  "verdict": "OUT_OF_SCOPE",
+  "evidence": "component outside the official syllabus"
+ },
+ {
+  "component": "HtmlSanitizer",
+  "source": "CHANGELOG",
+  "entry": "Add argument `$context` to `ParserInterface::parse()`",
+  "scope": "out",
+  "verdict": "OUT_OF_SCOPE",
+  "evidence": "component outside the official syllabus"
+ },
+ {
+  "component": "HttpClient",
+  "source": "CHANGELOG",
+  "entry": "Remove support for passing an instance of `StoreInterface` as `$cache` argument to `CachingHttpClient` constructor, use a `TagAwareCacheInterface` instead",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: CRS-p6yhxmpxrzbs.md, FLC-ya4eqxfa2bre"
+ },
+ {
+  "component": "HttpClient",
+  "source": "CHANGELOG",
+  "entry": "Remove support for amphp/http-client < 5",
+  "scope": "in",
+  "verdict": "NOT_EXAM_RELEVANT",
+  "evidence": "internal, test-infrastructure or out-of-item API; no syllabus item examines it"
+ },
+ {
+  "component": "HttpClient",
+  "source": "CHANGELOG",
+  "entry": "Remove setLogger() methods on decorators; configure the logger on the wrapped client directly instead",
+  "scope": "in",
+  "verdict": "NOT_EXAM_RELEVANT",
+  "evidence": "internal, test-infrastructure or out-of-item API; no syllabus item examines it"
+ },
+ {
+  "component": "HttpFoundation",
+  "source": "CHANGELOG",
+  "entry": "Drop HTTP method override support for methods GET, HEAD, CONNECT and TRACE",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "read in context (concordance)"
+ },
+ {
+  "component": "HttpFoundation",
+  "source": "CHANGELOG",
+  "entry": "Add argument `$subtypeFallback` to `Request::getFormat()`",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: 02-httpfoundation.md"
+ },
+ {
+  "component": "HttpFoundation",
+  "source": "CHANGELOG",
+  "entry": "Remove the following deprecated session options from `NativeSessionStorage`: `referer_check`, `use_only_cookies`, `use_trans_sid`, `sid_length`, `sid_bits_per_character`, `trans_sid_hosts`, `trans_sid_tags`",
+  "scope": "in",
+  "verdict": "NOT_EXAM_RELEVANT",
+  "evidence": "internal, test-infrastructure or out-of-item API; no syllabus item examines it"
+ },
+ {
+  "component": "HttpFoundation",
+  "source": "CHANGELOG",
+  "entry": "Trigger PHP warning when using `Request::sendHeaders()` after headers have already been sent; use a `StreamedResponse` instead",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: 02-httpfoundation.md, CRS-hdsq2qdz7qdv.md"
+ },
+ {
+  "component": "HttpFoundation",
+  "source": "CHANGELOG",
+  "entry": "Add arguments `$v4Bytes` and `$v6Bytes` to `IpUtils::anonymize()`",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: 02-httpfoundation.md"
+ },
+ {
+  "component": "HttpFoundation",
+  "source": "CHANGELOG",
+  "entry": "Add argument `$partitioned` to `ResponseHeaderBag::clearCookie()`",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: 02-httpfoundation.md"
+ },
+ {
+  "component": "HttpFoundation",
+  "source": "CHANGELOG",
+  "entry": "Add argument `$expiration` to `UriSigner::sign()`",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: 02-httpfoundation.md"
+ },
+ {
+  "component": "HttpFoundation",
+  "source": "CHANGELOG",
+  "entry": "Remove `Request::get()`, use properties `->attributes`, `query` or `request` directly instead",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: 02-httpfoundation.md, CRS-222wq64mqxye.md"
+ },
+ {
+  "component": "HttpFoundation",
+  "source": "CHANGELOG",
+  "entry": "Remove accepting null `$format` argument to `Request::setFormat()`",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: 02-httpfoundation.md"
+ },
+ {
+  "component": "HttpKernel",
+  "source": "CHANGELOG",
+  "entry": "Remove `AddAnnotatedClassesToCachePass`",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: 03-httpkernel.md"
+ },
+ {
+  "component": "HttpKernel",
+  "source": "CHANGELOG",
+  "entry": "Remove `Extension::getAnnotatedClassesToCompile()` and `Extension::addAnnotatedClassesToCompile()`",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: 03-httpkernel.md"
+ },
+ {
+  "component": "HttpKernel",
+  "source": "CHANGELOG",
+  "entry": "Remove `Kernel::getAnnotatedClassesToCompile()` and `Kernel::setAnnotatedClassCache()`",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: 03-httpkernel.md"
+ },
+ {
+  "component": "HttpKernel",
+  "source": "CHANGELOG",
+  "entry": "Make `ServicesResetter` class `final`",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: 03-httpkernel.md, 04-console.md, CRS-0jtjh77tabt1.md"
+ },
+ {
+  "component": "HttpKernel",
+  "source": "CHANGELOG",
+  "entry": "Add argument `$logChannel` to `ErrorListener::logException()`",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: 03-httpkernel.md"
+ },
+ {
+  "component": "HttpKernel",
+  "source": "CHANGELOG",
+  "entry": "Add argument `$event` to `DumpListener::configure()`",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: 03-httpkernel.md, CRS-2hpcy2rscq7m.md, CRS-3pbkhqmw83b2.md"
+ },
+ {
+  "component": "HttpKernel",
+  "source": "CHANGELOG",
+  "entry": "Replace `__sleep/wakeup()` by `__(un)serialize()` on kernels and data collectors",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: 03-httpkernel.md"
+ },
+ {
+  "component": "HttpKernel",
+  "source": "CHANGELOG",
+  "entry": "Add method `getShareDir()` to `KernelInterface`",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: 03-httpkernel.md, CRS-156khyjssm25.md"
+ },
+ {
+  "component": "Intl",
+  "source": "CHANGELOG",
+  "entry": "Remove `Symfony\\Component\\Intl\\Transliterator\\EmojiTransliterator`, use `Symfony\\Component\\Emoji\\EmojiTransliterator` instead",
+  "scope": "out",
+  "verdict": "OUT_OF_SCOPE",
+  "evidence": "component outside the official syllabus"
+ },
+ {
+  "component": "JsonStreamer",
+  "source": "CHANGELOG",
+  "entry": "Remove `$streamToNativeValueTransformers` from `PropertyMetadata`",
+  "scope": "out",
+  "verdict": "OUT_OF_SCOPE",
+  "evidence": "component outside the official syllabus"
+ },
+ {
+  "component": "Ldap",
+  "source": "CHANGELOG",
+  "entry": "Remove the `sizeLimit` option of `AbstractQuery`",
+  "scope": "out",
+  "verdict": "OUT_OF_SCOPE",
+  "evidence": "component outside the official syllabus"
+ },
+ {
+  "component": "Ldap",
+  "source": "CHANGELOG",
+  "entry": "Remove `LdapUser::eraseCredentials()` in favor of `__serialize()`",
+  "scope": "out",
+  "verdict": "OUT_OF_SCOPE",
+  "evidence": "component outside the official syllabus"
+ },
+ {
+  "component": "Ldap",
+  "source": "CHANGELOG",
+  "entry": "Add methods for `saslBind()` and `whoami()` to `ConnectionInterface` and `LdapInterface`",
+  "scope": "out",
+  "verdict": "OUT_OF_SCOPE",
+  "evidence": "component outside the official syllabus"
+ },
+ {
+  "component": "Mailer",
+  "source": "CHANGELOG",
+  "entry": "Remove `TransportFactoryTestCase`, extend `AbstractTransportFactoryTestCase` instead",
+  "scope": "in",
+  "verdict": "NOT_EXAM_RELEVANT",
+  "evidence": "internal, test-infrastructure or out-of-item API; no syllabus item examines it"
+ },
+ {
+  "component": "Messenger",
+  "source": "CHANGELOG",
+  "entry": "Remove `text` format when using the `messenger:stats` command; use `txt` instead",
+  "scope": "in",
+  "verdict": "NOT_EXAM_RELEVANT",
+  "evidence": "read in context (concordance)"
+ },
+ {
+  "component": "Messenger",
+  "source": "CHANGELOG",
+  "entry": "Add method `getRetryDelay()` to `RecoverableExceptionInterface`",
+  "scope": "in",
+  "verdict": "MINOR_GAP",
+  "evidence": "retryDelay taught (CRS-hgkzgm1dh3my); the interface method itself is not"
+ },
+ {
+  "component": "Mime",
+  "source": "CHANGELOG",
+  "entry": "Replace `__sleep/wakeup()` by `__(un)serialize()` on `AbstractPart` implementations",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: 03-httpkernel.md"
+ },
+ {
+  "component": "MonologBridge",
+  "source": "CHANGELOG",
+  "entry": "Remove `NotFoundActivationStrategy`, use `HttpCodeActivationStrategy` instead",
+  "scope": "in",
+  "verdict": "NOT_EXAM_RELEVANT",
+  "evidence": "internal, test-infrastructure or out-of-item API; no syllabus item examines it"
+ },
+ {
+  "component": "Notifier",
+  "source": "CHANGELOG",
+  "entry": "Remove `TransportFactoryTestCase`, extend `AbstractTransportFactoryTestCase` instead.",
+  "scope": "out",
+  "verdict": "OUT_OF_SCOPE",
+  "evidence": "component outside the official syllabus"
+ },
+ {
+  "component": "OptionsResolver",
+  "source": "CHANGELOG",
+  "entry": "Remove support for nested options definition via `setDefault()`, use `setOptions()` instead",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: CRS-pchb259hnbh3.md, FLC-wnjbar981ptm"
+ },
+ {
+  "component": "Routing",
+  "source": "CHANGELOG",
+  "entry": "Remove support for accessing the internal scope of the loader in PHP config files, use only its public API instead",
+  "scope": "in",
+  "verdict": "NOT_TAUGHT_NOT_CONTRADICTED",
+  "evidence": "read in context (concordance)"
+ },
+ {
+  "component": "Routing",
+  "source": "CHANGELOG",
+  "entry": "Providing a non-array `_query` parameter to `UrlGenerator` causes an `InvalidParameterException`",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "read in context (concordance)"
+ },
+ {
+  "component": "Routing",
+  "source": "CHANGELOG",
+  "entry": "Remove the protected `AttributeClassLoader::$routeAnnotationClass` property and the `setRouteAnnotationClass()` method, use `AttributeClassLoader::setRouteAttributeClass()` instead",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: 05-routing.md"
+ },
+ {
+  "component": "Routing",
+  "source": "CHANGELOG",
+  "entry": "Remove class aliases in the `Annotation` namespace, use attributes instead",
+  "scope": "in",
+  "verdict": "NOT_EXAM_RELEVANT",
+  "evidence": "internal, test-infrastructure or out-of-item API; no syllabus item examines it"
+ },
+ {
+  "component": "Routing",
+  "source": "CHANGELOG",
+  "entry": "Remove getters and setters in attribute classes in favor of public properties",
+  "scope": "in",
+  "verdict": "NOT_EXAM_RELEVANT",
+  "evidence": "internal, test-infrastructure or out-of-item API; no syllabus item examines it"
+ },
+ {
+  "component": "Routing",
+  "source": "CHANGELOG",
+  "entry": "Remove support for the XML configuration format",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "read in context (concordance)"
+ },
+ {
+  "component": "SecurityBundle",
+  "source": "CHANGELOG",
+  "entry": "Remove the deprecated `hide_user_not_found` configuration option, use `expose_security_errors` instead",
+  "scope": "in",
+  "verdict": "GAP",
+  "evidence": "G4: expose_security_errors (none|account_status|all) not taught"
+ },
+ {
+  "component": "SecurityBundle",
+  "source": "CHANGELOG",
+  "entry": "Remove the deprecated `algorithm` and `key` options from the OIDC token handler configuration, use `algorithms` and `keyset` instead",
+  "scope": "in",
+  "verdict": "NOT_EXAM_RELEVANT",
+  "evidence": "internal, test-infrastructure or out-of-item API; no syllabus item examines it"
+ },
+ {
+  "component": "SecurityBundle",
+  "source": "CHANGELOG",
+  "entry": "Remove `LazyFirewallContext::__invoke()`",
+  "scope": "in",
+  "verdict": "NOT_EXAM_RELEVANT",
+  "evidence": "internal, test-infrastructure or out-of-item API; no syllabus item examines it"
+ },
+ {
+  "component": "SecurityBundle",
+  "source": "CHANGELOG",
+  "entry": "Make `ExpressionCacheWarmer` class `final`",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: 03-httpkernel.md, 04-console.md, CRS-0jtjh77tabt1.md"
+ },
+ {
+  "component": "SecurityBundle",
+  "source": "CHANGELOG",
+  "entry": "Remove autowiring aliases for `RateLimiterFactory`; use `RateLimiterFactoryInterface` instead",
+  "scope": "in",
+  "verdict": "NOT_EXAM_RELEVANT",
+  "evidence": "internal, test-infrastructure or out-of-item API; no syllabus item examines it"
+ },
+ {
+  "component": "SecurityCore",
+  "source": "CHANGELOG",
+  "entry": "Add argument `$accessDecision` to `AccessDecisionStrategyInterface::decide()`",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: 07-security.md"
+ },
+ {
+  "component": "SecurityCore",
+  "source": "CHANGELOG",
+  "entry": "Remove `PersistentTokenInterface::getClass()`",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: 07-security.md"
+ },
+ {
+  "component": "SecurityCore",
+  "source": "CHANGELOG",
+  "entry": "Remove the user FQCN from the remember-me cookie",
+  "scope": "in",
+  "verdict": "NOT_EXAM_RELEVANT",
+  "evidence": "internal, test-infrastructure or out-of-item API; no syllabus item examines it"
+ },
+ {
+  "component": "SecurityCore",
+  "source": "CHANGELOG",
+  "entry": "Remove `RememberMeToken::getSecret()`",
+  "scope": "in",
+  "verdict": "NOT_EXAM_RELEVANT",
+  "evidence": "internal, test-infrastructure or out-of-item API; no syllabus item examines it"
+ },
+ {
+  "component": "SecurityCore",
+  "source": "CHANGELOG",
+  "entry": "Remove `UserInterface::eraseCredentials()` and `TokenInterface::eraseCredentials()`,",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: 07-security.md, CRS-n9ngfssrq1bt.md, FLC-0x21vaf0e0zf"
+ },
+ {
+  "component": "SecurityCore",
+  "source": "CHANGELOG",
+  "entry": "Add argument `$accessDecision` to `AccessDecisionManagerInterface::decide()` and `AuthorizationCheckerInterface::isGranted()`",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "read in context (concordance)"
+ },
+ {
+  "component": "SecurityCore",
+  "source": "CHANGELOG",
+  "entry": "Add argument `$vote` to `VoterInterface::vote()` and `Voter::voteOnAttribute()`",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: CRS-y3g0v9nmne3t.md, FLC-5tj0fz6przec, FLC-dx8kfc8r2g03"
+ },
+ {
+  "component": "SecurityCore",
+  "source": "CHANGELOG",
+  "entry": "Add argument `$token` to `UserCheckerInterface::checkPostAuth()`",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: CRS-0yhqc0b1q7hz.md, CRS-6gc45etcssfb.md, CRS-b5nj93xzz10b.md"
+ },
+ {
+  "component": "SecurityCore",
+  "source": "CHANGELOG",
+  "entry": "Make `UserChainProvider` implement `AttributesBasedUserProviderInterface`",
+  "scope": "in",
+  "verdict": "NOT_EXAM_RELEVANT",
+  "evidence": "internal, test-infrastructure or out-of-item API; no syllabus item examines it"
+ },
+ {
+  "component": "SecurityHttp",
+  "source": "CHANGELOG",
+  "entry": "When extending the `RememberMeDetails` class and overriding its constructor, the `$userFqcn` parameter has to be removed from its signature:",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: 07-security.md"
+ },
+ {
+  "component": "SecurityHttp",
+  "source": "CHANGELOG",
+  "entry": "Remove `RememberMeDetails::getUserFqcn()`",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: 07-security.md"
+ },
+ {
+  "component": "SecurityHttp",
+  "source": "CHANGELOG",
+  "entry": "Remove callable firewall listeners support, extend `AbstractListener` or implement `FirewallListenerInterface` instead",
+  "scope": "in",
+  "verdict": "NOT_EXAM_RELEVANT",
+  "evidence": "read in context (concordance)"
+ },
+ {
+  "component": "SecurityHttp",
+  "source": "CHANGELOG",
+  "entry": "Remove `AbstractListener::__invoke`",
+  "scope": "in",
+  "verdict": "NOT_EXAM_RELEVANT",
+  "evidence": "internal, test-infrastructure or out-of-item API; no syllabus item examines it"
+ },
+ {
+  "component": "SecurityHttp",
+  "source": "CHANGELOG",
+  "entry": "Throw a `BadCredentialsException` when passing an empty string as `$userIdentifier` argument to `UserBadge` constructor",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "read in context (concordance)"
+ },
+ {
+  "component": "SecurityHttp",
+  "source": "CHANGELOG",
+  "entry": "Accept only `ExposeSecurityLevel` enums for `AuthenticatorManager`'s `$exposeSecurityErrors` argument",
+  "scope": "in",
+  "verdict": "GAP",
+  "evidence": "G4: expose_security_errors (none|account_status|all) not taught"
+ },
+ {
+  "component": "SecurityHttp",
+  "source": "CHANGELOG",
+  "entry": "Respectively accept only `AlgorithmManager` and `JWKSet` for `OidcTokenHandler`'s `$signatureAlgorithm` and `$signatureKeyset` arguments",
+  "scope": "in",
+  "verdict": "NOT_EXAM_RELEVANT",
+  "evidence": "internal, test-infrastructure or out-of-item API; no syllabus item examines it"
+ },
+ {
+  "component": "SecurityHttp",
+  "source": "CHANGELOG",
+  "entry": "Add argument `$attributes` to `UserAuthenticatorInterface::authenticateUser()`",
+  "scope": "in",
+  "verdict": "NOT_EXAM_RELEVANT",
+  "evidence": "internal, test-infrastructure or out-of-item API; no syllabus item examines it"
+ },
+ {
+  "component": "Serializer",
+  "source": "CHANGELOG",
+  "entry": "Remove `CsvEncoder::ESCAPE_CHAR_KEY` constant and escape character functionality",
+  "scope": "in",
+  "verdict": "NOT_EXAM_RELEVANT",
+  "evidence": "internal, test-infrastructure or out-of-item API; no syllabus item examines it"
+ },
+ {
+  "component": "Serializer",
+  "source": "CHANGELOG",
+  "entry": "Remove `CsvEncoderContextBuilder::withEscapeChar()` method",
+  "scope": "in",
+  "verdict": "NOT_EXAM_RELEVANT",
+  "evidence": "internal, test-infrastructure or out-of-item API; no syllabus item examines it"
+ },
+ {
+  "component": "Serializer",
+  "source": "CHANGELOG",
+  "entry": "Remove `AbstractNormalizerContextBuilder::withDefaultContructorArguments()`, use `withDefaultConstructorArguments()` instead",
+  "scope": "in",
+  "verdict": "NOT_EXAM_RELEVANT",
+  "evidence": "internal, test-infrastructure or out-of-item API; no syllabus item examines it"
+ },
+ {
+  "component": "Serializer",
+  "source": "CHANGELOG",
+  "entry": "Change signature of `NameConverterInterface::normalize()` and `NameConverterInterface::denormalize()` methods:",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: 08-serializer-validator-form.md"
+ },
+ {
+  "component": "Serializer",
+  "source": "CHANGELOG",
+  "entry": "Remove `AdvancedNameConverterInterface`, use `NameConverterInterface` instead",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: 08-serializer-validator-form.md"
+ },
+ {
+  "component": "Serializer",
+  "source": "CHANGELOG",
+  "entry": "Remove `ClassMetadataFactoryCompiler`, `CompiledClassMetadataFactory` and `CompiledClassMetadataCacheWarmer`",
+  "scope": "in",
+  "verdict": "NOT_EXAM_RELEVANT",
+  "evidence": "internal, test-infrastructure or out-of-item API; no syllabus item examines it"
+ },
+ {
+  "component": "Serializer",
+  "source": "CHANGELOG",
+  "entry": "Remove class aliases in the `Annotation` namespace, use attributes instead",
+  "scope": "in",
+  "verdict": "NOT_EXAM_RELEVANT",
+  "evidence": "internal, test-infrastructure or out-of-item API; no syllabus item examines it"
+ },
+ {
+  "component": "Serializer",
+  "source": "CHANGELOG",
+  "entry": "Remove getters in attribute classes in favor of public properties",
+  "scope": "in",
+  "verdict": "NOT_EXAM_RELEVANT",
+  "evidence": "internal, test-infrastructure or out-of-item API; no syllabus item examines it"
+ },
+ {
+  "component": "String",
+  "source": "CHANGELOG",
+  "entry": "Replace `__sleep/wakeup()` by `__(un)serialize()` on string implementations",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: 03-httpkernel.md"
+ },
+ {
+  "component": "Translation",
+  "source": "CHANGELOG",
+  "entry": "Remove the `$escape` parameter from `CsvFileLoader::setCsvControl()`",
+  "scope": "in",
+  "verdict": "NOT_EXAM_RELEVANT",
+  "evidence": "internal, test-infrastructure or out-of-item API; no syllabus item examines it"
+ },
+ {
+  "component": "Translation",
+  "source": "CHANGELOG",
+  "entry": "Make `DataCollectorTranslator` class `final`",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: 03-httpkernel.md, 04-console.md, CRS-0jtjh77tabt1.md"
+ },
+ {
+  "component": "Translation",
+  "source": "CHANGELOG",
+  "entry": "Remove `ProviderFactoryTestCase`, extend `AbstractProviderFactoryTestCase` instead",
+  "scope": "in",
+  "verdict": "NOT_EXAM_RELEVANT",
+  "evidence": "internal, test-infrastructure or out-of-item API; no syllabus item examines it"
+ },
+ {
+  "component": "Translation",
+  "source": "CHANGELOG",
+  "entry": "Remove `TranslatableMessage::__toString()` method, use `trans()` or `getMessage()` instead",
+  "scope": "in",
+  "verdict": "GAP",
+  "evidence": "G6: executed — Twig prints t() on 7.4, throws on 8.0; not taught"
+ },
+ {
+  "component": "TwigBridge",
+  "source": "CHANGELOG",
+  "entry": "Remove support for passing a tag to the constructor of `FormThemeNode`",
+  "scope": "in",
+  "verdict": "NOT_EXAM_RELEVANT",
+  "evidence": "internal, test-infrastructure or out-of-item API; no syllabus item examines it"
+ },
+ {
+  "component": "TwigBundle",
+  "source": "CHANGELOG",
+  "entry": "Make `TemplateCacheWarmer` class `final`",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: 03-httpkernel.md, 04-console.md, CRS-0jtjh77tabt1.md"
+ },
+ {
+  "component": "TwigBundle",
+  "source": "CHANGELOG",
+  "entry": "Remove the `base_template_class` config option",
+  "scope": "in",
+  "verdict": "NOT_EXAM_RELEVANT",
+  "evidence": "internal, test-infrastructure or out-of-item API; no syllabus item examines it"
+ },
+ {
+  "component": "TypeInfo",
+  "source": "CHANGELOG",
+  "entry": "Constructing a `CollectionType` instance as a list that is not an array throws an `InvalidArgumentException`",
+  "scope": "out",
+  "verdict": "OUT_OF_SCOPE",
+  "evidence": "component outside the official syllabus"
+ },
+ {
+  "component": "TypeInfo",
+  "source": "CHANGELOG",
+  "entry": "Remove the third `$asList` argument of `TypeFactoryTrait::iterable()`, use `TypeFactoryTrait::list()` instead",
+  "scope": "out",
+  "verdict": "OUT_OF_SCOPE",
+  "evidence": "component outside the official syllabus"
+ },
+ {
+  "component": "Uid",
+  "source": "CHANGELOG",
+  "entry": "Add argument `$format` to `Uuid::isValid()`",
+  "scope": "out",
+  "verdict": "OUT_OF_SCOPE",
+  "evidence": "component outside the official syllabus"
+ },
+ {
+  "component": "Validator",
+  "source": "CHANGELOG",
+  "entry": "Remove support for configuring constraint options implicitly with the XML format",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "read in context (concordance)"
+ },
+ {
+  "component": "Validator",
+  "source": "CHANGELOG",
+  "entry": "Remove support for passing associative arrays to `GroupSequence`",
+  "scope": "in",
+  "verdict": "NOT_TAUGHT_NOT_CONTRADICTED",
+  "evidence": "read in context (concordance)"
+ },
+ {
+  "component": "Validator",
+  "source": "CHANGELOG",
+  "entry": "Change the default value of the `$requireTld` option of the `Url` constraint to `true`",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: CRS-569y6hb7fwj5.md"
+ },
+ {
+  "component": "Validator",
+  "source": "CHANGELOG",
+  "entry": "Add method `getGroupProvider()` to `ClassMetadataInterface`",
+  "scope": "in",
+  "verdict": "NOT_EXAM_RELEVANT",
+  "evidence": "internal, test-infrastructure or out-of-item API; no syllabus item examines it"
+ },
+ {
+  "component": "Validator",
+  "source": "CHANGELOG",
+  "entry": "Replace `__sleep/wakeup()` by `__(un)serialize()`  on `GenericMetadata` implementations",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: 03-httpkernel.md"
+ },
+ {
+  "component": "Validator",
+  "source": "CHANGELOG",
+  "entry": "Remove the `getRequiredOptions()` and `getDefaultOption()` methods from the `All`, `AtLeastOneOf`, `CardScheme`, `Collection`,",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: FLC-qrwhn5nfefj7"
+ },
+ {
+  "component": "Validator",
+  "source": "CHANGELOG",
+  "entry": "Remove support for evaluating options in the base `Constraint` class. Initialize properties in the constructor of the concrete constraint",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "read in context (concordance)"
+ },
+ {
+  "component": "Validator",
+  "source": "CHANGELOG",
+  "entry": "Remove the `getRequiredOptions()` method from the base `Constraint` class. Use mandatory constructor arguments instead.",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "read in context (concordance)"
+ },
+ {
+  "component": "Validator",
+  "source": "CHANGELOG",
+  "entry": "Remove the `normalizeOptions()` and `getDefaultOption()` methods of the base `Constraint` class without replacements.",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "read in context (concordance)"
+ },
+ {
+  "component": "Validator",
+  "source": "CHANGELOG",
+  "entry": "Remove support for passing an array of options to the `Composite` constraint class. Initialize the properties referenced with `getNestedConstraints()`",
+  "scope": "in",
+  "verdict": "NOT_EXAM_RELEVANT",
+  "evidence": "internal, test-infrastructure or out-of-item API; no syllabus item examines it"
+ },
+ {
+  "component": "Validator",
+  "source": "CHANGELOG",
+  "entry": "Remove `Bic::INVALID_BANK_CODE_ERROR` constant. This error code was not used in the Bic constraint validator anymore",
+  "scope": "in",
+  "verdict": "NOT_EXAM_RELEVANT",
+  "evidence": "internal, test-infrastructure or out-of-item API; no syllabus item examines it"
+ },
+ {
+  "component": "VarExporter",
+  "source": "CHANGELOG",
+  "entry": "Restrict `ProxyHelper::generateLazyProxy()` to generating abstraction-based lazy decorators; use native lazy proxies otherwise",
+  "scope": "out",
+  "verdict": "OUT_OF_SCOPE",
+  "evidence": "component outside the official syllabus"
+ },
+ {
+  "component": "VarExporter",
+  "source": "CHANGELOG",
+  "entry": "Remove `LazyGhostTrait` and `LazyProxyTrait`, use native lazy objects instead",
+  "scope": "out",
+  "verdict": "OUT_OF_SCOPE",
+  "evidence": "component outside the official syllabus"
+ },
+ {
+  "component": "VarExporter",
+  "source": "CHANGELOG",
+  "entry": "Remove `ProxyHelper::generateLazyGhost()`, use native lazy objects instead",
+  "scope": "out",
+  "verdict": "OUT_OF_SCOPE",
+  "evidence": "component outside the official syllabus"
+ },
+ {
+  "component": "WebProfilerBundle",
+  "source": "CHANGELOG",
+  "entry": "Remove `profiler.xml` and `wdt.xml` routing configuration files (use their PHP equivalent instead)",
+  "scope": "in",
+  "verdict": "NOT_EXAM_RELEVANT",
+  "evidence": "internal, test-infrastructure or out-of-item API; no syllabus item examines it"
+ },
+ {
+  "component": "Webhook",
+  "source": "CHANGELOG",
+  "entry": "Add argument `$request` to `RequestParserInterface::createSuccessfulResponse()` and `RequestParserInterface::createRejectedResponse()`",
+  "scope": "out",
+  "verdict": "OUT_OF_SCOPE",
+  "evidence": "component outside the official syllabus"
+ },
+ {
+  "component": "Workflow",
+  "source": "CHANGELOG",
+  "entry": "Add method `getEnabledTransition()` to `WorkflowInterface`",
+  "scope": "out",
+  "verdict": "OUT_OF_SCOPE",
+  "evidence": "component outside the official syllabus"
+ },
+ {
+  "component": "Workflow",
+  "source": "CHANGELOG",
+  "entry": "Add `$nbToken` argument to `Marking::mark()` and `Marking::unmark()`",
+  "scope": "out",
+  "verdict": "OUT_OF_SCOPE",
+  "evidence": "component outside the official syllabus"
+ },
+ {
+  "component": "Workflow",
+  "source": "CHANGELOG",
+  "entry": "Add `$asArc` argument to `Transition::getFroms()` and `Transition::getTos()`",
+  "scope": "out",
+  "verdict": "OUT_OF_SCOPE",
+  "evidence": "component outside the official syllabus"
+ },
+ {
+  "component": "Workflow",
+  "source": "CHANGELOG",
+  "entry": "Remove `Event::getWorkflow()` method",
+  "scope": "out",
+  "verdict": "OUT_OF_SCOPE",
+  "evidence": "component outside the official syllabus"
+ },
+ {
+  "component": "Yaml",
+  "source": "CHANGELOG",
+  "entry": "Remove support for parsing duplicate mapping keys whose value is `null`",
+  "scope": "in",
+  "verdict": "NOT_EXAM_RELEVANT",
+  "evidence": "internal, test-infrastructure or out-of-item API; no syllabus item examines it"
+ },
+ {
+  "component": "DependencyInjection",
+  "source": "UPGRADE",
+  "entry": "Remove the `ContainerBuilder::getAutoconfiguredAttributes()` method, use `getAttributeAutoconfigurators()` instead to retrieve all the callbacks for a specific attribute class",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: 06-dependency-injection.md"
+ },
+ {
+  "component": "DoctrineBridge",
+  "source": "UPGRADE",
+  "entry": "Remove the `DoctrineExtractor::getTypes()` method, use `DoctrineExtractor::getType()` instead",
+  "scope": "in",
+  "verdict": "NOT_EXAM_RELEVANT",
+  "evidence": "internal, test-infrastructure or out-of-item API; no syllabus item examines it"
+ },
+ {
+  "component": "Form",
+  "source": "UPGRADE",
+  "entry": "The `default_protocol` option in `UrlType` now defaults to `null` instead of `'http'`",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: 08-serializer-validator-form.md"
+ },
+ {
+  "component": "Form",
+  "source": "UPGRADE",
+  "entry": "Made `ResizeFormListener::postSetData()` method `final`",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: 03-httpkernel.md, 04-console.md, CRS-0jtjh77tabt1.md"
+ },
+ {
+  "component": "FrameworkBundle",
+  "source": "UPGRADE",
+  "entry": "Remove the `WorkflowDumpCommand` class; the `workflow:dump` command and its class were moved to the Workflow component, but the command still works as before",
+  "scope": "in",
+  "verdict": "NOT_EXAM_RELEVANT",
+  "evidence": "internal, test-infrastructure or out-of-item API; no syllabus item examines it"
+ },
+ {
+  "component": "FrameworkBundle",
+  "source": "UPGRADE",
+  "entry": "Remove deprecated `--show-arguments` option from `debug:container` command",
+  "scope": "in",
+  "verdict": "NOT_EXAM_RELEVANT",
+  "evidence": "read in context (concordance)"
+ },
+ {
+  "component": "JsonStreamer",
+  "source": "UPGRADE",
+  "entry": "Remove `$streamToNativeValueTransformers` argument of `PropertyMetadata::__construct()`, use `$valueTransformer` instead",
+  "scope": "out",
+  "verdict": "OUT_OF_SCOPE",
+  "evidence": "component outside the official syllabus"
+ },
+ {
+  "component": "JsonStreamer",
+  "source": "UPGRADE",
+  "entry": "Remove `PropertyMetadata::getNativeToStreamValueTransformer()` and `PropertyMetadata::getStreamToNativeValueTransformers()`, use `PropertyMetadata::getValueTransformers()` instead",
+  "scope": "out",
+  "verdict": "OUT_OF_SCOPE",
+  "evidence": "component outside the official syllabus"
+ },
+ {
+  "component": "Notifier",
+  "source": "UPGRADE",
+  "entry": "Remove the Sms77 Notifier bridge",
+  "scope": "out",
+  "verdict": "OUT_OF_SCOPE",
+  "evidence": "component outside the official syllabus"
+ },
+ {
+  "component": "PropertyInfo",
+  "source": "UPGRADE",
+  "entry": "Remove the `PropertyTypeExtractorInterface::getTypes()` method, use `PropertyTypeExtractorInterface::getType()` instead",
+  "scope": "in",
+  "verdict": "NOT_TAUGHT_NOT_CONTRADICTED",
+  "evidence": "read in context (concordance)"
+ },
+ {
+  "component": "PropertyInfo",
+  "source": "UPGRADE",
+  "entry": "Remove the `ConstructorArgumentTypeExtractorInterface::getTypesFromConstructor()` method, use `ConstructorArgumentTypeExtractorInterface::getTypeFromConstructor()` instead",
+  "scope": "in",
+  "verdict": "NOT_TAUGHT_NOT_CONTRADICTED",
+  "evidence": "read in context (concordance)"
+ },
+ {
+  "component": "PropertyInfo",
+  "source": "UPGRADE",
+  "entry": "Remove the `Type` class, use `Symfony\\Component\\TypeInfo\\Type` class from `symfony/type-info` instead",
+  "scope": "in",
+  "verdict": "NOT_TAUGHT_NOT_CONTRADICTED",
+  "evidence": "read in context (concordance)"
+ },
+ {
+  "component": "Security",
+  "source": "UPGRADE",
+  "entry": "Remove `PersistentTokenInterface::getClass()` and `RememberMeDetails::getUserFqcn()`",
+  "scope": "in",
+  "verdict": "TAUGHT",
+  "evidence": "identifier found with an 8.0 marker in: 07-security.md"
+ },
+ {
+  "component": "Serializer",
+  "source": "UPGRADE",
+  "entry": "Remove escape character functionality from `CsvEncoder`",
+  "scope": "in",
+  "verdict": "NOT_EXAM_RELEVANT",
+  "evidence": "internal, test-infrastructure or out-of-item API; no syllabus item examines it"
+ },
+ {
+  "component": "TwigBridge",
+  "source": "UPGRADE",
+  "entry": "Remove `text` format from the `debug:twig` command, use the `txt` format instead",
+  "scope": "in",
+  "verdict": "NOT_EXAM_RELEVANT",
+  "evidence": "read in context (concordance)"
+ }
+]

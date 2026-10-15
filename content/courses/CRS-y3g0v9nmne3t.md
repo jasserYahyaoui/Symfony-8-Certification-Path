@@ -49,7 +49,7 @@ outcome_sections:
 
 Écrire une décision d'authorization qui dépend de l'object, et savoir comment les
 votes de plusieurs voters sont agrégés — parce que la strategy choisie change
-la Response à votes identiques.
+la décision à votes identiques.
 
 ## Prérequis
 

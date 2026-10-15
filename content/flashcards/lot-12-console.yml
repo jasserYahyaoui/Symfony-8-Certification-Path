@@ -1682,3 +1682,24 @@ flashcards:
     branch: '8.0'
     symbol_or_lines: configureIO() — options before SHELL_VERBOSITY; -q and --silent set the input non-interactive
     verified_at: '2026-10-02'
+- id: FLC-an8ypmrag2p3
+  official_item: OIT-kbg00jqxxwhq
+  language: fr
+  level: TRAP
+  front: 'Symfony 8.0 : une command reçoit une closure par setCode(function ($input, $output) { … }). Que se passe-t-il ?'
+  back: "setCode() l'accepte, mais run() lève une LogicException : en 8.0 les parameters de la closure doivent porter un type nommé. Typée, elle doit aussi rendre un int, sinon TypeError."
+  explanation: "Exécuté sur Console 8.0.15 contre 7.4.21 : en 7.4 les deux closures fautives rendent 0. Un return type déclaré n'est pas exigé, seule la valeur rendue compte."
+  memorization_justification: L'erreur tombe à l'exécution, loin de l'appel qui l'a causée, et la 7.4 laissait passer.
+  verification_status: VERIFIED
+  reviewed_at: '2026-10-15'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/CHANGELOG.md
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/CHANGELOG.md
+    branch: '8.0'
+    symbol_or_lines: '8.0: Ensure closures set via Command::setCode() method have proper parameter and return types'
+    verified_at: '2026-10-15'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Command/InvokableCommand.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Command/InvokableCommand.php
+    branch: '8.0'
+    symbol_or_lines: 'setCode() wraps the closure; parameters need a named type; the result must be an int'
+    verified_at: '2026-10-15'

@@ -2048,7 +2048,7 @@ questions:
   - id: CHO-xnbknvn9skvy
     text: '`$request->get(''brochure'')`'
     correct: false
-    explanation: Uploaded files are not request parameters.
+    explanation: Request::get() was removed in Symfony 8.0, and uploaded files live in $request->files, not among the parameters.
   explanation: The value of an unmapped field is read on the field; it is null when nothing was sent.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/upload_file.rst

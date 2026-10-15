@@ -102,7 +102,7 @@ flashcards:
     front: "Une default value doit-elle satisfaire le requirement de son parameter ?"
     back: "Non. La documentation l'autorise explicitement à ne pas le respecter."
     explanation: >-
-      Le requirement filter la valeur venue de l'URL. Une default value n'est
+      Le requirement filtre la valeur venue de l'URL. Une default value n'est
       pas dans l'URL, donc elle n'est pas filtrée.
     memorization_justification: >-
       Contre-intuitif : on suppose une validation uniforme, et l'exception ne se
@@ -215,10 +215,10 @@ flashcards:
     official_item: OIT-21m4pmtymygn
     language: fr
     level: RECALL
-    front: 'Symfony : sans constraint de host, quels hosts une route accepte-t-elle ?'
+    front: 'Symfony : sans requirement de host, quels hosts une route accepte-t-elle ?'
     back: N'importe lequel. L'absence de l'option n'est pas une restriction implicite au domain principal.
     explanation: 'Le host n''a par ailleurs pas son propre mécanisme de parameters : default values
-      et constraints sont exactement celles d''un parameter de path.'
+      et requirements sont exactement ceux d''un parameter de path.'
     memorization_justification: 'Défaut permissif contre-intuitif : on suppose une restriction là où
       il n''y en a aucune.'
     verification_status: VERIFIED
@@ -235,7 +235,7 @@ flashcards:
     front: 'Symfony : dans quel ordre `debug:router` liste-t-il les routes ?'
     back: Dans l'ordre d'évaluation, pas alphabétique.
     explanation: 'C''est ce qui en fait un outil de diagnostic : la première correspondance gagne, donc
-      l''ordre affiché est la Response à « pourquoi est-ce l''autre route qui répond ? ».'
+      l''ordre affiché explique « pourquoi est-ce l''autre route qui répond ? ».'
     memorization_justification: Détail d'affichage qui change la valeur diagnostique de la command,
       et qu'on suppose alphabétique.
     verification_status: VERIFIED
@@ -783,7 +783,7 @@ flashcards:
     language: fr
     level: RECALL
     front: 'Quelle est la default value de framework.router.strict_requirements ?'
-    back: 'true : une valeur non conforme à la constraint lève une exception à la génération.'
+    back: 'true : une valeur non conforme au requirement lève une exception à la génération.'
     explanation: >-
       L option est un node scalaire dont le défaut est true dans la configuration de FrameworkBundle.
     memorization_justification: >-
@@ -801,7 +801,7 @@ flashcards:
     official_item: OIT-1cj08dhtp9hj
     language: fr
     level: RECALL
-    front: 'Quelle exception le generator lève-t-il pour un parameter qui ne respecte pas sa constraint ?'
+    front: 'Quelle exception le generator lève-t-il pour un parameter qui ne respecte pas son requirement ?'
     back: 'InvalidParameterException, avec un message indiquant la valeur attendue et la valeur donnée.'
     explanation: >-
       Elle n est levée que si strict_requirements vaut true.
@@ -839,7 +839,7 @@ flashcards:
     official_item: OIT-1cj08dhtp9hj
     language: fr
     level: RECALL
-    front: 'Quelle syntaxe permet d écrire une constraint directement dans le path ?'
+    front: 'Quelle syntaxe permet d écrire un requirement directement dans le path ?'
     back: '{nom<expression>}, par exemple /blog/{page<[0-9]+>}.'
     explanation: >-
       La forme inline est plus concise mais devient illisible pour une expression complexe.
@@ -877,12 +877,12 @@ flashcards:
     official_item: OIT-1cj08dhtp9hj
     language: fr
     level: UNDERSTANDING
-    front: 'Pourquoi une constraint rend-elle l ordre de déclaration indifférent entre /blog/{page} et /blog/{slug} ?'
-    back: 'Parce qu une URL qui ne vérifie pas la constraint ne correspond plus à la première route, et passe à la suivante.'
+    front: 'Pourquoi un requirement rend-il l ordre de déclaration indifférent entre /blog/{page} et /blog/{slug} ?'
+    back: 'Parce qu une URL qui ne vérifie pas le requirement ne correspond plus à la première route, et passe à la suivante.'
     explanation: >-
-      Sans constraint, la première route déclarée capture toutes les valeurs.
+      Sans requirement, la première route déclarée capture toutes les valeurs.
     memorization_justification: >-
-      Le vrai service rendu par la constraint est de départager des paths de même forme.
+      Le vrai service rendu par le requirement est de départager des paths de même forme.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
@@ -896,12 +896,12 @@ flashcards:
     official_item: OIT-1cj08dhtp9hj
     language: fr
     level: UNDERSTANDING
-    front: 'Pourquoi une default value peut-elle ne pas respecter la constraint de son parameter ?'
-    back: 'Parce que la constraint filter l URL entrante, et que la default value n est pas dans l URL.'
+    front: 'Pourquoi une default value peut-elle ne pas respecter le requirement de son parameter ?'
+    back: 'Parce que le requirement filtre l''URL entrante, et que la default value n''est pas dans l''URL.'
     explanation: >-
       La documentation l autorise explicitement.
     memorization_justification: >-
-      La règle surprend si l on pense la constraint comme une validation du parameter.
+      La règle surprend si l on pense le requirement comme une validation du parameter.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
@@ -915,12 +915,12 @@ flashcards:
     official_item: OIT-1cj08dhtp9hj
     language: fr
     level: APPLICATION
-    front: 'On génère blog_list avec page: abc alors que la constraint est [0-9]+, sans configuration particulière. Résultat ?'
-    back: 'Une InvalidParameterException : la constraint est vérifiée à la génération.'
+    front: 'On génère blog_list avec page: abc alors que le requirement est [0-9]+, sans configuration particulière. Résultat ?'
+    back: 'Une InvalidParameterException : le requirement est vérifié à la génération.'
     explanation: >-
       strict_requirements vaut true par défaut.
     memorization_justification: >-
-      Le cas réfute l idée que la constraint ne vaut qu à l appariement.
+      Le cas réfute l idée que le requirement ne vaut qu à l appariement.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
@@ -972,12 +972,12 @@ flashcards:
     official_item: OIT-1cj08dhtp9hj
     language: fr
     level: TRAP
-    front: 'Piège : « une constraint de route ne s applique qu à l appariement, jamais à la génération ».'
+    front: 'Piège : « un requirement de route ne s applique qu à l appariement, jamais à la génération ».'
     back: 'Non. Le generator la vérifie et lève une exception par défaut.'
     explanation: >-
       Seul strict_requirements à null désactive la vérification.
     memorization_justification: >-
-      La constraint est souvent présentée comme un filter d entrée uniquement.
+      Le requirement est souvent présenté comme un filter d entrée uniquement.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php"
@@ -1203,7 +1203,7 @@ flashcards:
     front: 'Piège : « tout argument de controller doté d une default value rend le parameter de route facultatif ».'
     back: 'Non. Il faut un parameter du même nom dans le path, et une valeur scalaire, null ou un cas d enum adossée.'
     explanation: >-
-      Le loader d attributes filter par nom et par type de valeur.
+      Le loader d attributes filtre par nom et par type de valeur.
     memorization_justification: >-
       La simplification courante omet les deux conditions.
     verification_status: VERIFIED
@@ -1650,7 +1650,7 @@ flashcards:
     front: "Piège : « une route /foo limitée à methods: ['POST'] redirige GET /foo/ vers /foo »."
     back: "Faux : la route doit accepter GET. Aucune redirect, et la Response est un 404, pas un 405."
     explanation: >-
-      Le matcher ne redirige vers une route que si elle n'a pas de constraint de method ou si GET en fait partie.
+      Le matcher ne redirige vers une route que si elle n'a pas de restriction de method ou si GET en fait partie.
     memorization_justification: >-
       On attend un 405, puisque le path existe sous une autre forme.
     verification_status: VERIFIED
@@ -1789,7 +1789,7 @@ flashcards:
     front: "Symfony : un import pose locale: 'fr' sur un group contenant une route localisée. Quelle locale garde cette route ?"
     back: "La sienne : Route::addDefaults() ignore un _locale hérité pour une route localisée."
     explanation: >-
-      Une route localisée porte déjà _locale, _canonical_route et une constraint sur _locale ; la valeur de l'import ne l'écrase pas.
+      Une route localisée porte déjà _locale, _canonical_route et un requirement sur _locale ; la valeur de l'import ne l'écrase pas.
     memorization_justification: >-
       Exception silencieuse à la règle « l'import pose la default value ».
     verification_status: VERIFIED
@@ -1890,7 +1890,7 @@ flashcards:
     front: "Symfony : la correspondance de l'option host tient-elle compte de la casse ?"
     back: "Non. Le host est mis en minuscules et l'expression régulière du host porte le drapeau i."
     explanation: >-
-      Une constraint EN|FR|DE accepte en.example.com ; l'attribute apparié vaut en, la valeur de la Request.
+      Un requirement EN|FR|DE accepte en.example.com ; l'attribute apparié vaut en, la valeur de la Request.
     memorization_justification: >-
       Le path, lui, reste sensible à la casse : la différence se retient.
     verification_status: VERIFIED
@@ -1967,7 +1967,7 @@ flashcards:
     explanation: >-
       C'est la justification donnée par la documentation, et le code ne l'utilise pas à l'appariement.
     memorization_justification: >-
-      Sans cette raison, la default value paraît redondante avec la constraint.
+      Sans cette raison, la default value paraît redondante avec le requirement.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
@@ -2505,7 +2505,7 @@ flashcards:
     front: "Symfony : quels route names produit #[Route(path: ['en' => '/about-us', 'nl' => '/over-ons'], name: 'about_us')] ?"
     back: "about_us.en et about_us.nl."
     explanation: >-
-      Chacune porte la default value _locale, une constraint sur _locale et _canonical_route valant about_us. Une entrée sans key deviendrait la route about_us.
+      Chacune porte la default value _locale, un requirement sur _locale et _canonical_route valant about_us. Une entrée sans key deviendrait la route about_us.
     memorization_justification: >-
       Le suffixe .locale est ce que l'on voit dans debug:router.
     verification_status: VERIFIED
@@ -2754,7 +2754,7 @@ flashcards:
     official_item: OIT-8sr74a2wnb3r
     language: fr
     level: UNDERSTANDING
-    front: "Symfony : debug:router --method=POST affiche-t-il une route sans constraint de method ?"
+    front: "Symfony : debug:router --method=POST affiche-t-il une route sans restriction de method ?"
     back: "Oui : une route sans methods accepte tout verbe, elle reste dans la liste filtrée."
     explanation: >-
       Le filter ne retire que les routes dont la liste de methods ne contient pas celle demandée.
@@ -2774,7 +2774,7 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "Symfony : que signale router:match par « almost matches » ?"
-    back: "Une route presque appariée, écartée par une constraint de parameter, le host, la condition, le schéma ou la method."
+    back: "Une route presque appariée, écartée par un requirement de parameter, le host, la condition, le schéma ou la method."
     explanation: >-
       Ces lignes s'affichent toujours ; les routes qui ne correspondent pas du tout n'apparaissent qu'en mode verbeux.
     memorization_justification: >-

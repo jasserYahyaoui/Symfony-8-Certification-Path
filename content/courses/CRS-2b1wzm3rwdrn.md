@@ -62,13 +62,13 @@ par le host. Sans `host`, une route accepte n'importe quel host.
 
 La comparaison **ignore la casse** : le matcher met le host de la Request en
 minuscules, et l'expression régulière compilée pour le host porte le drapeau
-`i`. Une constraint `EN|FR|DE` accepte donc `en.example.com`, et l'attribute
+`i`. Un requirement `EN|FR|DE` accepte donc `en.example.com`, et l'attribute
 vaut alors `en` (test `testHostIsCaseInsensitive`).
 
 ## Le host accepte des parameters
 
 C'est ce qui rend l'option utile aux applications multi-locataires : le host se
-parameter comme un path, avec default values et constraints.
+parameter comme un path, avec default values et requirements.
 
 ```php
 #[Route(
@@ -107,13 +107,13 @@ Quand le host de la route diffère de celui de la Request courante,
 | `www.example.com` | `//m.example.com/` |
 
 Le résultat est une URL **relative au schéma** — sans `http:` ni `https:` — et
-non une URL absolue. `url()` produit, lui, toujours l'URL absolue complète. La
-constraint du host est vérifiée à la génération comme celle d'un parameter de
+non une URL absolue. `url()` produit, lui, toujours l'URL absolue complète. Le
+requirement du host est vérifié à la génération comme celui d'un parameter de
 path.
 
 ## Pièges d'examen
 
-**Sans constraint de host, une route accepte n'importe quel host.** L'absence de
+**Sans requirement de host, une route accepte n'importe quel host.** L'absence de
 l'option n'est pas une restriction implicite au domain principal.
 
 **Une default value de host ne sert qu'à la génération.** Contrairement au
@@ -121,7 +121,7 @@ path, elle ne rend pas le parameter facultatif à l'appariement.
 
 **`path()` vers un autre host donne `//hôte/chemin`**, pas `https://hôte/chemin`.
 
-**Le host ignore la casse**, constraint comprise.
+**Le host ignore la casse**, requirement compris.
 
 **Deux routes peuvent partager le même path** et ne se distinguer que par
 le host : la route sans `host` doit donc venir après celle qui en a un, sinon

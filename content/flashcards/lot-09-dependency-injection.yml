@@ -573,7 +573,7 @@ flashcards:
   language: fr
   level: RECALL
   front: 'Symfony : que fait l''argument de debug:autowiring, comme dans debug:autowiring log ?'
-  back: Il filter par recherche partielle ; sans résultat, la command répond « No autowirable classes or interfaces found matching … ».
+  back: Il filtre par recherche partielle ; sans résultat, la command répond « No autowirable classes or interfaces found matching … ».
   explanation: 'Exécuté avec FrameworkBundle 8.0.15 : `log` rend `Psr\Log\LoggerInterface - alias:logger`.'
   memorization_justification: Usage de la command.
   verification_status: VERIFIED

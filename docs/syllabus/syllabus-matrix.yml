@@ -3042,17 +3042,17 @@ items:
     content_level: STANDARD
     content_level_justification: >-
       Trois écritures équivalentes, une enum de constantes, et une exception non devinable : la
-      default value n'a pas à satisfaire la constraint. Le problème résolu — deux routes
+      default value n'a pas à satisfaire le requirement. Le problème résolu — deux routes
       indiscernables — demande d'être pose pour que la règle ait un sens.
     learning_outcomes:
       - id: OUT-gxaj5vfr68nt
-        outcome: "Déclarer une constraint de parameter dans les trois écritures"
+        outcome: "Déclarer un requirement de parameter dans les trois écritures"
       - id: OUT-t3ajatgs8hh2
         outcome: "Expliquer le problème d'ambiguïté que requirements résout"
       - id: OUT-7hyaem7hsh5h
         outcome: "Citer l'enum Requirement et son usage en YAML"
       - id: OUT-6m9a09sd49jg
-        outcome: "Énoncer que la default value échappe à la constraint"
+        outcome: "Énoncer que la default value échappe au requirement"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -3109,7 +3109,7 @@ items:
       - id: OUT-qva279gdyyra
         outcome: "Expliquer l'effet du préfixe ! sur l'URL générée"
       - id: OUT-33d0j3zrrwmz
-        outcome: "Énoncer que la default value peut violer la constraint"
+        outcome: "Énoncer que la default value peut violer le requirement"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -7593,6 +7593,7 @@ items:
       - "CRS-cb51hcng9dh5"
     flashcard_refs:
       - "FLC-czhm5c0vv1sv"
+      - "FLC-an8ypmrag2p3"
     question_refs:
       - "QST-gbzpgycr1r6g"
       - "QST-tvce4echjywq"

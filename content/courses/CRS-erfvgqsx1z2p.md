@@ -116,7 +116,7 @@ le *status code renvoyé*, qui peut différer.
 
 **Lire d'abord le référentiel de la question.** Cacheable selon RFC 9110 §9.2.3 :
 `GET`, `HEAD`, `POST`. Cacheable selon `isMethodCacheable()` : `GET`, `HEAD`,
-`QUERY`. Les deux Responses sont justes, chacune chez elle.
+`QUERY`. Les deux affirmations sont justes, chacune chez elle.
 
 **Symfony ajoute, et retire.** Il ajoute `QUERY` aux safe methods, `QUERY` et
 `PURGE` aux idempotentes — mais il retire `POST` des cacheables. Aucune des
