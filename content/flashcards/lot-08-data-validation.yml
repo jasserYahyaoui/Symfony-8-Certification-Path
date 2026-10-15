@@ -1389,9 +1389,9 @@ flashcards:
   official_item: OIT-0wnxbapegqhv
   language: fr
   level: UNDERSTANDING
-  front: 'Validator : pourquoi une string d''appels buildViolation()->setParameter() sans fin ne signale-t-elle rien ?'
+  front: 'Validator : pourquoi une chaîne d''appels buildViolation()->setParameter() sans fin ne signale-t-elle rien ?'
   back: Parce que `buildViolation()` ne fait que préparer un builder ; seul son `addViolation()` enregistre la violation.
-  explanation: 'Exécuté : aucune violation pour une string d''appels non terminée.'
+  explanation: 'Exécuté : aucune violation pour une chaîne d''appels non terminée.'
   memorization_justification: Défaut silencieux central de l'item.
   verification_status: VERIFIED
   official_sources:

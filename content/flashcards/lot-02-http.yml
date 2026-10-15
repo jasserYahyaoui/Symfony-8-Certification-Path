@@ -1137,7 +1137,7 @@ flashcards:
       Symfony complète la chaîne d'adresses avec `REMOTE_ADDR`, retire les adresses des
       proxys déclarés de confiance, puis renverse ce qui reste et prend le
       premier élément. Le client d'origine n'est donc obtenu que si **toute** la
-      string est déclarée. C'est le comportement sûr : la partie gauche de
+      chaîne de proxies est déclarée. C'est le comportement sûr : la partie gauche de
       le header est falsifiable par le client.
     memorization_justification: >-
       La règle « le client est la première adresse » est vraie dans le cas

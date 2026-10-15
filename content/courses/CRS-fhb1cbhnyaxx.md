@@ -33,7 +33,7 @@ outcome_sections:
 
 Comprendre ce qui circule entre le code qui déclenche et le code qui écoute :
 l'object event. C'est lui qui porte la donnée, et lui seul qui peut
-interrompre la string.
+interrompre la propagation.
 
 ## Périmètre
 

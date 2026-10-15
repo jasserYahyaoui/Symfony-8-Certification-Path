@@ -151,7 +151,7 @@ terms:
   # (« termine la string », « la string de middleware ») and were restored by
   # hand. « chaîne de requête » is the query string, and has its own entry.
   - {fr: [chaîne de requête, chaînes de requête, chaîne de Request, chaînes de Request], en: query string, en_plural: query strings, gender: f, elide: false}
-  - {fr: [chaîne, chaînes], en: string, en_plural: strings, gender: f, elide: false, keep: ['chaînes?\s+de\s(?!caractères)', 'chaînes?\s+d[''’]', 'en chaîne', 'chaîn(é|er|age)']}
+  - {fr: [chaîne, chaînes], en: string, en_plural: strings, gender: f, elide: false, keep: ['chaînes?\s+de\s(?!caractères)', 'chaînes?\s+d[''’\x02]', 'en chaîne', 'chaîn(é|er|age)']}
   - {fr: [tableau, tableaux], en: array, en_plural: arrays, gender: m, elide: true, keep: ['tableaux? (ci-dessous|suivants?|des |récapitul|précédent|ci-contre)', '(ce|ces|le|un) tableaux? (montre|résume|donne|liste|compare|ci-)', 'dans (le|ce) tableau', 'du tableau (ci|suivant|précédent)']}
   - {fr: [fichier, fichiers], en: file, en_plural: files, gender: m, elide: false}
   - {fr: [répertoire, répertoires], en: directory, en_plural: directories, gender: m, elide: false}
