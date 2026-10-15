@@ -48,17 +48,17 @@ mocks:
     exam_skill_in:
     - RECOGNIZE
     - DISTINGUISH
-  eligible_questions: 63
+  eligible_questions: 64
   eligible_topics: 14
   smallest_topic: 2
   language: en
-  language_note: 'An outcome, not a target: the VALIDATION pool is 140 of 140 English.'
+  language_note: 'An outcome, not a target: the VALIDATION pool is 141 of 141 English.'
   question_count: 42
   duration_minutes: 43
-  mean_estimated_seconds: 52.9
+  mean_estimated_seconds: 53.3
   cap_from_variation: 42
-  cap_from_duration: 59
-  unused_after_selection: 21
+  cap_from_duration: 58
+  unused_after_selection: 22
   scoring_policy: all-or-nothing, INTERNAL_TRAINING_FORMAT; the official policy is not published
   label: INTERNAL_TRAINING_FORMAT
   topic_spread:
@@ -91,7 +91,7 @@ mocks:
   eligible_topics: 14
   smallest_topic: 2
   language: en
-  language_note: 'An outcome, not a target: the VALIDATION pool is 140 of 140 English.'
+  language_note: 'An outcome, not a target: the VALIDATION pool is 141 of 141 English.'
   question_count: 52
   duration_minutes: 60
   mean_estimated_seconds: 60.1
@@ -137,7 +137,7 @@ mocks:
   eligible_topics: 14
   smallest_topic: 2
   language: en
-  language_note: 'An outcome, not a target: the VALIDATION pool is 140 of 140 English.'
+  language_note: 'An outcome, not a target: the VALIDATION pool is 141 of 141 English.'
   question_count: 45
   duration_minutes: 54
   mean_estimated_seconds: 61.5
@@ -175,7 +175,7 @@ mocks:
     - VALIDATION
     - LEARNING
     excludes: HOLDOUT
-  eligible_questions: 691
+  eligible_questions: 701
   weakness_evidence:
   - questions answered incorrectly, most recent first
   - official topics with the lowest success ratio

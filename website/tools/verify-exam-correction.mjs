@@ -174,9 +174,12 @@ await check('each entry marks exactly its correct choices', async () => {
 proves('mark count', marksMatch, [{correct: 2, marked: 1}]);
 
 await check('the wrong answer is labelled as the learner’s', async () => {
-  const entry = entries.filter({hasText: wrong.choices.find((c) => !c.correct).text.split('\n')[0].slice(0, 40)}).filter({hasText: '✘ Incorrecte'});
-  if ((await entry.count()) < 1) throw new Error('no entry marked incorrect for the wrong answer');
-  if (!(await entry.first().innerText()).includes('votre choix, incorrect')) throw new Error('the learner’s choice is not labelled');
+  // Located by its number in the sitting (it was answered second), not by its
+  // text: a choice written with backticks renders without them, so a text
+  // match would miss it.
+  const entry = review.locator('li.certpath-review-entry[value="2"]');
+  if (!(await entry.innerText()).includes('✘ Incorrecte')) throw new Error('question 2 is not marked incorrect');
+  if (!(await entry.innerText()).includes('votre choix, incorrect')) throw new Error('the learner’s choice is not labelled');
 });
 await check('the two right answers are listed as correct', async () => {
   const n = await review.locator('details li.certpath-review-entry[data-result="correct"]').count();

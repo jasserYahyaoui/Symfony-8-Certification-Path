@@ -55,7 +55,7 @@ an idea: it stops the old sentence returning, not every way of being wrong.
 | F4 | HOLDOUT length bias not measured on its own | **BLOQUÉ** (rewrite) — control ready | see P0.4 |
 | F5 | Content metrics read as candidate mastery | **VÉRIFIÉ** (local) | see P1.7 |
 | F6 | Roadmap / mock texts out of sync | **VÉRIFIÉ** (local) — mock texts derived; comprehension load budgeted, exam moved to 29 Dec by owner decision | see P2.5 |
-| F7 | Too few multiple-answer questions | **VÉRIFIÉ** (local) — P1.6: +33 (3 VALIDATION, 30 LEARNING), every choice executed or read in its source; 7 or 8 per mock exam | see P1.6 |
+| F7 | Too few multiple-answer questions | **VÉRIFIÉ** — P1.6: +33, then +10 for PHP and Automated Tests (4 VALIDATION, 39 LEARNING in all), every choice executed or read in its source | see P1.6 |
 | F8 | Unsourced "not examinable" restrictions | **EN COURS** — Serializer (P1.5) and Cache (P1.4) extended, VÉRIFIÉ; P1.1–P1.3, P2.7 À FAIRE | see P1.5 |
 | F9 | PHP source 404 and mutable branch URLs | **BLOQUÉ** (the last 404 is in a HOLDOUT question) — pinning À FAIRE | see P2.6 |
 | F10 | No per-card recall record; comprehension stores nothing | **EN COURS** — comprehension recorded (P2.4, VÉRIFIÉ local); per-card recall À FAIRE (P2.3) | see P2.4 |
@@ -342,4 +342,26 @@ Consequences, recomputed from the bank by the blueprint's own rule: Mock 1
 42 questions / 43 min (was 41 / 42), Mock 2 and 3 unchanged in count, Mock 5's
 universe 691; the six exams carry 7 or 8 multiple-answer questions each and
 are numbered by estimated difficulty, now asserted at build time.
+
+**Second batch (2026-10-15), PHP and Automated Tests.** Owner: « continuer ».
+Ten more: four PHP (OOP, interfaces, two on enums) and six on tests (assertions, redirects, crawler, server parameters,
+`trigger_deprecation()`, status code). 1 is VALIDATION (Handling legacy
+deprecated code had none), 9 LEARNING. Two more, on attributes and closures,
+were written and dropped: with the holdout questions of those items, which the
+audit counts and this work does not read, they would have taken lot 01 items
+past five questions (L1-5). Nine are executed in
+`tools/behavior/questions/multiple-answer-php-tests.php`, compile-time errors
+in a child process; the WebTestCase assertions rest on FrameworkBundle's
+traits and are listed as documentary.
+
+The execution caught a loose check, not a content error: reading `->value` on a
+pure enum does not throw, it warns "Undefined property" and yields null. The
+check now turns a warning into a failure, and the explanation says what PHP
+does.
+
+Incident, recorded rather than hidden: profiling the PHP and Automated Tests
+items printed the first 110 characters of four HOLDOUT prompts, which live in
+the lot files. The script filtered on the file name, not on the pool. The
+prompts were not used, no new question is on their subject, and every script
+since filters `pool != HOLDOUT`.
 

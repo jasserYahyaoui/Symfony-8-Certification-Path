@@ -1730,3 +1730,545 @@ questions:
       branch: '8.0'
       symbol_or_lines: MockClock
       verified_at: '2026-10-14'
+  # Second batch (2026-10-15): PHP and Automated Tests.
+  - id: QST-m4m81mfwc4ww
+    question_archetype: BEHAVIOR_PREDICTION
+    assesses_outcomes:
+    - OUT-2tvh0svv8jhg
+    - OUT-zqwbp11av4pr
+    version: 1
+    official_topic: PHP
+    official_item: OIT-ywrx9x3hg9z8
+    domain: php
+    subtopic: oop
+    language: en
+    difficulty: hard
+    cognitive_level: APPLY
+    exam_skill: DIAGNOSE
+    type: mcq
+    answer_mode: multiple
+    required_answer_count: 2
+    question: Which statements hold on PHP 8.4? (Choose 2)
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 75
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+    - tech-lead
+    reviewed_at: '2026-10-15'
+    tags:
+    - readonly
+    - promotion
+    choices:
+    - id: CHO-9ndsvcwdejjm
+      text: A child class may initialize a `public readonly int $x` declared by its parent.
+      correct: true
+    - id: CHO-zvr1n01cwhx5
+      text: '`public function __construct(public int $a = 3)` declares the property $a.'
+      correct: true
+    - id: CHO-5w4y2mjcce6t
+      text: '`return new self();` in a parent static method returns the child when called as
+        Child::make().'
+      correct: false
+      explanation: 'self is the class where the code is written: it returns the parent. static
+        would return the child.'
+    - id: CHO-h9y84yd0sf29
+      text: A child redeclaring a parent's private method changes what the parent's public method
+        calls.
+      correct: false
+      explanation: 'A private method is not overridden: the parent keeps calling its own.'
+    explanation: 'Executed on PHP 8.4: a child constructor initialized the parent''s readonly
+      property (readonly is implicitly protected(set) since 8.4); constructor promotion declared
+      $a with its default 3; new self() in the parent returned the parent class; and the parent''s
+      call() still reached its own private h().'
+    official_sources:
+    - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/properties.xml
+      readable_url: https://github.com/php/doc-en/blob/master/language/oop5/properties.xml
+      branch: master
+      symbol_or_lines: readonly properties
+      verified_at: '2026-10-15'
+    - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/decon.xml
+      readable_url: https://github.com/php/doc-en/blob/master/language/oop5/decon.xml
+      branch: master
+      symbol_or_lines: Constructor Promotion
+      verified_at: '2026-10-15'
+    - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/late-static-bindings.xml
+      readable_url: https://github.com/php/doc-en/blob/master/language/oop5/late-static-bindings.xml
+      branch: master
+      symbol_or_lines: 'self:: versus static::'
+      verified_at: '2026-10-15'
+    - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/visibility.xml
+      readable_url: https://github.com/php/doc-en/blob/master/language/oop5/visibility.xml
+      branch: master
+      symbol_or_lines: private methods
+      verified_at: '2026-10-15'
+  - id: QST-xcwt5f53w57p
+    question_archetype: CODE_DIAGNOSIS
+    assesses_outcomes:
+    - OUT-5vqwe44nsee5
+    version: 1
+    official_topic: PHP
+    official_item: OIT-vt0p9cacpkpd
+    domain: php
+    subtopic: interfaces
+    language: en
+    difficulty: medium
+    cognitive_level: APPLY
+    exam_skill: DIAGNOSE
+    type: mcq
+    answer_mode: multiple
+    required_answer_count: 2
+    question: A, B are interfaces in the first two lines, and classes in the last two. Which
+      declarations compile? (Choose 2)
+    code_language: php
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 75
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+    - tech-lead
+    reviewed_at: '2026-10-15'
+    tags:
+    - inheritance
+    choices:
+    - id: CHO-7vh21wv80bqb
+      text: '`interface I extends A, B {}`'
+      correct: true
+    - id: CHO-zjbz95wmyfvn
+      text: '`class C implements A, B {}`'
+      correct: true
+    - id: CHO-ee8mvkmrt2fh
+      text: '`interface I implements A {}`'
+      correct: false
+      explanation: An interface extends other interfaces; implements is a parse error.
+    - id: CHO-zqvcacykezdw
+      text: '`class C extends A, B {}`'
+      correct: false
+      explanation: 'A class extends at most one class: the comma is a parse error.'
+    explanation: 'Executed on PHP 8.4: an interface may extend several interfaces and a class
+      may implement several, but `interface ... implements` and `class ... extends A, B` are
+      both parse errors.'
+    official_sources:
+    - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/interfaces.xml
+      readable_url: https://github.com/php/doc-en/blob/master/language/oop5/interfaces.xml
+      branch: master
+      symbol_or_lines: extends several interfaces; a class may implement several
+      verified_at: '2026-10-15'
+    - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/basic.xml
+      readable_url: https://github.com/php/doc-en/blob/master/language/oop5/basic.xml
+      branch: master
+      symbol_or_lines: 'extends: a single class'
+      verified_at: '2026-10-15'
+  - id: QST-1qg0yxxx9jxj
+    question_archetype: BEHAVIOR_PREDICTION
+    assesses_outcomes:
+    - OUT-6az3084jk5xb
+    version: 1
+    official_topic: PHP
+    official_item: OIT-hqz5c2qse24w
+    domain: php
+    subtopic: enums
+    language: en
+    difficulty: medium
+    cognitive_level: APPLY
+    exam_skill: DIAGNOSE
+    type: mcq
+    answer_mode: multiple
+    required_answer_count: 2
+    question: 'Given `enum Suit: string { case Hearts = ''h''; }`, which calls complete without
+      throwing? (Choose 2)'
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 75
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+    - tech-lead
+    reviewed_at: '2026-10-15'
+    tags:
+    - backed-enum
+    choices:
+    - id: CHO-w08t3wr79gbw
+      text: Suit::tryFrom('x')
+      correct: true
+    - id: CHO-m2e3s0hbjjr1
+      text: Suit::from('h')
+      correct: true
+    - id: CHO-zz4nvbxac2k9
+      text: Suit::from('x')
+      correct: false
+      explanation: from() throws a ValueError on an unknown value; tryFrom() returns null.
+    - id: CHO-h564nennf3td
+      text: $c = Suit::Hearts; $c->value = 'z';
+      correct: false
+      explanation: 'Enum cases are read-only: assigning value throws an Error.'
+    explanation: 'Executed on PHP 8.4: tryFrom(''x'') returned null and from(''h'') returned
+      Suit::Hearts; from(''x'') threw ValueError and writing ->value threw Error.'
+    official_sources:
+    - url: https://raw.githubusercontent.com/php/doc-en/master/language/enumerations.xml
+      readable_url: https://github.com/php/doc-en/blob/master/language/enumerations.xml
+      branch: master
+      symbol_or_lines: BackedEnum::from(), tryFrom(); read-only cases
+      verified_at: '2026-10-15'
+  - id: QST-nyr4h6qq8ayk
+    question_archetype: CONCEPT_DISTINCTION
+    assesses_outcomes:
+    - OUT-xccz85tdts39
+    version: 1
+    official_topic: PHP
+    official_item: OIT-hqz5c2qse24w
+    domain: php
+    subtopic: enums
+    language: en
+    difficulty: medium
+    cognitive_level: UNDERSTAND
+    exam_skill: DISTINGUISH
+    type: mcq
+    answer_mode: multiple
+    required_answer_count: 2
+    question: Given the pure enum `enum Status { case Draft; }`, which are available? (Choose
+      2)
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 75
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+    - tech-lead
+    reviewed_at: '2026-10-15'
+    tags:
+    - pure-enum
+    choices:
+    - id: CHO-c0kghfh21rqy
+      text: Status::cases()
+      correct: true
+    - id: CHO-956vx2dwnasg
+      text: Status::Draft->name
+      correct: true
+    - id: CHO-t8wvqkmqvr3t
+      text: Status::Draft->value
+      correct: false
+      explanation: 'value exists only on a backed enum: here PHP warns "Undefined property:
+        Status::$value" and yields null.'
+    - id: CHO-1ym7q5qerqhb
+      text: Status::from('Draft')
+      correct: false
+      explanation: from() and tryFrom() exist only on a backed enum.
+    explanation: 'Executed on PHP 8.4: a pure enum has cases() and each case has name. Reading
+      ->value raises the warning "Undefined property: Status::$value" and gives null, and from()
+      is an undefined method: both belong to backed enums (BackedEnum).'
+    official_sources:
+    - url: https://raw.githubusercontent.com/php/doc-en/master/language/enumerations.xml
+      readable_url: https://github.com/php/doc-en/blob/master/language/enumerations.xml
+      branch: master
+      symbol_or_lines: 'UnitEnum: cases(), name; BackedEnum: value, from(), tryFrom()'
+      verified_at: '2026-10-15'
+  - id: QST-fvx988xhq7gw
+    question_archetype: API_SIGNATURE
+    assesses_outcomes:
+    - OUT-9v5ravsc1d59
+    version: 1
+    official_topic: Automated Tests
+    official_item: OIT-favt42nvgdqh
+    domain: symfony
+    subtopic: assertions
+    language: en
+    difficulty: medium
+    cognitive_level: KNOW
+    exam_skill: RECOGNIZE
+    type: mcq
+    answer_mode: multiple
+    required_answer_count: 3
+    question: Which assertions does a test extending WebTestCase get from Symfony 8.0? (Choose
+      3)
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 75
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+    - tech-lead
+    reviewed_at: '2026-10-15'
+    tags:
+    - assertions
+    choices:
+    - id: CHO-g4van1edbkxp
+      text: assertSelectorExists()
+      correct: true
+    - id: CHO-mdmacjcha6j0
+      text: assertRouteSame()
+      correct: true
+    - id: CHO-av5430py2wy1
+      text: assertPageTitleSame()
+      correct: true
+    - id: CHO-wpgfjn24pwt5
+      text: assertResponseIsOk()
+      correct: false
+      explanation: 'No such assertion: the 2xx check is assertResponseIsSuccessful().'
+    - id: CHO-j59mptscq3qt
+      text: assertRedirectedTo()
+      correct: false
+      explanation: 'No such assertion: redirects are checked with assertResponseRedirects().'
+    explanation: In FrameworkBundle 8.0, WebTestCase uses BrowserKitAssertionsTrait (assertResponseIsSuccessful,
+      assertResponseHasHeader, assertResponseRedirects, assertRouteSame, …) and DomCrawlerAssertionsTrait
+      (assertPageTitleSame, assertSelectorExists, …). Neither declares assertResponseIsOk or
+      assertRedirectedTo.
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Test/BrowserKitAssertionsTrait.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Test/BrowserKitAssertionsTrait.php
+      branch: '8.0'
+      symbol_or_lines: assertResponseIsSuccessful, assertResponseHasHeader, assertResponseRedirects,
+        assertRouteSame
+      verified_at: '2026-10-15'
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Test/DomCrawlerAssertionsTrait.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Test/DomCrawlerAssertionsTrait.php
+      branch: '8.0'
+      symbol_or_lines: assertSelectorTextContains, assertPageTitleSame
+      verified_at: '2026-10-15'
+  - id: QST-et0r585d9ra3
+    question_archetype: BEHAVIOR_PREDICTION
+    assesses_outcomes:
+    - OUT-pkd6t54g5k0j
+    version: 1
+    official_topic: Automated Tests
+    official_item: OIT-bc3brs4a4mtt
+    domain: symfony
+    subtopic: client
+    language: en
+    difficulty: medium
+    cognitive_level: APPLY
+    exam_skill: DIAGNOSE
+    type: mcq
+    answer_mode: multiple
+    required_answer_count: 2
+    question: A test client requests /a, which answers with a 302 redirect to /b. Nothing else
+      is configured. Which statements are true? (Choose 2)
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 75
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+    - tech-lead
+    reviewed_at: '2026-10-15'
+    tags:
+    - redirects
+    choices:
+    - id: CHO-c0bxaj052hgv
+      text: $client->getResponse()->getStatusCode() is 302.
+      correct: true
+    - id: CHO-9780ez6bhs24
+      text: Calling $client->followRedirect() then loads /b.
+      correct: true
+    - id: CHO-bct9zeeramsg
+      text: $client->getRequest() is already the request for /b.
+      correct: false
+      explanation: 'The client has not followed the redirect: the last request is still /a.'
+    - id: CHO-jwmdbj579ed2
+      text: $client->isFollowingRedirects() returns true.
+      correct: false
+      explanation: The kernel test client turns automatic redirects off; followRedirects(true)
+        turns them on.
+    explanation: 'Executed with HttpKernel and BrowserKit 8.0.15 (KernelBrowser extends HttpKernelBrowser,
+      whose constructor sets followRedirects to false): the response was 302 for /a, isFollowingRedirects()
+      was false, and followRedirect() loaded /b with status 200.'
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/HttpKernelBrowser.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/HttpKernelBrowser.php
+      branch: '8.0'
+      symbol_or_lines: '__construct(): $this->followRedirects = false'
+      verified_at: '2026-10-15'
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/BrowserKit/AbstractBrowser.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/BrowserKit/AbstractBrowser.php
+      branch: '8.0'
+      symbol_or_lines: followRedirect(), followRedirects(), isFollowingRedirects()
+      verified_at: '2026-10-15'
+  - id: QST-0z642aefqqc9
+    question_archetype: BEHAVIOR_PREDICTION
+    assesses_outcomes:
+    - OUT-0cm314bnvwqx
+    version: 1
+    official_topic: Automated Tests
+    official_item: OIT-se21g2xv6h4r
+    domain: symfony
+    subtopic: crawler
+    language: en
+    difficulty: medium
+    cognitive_level: APPLY
+    exam_skill: DIAGNOSE
+    type: mcq
+    answer_mode: multiple
+    required_answer_count: 2
+    question: A crawler matches two links, "one" (title A) and "two" (title B). Which calls
+      return something for both links? (Choose 2)
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 75
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+    - tech-lead
+    reviewed_at: '2026-10-15'
+    tags:
+    - crawler
+    choices:
+    - id: CHO-34xjywvvah15
+      text: $links->extract(['_text', 'title'])
+      correct: true
+    - id: CHO-99133dkqtekv
+      text: $links->each(fn ($n) => $n->text())
+      correct: true
+    - id: CHO-8w5dx5ade69p
+      text: $links->text()
+      correct: false
+      explanation: 'text() reads the first node only: "one".'
+    - id: CHO-s12688ar3db7
+      text: $links->attr('title')
+      correct: false
+      explanation: 'attr() reads the first node only: "A".'
+    explanation: 'Executed with DomCrawler 8.0.15: text() returned "one" and attr(''title'')
+      returned "A", while extract([''_text'', ''title'']) returned [["one", "A"], ["two", "B"]]
+      and each() returned ["one", "two"].'
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DomCrawler/Crawler.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DomCrawler/Crawler.php
+      branch: '8.0'
+      symbol_or_lines: 'text(), attr(): first node; extract(), each(): every node'
+      verified_at: '2026-10-15'
+  - id: QST-e6fsny5640vm
+    question_archetype: BEHAVIOR_PREDICTION
+    assesses_outcomes:
+    - OUT-2t00vt83c8pb
+    - OUT-pgb3b6xmtm4e
+    version: 1
+    official_topic: Automated Tests
+    official_item: OIT-bswvewkkkj1q
+    domain: symfony
+    subtopic: client-configuration
+    language: en
+    difficulty: hard
+    cognitive_level: APPLY
+    exam_skill: DIAGNOSE
+    type: mcq
+    answer_mode: multiple
+    required_answer_count: 2
+    question: A test client is created with the server parameters ['HTTP_X_API_KEY' => 'k'].
+      Which statements are true? (Choose 2)
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 75
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+    - tech-lead
+    reviewed_at: '2026-10-15'
+    tags:
+    - headers
+    choices:
+    - id: CHO-fdja016g833r
+      text: 'The first request carries the header X-Api-Key: k.'
+      correct: true
+    - id: CHO-4zfez554dcbd
+      text: A second request with the same client carries it too.
+      correct: true
+    - id: CHO-nrs8pxnw0c7v
+      text: Passing ['X-Api-Key' => 'k'] instead sends the same header.
+      correct: false
+      explanation: 'Server parameters follow RFC 3875: a header is HTTP_ plus the name upper-cased
+        with underscores.'
+    - id: CHO-j6gtcvw1bn5x
+      text: Server parameters given at creation apply to the first request only.
+      correct: false
+      explanation: They are kept by the client and applied to every request it makes.
+    explanation: 'Executed with HttpKernel and BrowserKit 8.0.15: with HTTP_X_API_KEY, both
+      requests had the header x-api-key: k; with the key X-Api-Key, the request had no such
+      header.'
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/BrowserKit/AbstractBrowser.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/BrowserKit/AbstractBrowser.php
+      branch: '8.0'
+      symbol_or_lines: __construct(array $server), setServerParameters(), request()
+      verified_at: '2026-10-15'
+    - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst
+      readable_url: https://github.com/symfony/symfony-docs/blob/8.0/testing.rst
+      branch: '8.0'
+      symbol_or_lines: createClient() options and server parameters; HTTP_ prefix
+      verified_at: '2026-10-15'
+  - id: QST-4a1ch0v8dv9d
+    question_archetype: API_SIGNATURE
+    assesses_outcomes:
+    - OUT-2qpbjpt6nv81
+    - OUT-az102q4grt31
+    version: 1
+    official_topic: Automated Tests
+    official_item: OIT-bzkq4e7wks9a
+    domain: symfony
+    subtopic: introspection
+    language: en
+    difficulty: medium
+    cognitive_level: KNOW
+    exam_skill: DISTINGUISH
+    type: mcq
+    answer_mode: multiple
+    required_answer_count: 2
+    question: A test holds `$client` and the `$crawler` its last request returned. Which expressions
+      read the status code of that response? (Choose 2)
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 75
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+    - tech-lead
+    reviewed_at: '2026-10-15'
+    tags:
+    - status-code
+    choices:
+    - id: CHO-ekw98dbqsxxc
+      text: $client->getResponse()->getStatusCode()
+      correct: true
+    - id: CHO-3nb4tmvj6bx1
+      text: $client->getInternalResponse()->getStatusCode()
+      correct: true
+    - id: CHO-bhbjss8936gs
+      text: $client->getRequest()->getStatusCode()
+      correct: false
+      explanation: 'A Request has no status code: the status belongs to the response.'
+    - id: CHO-kqs9tjwdyzqf
+      text: $crawler->getStatusCode()
+      correct: false
+      explanation: The Crawler holds the parsed document, not the response.
+    explanation: 'Executed with HttpKernel and BrowserKit 8.0.15: both the HttpFoundation response
+      and the BrowserKit internal response returned 200; neither Request nor Crawler has a getStatusCode()
+      method.'
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/BrowserKit/Response.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/BrowserKit/Response.php
+      branch: '8.0'
+      symbol_or_lines: getStatusCode()
+      verified_at: '2026-10-15'
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Response.php
+      branch: '8.0'
+      symbol_or_lines: getStatusCode()
+      verified_at: '2026-10-15'
