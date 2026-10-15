@@ -4584,7 +4584,7 @@ jobs:
           missing=""
           grep -aqF -- 'il se rabat sur' /tmp/sp-sp04ac \
             || missing="$missing sp04ac:no-json-fallback"
-          grep -aqF -- 'du localisateur' /tmp/sp-sp04ac \
+          grep -aqF -- 'du locator, pas une' /tmp/sp-sp04ac \
             || missing="$missing sp04ac:no-locator-exception"
           if [ -n "$missing" ]; then
             echo "::error::Second-pass correction missing from lot-04/the-base-abstractcontroller-class:$missing"
@@ -4656,7 +4656,7 @@ jobs:
           missing=""
           grep -aqF -- 'produit le path absolu' /tmp/sp-sp05tr \
             || missing="$missing sp05tr:no-absolute-path"
-          grep -aqF -- 'un path sans hôte' /tmp/sp-sp05tr \
+          grep -aqF -- 'un path sans host' /tmp/sp-sp05tr \
             || missing="$missing sp05tr:no-hostless-path"
           if [ -n "$missing" ]; then
             echo "::error::Second-pass correction missing from lot-05/trigger-redirects:$missing"
