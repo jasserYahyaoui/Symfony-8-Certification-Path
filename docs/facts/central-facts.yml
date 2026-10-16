@@ -421,3 +421,61 @@ facts:
     behavior_check: form.property-path-and-inherit-data
     content: [CRS-8msvfwe13mpb, FLC-r6v26rr7gf9q, QST-3zbbzc4cy9ms, QST-yxjnqrztscg0]
     forbidden: []
+  php.array-merge-vs-union:
+    finding: P1.1
+    official_item: OIT-46ry8d7dypmb
+    statement: >-
+      array_merge renumbers integer keys and lets a later string key win; the + operator keeps the left-hand element
+      for a key present on both sides, so ['a'] + ['b'] is ['a'].
+    sources:
+      - https://raw.githubusercontent.com/php/doc-en/master/reference/array/functions/array-merge.xml
+      - https://raw.githubusercontent.com/php/doc-en/master/language/operators/array.xml
+    behavior_check: php.array-merge-vs-union
+    content: [CRS-722pscs6e2m0, FLC-6yegfjgbqn5g, QST-8g91k8rjcn8g]
+    forbidden: []
+  php.array-functions-and-keys:
+    finding: P1.1
+    official_item: OIT-46ry8d7dypmb
+    statement: >-
+      array_filter preserves keys and leaves gaps; array_map preserves keys only when given exactly one array; sort()
+      sorts in place and returns true.
+    sources:
+      - https://raw.githubusercontent.com/php/doc-en/master/reference/array/functions/array-filter.xml
+      - https://raw.githubusercontent.com/php/doc-en/master/reference/array/functions/array-map.xml
+    behavior_check: php.array-functions-and-keys
+    content: [CRS-722pscs6e2m0, QST-cvv4q26x2q2s]
+    forbidden: []
+  php.string-number-comparison:
+    finding: P1.1
+    official_item: OIT-46ry8d7dypmb
+    statement: >-
+      Since PHP 8.0 a number and a non-numeric string compare as strings (0 == 'a' is false); two numeric strings
+      still compare as numbers ('10' == '1e1' is true); in_array() uses == unless its strict argument is true.
+    sources:
+      - https://raw.githubusercontent.com/php/doc-en/master/language/operators/comparison.xml
+    behavior_check: php.string-number-comparison
+    content: [CRS-722pscs6e2m0, QST-f2m90kz2ya28]
+    forbidden: []
+  php.php84-array-find-any-all:
+    finding: P1.1
+    official_item: OIT-46ry8d7dypmb
+    statement: >-
+      PHP 8.4 adds array_find (first accepted value, or null), array_find_key, array_any (false on an empty array) and
+      array_all (true on an empty array); the callback receives the value, then the key.
+    sources:
+      - https://raw.githubusercontent.com/php/php-src/PHP-8.4/UPGRADING
+      - https://raw.githubusercontent.com/php/doc-en/master/reference/array/functions/array-find.xml
+    behavior_check: php.php84-array-find-any-all
+    content: [CRS-722pscs6e2m0, FLC-c63atm9r74mk, QST-g3y2dqj5820q]
+    forbidden: []
+  php.json-decode-defaults:
+    finding: P1.1
+    official_item: OIT-46ry8d7dypmb
+    statement: >-
+      json_decode returns a stdClass for a JSON object unless its second argument is true, and null on invalid input
+      unless JSON_THROW_ON_ERROR makes it throw a JsonException; json_validate (PHP 8.3) returns a bool.
+    sources:
+      - https://raw.githubusercontent.com/php/doc-en/master/reference/json/functions/json-decode.xml
+    behavior_check: php.json-decode-defaults
+    content: [CRS-722pscs6e2m0, QST-xna2m697k5m7]
+    forbidden: []

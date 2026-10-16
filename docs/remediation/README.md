@@ -56,7 +56,7 @@ an idea: it stops the old sentence returning, not every way of being wrong.
 | F5 | Content metrics read as candidate mastery | **VÉRIFIÉ** (local) | see P1.7 |
 | F6 | Roadmap / mock texts out of sync | **VÉRIFIÉ** (local) — mock texts derived; comprehension load budgeted, exam moved to 29 Dec by owner decision | see P2.5 |
 | F7 | Too few multiple-answer questions | **VÉRIFIÉ** — P1.6: +33, then +10 for PHP and Automated Tests (4 VALIDATION, 39 LEARNING in all), every choice executed or read in its source | see P1.6 |
-| F8 | Unsourced "not examinable" restrictions | **EN COURS** — Serializer (P1.5), Cache (P1.4), Validator (P1.3) and Forms (P1.2) extended, VÉRIFIÉ; P1.1, P2.7 À FAIRE | see P1.5, P1.3, P1.2 |
+| F8 | Unsourced "not examinable" restrictions | **EN COURS** — Serializer (P1.5), Cache (P1.4), Validator (P1.3), Forms (P1.2) and PHP API (P1.1) extended, VÉRIFIÉ; P2.7 À FAIRE | see P1.5, P1.3, P1.2, P1.1 |
 | F9 | PHP source 404 and mutable branch URLs | **BLOQUÉ** (the last 404 is in a HOLDOUT question) — pinning À FAIRE | see P2.6 |
 | F10 | No per-card recall record; comprehension stores nothing | **EN COURS** — comprehension recorded (P2.4, VÉRIFIÉ local); per-card recall À FAIRE (P2.3) | see P2.4 |
 
@@ -306,8 +306,40 @@ citation, so a format change has to be designed with it, not applied in bulk.
 
 ## Next action
 
-P1.1 (PHP API beyond « what's new »), executed first in `tools/behavior`;
-decide the level on the item, never on a word count.
+P2.7, then P2.3 (per-card recall, which would give item statistics a source).
+
+### P1.1 — PHP API: the standard library a question makes you predict (F8, part)
+
+The item's justification said the detail of each PHP API was « ni examinable ni
+révisable », with no source. It is replaced by what a question can make a
+candidate predict, executed first on PHP 8.4.19 (`tools/behavior/checks/php.php`,
+five checks). These are engine behaviours: no vendor line carries them, so
+`mutate.py` cannot prove them; each check was instead run against altered
+expected values, failed, and was restored byte-identically under SHA-256.
+
+| Behaviour | Result |
+|---|---|
+| `array_merge` vs `+` | `['a','b']` vs `['a']`; on a shared string key `array_merge` keeps the right, `+` the left |
+| `array_filter([1, 0, 2, null, '0', 'a'])` | `[0 => 1, 2 => 2, 5 => 'a']`, not a list |
+| `array_map` | keys kept with one array, reindexed with two |
+| PHP 8 comparison | `0 == 'a'` false, `0 == ''` false, `'1' == '01'` true, `'10' == '1e1'` true; `in_array` uses `==` |
+| `json_decode` | `stdClass` by default, array with `true`, `null` on invalid input, `JsonException` with `JSON_THROW_ON_ERROR` |
+| PHP 8.4 `array_find` / `array_find_key` / `array_any` / `array_all` | first value or `null`; callback gets value then key; `array_all([])` true, `array_any([])` false |
+
+Versions read in doc-en `versions.xml` and php-src `PHP-8.4/UPGRADING`:
+`str_contains` / `str_starts_with` / `str_ends_with` 8.0, `array_is_list` 8.1,
+`json_validate` 8.3, `array_find` family, `mb_trim`, `mb_ucfirst` 8.4.
+
+**Level: unchanged (STANDARD).** Content: two outcomes (`OUT-e7z5wvfwcsxk`,
+`OUT-a1r0b9k9vxsn`), two course sections, two flashcards, three COMPREHENSION
+questions, five central facts. The item already held five exam questions, the
+ceiling audit L1-5 sets for lot 01, so no question was added: two redundant
+LEARNING questions were rewritten as version 2 — `QST-g3y2dqj5820q` (language
+feature in 8.4, also assessed by the VALIDATION question) now attributes a
+standard function to its version, and `QST-f2m90kz2ya28` (two of the five 8.4
+additions, assessed twice elsewhere) now asks which comparisons are true,
+executed by `questions/php-p11.php`. Question counts and published figures are
+unchanged.
 
 ### P1.2 — Forms: collections and mapping (F8, part)
 

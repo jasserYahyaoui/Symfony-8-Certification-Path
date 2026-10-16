@@ -44,7 +44,7 @@ items:
     classification: OFFICIAL
     content_level: STANDARD
     content_level_justification: >-
-      Concept important exigeant distinction et application : l'item porte sur l'attribution d'une fonctionnalité à sa version, or Symfony 8.0 impose PHP 8.4 et une Response valable en 8.1 peut être fausse. Un array de versions et les quatre ajouts 8.4 suffisent ; le détail de chaque API PHP n'est ni examinable ni révisable.
+      Concept important exigeant distinction et application : l'item porte sur l'attribution d'une fonctionnalité à sa version, or Symfony 8.0 impose PHP 8.4 et une Response valable en 8.1 peut être fausse. La bibliothèque standard entre dans l'item par ce qu'une question peut faire prédire : keys conservées ou renumérotées par les functions d'array, comparaison string/nombre de PHP 8, default values de json_decode, et la version des functions ajoutées depuis 8.0. Le reste de l'API se lit dans le manuel au besoin.
     learning_outcomes:
       - id: OUT-svjaxs75amyd
         outcome: "Attribuer une fonctionnalité du langage à sa version d'introduction"
@@ -52,6 +52,10 @@ items:
         outcome: "Énumérer les cinq ajouts de langage de PHP 8.4"
       - id: OUT-fr1x4bcak73j
         outcome: "Distinguer readonly de la visibilité asymétrique private(set)"
+      - id: OUT-e7z5wvfwcsxk
+        outcome: "Prévoir le résultat des functions d'array et des comparaisons PHP 8"
+      - id: OUT-a1r0b9k9vxsn
+        outcome: "Attribuer les functions de la bibliothèque standard à leur version"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -78,6 +82,8 @@ items:
       - "CRS-722pscs6e2m0"
     flashcard_refs:
       - "FLC-ef5rh3zk8shg"
+      - "FLC-6yegfjgbqn5g"
+      - "FLC-c63atm9r74mk"
     question_refs:
       - "QST-g3y2dqj5820q"
       - "QST-7etwbjrngfd0"

@@ -4,7 +4,8 @@ questions:
   question_archetype: VERSION_ATTRIBUTION
   assesses_outcomes:
     - OUT-svjaxs75amyd
-  version: 1
+    - OUT-a1r0b9k9vxsn
+  version: 2
   official_topic: PHP
   official_item: OIT-46ry8d7dypmb
   domain: php
@@ -15,7 +16,7 @@ questions:
   type: mcq
   answer_mode: single
   required_answer_count: 1
-  question: Which language feature was introduced in PHP 8.4?
+  question: Symfony 8.0 requires PHP 8.4. Which of these first became available with that release, and so is missing on PHP 8.3?
   scoring_policy: all-or-nothing
   shuffle_choices: true
   negative_wording: false
@@ -25,13 +26,13 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-01'
+  reviewed_at: '2026-10-16'
   tags:
   - php84
   - versions
   choices:
   - id: CHO-8291q5m8f78j
-    text: Property hooks
+    text: The array_find() function
     correct: true
   - id: CHO-xmyfssp59e1q
     text: Enums
@@ -42,18 +43,31 @@ questions:
     correct: false
     explanation: '#[\Override] is PHP 8.3. It is easy to confuse with 8.4''s #[\Deprecated].'
   - id: CHO-psghrg8yqzmv
-    text: Constructor property promotion
+    text: The json_validate() function
     correct: false
-    explanation: Promotion arrived with PHP 8.0, alongside named arguments and match.
-  explanation: 'Property hooks are one of PHP 8.4''s core additions, together with asymmetric property
-    visibility, lazy objects and the #[\Deprecated] attribute.'
+    explanation: json_validate() arrived with PHP 8.3, one version before array_find().
+  explanation: 'PHP 8.4 added array_find(), array_find_key(), array_any() and array_all() to the
+    standard library, next to its core language additions such as property hooks. Enums date from
+    8.1; #[\Override] and json_validate() from 8.3.'
   official_sources:
   - url: https://raw.githubusercontent.com/php/php-src/PHP-8.4/UPGRADING
     readable_url: https://github.com/php/php-src/blob/PHP-8.4/UPGRADING
     repository: php/php-src
     branch: PHP-8.4
-    symbol_or_lines: New Features > Core
-    verified_at: '2026-09-01'
+    symbol_or_lines: '6. New Functions > Standard: Added functions array_find(), array_find_key(), array_all(), and array_any()'
+    verified_at: '2026-10-16'
+  - url: https://raw.githubusercontent.com/php/doc-en/master/reference/array/versions.xml
+    readable_url: https://github.com/php/doc-en/blob/master/reference/array/versions.xml
+    repository: php/doc-en
+    branch: master
+    symbol_or_lines: array_find from "PHP 8 >= 8.4.0"
+    verified_at: '2026-10-16'
+  - url: https://raw.githubusercontent.com/php/doc-en/master/reference/json/versions.xml
+    readable_url: https://github.com/php/doc-en/blob/master/reference/json/versions.xml
+    repository: php/doc-en
+    branch: master
+    symbol_or_lines: json_validate from "PHP 8 >= 8.3.0"
+    verified_at: '2026-10-16'
 - id: QST-7etwbjrngfd0
   question_archetype: CONCEPT_DISTINCTION
   assesses_outcomes:
@@ -1692,10 +1706,10 @@ questions:
     branch: master
     verified_at: '2026-09-09'
 - id: QST-f2m90kz2ya28
-  question_archetype: VERSION_ATTRIBUTION
+  question_archetype: CODE_OUTPUT
   assesses_outcomes:
-    - OUT-ayahqn48ev7g
-  version: 1
+    - OUT-e7z5wvfwcsxk
+  version: 2
   official_topic: PHP
   official_item: OIT-46ry8d7dypmb
   domain: php
@@ -1706,8 +1720,8 @@ questions:
   type: mcq
   answer_mode: multiple
   required_answer_count: 2
-  question: PHP 8.4 added five features to the core language. Which two of these are among them?
-    (Choose 2)
+  question: On PHP 8.4, which two of these expressions evaluate to true? (Choose 2)
+  code_language: php
   scoring_policy: all-or-nothing
   shuffle_choices: true
   negative_wording: false
@@ -1717,35 +1731,33 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-09'
+  reviewed_at: '2026-10-16'
   tags:
-  - versions
-  - php-8.4
+  - comparison
+  - php-8.0
   choices:
   - id: CHO-d4njxpahwcy4
-    text: Lazy objects
+    text: "'1' == '01'"
     correct: true
   - id: CHO-fhk8c7ntdd7e
-    text: A new expression with constructor arguments is dereferencable, so no enclosing parentheses
-      are needed to chain a call onto it
+    text: "'10' == '1e1'"
     correct: true
   - id: CHO-2sxapv3ysygq
-    text: Readonly classes
+    text: "0 == 'a'"
     correct: false
-    explanation: Whole-class readonly arrived in 8.2, and readonly properties themselves in 8.1.
+    explanation: Since PHP 8.0 a number and a non-numeric string are compared as strings, so this is false; it was true before 8.0.
   - id: CHO-pg2vmf414gy8
-    text: First-class callable syntax, strlen(...)
+    text: "in_array('abc', [0])"
     correct: false
-    explanation: That is 8.1, alongside enums and readonly.
-  explanation: 'The five core additions of 8.4 are property hooks, asymmetric property visibility, lazy
-    objects, the #[\Deprecated] attribute, and new expressions being dereferencable without
-    parentheses. Both distractors are real language features, which is the point - attributing a
-    feature to the wrong version is a different mistake from not knowing the feature, and only the
-    first is tested here.'
+    explanation: in_array() compares with ==, and 'abc' == 0 has been false since PHP 8.0.
+  explanation: 'Two numeric strings are compared as numbers, so ''1'' == ''01'' and ''10'' == ''1e1''
+    are both true. A number against a non-numeric string is compared as two strings since PHP 8.0,
+    so 0 == ''a'' is false, and in_array(), which uses ==, does not find ''abc'' in [0]. Executed on
+    PHP 8.4.'
   official_sources:
-  - url: https://raw.githubusercontent.com/php/php-src/PHP-8.4/UPGRADING
-    readable_url: https://github.com/php/php-src/blob/PHP-8.4/UPGRADING
-    symbol_or_lines: 2. New Features > Core
-    repository: php/php-src
-    branch: PHP-8.4
-    verified_at: '2026-09-09'
+  - url: https://raw.githubusercontent.com/php/doc-en/master/language/operators/comparison.xml
+    readable_url: https://github.com/php/doc-en/blob/master/language/operators/comparison.xml
+    repository: php/doc-en
+    branch: master
+    symbol_or_lines: 'If both operands are numeric strings, or one operand is a number and the other one is a numeric string, then the comparison is done numerically'
+    verified_at: '2026-10-16'
