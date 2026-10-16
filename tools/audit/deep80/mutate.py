@@ -62,6 +62,10 @@ M=[
  ('translation.icu-parameter-keys','translation/Formatter/IntlFormatter.php',"                $parameters[trim($key, '%{ }')] = $value;",'                // key kept as given'),
  ('translation.several-catalogues','translation/MessageCatalogue.php','        if (isset($this->messages[$domain.self::INTL_DOMAIN_SUFFIX][$id])) {\n            return $this->messages[$domain.self::INTL_DOMAIN_SUFFIX][$id];','        if (false) {\n            return $this->messages[$domain.self::INTL_DOMAIN_SUFFIX][$id];'),
  ('translation.several-catalogues','translation/Translator.php','                $catalogue = $cat;\n                $locale = $catalogue->getLocale();','                $catalogue = $cat;'),
+ ('filesystem.portable-paths','filesystem/Path.php',"        if ('\\\\' !== \\DIRECTORY_SEPARATOR) {\n            return false;","        if (false) {\n            return false;"),
+ ('filesystem.portable-paths','filesystem/Path.php',"        return '\\\\' === \\DIRECTORY_SEPARATOR ? str_replace('\\\\', '/', $path) : $path;","        return str_replace('\\\\', '/', $path);"),
+ ('filesystem.tempnam-and-cleanup','filesystem/Filesystem.php',"            $tmpFile = $dir.'/'.$prefix.bin2hex(random_bytes(4)).$suffix;","            $tmpFile = $dir.'/'.$prefix.bin2hex(random_bytes(4));"),
+ ('finder.sort-for-a-deterministic-order','finder/Iterator/SortableIterator.php','        } elseif (self::SORT_BY_NAME_NATURAL === $sort) {\n            $this->sort = static fn (\\SplFileInfo $a, \\SplFileInfo $b) => $order * strnatcmp(','        } elseif (self::SORT_BY_NAME_NATURAL === $sort) {\n            $this->sort = static fn (\\SplFileInfo $a, \\SplFileInfo $b) => $order * strcmp('),
 ]
 ok=True
 for check,f,old,new in M:

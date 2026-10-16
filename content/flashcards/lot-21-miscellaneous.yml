@@ -211,6 +211,22 @@ flashcards:
     branch: '8.0'
     symbol_or_lines: Filesystem Utilities; Path Manipulation Utilities; Error Handling
     verified_at: '2026-10-02'
+- id: FLC-500k6pc92xev
+  official_item: OIT-tjn6kyvyc2h9
+  language: fr
+  level: TRAP
+  front: 'Sous Linux, que rend `isAbsolutePath(''c:\Windows'')` ?'
+  back: '`false`. `\` et `C:` ne sont séparateur et racine que si `DIRECTORY_SEPARATOR` vaut `\` ; la documentation montre `true`, ce que rend Windows.'
+  explanation: 'De même, `Path::canonicalize(''a\b/../c'')` rend `c` sous Unix : `\` y est un caractère de nom. Un test portable écrit ses paths avec `/`. Exécuté avec Filesystem 8.0.15 sous Linux.'
+  memorization_justification: L'exemple de la documentation est vrai sous Windows seulement ; rien ne le précise.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Filesystem/Path.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Filesystem/Path.php
+    repository: symfony/symfony
+    symbol_or_lines: isAbsolute() — drive letters only when DIRECTORY_SEPARATOR is a backslash
+    branch: '8.0'
+    verified_at: '2026-10-16'
 - id: FLC-exnqgc20agxs
   official_item: OIT-a1anzcv85my3
   language: fr
@@ -377,3 +393,19 @@ flashcards:
     branch: '8.0'
     symbol_or_lines: Usage; Location; Files or Directories; Version Control Files; Directory Depth; Transforming Results into Arrays
     verified_at: '2026-10-02'
+- id: FLC-myk6e5gjj7qs
+  official_item: OIT-a1anzcv85my3
+  language: fr
+  level: RECALL
+  front: 'Finder : `sortByName()` ou `sortByName(true)`, lequel met `f2` avant `f10` ?'
+  back: '`sortByName(true)`, l''ordre naturel. `sortByName()` compare des strings : `f10` avant `f2`. Sans tri, l''ordre est celui du système de files.'
+  explanation: 'Exécuté sous Linux : `f1` à `f12` créés dans l''ordre reviennent sans tri comme `f4, f12, f9, f10, f1`… Un test qui compare une liste doit trier. Finder 8.0.'
+  memorization_justification: Les deux tris ont le même nom ; seul l'argument booléen les distingue.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Finder/Iterator/SortableIterator.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Finder/Iterator/SortableIterator.php
+    repository: symfony/symfony
+    symbol_or_lines: SORT_BY_NAME — strcmp ; SORT_BY_NAME_NATURAL — strnatcmp
+    branch: '8.0'
+    verified_at: '2026-10-16'

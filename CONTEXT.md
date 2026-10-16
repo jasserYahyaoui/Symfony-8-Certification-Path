@@ -72,8 +72,9 @@ s'accompagne d'une exécution par choix dans `tools/behavior/questions/` ou
 d'une raison dans `MultipleAnswerEvidenceTest::DOCUMENTARY`.
 
 **Prochaine action :** P2.7 (approfondissements secondaires), un composant par
-PR — HttpClient (#417), Console (#418), Profiler (#419), Translation faits —
-puis Filesystem/Finder/Process, Runtime ; ensuite P2.3 (rappel par carte). Toujours : exécuter d'abord dans
+PR — HttpClient (#417), Console (#418), Profiler (#419), Translation (#420),
+Filesystem/Finder faits (Process inchangé, déjà exécuté) — puis Runtime en CI ;
+ensuite P2.3 (rappel par carte). Toujours : exécuter d'abord dans
 `tools/behavior`, écrire ensuite, et décider du niveau sur l'item, jamais sur un
 compte de mots.
 

@@ -724,3 +724,38 @@ facts:
     behavior_check: translation.several-catalogues
     content: [CRS-v1808qnchx6g, FLC-xy5sg8rfzbff, QST-50q8da3a6j72, QST-c2ajcg5w4bqk]
     forbidden: []
+  filesystem.portable-paths:
+    finding: P2.7
+    official_item: OIT-tjn6kyvyc2h9
+    statement: >-
+      Path reads a backslash and a drive letter as separator and root only when DIRECTORY_SEPARATOR is a backslash: on
+      Linux isAbsolutePath('c:\Windows') is false (the documentation's true is the Windows result) and
+      canonicalize('a\b/../c') is c; paths written with / canonicalize and join the same everywhere.
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Filesystem/Path.php
+      - https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/filesystem.rst
+    behavior_check: filesystem.portable-paths
+    content: [CRS-h9nryezt8wnb, FLC-500k6pc92xev, QST-04dzxpcr5n14, QST-r1re7fzqmc4z]
+    forbidden: []
+  filesystem.tempnam-and-cleanup:
+    finding: P2.7
+    official_item: OIT-tjn6kyvyc2h9
+    statement: >-
+      tempnam($dir, $prefix, $suffix) creates an empty file with a unique name keeping prefix and suffix; remove() deletes
+      a whole tree.
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Filesystem/Filesystem.php
+    behavior_check: filesystem.tempnam-and-cleanup
+    content: [CRS-h9nryezt8wnb]
+    forbidden: []
+  finder.sort-for-a-deterministic-order:
+    finding: P2.7
+    official_item: OIT-a1anzcv85my3
+    statement: >-
+      Without a sort the Finder returns the filesystem order; sortByName() compares strings (f10 before f2),
+      sortByName(true) uses natural order (f2 before f10), reverseSorting() inverts.
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Finder/Iterator/SortableIterator.php
+    behavior_check: finder.sort-for-a-deterministic-order
+    content: [CRS-jwhqec35jczn, FLC-myk6e5gjj7qs, QST-fjbhttc65mgv, QST-c2aqc3snwd4y]
+    forbidden: []

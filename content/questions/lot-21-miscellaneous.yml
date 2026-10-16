@@ -171,6 +171,66 @@ questions:
     branch: '8.0'
     symbol_or_lines: dumpfile
     verified_at: '2026-09-02'
+- id: QST-04dzxpcr5n14
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-85v8saxqy4sb
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-tjn6kyvyc2h9
+  domain: symfony
+  subtopic: filesystem
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'A test suite runs on Linux CI and calls $filesystem->isAbsolutePath(''c:\Windows''). The documentation lists this call as returning true. What does it return there?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 70
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-16'
+  tags:
+  - filesystem
+  - portability
+  choices:
+  - id: CHO-pxgpgkrzq79g
+    text: 'false: a drive letter is a root only on Windows'
+    correct: true
+  - id: CHO-dpxw7859xh71
+    text: 'true, on every operating system'
+    correct: false
+    explanation: 'Path::isAbsolute() checks drive letters only when DIRECTORY_SEPARATOR is a backslash.'
+  - id: CHO-pckjexg02qrd
+    text: 'An IOException, since the path does not exist'
+    correct: false
+    explanation: 'isAbsolutePath() works on the string alone; it never touches the disk.'
+  - id: CHO-qqmthccctwd5
+    text: 'true only if the path exists on disk'
+    correct: false
+    explanation: 'Existence is never checked: it is a string operation.'
+  explanation: 'Filesystem::isAbsolutePath() delegates to Path::isAbsolute(), which treats a backslash and a drive letter as a separator and a root only when DIRECTORY_SEPARATOR is a backslash. On Linux it returns false; the documentation''s true is what Windows returns. A portable test writes its paths with /. Executed on Filesystem 8.0.15 under Linux.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Filesystem/Path.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Filesystem/Path.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'isAbsolute(), normalize(): backslash and drive letter only when DIRECTORY_SEPARATOR is a backslash'
+    verified_at: '2026-10-16'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/filesystem.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/filesystem.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'isAbsolutePath: returns true for c:\Windows'
+    verified_at: '2026-10-16'
 - id: QST-9vdyrx07zz9j
   question_archetype: BEHAVIOR_DIAGNOSIS
   assesses_outcomes:
@@ -392,3 +452,57 @@ questions:
     branch: '8.0'
     symbol_or_lines: 'chained criteria: files(), in(), name()'
     verified_at: '2026-09-12'
+- id: QST-fjbhttc65mgv
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-46en9kn33p4r
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-a1anzcv85my3
+  domain: symfony
+  subtopic: finder
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'A test asserts that a Finder returns exactly f1.txt, f2.txt, f10.txt, in that order. Which call makes the order reliable?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-16'
+  tags:
+  - finder
+  - portability
+  choices:
+  - id: CHO-eswg2a7d32nw
+    text: 'sortByName(true)'
+    correct: true
+  - id: CHO-y673y09sbvp8
+    text: 'sortByName()'
+    correct: false
+    explanation: 'A plain string comparison puts f10.txt before f2.txt.'
+  - id: CHO-3vnbfw47v1k9
+    text: 'None: the Finder already returns names alphabetically'
+    correct: false
+    explanation: 'Unsorted, the Finder returns the filesystem order, which is neither alphabetical nor stable across systems.'
+  - id: CHO-qpayvr3qktbn
+    text: 'reverseSorting()'
+    correct: false
+    explanation: 'reverseSorting() inverts an order; it does not choose a natural one.'
+  explanation: 'sortByName(true) compares names with strnatcmp, the natural order f1, f2, f10. sortByName() compares strings, giving f1, f10, f2. Without a sort, the order is whatever the filesystem lists. Executed on Finder 8.0 under Linux.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Finder/Iterator/SortableIterator.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Finder/Iterator/SortableIterator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'SORT_BY_NAME: strcmp; SORT_BY_NAME_NATURAL: strnatcmp'
+    verified_at: '2026-10-16'

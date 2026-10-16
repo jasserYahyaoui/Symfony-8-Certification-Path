@@ -56,7 +56,7 @@ an idea: it stops the old sentence returning, not every way of being wrong.
 | F5 | Content metrics read as candidate mastery | **VÉRIFIÉ** (local) | see P1.7 |
 | F6 | Roadmap / mock texts out of sync | **VÉRIFIÉ** (local) — mock texts derived; comprehension load budgeted, exam moved to 29 Dec by owner decision | see P2.5 |
 | F7 | Too few multiple-answer questions | **VÉRIFIÉ** — P1.6: +33, then +10 for PHP and Automated Tests (4 VALIDATION, 39 LEARNING in all), every choice executed or read in its source | see P1.6 |
-| F8 | Unsourced "not examinable" restrictions | **EN COURS** — Serializer (P1.5), Cache (P1.4), Validator (P1.3), Forms (P1.2) and PHP API (P1.1) extended, VÉRIFIÉ; P2.7 EN COURS (HttpClient, Console, Profiler, Translation VÉRIFIÉ) | see P1.5, P1.3, P1.2, P1.1, P2.7 |
+| F8 | Unsourced "not examinable" restrictions | **EN COURS** — Serializer (P1.5), Cache (P1.4), Validator (P1.3), Forms (P1.2) and PHP API (P1.1) extended, VÉRIFIÉ; P2.7 EN COURS (HttpClient, Console, Profiler, Translation, Filesystem/Finder VÉRIFIÉ) | see P1.5, P1.3, P1.2, P1.1, P2.7 |
 | F9 | PHP source 404 and mutable branch URLs | **BLOQUÉ** (the last 404 is in a HOLDOUT question) — pinning À FAIRE | see P2.6 |
 | F10 | No per-card recall record; comprehension stores nothing | **EN COURS** — comprehension recorded (P2.4, VÉRIFIÉ local); per-card recall À FAIRE (P2.3) | see P2.4 |
 
@@ -311,9 +311,41 @@ citation, so a format change has to be designed with it, not applied in bulk.
 
 ## Next action
 
-P2.7, one component per PR: Filesystem/Finder/Process, Runtime. Then P2.3 (per-card recall, which would
+P2.7: Runtime — its course already executes a minimal entry point and traces the cycle; what is missing is running those facts in CI. Then P2.3 (per-card recall, which would
 give item statistics a source). By the owner's decision of 2026-10-16, Mock 4 is
 not sat now and is no longer raised in reports; F4 and F9 stay blocked.
+
+### P2.7 — Filesystem, Finder: a portable test environment
+
+The mission asks for controlled, portable test environments. Executed first on
+Filesystem and Finder 8.0 under Linux (`tools/behavior/checks/filesystem-finder-portable.php`,
+three checks, four vendor mutations, all proved, restored byte-identically).
+
+| Behaviour | Result |
+|---|---|
+| `Path::canonicalize('/var/www/../log/./x')`, `Path::join('a', '/b', 'c/')` | `/var/log/x`, `a/b/c` |
+| `Path::canonicalize('a\\b/../c')` | `c`: under Unix a backslash is a filename character |
+| `isAbsolutePath('c:\\Windows')` | **`false`** under Linux |
+| `tempnam($dir, 'test_', '.txt')` | an empty file, unique name, prefix and suffix kept; `remove()` deletes the tree |
+| Finder without sort | the filesystem order (`f4, f12, f9, f10, f1…` for files created f1 to f12) |
+| `sortByName()` / `sortByName(true)` | `f1, f10, f2` / `f1, f2, f10` |
+
+**A documentation/code divergence, kept visible.** `components/filesystem.rst`
+(8.0) lists `isAbsolutePath('c:\\Windows')` as `true` and says backslashes are
+converted. `Path` does both only when `DIRECTORY_SEPARATOR` is a backslash — the
+class docblock says so (« On UNIX, backward slashes are preserved ») — so the
+documented results are the Windows ones. Same on 7.4.21. The course gives both
+and tells a portable test to write `/`. The check refuses to run where
+`DIRECTORY_SEPARATOR` is not `/`, rather than passing there vacuously.
+
+**Process: no change.** Its course already executes the array/string escaping,
+environment inheritance, both timeouts and `stop()`; at 857 of 900 body words a
+new section would push it towards DEEP on word count, which the level policy
+forbids.
+
+**Levels: unchanged (STANDARD)**; *Filesystem* 794, *Finder* 714 body words.
+Content: two outcomes, two sections, two flashcards, two LEARNING questions (one
+`hard`), two COMPREHENSION questions, three central facts.
 
 ### P2.7 — Translation: several catalogues, nested plural and select
 
