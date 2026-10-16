@@ -364,3 +364,60 @@ facts:
     behavior_check: translation.translatable-not-stringable
     content: [CRS-q18xc1k4yvb9, FLC-p6q3ewt9qsj7, QST-zpp1r9fbs8vb]
     forbidden: []
+  form.collection-extra-entries-refused:
+    finding: P1.2
+    official_item: OIT-5xvjqa4203xe
+    statement: >-
+      Without allow_add a CollectionType drops an extra submitted entry, and the Validator extension makes the
+      form invalid with "This form should not contain extra fields."; allow_add keeps it.
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Core/EventListener/ResizeFormListener.php
+    behavior_check: form.collection-extra-entries-refused
+    content: [CRS-f9pen0bdyrr9, FLC-6gjygtq4ba5b, QST-gtk4r5hqgvhx]
+    forbidden: []
+  form.collection-delete-needs-allow-delete:
+    finding: P1.2
+    official_item: OIT-5xvjqa4203xe
+    statement: >-
+      Without allow_delete a missing entry becomes null; allow_delete removes it; an empty string is removed only
+      with delete_empty.
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Core/EventListener/ResizeFormListener.php
+    behavior_check: form.collection-delete-needs-allow-delete
+    content: [CRS-f9pen0bdyrr9, FLC-6gjygtq4ba5b, QST-gtk4r5hqgvhx]
+    forbidden: []
+  form.collection-prototype:
+    finding: P1.2
+    official_item: OIT-5xvjqa4203xe
+    statement: >-
+      A CollectionType view carries vars.prototype only with allow_add; its name is __name__, which prototype_name
+      changes.
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Core/Type/CollectionType.php
+    behavior_check: form.collection-prototype
+    content: [CRS-f9pen0bdyrr9, QST-cs5ykmwy2vwm]
+    forbidden: []
+  form.by-reference-object-collection:
+    finding: P1.2
+    official_item: OIT-5xvjqa4203xe
+    statement: >-
+      For an object collection, by_reference true (the default) modifies it in place and calls no setter, adder or
+      remover; by_reference false calls the remover and adder when they exist, otherwise the setter with a new
+      instance.
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Core/DataAccessor/PropertyPathAccessor.php
+    behavior_check: form.by-reference-object-collection
+    content: [CRS-f9pen0bdyrr9, FLC-z1pt1g2zqn6z, QST-v3wvgyq5thee]
+    forbidden:
+      - "/by_reference[^.\\n]{0,40}(true|par défaut|by default)[^.\\n]{0,40}(appelle|calls) (addTag|l'adder|the adder)/iu"
+  form.property-path-and-inherit-data:
+    finding: P1.2
+    official_item: OIT-fhpttc4c5x0k
+    statement: >-
+      property_path gives a field another path (name, profile.bio); a type with inherit_data works on its parent's
+      data, and its getData() returns the parent object.
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Form.php
+    behavior_check: form.property-path-and-inherit-data
+    content: [CRS-8msvfwe13mpb, FLC-r6v26rr7gf9q, QST-3zbbzc4cy9ms, QST-yxjnqrztscg0]
+    forbidden: []

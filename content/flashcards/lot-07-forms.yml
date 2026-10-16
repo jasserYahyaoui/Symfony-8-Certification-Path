@@ -2558,3 +2558,66 @@ flashcards:
     branch: '8.0'
     symbol_or_lines: OptionsResolver::setDefault(), setOptions(), resolve()
     verified_at: '2026-09-25'
+- id: FLC-6gjygtq4ba5b
+  official_item: OIT-5xvjqa4203xe
+  language: fr
+  level: TRAP
+  front: 'Symfony Forms : un CollectionType sans allow_add ni allow_delete reçoit un élément en trop, puis un élément en moins. Que devient la donnée ?'
+  back: 'L''élément en trop est ignoré et le form est invalide (« This form should not contain extra fields. »). L''élément manquant devient null : il ne disparaît qu''avec allow_delete.'
+  explanation: 'Exécuté sur Form 8.0.15 avec l''extension Validator ; sans elle, l''élément en trop est ignoré sans erreur.'
+  memorization_justification: 'On croit qu''une collection suit le contenu soumis ; elle ne change de taille qu''avec les deux options.'
+  verification_status: VERIFIED
+  reviewed_at: '2026-10-16'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/forms/types/collection.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/forms/types/collection.rst
+    branch: '8.0'
+    symbol_or_lines: 'allow_add, allow_delete, delete_empty, prototype'
+    verified_at: '2026-10-16'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Core/EventListener/ResizeFormListener.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Extension/Core/EventListener/ResizeFormListener.php
+    branch: '8.0'
+    symbol_or_lines: 'preSubmit(): rows added only with allowAdd, removed only with allowDelete'
+    verified_at: '2026-10-16'
+- id: FLC-z1pt1g2zqn6z
+  official_item: OIT-5xvjqa4203xe
+  language: fr
+  level: TRAP
+  front: 'Symfony Forms : Post a une collection object de tags et une method addTag() qui pose l''autre côté de la relation. Le CollectionType est en allow_add. addTag() est-elle appelée ?'
+  back: 'Non, pas avec by_reference: true, le défaut : la collection est modifiée sur place et aucun mutator n''est appelé. Avec by_reference: false, removeTag() puis addTag() sont appelés.'
+  explanation: 'Exécuté sur Form 8.0.15 avec un ArrayObject : by_reference true, aucun appel, même instance ; false, remove:b puis add:c.'
+  memorization_justification: 'L''adder existe et l''on suppose qu''il sert ; c''est by_reference qui décide.'
+  verification_status: VERIFIED
+  reviewed_at: '2026-10-16'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/forms/types/options/by_reference.rst.inc
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/forms/types/options/by_reference.rst.inc
+    branch: '8.0'
+    symbol_or_lines: 'by_reference'
+    verified_at: '2026-10-16'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Core/DataAccessor/PropertyPathAccessor.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Extension/Core/DataAccessor/PropertyPathAccessor.php
+    branch: '8.0'
+    symbol_or_lines: 'setValue(): same instance and by_reference, nothing written'
+    verified_at: '2026-10-16'
+- id: FLC-r6v26rr7gf9q
+  official_item: OIT-fhpttc4c5x0k
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony Forms : quelle différence entre property_path et inherit_data ?'
+  back: 'property_path donne à un field un autre path que son nom (title → name, ou profile.bio). inherit_data fait travailler les fields d''un type sur les données du parent : un AddressType écrit city sur l''Author lui-même.'
+  explanation: 'Exécuté sur Form 8.0.15 : le sous-form inherit_data renvoie l''Author par getData().'
+  memorization_justification: 'Deux façons de découpler nom de field et property, qui ne répondent pas au même besoin.'
+  verification_status: VERIFIED
+  reviewed_at: '2026-10-16'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/forms/types/options/property_path.rst.inc
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/forms/types/options/property_path.rst.inc
+    branch: '8.0'
+    symbol_or_lines: 'property_path'
+    verified_at: '2026-10-16'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/inherit_data_option.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/inherit_data_option.rst
+    branch: '8.0'
+    symbol_or_lines: 'inherit_data'
+    verified_at: '2026-10-16'

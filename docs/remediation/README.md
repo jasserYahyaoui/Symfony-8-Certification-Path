@@ -56,7 +56,7 @@ an idea: it stops the old sentence returning, not every way of being wrong.
 | F5 | Content metrics read as candidate mastery | **VÉRIFIÉ** (local) | see P1.7 |
 | F6 | Roadmap / mock texts out of sync | **VÉRIFIÉ** (local) — mock texts derived; comprehension load budgeted, exam moved to 29 Dec by owner decision | see P2.5 |
 | F7 | Too few multiple-answer questions | **VÉRIFIÉ** — P1.6: +33, then +10 for PHP and Automated Tests (4 VALIDATION, 39 LEARNING in all), every choice executed or read in its source | see P1.6 |
-| F8 | Unsourced "not examinable" restrictions | **EN COURS** — Serializer (P1.5), Cache (P1.4) and Validator (P1.3) extended, VÉRIFIÉ; P1.1, P1.2, P2.7 À FAIRE | see P1.5, P1.3 |
+| F8 | Unsourced "not examinable" restrictions | **EN COURS** — Serializer (P1.5), Cache (P1.4), Validator (P1.3) and Forms (P1.2) extended, VÉRIFIÉ; P1.1, P2.7 À FAIRE | see P1.5, P1.3, P1.2 |
 | F9 | PHP source 404 and mutable branch URLs | **BLOQUÉ** (the last 404 is in a HOLDOUT question) — pinning À FAIRE | see P2.6 |
 | F10 | No per-card recall record; comprehension stores nothing | **EN COURS** — comprehension recorded (P2.4, VÉRIFIÉ local); per-card recall À FAIRE (P2.3) | see P2.4 |
 
@@ -301,13 +301,42 @@ citation, so a format change has to be designed with it, not applied in bulk.
 | P1.4 Cache | #399 | squash `effce50` | smoke 115749438772 success, log read (lot-18 comprehension 16, 1 122 in all) |
 | P1.3 Validator | #412 | squash `1284271` | smoke 116625759008 success, log read (295 ok, 0 error; « ok remediation P1.3 lot-08 ») |
 | Deep audit 8.0 (report, Cache checks, terminology senses) | #413 | squash `ebdefeb` | smoke 116661090571 success, log read (295 ok, 0 error) |
+| Deep audit 8.0, gaps (Config, expose_security_errors, TranslatableMessage) | #414 | squash `e76910c` | smoke 116685357696 success, log read (295 ok, 0 error) |
 | P1.7, P2.4, P2.5 (part) | #395, CI green | squash `6c1448c` | job « Production smoke test » 115498368380 success, log read. It checks served pages and payloads, not the client-side progression table, which the CI a11y audit renders. |
 
 ## Next action
 
-P1.2 (Form collections and mapping), then P1.1 (PHP API beyond « what's
-new »). Each the same way: execute first in `tools/behavior`, then write;
+P1.1 (PHP API beyond « what's new »), executed first in `tools/behavior`;
 decide the level on the item, never on a word count.
+
+### P1.2 — Forms: collections and mapping (F8, part)
+
+Executed first, on Form 8.0.15 (`tools/behavior/checks/form.php`, five checks,
+each proved by a mutation of the Form source line that carries it, restored
+byte-identically under SHA-256 — `tools/audit/deep80/mutate.py`). All five give
+the same result on 7.4.21: these are stable behaviours, not 8.0 changes, and the
+content does not present them as such.
+
+| Behaviour | Result |
+|---|---|
+| `CollectionType` without `allow_add`, one entry too many | dropped; with the Validator extension the form is **invalid**, « This form should not contain extra fields. » |
+| without `allow_delete`, one entry missing | `['a', null]`: the entry becomes `null`; `allow_delete` removes it; `''` is removed only with `delete_empty` |
+| prototype | `vars.prototype` only with `allow_add`; name `__name__`, changed by `prototype_name` |
+| `by_reference` on an **object** collection | `true` (default): modified in place, **no** setter, adder or remover called; `false`: `removeTag()` then `addTag()`, or `setTags()` with a new instance |
+| `by_reference` on a PHP **array** | no difference: adders or setter either way |
+| `property_path`, `inherit_data` | `title` with `property_path: 'name'` reads and writes `name`, `'profile.bio'` reaches the nested object; an `inherit_data` subform returns the parent object from `getData()` |
+
+A finding while executing: without the Validator extension the extra entry is
+dropped **silently** — the error is a Form-constraint violation, not a listener
+exception. The check and the question name the full-stack setting.
+
+**Level: unchanged (STANDARD)** on both items; both courses stay under 900 words.
+
+Content: two outcomes (`OUT-q996f75mz363`, `OUT-7gbvq4n8vsgp`), two course
+sections (« Une collection de types » on *Form types*, « Ailleurs que sous son
+nom » on *Forms creation*), three flashcards, three LEARNING questions (one
+multiple-answer, executed by `questions/forms-p12.php`; one `hard` code
+question on `by_reference`) and two COMPREHENSION questions; five central facts.
 
 ### P1.3 — Validator: constraint behaviours and a custom constraint (F8, part)
 
