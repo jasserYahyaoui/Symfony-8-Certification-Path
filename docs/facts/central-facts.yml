@@ -668,3 +668,59 @@ facts:
     behavior_check: profiler.collector-in-functional-test
     content: [CRS-x8j99kkmpsng, CRS-0x4v9jaz4cnq]
     forbidden: []
+  translation.icu-plural-categories:
+    finding: P2.7
+    official_item: OIT-sd08j04k60m0
+    statement: >-
+      ICU plural categories follow the locale formatting the message: in French 0 and 1.5 are "one" ("0 fichier"), in
+      English 0 is "other"; an =0 branch wins over the category.
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Translation/Formatter/IntlFormatter.php
+      - https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/formats/message_format.rst
+    behavior_check: translation.icu-plural-categories
+    content: [CRS-q18xc1k4yvb9, FLC-j7bectmryksk, QST-8b6sd8kbc1qx]
+    forbidden: []
+  translation.icu-nested-select-plural:
+    finding: P2.7
+    official_item: OIT-sd08j04k60m0
+    statement: >-
+      ICU select and plural nest; # is the number of the innermost plural; selectordinal gives 1st, 2nd, 3rd, 11th, 21st.
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/formats/message_format.rst
+    behavior_check: translation.icu-nested-select-plural
+    content: [CRS-q18xc1k4yvb9]
+    forbidden: []
+  translation.icu-other-required:
+    finding: P2.7
+    official_item: OIT-sd08j04k60m0
+    statement: >-
+      A select or plural without an other branch makes trans() throw InvalidArgumentException (U_DEFAULT_KEYWORD_MISSING),
+      for every value, matched or not.
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Translation/Formatter/IntlFormatter.php
+    behavior_check: translation.icu-other-required
+    content: [CRS-q18xc1k4yvb9, QST-tfve3bphv48m]
+    forbidden: []
+  translation.icu-parameter-keys:
+    finding: P2.7
+    official_item: OIT-sd08j04k60m0
+    statement: >-
+      For an ICU message, a parameter key name or %name% fills {name} (Symfony trims the percent signs); %name% written
+      in an ICU message stays text; a missing parameter leaves {name}.
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Translation/Formatter/IntlFormatter.php
+    behavior_check: translation.icu-parameter-keys
+    content: [CRS-q18xc1k4yvb9]
+    forbidden: []
+  translation.several-catalogues:
+    finding: P2.7
+    official_item: OIT-3dd7821h069b
+    statement: >-
+      For a key in both messages and messages+intl-icu the ICU version wins; between two resources of one domain and
+      locale the last loaded wins key by key; a message found in a fallback locale is formatted with that locale's rules.
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Translation/MessageCatalogue.php
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Translation/Translator.php
+    behavior_check: translation.several-catalogues
+    content: [CRS-v1808qnchx6g, FLC-xy5sg8rfzbff, QST-50q8da3a6j72, QST-c2ajcg5w4bqk]
+    forbidden: []

@@ -18,10 +18,23 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "computeFallbackLocales(); INTL_DOMAIN_SUFFIX"
     verified_at: "2026-10-02"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Translation/MessageCatalogue.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Translation/MessageCatalogue.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    symbol_or_lines: "get() : domain +intl-icu lu en premier"
+    verified_at: "2026-10-16"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Translation/Translator.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Translation/Translator.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    symbol_or_lines: "trans() : la locale suit le catalogue de repli qui définit la key"
+    verified_at: "2026-10-16"
 outcome_sections:
   OUT-gemxb3z58qyr: "Le nom du file n'est pas décoratif"
   OUT-f181kwzbmq80: "Les deux syntaxes de placeholder"
   OUT-z28gpra0mn3s: "La cascade de repli"
+  OUT-hvyd73ew3ryq: "Plusieurs catalogues pour une key"
 ---
 
 ## Objectif
@@ -89,6 +102,17 @@ d'un bundle — et la redéfinition se fait **key par key** : seules les keys
 surchargées ont besoin d'être présentes dans le file prioritaire.
 
 Un **nouveau** catalogue exige un `cache:clear` pour être découvert.
+
+## Plusieurs catalogues pour une key
+
+Exécuté avec Translation 8.0.15 :
+
+- une key présente dans `messages` et dans `messages+intl-icu` : la version
+  **ICU** gagne ;
+- deux resources d'un même domain et d'une même locale : la **dernière**
+  chargée gagne, key par key ; les autres keys restent ;
+- une key trouvée dans une locale de repli est formatée avec les règles de
+  **cette** locale.
 
 ## Les deux syntaxes de placeholder
 

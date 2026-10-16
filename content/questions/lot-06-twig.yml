@@ -3236,3 +3236,63 @@ questions:
     branch: '8.0'
     symbol_or_lines: '8.0: Remove TranslatableMessage::__toString()'
     verified_at: '2026-10-15'
+- id: QST-8b6sd8kbc1qx
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-c07wjtmm0n2y
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-sd08j04k60m0
+  domain: symfony
+  subtopic: translation
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'messages+intl-icu.fr.yaml holds files: ''{n, plural, one {# fichier} other {# fichiers}}''. With the locale fr, what does trans(''files'', {n: 0}) return?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 70
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-16'
+  tags:
+  - translation
+  - icu
+  choices:
+  - id: CHO-1s8gt6mvqjvm
+    text: '0 fichier'
+    correct: true
+  - id: CHO-wee503252waq
+    text: '0 fichiers'
+    correct: false
+    explanation: 'That is the English reading of 0. In French, ICU puts 0 in the one category.'
+  - id: CHO-ja6ndx8bfyzw
+    text: 'An exception: no =0 branch matches 0'
+    correct: false
+    explanation: 'An =0 branch is optional; without it, 0 falls into its category.'
+  - id: CHO-3wbj5r5qg3z2
+    text: '{n} fichiers, unformatted'
+    correct: false
+    explanation: 'The +intl-icu domain makes MessageFormatter format the message.'
+  explanation: 'Plural categories follow the rules of the locale the message is formatted in. French puts 0 and 1, and also 1.5, in one, so 0 gives "0 fichier"; English puts 0 in other. Executed on Translation 8.0.15 with intl.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Translation/Formatter/IntlFormatter.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Translation/Formatter/IntlFormatter.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'formatIntl(): new MessageFormatter($locale, $message)'
+    verified_at: '2026-10-16'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/formats/message_format.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/formats/message_format.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'Pluralization; Selecting Different Messages Based on a Condition'
+    verified_at: '2026-10-16'

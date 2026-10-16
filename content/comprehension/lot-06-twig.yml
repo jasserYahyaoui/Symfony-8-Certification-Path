@@ -3440,6 +3440,60 @@ questions:
     branch: '8.0'
     symbol_or_lines: 'trans(): TranslatableInterface'
     verified_at: '2026-10-09'
+- id: QST-tfve3bphv48m
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-c07wjtmm0n2y
+  version: 1
+  official_topic: Templating with Twig
+  official_item: OIT-sd08j04k60m0
+  domain: symfony
+  subtopic: translation
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'An ICU message reads ''{gender, select, female {She} male {He}}'', with no other branch. What happens when it is translated with gender = female?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-16'
+  tags:
+  - translation
+  - icu
+  choices:
+  - id: CHO-rbd309pytew6
+    text: 'An InvalidArgumentException is thrown'
+    correct: true
+  - id: CHO-1sfvmy5eq4fy
+    text: 'It returns She'
+    correct: false
+    explanation: 'The message is refused before any branch is chosen.'
+  - id: CHO-st00vejd6b0g
+    text: 'It returns an empty string'
+    correct: false
+    explanation: 'Nothing is returned: formatting fails.'
+  - id: CHO-rw082t9vxn1s
+    text: 'It returns the message unformatted'
+    correct: false
+    explanation: 'Only a missing parameter leaves a placeholder; a missing other branch is an error.'
+  explanation: 'ICU requires an other branch in every select and plural. Without it, MessageFormatter cannot be built (U_DEFAULT_KEYWORD_MISSING) and Symfony throws InvalidArgumentException, for every value, matched or not. Executed on Translation 8.0.15 with intl.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Translation/Formatter/IntlFormatter.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Translation/Formatter/IntlFormatter.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'formatIntl(): new MessageFormatter($locale, $message)'
+    verified_at: '2026-10-16'
 - id: QST-k8wn9b2wbeea
   question_archetype: CODE_OUTPUT
   assesses_outcomes:

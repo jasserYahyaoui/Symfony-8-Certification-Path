@@ -744,14 +744,14 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 - NOUVEAU · **Templating with Twig : URLs generation** (MINIMAL) — 26 min · 527 mots · 3 questions, 6 questions de compréhension, 11 flashcards
 - NOUVEAU · **Templating with Twig : Controller rendering** (STANDARD) — 28 min · 596 mots · 4 questions, 4 questions de compréhension, 13 flashcards
-- NOUVEAU · **Templating with Twig : Translations and pluralization** (STANDARD) — 35 min · 687 mots · 7 questions, 6 questions de compréhension, 13 flashcards
+- NOUVEAU · **Templating with Twig : Translations and pluralization** (STANDARD) — 40 min · 836 mots · 8 questions, 7 questions de compréhension, 14 flashcards
 - NOUVEAU · **Templating with Twig : String interpolation** (MINIMAL) — 19 min · 435 mots · 3 questions, 3 questions de compréhension, 9 flashcards
 - Révision **J+3** (8 min) — Templating with Twig : Template includes · Templating with Twig : Loops and conditions
 - Révision **J+7** (12 min) — Messenger : Transports · Messenger : Messages and handlers · Messenger : Workers
 - Révision **J+14** (9 min) — Forms : Form events · Forms : Form type extensions · Forms : Form options (OptionsResolver component)
 - Révision **J+45** (8 min) — Symfony Architecture : License · Symfony Architecture : Components and Bridges · Symfony Architecture : Code organization
 
-*Budget du jour : 145 / 160 min*
+*Budget du jour : 150 / 160 min*
 
 ### Mardi 24 novembre 2026
 
@@ -900,8 +900,8 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Vendredi 4 décembre 2026
 
 - NOUVEAU (suite) · **Miscellaneous : Web Profiler, Web Debug Toolbar and Data collectors** (STANDARD) — 19 min · 885 mots · 6 questions, 16 questions de compréhension, 13 flashcards
-- NOUVEAU · **Miscellaneous : Internationalization and localization (Note: Intl component utilities to access ICU data are not included)** (STANDARD) — 44 min · 814 mots · 3 questions, 17 questions de compréhension, 11 flashcards
-- NOUVEAU · **Miscellaneous : HTTP Caching (reverse proxies, expiration, validation) Note: ESI (Edge Side Includes) is not included** (STANDARD) — 39 min · 899 mots · 3 questions, 18 questions de compréhension, 11 flashcards
+- NOUVEAU · **Miscellaneous : Internationalization and localization (Note: Intl component utilities to access ICU data are not included)** (STANDARD) — 48 min · 881 mots · 4 questions, 18 questions de compréhension, 12 flashcards
+- NOUVEAU · **Miscellaneous : HTTP Caching (reverse proxies, expiration, validation) Note: ESI (Edge Side Includes) is not included** (STANDARD) — 35 min · 899 mots · 3 questions, 18 questions de compréhension, 11 flashcards
 - Révision **J+1** (18 min) — Miscellaneous : Error handling · Miscellaneous : Code debugging · Miscellaneous : Deployment best practices
 - Révision **J+3** (11 min) — Automated Tests : Profiler object (WebProfiler bundle) · Automated Tests : Framework objects access · Automated Tests : Client configuration
 - Révision **J+7** (11 min) — Console : Console events · Console : Verbosity levels · Automated Tests : Unit tests with PHPUnit
@@ -955,10 +955,10 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Lundi 7 décembre 2026
 
-- NOUVEAU (suite) · **Miscellaneous : HTTP Caching (reverse proxies, expiration, validation) Note: ESI (Edge Side Includes) is not included** (STANDARD) — 7 min · 899 mots · 3 questions, 18 questions de compréhension, 11 flashcards
+- NOUVEAU (suite) · **Miscellaneous : HTTP Caching (reverse proxies, expiration, validation) Note: ESI (Edge Side Includes) is not included** (STANDARD) — 11 min · 899 mots · 3 questions, 18 questions de compréhension, 11 flashcards
 - NOUVEAU · **Miscellaneous : Cache** (DEEP) — 51 min · 1111 mots · 6 questions, 16 questions de compréhension, 13 flashcards
 - NOUVEAU · **Miscellaneous : Clock** (STANDARD) — 43 min · 889 mots · 5 questions, 13 questions de compréhension, 11 flashcards
-- NOUVEAU · **Miscellaneous : EventDispatcher** (STANDARD) — 24 min · 710 mots · 3 questions, 9 questions de compréhension, 11 flashcards
+- NOUVEAU · **Miscellaneous : EventDispatcher** (STANDARD) — 20 min · 710 mots · 3 questions, 9 questions de compréhension, 11 flashcards
 - Révision **J+3** (8 min) — Miscellaneous : Web Profiler, Web Debug Toolbar and Data collectors · Miscellaneous : Internationalization and localization (Note: Intl component utilities to access ICU data are not included)
 - Révision **J+7** (12 min) — Automated Tests : Functional tests with PHPUnit · Automated Tests : Client object · Automated Tests : Crawler object (CssSelector and DomCrawler components)
 - Révision **J+14** (10 min) — Templating with Twig : URLs generation · Templating with Twig : Controller rendering · Templating with Twig : Translations and pluralization · Templating with Twig : String interpolation
@@ -968,7 +968,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Mardi 8 décembre 2026
 
-- NOUVEAU (suite) · **Miscellaneous : EventDispatcher** (STANDARD) — 8 min · 710 mots · 3 questions, 9 questions de compréhension, 11 flashcards
+- NOUVEAU (suite) · **Miscellaneous : EventDispatcher** (STANDARD) — 12 min · 710 mots · 3 questions, 9 questions de compréhension, 11 flashcards
 - NOUVEAU · **Miscellaneous : Event** (STANDARD) — 29 min · 519 mots · 4 questions, 6 questions de compréhension, 11 flashcards
 - NOUVEAU · **Miscellaneous : Filesystem** (STANDARD) — 36 min · 689 mots · 4 questions, 10 questions de compréhension, 11 flashcards
 - NOUVEAU · **Miscellaneous : Finder** (STANDARD) — 34 min · 629 mots · 5 questions, 8 questions de compréhension, 11 flashcards
@@ -977,7 +977,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+14** (9 min) — Templating with Twig : Assets management · Templating with Twig : Debugging variables · Console : Console component · Console : Built-in commands
 - Révision **J+60** (8 min) — Symfony Architecture : License · Symfony Architecture : Components and Bridges · Symfony Architecture : Code organization
 
-*Budget du jour : 155 / 160 min*
+*Budget du jour : 159 / 160 min*
 
 ### Mercredi 9 décembre 2026
 
@@ -1118,7 +1118,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Dimanche 20 décembre 2026
 
-- **Mock 5** — variable : de 10 à 40, borné par le nombre d'items faibles réellement constatés dans vos réponses ; univers de 718 questions hors holdout
+- **Mock 5** — variable : de 10 à 40, borné par le nombre d'items faibles réellement constatés dans vos réponses ; univers de 720 questions hors holdout
 - Révision **J+30** (6 min) — Templating with Twig : Template includes · Templating with Twig : Loops and conditions
 - Révision **J+60** (4 min) — Controllers : Argument value resolvers
 

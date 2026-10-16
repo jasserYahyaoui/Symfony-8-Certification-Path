@@ -172,3 +172,57 @@ questions:
     branch: '8.0'
     symbol_or_lines: using-the-icu-message-format
     verified_at: '2026-09-02'
+- id: QST-50q8da3a6j72
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-hvyd73ew3ryq
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-3dd7821h069b
+  domain: symfony
+  subtopic: translation
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'messages.en.yaml holds welcome: ''Hi %name%'' and messages+intl-icu.en.yaml holds welcome: ''Hi {name}''. Which message does $translator->trans(''welcome'') use for en?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-16'
+  tags:
+  - translation
+  - icu
+  choices:
+  - id: CHO-gpk84xxseytd
+    text: 'The one from messages+intl-icu.en.yaml'
+    correct: true
+  - id: CHO-zect01p24yw5
+    text: 'The one from messages.en.yaml'
+    correct: false
+    explanation: 'The plain domain is read only when the +intl-icu one does not define the key.'
+  - id: CHO-g2ewrjfqwxy4
+    text: 'Whichever file was loaded last'
+    correct: false
+    explanation: 'Load order decides between two resources of the same domain, not between messages and messages+intl-icu.'
+  - id: CHO-tmammacv6jam
+    text: 'Neither: a key defined twice throws'
+    correct: false
+    explanation: 'A key in both domains is legal; one of them is chosen.'
+  explanation: 'For the domain messages, MessageCatalogue::get() reads messages+intl-icu first and falls back to messages, so the ICU version wins and is formatted by MessageFormatter. Executed on Translation 8.0.15.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Translation/MessageCatalogue.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Translation/MessageCatalogue.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'get(): the +intl-icu domain is read first'
+    verified_at: '2026-10-16'

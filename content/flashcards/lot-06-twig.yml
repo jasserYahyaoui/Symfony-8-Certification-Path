@@ -3418,3 +3418,23 @@ flashcards:
       branch: '8.0'
       symbol_or_lines: '8.0: Remove TranslatableMessage::__toString()'
       verified_at: '2026-10-15'
+
+  - id: FLC-j7bectmryksk
+    official_item: OIT-sd08j04k60m0
+    language: fr
+    level: TRAP
+    front: "ICU, locale fr : un plural dont la branche `one` affiche `# fichier` et `other` `# fichiers`. Que rend-il pour n = 0 ?"
+    back: "`0 fichier` : en français, 0 et 1,5 sont dans la catégorie `one`. En anglais, 0 est `other`."
+    explanation: >-
+      Les catégories suivent les règles de la locale qui formate le message. Un select ou un plural sans branche
+      other lève une InvalidArgumentException à chaque trans(). Exécuté avec Translation 8.0.15 et intl.
+    memorization_justification: >-
+      L'intuition anglaise (0 = pluriel) se trompe en français ; rien dans le message ne le signale.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Translation/Formatter/IntlFormatter.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Translation/Formatter/IntlFormatter.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "formatIntl() — new MessageFormatter($locale, $message)"
+        verified_at: "2026-10-16"

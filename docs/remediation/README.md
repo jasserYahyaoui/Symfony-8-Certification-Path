@@ -56,7 +56,7 @@ an idea: it stops the old sentence returning, not every way of being wrong.
 | F5 | Content metrics read as candidate mastery | **VÉRIFIÉ** (local) | see P1.7 |
 | F6 | Roadmap / mock texts out of sync | **VÉRIFIÉ** (local) — mock texts derived; comprehension load budgeted, exam moved to 29 Dec by owner decision | see P2.5 |
 | F7 | Too few multiple-answer questions | **VÉRIFIÉ** — P1.6: +33, then +10 for PHP and Automated Tests (4 VALIDATION, 39 LEARNING in all), every choice executed or read in its source | see P1.6 |
-| F8 | Unsourced "not examinable" restrictions | **EN COURS** — Serializer (P1.5), Cache (P1.4), Validator (P1.3), Forms (P1.2) and PHP API (P1.1) extended, VÉRIFIÉ; P2.7 EN COURS (HttpClient, Console, Profiler VÉRIFIÉ) | see P1.5, P1.3, P1.2, P1.1, P2.7 |
+| F8 | Unsourced "not examinable" restrictions | **EN COURS** — Serializer (P1.5), Cache (P1.4), Validator (P1.3), Forms (P1.2) and PHP API (P1.1) extended, VÉRIFIÉ; P2.7 EN COURS (HttpClient, Console, Profiler, Translation VÉRIFIÉ) | see P1.5, P1.3, P1.2, P1.1, P2.7 |
 | F9 | PHP source 404 and mutable branch URLs | **BLOQUÉ** (the last 404 is in a HOLDOUT question) — pinning À FAIRE | see P2.6 |
 | F10 | No per-card recall record; comprehension stores nothing | **EN COURS** — comprehension recorded (P2.4, VÉRIFIÉ local); per-card recall À FAIRE (P2.3) | see P2.4 |
 
@@ -306,13 +306,40 @@ citation, so a format change has to be designed with it, not applied in bulk.
 | P1.1 PHP API | #416 | squash `a8bb7fd` | smoke 116895810622 success, log read (« ok remediation P1.1 lot-01 »; 297 ok and 0 error in the last 400 lines) |
 | P2.7 HttpClient | #417 | squash `17253ae` | smoke 117170953200 success, log read (« ok remediation P2.7 lot-02 »; 298 ok and 0 error) |
 | P2.7 Console | #418 | squash `baa8cec` | smoke 117187468251 success, log read (« ok remediation P2.7 lot-12 »; 299 ok and 0 error) |
+| P2.7 Profiler | #419 | squash `bfd0c04` | smoke 117205386196 success, log read (« ok remediation P2.7 lot-15 »; 300 ok and 0 error) |
 | P1.7, P2.4, P2.5 (part) | #395, CI green | squash `6c1448c` | job « Production smoke test » 115498368380 success, log read. It checks served pages and payloads, not the client-side progression table, which the CI a11y audit renders. |
 
 ## Next action
 
-P2.7, one component per PR: Translation, Filesystem/Finder/Process, Runtime. Then P2.3 (per-card recall, which would
+P2.7, one component per PR: Filesystem/Finder/Process, Runtime. Then P2.3 (per-card recall, which would
 give item statistics a source). By the owner's decision of 2026-10-16, Mock 4 is
 not sat now and is no longer raised in reports; F4 and F9 stay blocked.
+
+### P2.7 — Translation: several catalogues, nested plural and select
+
+The mission names several catalogues and nested plural/select. Executed first
+on Translation 8.0.15 with the intl extension
+(`tools/behavior/checks/translation-icu.php`, five checks, six vendor
+mutations, all proved, restored byte-identically); same results on 7.4.21.
+Plural categories are ICU data for each locale; the checks pin the Symfony
+side — the locale a message is formatted in, the catalogue that wins, how
+parameter keys are read.
+
+| Behaviour | Result |
+|---|---|
+| `{n, plural, one {# fichier} other {# fichiers}}`, `fr` | `0 fichier`, `1,5 fichier`, `2 fichiers`; in English, `0 files` |
+| `=0` before `one` | `=0` wins for 0 |
+| `select` / `plural` without `other` | `InvalidArgumentException` (U_DEFAULT_KEYWORD_MISSING) on every `trans()`, even for a matched value |
+| nested `select` → `plural`; `#` | they nest; `#` is the innermost plural's number; `selectordinal` 1st 2nd 3rd 4th 11th 21st |
+| parameter keys | `name` and `%name%` both fill `{name}`; `%name%` in an ICU message stays text; a missing parameter leaves `{name}` |
+| same key in `messages` and `messages+intl-icu` | the ICU version wins |
+| two resources of one domain and locale | the last loaded wins key by key |
+| key only in the fallback locale | formatted with that locale's rules (`0 files` for `fr` → `en`) |
+
+**Levels: unchanged (STANDARD)**; *Translations and pluralization* 836 and
+*Internationalization* 881 body words. Content: two outcomes, two sections, two
+flashcards, two LEARNING questions (one `hard`), two COMPREHENSION questions,
+five central facts.
 
 ### P2.7 — Profiler: a data collector end to end
 
