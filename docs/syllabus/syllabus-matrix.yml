@@ -4252,6 +4252,8 @@ items:
         outcome: Énoncer l'exigence du suffixe +intl-icu
       - id: OUT-txry0vy6q09r
         outcome: Citer t() et l'object traduisible
+      - id: OUT-c07wjtmm0n2y
+        outcome: "Prévoir le résultat d'un plural ou d'un select ICU, imbriqués ou non"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -4278,9 +4280,11 @@ items:
     course_refs:
       - "CRS-q18xc1k4yvb9"
     flashcard_refs:
+      - "FLC-j7bectmryksk"
       - "FLC-2qe2jetwm5pq"
       - "FLC-p6q3ewt9qsj7"
     question_refs:
+      - "QST-8b6sd8kbc1qx"
       - "QST-6vv657ts3r2y"
       - "QST-q8q1ra28925h"
       - "QST-zpp1r9fbs8vb"
@@ -8759,6 +8763,8 @@ items:
         outcome: Distinguer %name% du format classique de {name} d'ICU, et ce qui déclenche ICU
       - id: OUT-z28gpra0mn3s
         outcome: Ordonner la cascade de repli, locale parente comprise
+      - id: OUT-hvyd73ew3ryq
+        outcome: "Prévoir quel catalogue fournit un message quand plusieurs le définissent"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -8777,8 +8783,10 @@ items:
     course_refs:
       - "CRS-v1808qnchx6g"
     flashcard_refs:
+      - "FLC-xy5sg8rfzbff"
       - "FLC-7ar3ewagp1y0"
     question_refs:
+      - "QST-50q8da3a6j72"
       - "QST-qtng554v6wp6"
       - "QST-p0bkmxc5kxfs"
     exercise_refs: []

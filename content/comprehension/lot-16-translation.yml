@@ -921,3 +921,57 @@ questions:
     branch: '8.0'
     symbol_or_lines: Fallback Translation Locales
     verified_at: '2026-10-09'
+- id: QST-c2ajcg5w4bqk
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-hvyd73ew3ryq
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-3dd7821h069b
+  domain: symfony
+  subtopic: translation
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'The locale is fr with en as fallback. A key exists only in messages+intl-icu.en.yaml: ''{n, plural, one {# file} other {# files}}''. What does trans() return for n = 0?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-16'
+  tags:
+  - translation
+  - icu
+  choices:
+  - id: CHO-m0gz9n8avhb6
+    text: '0 files: the English rules apply'
+    correct: true
+  - id: CHO-1t6y0zcbeccz
+    text: '0 file: the requested French rules apply'
+    correct: false
+    explanation: 'The message is formatted with the locale of the catalogue that held it, en.'
+  - id: CHO-n41vaknsbk6p
+    text: 'The key itself: fr does not define it'
+    correct: false
+    explanation: 'The fallback locale is searched before the key is returned.'
+  - id: CHO-3vpzfsbxjapv
+    text: 'An exception: the locale and the message differ'
+    correct: false
+    explanation: 'A fallback message is legal and is formatted normally.'
+  explanation: 'Translator::trans() walks the fallback catalogues until one defines the key, and keeps that catalogue''s locale for formatting. The English message is therefore formatted with English rules, where 0 is other. Executed on Translation 8.0.15 with intl.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Translation/Translator.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Translation/Translator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'trans(): $locale follows the fallback catalogue that defines the id'
+    verified_at: '2026-10-16'

@@ -56,6 +56,12 @@ M=[
  ('profiler.serialized-reset-disabled','http-kernel/DataCollector/DataCollector.php','        $this->data = [];','        // data kept'),
  ('profiler.serialized-reset-disabled','http-kernel/Profiler/Profiler.php','        if (false === $this->enabled) {','        if (false) {'),
  ('profiler.collector-in-functional-test','framework-bundle/KernelBrowser.php','        if ($this->profiler) {\n            $this->profiler = false;','        if ($this->profiler) {\n            // still enabled for the next request'),
+ ('translation.icu-plural-categories','translation/Formatter/IntlFormatter.php','                $this->cache[$locale][$message] = $formatter = new \\MessageFormatter($locale, $message);',"                $this->cache[$locale][$message] = $formatter = new \\MessageFormatter('en', $message);"),
+ ('translation.icu-nested-select-plural','translation/Translator.php','            && ($catalogue->defines($id, $domain.MessageCatalogue::INTL_DOMAIN_SUFFIX)','            && (false'),
+ ('translation.icu-other-required','translation/Formatter/IntlFormatter.php',"                throw new InvalidArgumentException(\\sprintf('Invalid message format (error #%d): ', intl_get_error_code()).intl_get_error_message(), 0, $e);",'                return $message;'),
+ ('translation.icu-parameter-keys','translation/Formatter/IntlFormatter.php',"                $parameters[trim($key, '%{ }')] = $value;",'                // key kept as given'),
+ ('translation.several-catalogues','translation/MessageCatalogue.php','        if (isset($this->messages[$domain.self::INTL_DOMAIN_SUFFIX][$id])) {\n            return $this->messages[$domain.self::INTL_DOMAIN_SUFFIX][$id];','        if (false) {\n            return $this->messages[$domain.self::INTL_DOMAIN_SUFFIX][$id];'),
+ ('translation.several-catalogues','translation/Translator.php','                $catalogue = $cat;\n                $locale = $catalogue->getLocale();','                $catalogue = $cat;'),
 ]
 ok=True
 for check,f,old,new in M:

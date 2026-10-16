@@ -5082,6 +5082,27 @@ jobs:
           else
             echo "ok  remediation  P1.3 lot-08: null and empty string per constraint, 8.0 named arguments, custom constraint"
           fi
+          # Remediation P2.7, lots 06 and 16: ICU plural and select executed (French "one", nested,
+          # "other" required) and several catalogues for one key. Each needle is absent from master
+          # before the change.
+          for page in lot-06/translations-and-pluralization lot-16/internationalization-and-localization-note-intl-component-utilities-to-access-icu-data-are-not-included; do
+            code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+              -o "/tmp/p27t-${page%%/*}" -w '%{http_code}' "$BASE_URL/docs/courses/$page")
+            if [ "$code" != "200" ]; then
+              echo "::error::Remediation P2.7: page $page serves $code"
+              fail=1
+            fi
+          done
+          missing=""
+          grep -aqF -- 'Plural et select' /tmp/p27t-lot-06 || missing="$missing p27t:no-icu-section"
+          grep -aqF -- '0 fichier' /tmp/p27t-lot-06 || missing="$missing p27t:no-french-one"
+          grep -aqF -- 'Plusieurs catalogues pour une key' /tmp/p27t-lot-16 || missing="$missing p27t:no-catalogues-section"
+          if [ -n "$missing" ]; then
+            echo "::error::Remediation P2.7 missing from lots 06 and 16:$missing"
+            fail=1
+          else
+            echo "ok  remediation  P2.7 lots 06 and 16: ICU plural and select executed, several catalogues for one key"
+          fi
           # Remediation P2.7, lot 15: a custom data collector end to end (default name, clone,
           # lateCollect, serialization, reading it back in a functional test). Each needle is absent
           # from master before the change.

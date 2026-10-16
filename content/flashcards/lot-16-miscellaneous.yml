@@ -189,3 +189,20 @@ flashcards:
     branch: '8.0'
     symbol_or_lines: computeFallbackLocales(); INTL_DOMAIN_SUFFIX
     verified_at: '2026-10-02'
+- id: FLC-xy5sg8rfzbff
+  official_item: OIT-3dd7821h069b
+  language: fr
+  level: UNDERSTANDING
+  front: Une key existe dans messages.en.yaml et dans messages+intl-icu.en.yaml. Laquelle trans() lit-il ?
+  back: Celle de messages+intl-icu. Entre deux resources d'un même domain, la dernière chargée gagne, key par key.
+  explanation: MessageCatalogue::get() lit d'abord le domain +intl-icu, puis le domain simple. Une key trouvée dans une
+    locale de repli est formatée avec les règles de cette locale. Exécuté avec Translation 8.0.15.
+  memorization_justification: Deux files pour une même key ne se signalent pas ; on garde à tort le format classique.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Translation/MessageCatalogue.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Translation/MessageCatalogue.php
+    repository: symfony/symfony
+    symbol_or_lines: get() — the +intl-icu domain is read first
+    branch: '8.0'
+    verified_at: '2026-10-16'

@@ -57,12 +57,19 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "8.0: Remove TranslatableMessage::__toString() method, use trans() or getMessage() instead"
     verified_at: "2026-10-15"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Translation/Formatter/IntlFormatter.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Translation/Formatter/IntlFormatter.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    symbol_or_lines: "formatIntl() : MessageFormatter($locale, ...) ; clés %name% et {name} ramenées à name"
+    verified_at: "2026-10-16"
 outcome_sections:
   OUT-p436jre6f29p: "Le filter"
   OUT-eh8yg0599jp9: "Le tag"
   OUT-ke17qw8mxwms: "Les emplacements"
   OUT-km38p3n24htq: "Le plural"
   OUT-txry0vy6q09r: "L'object traduisible"
+  OUT-c07wjtmm0n2y: "Plural et select, exécutés"
 ---
 
 ## Objectif
@@ -136,6 +143,24 @@ La syntaxe à barres verticales — `'{0} Aucun résultat|one result|%count%
 results'` — sélectionne d'après `%count%`. La documentation la qualifie de
 syntaxe *legacy* ; elle fonctionne toujours et garde une chose qu'ICU n'a pas :
 les intervalles personnalisés, `]0,1000]`.
+
+## Plural et select, exécutés
+
+Exécuté avec Translation 8.0.15 et l'extension intl :
+
+| Message ICU | Résultat |
+|---|---|
+| `{n, plural, one {# fichier} other {# fichiers}}`, locale `fr` | `0 fichier`, `1,5 fichier`, `2 fichiers` |
+| le même message en anglais | `0 files` |
+| `=0 {aucun fichier}` placé avant `one` | `=0` l'emporte pour 0 |
+| `select` ou `plural` sans `other` | `InvalidArgumentException` à chaque `trans()`, même pour une valeur prévue |
+| `{gender, select, female {{n, plural, …}} other {…}}` | les deux s'imbriquent |
+| `#` dans un `plural` imbriqué | le nombre du `plural` le plus intérieur |
+
+Les catégories `one`, `few`… suivent les règles de la **locale** : en
+français, 0 et 1,5 sont `one`. Une key de parameter `%name%` remplit `{name}` —
+Symfony retire les pourcents —, mais `%name%` écrit dans un message ICU reste
+du texte.
 
 ## L'object traduisible
 
