@@ -4226,3 +4226,107 @@ questions:
     branch: '8.0'
     symbol_or_lines: resolve()
     verified_at: '2026-10-09'
+- id: QST-cs5ykmwy2vwm
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-q996f75mz363
+  version: 1
+  official_topic: Forms
+  official_item: OIT-5xvjqa4203xe
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECALL
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'Which CollectionType option makes the view carry a prototype entry?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 35
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-15'
+  tags:
+  - collection
+  choices:
+  - id: CHO-ptnvdb6y2d7h
+    text: '''allow_add'' => true'
+    correct: true
+  - id: CHO-7eqgys9hs3ed
+    text: '''prototype_name'' => ''__name__'''
+    correct: false
+    explanation: 'prototype_name only renames the placeholder; no prototype is built without allow_add.'
+  - id: CHO-rqbg0ap2jfp9
+    text: '''allow_delete'' => true'
+    correct: false
+    explanation: 'Deleting entries needs no template.'
+  - id: CHO-qpkvngxbs7m7
+    text: '''by_reference'' => false'
+    correct: false
+    explanation: 'by_reference decides how the collection is written back.'
+  explanation: 'CollectionType builds the prototype only when allow_add and prototype are both true; prototype defaults to true. Executed with Form 8.0.15.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/forms/types/collection.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/forms/types/collection.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'allow_add, allow_delete, delete_empty, prototype'
+    verified_at: '2026-10-15'
+- id: QST-yxjnqrztscg0
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-7gbvq4n8vsgp
+  version: 1
+  official_topic: Forms
+  official_item: OIT-fhpttc4c5x0k
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECALL
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'A field named title must read and write $author->name. Which option does it need?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 35
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-15'
+  tags:
+  - mapping
+  choices:
+  - id: CHO-rabr03x120b0
+    text: '''property_path'' => ''name'''
+    correct: true
+  - id: CHO-47373284e3tn
+    text: '''mapped'' => false'
+    correct: false
+    explanation: 'An unmapped field reads and writes nothing.'
+  - id: CHO-arxvjzfcxq2j
+    text: '''inherit_data'' => true'
+    correct: false
+    explanation: 'inherit_data shares the parent data with a whole subform.'
+  - id: CHO-y6v336430vy9
+    text: '''data_class'' => ''name'''
+    correct: false
+    explanation: 'data_class names a class, not a property.'
+  explanation: 'property_path sets the path PropertyAccess reads and writes, independently of the field name. Executed with Form 8.0.15.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/forms/types/options/property_path.rst.inc
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/forms/types/options/property_path.rst.inc
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'property_path'
+    verified_at: '2026-10-15'

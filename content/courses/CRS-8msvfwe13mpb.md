@@ -38,12 +38,25 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "ReflectionExtractor::getReadInfo()"
     verified_at: "2026-09-24"
+  - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/forms/types/options/property_path.rst.inc"
+    readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/reference/forms/types/options/property_path.rst.inc"
+    repository: "symfony/symfony-docs"
+    branch: "8.0"
+    symbol_or_lines: "property_path"
+    verified_at: "2026-10-16"
+  - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/inherit_data_option.rst"
+    readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/form/inherit_data_option.rst"
+    repository: "symfony/symfony-docs"
+    branch: "8.0"
+    symbol_or_lines: "inherit_data"
+    verified_at: "2026-10-16"
 outcome_sections:
   OUT-nafaf5j5xy59: "Deux endroits pour le construire"
   OUT-5dydayznyx68: "`add()` et ses trois arguments"
   OUT-04d4xdarmk8w: "`data_class`"
   OUT-75g8bz40n09y: "La correspondance nom ↔ property"
   OUT-pe7s3cdg6fgb: "Le field non mappé"
+  OUT-7gbvq4n8vsgp: "Ailleurs que sous son nom"
 ---
 
 ## Objectif
@@ -134,6 +147,20 @@ Sans cela, `getForm()` échoue dès la lecture des données initiales :
 `NoSuchPropertyException`. La valeur d'un field non mappé se lit par
 `$form->get('agreeTerms')->getData()`.
 
+## Ailleurs que sous son nom
+
+Deux options écartent un field de la règle « même nom que la property » :
+
+- **`property_path`** désigne le path lu et écrit : un field `title` avec
+  `property_path: 'name'` sert `$author->name` ; `'profile.bio'` descend dans un
+  object imbriqué.
+- **`inherit_data: true`**, posé sur un type, fait travailler ses fields sur les
+  données **du parent** : un `AddressType` réutilisé lit et écrit `city` sur
+  l'`Author` lui-même, sans property `address`.
+
+Exécuté sur Form 8.0.15 : `title` lit `old` dans `name` puis l'écrase, `bio`
+atteint `profile.bio`, et `$form->get('address')->getData()` **est** l'`Author`.
+
 ## Pièges d'examen
 
 **Le nom du field n'est pas décoratif.** Le renommer casse le binding.
@@ -155,6 +182,7 @@ instancier l'object quand aucun n'est fourni.
 - `data_class` : devinée de l'object, à déclarer quand même.
 - Lecture : `get`/`is`/`has`/`can`, method du même nom, puis property.
 - Field sans property : `mapped: false`, lu par `$form->get(...)->getData()`.
+- `property_path` : autre path ; `inherit_data` : les données du parent.
 
 ## Sources officielles
 

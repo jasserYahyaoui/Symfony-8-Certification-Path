@@ -470,24 +470,24 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 - NOUVEAU · **Data Validation : Violations builder** (STANDARD) — 35 min · 848 mots · 5 questions, 7 questions de compréhension, 12 flashcards
 - NOUVEAU · **Forms : Form component** (STANDARD) — 30 min · 691 mots · 5 questions, 5 questions de compréhension, 12 flashcards
-- NOUVEAU · **Forms : Forms creation** (STANDARD) — 29 min · 576 mots · 5 questions, 6 questions de compréhension, 11 flashcards
+- NOUVEAU · **Forms : Forms creation** (STANDARD) — 33 min · 683 mots · 6 questions, 7 questions de compréhension, 12 flashcards
 - Révision **J+1** (26 min) — Data Validation : Validation scopes · Data Validation : Validation groups · Data Validation : Group sequence · Data Validation : Custom callback validators
 - Révision **J+7** (11 min) — Dependency Injection : Service container · Dependency Injection : Built-in services · Dependency Injection : Configuration parameters
 - Révision **J+14** (13 min) — Controllers : Generate 404 pages · Controllers : File upload · Controllers : Built-in internal controllers · Controllers : Argument value resolvers
 
-*Budget du jour : 144 / 160 min*
+*Budget du jour : 148 / 160 min*
 
 ### Mercredi 4 novembre 2026
 
 - NOUVEAU · **Forms : Forms handling** (STANDARD) — 33 min · 589 mots · 5 questions, 7 questions de compréhension, 11 flashcards
-- NOUVEAU · **Forms : Form types (built-in and custom)** (STANDARD) — 29 min · 578 mots · 5 questions, 6 questions de compréhension, 11 flashcards
+- NOUVEAU · **Forms : Form types (built-in and custom)** (STANDARD) — 37 min · 814 mots · 7 questions, 7 questions de compréhension, 13 flashcards
 - NOUVEAU · **Forms : Forms rendering with Twig** (STANDARD) — 26 min · 516 mots · 4 questions, 4 questions de compréhension, 11 flashcards
 - Révision **J+1** (18 min) — Data Validation : Violations builder · Forms : Form component · Forms : Forms creation
 - Révision **J+7** (20 min) — Dependency Injection : Services registration (YAML and PHP attributes) · Dependency Injection : Service decoration · Dependency Injection : Tags · Dependency Injection : Semantic configuration · Dependency Injection : Factories
 - Révision **J+14** (9 min) — Routing : Routing component and FrameworkBundle · Routing : Configuration (YAML and PHP attributes) · Routing : Restrict URL parameters
 - Révision **J+30** (7 min) — PHP : Enums · HTTP : HTTP Specification (RFC 9110) · HTTP : Status codes
 
-*Budget du jour : 142 / 160 min*
+*Budget du jour : 150 / 160 min*
 
 ### Jeudi 5 novembre 2026
 
@@ -1123,7 +1123,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Dimanche 20 décembre 2026
 
-- **Mock 5** — variable : de 10 à 40, borné par le nombre d'items faibles réellement constatés dans vos réponses ; univers de 707 questions hors holdout
+- **Mock 5** — variable : de 10 à 40, borné par le nombre d'items faibles réellement constatés dans vos réponses ; univers de 710 questions hors holdout
 - Révision **J+30** (11 min) — Templating with Twig : Loops and conditions · Templating with Twig : URLs generation · Templating with Twig : Controller rendering · Templating with Twig : Translations and pluralization
 
 *Budget du jour : 220 / 220 min*

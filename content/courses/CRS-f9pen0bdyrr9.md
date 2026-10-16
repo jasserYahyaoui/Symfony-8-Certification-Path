@@ -38,11 +38,36 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "FormRenderer::searchAndRenderBlock()"
     verified_at: "2026-09-24"
+  - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/forms/types/collection.rst"
+    readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/reference/forms/types/collection.rst"
+    repository: "symfony/symfony-docs"
+    branch: "8.0"
+    symbol_or_lines: "allow_add, allow_delete, delete_empty, prototype, prototype_name"
+    verified_at: "2026-10-16"
+  - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/forms/types/options/by_reference.rst.inc"
+    readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/reference/forms/types/options/by_reference.rst.inc"
+    repository: "symfony/symfony-docs"
+    branch: "8.0"
+    symbol_or_lines: "by_reference"
+    verified_at: "2026-10-16"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Core/EventListener/ResizeFormListener.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Extension/Core/EventListener/ResizeFormListener.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    symbol_or_lines: "preSubmit(): rows added only with allowAdd, removed only with allowDelete"
+    verified_at: "2026-10-16"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Core/DataAccessor/PropertyPathAccessor.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Extension/Core/DataAccessor/PropertyPathAccessor.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    symbol_or_lines: "setValue(): skips writing an object back when by_reference and the value is the same instance"
+    verified_at: "2026-10-16"
 outcome_sections:
   OUT-kevx5cz60q4s: "Ce qu'est un type"
   OUT-0ztsd5vjbe72: "Les six methods"
   OUT-dstzcbzx0kt7: "`getParent()`, la key de la brièveté"
   OUT-tq1etfz8r98x: "Composer plutôt qu'étendre"
+  OUT-q996f75mz363: "Une collection de types"
 ---
 
 ## Objectif
@@ -124,6 +149,28 @@ Un type peut aussi être **utilisé** comme field d'un autre :
 `->add('shipping', ShippingType::class)`. C'est la voie normale ; `getParent()`
 sert à *spécialiser* un type, pas à l'imbriquer.
 
+## Une collection de types
+
+`CollectionType` répète un même type, `entry_type`, pour chaque élément d'un
+array ou d'une collection. Exécuté sur Form 8.0.15 avec les tags `['a', 'b']` :
+
+| Soumis | Sans option | Avec l'option |
+|---|---|---|
+| `['a', 'b', 'c']` | ignoré, et l'extension Validator signale « This form should not contain extra fields. » | `allow_add` : `['a', 'b', 'c']` |
+| `['a']` | `['a', null]` : l'élément manquant devient `null` | `allow_delete` : `['a']` |
+| `['a', '']` | avec `allow_delete` : `['a', null]` | `delete_empty` en plus : `['a']` |
+
+`allow_add` donne aussi un **prototype** : la vue porte `vars.prototype`, un
+field nommé `__name__` (`prototype_name` le change) que le JavaScript copie en
+remplaçant ce marqueur. Sans `allow_add`, pas de prototype.
+
+**`by_reference`** compte dès que la collection est un object — exécuté avec un
+`ArrayObject`. À `true`, le défaut, la collection est modifiée
+**sur place** : ni setter, ni adder, ni remover n'est appelé. À `false`,
+`removeTag()` puis `addTag()` sont appelés s'ils existent, sinon `setTags()` avec
+une nouvelle instance. Un adder qui pose l'autre côté d'une relation n'est donc
+appelé qu'avec `by_reference: false`.
+
 ## L'enregistrement
 
 Un type est un service ordinaire. L'autoconfiguration le détecte : il n'y a rien
@@ -142,6 +189,11 @@ son constructor.
 **Le parent passe avant l'enfant** : son `buildForm()` s'exécute d'abord, ses
 options sont reprises puis modifiables.
 
+**Sans `allow_add`, un élément en trop n'est pas ajouté** ; sans `allow_delete`,
+un élément absent devient `null` au lieu de disparaître.
+
+**`by_reference: true` n'appelle jamais `addTag()`** sur une collection object.
+
 ## Points clés
 
 - Un form est un type ; un field aussi.
@@ -149,6 +201,8 @@ options sont reprises puis modifiables.
 - Ordre : parent, type, extensions ; resolver d'options cloné du parent.
 - Préfixe de block dérivé du nom de class ; la vue porte toute la lignée.
 - Étendre spécialise, ajouter compose.
+- `CollectionType` : `allow_add` (et le prototype `__name__`), `allow_delete`,
+  `delete_empty` ; `by_reference: false` pour passer par les adders.
 
 ## Sources officielles
 

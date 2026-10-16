@@ -4514,6 +4514,8 @@ items:
         outcome: Expliquer la correspondance entre le nom du field et la property
       - id: OUT-pe7s3cdg6fgb
         outcome: Déclarer et lire un field non mappé
+      - id: OUT-7gbvq4n8vsgp
+        outcome: "Employer property_path et inherit_data quand le nom du field n'est pas la property"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
@@ -4531,10 +4533,12 @@ items:
         verified_by: "tech-lead"
     course_refs:
       - "CRS-8msvfwe13mpb"
-    flashcard_refs: []
+    flashcard_refs:
+      - "FLC-r6v26rr7gf9q"
     question_refs:
       - "QST-b4y5mz01a7na"
       - "QST-6ygjf6k55wpk"
+      - "QST-3zbbzc4cy9ms"
     exercise_refs: []
     exam_refs:
       - "QST-3pfgr2whbm74"
@@ -4629,6 +4633,8 @@ items:
         outcome: Employer getParent() et citer le parent implicite
       - id: OUT-tq1etfz8r98x
         outcome: Distinguer hériter d'un type et l'ajouter comme field
+      - id: OUT-q996f75mz363
+        outcome: "Prévoir l'effet d'allow_add, allow_delete, du prototype et de by_reference sur une collection"
     required_assessment_modes:
       - "QUESTION"
     minimum_evidence: >-
@@ -4646,10 +4652,14 @@ items:
         verified_by: "tech-lead"
     course_refs:
       - "CRS-f9pen0bdyrr9"
-    flashcard_refs: []
+    flashcard_refs:
+      - "FLC-6gjygtq4ba5b"
+      - "FLC-z1pt1g2zqn6z"
     question_refs:
       - "QST-hhxx71xmb9jk"
       - "QST-yyzehfrg9w4n"
+      - "QST-gtk4r5hqgvhx"
+      - "QST-v3wvgyq5thee"
     exercise_refs: []
     exam_refs:
       - "QST-34jsz8p52p6r"

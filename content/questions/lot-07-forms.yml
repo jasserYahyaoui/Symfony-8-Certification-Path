@@ -3194,3 +3194,183 @@ questions:
     branch: '8.0'
     symbol_or_lines: UndefinedOptionsException, The option "usernme" does not exist
     verified_at: '2026-09-11'
+- id: QST-gtk4r5hqgvhx
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-q996f75mz363
+  version: 1
+  official_topic: Forms
+  official_item: OIT-5xvjqa4203xe
+  domain: symfony
+  subtopic: collection
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: multiple
+  required_answer_count: 2
+  question: 'A tags field is a CollectionType of TextType with only entry_type set, and holds [''a'', ''b'']. In a full-stack application, which statements hold? (Choose 2)'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-15'
+  tags:
+  - collection
+  choices:
+  - id: CHO-xj8m98572jes
+    text: 'Submitting [''a'', ''b'', ''c''] makes the form invalid'
+    correct: true
+  - id: CHO-fhtq37qb81kp
+    text: 'Submitting [''a''] leaves the data as [''a'', null]'
+    correct: true
+  - id: CHO-3t93tez7mvf6
+    text: 'Submitting [''a''] removes ''b'' from the data'
+    correct: false
+    explanation: 'Removing an entry needs allow_delete; without it the missing entry becomes null.'
+  - id: CHO-38p1xn8rgnny
+    text: 'The view carries a prototype to add new entries in JavaScript'
+    correct: false
+    explanation: 'The prototype is built only when allow_add is true.'
+  explanation: 'Without allow_add the extra entry is dropped and the Validator extension reports "This form should not contain extra fields."; without allow_delete a missing entry is submitted as null. Executed with Form 8.0.15.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/forms/types/collection.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/forms/types/collection.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'allow_add, allow_delete, delete_empty, prototype'
+    verified_at: '2026-10-15'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Core/EventListener/ResizeFormListener.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Extension/Core/EventListener/ResizeFormListener.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'preSubmit(): rows added only with allowAdd, removed only with allowDelete'
+    verified_at: '2026-10-15'
+- id: QST-v3wvgyq5thee
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-q996f75mz363
+  version: 1
+  official_topic: Forms
+  official_item: OIT-5xvjqa4203xe
+  domain: symfony
+  subtopic: collection
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: |-
+    Post::$tags is an ArrayObject of strings, and Post has addTag(), removeTag() and setTags(). The form adds tags as a CollectionType with allow_add, and no by_reference option. A submission adds one tag. Is addTag() called?
+
+    ```php
+    $builder->add('tags', CollectionType::class, [
+        'entry_type' => TextType::class,
+        'allow_add' => true,
+    ]);
+    ```
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 80
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-15'
+  tags:
+  - collection
+  - by-reference
+  choices:
+  - id: CHO-g54q70j0wjqd
+    text: 'No: the collection is changed in place'
+    correct: true
+  - id: CHO-41c8h3tkw8v1
+    text: 'Yes: addTag() runs, because PropertyAccess always prefers an adder when one exists'
+    correct: false
+    explanation: 'With by_reference true, the default, the same collection instance is not written back at all.'
+  - id: CHO-tewv8dmfnamf
+    text: 'No adder runs, but setTags() is called with the updated collection'
+    correct: false
+    explanation: 'Nothing is written back: no setter either, the object was modified in place.'
+  - id: CHO-xch77jzthvr5
+    text: 'Yes, but only because allow_delete is not set'
+    correct: false
+    explanation: 'allow_delete decides whether entries can be removed, not how the collection is written.'
+  explanation: 'by_reference defaults to true: the form modifies the collection object in place and PropertyPathAccessor writes nothing back, so neither the adder nor the setter runs. by_reference false makes it call removeTag() and addTag(). Executed with Form 8.0.15 on an object collection.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/forms/types/options/by_reference.rst.inc
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/forms/types/options/by_reference.rst.inc
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'by_reference'
+    verified_at: '2026-10-15'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Core/DataAccessor/PropertyPathAccessor.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Extension/Core/DataAccessor/PropertyPathAccessor.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'setValue(): same instance and by_reference, nothing written'
+    verified_at: '2026-10-15'
+- id: QST-3zbbzc4cy9ms
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-7gbvq4n8vsgp
+  version: 1
+  official_topic: Forms
+  official_item: OIT-fhpttc4c5x0k
+  domain: symfony
+  subtopic: mapping
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'AddressType sets inherit_data to true and is added as ''address'' to a form whose data_class is Author. Where does a submitted city go?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-15'
+  tags:
+  - mapping
+  choices:
+  - id: CHO-2akraexqks42
+    text: 'Into the city property of the Author'
+    correct: true
+  - id: CHO-10tfyc40xw39
+    text: 'Into a new Address object stored in the address property'
+    correct: false
+    explanation: 'With inherit_data the subform has no data of its own; it works on the parent object.'
+  - id: CHO-2hetkxpry16w
+    text: 'Nowhere, because inherit_data fields are never mapped'
+    correct: false
+    explanation: 'They are mapped, onto the parent data.'
+  - id: CHO-46tkz3bbm2rg
+    text: 'Into an array under the address key of the form data'
+    correct: false
+    explanation: 'The subform reads and writes the Author itself.'
+  explanation: 'inherit_data makes a form use its parent data: the address subform returns the Author from getData() and writes city on it. Executed with Form 8.0.15.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/inherit_data_option.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/inherit_data_option.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'inherit_data'
+    verified_at: '2026-10-15'

@@ -30,6 +30,11 @@ M=[
  ('config.required-node-has-no-default','config/Definition/Builder/NodeDefinition.php','        if ($this->default) {','        if (false) {'),
  # G6 is an absence: the mutation restores __toString() and must turn the check red.
  ('translation.translatable-not-stringable','translation/TranslatableMessage.php',('class TranslatableMessage implements TranslatableInterface','    public function getMessage(): string'),('class TranslatableMessage implements TranslatableInterface, \\Stringable','    public function __toString(): string { return $this->message; }\n\n    public function getMessage(): string')),
+ ('form.collection-extra-entries-refused','form/Extension/Core/EventListener/ResizeFormListener.php','        // Add all additional rows\n        if ($this->allowAdd) {','        // Add all additional rows\n        if (true) {'),
+ ('form.collection-delete-needs-allow-delete','form/Extension/Core/EventListener/ResizeFormListener.php','        // Remove all empty rows\n        if ($this->allowDelete) {','        // Remove all empty rows\n        if (true) {'),
+ ('form.collection-prototype','form/Extension/Core/Type/CollectionType.php',"        if ($options['allow_add'] && $options['prototype']) {","        if ($options['prototype']) {"),
+ ('form.by-reference-object-collection','form/Extension/Core/DataAccessor/PropertyPathAccessor.php','        if (!\\is_object($data) || !$form->getConfig()->getByReference() || $value !== $getValue()) {','        if (true) {'),
+ ('form.property-path-and-inherit-data','form/Form.php','        if ($this->inheritData = $config->getInheritData()) {','        if ($this->inheritData = false) {'),
  ('validator.unexpected-value-vs-type','validator/Validator/RecursiveContextualValidator.php','            } catch (UnexpectedValueException $e) {','            } catch (\\LogicException $e) {'),
 ]
 ok=True
