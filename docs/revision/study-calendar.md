@@ -15,9 +15,9 @@ après l'épreuve, et celles-là ne peuvent pas être faites. Elles sont compté
 plutôt qu'effacées — c'est le coût de la date choisie, pas un détail de mise en
 page.
 
-| Révisions perdues après le 29 décembre 2026 | 40 (133 min) |
+| Révisions perdues après le 29 décembre 2026 | 41 (136 min) |
 |---|---|
-| dont J+30 | 26 |
+| dont J+30 | 27 |
 | dont J+45 | 4 |
 | dont J+60 | 10 |
 
@@ -779,9 +779,8 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Jeudi 26 novembre 2026
 
-- NOUVEAU · **Console : Input and Output objects** (STANDARD) — 31 min · 722 mots · 4 questions, 5 questions de compréhension, 11 flashcards
+- NOUVEAU · **Console : Input and Output objects** (STANDARD) — 35 min · 839 mots · 5 questions, 6 questions de compréhension, 12 flashcards
 - NOUVEAU · **Console : Built-in helpers** (STANDARD) — 31 min · 709 mots · 4 questions, 6 questions de compréhension, 11 flashcards
-- NOUVEAU · **Console : Console events** (STANDARD) — 21 min · 709 mots · 6 questions, 5 questions de compréhension, 11 flashcards
 - Révision **J+1** (18 min) — Console : Custom commands · Console : Configuration · Console : Options and arguments (using PHP attributes)
 - Révision **J+3** (14 min) — Templating with Twig : URLs generation · Templating with Twig : Controller rendering · Templating with Twig : Translations and pluralization · Templating with Twig : String interpolation
 - Révision **J+7** (16 min) — Templating with Twig : Auto escaping · Templating with Twig : Template inheritance · Templating with Twig : Global variables · Templating with Twig : Filters and functions
@@ -789,14 +788,13 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+30** (10 min) — Routing : Router debugging · Dependency Injection : Dependency Injection component · Dependency Injection : Service container · Dependency Injection : Built-in services
 - Révision **J+45** (11 min) — Symfony Architecture : Request handling · Symfony Architecture : Exception handling · Symfony Architecture : Event dispatcher and kernel events
 
-*Budget du jour : 160 / 160 min*
+*Budget du jour : 143 / 160 min*
 
 ### Vendredi 27 novembre 2026
 
-- NOUVEAU (suite) · **Console : Console events** (STANDARD) — 13 min · 709 mots · 6 questions, 5 questions de compréhension, 11 flashcards
+- NOUVEAU · **Console : Console events** (STANDARD) — 43 min · 873 mots · 8 questions, 7 questions de compréhension, 13 flashcards
 - NOUVEAU · **Console : Verbosity levels** (MINIMAL) — 26 min · 449 mots · 4 questions, 4 questions de compréhension, 11 flashcards
 - NOUVEAU · **Automated Tests : Unit tests with PHPUnit** (STANDARD) — 26 min · 579 mots · 4 questions, 5 questions de compréhension, 11 flashcards
-- NOUVEAU · **Automated Tests : Functional tests with PHPUnit** (STANDARD) — 31 min · 572 mots · 4 questions, 7 questions de compréhension, 11 flashcards
 - Révision **J+1** (12 min) — Console : Input and Output objects · Console : Built-in helpers
 - Révision **J+3** (13 min) — Templating with Twig : Assets management · Templating with Twig : Debugging variables · Console : Console component · Console : Built-in commands
 - Révision **J+7** (8 min) — Templating with Twig : Template includes · Templating with Twig : Loops and conditions
@@ -804,11 +802,11 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+30** (9 min) — Dependency Injection : Configuration parameters · Dependency Injection : Services registration (YAML and PHP attributes) · Dependency Injection : Service decoration
 - Révision **J+45** (9 min) — Symfony Architecture : Official best practices · Symfony Architecture : Backward compatibility promise · Symfony Architecture : Deprecations best practices
 
-*Budget du jour : 158 / 160 min*
+*Budget du jour : 157 / 160 min*
 
 ### Samedi 28 novembre 2026
 
-- **Source tour et mise en pratique** sur les 18 items de la semaine :
+- **Source tour et mise en pratique** sur les 16 items de la semaine :
   - Templating with Twig : URLs generation
   - Templating with Twig : Controller rendering
   - Templating with Twig : Translations and pluralization
@@ -823,12 +821,10 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
   - Console : Input and Output objects
   - Console : Built-in helpers
   - Console : Console events
-  - Console : Console events
   - Console : Verbosity levels
   - Automated Tests : Unit tests with PHPUnit
-  - Automated Tests : Functional tests with PHPUnit
   - méthode : ouvrir les `official_sources` de chaque item dans `docs/syllabus/syllabus-matrix.yml`, lire le code ou la doc ancrée sur `8.0`, reproduire le comportement décrit
-- Révision **J+1** (22 min) — Console : Console events · Console : Verbosity levels · Automated Tests : Unit tests with PHPUnit · Automated Tests : Functional tests with PHPUnit
+- Révision **J+1** (16 min) — Console : Console events · Console : Verbosity levels · Automated Tests : Unit tests with PHPUnit
 - Révision **J+3** (12 min) — Console : Custom commands · Console : Configuration · Console : Options and arguments (using PHP attributes)
 - Révision **J+30** (13 min) — Dependency Injection : Tags · Dependency Injection : Semantic configuration · Dependency Injection : Factories · Dependency Injection : Compiler passes
 - Révision **J+45** (9 min) — Symfony Architecture : Framework overloading · Symfony Architecture : Release management and roadmap schedule · Symfony Architecture : Framework interoperability and PSRs
@@ -848,50 +844,53 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Lundi 30 novembre 2026
 
+- NOUVEAU · **Automated Tests : Functional tests with PHPUnit** (STANDARD) — 31 min · 572 mots · 4 questions, 7 questions de compréhension, 11 flashcards
 - NOUVEAU · **Automated Tests : Client object** (STANDARD) — 35 min · 832 mots · 4 questions, 8 questions de compréhension, 11 flashcards
 - NOUVEAU · **Automated Tests : Crawler object (CssSelector and DomCrawler components)** (STANDARD) — 38 min · 803 mots · 4 questions, 11 questions de compréhension, 11 flashcards
-- NOUVEAU · **Automated Tests : Profiler object (WebProfiler bundle)** (MINIMAL) — 23 min · 424 mots · 2 questions, 5 questions de compréhension, 11 flashcards
-- Révision **J+3** (15 min) — Console : Console events · Console : Verbosity levels · Automated Tests : Unit tests with PHPUnit · Automated Tests : Functional tests with PHPUnit
+- Révision **J+3** (11 min) — Console : Console events · Console : Verbosity levels · Automated Tests : Unit tests with PHPUnit
 - Révision **J+7** (14 min) — Templating with Twig : URLs generation · Templating with Twig : Controller rendering · Templating with Twig : Translations and pluralization · Templating with Twig : String interpolation
 - Révision **J+14** (9 min) — Messenger : Transports · Messenger : Messages and handlers · Messenger : Workers
 - Révision **J+60** (12 min) — PHP : PHP API up to PHP 8.4 version · PHP : Object Oriented Programming · PHP : Attributes · PHP : Interfaces
 
-*Budget du jour : 146 / 160 min*
+*Budget du jour : 150 / 160 min*
 
 
 ## Décembre 2026
 
 ### Mardi 1 décembre 2026
 
+- NOUVEAU · **Automated Tests : Profiler object (WebProfiler bundle)** (MINIMAL) — 23 min · 424 mots · 2 questions, 5 questions de compréhension, 11 flashcards
 - NOUVEAU · **Automated Tests : Framework objects access** (STANDARD) — 31 min · 612 mots · 3 questions, 8 questions de compréhension, 11 flashcards
 - NOUVEAU · **Automated Tests : Client configuration** (STANDARD) — 30 min · 517 mots · 4 questions, 7 questions de compréhension, 11 flashcards
-- NOUVEAU · **Automated Tests : Request and response objects introspection** (STANDARD) — 31 min · 804 mots · 4 questions, 6 questions de compréhension, 11 flashcards
-- Révision **J+1** (16 min) — Automated Tests : Client object · Automated Tests : Crawler object (CssSelector and DomCrawler components) · Automated Tests : Profiler object (WebProfiler bundle)
+- NOUVEAU · **Automated Tests : Request and response objects introspection** (STANDARD) — 23 min · 804 mots · 4 questions, 6 questions de compréhension, 11 flashcards
+- Révision **J+1** (18 min) — Automated Tests : Functional tests with PHPUnit · Automated Tests : Client object · Automated Tests : Crawler object (CssSelector and DomCrawler components)
 - Révision **J+7** (13 min) — Templating with Twig : Assets management · Templating with Twig : Debugging variables · Console : Console component · Console : Built-in commands
 - Révision **J+14** (10 min) — Messenger : Retries and failures · Messenger : Middleware · Messenger : Events
 - Révision **J+60** (12 min) — PHP : Anonymous functions and closures · PHP : Abstract classes · PHP : Exception and error handling · PHP : Traits
 
-*Budget du jour : 143 / 160 min*
+*Budget du jour : 160 / 160 min*
 
 ### Mercredi 2 décembre 2026
 
+- NOUVEAU (suite) · **Automated Tests : Request and response objects introspection** (STANDARD) — 8 min · 804 mots · 4 questions, 6 questions de compréhension, 11 flashcards
 - NOUVEAU · **Automated Tests : Handling legacy deprecated code** (MINIMAL) — 28 min · 683 mots · 4 questions, 4 questions de compréhension, 11 flashcards
 - NOUVEAU · **Miscellaneous : Configuration (including DotEnv and ExpressionLanguage components)** (STANDARD) — 44 min · 895 mots · 4 questions, 15 questions de compréhension, 11 flashcards
-- NOUVEAU · **Miscellaneous : Error handling** (STANDARD) — 37 min · 807 mots · 3 questions, 11 questions de compréhension, 11 flashcards
-- Révision **J+1** (18 min) — Automated Tests : Framework objects access · Automated Tests : Client configuration · Automated Tests : Request and response objects introspection
+- NOUVEAU · **Miscellaneous : Error handling** (STANDARD) — 33 min · 807 mots · 3 questions, 11 questions de compréhension, 11 flashcards
+- Révision **J+1** (16 min) — Automated Tests : Profiler object (WebProfiler bundle) · Automated Tests : Framework objects access · Automated Tests : Client configuration
 - Révision **J+7** (12 min) — Console : Custom commands · Console : Configuration · Console : Options and arguments (using PHP attributes)
 - Révision **J+14** (7 min) — Templating with Twig : TwigBundle · Templating with Twig : Twig syntax up to 3.22 version
 - Révision **J+30** (12 min) — Data Validation : PHP object validation · Data Validation : Built-in validation constraints · Data Validation : Validation scopes · Data Validation : Validation groups
 
-*Budget du jour : 158 / 160 min*
+*Budget du jour : 160 / 160 min*
 
 ### Jeudi 3 décembre 2026
 
+- NOUVEAU (suite) · **Miscellaneous : Error handling** (STANDARD) — 4 min · 807 mots · 3 questions, 11 questions de compréhension, 11 flashcards
 - NOUVEAU · **Miscellaneous : Code debugging** (STANDARD) — 30 min · 757 mots · 3 questions, 8 questions de compréhension, 11 flashcards
 - NOUVEAU · **Miscellaneous : Deployment best practices** (STANDARD) — 38 min · 685 mots · 4 questions, 13 questions de compréhension, 11 flashcards
-- NOUVEAU · **Miscellaneous : Web Profiler, Web Debug Toolbar and Data collectors** (STANDARD) — 35 min · 776 mots · 4 questions, 14 questions de compréhension, 11 flashcards
-- Révision **J+1** (16 min) — Automated Tests : Handling legacy deprecated code · Miscellaneous : Configuration (including DotEnv and ExpressionLanguage components) · Miscellaneous : Error handling
-- Révision **J+3** (11 min) — Automated Tests : Client object · Automated Tests : Crawler object (CssSelector and DomCrawler components) · Automated Tests : Profiler object (WebProfiler bundle)
+- NOUVEAU · **Miscellaneous : Web Profiler, Web Debug Toolbar and Data collectors** (STANDARD) — 30 min · 776 mots · 4 questions, 14 questions de compréhension, 11 flashcards
+- Révision **J+1** (16 min) — Automated Tests : Request and response objects introspection · Automated Tests : Handling legacy deprecated code · Miscellaneous : Configuration (including DotEnv and ExpressionLanguage components)
+- Révision **J+3** (12 min) — Automated Tests : Functional tests with PHPUnit · Automated Tests : Client object · Automated Tests : Crawler object (CssSelector and DomCrawler components)
 - Révision **J+7** (8 min) — Console : Input and Output objects · Console : Built-in helpers
 - Révision **J+14** (12 min) — Templating with Twig : Auto escaping · Templating with Twig : Template inheritance · Templating with Twig : Global variables · Templating with Twig : Filters and functions
 - Révision **J+30** (10 min) — Data Validation : Group sequence · Data Validation : Custom callback validators · Data Validation : Violations builder
@@ -900,29 +899,32 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Vendredi 4 décembre 2026
 
-- NOUVEAU (suite) · **Miscellaneous : Web Profiler, Web Debug Toolbar and Data collectors** (STANDARD) — 6 min · 776 mots · 4 questions, 14 questions de compréhension, 11 flashcards
+- NOUVEAU (suite) · **Miscellaneous : Web Profiler, Web Debug Toolbar and Data collectors** (STANDARD) — 11 min · 776 mots · 4 questions, 14 questions de compréhension, 11 flashcards
 - NOUVEAU · **Miscellaneous : Internationalization and localization (Note: Intl component utilities to access ICU data are not included)** (STANDARD) — 44 min · 814 mots · 3 questions, 17 questions de compréhension, 11 flashcards
 - NOUVEAU · **Miscellaneous : HTTP Caching (reverse proxies, expiration, validation) Note: ESI (Edge Side Includes) is not included** (STANDARD) — 46 min · 899 mots · 3 questions, 18 questions de compréhension, 11 flashcards
-- Révision **J+1** (12 min) — Miscellaneous : Code debugging · Miscellaneous : Deployment best practices
-- Révision **J+3** (12 min) — Automated Tests : Framework objects access · Automated Tests : Client configuration · Automated Tests : Request and response objects introspection
-- Révision **J+7** (15 min) — Console : Console events · Console : Verbosity levels · Automated Tests : Unit tests with PHPUnit · Automated Tests : Functional tests with PHPUnit
+- Révision **J+1** (18 min) — Miscellaneous : Error handling · Miscellaneous : Code debugging · Miscellaneous : Deployment best practices
+- Révision **J+3** (11 min) — Automated Tests : Profiler object (WebProfiler bundle) · Automated Tests : Framework objects access · Automated Tests : Client configuration
+- Révision **J+7** (11 min) — Console : Console events · Console : Verbosity levels · Automated Tests : Unit tests with PHPUnit
 - Révision **J+14** (6 min) — Templating with Twig : Template includes · Templating with Twig : Loops and conditions
 - Révision **J+30** (9 min) — Forms : Form component · Forms : Forms creation · Forms : Forms handling
 - Révision **J+60** (3 min) — PHP : Enums
 
-*Budget du jour : 153 / 160 min*
+*Budget du jour : 159 / 160 min*
 
 ### Samedi 5 décembre 2026
 
-- **Source tour et mise en pratique** sur les 15 items de la semaine :
+- **Source tour et mise en pratique** sur les 18 items de la semaine :
+  - Automated Tests : Functional tests with PHPUnit
   - Automated Tests : Client object
   - Automated Tests : Crawler object (CssSelector and DomCrawler components)
   - Automated Tests : Profiler object (WebProfiler bundle)
   - Automated Tests : Framework objects access
   - Automated Tests : Client configuration
   - Automated Tests : Request and response objects introspection
+  - Automated Tests : Request and response objects introspection
   - Automated Tests : Handling legacy deprecated code
   - Miscellaneous : Configuration (including DotEnv and ExpressionLanguage components)
+  - Miscellaneous : Error handling
   - Miscellaneous : Error handling
   - Miscellaneous : Code debugging
   - Miscellaneous : Deployment best practices
@@ -932,7 +934,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
   - Miscellaneous : HTTP Caching (reverse proxies, expiration, validation) Note: ESI (Edge Side Includes) is not included
   - méthode : ouvrir les `official_sources` de chaque item dans `docs/syllabus/syllabus-matrix.yml`, lire le code ou la doc ancrée sur `8.0`, reproduire le comportement décrit
 - Révision **J+1** (18 min) — Miscellaneous : Web Profiler, Web Debug Toolbar and Data collectors · Miscellaneous : Internationalization and localization (Note: Intl component utilities to access ICU data are not included) · Miscellaneous : HTTP Caching (reverse proxies, expiration, validation) Note: ESI (Edge Side Includes) is not included
-- Révision **J+3** (11 min) — Automated Tests : Handling legacy deprecated code · Miscellaneous : Configuration (including DotEnv and ExpressionLanguage components) · Miscellaneous : Error handling
+- Révision **J+3** (11 min) — Automated Tests : Request and response objects introspection · Automated Tests : Handling legacy deprecated code · Miscellaneous : Configuration (including DotEnv and ExpressionLanguage components)
 - Révision **J+30** (9 min) — Forms : Form types (built-in and custom) · Forms : Forms rendering with Twig · Forms : Forms theming
 - Révision **J+45** (4 min) — Controllers : Argument value resolvers
 - Révision **J+60** (4 min) — HTTP : HTTP request
@@ -946,7 +948,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - **Assessment lot-15 — Miscellaneous** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
 - **Assessment lot-16 — Miscellaneous** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
 - **Assessment lot-17 — Miscellaneous** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
-- Révision **J+3** (8 min) — Miscellaneous : Code debugging · Miscellaneous : Deployment best practices
+- Révision **J+3** (12 min) — Miscellaneous : Error handling · Miscellaneous : Code debugging · Miscellaneous : Deployment best practices
 - Révision **J+30** (10 min) — Forms : CSRF protection · Forms : Handling file upload · Forms : Built-in form types · Forms : Data transformers
 - Consolidation : reprendre les questions ratées de la semaine, rattrapage de ce qui a débordé
 
@@ -956,9 +958,9 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 - NOUVEAU · **Miscellaneous : Cache** (DEEP) — 51 min · 1111 mots · 6 questions, 16 questions de compréhension, 13 flashcards
 - NOUVEAU · **Miscellaneous : Clock** (STANDARD) — 43 min · 889 mots · 5 questions, 13 questions de compréhension, 11 flashcards
-- NOUVEAU · **Miscellaneous : EventDispatcher** (STANDARD) — 28 min · 710 mots · 3 questions, 9 questions de compréhension, 11 flashcards
+- NOUVEAU · **Miscellaneous : EventDispatcher** (STANDARD) — 27 min · 710 mots · 3 questions, 9 questions de compréhension, 11 flashcards
 - Révision **J+3** (12 min) — Miscellaneous : Web Profiler, Web Debug Toolbar and Data collectors · Miscellaneous : Internationalization and localization (Note: Intl component utilities to access ICU data are not included) · Miscellaneous : HTTP Caching (reverse proxies, expiration, validation) Note: ESI (Edge Side Includes) is not included
-- Révision **J+7** (11 min) — Automated Tests : Client object · Automated Tests : Crawler object (CssSelector and DomCrawler components) · Automated Tests : Profiler object (WebProfiler bundle)
+- Révision **J+7** (12 min) — Automated Tests : Functional tests with PHPUnit · Automated Tests : Client object · Automated Tests : Crawler object (CssSelector and DomCrawler components)
 - Révision **J+14** (10 min) — Templating with Twig : URLs generation · Templating with Twig : Controller rendering · Templating with Twig : Translations and pluralization · Templating with Twig : String interpolation
 - Révision **J+60** (5 min) — Symfony Architecture : HttpFoundation component · Symfony Architecture : Symfony Flex
 
@@ -966,12 +968,12 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Mardi 8 décembre 2026
 
-- NOUVEAU (suite) · **Miscellaneous : EventDispatcher** (STANDARD) — 4 min · 710 mots · 3 questions, 9 questions de compréhension, 11 flashcards
+- NOUVEAU (suite) · **Miscellaneous : EventDispatcher** (STANDARD) — 5 min · 710 mots · 3 questions, 9 questions de compréhension, 11 flashcards
 - NOUVEAU · **Miscellaneous : Event** (STANDARD) — 29 min · 519 mots · 4 questions, 6 questions de compréhension, 11 flashcards
 - NOUVEAU · **Miscellaneous : Filesystem** (STANDARD) — 36 min · 689 mots · 4 questions, 10 questions de compréhension, 11 flashcards
 - NOUVEAU · **Miscellaneous : Finder** (STANDARD) — 34 min · 629 mots · 5 questions, 8 questions de compréhension, 11 flashcards
 - Révision **J+1** (14 min) — Miscellaneous : Cache · Miscellaneous : Clock
-- Révision **J+7** (12 min) — Automated Tests : Framework objects access · Automated Tests : Client configuration · Automated Tests : Request and response objects introspection
+- Révision **J+7** (11 min) — Automated Tests : Profiler object (WebProfiler bundle) · Automated Tests : Framework objects access · Automated Tests : Client configuration
 - Révision **J+14** (9 min) — Templating with Twig : Assets management · Templating with Twig : Debugging variables · Console : Console component · Console : Built-in commands
 - Révision **J+60** (8 min) — Symfony Architecture : License · Symfony Architecture : Components and Bridges · Symfony Architecture : Code organization
 
@@ -983,7 +985,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - NOUVEAU · **Miscellaneous : Mime** (STANDARD) — 35 min · 611 mots · 4 questions, 11 questions de compréhension, 11 flashcards
 - NOUVEAU · **Miscellaneous : Process** (STANDARD) — 33 min · 857 mots · 6 questions, 16 questions de compréhension, 11 flashcards
 - Révision **J+1** (24 min) — Miscellaneous : EventDispatcher · Miscellaneous : Event · Miscellaneous : Filesystem · Miscellaneous : Finder
-- Révision **J+7** (11 min) — Automated Tests : Handling legacy deprecated code · Miscellaneous : Configuration (including DotEnv and ExpressionLanguage components) · Miscellaneous : Error handling
+- Révision **J+7** (11 min) — Automated Tests : Request and response objects introspection · Automated Tests : Handling legacy deprecated code · Miscellaneous : Configuration (including DotEnv and ExpressionLanguage components)
 - Révision **J+14** (9 min) — Console : Custom commands · Console : Configuration · Console : Options and arguments (using PHP attributes)
 - Révision **J+30** (9 min) — Forms : Form events · Forms : Form type extensions · Forms : Form options (OptionsResolver component)
 
@@ -996,11 +998,11 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - NOUVEAU · **Miscellaneous : Runtime** (STANDARD) — 41 min · 769 mots · 4 questions, 14 questions de compréhension, 11 flashcards
 - Révision **J+1** (12 min) — Miscellaneous : Mailer · Miscellaneous : Mime
 - Révision **J+3** (9 min) — Miscellaneous : Cache · Miscellaneous : Clock
-- Révision **J+7** (8 min) — Miscellaneous : Code debugging · Miscellaneous : Deployment best practices
+- Révision **J+7** (12 min) — Miscellaneous : Error handling · Miscellaneous : Code debugging · Miscellaneous : Deployment best practices
 - Révision **J+14** (6 min) — Console : Input and Output objects · Console : Built-in helpers
 - Révision **J+30** (12 min) — Security : Security Core, CSRF and PasswordHasher components · Security : Authentication · Security : Authorization · Security : Configuration
 
-*Budget du jour : 145 / 160 min*
+*Budget du jour : 149 / 160 min*
 
 ### Vendredi 11 décembre 2026
 
@@ -1008,12 +1010,12 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+1** (18 min) — Miscellaneous : Process · Miscellaneous : PropertyAccess · Miscellaneous : Runtime
 - Révision **J+3** (16 min) — Miscellaneous : EventDispatcher · Miscellaneous : Event · Miscellaneous : Filesystem · Miscellaneous : Finder
 - Révision **J+7** (12 min) — Miscellaneous : Web Profiler, Web Debug Toolbar and Data collectors · Miscellaneous : Internationalization and localization (Note: Intl component utilities to access ICU data are not included) · Miscellaneous : HTTP Caching (reverse proxies, expiration, validation) Note: ESI (Edge Side Includes) is not included
-- Révision **J+14** (11 min) — Console : Console events · Console : Verbosity levels · Automated Tests : Unit tests with PHPUnit · Automated Tests : Functional tests with PHPUnit
+- Révision **J+14** (8 min) — Console : Console events · Console : Verbosity levels · Automated Tests : Unit tests with PHPUnit
 - Révision **J+30** (9 min) — Security : Providers · Security : Firewalls · Security : Users
 - Révision **J+45** (8 min) — Dependency Injection : Dependency Injection component · Dependency Injection : Service container · Dependency Injection : Built-in services
 - Révision **J+60** (11 min) — Symfony Architecture : Request handling · Symfony Architecture : Exception handling · Symfony Architecture : Event dispatcher and kernel events
 
-*Budget du jour : 146 / 160 min*
+*Budget du jour : 143 / 160 min*
 
 ### Samedi 12 décembre 2026
 
@@ -1061,11 +1063,11 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - **Assessment lot-21 — Miscellaneous** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
 - Révision **J+3** (5 min) — Miscellaneous : Serializer
 - Révision **J+7** (9 min) — Miscellaneous : Cache · Miscellaneous : Clock
-- Révision **J+14** (8 min) — Automated Tests : Client object · Automated Tests : Crawler object (CssSelector and DomCrawler components) · Automated Tests : Profiler object (WebProfiler bundle)
+- Révision **J+14** (9 min) — Automated Tests : Functional tests with PHPUnit · Automated Tests : Client object · Automated Tests : Crawler object (CssSelector and DomCrawler components)
 - Révision **J+45** (7 min) — Dependency Injection : Services autowiring · Dependency Injection : Service locators
 - Révision **J+60** (2 min) — Symfony Architecture : Naming conventions
 
-*Budget du jour : 151 / 160 min*
+*Budget du jour : 152 / 160 min*
 
 ### Mardi 15 décembre 2026
 
@@ -1073,9 +1075,9 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - **Assessment lot-22 — Miscellaneous** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
 - **Assessment lot-23 — Miscellaneous** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
 - Révision **J+7** (16 min) — Miscellaneous : EventDispatcher · Miscellaneous : Event · Miscellaneous : Filesystem · Miscellaneous : Finder
-- Révision **J+14** (9 min) — Automated Tests : Framework objects access · Automated Tests : Client configuration · Automated Tests : Request and response objects introspection
+- Révision **J+14** (8 min) — Automated Tests : Profiler object (WebProfiler bundle) · Automated Tests : Framework objects access · Automated Tests : Client configuration
 
-*Budget du jour : 145 / 160 min*
+*Budget du jour : 144 / 160 min*
 
 ### Mercredi 16 décembre 2026
 
@@ -1083,7 +1085,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - **Assessment lot-25 — Miscellaneous** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
 - **Assessment lot-26 — Miscellaneous** : voir [`mastery-checkpoints.md`](mastery-checkpoints.md#les-26-assessments)
 - Révision **J+7** (8 min) — Miscellaneous : Mailer · Miscellaneous : Mime
-- Révision **J+14** (8 min) — Automated Tests : Handling legacy deprecated code · Miscellaneous : Configuration (including DotEnv and ExpressionLanguage components) · Miscellaneous : Error handling
+- Révision **J+14** (8 min) — Automated Tests : Request and response objects introspection · Automated Tests : Handling legacy deprecated code · Miscellaneous : Configuration (including DotEnv and ExpressionLanguage components)
 - Révision **J+30** (9 min) — Messenger : Transports · Messenger : Messages and handlers · Messenger : Workers
 
 *Budget du jour : 115 / 160 min*
@@ -1091,10 +1093,10 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Jeudi 17 décembre 2026
 
 - Révision **J+7** (12 min) — Miscellaneous : Process · Miscellaneous : PropertyAccess · Miscellaneous : Runtime
-- Révision **J+14** (6 min) — Miscellaneous : Code debugging · Miscellaneous : Deployment best practices
+- Révision **J+14** (9 min) — Miscellaneous : Error handling · Miscellaneous : Code debugging · Miscellaneous : Deployment best practices
 - Révision **J+30** (10 min) — Messenger : Retries and failures · Messenger : Middleware · Messenger : Events
 
-*Budget du jour : 28 / 160 min*
+*Budget du jour : 31 / 160 min*
 
 ### Vendredi 18 décembre 2026
 
@@ -1114,7 +1116,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Dimanche 20 décembre 2026
 
-- **Mock 5** — variable : de 10 à 40, borné par le nombre d'items faibles réellement constatés dans vos réponses ; univers de 713 questions hors holdout
+- **Mock 5** — variable : de 10 à 40, borné par le nombre d'items faibles réellement constatés dans vos réponses ; univers de 716 questions hors holdout
 - Révision **J+30** (6 min) — Templating with Twig : Template includes · Templating with Twig : Loops and conditions
 - Révision **J+60** (4 min) — Controllers : Argument value resolvers
 
@@ -1167,7 +1169,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Dimanche 27 décembre 2026
 
 - **Correction Mock 4** — analyse par item, plan de correction, re-révision ciblée
-- Révision **J+30** (11 min) — Console : Console events · Console : Verbosity levels · Automated Tests : Unit tests with PHPUnit · Automated Tests : Functional tests with PHPUnit
+- Révision **J+30** (8 min) — Console : Console events · Console : Verbosity levels · Automated Tests : Unit tests with PHPUnit
 - Révision **J+60** (9 min) — Dependency Injection : Configuration parameters · Dependency Injection : Services registration (YAML and PHP attributes) · Dependency Injection : Service decoration
 
 *Budget du jour : 220 / 220 min*

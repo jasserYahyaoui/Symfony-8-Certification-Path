@@ -56,7 +56,7 @@ an idea: it stops the old sentence returning, not every way of being wrong.
 | F5 | Content metrics read as candidate mastery | **VÉRIFIÉ** (local) | see P1.7 |
 | F6 | Roadmap / mock texts out of sync | **VÉRIFIÉ** (local) — mock texts derived; comprehension load budgeted, exam moved to 29 Dec by owner decision | see P2.5 |
 | F7 | Too few multiple-answer questions | **VÉRIFIÉ** — P1.6: +33, then +10 for PHP and Automated Tests (4 VALIDATION, 39 LEARNING in all), every choice executed or read in its source | see P1.6 |
-| F8 | Unsourced "not examinable" restrictions | **EN COURS** — Serializer (P1.5), Cache (P1.4), Validator (P1.3), Forms (P1.2) and PHP API (P1.1) extended, VÉRIFIÉ; P2.7 EN COURS (HttpClient VÉRIFIÉ) | see P1.5, P1.3, P1.2, P1.1, P2.7 |
+| F8 | Unsourced "not examinable" restrictions | **EN COURS** — Serializer (P1.5), Cache (P1.4), Validator (P1.3), Forms (P1.2) and PHP API (P1.1) extended, VÉRIFIÉ; P2.7 EN COURS (HttpClient, Console VÉRIFIÉ) | see P1.5, P1.3, P1.2, P1.1, P2.7 |
 | F9 | PHP source 404 and mutable branch URLs | **BLOQUÉ** (the last 404 is in a HOLDOUT question) — pinning À FAIRE | see P2.6 |
 | F10 | No per-card recall record; comprehension stores nothing | **EN COURS** — comprehension recorded (P2.4, VÉRIFIÉ local); per-card recall À FAIRE (P2.3) | see P2.4 |
 
@@ -304,14 +304,52 @@ citation, so a format change has to be designed with it, not applied in bulk.
 | Deep audit 8.0, gaps (Config, expose_security_errors, TranslatableMessage) | #414 | squash `e76910c` | smoke 116685357696 success, log read (295 ok, 0 error) |
 | P1.2 Forms | #415 | squash `0318807` | smoke success, log read (« ok remediation P1.2 lot-07 ») |
 | P1.1 PHP API | #416 | squash `a8bb7fd` | smoke 116895810622 success, log read (« ok remediation P1.1 lot-01 »; 297 ok and 0 error in the last 400 lines) |
+| P2.7 HttpClient | #417 | squash `17253ae` | smoke 117170953200 success, log read (« ok remediation P2.7 lot-02 »; 298 ok and 0 error) |
 | P1.7, P2.4, P2.5 (part) | #395, CI green | squash `6c1448c` | job « Production smoke test » 115498368380 success, log read. It checks served pages and payloads, not the client-side progression table, which the CI a11y audit renders. |
 
 ## Next action
 
-P2.7, one component per PR: Console, Profiler, Translation,
-Filesystem/Finder/Process, Runtime. Then P2.3 (per-card recall, which would
+P2.7, one component per PR: Profiler, Translation, Filesystem/Finder/Process,
+Runtime. Then P2.3 (per-card recall, which would
 give item statistics a source). By the owner's decision of 2026-10-16, Mock 4 is
 not sat now and is no longer raised in reports; F4 and F9 stay blocked.
+
+### P2.7 — Console: signals, the alarm event, testing a command
+
+The mission names scenarios combining interaction, output, signals and tests,
+and notes that the helpers were already taught. Executed first on Console
+8.0.15 (`tools/behavior/checks/console-scenarios.php`, six checks, each proved
+by a mutation of the vendor line carrying it, restored byte-identically). A
+signal or an alarm ends the PHP process, so those checks run a script in a
+child process and read its trace and exit status; they need `pcntl` and
+`posix`, now named in the CI PHP setup, and fail rather than skip without them.
+Same results on 7.4.21.
+
+**A false claim corrected.** The *Console events* page said « Quatre events,
+pas cinq ». `ConsoleEvents` declares four constants, but 8.0 dispatches a fifth
+event, `ConsoleAlarmEvent`, under its class name (documented in
+`components/console/events.rst`, 8.0). The heading, the trap and the key points
+now say « quatre constantes, cinq events »; the flashcard that claimed four
+events names the fifth; the smoke test fails if the old sentence returns, and a
+central fact forbids it in the content. The deep audit of 8.0 had missed it: it
+compared what was taught with the 7.4→8.0 changes, and the alarm event came in
+7.2 (Console `CHANGELOG.md`).
+
+| Behaviour | Result |
+|---|---|
+| `SIGINT` with a dispatcher, nothing changes the code | `console.signal`, `console.terminate` (signal 2), **exit 0** |
+| `abortExit()` / `setExitCode(3)` on `console.signal` | the command carries on / exit 3 |
+| `handleSignal()` returns 5 / `false` | receives 0, exits 5 / carries on — with or without a dispatcher |
+| no dispatcher, no signalable command | PHP dies of the signal |
+| `setAlarmInterval(1)` | `console.signal` then `ConsoleAlarmEvent`; without `abortExit()` the first alarm ends the command, code 0 |
+| `CommandTester` vs `ApplicationTester` | no console event vs `console.command`, `console.terminate` |
+| lifecycle | `initialize`, `interact` (interactive only), validation, `execute`; non-interactive, a missing required argument throws « Not enough arguments » |
+| `capture_stderr_separately` | `getErrorStyle()` output and a question's prompt go to `getErrorOutput()` |
+
+**Levels: unchanged (STANDARD)**; *Console events* 873 and *Input and Output
+objects* 839 body words. Content: three outcomes, three course sections and a
+corrected one, three flashcards and a corrected one, three LEARNING questions
+(one `hard`), three COMPREHENSION questions, six central facts.
 
 ### P2.7 — HttpClient: retries, an unread response, a partly failed stream
 

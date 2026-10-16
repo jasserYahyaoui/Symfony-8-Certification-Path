@@ -2911,6 +2911,60 @@ questions:
     symbol_or_lines: Console Output
     branch: '8.0'
     verified_at: '2026-10-10'
+- id: QST-grtv1rxf2d0x
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-mb5e4wzg3d34
+  version: 1
+  official_topic: Console
+  official_item: OIT-65sswf0qhw6c
+  domain: symfony
+  subtopic: testing
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'A command declares a required argument ''name'', and its interact() asks for it when it is missing. A test calls CommandTester::execute([], [''interactive'' => false]). What happens?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-16'
+  tags:
+  - console
+  - testing
+  choices:
+  - id: CHO-862yeaf7c6e2
+    text: 'A RuntimeException: Not enough arguments'
+    correct: true
+  - id: CHO-75xc17sdx1g3
+    text: 'interact() asks and the question returns its default'
+    correct: false
+    explanation: 'interact() is not called at all when the input is not interactive.'
+  - id: CHO-qndh8d0wmtjt
+    text: 'execute() runs with ''name'' set to null'
+    correct: false
+    explanation: 'The input is validated before execute(), and a required argument is missing.'
+  - id: CHO-jp6780tg6dsf
+    text: 'The test hangs waiting for input'
+    correct: false
+    explanation: 'Nothing reads the input stream: interact() is skipped.'
+  explanation: 'Command::run() calls initialize(), then interact() only when the input is interactive, then validates the input, then execute(). Non-interactive, nothing fills the argument, so validation throws "Not enough arguments (missing: \"name\")." Executed on Console 8.0.15.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Command/Command.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Command/Command.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'run(): interact() if isInteractive(), then validate()'
+    verified_at: '2026-10-16'
 - id: QST-688b4bh5vb6r
   question_archetype: BEHAVIOR_PREDICTION
   assesses_outcomes:
@@ -3122,6 +3176,127 @@ questions:
     symbol_or_lines: setDispatcher()
     branch: '8.0'
     verified_at: '2026-10-10'
+- id: QST-73js5jkzw6a4
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-13gsk5cxzqt3
+  version: 1
+  official_topic: Console
+  official_item: OIT-cqs3m73y3rpy
+  domain: symfony
+  subtopic: events
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'A command implements SignalableCommandInterface and its handleSignal() returns false. It receives a signal it subscribed to. What happens next?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 50
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-16'
+  tags:
+  - console-events
+  - signals
+  choices:
+  - id: CHO-cvt994tqegjf
+    text: 'The command carries on running'
+    correct: true
+  - id: CHO-mt2a6jc9468r
+    text: 'The process exits with code 0'
+    correct: false
+    explanation: 'An integer return value exits with that code; false means carry on.'
+  - id: CHO-sffk4xkjvjjt
+    text: 'The process exits with code 1'
+    correct: false
+    explanation: 'false is not an exit code: it means carry on.'
+  - id: CHO-d2qqv9decjvx
+    text: 'PHP''s default handler takes over and kills the process'
+    correct: false
+    explanation: 'The command''s handler replaced PHP''s default one for that signal.'
+  explanation: 'handleSignal() receives the exit code so far and returns either an integer, used as the exit code, or false, which lets the command carry on. Executed on Console 8.0.15, with and without a dispatcher.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Command/SignalableCommandInterface.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Command/SignalableCommandInterface.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'handleSignal(int $signal, int|false $previousExitCode = 0): int|false'
+    verified_at: '2026-10-16'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Application.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Application.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'doRunCommand(): ConsoleSignalEvent, ConsoleAlarmEvent, handleSignal(), then ConsoleTerminateEvent and exit()'
+    verified_at: '2026-10-16'
+- id: QST-47xzn33srh7c
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-kh6qdz451gb2
+  - OUT-2e5yd7119yha
+  version: 1
+  official_topic: Console
+  official_item: OIT-cqs3m73y3rpy
+  domain: symfony
+  subtopic: events
+  language: en
+  difficulty: medium
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'Under which event name must a listener be registered to receive ConsoleAlarmEvent?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-16'
+  tags:
+  - console-events
+  - alarm
+  choices:
+  - id: CHO-46840bzx64g7
+    text: 'ConsoleAlarmEvent::class, its class name'
+    correct: true
+  - id: CHO-haa1dpqc642p
+    text: 'ConsoleEvents::ALARM'
+    correct: false
+    explanation: 'ConsoleEvents declares COMMAND, SIGNAL, TERMINATE and ERROR, and no ALARM.'
+  - id: CHO-h7mxvkzbhkdn
+    text: '''console.alarm'''
+    correct: false
+    explanation: 'No event is dispatched under that name.'
+  - id: CHO-2ze5rf0wc15s
+    text: 'ConsoleEvents::SIGNAL'
+    correct: false
+    explanation: 'console.signal is dispatched first, but it carries a ConsoleSignalEvent.'
+  explanation: 'ConsoleAlarmEvent has no constant in ConsoleEvents: the Application dispatches it without a name, so its class name is the event name. Executed on Console 8.0.15.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/ConsoleEvents.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/ConsoleEvents.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'COMMAND, SIGNAL, TERMINATE, ERROR, ALIASES'
+    verified_at: '2026-10-16'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Application.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Application.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'doRunCommand(): ConsoleSignalEvent, ConsoleAlarmEvent, handleSignal(), then ConsoleTerminateEvent and exit()'
+    verified_at: '2026-10-16'
 - id: QST-1eaey66hme8e
   question_archetype: BEHAVIOR_PREDICTION
   assesses_outcomes:

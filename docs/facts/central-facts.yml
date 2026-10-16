@@ -560,3 +560,75 @@ facts:
     behavior_check: http-client.stream-timeout-chunk
     content: [CRS-ez2qmqfk902e]
     forbidden: []
+  console.signal-exits-zero-by-default:
+    finding: P2.7
+    official_item: OIT-cqs3m73y3rpy
+    statement: >-
+      With a dispatcher, the Application handles SIGINT, SIGQUIT, SIGTERM, SIGUSR1, SIGUSR2 and SIGALRM: console.signal,
+      then console.terminate carrying the signal, then exit with code 0 unless a listener changes it; abortExit() lets
+      the command carry on. Without a dispatcher or a signalable command, PHP dies of the signal.
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Application.php
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Event/ConsoleSignalEvent.php
+    behavior_check: console.signal-exits-zero-by-default
+    content: [CRS-y0zc67f3e5zk, FLC-hwy7pnrsb9c9, QST-97at0qx0zavd]
+    forbidden: []
+  console.signalable-command-return:
+    finding: P2.7
+    official_item: OIT-cqs3m73y3rpy
+    statement: >-
+      handleSignal() of a SignalableCommandInterface command receives the exit code so far; an integer exits with it,
+      false lets the command carry on, with or without a dispatcher.
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Command/SignalableCommandInterface.php
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Application.php
+    behavior_check: console.signalable-command-return
+    content: [CRS-y0zc67f3e5zk, QST-73js5jkzw6a4]
+    forbidden: []
+  console.alarm-event:
+    finding: P2.7
+    official_item: OIT-cqs3m73y3rpy
+    statement: >-
+      setAlarmInterval() makes each SIGALRM dispatch console.signal, then ConsoleAlarmEvent under its class name, which
+      has no ConsoleEvents constant; without abortExit() the first alarm ends the command with code 0.
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Application.php
+      - https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/console/events.rst
+    behavior_check: console.alarm-event
+    content: [CRS-y0zc67f3e5zk, FLC-0rh1nh0y9dgg, FLC-hk7rkbxfq90j, QST-wjwkdfb6r539, QST-47xzn33srh7c]
+    forbidden:
+      - "/Quatre events, pas cinq/u"
+  console.command-tester-dispatches-nothing:
+    finding: P2.7
+    official_item: OIT-65sswf0qhw6c
+    statement: >-
+      CommandTester runs the command alone, so no console event is dispatched even when the Application has a
+      dispatcher; ApplicationTester runs the Application and dispatches them.
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Tester/CommandTester.php
+    behavior_check: console.command-tester-dispatches-nothing
+    content: [CRS-0ab7kpexq9w9, FLC-p35kr4nxr717, QST-r56h5h07dq42]
+    forbidden: []
+  console.interact-before-validation:
+    finding: P2.7
+    official_item: OIT-65sswf0qhw6c
+    statement: >-
+      Command::run() calls initialize(), interact() only when the input is interactive, then validates the input, then
+      execute(): interact() can fill a missing required argument; non-interactive, the input fails with "Not enough
+      arguments".
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Command/Command.php
+    behavior_check: console.interact-before-validation
+    content: [CRS-0ab7kpexq9w9, QST-grtv1rxf2d0x]
+    forbidden: []
+  console.tester-stderr-separately:
+    finding: P2.7
+    official_item: OIT-65sswf0qhw6c
+    statement: >-
+      With capture_stderr_separately, what getErrorStyle() writes and the prompt of a question go to getErrorOutput()
+      instead of getDisplay().
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Helper/QuestionHelper.php
+    behavior_check: console.tester-stderr-separately
+    content: [CRS-0ab7kpexq9w9]
+    forbidden: []

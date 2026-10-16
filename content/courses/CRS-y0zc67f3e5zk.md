@@ -27,10 +27,42 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "disableCommand(); RETURN_CODE_DISABLED = 113"
     verified_at: "2026-10-02"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Application.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Application.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    symbol_or_lines: "doRunCommand() : signalsToDispatchEvent, ConsoleSignalEvent puis ConsoleAlarmEvent, handleSignal(), TERMINATE puis exit()"
+    verified_at: "2026-10-16"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Event/ConsoleSignalEvent.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Event/ConsoleSignalEvent.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    symbol_or_lines: "int|false $exitCode = 0 ; abortExit()"
+    verified_at: "2026-10-16"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Event/ConsoleAlarmEvent.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Event/ConsoleAlarmEvent.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    symbol_or_lines: "abortExit(), getExitCode()"
+    verified_at: "2026-10-16"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Command/SignalableCommandInterface.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Command/SignalableCommandInterface.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    symbol_or_lines: "getSubscribedSignals(), handleSignal(int $signal, int|false $previousExitCode = 0): int|false"
+    verified_at: "2026-10-16"
+  - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/console/events.rst"
+    readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/components/console/events.rst"
+    repository: "symfony/symfony-docs"
+    branch: "8.0"
+    symbol_or_lines: "The ConsoleEvents::SIGNAL Event ; The ConsoleAlarmEvent"
+    verified_at: "2026-10-16"
 outcome_sections:
-  OUT-2e5yd7119yha: "Les quatre events"
+  OUT-2e5yd7119yha: "Quatre constantes, cinq events"
   OUT-8v3ady0sf894: "L'ordre réel"
   OUT-rzgybvr9fa5g: "`ERROR` — rattraper"
+  OUT-13gsk5cxzqt3: "`SIGNAL` — pendant"
+  OUT-kh6qdz451gb2: "L'alarme"
 ---
 
 ## Objectif
@@ -42,11 +74,12 @@ mesurer, empêcher, rattraper une erreur.
 
 Le cycle d'une command, et le dispatcher d'events.
 
-## Les quatre events
+## Quatre constantes, cinq events
 
 `ConsoleEvents` déclare **quatre** events — et une cinquième constante,
 `ALIASES`, qui associe chaque class d'event à son nom pour que l'on puisse
-s'abonner par la class :
+s'abonner par la class. Un cinquième event, `ConsoleAlarmEvent`, n'a pas de
+constante (voir *L'alarme*) :
 
 | Constante | Valeur | Quand |
 |---|---|---|
@@ -149,10 +182,27 @@ interrompue par un signal.
 
 ## `SIGNAL` — pendant
 
-Émis à la réception d'un signal POSIX (`SIGINT`, `SIGTERM`). `ConsoleSignalEvent`
-expose `getHandlingSignal()`, `setExitCode()` et `abortExit()` — cette dernière
-laisse la command poursuivre au lieu de terminer le process. Le cas d'usage
-est l'arrêt propre d'un worker de longue durée.
+Avec un dispatcher, l'`Application` intercepte `SIGINT`, `SIGQUIT`, `SIGTERM`,
+`SIGUSR1`, `SIGUSR2` et `SIGALRM`. Exécuté avec Console 8.0, une command qui
+reçoit `SIGINT` :
+
+| Situation | Résultat |
+|---|---|
+| aucun listener ne change le code | `SIGNAL`, `TERMINATE` (`getInterruptingSignal()` = 2), sortie en code **0** |
+| `abortExit()` sur `SIGNAL` | la command continue |
+| `setExitCode(3)` sur `SIGNAL` | sortie en code 3 |
+| `handleSignal()` d'une `SignalableCommandInterface` rend 5 | il reçoit le code courant (0) ; sortie en code 5 |
+| `handleSignal()` rend `false` | la command continue |
+| ni dispatcher ni command signalable | rien n'intercepte : PHP meurt du signal |
+
+L'ordre : `SIGNAL`, puis `handleSignal()`, puis `TERMINATE` et `exit()`.
+
+## L'alarme
+
+`Application::setAlarmInterval(10)` programme un `SIGALRM` toutes les 10 s.
+Chacun dispatche `SIGNAL`, puis `ConsoleAlarmEvent` sous son **nom de class**.
+Le code par défaut reste 0 : sans `abortExit()` dans un listener, la
+**première alarme termine la command** — exécuté. Il faut l'extension `pcntl`.
 
 ## S'abonner
 
@@ -170,8 +220,10 @@ class CommandLogger implements EventSubscriberInterface
 
 ## Pièges d'examen
 
-**Quatre events, pas cinq.** Il n'existe pas d'event « après
-`configure()` » ni d'équivalent console de `kernel.request`.
+**Quatre constantes, cinq events.** `ConsoleAlarmEvent` n'a pas de constante ;
+il n'existe pas d'event « après `configure()` ».
+
+**Un signal intercepté sort en code 0** si personne ne le change.
 
 **`TERMINATE` est dispatché même après une erreur** — c'est sa raison d'être.
 
@@ -185,7 +237,8 @@ quand même dispatché.
 ## Points clés
 
 - `COMMAND`, `SIGNAL`, `ERROR`, `TERMINATE` — quatre events déclarés par
-  `ConsoleEvents`, plus la table `ALIASES`.
+  `ConsoleEvents`, plus la table `ALIASES` ; `ConsoleAlarmEvent` sans constante.
+- Un signal intercepté sort en code 0, sauf `abortExit()` ou `handleSignal()` à `false`.
 - Ordre : `COMMAND` → exécution → (`ERROR`) → `TERMINATE`, toujours.
 - `disableCommand()` empêche l'exécution et sort avec 113.
 - `ERROR` peut remplacer l'erreur ou l'annuler par `setExitCode(0)`.

@@ -44,6 +44,12 @@ M=[
  ('http-client.stream-error-chunk','http-client/Response/TransportResponseTrait.php',"                        $chunk->getContent();\n                        throw new \\LogicException('A transport exception should have been thrown.');",'                        $chunk->didThrow(true);'),
  ('http-client.stream-status-at-first-chunk','http-client/Response/TransportResponseTrait.php','                                $response->getHeaders(true);','                                $response->getHeaders(false);'),
  ('http-client.stream-timeout-chunk','http-client/Chunk/ErrorChunk.php','    public function isTimeout(): bool\n    {\n        $this->didThrow = true;','    public function isTimeout(): bool\n    {\n        return false;'),
+ ('console.signal-exits-zero-by-default','console/Event/ConsoleSignalEvent.php','        private int|false $exitCode = 0,','        private int|false $exitCode = 130,'),
+ ('console.signalable-command-return','console/Application.php','                            $exitCode = $command->handleSignal($signal, $exitCode);','                            $command->handleSignal($signal, $exitCode);'),
+ ('console.alarm-event','console/Application.php','                            $this->dispatcher->dispatch($alarmEvent);','                            // the alarm event is not dispatched'),
+ ('console.command-tester-dispatches-nothing','console/Application.php','        if (null === $this->dispatcher) {\n            try {\n                return $command->run($input, $output);','        if (true) {\n            try {\n                return $command->run($input, $output);'),
+ ('console.interact-before-validation','console/Command/Command.php','        if ($input->isInteractive()) {\n            $this->interact($input, $output);','        if (true) {\n            $this->interact($input, $output);'),
+ ('console.tester-stderr-separately','console/Helper/QuestionHelper.php','        if ($output instanceof ConsoleOutputInterface) {\n            $output = $output->getErrorOutput();','        if (false) {\n            $output = $output->getErrorOutput();'),
 ]
 ok=True
 for check,f,old,new in M:

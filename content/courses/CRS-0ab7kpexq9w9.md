@@ -27,10 +27,29 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "hasParameterOption(), getParameterOption() — raw tokens"
     verified_at: "2026-10-02"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Tester/CommandTester.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Tester/CommandTester.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    symbol_or_lines: "execute() appelle $this->command->run() ; interactive, capture_stderr_separately"
+    verified_at: "2026-10-16"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Command/Command.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Command/Command.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    symbol_or_lines: "run() : initialize(), interact() si isInteractive(), validate(), execute()"
+    verified_at: "2026-10-16"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Helper/QuestionHelper.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Helper/QuestionHelper.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    symbol_or_lines: "ask() : getErrorOutput() pour une ConsoleOutputInterface ; réponse par défaut hors mode interactif"
+    verified_at: "2026-10-16"
 outcome_sections:
   OUT-eea5s77r44aw: "`InputInterface` — lire"
   OUT-b3v4c3hz8gha: "`OutputInterface` — écrire"
   OUT-8pz0624za51p: "L'output d'erreur"
+  OUT-mb5e4wzg3d34: "Tester une command"
 ---
 
 ## Objectif
@@ -161,6 +180,27 @@ $io->table(['id', 'nom'], $rows);
 
 Elle expose aussi `getErrorStyle()`, qui rend la même API branchée sur `STDERR`.
 
+## Tester une command
+
+`CommandTester` appelle la command **seule** : même si l'`Application` a un
+dispatcher, aucun event console n'est émis. `ApplicationTester` passe par
+l'`Application` et les émet ; il demande `setAutoExit(false)`.
+
+```php
+$tester = new CommandTester($application->find('app:greet'));
+$tester->setInputs(['Bob']);                 // réponses aux questions
+$tester->execute([]);                        // interactif par défaut
+$tester->execute([], ['interactive' => false]);
+$tester->execute([], ['capture_stderr_separately' => true]);
+```
+
+L'ordre est `initialize()`, `interact()` — en mode interactif seulement —, la
+validation de l'entrée, puis `execute()`. `interact()` peut donc compléter un
+argument requis manquant ; non interactive, la même entrée lève « Not enough
+arguments ». Avec `capture_stderr_separately`, ce qu'écrit `getErrorStyle()`,
+et le libellé d'une question, passent dans `getErrorOutput()` au lieu de
+`getDisplay()`. Exécuté avec Console 8.0.15.
+
 ## Pièges d'examen
 
 **Ne jamais utiliser `echo`** : l'output échapperait à la verbosity, au
@@ -193,3 +233,4 @@ parameter PHP.
 - [`Output`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Output/Output.php)
 - [`OutputFormatter`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Formatter/OutputFormatter.php)
 - [How to Style a Console Command](https://github.com/symfony/symfony-docs/blob/8.0/console/style.rst)
+- [`CommandTester`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Tester/CommandTester.php)
