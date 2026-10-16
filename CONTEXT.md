@@ -29,6 +29,7 @@ Branche de travail : `claude/symfony-8-certification-plan-phmkau`.
 | P2.7 HttpClient : retries, destructor d'une Response non lue, stream partiellement en échec | #417 | `17253ae` | smoke 117170953200 **success, lu** |
 | P2.7 Console : signaux et exit codes, ConsoleAlarmEvent (5e event, affirmation « quatre events » corrigée), testers | #418 | `baa8cec` | smoke 117187468251 **success, lu** |
 | P2.7 Profiler : data collector de bout en bout (nom, clone, lateCollect, serialization, test fonctionnel) | #419 | `bfd0c04` | smoke 117205386196 **success, lu** |
+| P2.7 Translation : plural/select ICU imbriqués, `other` obligatoire, plusieurs catalogues | #420 | `abbcca0` | smoke 117226027552 **success, lu** |
 
 Nouveau : `tools/behavior/` (Symfony 8.0.* verrouillé, 10 faits exécutés en CI),
 `docs/facts/central-facts.yml` + `CentralFactsTest` (le retour d'une ancienne
@@ -73,8 +74,10 @@ d'une raison dans `MultipleAnswerEvidenceTest::DOCUMENTARY`.
 
 **Prochaine action :** P2.7 (approfondissements secondaires), un composant par
 PR — HttpClient (#417), Console (#418), Profiler (#419), Translation (#420),
-Filesystem/Finder faits (Process inchangé, déjà exécuté) — puis Runtime en CI ;
-ensuite P2.3 (rappel par carte). Toujours : exécuter d'abord dans
+Filesystem/Finder (#421), Runtime faits ; P2.7 terminé. Ensuite P2.3 (rappel par
+carte). Note : `tools/behavior` utilise le plugin Composer de symfony/runtime ;
+en local (root), `COMPOSER_ALLOW_SUPERUSER=1 composer install` pour qu'il
+écrive `vendor/autoload_runtime.php`. Toujours : exécuter d'abord dans
 `tools/behavior`, écrire ensuite, et décider du niveau sur l'item, jamais sur un
 compte de mots.
 

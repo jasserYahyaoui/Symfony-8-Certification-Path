@@ -759,3 +759,47 @@ facts:
     behavior_check: finder.sort-for-a-deterministic-order
     content: [CRS-jwhqec35jczn, FLC-myk6e5gjj7qs, QST-fjbhttc65mgv, QST-c2aqc3snwd4y]
     forbidden: []
+  runtime.entry-script-runs-twice:
+    finding: P2.7
+    official_item: OIT-r3qcmsehzex1
+    statement: >-
+      The front controller returns a closure; autoload_runtime.php includes it again, so lines above the require_once
+      run twice; order: script returns, runtime constructed, closure called, application run.
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Runtime/Internal/autoload_runtime.template
+    behavior_check: runtime.entry-script-runs-twice
+    content: [CRS-pm5kj5kh3gt2]
+    forbidden: []
+  runtime.return-value-checked:
+    finding: P2.7
+    official_item: OIT-r3qcmsehzex1
+    statement: >-
+      A front controller returning something other than a callable object, or a closure returning no object, ends in a
+      TypeError.
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Runtime/Internal/autoload_runtime.template
+    behavior_check: runtime.return-value-checked
+    content: [CRS-pm5kj5kh3gt2]
+    forbidden: []
+  runtime.autoload-first-disables-it:
+    finding: P2.7
+    official_item: OIT-r3qcmsehzex1
+    statement: >-
+      With vendor/autoload.php loaded before autoload_runtime.php, the latter returns at once: the script runs to its
+      end and no application runs, exit code 0.
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Runtime/Internal/autoload_runtime.template
+    behavior_check: runtime.autoload-first-disables-it
+    content: [CRS-pm5kj5kh3gt2]
+    forbidden: []
+  runtime.argument-type-and-name:
+    finding: P2.7
+    official_item: OIT-r3qcmsehzex1
+    statement: >-
+      GenericRuntime resolves the closure's arguments by type and name: array $context is given, array $ctx is refused
+      with "Cannot resolve argument".
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Runtime/GenericRuntime.php
+    behavior_check: runtime.argument-type-and-name
+    content: [CRS-pm5kj5kh3gt2]
+    forbidden: []

@@ -56,7 +56,7 @@ an idea: it stops the old sentence returning, not every way of being wrong.
 | F5 | Content metrics read as candidate mastery | **VÉRIFIÉ** (local) | see P1.7 |
 | F6 | Roadmap / mock texts out of sync | **VÉRIFIÉ** (local) — mock texts derived; comprehension load budgeted, exam moved to 29 Dec by owner decision | see P2.5 |
 | F7 | Too few multiple-answer questions | **VÉRIFIÉ** — P1.6: +33, then +10 for PHP and Automated Tests (4 VALIDATION, 39 LEARNING in all), every choice executed or read in its source | see P1.6 |
-| F8 | Unsourced "not examinable" restrictions | **EN COURS** — Serializer (P1.5), Cache (P1.4), Validator (P1.3), Forms (P1.2) and PHP API (P1.1) extended, VÉRIFIÉ; P2.7 EN COURS (HttpClient, Console, Profiler, Translation, Filesystem/Finder VÉRIFIÉ) | see P1.5, P1.3, P1.2, P1.1, P2.7 |
+| F8 | Unsourced "not examinable" restrictions | **EN COURS** — Serializer (P1.5), Cache (P1.4), Validator (P1.3), Forms (P1.2) and PHP API (P1.1) extended, VÉRIFIÉ; P2.7 VÉRIFIÉ (HttpClient, Console, Profiler, Translation, Filesystem/Finder, Runtime) | see P1.5, P1.3, P1.2, P1.1, P2.7 |
 | F9 | PHP source 404 and mutable branch URLs | **BLOQUÉ** (the last 404 is in a HOLDOUT question) — pinning À FAIRE | see P2.6 |
 | F10 | No per-card recall record; comprehension stores nothing | **EN COURS** — comprehension recorded (P2.4, VÉRIFIÉ local); per-card recall À FAIRE (P2.3) | see P2.4 |
 
@@ -307,13 +307,36 @@ citation, so a format change has to be designed with it, not applied in bulk.
 | P2.7 HttpClient | #417 | squash `17253ae` | smoke 117170953200 success, log read (« ok remediation P2.7 lot-02 »; 298 ok and 0 error) |
 | P2.7 Console | #418 | squash `baa8cec` | smoke 117187468251 success, log read (« ok remediation P2.7 lot-12 »; 299 ok and 0 error) |
 | P2.7 Profiler | #419 | squash `bfd0c04` | smoke 117205386196 success, log read (« ok remediation P2.7 lot-15 »; 300 ok and 0 error) |
+| P2.7 Translation | #420 | squash `abbcca0` | smoke 117226027552 success, log read (« ok remediation P2.7 lots 06 and 16 »; 301 ok and 0 error) |
 | P1.7, P2.4, P2.5 (part) | #395, CI green | squash `6c1448c` | job « Production smoke test » 115498368380 success, log read. It checks served pages and payloads, not the client-side progression table, which the CI a11y audit renders. |
 
 ## Next action
 
-P2.7: Runtime — its course already executes a minimal entry point and traces the cycle; what is missing is running those facts in CI. Then P2.3 (per-card recall, which would
-give item statistics a source). By the owner's decision of 2026-10-16, Mock 4 is
+P2.3 (per-card recall, which would give item statistics a source). By the owner's decision of 2026-10-16, Mock 4 is
 not sat now and is no longer raised in reports; F4 and F9 stay blocked.
+
+### P2.7 — Runtime: the minimal entry point, run in CI
+
+The mission asks for a minimal, executable entry point and a trace of its
+cycle. The *Runtime* course already had both, executed by hand in a scratch
+project; nothing ran them again. `tools/behavior` now requires
+`symfony/runtime` 8.0.14, whose Composer plugin writes
+`vendor/autoload_runtime.php` (allowed in `config.allow-plugins`; locally, as
+root, `COMPOSER_ALLOW_SUPERUSER=1` is needed for the plugin to run, CI is not
+root). `tools/behavior/checks/runtime.php` writes a front controller to a
+temporary directory and runs it in a fresh PHP process, with `GenericRuntime`
+(`SymfonyRuntime` needs a `.env`). Four checks, four mutations — three of them
+on the generated `vendor/autoload_runtime.php` — all proved.
+
+| Fact | Executed |
+|---|---|
+| cycle | above the `require_once` twice, below once; then runtime constructed, closure called, application run |
+| return value | `return 42` → `TypeError` « callable object expected »; a closure returning a string → `TypeError` |
+| `vendor/autoload.php` first | the script runs to its end, no application, exit 0 |
+| arguments | `array $context` resolved; `array $ctx` → « Cannot resolve argument "array $ctx" » |
+
+No course text changes: the four facts were already taught and are now
+regression-tested, linked to the course by four central facts.
 
 ### P2.7 — Filesystem, Finder: a portable test environment
 

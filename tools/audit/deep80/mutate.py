@@ -66,6 +66,11 @@ M=[
  ('filesystem.portable-paths','filesystem/Path.php',"        return '\\\\' === \\DIRECTORY_SEPARATOR ? str_replace('\\\\', '/', $path) : $path;","        return str_replace('\\\\', '/', $path);"),
  ('filesystem.tempnam-and-cleanup','filesystem/Filesystem.php',"            $tmpFile = $dir.'/'.$prefix.bin2hex(random_bytes(4)).$suffix;","            $tmpFile = $dir.'/'.$prefix.bin2hex(random_bytes(4));"),
  ('finder.sort-for-a-deterministic-order','finder/Iterator/SortableIterator.php','        } elseif (self::SORT_BY_NAME_NATURAL === $sort) {\n            $this->sort = static fn (\\SplFileInfo $a, \\SplFileInfo $b) => $order * strnatcmp(','        } elseif (self::SORT_BY_NAME_NATURAL === $sort) {\n            $this->sort = static fn (\\SplFileInfo $a, \\SplFileInfo $b) => $order * strcmp('),
+ # The generated front loader: vendor/autoload_runtime.php, written by the symfony/runtime Composer plugin.
+ ('runtime.entry-script-runs-twice','../autoload_runtime.php',"$app = require $_SERVER['SCRIPT_FILENAME'];","$app = static fn () => static fn (): int => 0;"),
+ ('runtime.return-value-checked','../autoload_runtime.php','if (!is_object($app)) {','if (false) {'),
+ ('runtime.autoload-first-disables-it','../autoload_runtime.php',"if (true === (require_once __DIR__.'/autoload.php') || empty($_SERVER['SCRIPT_FILENAME'])) {","if (empty($_SERVER['SCRIPT_FILENAME'])) {"),
+ ('runtime.argument-type-and-name','runtime/GenericRuntime.php',"                case 'context':","                case 'ctx':"),
 ]
 ok=True
 for check,f,old,new in M:

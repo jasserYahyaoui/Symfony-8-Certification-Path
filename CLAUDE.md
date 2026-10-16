@@ -273,6 +273,10 @@ every source while reporting zero findings. See
   instead — except for the syllabus, which has no upstream (blocker B-1).
 - `api.github.com` is blocked, so Composer cannot fetch dist archives locally.
   Use `composer install --prefer-source`. CI is unaffected.
+- `tools/behavior` requires `symfony/runtime`, whose Composer plugin writes
+  `vendor/autoload_runtime.php`. Composer refuses plugins as root unless
+  `COMPOSER_ALLOW_SUPERUSER=1` is set; without it the `runtime.*` checks fail
+  on the missing file, by design.
 
 ## Session continuity
 
