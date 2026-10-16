@@ -26,6 +26,7 @@ Branche de travail : `claude/symfony-8-certification-plan-phmkau`.
 | Audit profond 8.0 (rapport, checks Cache, sens terminologiques) puis lacunes (Config, expose_security_errors, TranslatableMessage) | #413, #414 | `ebdefeb`, `e76910c` | smoke 116661090571 et 116685357696 **success, lus** |
 | P1.2 Forms : CollectionType, by_reference, property_path, inherit_data | #415 | `0318807` | smoke **success, lu** |
 | P1.1 PHP API : fonctions d'array, comparaison PHP 8, json_decode, versions | #416 | `a8bb7fd` | smoke 116895810622 **success, lu** |
+| P2.7 HttpClient : retries, destructor d'une Response non lue, stream partiellement en échec | #417 | `17253ae` | smoke 117170953200 **success, lu** |
 
 Nouveau : `tools/behavior/` (Symfony 8.0.* verrouillé, 10 faits exécutés en CI),
 `docs/facts/central-facts.yml` + `CentralFactsTest` (le retour d'une ancienne
@@ -69,8 +70,8 @@ s'accompagne d'une exécution par choix dans `tools/behavior/questions/` ou
 d'une raison dans `MultipleAnswerEvidenceTest::DOCUMENTARY`.
 
 **Prochaine action :** P2.7 (approfondissements secondaires), un composant par
-PR — HttpClient d'abord, puis Console, Profiler, Translation,
-Filesystem/Finder/Process, Runtime — puis P2.3 (rappel par carte). Toujours : exécuter d'abord dans
+PR — HttpClient (#417) et Console faits — puis Profiler, Translation,
+Filesystem/Finder/Process, Runtime ; ensuite P2.3 (rappel par carte). Toujours : exécuter d'abord dans
 `tools/behavior`, écrire ensuite, et décider du niveau sur l'item, jamais sur un
 compte de mots.
 

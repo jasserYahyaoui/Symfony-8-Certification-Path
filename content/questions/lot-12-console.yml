@@ -1962,3 +1962,183 @@ questions:
     branch: '8.0'
     symbol_or_lines: the table of console options and verbosity constants
     verified_at: '2026-09-12'
+- id: QST-97at0qx0zavd
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-13gsk5cxzqt3
+  version: 1
+  official_topic: Console
+  official_item: OIT-cqs3m73y3rpy
+  domain: symfony
+  subtopic: events
+  language: en
+  difficulty: hard
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'In a full-stack Symfony application, a long-running command is stopped with Ctrl+C (SIGINT). It does not implement SignalableCommandInterface, and no listener changes any exit code. What happens?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 75
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-16'
+  tags:
+  - console-events
+  - signals
+  choices:
+  - id: CHO-ry4qwn4rv6es
+    text: 'console.signal, then console.terminate, then exit with code 0'
+    correct: true
+  - id: CHO-g3ncpcnzsgaj
+    text: 'The command keeps running: Symfony ignores a signal nobody handles'
+    correct: false
+    explanation: 'With a dispatcher, the Application registers its own handler for SIGINT and exits after the events.'
+  - id: CHO-s7agdcyfgg0x
+    text: 'PHP dies of the signal; no console event is dispatched'
+    correct: false
+    explanation: 'That is what happens without a dispatcher and without a signalable command.'
+  - id: CHO-mrct4pk3mjy4
+    text: 'console.error, then console.terminate, then exit with code 1'
+    correct: false
+    explanation: 'A signal is not an error: console.error is not dispatched, and the default code is 0.'
+  explanation: 'With a dispatcher, the Application handles SIGINT, SIGQUIT, SIGTERM, SIGUSR1, SIGUSR2 and SIGALRM. It dispatches console.signal, whose exit code is 0 unless a listener changes it, then console.terminate with the interrupting signal, then calls exit(). Executed on Console 8.0.15.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Application.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Application.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'doRunCommand(): ConsoleSignalEvent, ConsoleAlarmEvent, handleSignal(), then ConsoleTerminateEvent and exit()'
+    verified_at: '2026-10-16'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Event/ConsoleSignalEvent.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Event/ConsoleSignalEvent.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'int|false $exitCode = 0'
+    verified_at: '2026-10-16'
+- id: QST-wjwkdfb6r539
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-kh6qdz451gb2
+  version: 1
+  official_topic: Console
+  official_item: OIT-cqs3m73y3rpy
+  domain: symfony
+  subtopic: events
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'A command calls $this->getApplication()->setAlarmInterval(10). A listener on ConsoleAlarmEvent pings the database and does nothing else. What happens at the first alarm?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 70
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-16'
+  tags:
+  - console-events
+  - alarm
+  choices:
+  - id: CHO-fp8nhs438cga
+    text: 'The listener runs, then the command ends with code 0'
+    correct: true
+  - id: CHO-g5g2p7fp16kh
+    text: 'The listener runs and the command carries on'
+    correct: false
+    explanation: 'Carrying on needs $event->abortExit(): the exit code is 0 by default.'
+  - id: CHO-jqx9ae41ydjz
+    text: 'Nothing: the listener must be registered on ConsoleEvents::ALARM'
+    correct: false
+    explanation: 'ConsoleEvents has no ALARM constant; the event is dispatched under its class name.'
+  - id: CHO-r2nwys77tzkr
+    text: 'The listener runs, then the command ends with code 1'
+    correct: false
+    explanation: 'The default exit code carried by the event is 0, not 1.'
+  explanation: 'Each SIGALRM dispatches console.signal, then ConsoleAlarmEvent under its class name. Its exit code defaults to 0, so unless a listener calls abortExit(), the Application exits after the first alarm. Executed on Console 8.0.15.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Application.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Application.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'doRunCommand(): ConsoleSignalEvent, ConsoleAlarmEvent, handleSignal(), then ConsoleTerminateEvent and exit()'
+    verified_at: '2026-10-16'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/console/events.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/console/events.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'The ConsoleAlarmEvent: keep the command running after handling the alarm'
+    verified_at: '2026-10-16'
+- id: QST-r56h5h07dq42
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-mb5e4wzg3d34
+  version: 1
+  official_topic: Console
+  official_item: OIT-65sswf0qhw6c
+  domain: symfony
+  subtopic: testing
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'A listener on console.terminate records every command run. A functional test must check that the listener records app:import. Which tool runs the command so that the listener is called?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-16'
+  tags:
+  - console
+  - testing
+  choices:
+  - id: CHO-3gjy4w4d18tq
+    text: 'ApplicationTester, with setAutoExit(false)'
+    correct: true
+  - id: CHO-8hkqyes55gsd
+    text: 'CommandTester, once the Application has a dispatcher'
+    correct: false
+    explanation: 'CommandTester calls the command on its own: no console event is dispatched, dispatcher or not.'
+  - id: CHO-qc74gamr00bw
+    text: 'CommandTester with [''interactive'' => false]'
+    correct: false
+    explanation: 'Interactivity changes interact() and questions, not whether events are dispatched.'
+  - id: CHO-63xxs0c4b5mp
+    text: 'CommandTester with [''capture_stderr_separately'' => true]'
+    correct: false
+    explanation: 'That option only splits stderr from the display.'
+  explanation: 'CommandTester::execute() calls the command directly, so the Application never dispatches console.command or console.terminate. ApplicationTester runs the Application, which dispatches them; setAutoExit(false) keeps run() from calling exit(). Executed on Console 8.0.15.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Tester/CommandTester.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Tester/CommandTester.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'execute(): $this->command->run($this->input, $this->output)'
+    verified_at: '2026-10-16'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/console.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'Testing Commands: ApplicationTester and setAutoExit(false)'
+    verified_at: '2026-10-16'

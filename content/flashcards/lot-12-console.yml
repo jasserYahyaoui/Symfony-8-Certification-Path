@@ -125,10 +125,11 @@ flashcards:
   language: fr
   level: RECALL
   front: Combien d'events ConsoleEvents déclare-t-il, et lesquels ?
-  back: 'Quatre : COMMAND, SIGNAL, ERROR, TERMINATE.'
+  back: 'Quatre : COMMAND, SIGNAL, ERROR, TERMINATE. Un cinquième event, ConsoleAlarmEvent, n''a pas de constante.'
   explanation: 'TERMINATE est atteint dans tous les cas, y compris après une erreur : c''est le seul point de sortie
-    fiable.'
-  memorization_justification: Par analogie avec le kernel HTTP, on en invente un cinquième.
+    fiable. ConsoleAlarmEvent est dispatché sous son nom de class à chaque SIGALRM programmé par setAlarmInterval().'
+  memorization_justification: Par analogie avec le kernel HTTP, on invente un event « request » ; et l'on oublie
+    l'alarme, faute de constante.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/ConsoleEvents.php
@@ -1190,6 +1191,23 @@ flashcards:
     branch: '8.0'
     symbol_or_lines: __construct() — error, info, comment, question; escape()
     verified_at: '2026-10-02'
+- id: FLC-p35kr4nxr717
+  official_item: OIT-65sswf0qhw6c
+  language: fr
+  level: UNDERSTANDING
+  front: Un listener de console.terminate est-il appelé quand un test lance la command avec CommandTester ?
+  back: Non. CommandTester appelle la command seule ; ApplicationTester passe par l'Application et dispatche les events.
+  explanation: CommandTester::execute() appelle $command->run() directement. ApplicationTester exige setAutoExit(false),
+    sinon run() appelle exit(). Exécuté avec Console 8.0.15.
+  memorization_justification: Les deux testers se ressemblent ; seul l'un traverse l'Application.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Tester/CommandTester.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Tester/CommandTester.php
+    repository: symfony/symfony
+    symbol_or_lines: execute() — $this->command->run($this->input, $this->output)
+    branch: '8.0'
+    verified_at: '2026-10-16'
 - id: FLC-8ebhactq9177
   official_item: OIT-v6wxp78gk42c
   language: fr
@@ -1522,6 +1540,41 @@ flashcards:
     branch: '8.0'
     symbol_or_lines: doRunCommand() — COMMAND, ERROR, TERMINATE; RETURN_CODE_DISABLED
     verified_at: '2026-10-02'
+- id: FLC-hwy7pnrsb9c9
+  official_item: OIT-cqs3m73y3rpy
+  language: fr
+  level: TRAP
+  front: Dans une application Symfony, une command reçoit SIGINT et rien ne change le code. Avec quel exit code sort-elle ?
+  back: '0. console.signal, puis console.terminate (getInterruptingSignal() = 2), puis exit(0).'
+  explanation: Avec un dispatcher, l'Application intercepte SIGINT, SIGQUIT, SIGTERM, SIGUSR1, SIGUSR2 et SIGALRM. Le
+    code vient de ConsoleSignalEvent (0 par défaut), puis de handleSignal() si la command est signalable. Exécuté
+    avec Console 8.0.15.
+  memorization_justification: On attend un code d'échec ou la mort du process ; rien dans le code ne montre le 0.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Event/ConsoleSignalEvent.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Event/ConsoleSignalEvent.php
+    repository: symfony/symfony
+    symbol_or_lines: int|false $exitCode = 0
+    branch: '8.0'
+    verified_at: '2026-10-16'
+- id: FLC-0rh1nh0y9dgg
+  official_item: OIT-cqs3m73y3rpy
+  language: fr
+  level: APPLICATION
+  front: setAlarmInterval(10) dans une command longue. Que doit faire le listener de ConsoleAlarmEvent pour qu'elle continue ?
+  back: Appeler $event->abortExit(). Sinon la première alarme termine la command, en code 0.
+  explanation: Le listener s'enregistre sous ConsoleAlarmEvent::class, faute de constante dans ConsoleEvents. Chaque
+    SIGALRM dispatche console.signal puis ConsoleAlarmEvent. Il faut l'extension pcntl. Exécuté avec Console 8.0.15.
+  memorization_justification: Un listener « de maintenance » qui ne fait rien d'autre arrête le worker au premier tic ; rien ne l'annonce.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/console/events.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/console/events.rst
+    repository: symfony/symfony-docs
+    symbol_or_lines: The ConsoleAlarmEvent — keep the command running after handling the alarm
+    branch: '8.0'
+    verified_at: '2026-10-16'
 - id: FLC-w2yca7jq7hjf
   official_item: OIT-dv5400dtksfg
   language: fr

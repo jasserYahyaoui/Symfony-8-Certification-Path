@@ -7777,6 +7777,8 @@ items:
         outcome: Écrire par OutputInterface et ses tags de style
       - id: OUT-8pz0624za51p
         outcome: Diriger un diagnostic vers STDERR
+      - id: OUT-mb5e4wzg3d34
+        outcome: "Tester une command avec CommandTester ou ApplicationTester"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -7795,8 +7797,10 @@ items:
     course_refs:
       - "CRS-0ab7kpexq9w9"
     flashcard_refs:
+      - "FLC-p35kr4nxr717"
       - "FLC-vrr7nk2vcdkk"
     question_refs:
+      - "QST-r56h5h07dq42"
       - "QST-tp80nqtxvarw"
       - "QST-5wrcd9ahhth2"
     exercise_refs: []
@@ -7880,11 +7884,15 @@ items:
       supposent de raisonner sur le flux plutôt que de citer des noms.
     learning_outcomes:
       - id: OUT-2e5yd7119yha
-        outcome: Nommer les quatre events de ConsoleEvents
+        outcome: "Nommer les quatre events de ConsoleEvents, et ConsoleAlarmEvent qui n'a pas de constante"
       - id: OUT-8v3ady0sf894
         outcome: Établir leur ordre, erreur comprise
       - id: OUT-rzgybvr9fa5g
         outcome: Décrire l'effet de disableCommand() et de setExitCode() sur ERROR
+      - id: OUT-13gsk5cxzqt3
+        outcome: "Prévoir l'exit code d'une command interrompue par un signal"
+      - id: OUT-kh6qdz451gb2
+        outcome: "Garder une command en vie à chaque alarme de setAlarmInterval()"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -7903,8 +7911,12 @@ items:
     course_refs:
       - "CRS-y0zc67f3e5zk"
     flashcard_refs:
+      - "FLC-hwy7pnrsb9c9"
+      - "FLC-0rh1nh0y9dgg"
       - "FLC-hk7rkbxfq90j"
     question_refs:
+      - "QST-97at0qx0zavd"
+      - "QST-wjwkdfb6r539"
       - "QST-ycpqw0ygx9cd"
       - "QST-tmz33c01yx7r"
     exercise_refs: []

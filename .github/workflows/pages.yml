@@ -5082,6 +5082,31 @@ jobs:
           else
             echo "ok  remediation  P1.3 lot-08: null and empty string per constraint, 8.0 named arguments, custom constraint"
           fi
+          # Remediation P2.7, lot 12: console signals and the alarm event (the fifth event, which
+          # the page used to deny), and testing a command. Each needle is absent from master before
+          # the change.
+          for page in console-events input-and-output-objects; do
+            code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+              -o "/tmp/p27c-$page" -w '%{http_code}' "$BASE_URL/docs/courses/lot-12/$page")
+            if [ "$code" != "200" ]; then
+              echo "::error::Remediation P2.7: page lot-12/$page serves $code"
+              fail=1
+            fi
+          done
+          missing=""
+          grep -aqF -- 'Quatre constantes, cinq events' /tmp/p27c-console-events || missing="$missing p27c:no-five-events"
+          grep -aqF -- 'première alarme termine la command' /tmp/p27c-console-events || missing="$missing p27c:no-alarm"
+          grep -aqF -- 'PHP meurt du signal' /tmp/p27c-console-events || missing="$missing p27c:no-signal-table"
+          grep -aqF -- 'Tester une command' /tmp/p27c-input-and-output-objects || missing="$missing p27c:no-testing-section"
+          if grep -aqF -- 'Quatre events, pas cinq' /tmp/p27c-console-events; then
+            missing="$missing p27c:four-events-claim-back"
+          fi
+          if [ -n "$missing" ]; then
+            echo "::error::Remediation P2.7 missing from lot 12:$missing"
+            fail=1
+          else
+            echo "ok  remediation  P2.7 lot-12: signals and exit codes, ConsoleAlarmEvent, CommandTester and ApplicationTester"
+          fi
           # Remediation P2.7, lot 02: HttpClient retries (RetryableHttpClient), the destructor of an
           # unread response, and a stream() in which one response fails. Each needle is absent from
           # master before the change.
