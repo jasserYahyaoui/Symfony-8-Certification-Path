@@ -18,11 +18,18 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "getIterator(): LogicException without in() or append()"
     verified_at: "2026-10-02"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Finder/Iterator/SortableIterator.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Finder/Iterator/SortableIterator.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    symbol_or_lines: "SORT_BY_NAME : strcmp ; SORT_BY_NAME_NATURAL : strnatcmp"
+    verified_at: "2026-10-16"
 outcome_sections:
   OUT-9rc3vz43p7t0: "L'usage de base"
   OUT-0gd4a3m5v66c: "L'object est à état — le piège central"
   OUT-xntxjbxkapfz: "Quoi chercher"
   OUT-e7krb61ejhf9: "Récupérer les résultats"
+  OUT-46en9kn33p4r: "Un ordre déterministe"
 ---
 
 ## Objectif
@@ -146,6 +153,18 @@ La key est le path du file. Exécuté : deux `a.txt` dans deux directories
 distincts donnent deux keys, sans collision ; deux `in()` qui se recouvrent
 (`f1` et `f1/sub`) atteignent le même file deux fois — `iterator_count()`
 rend 5, `iterator_to_array()` 4, avec `false` 5.
+
+## Un ordre déterministe
+
+Sans tri, le Finder rend les files dans l'ordre du système de files. Exécuté
+sous Linux sur `f1` à `f12` créés dans l'ordre : `f4, f12, f9, f10, f1…` — ni
+alphabétique, ni de création. Un test qui compare une liste doit donc trier :
+
+| Appel | Ordre exécuté |
+|---|---|
+| `sortByName()` | `f1, f10, f2, f3` — comparaison de strings |
+| `sortByName(true)` | `f1, f2, f3, f10` — ordre naturel |
+| `->reverseSorting()` | l'ordre inverse |
 
 ## Pièges d'examen
 

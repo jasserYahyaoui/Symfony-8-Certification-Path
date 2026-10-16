@@ -9049,6 +9049,8 @@ items:
         outcome: Expliquer ce que garantit l'écriture atomique
       - id: OUT-9zm5ea8e1m2y
         outcome: Reconnaître qu'un échec lève une exception portant le path fautif
+      - id: OUT-85v8saxqy4sb
+        outcome: "Écrire un test de files portable : paths en /, directory temporaire, nettoyage"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -9067,8 +9069,10 @@ items:
     course_refs:
       - "CRS-h9nryezt8wnb"
     flashcard_refs:
+      - "FLC-500k6pc92xev"
       - "FLC-e2refpyf7ra0"
     question_refs:
+      - "QST-04dzxpcr5n14"
       - "QST-q1g70cf81t0a"
       - "QST-3xhbezx2h2e2"
     exercise_refs: []
@@ -9104,6 +9108,8 @@ items:
         outcome: 'Connaître les défauts : files et directories, parcours récursif, VCS ignorés'
       - id: OUT-e7krb61ejhf9
         outcome: Convertir les résultats en array après plusieurs emplacements de recherche
+      - id: OUT-46en9kn33p4r
+        outcome: "Obtenir un ordre de résultats déterministe"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -9122,8 +9128,10 @@ items:
     course_refs:
       - "CRS-jwhqec35jczn"
     flashcard_refs:
+      - "FLC-myk6e5gjj7qs"
       - "FLC-zw88x7tcje1m"
     question_refs:
+      - "QST-fjbhttc65mgv"
       - "QST-9vdyrx07zz9j"
       - "QST-5a5z84vv3kvc"
     exercise_refs: []

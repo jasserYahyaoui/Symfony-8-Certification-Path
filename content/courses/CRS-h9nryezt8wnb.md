@@ -18,10 +18,23 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "mkdir(); rename(); dumpFile(); readFile(); symlink(bool $copyOnWindows = false) — mirrors only when DIRECTORY_SEPARATOR is a backslash"
     verified_at: "2026-10-09"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Filesystem/Path.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Filesystem/Path.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    symbol_or_lines: "normalize(), isAbsolute() : « \\ » lu comme séparateur seulement si DIRECTORY_SEPARATOR vaut « \\ »"
+    verified_at: "2026-10-16"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Filesystem/Filesystem.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Filesystem/Filesystem.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    symbol_or_lines: "tempnam($dir, $prefix, $suffix)"
+    verified_at: "2026-10-16"
 outcome_sections:
   OUT-0mnzvybywnv8: "Les opérations à connaître"
   OUT-p4ef3jhd70w3: "Écrire et lire"
   OUT-9zm5ea8e1m2y: "Les erreurs"
+  OUT-85v8saxqy4sb: "Un environment de test portable"
 ---
 
 ## Objectif
@@ -133,6 +146,23 @@ Une réserve, lue dans `Filesystem::readFile()` (8.0) et exécutée : sur un
 **directory**, l'`IOException` est construite **sans path** — `getPath()`
 rend `null`, le path ne figure que dans le message. Pour un file illisible,
 le code passe le path à l'exception, et `getPath()` le rend.
+
+## Un environment de test portable
+
+Exécuté sous Linux avec Filesystem 8.0.15 :
+
+| Appel | Résultat |
+|---|---|
+| `Path::canonicalize('/var/www/../log/./x')` | `/var/log/x` |
+| `Path::join('a', '/b', 'c/')` | `a/b/c` |
+| `Path::canonicalize('a\\b/../c')` | `c` : sous Unix, `\` est un caractère de nom |
+| `isAbsolutePath('c:\\Windows')` | `false` |
+| `tempnam($dir, 'test_', '.txt')` | un file vide, au nom unique |
+
+Le code ne lit `\` et `C:` comme séparateur et racine que si
+`DIRECTORY_SEPARATOR` vaut `\` : la documentation montre `true` pour
+`c:\Windows`, ce que rend Windows — lu dans `Path::isAbsolute()`. Un test portable écrit donc ses paths avec
+`/`, travaille sous `sys_get_temp_dir()` et nettoie par `remove()`.
 
 ## Pièges d'examen
 

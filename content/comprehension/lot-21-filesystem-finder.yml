@@ -698,6 +698,60 @@ questions:
     branch: '8.0'
     symbol_or_lines: 'symlink(): copyOnWindows'
     verified_at: '2026-10-09'
+- id: QST-r1re7fzqmc4z
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-85v8saxqy4sb
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-tjn6kyvyc2h9
+  domain: symfony
+  subtopic: filesystem
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'On Linux, what does Path::canonicalize(''a\b/../c'') return? The PHP literal holds one backslash, between a and b.'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-16'
+  tags:
+  - filesystem
+  - portability
+  choices:
+  - id: CHO-91sjpgzyssfz
+    text: 'c'
+    correct: true
+  - id: CHO-ztmwqhys2cjq
+    text: 'a/c'
+    correct: false
+    explanation: 'That would need the backslash to be a separator, which it is only on Windows.'
+  - id: CHO-f580650kefwd
+    text: 'a\b/c'
+    correct: false
+    explanation: 'The .. segment removes the whole a\b segment before it.'
+  - id: CHO-t8aqnbdg06fa
+    text: '/c'
+    correct: false
+    explanation: 'A relative path stays relative.'
+  explanation: 'On Unix the backslash is a filename character, so a\b is one segment, which .. removes: the result is c. On Windows the backslash would be converted and the result would be a/c. Executed on Filesystem 8.0.15 under Linux.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Filesystem/Path.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Filesystem/Path.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'isAbsolute(), normalize(): backslash and drive letter only when DIRECTORY_SEPARATOR is a backslash'
+    verified_at: '2026-10-16'
 - id: QST-qv1hemxd60r5
   question_archetype: CONCEPT_DISTINCTION
   assesses_outcomes:
@@ -960,3 +1014,57 @@ questions:
     branch: '8.0'
     symbol_or_lines: Version Control Files
     verified_at: '2026-10-09'
+- id: QST-c2aqc3snwd4y
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-46en9kn33p4r
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-a1anzcv85my3
+  domain: symfony
+  subtopic: finder
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'A Finder has no sort call. In which order does it return the files it finds?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-16'
+  tags:
+  - finder
+  - portability
+  choices:
+  - id: CHO-zprcbxwdgf2f
+    text: 'In the order the filesystem lists them'
+    correct: true
+  - id: CHO-kt8ykp5ejmvk
+    text: 'Alphabetically by name'
+    correct: false
+    explanation: 'Only sortByName() sorts by name.'
+  - id: CHO-wtnjyrb9jqe7
+    text: 'By creation time, oldest first'
+    correct: false
+    explanation: 'Executed: files created f1 to f12 came back as f4, f12, f9, f10, f1 and so on.'
+  - id: CHO-4fkvqfq3g5nn
+    text: 'In natural order'
+    correct: false
+    explanation: 'Natural order needs sortByName(true).'
+  explanation: 'Without a sort, the Finder returns the order of the underlying directory iterators, which depends on the filesystem; on Linux it was neither alphabetical nor creation order. A test comparing lists must sort. Executed on Finder 8.0 under Linux.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Finder/Iterator/SortableIterator.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Finder/Iterator/SortableIterator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'SORT_BY_NAME: strcmp; SORT_BY_NAME_NATURAL: strnatcmp'
+    verified_at: '2026-10-16'
