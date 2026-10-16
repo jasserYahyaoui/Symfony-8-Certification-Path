@@ -30,12 +30,12 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Jeudi 1 octobre 2026
 
-- NOUVEAU · **PHP : PHP API up to PHP 8.4 version** (STANDARD) — 27 min · 484 mots · 5 questions, 8 questions de compréhension, 1 flashcards
+- NOUVEAU · **PHP : PHP API up to PHP 8.4 version** (STANDARD) — 36 min · 825 mots · 5 questions, 11 questions de compréhension, 3 flashcards
 - NOUVEAU · **PHP : Object Oriented Programming** (STANDARD) — 25 min · 448 mots · 5 questions, 6 questions de compréhension, 1 flashcards
 - NOUVEAU · **PHP : Attributes** (STANDARD) — 23 min · 377 mots · 4 questions, 5 questions de compréhension, 1 flashcards
 - NOUVEAU · **PHP : Interfaces** (STANDARD) — 25 min · 563 mots · 5 questions, 5 questions de compréhension, 1 flashcards
 
-*Budget du jour : 100 / 160 min*
+*Budget du jour : 109 / 160 min*
 
 ### Vendredi 2 octobre 2026
 

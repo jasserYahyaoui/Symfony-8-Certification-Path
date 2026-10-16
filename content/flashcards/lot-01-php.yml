@@ -1,6 +1,6 @@
 # Lot 01 flashcards (Master Plan §6).
 #
-# Nine cards for nine items. PED-010 a comblé Interfaces et Abstract classes.
+# Eleven cards for nine items; the PHP API item carries three (remediation P1.1). PED-010 a comblé Interfaces et Abstract classes.
 # L'exemption d'origine raisonnait en situation d'apprentissage ; à livre fermé,
 # « la règle d'avant 8.1 » et « abstract private est fatal » sont des faits de
 # rappel. La carte Abstract classes ne teste PAS la résolution self/static, déjà
@@ -29,6 +29,56 @@ flashcards:
         branch: "PHP-8.4"
         symbol_or_lines: "New Features > Core"
         verified_at: "2026-09-01"
+
+
+  - id: FLC-6yegfjgbqn5g
+    official_item: OIT-46ry8d7dypmb
+    language: fr
+    front: "PHP : array_merge ou + — que devient une key présente des deux côtés ?"
+    back: >-
+      array_merge : une string key prend la valeur de droite, les keys numériques
+      sont renumérotées. + : la valeur de gauche est gardée et la droite ignorée.
+    explanation: >-
+      ['a'] + ['b'] vaut ['a'], car la key 0 existe déjà à gauche ;
+      array_merge(['a'], ['b']) vaut ['a', 'b']. Exécuté en PHP 8.4.
+    memorization_justification: >-
+      Les deux écritures fusionnent des arrays et rien dans la syntaxe ne dit
+      laquelle garde la gauche : c'est un fait de rappel.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/operators/array.xml"
+        readable_url: "https://github.com/php/doc-en/blob/master/language/operators/array.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        symbol_or_lines: 'Array operators — "the elements from the left-hand array will be used"'
+        verified_at: "2026-10-16"
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/reference/array/functions/array-merge.xml"
+        readable_url: "https://github.com/php/doc-en/blob/master/reference/array/functions/array-merge.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        symbol_or_lines: 'array_merge — "Values in the input arrays with numeric keys will be renumbered"'
+        verified_at: "2026-10-16"
+
+  - id: FLC-c63atm9r74mk
+    official_item: OIT-46ry8d7dypmb
+    language: fr
+    front: "PHP : quelles functions d'array PHP 8.4 ajoute-t-il ?"
+    back: "array_find(), array_find_key(), array_any() et array_all()."
+    explanation: >-
+      array_find() renvoie la première valeur acceptée ou null ; le callback
+      reçoit la valeur puis la key. Plus anciennes : array_is_list() (8.1),
+      json_validate() (8.3), str_contains() (8.0).
+    memorization_justification: >-
+      Attribution d'une function à sa version : rien dans son nom ne l'indique,
+      et Symfony 8.0 exigeant PHP 8.4, ces functions sont utilisables partout.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/php-src/PHP-8.4/UPGRADING"
+        readable_url: "https://github.com/php/php-src/blob/PHP-8.4/UPGRADING"
+        repository: "php/php-src"
+        branch: "PHP-8.4"
+        symbol_or_lines: "6. New Functions > Standard: Added functions array_find(), array_find_key(), array_all(), and array_any()"
+        verified_at: "2026-10-16"
 
   - id: FLC-xcnrvq0mddck
     official_item: OIT-ywrx9x3hg9z8

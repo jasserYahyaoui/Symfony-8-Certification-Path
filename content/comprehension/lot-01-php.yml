@@ -2887,3 +2887,170 @@ questions:
     branch: master
     symbol_or_lines: callable
     verified_at: '2026-10-09'
+- id: QST-8g91k8rjcn8g
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-e7z5wvfwcsxk
+  version: 1
+  official_topic: PHP
+  official_item: OIT-46ry8d7dypmb
+  domain: php
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'With `$a = [''k'' => 1] + [''k'' => 2, ''j'' => 3];` and `$b = array_merge([''k'' => 1], [''k'' => 2, ''j'' => 3]);`, what are `$a[''k'']` and `$b[''k'']`?'
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-16'
+  tags:
+  - arrays
+  - array-merge
+  choices:
+  - id: CHO-bxgsqjjkd3rc
+    text: '1 and 2'
+    correct: true
+  - id: CHO-t7r8w6mqbpqb
+    text: '2 and 2'
+    correct: false
+    explanation: 'The + operator keeps the left-hand element for a key present on both sides.'
+  - id: CHO-veqefjr7ar34
+    text: '1 and 1'
+    correct: false
+    explanation: 'array_merge lets a later string key overwrite the earlier one.'
+  - id: CHO-zqbjkwnmqmhy
+    text: '2 and 1'
+    correct: false
+    explanation: 'This is the two behaviours swapped.'
+  explanation: 'The + operator keeps the left-hand value for a key both arrays share, so $a[''k''] is 1; array_merge lets the later value of a string key win, so $b[''k''] is 2. Executed on PHP 8.4.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/php/doc-en/master/language/operators/array.xml
+    readable_url: https://github.com/php/doc-en/blob/master/language/operators/array.xml
+    repository: php/doc-en
+    branch: master
+    symbol_or_lines: 'Array operators: for keys that exist in both arrays, the elements from the left-hand array will be used'
+    verified_at: '2026-10-16'
+  - url: https://raw.githubusercontent.com/php/doc-en/master/reference/array/functions/array-merge.xml
+    readable_url: https://github.com/php/doc-en/blob/master/reference/array/functions/array-merge.xml
+    repository: php/doc-en
+    branch: master
+    symbol_or_lines: 'If the input arrays have the same string keys, then the later value for that key will overwrite the previous one'
+    verified_at: '2026-10-16'
+- id: QST-cvv4q26x2q2s
+  question_archetype: CODE_OUTPUT
+  assesses_outcomes:
+  - OUT-e7z5wvfwcsxk
+  version: 1
+  official_topic: PHP
+  official_item: OIT-46ry8d7dypmb
+  domain: php
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'On PHP 8.4, what does `array_filter([1, 0, 2])` return?'
+  code_language: php
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-16'
+  tags:
+  - arrays
+  - array-filter
+  choices:
+  - id: CHO-7rfr53vqh3ma
+    text: '[0 => 1, 2 => 2]'
+    correct: true
+  - id: CHO-g6atgzm18864
+    text: '[0 => 1, 1 => 2]'
+    correct: false
+    explanation: 'array_filter does not reindex; array_values would.'
+  - id: CHO-yhmmkpqnnrsk
+    text: '[0 => 1, 1 => 0, 2 => 2]'
+    correct: false
+    explanation: 'Without a callback, falsy values such as 0 are removed.'
+  - id: CHO-c39evk1vcb2v
+    text: '[1 => 1, 2 => 2]'
+    correct: false
+    explanation: 'The kept elements keep their own keys, 0 and 2.'
+  explanation: 'Without a callback, array_filter removes the elements that are falsy and keeps the keys of the others, leaving a gap at key 1. Executed on PHP 8.4.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/php/doc-en/master/reference/array/functions/array-filter.xml
+    readable_url: https://github.com/php/doc-en/blob/master/reference/array/functions/array-filter.xml
+    repository: php/doc-en
+    branch: master
+    symbol_or_lines: 'Array keys are preserved, and may result in gaps if the array was indexed'
+    verified_at: '2026-10-16'
+- id: QST-xna2m697k5m7
+  question_archetype: VERSION_ATTRIBUTION
+  assesses_outcomes:
+  - OUT-a1r0b9k9vxsn
+  version: 1
+  official_topic: PHP
+  official_item: OIT-46ry8d7dypmb
+  domain: php
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'In which PHP version did json_validate() first become available: 8.0, 8.1, 8.3 or 8.4?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-16'
+  tags:
+  - versions
+  - json
+  choices:
+  - id: CHO-03180ty1254a
+    text: PHP 8.3
+    correct: true
+  - id: CHO-h86brgpgvm3r
+    text: PHP 8.0
+    correct: false
+    explanation: PHP 8.0 brought str_contains(), str_starts_with() and str_ends_with(), not json_validate().
+  - id: CHO-fz8jc05cr8pd
+    text: PHP 8.1
+    correct: false
+    explanation: PHP 8.1 brought array_is_list().
+  - id: CHO-pbzn5zfmhv2x
+    text: PHP 8.4
+    correct: false
+    explanation: PHP 8.4 brought array_find(), array_find_key(), array_any() and array_all(); json_validate() is one version older.
+  explanation: json_validate(), which checks whether a string contains valid JSON, arrived in PHP 8.3.
+  official_sources:
+  - url: https://raw.githubusercontent.com/php/doc-en/master/reference/json/versions.xml
+    readable_url: https://github.com/php/doc-en/blob/master/reference/json/versions.xml
+    repository: php/doc-en
+    branch: master
+    symbol_or_lines: 'json_validate from PHP 8 >= 8.3.0'
+    verified_at: '2026-10-16'

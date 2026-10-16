@@ -5082,6 +5082,25 @@ jobs:
           else
             echo "ok  remediation  P1.3 lot-08: null and empty string per constraint, 8.0 named arguments, custom constraint"
           fi
+          # Remediation P1.1, lot 01: the PHP standard library (array_merge vs +, array_filter keys,
+          # PHP 8 comparison, json_decode) and the version of each added function. Each needle is
+          # absent from master before the change.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/p11-php-api -w '%{http_code}' "$BASE_URL/docs/courses/lot-01/php-api-up-to-php-8-4-version")
+          if [ "$code" != "200" ]; then
+            echo "::error::Remediation P1.1: page lot-01/php-api-up-to-php-8-4-version serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aqF -- 'Functions ajoutées, par version' /tmp/p11-php-api || missing="$missing p11:no-version-section"
+          grep -aqF -- 'garde la gauche' /tmp/p11-php-api || missing="$missing p11:no-union-operator"
+          grep -aqF -- 'array_find_key()' /tmp/p11-php-api || missing="$missing p11:no-array-find"
+          if [ -n "$missing" ]; then
+            echo "::error::Remediation P1.1 missing from lot 01:$missing"
+            fail=1
+          else
+            echo "ok  remediation  P1.1 lot-01: array functions and keys, PHP 8 comparison, json_decode, function versions"
+          fi
           # Remediation P1.2, lot 07: CollectionType (allow_add, allow_delete, prototype,
           # by_reference) and data mapping (property_path, inherit_data). Each needle is
           # absent from master before the change.

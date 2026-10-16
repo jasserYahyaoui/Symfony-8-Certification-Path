@@ -79,7 +79,7 @@ def triage(q):
     # Multiple answer compares NOTHING unless the cue actually works: the
     # exploitable strategy is "pick the N longest", so the cue exists only if
     # the N longest choices ARE the correct set. Comparing means was the first
-    # implementation and it was wrong — QST-f2m90kz2ya28 has its two correct
+    # implementation and it was wrong — QST-f2m90kz2ya28 (version 1) had its two correct
     # answers at 125 and 12 characters, the longest choice and the shortest, so
     # the mean flagged it at +145% while "pick the two longest" gets it wrong.
     if q['answer_mode'] == 'single':
