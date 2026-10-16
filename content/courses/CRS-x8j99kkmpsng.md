@@ -28,10 +28,35 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "injectToolbar()"
     verified_at: "2026-10-02"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DataCollector/AbstractDataCollector.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/DataCollector/AbstractDataCollector.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    symbol_or_lines: 'getName() : static::class ; getTemplate() : null'
+    verified_at: "2026-10-16"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Profiler/Profiler.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Profiler/Profiler.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    symbol_or_lines: 'collect() : addCollector(clone $collector) ; saveProfile() : lateCollect() puis write()'
+    verified_at: "2026-10-16"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Profiler/Profile.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Profiler/Profile.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    symbol_or_lines: 'getCollector() : Collector "%s" does not exist.'
+    verified_at: "2026-10-16"
+  - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/profiler.rst"
+    readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/profiler.rst"
+    repository: "symfony/symfony-docs"
+    branch: "8.0"
+    symbol_or_lines: "Creating a Data Collector ; Enabling Custom Data Collectors — id must match the value returned by the getName() method"
+    verified_at: "2026-10-16"
 outcome_sections:
   OUT-rvstpkee1rj6: "Trois pièces, trois roles"
   OUT-zexxpeg1gehg: "La barre n'apparaît pas toujours"
   OUT-q8696dzgbpts: "Les collectors"
+  OUT-pte9pqwe7378: "Un collector de bout en bout"
 ---
 
 ## Objectif
@@ -149,17 +174,31 @@ Pour une donnée qui n'existe qu'après la Response, on implémente
 `LateDataCollectorInterface` et sa method `lateCollect()`, appelée juste avant
 la serialization, pendant **`kernel.terminate`**.
 
-Lu dans `ProfilerListener` (8.0) : `onKernelResponse()` appelle
-`Profiler::collect()`, donc chaque `collect()` ; `onKernelTerminate()` appelle
-`Profiler::saveProfile()`, qui appelle chaque `lateCollect()` puis écrit le
-profil.
+Lu dans `ProfilerListener` (8.0) : `onKernelResponse()` déclenche les
+`collect()`, `onKernelTerminate()` les `lateCollect()` puis l'écriture du profil.
 
 Avec `autoconfigure`, le collector est pris en compte sans configuration ;
 sinon il faut poser le tag `data_collector`.
 
-## Pièges d'examen
+## Un collector de bout en bout
 
-**Le profiler est un outil de développement** — jamais activé en production.
+Exécuté avec HttpKernel et FrameworkBundle 8.0.15, un collector qui étend
+`AbstractDataCollector` et implémente `LateDataCollectorInterface` :
+
+| Étape | Résultat |
+|---|---|
+| `getName()` non redéfini | le FQCN de la class ; `getTemplate()` rend `null` |
+| `Profiler::collect()` | appelle `collect()`, range un **clone** dans le profil |
+| `saveProfile()` | `lateCollect()` sur ce clone, puis serialization |
+| `loadProfile($token)->getCollector($nom)` | une copie désérialisée ; nom inconnu : `InvalidArgumentException` |
+| une `Closure` dans `$this->data` | `saveProfile()` lève « Serialization of 'Closure' is not allowed » |
+| `reset()` | vide `$this->data` |
+
+Tagué à la main, le `data_collector` porte un `id` égal à `getName()`. Dans un
+functional test, `$client->getProfile()->getCollector('app.hit')` relit le
+collector — après `enableProfiler()` si `collect` vaut `false`.
+
+## Pièges d'examen
 
 **La barre n'est injectée que dans du HTML qui a un `</body>`**, hors
 redirect et hors XHR ; sinon, `X-Debug-Token-Link`, toujours présent.
@@ -170,7 +209,7 @@ redirect et hors XHR ; sinon, `X-Debug-Token-Link`, toujours présent.
 **Les profils disparaissent après environ 2 jours** — purge déclenchée une
 fois sur dix, à l'écriture d'un profil.
 
-**`getName()` doit être unique** : c'est la clé d'accès au collector.
+**`getName()` est la key d'accès** — par défaut le FQCN, avec `AbstractDataCollector`.
 
 ## Points clés
 

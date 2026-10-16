@@ -53,7 +53,7 @@ ordinary French as a term (entrée, modèle, vue, rappel, lot) are not listed; t
 file says why. The explanations stay in French — §5 is unchanged — only the
 terms are not translated.
 
-## Measured state (2026-10-16, 791 questions)
+## Measured state (2026-10-16, 793 questions)
 
 | §5 requirement | Measured | Verdict |
 |---|---|---|
@@ -64,7 +64,7 @@ terms are not translated.
 | French-to-English certification glossary | 81 entries, `docs/syllabus/glossary.yml`, rendered at `/docs/syllabus/glossary` | **PASS** |
 | Acceptable timed performance in English | not yet exercised | **NOT_APPLICABLE** until the mocks are sat |
 
-Whole corpus: **770 English, 21 French**.
+Whole corpus: **772 English, 21 French**.
 
 The remediation of 2026-10-14 (P1.5, Serializer) added three English `LEARNING`
 questions, two of them `hard`, taking the corpus to 731 and the advanced
@@ -82,7 +82,8 @@ them `hard`: the corpus is 785 and the denominator 291. P1.1 (PHP API) rewrote t
 questions and added none. P2.7 (HttpClient) added three English `LEARNING`
 questions, one of them `hard`: the corpus is 788 and the denominator 292. P2.7
 (Console) added three more, one of them `hard`: the corpus is 791 and the
-denominator 293. Comprehension questions are not part of these figures: they
+denominator 293. P2.7 (Profiler) added two, neither `hard`: the corpus is 793.
+Comprehension questions are not part of these figures: they
 live in their own pool and banks (ADR-0010).
 
 The corpus grew by eleven since the Lot 07 reading, across two units refined back to

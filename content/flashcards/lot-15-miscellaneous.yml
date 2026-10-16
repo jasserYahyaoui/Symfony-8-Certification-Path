@@ -378,3 +378,38 @@ flashcards:
     branch: '8.0'
     symbol_or_lines: Accessing Profiling Data Programmatically; Creating a Data Collector
     verified_at: '2026-10-02'
+- id: FLC-k3g0ne1da089
+  official_item: OIT-d1qsxrtv25kk
+  language: fr
+  level: RECALL
+  front: AbstractDataCollector — quel nom getName() rend-il par défaut, et que rend getTemplate() ?
+  back: Le FQCN de la class du collector ; getTemplate() rend null.
+  explanation: C'est sous ce nom que $profile->getCollector() le retrouve. La documentation conseille de redéfinir
+    getName() avec un nom court. Tagué à la main, le data_collector porte un id égal à getName(). Exécuté avec
+    FrameworkBundle 8.0.15.
+  memorization_justification: Aucun nom court n'est déduit de la class ; on attend souvent un snake_case qui n'existe pas.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DataCollector/AbstractDataCollector.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/DataCollector/AbstractDataCollector.php
+    repository: symfony/symfony
+    symbol_or_lines: getName() — return static::class ; getTemplate() — return null
+    branch: '8.0'
+    verified_at: '2026-10-16'
+- id: FLC-f1nsnkc89qad
+  official_item: OIT-d1qsxrtv25kk
+  language: fr
+  level: TRAP
+  front: Un collector garde une Closure dans $this->data. Quel appel lève ?
+  back: 'saveProfile() : « Serialization of ''Closure'' is not allowed ». collect() passe sans erreur.'
+  explanation: Le profil range un clone de chaque collector, puis saveProfile() appelle lateCollect() et sérialise.
+    ProfilerListener appelle saveProfile() sur kernel.terminate. Exécuté avec HttpKernel 8.0.15.
+  memorization_justification: L'erreur survient loin de la ligne fautive, après l'envoi de la Response.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Profiler/Profiler.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Profiler/Profiler.php
+    repository: symfony/symfony
+    symbol_or_lines: collect() — addCollector(clone $collector) ; saveProfile() — lateCollect() puis write()
+    branch: '8.0'
+    verified_at: '2026-10-16'

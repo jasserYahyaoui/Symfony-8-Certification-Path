@@ -1413,3 +1413,111 @@ questions:
     branch: '8.0'
     symbol_or_lines: Creating a custom Data Collector
     verified_at: '2026-10-09'
+- id: QST-rsk9b4q3fds1
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-pte9pqwe7378
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-d1qsxrtv25kk
+  domain: symfony
+  subtopic: profiler
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'A collector stores a counter in collect(), when it reads 2. The counter reaches 5 before the profile is saved, and lateCollect() stores it too. What does the loaded profile hold?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-16'
+  tags:
+  - profiler
+  - data-collector
+  choices:
+  - id: CHO-gj4wdghrnrr4
+    text: 'Both values: 2 from collect(), 5 from lateCollect()'
+    correct: true
+  - id: CHO-eanyp2r8tw68
+    text: '5 only: lateCollect() replaces what collect() stored'
+    correct: false
+    explanation: 'lateCollect() works on the same copy and here only adds a key.'
+  - id: CHO-jtsp02rb4kge
+    text: '2 only: lateCollect() runs after the profile is written'
+    correct: false
+    explanation: 'saveProfile() calls lateCollect() first, then writes.'
+  - id: CHO-aq8zvak1q9s5
+    text: 'Neither: the profile keeps a reference to the live service'
+    correct: false
+    explanation: 'The profile keeps a clone, serialized when saved.'
+  explanation: 'Profiler::collect() calls collect() and stores a clone of the collector in the profile. saveProfile() calls lateCollect() on that clone, then serializes it, so both values are kept. Executed on HttpKernel 8.0.15.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Profiler/Profiler.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Profiler/Profiler.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'collect(): addCollector(clone $collector); saveProfile(): lateCollect() then write'
+    verified_at: '2026-10-16'
+- id: QST-wjsnwrw10q5d
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-pte9pqwe7378
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-d1qsxrtv25kk
+  domain: symfony
+  subtopic: profiler
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: '$profile->getCollector(''app.metrics'') is called on a profile that holds no collector of that name. What happens?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-16'
+  tags:
+  - profiler
+  - data-collector
+  choices:
+  - id: CHO-fvtxr6f511n5
+    text: 'An InvalidArgumentException is thrown'
+    correct: true
+  - id: CHO-vb5m3t3642se
+    text: 'It returns null'
+    correct: false
+    explanation: 'getCollector() never returns null; hasCollector() is the call that tests presence.'
+  - id: CHO-xf5atrh1z2ph
+    text: 'It returns an empty collector'
+    correct: false
+    explanation: 'No collector is created on demand.'
+  - id: CHO-h7xf8rqgw2wa
+    text: 'It returns false'
+    correct: false
+    explanation: 'false is what KernelBrowser::getProfile() returns without a profiler, not getCollector().'
+  explanation: 'Profile::getCollector() throws InvalidArgumentException: Collector "app.metrics" does not exist. Test with hasCollector() first when the collector may be absent. Executed on HttpKernel 8.0.15.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Profiler/Profile.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Profiler/Profile.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'getCollector(): Collector "%s" does not exist.'
+    verified_at: '2026-10-16'

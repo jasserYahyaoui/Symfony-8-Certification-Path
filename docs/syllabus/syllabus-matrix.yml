@@ -8699,6 +8699,8 @@ items:
         outcome: Atteindre un profil quand la barre n'est pas injectée
       - id: OUT-q8696dzgbpts
         outcome: Situer collect() sur kernel.response et lateCollect() sur kernel.terminate
+      - id: OUT-pte9pqwe7378
+        outcome: "Écrire un data collector et le relire depuis un profil : nom, clone, serialization"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -8717,8 +8719,12 @@ items:
     course_refs:
       - "CRS-x8j99kkmpsng"
     flashcard_refs:
+      - "FLC-k3g0ne1da089"
+      - "FLC-f1nsnkc89qad"
       - "FLC-q9dj4gjhz31d"
     question_refs:
+      - "QST-9w82jjm5746x"
+      - "QST-7b6xtj7h9tyf"
       - "QST-x86878b8vrmn"
       - "QST-ecx7f7257q6m"
     exercise_refs: []

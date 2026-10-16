@@ -632,3 +632,39 @@ facts:
     behavior_check: console.tester-stderr-separately
     content: [CRS-0ab7kpexq9w9]
     forbidden: []
+  profiler.collector-lifecycle:
+    finding: P2.7
+    official_item: OIT-d1qsxrtv25kk
+    statement: >-
+      AbstractDataCollector::getName() defaults to the class name and getTemplate() to null; Profiler::collect() calls
+      collect() and stores a clone in the profile; saveProfile() calls lateCollect() on it, then writes; a loaded profile
+      returns an unserialized copy with both values; an unknown name throws InvalidArgumentException.
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DataCollector/AbstractDataCollector.php
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Profiler/Profiler.php
+    behavior_check: profiler.collector-lifecycle
+    content: [CRS-x8j99kkmpsng, FLC-k3g0ne1da089, QST-9w82jjm5746x, QST-rsk9b4q3fds1, QST-wjsnwrw10q5d]
+    forbidden: []
+  profiler.serialized-reset-disabled:
+    finding: P2.7
+    official_item: OIT-d1qsxrtv25kk
+    statement: >-
+      A Closure in a collector's data makes saveProfile() throw "Serialization of 'Closure' is not allowed"; reset()
+      empties the data; a disabled profiler's collect() returns null.
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Profiler/Profiler.php
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/DataCollector/DataCollector.php
+    behavior_check: profiler.serialized-reset-disabled
+    content: [CRS-x8j99kkmpsng, FLC-f1nsnkc89qad, QST-7b6xtj7h9tyf]
+    forbidden: []
+  profiler.collector-in-functional-test:
+    finding: P2.7
+    official_item: OIT-d1qsxrtv25kk
+    statement: >-
+      With profiler collect false, an autoconfigured collector is read back with $client->getProfile()->getCollector()
+      under its getName() only for the request that follows enableProfiler().
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/KernelBrowser.php
+    behavior_check: profiler.collector-in-functional-test
+    content: [CRS-x8j99kkmpsng, CRS-0x4v9jaz4cnq]
+    forbidden: []

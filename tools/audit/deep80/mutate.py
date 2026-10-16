@@ -50,6 +50,12 @@ M=[
  ('console.command-tester-dispatches-nothing','console/Application.php','        if (null === $this->dispatcher) {\n            try {\n                return $command->run($input, $output);','        if (true) {\n            try {\n                return $command->run($input, $output);'),
  ('console.interact-before-validation','console/Command/Command.php','        if ($input->isInteractive()) {\n            $this->interact($input, $output);','        if (true) {\n            $this->interact($input, $output);'),
  ('console.tester-stderr-separately','console/Helper/QuestionHelper.php','        if ($output instanceof ConsoleOutputInterface) {\n            $output = $output->getErrorOutput();','        if (false) {\n            $output = $output->getErrorOutput();'),
+ ('profiler.collector-lifecycle','framework-bundle/DataCollector/AbstractDataCollector.php','        return static::class;',"        return 'collector';"),
+ ('profiler.collector-lifecycle','http-kernel/Profiler/Profiler.php','            $profile->addCollector(clone $collector);','            $profile->addCollector($collector);'),
+ ('profiler.collector-lifecycle','http-kernel/Profiler/Profiler.php','                $collector->lateCollect();','                // late collect skipped'),
+ ('profiler.serialized-reset-disabled','http-kernel/DataCollector/DataCollector.php','        $this->data = [];','        // data kept'),
+ ('profiler.serialized-reset-disabled','http-kernel/Profiler/Profiler.php','        if (false === $this->enabled) {','        if (false) {'),
+ ('profiler.collector-in-functional-test','framework-bundle/KernelBrowser.php','        if ($this->profiler) {\n            $this->profiler = false;','        if ($this->profiler) {\n            // still enabled for the next request'),
 ]
 ok=True
 for check,f,old,new in M:
