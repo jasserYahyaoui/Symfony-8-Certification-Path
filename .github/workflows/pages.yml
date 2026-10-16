@@ -5082,6 +5082,25 @@ jobs:
           else
             echo "ok  remediation  P1.3 lot-08: null and empty string per constraint, 8.0 named arguments, custom constraint"
           fi
+          # Remediation P2.7, lot 02: HttpClient retries (RetryableHttpClient), the destructor of an
+          # unread response, and a stream() in which one response fails. Each needle is absent from
+          # master before the change.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/p27-httpclient -w '%{http_code}' "$BASE_URL/docs/courses/lot-02/symfony-httpclient-component")
+          if [ "$code" != "200" ]; then
+            echo "::error::Remediation P2.7: page lot-02/symfony-httpclient-component serves $code"
+            fail=1
+          fi
+          missing=""
+          grep -aqF -- 'Rejouer les échecs' /tmp/p27-httpclient || missing="$missing p27:no-retry-section"
+          grep -aqF -- 'Une Response jamais lue' /tmp/p27-httpclient || missing="$missing p27:no-destructor-section"
+          grep -aqF -- 'Un stream dont une Response échoue' /tmp/p27-httpclient || missing="$missing p27:no-stream-failure-section"
+          if [ -n "$missing" ]; then
+            echo "::error::Remediation P2.7 missing from lot 02:$missing"
+            fail=1
+          else
+            echo "ok  remediation  P2.7 lot-02: HttpClient retries, destructor of an unread response, partially failed stream"
+          fi
           # Remediation P1.1, lot 01: the PHP standard library (array_merge vs +, array_filter keys,
           # PHP 8 comparison, json_decode) and the version of each added function. Each needle is
           # absent from master before the change.

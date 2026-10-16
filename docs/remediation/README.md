@@ -56,7 +56,7 @@ an idea: it stops the old sentence returning, not every way of being wrong.
 | F5 | Content metrics read as candidate mastery | **VÉRIFIÉ** (local) | see P1.7 |
 | F6 | Roadmap / mock texts out of sync | **VÉRIFIÉ** (local) — mock texts derived; comprehension load budgeted, exam moved to 29 Dec by owner decision | see P2.5 |
 | F7 | Too few multiple-answer questions | **VÉRIFIÉ** — P1.6: +33, then +10 for PHP and Automated Tests (4 VALIDATION, 39 LEARNING in all), every choice executed or read in its source | see P1.6 |
-| F8 | Unsourced "not examinable" restrictions | **EN COURS** — Serializer (P1.5), Cache (P1.4), Validator (P1.3), Forms (P1.2) and PHP API (P1.1) extended, VÉRIFIÉ; P2.7 À FAIRE | see P1.5, P1.3, P1.2, P1.1 |
+| F8 | Unsourced "not examinable" restrictions | **EN COURS** — Serializer (P1.5), Cache (P1.4), Validator (P1.3), Forms (P1.2) and PHP API (P1.1) extended, VÉRIFIÉ; P2.7 EN COURS (HttpClient VÉRIFIÉ) | see P1.5, P1.3, P1.2, P1.1, P2.7 |
 | F9 | PHP source 404 and mutable branch URLs | **BLOQUÉ** (the last 404 is in a HOLDOUT question) — pinning À FAIRE | see P2.6 |
 | F10 | No per-card recall record; comprehension stores nothing | **EN COURS** — comprehension recorded (P2.4, VÉRIFIÉ local); per-card recall À FAIRE (P2.3) | see P2.4 |
 
@@ -302,11 +302,43 @@ citation, so a format change has to be designed with it, not applied in bulk.
 | P1.3 Validator | #412 | squash `1284271` | smoke 116625759008 success, log read (295 ok, 0 error; « ok remediation P1.3 lot-08 ») |
 | Deep audit 8.0 (report, Cache checks, terminology senses) | #413 | squash `ebdefeb` | smoke 116661090571 success, log read (295 ok, 0 error) |
 | Deep audit 8.0, gaps (Config, expose_security_errors, TranslatableMessage) | #414 | squash `e76910c` | smoke 116685357696 success, log read (295 ok, 0 error) |
+| P1.2 Forms | #415 | squash `0318807` | smoke success, log read (« ok remediation P1.2 lot-07 ») |
+| P1.1 PHP API | #416 | squash `a8bb7fd` | smoke 116895810622 success, log read (« ok remediation P1.1 lot-01 »; 297 ok and 0 error in the last 400 lines) |
 | P1.7, P2.4, P2.5 (part) | #395, CI green | squash `6c1448c` | job « Production smoke test » 115498368380 success, log read. It checks served pages and payloads, not the client-side progression table, which the CI a11y audit renders. |
 
 ## Next action
 
-P2.7, then P2.3 (per-card recall, which would give item statistics a source).
+P2.7, one component per PR: Console, Profiler, Translation,
+Filesystem/Finder/Process, Runtime. Then P2.3 (per-card recall, which would
+give item statistics a source). By the owner's decision of 2026-10-16, Mock 4 is
+not sat now and is no longer raised in reports; F4 and F9 stay blocked.
+
+### P2.7 — HttpClient: retries, an unread response, a partly failed stream
+
+The mission names retries, the response lifecycle and partially failed
+streaming, and notes that `stream`, `getInfo`, `MockHttpClient` and timeouts
+were already taught. Executed first on HttpClient 8.0.16 with `MockHttpClient`
+(`tools/behavior/checks/http-client.php`, seven checks, each proved by a
+mutation of the vendor line carrying it, restored byte-identically under
+SHA-256 — `tools/audit/deep80/mutate.py`). The seven give the same result on
+7.4.21: stable behaviours, not 8.0 changes, and the content says neither.
+
+| Behaviour | Result |
+|---|---|
+| status never read | the destructor throws: an unassigned `POST` answered 500 throws a `ServerException` on its line; `getStatusCode()`, `getHeaders(false)`, `cancel()` opt out, `getInfo('http_code')` does not |
+| `RetryableHttpClient` defaults | 3 retries (4 requests); then the last response is returned, its `getContent()` throws |
+| what is retried | 423, 425, 429, 502, 503 for every method; 500, 504, 507, 510 and transport errors for idempotent methods; a failed DNS resolution always; 404 never |
+| delay | 1 s doubled per retry, 10 % jitter; `Retry-After` replaces it |
+| `stream()`, one transport error | thrown by that chunk's methods; uncaught it ends the loop for all; caught in the loop the others finish; `getError()` alone does not handle it |
+| `stream()`, a 404 | an unread status at the first chunk is checked by the stream: `ClientException` as the loop resumes |
+| `stream()` timeout | `isTimeout()` true, that stream ends; `isLast()` on it throws `TimeoutException`; a new `stream()` resumes |
+
+**Level: unchanged (STANDARD).** The course was at 843 of 900 body words; the
+three sections fit by removing repetition between « Pièges », « Tips » and
+« Points clés » and a duplicated `try`/`catch` listing (895 words). Content:
+three outcomes, three course sections, three flashcards, three LEARNING
+questions (one multiple-answer, executed by `questions/http-client-p27.php`;
+one `hard`), three COMPREHENSION questions, seven central facts.
 
 ### P1.1 — PHP API: the standard library a question makes you predict (F8, part)
 

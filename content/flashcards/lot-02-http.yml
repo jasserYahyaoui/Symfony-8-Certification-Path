@@ -3914,3 +3914,73 @@ flashcards:
         branch: "8.0"
         symbol_or_lines: "OPTIONS_DEFAULTS lignes 41-44 et 56-57"
         verified_at: "2026-09-17"
+
+  - id: FLC-r4e8c0b07twy
+    official_item: OIT-9kh5cqz5qtrb
+    language: fr
+    level: TRAP
+    front: "HttpClient : une Response en 500 n'est jamais lue puis détruite. Que se passe-t-il ?"
+    back: "Son destructor lève une `ServerException`. `getStatusCode()` désactive ce filet ; `getInfo('http_code')` ne le désactive pas."
+    explanation: >-
+      Le destructor attend les headers et vérifie le statut si personne ne
+      l'a lu. Une Request non assignée, `$client->request('POST', $url);`,
+      est détruite sur la même ligne : elle devient synchrone et lève. Exécuté
+      sur HttpClient 8.0.
+    memorization_justification: >-
+      Le comportement contredit l'intuition « une Response lazy jamais lue
+      n'a pas d'effet » ; rien dans le code appelant ne le signale.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_client.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/http_client.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Handling Exceptions — the exception will still be thrown when the $response object is destructed"
+        verified_at: "2026-10-16"
+
+  - id: FLC-s6byhm4fp6at
+    official_item: OIT-9kh5cqz5qtrb
+    language: fr
+    level: RECALL
+    front: "RetryableHttpClient : quels statuts sont rejoués pour toute method, et lesquels pour les methods idempotentes seulement ?"
+    back: "Toute method : 423, 425, 429, 502, 503. Idempotentes seulement : 500, 504, 507, 510 et les erreurs de transport."
+    explanation: >-
+      Trois retries par défaut (`max_retries`), délai de 1 s doublé à chaque
+      essai, un header `Retry-After` le remplace. Un 404 n'est jamais rejoué ;
+      un échec de résolution DNS l'est pour toute method. Exécuté sur
+      HttpClient 8.0.
+    memorization_justification: >-
+      Deux listes arbitraires de codes, que seule la mémoire distingue ; un
+      POST en 500 n'est pas rejoué, un POST en 503 l'est.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpClient/Retry/GenericRetryStrategy.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpClient/Retry/GenericRetryStrategy.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "DEFAULT_RETRY_STATUS_CODES, IDEMPOTENT_METHODS"
+        verified_at: "2026-10-16"
+
+  - id: FLC-64jn4rvgq2j7
+    official_item: OIT-9kh5cqz5qtrb
+    language: fr
+    level: APPLICATION
+    front: "stream() : une des trois Responses échoue sur le réseau. Comment laisser les deux autres finir ?"
+    back: "Un `try`/`catch (TransportExceptionInterface)` **dans** la loop, autour de `isFirst()` / `isLast()`."
+    explanation: >-
+      L'erreur est levée par les methods du chunk de la Response en échec ;
+      non attrapée, elle termine la loop pour toutes. `getError()` lit le
+      message sans traiter l'erreur : le stream lève quand même. Exécuté sur
+      HttpClient 8.0.
+    memorization_justification: >-
+      La place du `try` décide si une panne isolée coupe tout le lot ; le code
+      erroné fonctionne tant que le réseau tient.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_client.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/http_client.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        symbol_or_lines: "Dealing with Network Errors — catching TransportExceptionInterface in the foreach loop"
+        verified_at: "2026-10-16"
+
