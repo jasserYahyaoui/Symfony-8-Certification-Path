@@ -1,6 +1,6 @@
 # CONTEXT.md — Session continuity (Master Plan §23)
 
-**Last updated:** 2026-10-15 (remédiation : P0, P1.4–P1.7, P2.4, P2.5 livrés ; terminologie anglaise ; examens blancs 1 à 6 avec correction ; examen le 29 décembre)
+**Last updated:** 2026-10-16 (remédiation : P0, P1.1–P1.7, P2.4, P2.5 livrés, P2.7 HttpClient en cours ; audit profond 8.0 ; examen le 29 décembre)
 
 ---
 
@@ -22,6 +22,10 @@ Branche de travail : `claude/symfony-8-certification-plan-phmkau`.
 | Smoke : ancre des points clés = id explicite | #406 | `91e694a` | smoke 116058594758 **success, lu** |
 | P1.6 : 33 questions à réponses multiples, chaque choix exécuté (`tools/behavior/questions/`) | #407 | `30a71ba` | smoke 116108055298 **success, lu** |
 | P1.6, second lot : PHP et Automated Tests (+10) | #408 | `cb639f2` | smoke 116334255807 **success, lu** — « 10/9/9/9/9/9 » questions multiples par examen |
+| P1.3 Validator : null et string vide par constraint, arguments nommés 8.0, constraint sur mesure | #412 | `1284271` | smoke 116625759008 **success, lu** |
+| Audit profond 8.0 (rapport, checks Cache, sens terminologiques) puis lacunes (Config, expose_security_errors, TranslatableMessage) | #413, #414 | `ebdefeb`, `e76910c` | smoke 116661090571 et 116685357696 **success, lus** |
+| P1.2 Forms : CollectionType, by_reference, property_path, inherit_data | #415 | `0318807` | smoke **success, lu** |
+| P1.1 PHP API : fonctions d'array, comparaison PHP 8, json_decode, versions | #416 | `a8bb7fd` | smoke 116895810622 **success, lu** |
 
 Nouveau : `tools/behavior/` (Symfony 8.0.* verrouillé, 10 faits exécutés en CI),
 `docs/facts/central-facts.yml` + `CentralFactsTest` (le retour d'une ancienne
@@ -33,6 +37,10 @@ Tests réellement exécutés le 2026-10-13 sur #395 : `validate` 0 bloquant ;
 constat ; preuves PF, PFC, A10P, L27P OK, restauration identique ; 6 contrôles
 UI OK ; `tools/behavior/run.php` 10/10. Référence sur `master` propre avant
 travaux : 343 tests, 23 546 assertions.
+
+**Décision du propriétaire, 2026-10-16 :** le Mock 4 ne sera pas passé
+maintenant. **Ne plus le rappeler** dans les comptes rendus ; F4 et F9 restent
+bloqués sans relance, et le travail continue en autonomie sur le reste.
 
 **Bloqué, décisions du propriétaire :**
 - **F4** — biais de longueur du HOLDOUT (34/64 bonnes réponses les plus longues) :
@@ -60,8 +68,9 @@ item du lot 01, holdout compris (L1-5) ; une question à réponses multiples
 s'accompagne d'une exécution par choix dans `tools/behavior/questions/` ou
 d'une raison dans `MultipleAnswerEvidenceTest::DOCUMENTARY`.
 
-**Prochaine action :** P1.3 Validator, puis P1.2 Form (collections), puis P1.1
-PHP, puis P2.3 (rappel par carte). Toujours : exécuter d'abord dans
+**Prochaine action :** P2.7 (approfondissements secondaires), un composant par
+PR — HttpClient d'abord, puis Console, Profiler, Translation,
+Filesystem/Finder/Process, Runtime — puis P2.3 (rappel par carte). Toujours : exécuter d'abord dans
 `tools/behavior`, écrire ensuite, et décider du niveau sur l'item, jamais sur un
 compte de mots.
 

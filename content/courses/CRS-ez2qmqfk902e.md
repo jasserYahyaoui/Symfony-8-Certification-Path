@@ -33,12 +33,45 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "@throws de getStatusCode(), getHeaders(), getContent(), toArray()"
     verified_at: "2026-09-16"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpClient/RetryableHttpClient.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpClient/RetryableHttpClient.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    symbol_or_lines: "$maxRetries = 3 ; getDelayFromHeader() lit Retry-After ; passthru() une fois les retries épuisés"
+    verified_at: "2026-10-16"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpClient/Retry/GenericRetryStrategy.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpClient/Retry/GenericRetryStrategy.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    symbol_or_lines: "DEFAULT_RETRY_STATUS_CODES, IDEMPOTENT_METHODS ; getDelay() : delayMs * multiplier ** retry_count"
+    verified_at: "2026-10-16"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpClient/Response/TransportResponseTrait.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpClient/Response/TransportResponseTrait.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    symbol_or_lines: "doDestruct() appelle checkStatusCode() ; stream() : « Ensure the HTTP status code is always checked »"
+    verified_at: "2026-10-16"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpClient/Chunk/ErrorChunk.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpClient/Chunk/ErrorChunk.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    symbol_or_lines: "isFirst(), isLast(), getContent() lèvent ; isTimeout() ; __destruct()"
+    verified_at: "2026-10-16"
+  - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_client.rst"
+    readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/http_client.rst"
+    repository: "symfony/symfony-docs"
+    branch: "8.0"
+    symbol_or_lines: "Retry Failed Requests ; Handling Exceptions ; Dealing with Network Timeouts ; Dealing with Network Errors"
+    verified_at: "2026-10-16"
 outcome_sections:
   OUT-9vyq57j7gj6b: "L'interface"
   OUT-81pzmq0sf6k9: "Le point central : les Responses sont lazy"
   OUT-t602yfbqy21b: "Le point central : les Responses sont lazy"
   OUT-9bcphcvp1dp0: "La Response"
   OUT-a0z9e1zqpyxy: "La hiérarchie d'exceptions"
+  OUT-bhzv4dsk1jbr: "Une Response jamais lue lève quand même"
+  OUT-5rm06598zbw5: "Rejouer les échecs : RetryableHttpClient"
+  OUT-67xk171zj659: "Un stream dont une Response échoue"
 ---
 
 ## Objectif
@@ -58,9 +91,8 @@ Trois methods, injectées par autowiring via `HttpClientInterface`.
 
 ## Le point central : les Responses sont lazy
 
-**Le client est asynchrone par défaut.** `request()` rend la main
-immédiatement, avant que la Response ne soit arrivée. Rien n'est attendu tant
-qu'on ne consulte pas la Response :
+**Le client est asynchrone par défaut.** `request()` rend la main avant que la
+Response soit arrivée ; rien n'est attendu tant qu'on ne la consulte pas :
 
 ```php
 $response = $client->request('GET', 'https://example.com/api');  // ne bloque pas
@@ -70,8 +102,7 @@ $content = $response->getContent();     // ou ici
 $data    = $response->toArray();        // ou ici
 ```
 
-C'est ce qui rend le parallélisme gratuit : lancer les Requests d'abord, les
-lire ensuite.
+D'où le parallélisme : lancer les Requests d'abord, les lire ensuite.
 
 ```php
 $responses = [];
@@ -86,8 +117,8 @@ foreach ($client->stream($responses) as $response => $chunk) {
 }
 ```
 
-Inverser l'ordre — lire chaque Response dans la même loop qui l'émet — rend
-l'ensemble séquentiel, sans aucune erreur visible.
+Lire chaque Response dans la loop qui l'émet rend l'ensemble séquentiel, sans
+erreur visible.
 
 ## La Response
 
@@ -100,11 +131,10 @@ $response->getInfo('debug');
 $response->cancel();
 ```
 
-`getHeaders()`, `getContent()` et `toArray()` **lèvent** par défaut sur un
-statut non réussi ; leur parameter `$throw = false` le désactive.
-**`getStatusCode()` ne lève pas** : sa signature ne porte aucun `$throw` et son
-contrat ne déclare qu'une `TransportExceptionInterface` en cas d'erreur réseau.
-C'est donc l'appel par lequel on inspecte un 404 sans rien attraper.
+`getHeaders()`, `getContent()` et `toArray()` **lèvent** sur un statut 3xx-5xx,
+sauf avec `$throw = false`. **`getStatusCode()` ne lève pas** sur un statut :
+son contrat ne déclare qu'une `TransportExceptionInterface`. C'est l'appel qui
+inspecte un 404 sans rien attraper.
 
 ## La hiérarchie d'exceptions
 
@@ -125,19 +155,9 @@ La ligne de partage est `HttpExceptionInterface` : elle seule expose
 `getResponse()`, parce qu'elle seule a une Response à montrer. Un échec de
 transport n'en a aucune.
 
-```php
-try {
-    $data = $client->request('GET', $url)->toArray();
-} catch (ClientExceptionInterface $e) {
-    $body = $e->getResponse()->getContent(false);   // le corps du 4xx
-} catch (TransportExceptionInterface $e) {
-    // pas de getResponse() ici : rien n'est revenu
-}
-```
-
-Attraper `HttpExceptionInterface` couvre donc 3xx, 4xx et 5xx d'un coup, et
-`TransportExceptionInterface` couvre le délai dépassé — `TimeoutExceptionInterface`
-en hérite.
+Attraper `HttpExceptionInterface` couvre 3xx, 4xx et 5xx d'un coup ;
+`TransportExceptionInterface` couvre le délai dépassé, dont
+`TimeoutExceptionInterface` hérite.
 
 ## Options utiles
 
@@ -150,9 +170,8 @@ $client->request('POST', $url, [
 ]);
 ```
 
-`json` et `body` sont exclusifs. Les **clients scopés** appliquent
-automatiquement des options aux URL correspondant à un pattern, ce qui évite de
-répéter une base URL et un token.
+`json` et `body` sont exclusifs. Un **client scopé** applique des options aux
+URL d'un pattern.
 
 ## Tests
 
@@ -162,52 +181,67 @@ répéter une base URL et un token.
 $client = new MockHttpClient(new MockResponse('{"ok":true}'));
 ```
 
-`timeout` est le délai **d'inactivité**, pas la durée totale : une Request qui
-progresse lentement ne l'atteint jamais. La durée totale s'écrit
-`max_duration`, qui vaut `0` — illimité — par défaut. Le client suit par
-ailleurs les redirects, jusqu'à `max_redirects`, qui vaut `20`.
+`timeout` est le délai **d'inactivité**, pas la durée totale, qui s'écrit
+`max_duration` (`0`, illimité, par défaut). Le client suit les redirects
+jusqu'à `max_redirects`, qui vaut `20`.
+
+## Une Response jamais lue lève quand même
+
+Si rien n'a lu le statut, le **destructor** de la Response lève sur un 3xx-5xx. Une Request non assignée — `$client->request('POST',
+$url);` — devient donc synchrone et lève sur un 500. `getStatusCode()`,
+`getHeaders(false)` ou `cancel()` désactivent ce filet ; `getInfo('http_code')`
+ne le désactive pas — exécuté.
+
+## Rejouer les échecs : RetryableHttpClient
+
+| Échec | Rejoué |
+|---|---|
+| 423, 425, 429, 502, 503 | pour toute method |
+| 500, 504, 507, 510, erreur de transport | pour les methods idempotentes seulement (`GET`, `PUT`, `DELETE`…) |
+| autre statut, dont 404 | jamais |
+
+Un échec de résolution DNS est rejoué pour toute method. Trois retries
+par défaut (`max_retries`), donc quatre Requests au plus ; délai de 1 s doublé
+à chaque essai, jitter de 10 % ; un header `Retry-After` remplace ce délai.
+Les retries épuisés, la dernière Response est rendue telle quelle : un 503 dont
+`getContent()` lève une `ServerException`. Dans une application : l'option
+`retry_failed`.
+
+## Un stream dont une Response échoue
+
+Dans `stream()`, l'échec d'une Response est levé par les methods de **son
+chunk** (`isFirst()`, `isLast()`, `getContent()`). Non attrapée, la
+`TransportExceptionInterface` termine la loop pour toutes les Responses : le
+`try`/`catch` va **dans** la loop. `getError()` lit le message sans
+traiter l'erreur, et la loop lève quand même.
+
+Le statut se lit au premier chunk : sans `getStatusCode()` à `isFirst()`, un
+404 fait lever une `ClientException` au stream dès qu'il reprend.
+
+Un `timeout` passé à `stream()` produit un chunk dont `isTimeout()` vaut
+`true`, et ce stream s'arrête ; `isLast()` sur ce chunk lève une
+`TimeoutException`. Un nouveau `stream()` reprend la Response.
 
 ## Pièges d'examen
 
-**`request()` ne déclenche pas l'attente.** L'erreur classique est de croire
-que la Request est terminée à son retour.
+**`toArray()` n'est pas `json_decode()`** : sur un body invalide, il lève une
+`DecodingExceptionInterface`, pas une `ClientExceptionInterface`.
 
-**Lire dans la loop d'émission supprime le parallélisme.** Le code
-fonctionne, il est juste séquentiel.
-
-**`getContent()` lève sur 404.** Il faut `getContent(false)` pour inspecter le
-corps d'une erreur.
-
-**`toArray()` n'est pas `json_decode()`** : il lève si la Response n'est pas du
-JSON valide — et l'exception est une `DecodingExceptionInterface`, pas une
-`ClientExceptionInterface`.
-
-**Seule `HttpExceptionInterface` porte `getResponse()`.** Sur une panne réseau
-il n'y a pas de Response à inspecter ; chercher `getResponse()` sur une
-`TransportExceptionInterface` est l'erreur attendue.
+**Un POST en 500 n'est pas rejoué**, un POST en 503 l'est.
 
 ## Tips d'examen
 
-**Deux branches, une question : quelque chose est-il arrivé ?** Non → transport
-(et `TimeoutExceptionInterface` en fait partie). Oui, mais le statut fâche →
-`HttpExceptionInterface`, la seule qui porte `getResponse()`.
-
-**`$throw = false` ne désactive que le statut.** Un `toArray(false)` lève encore
+**`$throw = false` ne désactive que le statut.** `toArray(false)` lève encore
 sur un body indécodable, et une panne réseau lève toujours.
 
 **Deux zéros, deux sens.** `max_duration = 0` veut dire illimité ;
-`max_redirects = 0` veut dire aucune redirect suivi.
-
-**`timeout` est l'inactivité, pas la durée totale.**
+`max_redirects = 0` veut dire aucune redirect suivie.
 
 ## Points clés
 
-- `request()` est asynchrone ; l'attente survient à la première lecture.
-- Émettre toutes les Requests, puis lire — sinon pas de parallélisme.
-- Les accessors lèvent sur statut d'erreur, sauf avec `false`.
-- `MockHttpClient` pour tester sans réseau.
-- Deux branches d'exceptions : transport (rien n'est arrivé) et HTTP (une
-  Response est là) ; seule la seconde expose `getResponse()`.
+- `request()` est asynchrone ; émettre toutes les Requests, puis lire.
+- Un statut jamais lu lève à la destruction de la Response.
+- Dans `stream()`, attraper l'erreur dans la loop ; lire le statut au premier chunk.
 
 ## Aller lire la source
 
@@ -216,5 +250,6 @@ sur un body indécodable, et une panne réseau lève toujours.
   `withOptions()` (branche 8.0, `6f841c0`)
 - [`HttpExceptionInterface`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/HttpClient/Exception/HttpExceptionInterface.php) — `getResponse()`, et les interfaces
   voisines du même directory `Exception/` (branche 8.0)
+- [`RetryableHttpClient`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpClient/RetryableHttpClient.php), [`GenericRetryStrategy`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpClient/Retry/GenericRetryStrategy.php)
 - [`ResponseInterface`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/HttpClient/ResponseInterface.php) — les `@throws` de `getStatusCode()`,
   `getHeaders()`, `getContent()` et `toArray()` (branche 8.0)

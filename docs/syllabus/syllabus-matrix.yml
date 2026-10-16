@@ -1094,6 +1094,12 @@ items:
         outcome: "Inspecter une Response d'erreur sans exception"
       - id: OUT-a0z9e1zqpyxy
         outcome: "Choisir l'interface d'exception correspondant à la nature de l'échec"
+      - id: OUT-bhzv4dsk1jbr
+        outcome: "Prévoir l'exception levée à la destruction d'une Response dont le statut n'est jamais lu"
+      - id: OUT-5rm06598zbw5
+        outcome: "Prévoir quelles Requests RetryableHttpClient rejoue, et combien de fois"
+      - id: OUT-67xk171zj659
+        outcome: "Isoler l'échec d'une Response dans une loop stream()"
     required_assessment_modes:
       - "QUESTION"
       - "FLASHCARD"
@@ -1122,9 +1128,15 @@ items:
       - "CRS-ez2qmqfk902e"
     flashcard_refs:
       - "FLC-7cnykd5c7nxy"
+      - "FLC-r4e8c0b07twy"
+      - "FLC-s6byhm4fp6at"
+      - "FLC-64jn4rvgq2j7"
     question_refs:
       - "QST-hnjpg1kv733t"
       - "QST-r6wwzwfx7mqc"
+      - "QST-gm49kwkdxbtm"
+      - "QST-57h88pmcmram"
+      - "QST-xmc2fdjxha1y"
     exercise_refs: []
     exam_refs: []
     prerequisites: []

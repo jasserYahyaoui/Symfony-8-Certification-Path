@@ -2368,3 +2368,179 @@ questions:
         branch: master
         symbol_or_lines: section 5.1 Field Names
         verified_at: '2026-09-17'
+  - id: QST-gm49kwkdxbtm
+    question_archetype: BEHAVIOR_PREDICTION
+    assesses_outcomes:
+    - OUT-bhzv4dsk1jbr
+    version: 1
+    official_topic: HTTP
+    official_item: OIT-9kh5cqz5qtrb
+    domain: http
+    language: en
+    difficulty: medium
+    cognitive_level: UNDERSTAND
+    exam_skill: DISTINGUISH
+    type: mcq
+    answer_mode: single
+    required_answer_count: 1
+    question: 'A service calls $client->request(''POST'', ''https://api.example.com/hook'') with HttpClient and does not assign the result. The server answers 500. What happens?'
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 60
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+    - tech-lead
+    reviewed_at: '2026-10-16'
+    tags:
+    - httpclient
+    - lifecycle
+    choices:
+    - id: CHO-befjc60exb5t
+      text: 'A ServerException is thrown on that line'
+      correct: true
+    - id: CHO-9206m9e7r3jz
+      text: 'Nothing: a response that is never read is never sent'
+      correct: false
+      explanation: 'The discarded response is destructed at once, and its destructor waits for the headers, so the request is sent.'
+    - id: CHO-7cnecmzd4byj
+      text: 'The request is sent and the 500 goes unnoticed'
+      correct: false
+      explanation: 'A response whose status nobody read throws from its destructor on 3xx-5xx: no error goes unnoticed.'
+    - id: CHO-dre19222tm65
+      text: 'A ServerException is thrown when the kernel terminates'
+      correct: false
+      explanation: 'The result is not assigned, so the response is destructed on the same line, not at the end of the request.'
+    explanation: 'The unassigned response is destructed immediately. Its destructor waits for the headers and, since nothing read the status, throws the exception for the 500, a ServerException. The request therefore becomes synchronous. Executed on HttpClient 8.0.'
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_client.rst
+      readable_url: https://github.com/symfony/symfony-docs/blob/8.0/http_client.rst
+      repository: symfony/symfony-docs
+      branch: '8.0'
+      symbol_or_lines: 'Handling Exceptions: the exception will still be thrown when the $response object is destructed'
+      verified_at: '2026-10-16'
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpClient/Response/TransportResponseTrait.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpClient/Response/TransportResponseTrait.php
+      repository: symfony/symfony
+      branch: '8.0'
+      symbol_or_lines: 'doDestruct(): checkStatusCode() when the response was not initialized'
+      verified_at: '2026-10-16'
+  - id: QST-57h88pmcmram
+    question_archetype: BEHAVIOR_PREDICTION
+    assesses_outcomes:
+    - OUT-5rm06598zbw5
+    version: 1
+    official_topic: HTTP
+    official_item: OIT-9kh5cqz5qtrb
+    domain: http
+    language: en
+    difficulty: medium
+    cognitive_level: APPLY
+    exam_skill: DISTINGUISH
+    type: mcq
+    answer_mode: multiple
+    required_answer_count: 2
+    question: 'An HttpClient is wrapped in RetryableHttpClient with the default retry strategy. Which two requests are retried? (Choose 2)'
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 90
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+    - tech-lead
+    reviewed_at: '2026-10-16'
+    tags:
+    - httpclient
+    - retry
+    choices:
+    - id: CHO-73x9t45zph97
+      text: 'A POST answered 503'
+      correct: true
+    - id: CHO-2hjr1m164pvr
+      text: 'A GET answered 500'
+      correct: true
+    - id: CHO-aydeh4ymzgjk
+      text: 'A POST answered 500'
+      correct: false
+      explanation: '500 is retried for idempotent methods only, and POST is not one.'
+    - id: CHO-crysb22x2jb0
+      text: 'A GET answered 404'
+      correct: false
+      explanation: '404 is not in the default list: a client error is not retried.'
+    explanation: 'The default strategy retries 423, 425, 429, 502 and 503 for every method, and 500, 504, 507 and 510 for idempotent methods only. A POST answered 503 is retried, a GET answered 500 too; a POST answered 500 and any 404 are not. Executed on HttpClient 8.0.'
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_client.rst
+      readable_url: https://github.com/symfony/symfony-docs/blob/8.0/http_client.rst
+      repository: symfony/symfony-docs
+      branch: '8.0'
+      symbol_or_lines: 'Retry Failed Requests'
+      verified_at: '2026-10-16'
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpClient/Retry/GenericRetryStrategy.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpClient/Retry/GenericRetryStrategy.php
+      repository: symfony/symfony
+      branch: '8.0'
+      symbol_or_lines: 'DEFAULT_RETRY_STATUS_CODES'
+      verified_at: '2026-10-16'
+  - id: QST-xmc2fdjxha1y
+    question_archetype: BEHAVIOR_PREDICTION
+    assesses_outcomes:
+    - OUT-67xk171zj659
+    version: 1
+    official_topic: HTTP
+    official_item: OIT-9kh5cqz5qtrb
+    domain: http
+    language: en
+    difficulty: hard
+    cognitive_level: UNDERSTAND
+    exam_skill: DISTINGUISH
+    type: mcq
+    answer_mode: single
+    required_answer_count: 1
+    question: 'Three HttpClient responses are read with foreach ($client->stream($responses) as $response => $chunk), and nothing in the loop catches exceptions. The second response fails with a network error. What happens?'
+    scoring_policy: all-or-nothing
+    shuffle_choices: true
+    negative_wording: false
+    estimated_time_seconds: 80
+    classification: OFFICIAL
+    pool: LEARNING
+    verification_status: VERIFIED
+    reviewers:
+    - tech-lead
+    reviewed_at: '2026-10-16'
+    tags:
+    - httpclient
+    - stream
+    choices:
+    - id: CHO-dspb6y3zxsns
+      text: 'A TransportException escapes and ends the whole loop'
+      correct: true
+    - id: CHO-tjyfgr0j3ddc
+      text: 'stream() skips it and the loop goes on with the other two'
+      correct: false
+      explanation: 'stream() does not skip a failure: the chunk methods throw it, and the loop ends unless it is caught inside.'
+    - id: CHO-12cfgymb1mk4
+      text: 'The failed response yields a chunk whose isTimeout() is true'
+      correct: false
+      explanation: 'A timeout chunk comes from inactivity; a network error is an error chunk whose methods throw.'
+    - id: CHO-aetqmestdhcp
+      text: 'The error waits for the destructor of the failed response'
+      correct: false
+      explanation: 'The stream itself makes sure a transport error is thrown, as soon as its chunk is handed over.'
+    explanation: 'The failed response''s chunk throws a TransportException from isFirst(), isLast() or getContent(), and the stream throws it even if those are not called. Uncaught, it ends the loop for every response; a try/catch inside the loop lets the others finish. Executed on HttpClient 8.0.'
+    official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_client.rst
+      readable_url: https://github.com/symfony/symfony-docs/blob/8.0/http_client.rst
+      repository: symfony/symfony-docs
+      branch: '8.0'
+      symbol_or_lines: 'Dealing with Network Errors: catching TransportExceptionInterface in the foreach loop'
+      verified_at: '2026-10-16'
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpClient/Chunk/ErrorChunk.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpClient/Chunk/ErrorChunk.php
+      repository: symfony/symfony
+      branch: '8.0'
+      symbol_or_lines: 'isFirst(), isLast(), getContent() throw; __destruct()'
+      verified_at: '2026-10-16'

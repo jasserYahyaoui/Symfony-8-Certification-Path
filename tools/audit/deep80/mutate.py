@@ -36,6 +36,14 @@ M=[
  ('form.by-reference-object-collection','form/Extension/Core/DataAccessor/PropertyPathAccessor.php','        if (!\\is_object($data) || !$form->getConfig()->getByReference() || $value !== $getValue()) {','        if (true) {'),
  ('form.property-path-and-inherit-data','form/Form.php','        if ($this->inheritData = $config->getInheritData()) {','        if ($this->inheritData = false) {'),
  ('validator.unexpected-value-vs-type','validator/Validator/RecursiveContextualValidator.php','            } catch (UnexpectedValueException $e) {','            } catch (\\LogicException $e) {'),
+ ('http-client.unchecked-status-throws-on-destruct','http-client/Response/TransportResponseTrait.php',"        if ($this->initializer && null === $this->info['error'] && !$this->didTimeout) {",'        if (false) {'),
+ ('http-client.retry-count-and-last-response','http-client/RetryableHttpClient.php','        private int $maxRetries = 3,','        private int $maxRetries = 2,'),
+ ('http-client.retry-by-status-and-method','http-client/Retry/GenericRetryStrategy.php','        500 => self::IDEMPOTENT_METHODS,','        500,'),
+ ('http-client.retry-delay-and-retry-after','http-client/Retry/GenericRetryStrategy.php',"        $delay = $this->delayMs * $this->multiplier ** $context->getInfo('retry_count');",'        $delay = $this->delayMs;'),
+ ('http-client.retry-delay-and-retry-after','http-client/RetryableHttpClient.php','                return (int) ($after * 1000);','                return null;'),
+ ('http-client.stream-error-chunk','http-client/Response/TransportResponseTrait.php',"                        $chunk->getContent();\n                        throw new \\LogicException('A transport exception should have been thrown.');",'                        $chunk->didThrow(true);'),
+ ('http-client.stream-status-at-first-chunk','http-client/Response/TransportResponseTrait.php','                                $response->getHeaders(true);','                                $response->getHeaders(false);'),
+ ('http-client.stream-timeout-chunk','http-client/Chunk/ErrorChunk.php','    public function isTimeout(): bool\n    {\n        $this->didThrow = true;','    public function isTimeout(): bool\n    {\n        return false;'),
 ]
 ok=True
 for check,f,old,new in M:

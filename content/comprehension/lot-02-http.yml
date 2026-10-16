@@ -4189,3 +4189,168 @@ questions:
     branch: '8.0'
     symbol_or_lines: OPTIONS_DEFAULTS
     verified_at: '2026-10-09'
+- id: QST-pj447r0ttj70
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-bhzv4dsk1jbr
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-9kh5cqz5qtrb
+  domain: http
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'An HttpClient response got a 500. Which single call on it lets the response be destroyed later without any exception?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-16'
+  tags:
+  - httpclient
+  - lifecycle
+  choices:
+  - id: CHO-6213wm5fyn31
+    text: 'getStatusCode()'
+    correct: true
+  - id: CHO-s4rszm65csq8
+    text: 'getInfo(''http_code'')'
+    correct: false
+    explanation: 'getInfo() never reads the status for the destructor: it still throws a ServerException.'
+  - id: CHO-yy8y61tbbztt
+    text: 'getContent()'
+    correct: false
+    explanation: 'getContent() throws the ServerException itself.'
+  - id: CHO-0t263mgtc8jc
+    text: 'No call at all'
+    correct: false
+    explanation: 'An unread status makes the destructor throw on 3xx-5xx.'
+  explanation: 'Calling getStatusCode() hands the status to your code, so the destructor has nothing left to do. getInfo() does not count, getContent() throws on a 500, and leaving the response unread makes its destructor throw. Executed on HttpClient 8.0.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_client.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/http_client.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'Calling $response->getStatusCode() is enough to disable this behavior'
+    verified_at: '2026-10-16'
+- id: QST-122kweqkmvkb
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-5rm06598zbw5
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-9kh5cqz5qtrb
+  domain: http
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'With RetryableHttpClient and its defaults, a GET keeps getting 503. How many requests are sent, and what does the calling code receive?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-16'
+  tags:
+  - httpclient
+  - retry
+  choices:
+  - id: CHO-ars1hr7f8s4f
+    text: 'Four requests, then the last 503 response'
+    correct: true
+  - id: CHO-4qjpeed7v6vt
+    text: 'Three requests, then an exception from request()'
+    correct: false
+    explanation: 'max_retries is 3 retries after the first request, and request() never throws for a status.'
+  - id: CHO-xjxmpyb7n3my
+    text: 'Four requests, then a TransportException'
+    correct: false
+    explanation: 'The retries are exhausted on a real response: it is handed over as it is.'
+  - id: CHO-395pxk6knk6w
+    text: 'One request: 503 is not retried'
+    correct: false
+    explanation: '503 is retried for every method.'
+  explanation: 'The first request and three retries make four requests. Once the retries are exhausted, the last response is returned as it is; reading it with getContent() throws a ServerException. Executed on HttpClient 8.0.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpClient/RetryableHttpClient.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpClient/RetryableHttpClient.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: '$maxRetries = 3; passthru() once $retryCount >= $maxRetries'
+    verified_at: '2026-10-16'
+- id: QST-49wat9m2ymsx
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-67xk171zj659
+  version: 1
+  official_topic: HTTP
+  official_item: OIT-9kh5cqz5qtrb
+  domain: http
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'A loop over $client->stream($responses) must carry on when one response is answered 404. Where is that status read?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-16'
+  tags:
+  - httpclient
+  - stream
+  choices:
+  - id: CHO-0sh5wzs3grv4
+    text: 'With getStatusCode() when its first chunk arrives'
+    correct: true
+  - id: CHO-kry57hsz8j42
+    text: 'With getContent(false) when its last chunk arrives'
+    correct: false
+    explanation: 'Too late: once the first chunk is handed over, the stream checks the status itself and throws a ClientException.'
+  - id: CHO-1mw8f2rtbvn6
+    text: 'After the loop, on each response'
+    correct: false
+    explanation: 'The loop has already been interrupted by the ClientException.'
+  - id: CHO-cnt73dvxf2mb
+    text: 'Nowhere: stream() never checks a status'
+    correct: false
+    explanation: 'stream() checks the status of a response whose first chunk was handed over unread.'
+  explanation: 'After yielding a first chunk, the stream reads the headers with the status check on if the loop did not: an unread 404 throws a ClientException as the loop resumes. Reading getStatusCode() at the first chunk prevents it. Executed on HttpClient 8.0.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_client.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/http_client.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'Dealing with Network Errors: check the status code when the first chunk arrived'
+    verified_at: '2026-10-16'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpClient/Response/TransportResponseTrait.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpClient/Response/TransportResponseTrait.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'stream(): Ensure the HTTP status code is always checked'
+    verified_at: '2026-10-16'

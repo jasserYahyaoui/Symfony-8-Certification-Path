@@ -479,3 +479,84 @@ facts:
     behavior_check: php.json-decode-defaults
     content: [CRS-722pscs6e2m0, QST-xna2m697k5m7]
     forbidden: []
+  http-client.unchecked-status-throws-on-destruct:
+    finding: P2.7
+    official_item: OIT-9kh5cqz5qtrb
+    statement: >-
+      A response whose status nobody read throws the 3xx-5xx exception from its destructor; an unassigned request is
+      therefore synchronous. getStatusCode(), getHeaders(false) and cancel() opt out; getInfo('http_code') does not.
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_client.rst
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpClient/Response/TransportResponseTrait.php
+    behavior_check: http-client.unchecked-status-throws-on-destruct
+    content: [CRS-ez2qmqfk902e, FLC-r4e8c0b07twy, QST-gm49kwkdxbtm, QST-pj447r0ttj70]
+    forbidden: []
+  http-client.retry-count-and-last-response:
+    finding: P2.7
+    official_item: OIT-9kh5cqz5qtrb
+    statement: >-
+      RetryableHttpClient retries 3 times by default (max_retries), so at most four requests; once exhausted it returns
+      the last response as it is, whose getContent() then throws.
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpClient/RetryableHttpClient.php
+    behavior_check: http-client.retry-count-and-last-response
+    content: [CRS-ez2qmqfk902e, QST-122kweqkmvkb]
+    forbidden: []
+  http-client.retry-by-status-and-method:
+    finding: P2.7
+    official_item: OIT-9kh5cqz5qtrb
+    statement: >-
+      The default strategy retries 423, 425, 429, 502 and 503 for every method; 500, 504, 507, 510 and transport errors
+      for idempotent methods only; a failed DNS resolution for every method; never a 404.
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpClient/Retry/GenericRetryStrategy.php
+      - https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_client.rst
+    behavior_check: http-client.retry-by-status-and-method
+    content: [CRS-ez2qmqfk902e, FLC-s6byhm4fp6at, QST-57h88pmcmram]
+    forbidden: []
+  http-client.retry-delay-and-retry-after:
+    finding: P2.7
+    official_item: OIT-9kh5cqz5qtrb
+    statement: >-
+      The default delay is 1 s, multiplied by 2 at each retry, with 10 % jitter; a Retry-After header replaces it.
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpClient/Retry/GenericRetryStrategy.php
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpClient/RetryableHttpClient.php
+    behavior_check: http-client.retry-delay-and-retry-after
+    content: [CRS-ez2qmqfk902e, FLC-s6byhm4fp6at]
+    forbidden: []
+  http-client.stream-error-chunk:
+    finding: P2.7
+    official_item: OIT-9kh5cqz5qtrb
+    statement: >-
+      In stream(), a response's transport error is thrown by its chunk's methods; uncaught it ends the loop for every
+      response, caught inside the loop it lets the others finish. getError() alone does not handle it.
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpClient/Chunk/ErrorChunk.php
+      - https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_client.rst
+    behavior_check: http-client.stream-error-chunk
+    content: [CRS-ez2qmqfk902e, FLC-64jn4rvgq2j7, QST-xmc2fdjxha1y]
+    forbidden: []
+  http-client.stream-status-at-first-chunk:
+    finding: P2.7
+    official_item: OIT-9kh5cqz5qtrb
+    statement: >-
+      In stream(), a status left unread at the first chunk is checked by the stream itself: a 404 throws a
+      ClientException as the loop resumes.
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpClient/Response/TransportResponseTrait.php
+    behavior_check: http-client.stream-status-at-first-chunk
+    content: [CRS-ez2qmqfk902e, QST-49wat9m2ymsx]
+    forbidden: []
+  http-client.stream-timeout-chunk:
+    finding: P2.7
+    official_item: OIT-9kh5cqz5qtrb
+    statement: >-
+      A timeout given to stream() yields a chunk whose isTimeout() is true and ends that stream; isLast() on it throws a
+      TimeoutException; a new stream() resumes the response.
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpClient/Chunk/ErrorChunk.php
+      - https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_client.rst
+    behavior_check: http-client.stream-timeout-chunk
+    content: [CRS-ez2qmqfk902e]
+    forbidden: []
