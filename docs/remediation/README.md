@@ -56,7 +56,7 @@ an idea: it stops the old sentence returning, not every way of being wrong.
 | F5 | Content metrics read as candidate mastery | **VÉRIFIÉ** (local) | see P1.7 |
 | F6 | Roadmap / mock texts out of sync | **VÉRIFIÉ** (local) — mock texts derived; comprehension load budgeted, exam moved to 29 Dec by owner decision | see P2.5 |
 | F7 | Too few multiple-answer questions | **VÉRIFIÉ** — P1.6: +33, then +10 for PHP and Automated Tests (4 VALIDATION, 39 LEARNING in all), every choice executed or read in its source | see P1.6 |
-| F8 | Unsourced "not examinable" restrictions | **EN COURS** — Serializer (P1.5), Cache (P1.4), Validator (P1.3), Forms (P1.2) and PHP API (P1.1) extended, VÉRIFIÉ; P2.7 EN COURS (HttpClient, Console VÉRIFIÉ) | see P1.5, P1.3, P1.2, P1.1, P2.7 |
+| F8 | Unsourced "not examinable" restrictions | **EN COURS** — Serializer (P1.5), Cache (P1.4), Validator (P1.3), Forms (P1.2) and PHP API (P1.1) extended, VÉRIFIÉ; P2.7 EN COURS (HttpClient, Console, Profiler VÉRIFIÉ) | see P1.5, P1.3, P1.2, P1.1, P2.7 |
 | F9 | PHP source 404 and mutable branch URLs | **BLOQUÉ** (the last 404 is in a HOLDOUT question) — pinning À FAIRE | see P2.6 |
 | F10 | No per-card recall record; comprehension stores nothing | **EN COURS** — comprehension recorded (P2.4, VÉRIFIÉ local); per-card recall À FAIRE (P2.3) | see P2.4 |
 
@@ -305,14 +305,38 @@ citation, so a format change has to be designed with it, not applied in bulk.
 | P1.2 Forms | #415 | squash `0318807` | smoke success, log read (« ok remediation P1.2 lot-07 ») |
 | P1.1 PHP API | #416 | squash `a8bb7fd` | smoke 116895810622 success, log read (« ok remediation P1.1 lot-01 »; 297 ok and 0 error in the last 400 lines) |
 | P2.7 HttpClient | #417 | squash `17253ae` | smoke 117170953200 success, log read (« ok remediation P2.7 lot-02 »; 298 ok and 0 error) |
+| P2.7 Console | #418 | squash `baa8cec` | smoke 117187468251 success, log read (« ok remediation P2.7 lot-12 »; 299 ok and 0 error) |
 | P1.7, P2.4, P2.5 (part) | #395, CI green | squash `6c1448c` | job « Production smoke test » 115498368380 success, log read. It checks served pages and payloads, not the client-side progression table, which the CI a11y audit renders. |
 
 ## Next action
 
-P2.7, one component per PR: Profiler, Translation, Filesystem/Finder/Process,
-Runtime. Then P2.3 (per-card recall, which would
+P2.7, one component per PR: Translation, Filesystem/Finder/Process, Runtime. Then P2.3 (per-card recall, which would
 give item statistics a source). By the owner's decision of 2026-10-16, Mock 4 is
 not sat now and is no longer raised in reports; F4 and F9 stay blocked.
+
+### P2.7 — Profiler: a data collector end to end
+
+The mission asks for a complete, tested data collector. `tools/behavior` gains
+`symfony/framework-bundle` 8.0.15 (for `AbstractDataCollector` and
+`KernelBrowser`; the lock changes no other version). Executed first
+(`tools/behavior/checks/profiler.php`, three checks, six vendor mutations, all
+proved, restored byte-identically); same results on 7.4.21. The functional-test
+side was already taught and executed on *Profiler object* (lot 13); the new
+check reads a custom, autoconfigured collector back through it.
+
+| Behaviour | Result |
+|---|---|
+| `getName()` not overridden | the FQCN; `getTemplate()` is `null` |
+| `Profiler::collect()` | calls `collect()`, stores a **clone** in the profile |
+| `saveProfile()` | `lateCollect()` on that clone, then write; both values are loaded back |
+| unknown collector name | `InvalidArgumentException`: Collector "…" does not exist. |
+| a `Closure` in `$this->data` | `saveProfile()` throws « Serialization of 'Closure' is not allowed » |
+| `reset()` / disabled profiler | data emptied / `collect()` returns `null` |
+| functional test, `collect: false` | `getCollector('app.hit')` only after `enableProfiler()`, for one request |
+
+**Level: unchanged (STANDARD)**, 885 body words (two traps that restated the
+course were merged). Content: one outcome, one section, two flashcards, two
+LEARNING questions, two COMPREHENSION questions, three central facts.
 
 ### P2.7 — Console: signals, the alarm event, testing a command
 

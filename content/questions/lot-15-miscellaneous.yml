@@ -438,3 +438,123 @@ questions:
     branch: '8.0'
     symbol_or_lines: the toolbar is only injected into HTML responses; X-Debug-Token-Link and /_profiler
     verified_at: '2026-09-12'
+- id: QST-9w82jjm5746x
+  question_archetype: API_SIGNATURE
+  assesses_outcomes:
+  - OUT-pte9pqwe7378
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-d1qsxrtv25kk
+  domain: symfony
+  subtopic: profiler
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'App\DataCollector\CacheCollector extends AbstractDataCollector and does not override getName(). A functional test has the profile of a request. Which call returns that collector?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-16'
+  tags:
+  - profiler
+  - data-collector
+  choices:
+  - id: CHO-q434t7ednjw5
+    text: '$profile->getCollector(CacheCollector::class)'
+    correct: true
+  - id: CHO-2ef48pqg2h02
+    text: '$profile->getCollector(''cache_collector'')'
+    correct: false
+    explanation: 'No snake_case name is derived: the default name is the fully qualified class name.'
+  - id: CHO-7xgqastzwezz
+    text: '$profile->getCollector(''cache'')'
+    correct: false
+    explanation: 'cache is the name of a built-in collector, not of this class.'
+  - id: CHO-nyv3d6sdx81m
+    text: '$profile->getCollector(''app.cache_collector'')'
+    correct: false
+    explanation: 'A service-id style name exists only if getName() returns it.'
+  explanation: 'AbstractDataCollector::getName() returns static::class, so without an override the collector is found under its fully qualified class name. The documentation suggests overriding it with a short string. Executed on FrameworkBundle 8.0.15.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DataCollector/AbstractDataCollector.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/DataCollector/AbstractDataCollector.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'getName(): return static::class'
+    verified_at: '2026-10-16'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/profiler.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/profiler.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'getName(): By default it returns the FQCN of the data collector class'
+    verified_at: '2026-10-16'
+- id: QST-7b6xtj7h9tyf
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-pte9pqwe7378
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-d1qsxrtv25kk
+  domain: symfony
+  subtopic: profiler
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'In a data collector, collect() keeps a callback, fn () => ..., in $this->data. Which step of profiling throws?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-16'
+  tags:
+  - profiler
+  - data-collector
+  choices:
+  - id: CHO-jgww3r4yc8de
+    text: 'Saving the profile: the callback cannot be serialized'
+    correct: true
+  - id: CHO-0j3j06cfeyka
+    text: 'collect() itself, as soon as the callback is assigned'
+    correct: false
+    explanation: 'Assigning a Closure to an array is legal PHP; nothing checks it at that point.'
+  - id: CHO-10j639fkb0g6
+    text: 'Nothing throws: the callback is dropped from the profile'
+    correct: false
+    explanation: 'Nothing filters it out: the profile is serialized as it is.'
+  - id: CHO-3pgxqp7a12nb
+    text: 'Rendering the toolbar, when the panel reads the data'
+    correct: false
+    explanation: 'The failure happens before any rendering, when the profile is written.'
+  explanation: 'Profiler::saveProfile() writes the profile through its storage, which serializes every collector; PHP refuses with "Serialization of ''Closure'' is not allowed". ProfilerListener calls saveProfile() on kernel.terminate. Executed on HttpKernel 8.0.15.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Profiler/Profiler.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Profiler/Profiler.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'collect(): addCollector(clone $collector); saveProfile(): lateCollect() then write'
+    verified_at: '2026-10-16'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/profiler.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/profiler.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    symbol_or_lines: 'As the profiler serializes data collector instances, you should not store objects that cannot be serialized'
+    verified_at: '2026-10-16'
