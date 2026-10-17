@@ -71,6 +71,12 @@ export interface PracticeSession {
   correct: number;
   /** Question ids in the order served, so a review replays the real series. */
   order: string[];
+  /**
+   * Remediation P3.2: a series of first exposures only — `inedite`, never
+   * answered questions dealt lot by lot, or `parallele`, another question on
+   * each weak point. Absent on an ordinary series.
+   */
+  series?: 'inedite' | 'parallele';
   finished_at: string;
 }
 

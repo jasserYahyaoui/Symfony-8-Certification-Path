@@ -284,6 +284,12 @@ jobs:
       - name: Delayed checks are scheduled and selected as stated
         run: node website/tools/verify-delayed.mjs
 
+      # Remediation P3.2 (docs/policy/first-exposure.md): the « série inédite »
+      # serves only never-answered questions, lot after lot, and the parallel
+      # replay never serves the missed question itself.
+      - name: First-exposure series serve only unseen questions
+        run: node website/tools/verify-exposure.mjs
+
       # `onBrokenLinks: 'throw'` makes this the site-level counterpart of the
       # LNK-001 content rule: a dead link fails the build instead of shipping.
       - name: Build the documentation site
@@ -344,8 +350,10 @@ jobs:
 
       # Remediation P3.2, in the browser: no correction before the reasoning is
       # given, the self-rating recorded and the text not; a delayed check due
-      # after 8 days, starting with the missed question, recorded as delayed.
-      - name: Reasoning is asked before the correction, and delayed checks come back
+      # after 8 days, starting with the missed question, recorded as delayed;
+      # a « série inédite » of ten lots that names no item before the answer,
+      # and a parallel replay that serves another question on the outcome.
+      - name: Reasoning before the correction, delayed checks, first-exposure series
         run: node website/tools/verify-transfer-ui.mjs
 
       - name: Accessibility audit

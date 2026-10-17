@@ -163,8 +163,10 @@ Les attributes de correspondance sont la forme confortable du même mécanisme :
 | `#[MapRequestPayload]` | le body de la Request, vers un object | **422** |
 | `#[MapUploadedFile]` | un file téléversé | **422** |
 
-Ce qui vient de l'URL échoue en 404, ce qui vient du body en 422 ; l'option
-`validationFailedStatusCode` change le statut. `#[MapQueryParameter]` accepte
+Ce qui vient de l'URL échoue en 404, ce qui vient du body en 422 quand il ne
+valide pas. Un body illisible — un JSON malformé — donne **400**, un format sans
+decoder **415** ; l'option `validationFailedStatusCode` change le 422, pas
+ceux-là. `#[MapQueryParameter]` accepte
 `filter`, `flags` et `options` ; avec `FILTER_NULL_ON_FAILURE`, une valeur
 invalide devient `null` au lieu de lever.
 
@@ -176,6 +178,7 @@ invalide devient `null` au lieu de lever.
 - Le premier resolver qui fournit une valeur **arrête** la chaîne de resolvers.
 - Une valeur invalide dans l'URL donne **404**, pas 400.
 - `#[MapQueryParameter]` échoue en **404**, `#[MapRequestPayload]` en **422**.
+- Un JSON malformé donne **400**, pas 422 : il n'y a rien à valider.
 - Un resolver ciblé ne s'exécute pas sans son attribute.
 - `SessionInterface $session = null` est déprécié en PHP 8.4.
 
@@ -185,7 +188,7 @@ invalide devient `null` au lieu de lever.
 - Tag `controller.argument_value_resolver`, ordre par priority, premier servi.
 - 120 pour `Request`/`Session`, 100 pour les attributes, −100 pour le défaut.
 - Épingler : épinglé, puis attributes, puis défaut.
-- URL invalide → 404 ; corps invalide → 422.
+- URL invalide → 404 ; body qui ne valide pas → 422 ; illisible → 400.
 
 ## Sources officielles
 

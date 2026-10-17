@@ -477,3 +477,70 @@ questions:
     branch: '8.0'
     symbol_or_lines: FORMAT_KEY = datetime_format
     verified_at: '2026-10-14'
+- id: QST-xfq1w6p4khfq
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+    - OUT-m8wfdy7569p8
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-fr58jzaj6jtb
+  domain: symfony
+  subtopic: denormalization
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'A controller argument is declared `#[MapRequestPayload] OrderInput $input`, and `OrderInput` has a promoted
+    constructor property `int $quantity` carrying `#[Assert\Positive]`. A client posts `Content-Type: application/json`
+    with the body `{"quantity": "three"}`. With the default configuration, which status code does the client get?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 70
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+    - tech-lead
+  reviewed_at: '2026-10-17'
+  tags:
+    - integration
+    - denormalization
+    - map-request-payload
+  choices:
+    - id: CHO-qw806bhsdxz0
+      text: 422 Unprocessable Content
+      correct: true
+    - id: CHO-se7skers3wa7
+      text: 400 Bad Request
+      correct: false
+      explanation: 400 is kept for a body the decoder cannot read at all, such as malformed JSON. This body is valid JSON.
+    - id: CHO-be1jh9hswhaj
+      text: 415 Unsupported Media Type
+      correct: false
+      explanation: 415 is for a format with no decoder; application/json has one.
+    - id: CHO-jy5dyymgezh7
+      text: 500 Internal Server Error
+      correct: false
+      explanation: No TypeError reaches the constructor. The denormalizer checks the type first and, asked to collect
+        errors, records the mismatch instead of throwing.
+  explanation: '`#[MapRequestPayload]` deserializes with `collect_denormalization_errors` on. The string given for an int
+    is collected in a `PartialDenormalizationException`, which `RequestPayloadValueResolver` turns into a violation
+    (« This value should be of type int. »); `Positive` is not even checked. Any violation fails with
+    `validationFailedStatusCode`, 422 by default. Malformed JSON gives 400 and a format with no decoder 415. Executed
+    with HttpKernel, Serializer and Validator 8.0.15.'
+  official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Controller/ArgumentResolver/RequestPayloadValueResolver.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Controller/ArgumentResolver/RequestPayloadValueResolver.php
+      branch: '8.0'
+      symbol_or_lines: CONTEXT_DESERIALIZE (collect_denormalization_errors); PartialDenormalizationException turned into
+        violations; NotEncodableValueException → BadRequestHttpException; UnsupportedFormatException → UnsupportedMediaTypeHttpException
+      verified_at: '2026-10-17'
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Attribute/MapRequestPayload.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Attribute/MapRequestPayload.php
+      branch: '8.0'
+      symbol_or_lines: validationFailedStatusCode = Response::HTTP_UNPROCESSABLE_ENTITY
+      verified_at: '2026-10-17'

@@ -54,6 +54,7 @@ final readonly class DocsGenerator
         // absent from the file the Practice page fetches (§7.3, §17).
         $practice = $this->payloads->practicePayload($content);
         PayloadBuilder::assertNoHoldoutLeak($practice, $content);
+        PayloadBuilder::assertPoolsAllowed($practice, $content, [Pool::Learning]);
 
         $written[] = $this->writeJson($dataDir.'/practice.json', $practice);
 
@@ -62,6 +63,7 @@ final readonly class DocsGenerator
         // invariant.
         $exam = $this->payloads->examPayload($content);
         PayloadBuilder::assertNoHoldoutLeak($exam, $content);
+        PayloadBuilder::assertPoolsAllowed($exam, $content, [Pool::Validation]);
 
         $written[] = $this->writeJson($dataDir.'/exam.json', $exam);
 
@@ -116,6 +118,7 @@ final readonly class DocsGenerator
         if ([] !== $blueprint && $hasHoldout) {
             $mock = $this->payloads->mockPayload($content, $blueprint);
             PayloadBuilder::assertMockMatchesBlueprint($mock, $content, $blueprint);
+            PayloadBuilder::assertPoolsAllowed($mock, $content, [Pool::Holdout]);
 
             $written[] = $this->writeJson($dataDir.'/mock-4.json', $mock);
         }
@@ -136,6 +139,7 @@ final readonly class DocsGenerator
                 $payload = $this->payloads->trainingMockPayload($content, $mocks, $mockId);
                 PayloadBuilder::assertTrainingMockMatchesBlueprint($payload, $content, $mocks, $mockId);
                 PayloadBuilder::assertNoHoldoutLeak($payload, $content);
+                PayloadBuilder::assertPoolsAllowed($payload, $content, [Pool::Validation]);
 
                 $written[] = $this->writeJson($dataDir.'/'.$mockId.'.json', $payload);
             }
@@ -146,6 +150,7 @@ final readonly class DocsGenerator
             $five = $this->payloads->weaknessMockPayload($content, $mocks);
             if ([] !== $five['questions']) {
                 PayloadBuilder::assertNoHoldoutLeak($five, $content);
+                PayloadBuilder::assertPoolsAllowed($five, $content, [Pool::Validation, Pool::Learning]);
                 $written[] = $this->writeJson($dataDir.'/mock-5.json', $five);
             }
         }
@@ -160,6 +165,7 @@ final readonly class DocsGenerator
         if ([] !== $blueprint && PayloadBuilder::examSeriesFits($content, (int) $blueprint['official_constraints']['questions'])) {
             $series = $this->payloads->examSeriesPayload($content, $blueprint);
             PayloadBuilder::assertExamSeries($series, $content);
+            PayloadBuilder::assertPoolsAllowed($series, $content, [Pool::Validation, Pool::Learning]);
             $written[] = $this->writeJson($dataDir.'/exams.json', $series);
         }
 
