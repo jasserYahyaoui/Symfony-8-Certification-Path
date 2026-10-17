@@ -314,6 +314,7 @@ citation, so a format change has to be designed with it, not applied in bulk.
 | P3.3 Journal of corrections, version guard | #424 | squash `2a8f7da` | smoke 117423979751 success, log read (308 ok and 0 error in the last 400 lines; « ok remediation P3.3: journal des corrections served, entries anchored », « question-versions.json (59 rewritten questions) ») |
 | P3.1 Semantic repetition, « difficulté estimée » | #425 | squash `9cebee6` | smoke 117493721315 success, log read (308 ok and 0 error in the last 400 lines; « question-versions.json (70 rewritten questions) ») |
 | P3.2 (first part) Reasoning before the correction, delayed checks | #426 (first CI run red on `verify-navigation`, fixed in the PR) | squash `8b6c898` | smoke 117514123216 success, log read (309 ok and 0 FAIL in the last 400 lines; « ok 200 …/controle-differe ») |
+| P3.2 (second part) First exposures, parallel forms, questions crossing components | #427 | squash `6c5b918` | smoke 117528038621 success, log read (309 ok and 0 FAIL in the last 400 lines; « practice 583 questions, all LEARNING », « mock-5 724 eligible ») |
 | P1.7, P2.4, P2.5 (part) | #395, CI green | squash `6c1448c` | job « Production smoke test » 115498368380 success, log read. It checks served pages and payloads, not the client-side progression table, which the CI a11y audit renders. |
 
 ### P3.3 — Maintenance: a journal of corrections, and answers that follow versions
@@ -514,11 +515,13 @@ length audit pass.
 
 ## Next action
 
-P3.1 is delivered in #425, P3.2's first part in #426 (with the journal entry
-for #425's rewrites), and its second part in the PR after it. Next: the
-journal entry for the second part's course precision and two questions (it
-cites the squash commit). The held-back third integration question waits for
-a decision on the revision pace or date, which is the owner's.
+P3.1 is delivered in #425 and P3.2 in #426 and #427; the journal entries for
+#427 (`CVR-a4813yxth40x`, the resolvers course corrected; `CVR-zzn9ysgne2mg`,
+the two questions crossing components) land in the PR after it. The
+held-back third integration question waits for a decision on the revision
+pace or date, which is the owner's. What remains of the mission is the
+independent evaluation after remediation, which needs a reviewer outside this
+project: MISSING.
 
 Item statistics (P3.1) now have a first local source — per-card recall —
 but no shared data: they stay MISSING until learners' answers are collected

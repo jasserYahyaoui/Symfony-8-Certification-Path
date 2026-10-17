@@ -551,3 +551,47 @@ entries:
     flashcards: []
     questions: [QST-3bbtms3dk9ca, QST-af1e821vzx6r, QST-bftzbt0t3q8y, QST-c8gpyvw5shmy, QST-enxn0ad65n0w, QST-gbccz7ynvbd2, QST-gfqb0xrb7tbx, QST-gpz2ww98k670, QST-k1qgrrevaw40, QST-m8byv8zcsa8m, QST-nqeq65rj5m97, QST-ycpqw0ygx9cd]
     reversioned: [QST-3bbtms3dk9ca, QST-af1e821vzx6r, QST-bftzbt0t3q8y, QST-c8gpyvw5shmy, QST-enxn0ad65n0w, QST-gbccz7ynvbd2, QST-gfqb0xrb7tbx, QST-gpz2ww98k670, QST-k1qgrrevaw40, QST-m8byv8zcsa8m, QST-nqeq65rj5m97, QST-ycpqw0ygx9cd]
+
+  - id: CVR-a4813yxth40x
+    date: '2026-10-18'
+    pull_request: 427
+    commit: '6c5b918'
+    kind: CORRECTION
+    finding: P3.2
+    official_items: [OIT-8hs6e05vq91g]
+    facts: []
+    title: "Argument value resolvers : un body illisible donne 400, pas 422"
+    was: >-
+      « Ce qui vient de l'URL échoue en 404, ce qui vient du body en 422 ; l'option
+      `validationFailedStatusCode` change le statut. » — et en point clé « URL invalide → 404 ; corps
+      invalide → 422. »
+    now: >-
+      Avec `#[MapRequestPayload]`, un body qui ne valide pas donne **422**, y compris un type incorrect
+      dans un JSON bien formé. Un body illisible, comme un JSON malformé, donne **400**, et un format sans
+      decoder **415**. `validationFailedStatusCode` change le 422, pas ceux-là. Lu dans
+      `RequestPayloadValueResolver` 8.0 et exécuté.
+    courses:
+      - id: CRS-d5ffd8b704zs
+        sections: ["Les resolvers ciblés", "Pièges d'examen", "Points clés"]
+    flashcards: []
+    questions: []
+
+  - id: CVR-zzn9ysgne2mg
+    date: '2026-10-18'
+    pull_request: 427
+    commit: '6c5b918'
+    kind: EXTENSION
+    finding: P3.2
+    official_items: [OIT-fr58jzaj6jtb, OIT-s601ppsyb9f7]
+    facts: []
+    title: "Deux questions dont le piège et la règle relèvent de deux components"
+    now: >-
+      `#[MapRequestPayload]` dénormalise en collectant les erreurs : un type incorrect devient une
+      violation, donc un 422. Un listener de `kernel.request` de priority 64 lit `_route` à `null`, parce
+      que `RouterListener` est lui-même un listener, à 32. Chacune est exécutée avec les cas de ses
+      distracteurs.
+    courses:
+      - id: CRS-3z96cp2s1dka
+        sections: ["Dénormaliser"]
+    flashcards: []
+    questions: [QST-xfq1w6p4khfq, QST-ayq8xg4be7j8]
