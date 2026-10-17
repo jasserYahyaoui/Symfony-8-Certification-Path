@@ -75,6 +75,11 @@ final readonly class DocsGenerator
 
         $written[] = $this->writeJson($dataDir.'/comprehension.json', $comprehension);
 
+        // Remediation P2.3: the index /progression lists due cards from. It
+        // carries each card's front and where it lives, never its back — the
+        // list must not answer the card it sends the learner to.
+        $written[] = $this->writeJson($dataDir.'/flashcards.json', $this->flashcardIndex($content));
+
         // Mock 4 is the one payload that carries the holdout, and it is held
         // to a stricter invariant rather than a looser one: it must match the
         // blueprint exactly — 75 questions, the per-topic allotment, one per
@@ -1123,12 +1128,51 @@ Créer des cours avant l'import reviendrait à enseigner un programme deviné.
             // characters that actually break MDX — `<`, which would open a JSX
             // tag, and `{`, which would open a JS expression and fail the
             // build with "page is not defined".
-            $markdown .= "<details>\n<summary>".$this->mdxText($card->front)."</summary>\n\n"
+            //
+            // The recall rating sits inside <details>, after the back: it is
+            // offered once the answer is read, and opening a card records
+            // nothing — a reveal is not a recall (remediation P2.3).
+            $markdown .= '<details id="'.CourseUrl::flashcardAnchor($card->id->value).'">'."\n<summary>".$this->mdxText($card->front)."</summary>\n\n"
                 ."**".$this->mdxText($card->back)."**\n\n"
-                .$this->mdxText($card->explanation)."\n\n</details>\n\n";
+                .$this->mdxText($card->explanation)."\n\n"
+                .'<FlashcardRecall card="'.$card->id->value.'" version="'.self::cardVersion($card).'" item="'.$card->officialItemId.'" />'
+                ."\n\n</details>\n\n";
         }
 
         return $markdown;
+    }
+
+    /**
+     * A card's version, for the learner's stored schedule: a change of front or
+     * back is a different card, and a schedule earned on the old one must not
+     * carry over. The explanation can be reworded without resetting anyone.
+     */
+    public static function cardVersion(Flashcard $card): string
+    {
+        return substr(hash('sha256', $card->front."\n".$card->back), 0, 12);
+    }
+
+    /**
+     * @return array{cards: list<array{id: string, version: string, item: string, url: string, front: string}>}
+     */
+    private function flashcardIndex(ContentSet $content): array
+    {
+        $cards = [];
+        foreach ($content->flashcards as $card) {
+            $item = $content->matrix->findById($card->officialItemId);
+            if (null === $item || null === $this->courseFor($item->id->value, $content)) {
+                continue;
+            }
+            $cards[] = [
+                'id' => $card->id->value,
+                'version' => self::cardVersion($card),
+                'item' => $card->officialItemId,
+                'url' => CourseUrl::forItem($item).'#'.CourseUrl::flashcardAnchor($card->id->value),
+                'front' => $card->front,
+            ];
+        }
+
+        return ['cards' => $cards];
     }
 
     private function flashcardsFor(string $itemId, ContentSet $content): array

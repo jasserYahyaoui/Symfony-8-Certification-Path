@@ -111,7 +111,7 @@ jobs:
                       "data/revision-calendar.json" \
                       "data/practice.json" "data/exam.json" "data/coverage.json" \
                       "data/readiness.json" "data/simulations.json" "data/mock-4.json" "data/mock-1.json" "data/mock-2.json" "data/mock-3.json" "data/mock-5.json" \
-                      "data/exams.json" "data/comprehension.json"; do
+                      "data/exams.json" "data/comprehension.json" "data/flashcards.json"; do
             url="$BASE_URL/$path"
             code=$(curl -sL -o /tmp/body -w '%{http_code}' --retry 5 --retry-delay 5 --retry-all-errors "$url")
             if [ "$code" != "200" ]; then
@@ -5081,6 +5081,33 @@ jobs:
             fail=1
           else
             echo "ok  remediation  P1.3 lot-08: null and empty string per constraint, 8.0 named arguments, custom constraint"
+          fi
+          # Remediation P2.3: the flashcard index the due list reads, and the card anchors and
+          # recall slot on a course page. The index must carry fronts only: a back in it would
+          # answer the card the list links to.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/p23-index.json -w '%{http_code}' "$BASE_URL/data/flashcards.json")
+          if [ "$code" != "200" ]; then
+            echo "::error::Remediation P2.3: data/flashcards.json serves $code"
+            fail=1
+          elif ! python3 -c "
+          import json,sys
+          d=json.load(open('/tmp/p23-index.json'))
+          cards=d['cards']
+          assert len(cards) >= 1900, len(cards)
+          assert all(set(c) == {'id','version','item','url','front'} for c in cards), 'unexpected keys'
+          print(len(cards))
+          " > /tmp/p23-count 2>&1; then
+            echo "::error::Remediation P2.3: flashcards.json malformed: $(cat /tmp/p23-count)"
+            fail=1
+          fi
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/p23-page -w '%{http_code}' "$BASE_URL/docs/courses/lot-02/status-codes")
+          if [ "$code" != "200" ] || ! grep -aqF -- 'id="carte-flc-' /tmp/p23-page || ! grep -aqF -- 'certpath-recall' /tmp/p23-page; then
+            echo "::error::Remediation P2.3: the status-codes page lacks card anchors or the recall slot ($code)"
+            fail=1
+          else
+            echo "ok  remediation  P2.3: flashcards.json ($(cat /tmp/p23-count) cards, fronts only); card anchors and recall slot served"
           fi
           # Remediation P2.7, lot 21: a portable test environment for Filesystem (paths in /, the
           # Windows-only reading of backslashes and drive letters) and a deterministic Finder order.

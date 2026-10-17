@@ -2,6 +2,7 @@ import type {ComponentProps, ReactNode} from 'react';
 import {Children, isValidElement} from 'react';
 import MDXComponents from '@theme-original/MDXComponents';
 import ComprehensionCheck from '@site/src/components/ComprehensionCheck';
+import FlashcardRecall from '@site/src/components/FlashcardRecall';
 
 /**
  * The text of a React subtree: what a sighted reader sees in a header cell.
@@ -60,4 +61,6 @@ export default {
   table: ScrollableTable,
   // The lot's comprehension check (ADR-0010), placed by the generator.
   ComprehensionCheck,
+  // A flashcard's recall rating (remediation P2.3), placed by the generator.
+  FlashcardRecall,
 };

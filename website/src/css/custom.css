@@ -549,3 +549,33 @@ html[data-theme='dark'] {
   cursor: pointer;
   font-weight: 600;
 }
+
+/* Flashcard recall rating (remediation P2.3): inside the card, after the back. */
+.certpath-recall {
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--ifm-color-emphasis-300);
+}
+
+.certpath-recall__prompt {
+  margin-bottom: 0.5rem;
+}
+
+.certpath-recall__choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.certpath-recall__hint {
+  font-weight: normal;
+}
+
+.certpath-recall__status {
+  margin: 0.75rem 0 0;
+}
+
+.certpath-recall__status:focus-visible {
+  outline: 3px solid var(--certpath-focus);
+  outline-offset: 2px;
+}

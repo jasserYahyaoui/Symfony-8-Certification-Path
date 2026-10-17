@@ -80,7 +80,28 @@ have produced an interval shorter than the one it already had.
 always produces the same output, which is what makes the schedule testable and
 portable to the browser without divergence.
 
+## In the browser (remediation P2.3, 2026-10-16)
+
+The algorithm runs where the card is read: `website/src/lib/review.ts` is a
+port of `ReviewScheduler.php`, and `website/tools/verify-review.mjs` replays
+every sequence of one to six outcomes, plus long runs, through both (CI). Two
+branches of the reference are unreachable from a fresh card and so cannot be
+told apart by that replay — the PHP-style rounding of `ease`, which only moves
+on a 0.05 grid, and the `intervalDays + 1` floor, which 1.2 × n already meets
+for every n ≥ 3; the port keeps both.
+
+- **What is recorded.** A rating the learner gives after reading the back,
+  inside the card. Opening a card records nothing: a reveal is not a recall.
+- **Dates.** `due_on` is the learner's local calendar day plus `intervalDays`.
+  `AGAIN` reads « à revoir avant la fin de la session, puis demain »; the page
+  has no session of its own, so `dueInSession` is shown, not stored.
+- **Version.** A card's version is a hash of its front and back. A stored
+  schedule for another version is discarded at the next rating: it was earned
+  on a different card.
+- **Order.** « Ma progression » lists the cards due today, earliest due first.
+  No weakest-first or interleaving is claimed.
+
 ## Not yet decided
 
-Card selection *order* within a session (due-first, weakest-first, interleaved)
-is not part of this algorithm and is deferred to the flashcard UI in Lot 0.5.
+Whether a due card should be served in a dedicated review session rather than
+found on its course page.

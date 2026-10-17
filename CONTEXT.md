@@ -30,6 +30,8 @@ Branche de travail : `claude/symfony-8-certification-plan-phmkau`.
 | P2.7 Console : signaux et exit codes, ConsoleAlarmEvent (5e event, affirmation « quatre events » corrigée), testers | #418 | `baa8cec` | smoke 117187468251 **success, lu** |
 | P2.7 Profiler : data collector de bout en bout (nom, clone, lateCollect, serialization, test fonctionnel) | #419 | `bfd0c04` | smoke 117205386196 **success, lu** |
 | P2.7 Translation : plural/select ICU imbriqués, `other` obligatoire, plusieurs catalogues | #420 | `abbcca0` | smoke 117226027552 **success, lu** |
+| P2.7 Filesystem/Finder : environment de test portable, divergence doc/code sur `isAbsolutePath('c:\\Windows')` | #421 | `76ee0dd` | smoke 117235982393 **success, lu** |
+| P2.7 Runtime : point d'entrée minimal exécuté en CI (plugin Composer) | #422 | `5882b0c` | smoke 117244563874 **success, lu** |
 
 Nouveau : `tools/behavior/` (Symfony 8.0.* verrouillé, 10 faits exécutés en CI),
 `docs/facts/central-facts.yml` + `CentralFactsTest` (le retour d'une ancienne
@@ -74,8 +76,10 @@ d'une raison dans `MultipleAnswerEvidenceTest::DOCUMENTARY`.
 
 **Prochaine action :** P2.7 (approfondissements secondaires), un composant par
 PR — HttpClient (#417), Console (#418), Profiler (#419), Translation (#420),
-Filesystem/Finder (#421), Runtime faits ; P2.7 terminé. Ensuite P2.3 (rappel par
-carte). Note : `tools/behavior` utilise le plugin Composer de symfony/runtime ;
+Filesystem/Finder (#421), Runtime (#422) faits ; P2.7 terminé. P2.3 (rappel par
+carte, planification, import) livré dans la PR suivante. Reste du plan : P3
+(qualité des questions, transfert, maintenance), bloqué en partie faute de
+données d'apprenants (statistiques par question : MISSING). Note : `tools/behavior` utilise le plugin Composer de symfony/runtime ;
 en local (root), `COMPOSER_ALLOW_SUPERUSER=1 composer install` pour qu'il
 écrive `vendor/autoload_runtime.php`. Toujours : exécuter d'abord dans
 `tools/behavior`, écrire ensuite, et décider du niveau sur l'item, jamais sur un
