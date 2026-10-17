@@ -24,6 +24,8 @@ interface Props {
   questions: Question[];
   items: Record<string, ItemIndexEntry>;
   attempts: Attempt[];
+  /** Remediation P3.2: every question of the series was answered for the first time. */
+  firstExposure?: boolean;
   onRestart: () => void;
 }
 
@@ -41,6 +43,7 @@ export default function PracticeResults({
   questions,
   items,
   attempts,
+  firstExposure = false,
   onRestart,
 }: Props): React.JSX.Element {
   // The last attempt per question wins — a learner who redid a question inside
@@ -116,6 +119,13 @@ export default function PracticeResults({
           </li>
         )}
       </ul>
+
+      {firstExposure && (
+        <p className="certpath-note">
+          Chaque question de cette série vous était posée pour la première fois dans sa version
+          actuelle : ce score ne vient pas du souvenir de sa correction.
+        </p>
+      )}
 
       <p className="certpath-note">
         <strong>Ce score n'est pas un résultat officiel Symfony.</strong> Aucun

@@ -172,6 +172,8 @@ framework reçoit. Exécuté sur une property `int $qty` :
 
 `COLLECT_DENORMALIZATION_ERRORS` rassemble les erreurs dans une
 `PartialDenormalizationException` au lieu de s'arrêter à la première.
+`#[MapRequestPayload]` dénormalise avec cette option : les erreurs collectées y
+deviennent des violations, comme celles d'une constraint.
 
 `OBJECT_TO_POPULATE` remplit un object existant : exécuté, `{"qty":7}` change
 `qty` et laisse `note` intact, et c'est bien le même object qui est rendu.

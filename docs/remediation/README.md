@@ -313,6 +313,7 @@ citation, so a format change has to be designed with it, not applied in bulk.
 | P2.3 Flashcard recall | #423 | squash `1032fc2` | smoke 117400911384 success, log read (304 ok and 0 error; « ok remediation P2.3: flashcards.json (1940 cards, fronts only); card anchors and recall slot served ») |
 | P3.3 Journal of corrections, version guard | #424 | squash `2a8f7da` | smoke 117423979751 success, log read (308 ok and 0 error in the last 400 lines; « ok remediation P3.3: journal des corrections served, entries anchored », « question-versions.json (59 rewritten questions) ») |
 | P3.1 Semantic repetition, « difficulté estimée » | #425 | squash `9cebee6` | smoke 117493721315 success, log read (308 ok and 0 error in the last 400 lines; « question-versions.json (70 rewritten questions) ») |
+| P3.2 (first part) Reasoning before the correction, delayed checks | #426 (first CI run red on `verify-navigation`, fixed in the PR) | squash `8b6c898` | smoke 117514123216 success, log read (309 ok and 0 FAIL in the last 400 lines; « ok 200 …/controle-differe ») |
 | P1.7, P2.4, P2.5 (part) | #395, CI green | squash `6c1448c` | job « Production smoke test » 115498368380 success, log read. It checks served pages and payloads, not the client-side progression table, which the CI a11y audit renders. |
 
 ### P3.3 — Maintenance: a journal of corrections, and answers that follow versions
@@ -428,15 +429,96 @@ stored and the text not, the option remembered; a lot due after 8 days, its
 missed question served first and recorded `delayed`, the next one 14 days
 later); five new accessibility surfaces, one of them the page a learner with nothing due sees.
 
-**Still to do in P3.2:** series mixing components without announcing the
-trap, and explicit first-exposure rules for parallel forms.
+### P3.2 — Transfer (second part): first exposures, parallel forms, series mixing lots
+
+The mission asks for unseen series mixing several components without
+announcing the trap, and for parallel forms of assessment with explicit
+first-exposure rules. The rules are `docs/policy/first-exposure.md`.
+
+| Piece | What it does |
+|---|---|
+| `src/lib/exposure.ts` | one definition of a first exposure: the first answer to a question as it stands, in any mode (a rewritten question is new) |
+| « Série inédite » (`/practice?serie=inedite`) | ten LEARNING questions never answered, dealt lot by lot — the first round takes one from each lot, and two consecutive questions share a lot only when no other lot has one left. Filters are hidden; nothing outside the question names its lot, item or topic before the answer |
+| « Forme parallèle de mes points faibles » (`/practice?serie=parallele`) | for each question whose latest answer was wrong, in any mode, one never-answered LEARNING question on the same learning outcome — or the same item when the bank has none — never the missed one; it says how many matched on the outcome, on the item, and how many weak points have nothing left |
+| series report | both say every answer was a first exposure; the series is recorded (`series` on the practice session) |
+| `PayloadBuilder::assertPoolsAllowed()` | at build, on Practice, Exam Mode, Mocks 1 to 5 and the exam series: each question belongs to a pool the payload may carry; a HOLDOUT id is never printed, a comprehension question is refused |
+
+**A guarantee that was a label.** Practice Mode's « LEARNING only » rested on a
+filter and on `PracticePayloadTest` asserting the payload's `pool` label.
+Making `Pool::isExposedInPracticeMode()` accept VALIDATION left that test green;
+`FirstExposureRulesTest` fails on it (proved, file restored under SHA-256). Its
+four injections — VALIDATION in Practice, LEARNING in Exam Mode, HOLDOUT in the
+exam series (refused without its id), a comprehension question in Mock 1 —
+run on every `phpunit`.
+
+**Verified.** `verify-exposure.mjs` (15 cases, 200 seeds where order is
+random) and `verify-transfer-ui.mjs` (3 new browser checks: ten questions from
+ten lots, none answered before, nothing outside the question naming its item
+or topic; the series recorded and the next one skipping it; the parallel
+replay serving another question on the missed outcome). Each was proved by
+mutation, files restored under SHA-256: taking answered questions, dropping
+the lot-by-lot dealing, preferring the item to the outcome, and counting every
+answered question as weak each fail `verify-exposure`; printing the item in
+the series banner fails `verify-transfer-ui`.
+
+**An audit that measured a frame.** The full gate run of this PR failed once
+on « flashcard — notée » (contrast, 2 nodes) and passed on the same build
+rebuilt. Reproduced, not called a flake: auditing that surface right after the
+click failed 2 runs in 20, always the « Bien » button sampled while its
+colours faded to the hover state (3.12:1 and 3.69:1, intermediate colours of
+no rest state); after the fade, 0 in 20. `a11y-audit.mjs` now waits for every
+finite animation to end before axe runs — the hover state is still measured,
+and an animation that never ends fails the surface on the timeout.
+
+**Parallel forms, and what is not one.** A missed question and its parallel
+replay, a `PARALLEL` pair of P3.1, a comprehension and an exam question are
+built to measure the same thing with different questions. Exams 1 to 6 are
+not parallel forms: they rise in estimated difficulty on purpose. No form is
+equated — difficulty is the author's estimate and item statistics are MISSING.
+
+**Questions crossing components.** Two LEARNING questions put the trap in
+one component and the deciding rule in another, each anchored on the item
+whose rule decides (the exam-bank schema takes one item) and tagged
+`integration`; each is executed with its distractors' own cases
+(`tools/behavior/single/integration-p32.php`):
+
+- `#[MapRequestPayload]` receiving `{"quantity": "three"}` for an `int`: **422**,
+  because the resolver deserializes with `collect_denormalization_errors` and
+  turns the collected type error into a violation (Serializer item). Executed
+  alongside: malformed JSON 400, `text/plain` 415, and
+  `validationFailedStatusCode: 409` moving the 422 but not the 400;
+- a `kernel.request` listener at priority 64 reads `_route` as `null`:
+  `RouterListener` is a listener at 32 (EventDispatcher item); at 16 it reads
+  the name;
+
+A third — `{{ 'cart.total'|trans }}` at `fr_CA`, defined only in `en`, shows the
+English text through `fr_CA`, `fr`, then `fallbacks` (Internationalization
+item) — was written, executed and passed every rule, and is **held back**: its
+60 seconds tip the revision plan, which then introduces the last items on
+14 December instead of 11 and no longer fits the four mocks before Mock 4
+(`build_roadmap.py`: « Pas de place »). The plan has no slack left at the
+owner's pace (160/220 min, four new items a day, exam on 29 December), so any
+new question on a late item does the same. Moving the pace or the date is the
+owner's decision; the question waits in the session scratchpad until then.
+
+Writing the first one showed a course statement too broad: « ce qui vient du
+body [échoue] en 422 ». A body that cannot be decoded gives 400, a format
+with no decoder 415, and `validationFailedStatusCode` changes only the 422 —
+read in `RequestPayloadValueResolver` 8.0 and executed. The *Argument value
+resolvers* course now says so (paragraph, trap, key point), and the
+*Serializer* course says that `#[MapRequestPayload]` collects denormalization
+errors. No threshold moved: none of the questions makes a pair at cosine 0.45 or
+more with any question, HOLDOUT included (counted only), and CMP-002, ARC-001
+(one archetype corrected from CODE_OUTPUT, as the template is inline) and the
+length audit pass.
 
 ## Next action
 
-P3.1 is delivered in #425; its journal entry (`CVR-n1e5ghdcftxn`, the twelve
-rewritten questions, all `reversioned`) lands with P3.2's first part, which
-cites its squash commit. Next: the rest of P3.2 — unseen series mixing
-components, parallel forms and explicit first-exposure rules.
+P3.1 is delivered in #425, P3.2's first part in #426 (with the journal entry
+for #425's rewrites), and its second part in the PR after it. Next: the
+journal entry for the second part's course precision and two questions (it
+cites the squash commit). The held-back third integration question waits for
+a decision on the revision pace or date, which is the owner's.
 
 Item statistics (P3.1) now have a first local source — per-card recall —
 but no shared data: they stay MISSING until learners' answers are collected

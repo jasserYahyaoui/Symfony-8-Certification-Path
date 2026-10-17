@@ -1,6 +1,8 @@
 /**
  * Remediation P3.2, driven in a real browser: the reasoning asked before the
- * correction in Practice Mode, and the delayed comprehension check.
+ * correction in Practice Mode, the delayed comprehension check, and the two
+ * series of first exposures — the « série inédite » and the parallel replay of
+ * a weak point (docs/policy/first-exposure.md).
  *
  * What is asked for: an explanation requested before the reveal, then compared
  * with the expected one; checks that come back after the reading, not only
@@ -22,6 +24,8 @@ const BASE = '/Symfony-8-Certification-Path';
 const TYPES = {'.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.svg': 'image/svg+xml'};
 const KEY = 'certpath.learner-state';
 const COMPREHENSION = JSON.parse(await readFile(join(ROOT, 'data/comprehension.json'), 'utf8'));
+const PRACTICE = JSON.parse(await readFile(join(ROOT, 'data/practice.json'), 'utf8'));
+const lotOfItem = (item) => PRACTICE.items[item].course_url.split('/')[3];
 
 const server = createServer(async (req, res) => {
   let p = decodeURIComponent(req.url.split('?')[0]).replace(BASE, '') || '/';
@@ -162,6 +166,108 @@ await check('contrôle différé : le suivant attend 14 jours', async () => {
   await page.getByText("Aucun contrôle différé n'est dû aujourd'hui.").waitFor();
   await page.getByText(/intervalle de 14 jours/).waitFor();
   return 'plus dû, prochain à 14 jours';
+});
+
+// The « série inédite ». Five questions of lot 05 are already answered: none
+// may come back, consecutive questions never share a lot (the bank has 26), and
+// nothing outside the question names its item or topic before the answer.
+const answeredBefore = PRACTICE.questions.filter((q) => lotOfItem(q.official_item) === 'lot-05').slice(0, 5);
+const learnerWith = (attempts) => ({
+  schema_version: 5, sessions: [], practice_sessions: [], comprehension: [], revision: {done: {}, settings: null}, flashcards: {}, attempts,
+});
+const servedUnseen = [];
+
+await check('série inédite : dix questions jamais répondues, lots alternés, rien n annonce le sujet', async () => {
+  await page.goto(url('/practice'), {waitUntil: 'networkidle'});
+  await page.evaluate(({k, state}) => {
+    window.localStorage.clear();
+    window.localStorage.setItem(k, JSON.stringify(state));
+  }, {k: KEY, state: learnerWith(answeredBefore.map((q) => ({
+    question_id: q.id, question_version: q.version, official_item: q.official_item, correct: true, chosen: [],
+    answered_at: '2026-10-01T00:00:00.000Z', mode: 'practice',
+  })))});
+  await page.goto(url('/practice?serie=inedite'), {waitUntil: 'networkidle'});
+  await page.getByText(/^Série inédite — 10 questions/).waitFor();
+  for (let i = 0; i < 10; i += 1) {
+    const card = page.locator('fieldset.certpath-question');
+    await card.waitFor();
+    const id = (await card.locator('input').first().getAttribute('name')).replace(/^answer-/, '');
+    const q = PRACTICE.questions.find((x) => x.id === id);
+    const item = PRACTICE.items[q.official_item];
+    const outside = await page.evaluate(() => {
+      const main = document.querySelector('main').cloneNode(true);
+      main.querySelector('fieldset.certpath-question')?.remove();
+      return main.innerText;
+    });
+    if (outside.includes(item.official_item) || outside.includes(q.official_topic)) {
+      throw new Error(`question ${i + 1} : l'item ou le sujet est affiché avant la réponse`);
+    }
+    if ((await page.locator(`main a[href*="${item.course_url}"]`).count()) !== 0) {
+      throw new Error(`question ${i + 1} : un lien vers le cours précède la réponse`);
+    }
+    servedUnseen.push(q);
+    await card.locator('input').first().check();
+    await page.getByRole('button', {name: 'Valider ma réponse'}).click();
+    await page.locator('.certpath-verdict').waitFor();
+    await page.getByRole('button', {name: i === 9 ? 'Voir mon bilan' : 'Question suivante'}).click();
+  }
+  if (new Set(servedUnseen.map((q) => q.id)).size !== 10) {
+    throw new Error('une question est servie deux fois');
+  }
+  if (servedUnseen.some((q) => answeredBefore.some((a) => a.id === q.id))) {
+    throw new Error('une question déjà répondue est servie');
+  }
+  const lots = servedUnseen.map((q) => lotOfItem(q.official_item));
+  if (new Set(lots).size !== 10) {
+    throw new Error(`lots servis : ${lots.join(', ')}`);
+  }
+  return `10 questions, 10 lots, aucune des 5 déjà répondues`;
+});
+
+await check('série inédite : bilan en première exposition, série enregistrée', async () => {
+  await page.getByText(/pour la première fois dans sa version actuelle/).waitFor();
+  const sessions = (await stored()).practice_sessions;
+  if (sessions.at(-1)?.series !== 'inedite') {
+    throw new Error(`série enregistrée : ${JSON.stringify(sessions.at(-1))}`);
+  }
+  await page.goto(url('/practice?serie=inedite'), {waitUntil: 'networkidle'});
+  const card = page.locator('fieldset.certpath-question');
+  await card.waitFor();
+  const next = (await card.locator('input').first().getAttribute('name')).replace(/^answer-/, '');
+  if (servedUnseen.some((q) => q.id === next)) {
+    throw new Error('la série suivante resert une question de la précédente');
+  }
+  return 'series: inedite ; la série suivante écarte les 10 répondues';
+});
+
+// The parallel replay: a question missed on an outcome another LEARNING
+// question also assesses. The replay serves that other question, never the
+// missed one, and says it matched on the outcome.
+const byOutcome = new Map();
+for (const q of PRACTICE.questions) {
+  for (const o of q.assesses_outcomes ?? []) byOutcome.set(o, [...(byOutcome.get(o) ?? []), q]);
+}
+const missedQ = PRACTICE.questions.find((q) => (q.assesses_outcomes ?? []).some((o) => byOutcome.get(o).length >= 2));
+
+await check('forme parallèle : une autre question sur le même résultat d apprentissage, jamais celle manquée', async () => {
+  await page.evaluate(({k, state}) => window.localStorage.setItem(k, JSON.stringify(state)), {k: KEY, state: learnerWith([{
+    question_id: missedQ.id, question_version: missedQ.version, official_item: missedQ.official_item, correct: false, chosen: [],
+    answered_at: '2026-10-01T00:00:00.000Z', mode: 'practice',
+  }])});
+  await page.goto(url('/practice?serie=parallele'), {waitUntil: 'networkidle'});
+  await page.getByText(/^Forme parallèle — 1 point faible/).waitFor();
+  await page.getByText(/1 sur\s+le même résultat d'apprentissage/).waitFor();
+  const card = page.locator('fieldset.certpath-question');
+  await card.waitFor();
+  const id = (await card.locator('input').first().getAttribute('name')).replace(/^answer-/, '');
+  const served = PRACTICE.questions.find((q) => q.id === id);
+  if (id === missedQ.id) {
+    throw new Error('la question manquée est resservie');
+  }
+  if (!served.assesses_outcomes.some((o) => missedQ.assesses_outcomes.includes(o))) {
+    throw new Error('la question servie ne partage aucun résultat d apprentissage');
+  }
+  return 'question différente, résultat d apprentissage partagé';
 });
 
 await browser.close();

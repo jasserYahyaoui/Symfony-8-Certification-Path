@@ -468,6 +468,19 @@ const PAGES = [
       await page.locator('fieldset.certpath-question').waitFor();
     },
   }],
+  // Remediation P3.2, second part: two series of first exposures only.
+  ['practice — série inédite', '/practice?serie=inedite', {
+    drive: async (page) => {
+      await page.locator('fieldset.certpath-question').waitFor();
+    },
+  }],
+  ['practice — forme parallèle', '/practice?serie=parallele', {
+    state: () => seedWeakness(SINGLE.id, SINGLE.official_item),
+    drive: async (page) => {
+      await page.getByText(/^Forme parallèle/).waitFor();
+      await page.locator('fieldset.certpath-question').waitFor();
+    },
+  }],
   ['journal des corrections', '/docs/corrections'],
   ['journal des corrections, dark', '/docs/corrections', {colorScheme: 'dark'}],
   ['progression — réponse à une version antérieure', '/progression', {
@@ -590,6 +603,15 @@ for (const [name, path, script] of PAGES) {
   if (script?.drive) {
     await script.drive(page);
   }
+  // Measure the state the learner sees, not a frame of a CSS transition. A
+  // click leaves the pointer on the button it pressed, and the button's colours
+  // then fade to their hover state: axe sometimes sampled them half-way —
+  // « flashcard — notée », 2 runs in 20, the « Bien » button at 3.12:1 —
+  // and never once the fade ended (0 in 20). Only finite animations are
+  // awaited; one that never ends fails the surface on the timeout.
+  await page.waitForFunction(() => document.getAnimations()
+    .filter((a) => Number.isFinite(a.effect?.getComputedTiming().endTime ?? 0))
+    .every((a) => a.playState !== 'running'));
 
   const {violations} = await new AxeBuilder({page})
     .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])

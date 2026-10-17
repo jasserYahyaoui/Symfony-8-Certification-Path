@@ -960,6 +960,44 @@ final class PayloadBuilder
     }
 
     /**
+     * Where a learner may meet a question first (remediation P3.2,
+     * docs/policy/first-exposure.md): every question of the payload belongs to
+     * one of the pools it is allowed to carry. The payload's `pool` label is a
+     * claim; this reads each question. A HOLDOUT id is never printed, and a
+     * comprehension question, which no exam payload may carry, is refused too.
+     *
+     * @param array<string, mixed> $payload
+     * @param list<Pool>           $allowed
+     */
+    public static function assertPoolsAllowed(array $payload, ContentSet $content, array $allowed): void
+    {
+        $pools = [];
+        foreach ($content->questions as $question) {
+            $pools[$question->id->value] = $question->pool;
+        }
+
+        foreach ((array) ($payload['questions'] ?? []) as $exported) {
+            $id = (string) ($exported['id'] ?? '');
+            $pool = $pools[$id] ?? null;
+
+            if (null === $pool) {
+                throw new \LogicException(\sprintf('Question "%s" is not a question of the exam banks; no exam payload may carry it (first-exposure rules).', $id));
+            }
+
+            if (!\in_array($pool, $allowed, true)) {
+                throw new \LogicException(Pool::Holdout === $pool
+                    ? 'A HOLDOUT question reached a payload that may not carry it (first-exposure rules); its id is withheld.'
+                    : \sprintf(
+                        'Question "%s" of the %s pool reached a payload that carries only %s (first-exposure rules).',
+                        $id,
+                        $pool->value,
+                        implode(', ', array_map(static fn (Pool $p): string => $p->value, $allowed)),
+                    ));
+            }
+        }
+    }
+
+    /**
      * ADR-0010's isolation, both ways: the comprehension payload carries only
      * comprehension questions, and none of them shares an id with a question
      * of the exam banks — the holdout included, whose ids are never printed.

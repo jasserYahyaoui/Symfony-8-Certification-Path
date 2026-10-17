@@ -330,3 +330,68 @@ questions:
     branch: '8.0'
     symbol_or_lines: the-generic-event-object
     verified_at: '2026-09-02'
+- id: QST-ayq8xg4be7j8
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+    - OUT-c43j65gh5pth
+  version: 1
+  official_topic: Miscellaneous
+  official_item: OIT-s601ppsyb9f7
+  domain: symfony
+  subtopic: listener-priority
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: DIAGNOSE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'In a Symfony application, a listener is registered on `kernel.request` with priority 64. The request is
+    `GET /product/7`, which the route `product_show` (path `/product/{id}`) matches. The listener reads
+    `$request->attributes->get(''_route'')`. What does it get?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 55
+  classification: OFFICIAL
+  pool: LEARNING
+  verification_status: VERIFIED
+  reviewers:
+    - tech-lead
+  reviewed_at: '2026-10-17'
+  tags:
+    - integration
+    - listener-priority
+    - routing
+  choices:
+    - id: CHO-20gnj5xbxsp6
+      text: '`null`'
+      correct: true
+    - id: CHO-d2b4e3a3v0h9
+      text: '`''product_show''`'
+      correct: false
+      explanation: That is what a listener below priority 32 reads, once the router has matched the request.
+    - id: CHO-pw2rrycs9p89
+      text: '`''/product/7''`'
+      correct: false
+      explanation: '`_route` holds the name of the route, never the path.'
+    - id: CHO-qm8x3w23rdy2
+      text: '`''7''`'
+      correct: false
+      explanation: The placeholder value goes to the attribute `id`, and only after the match.
+  explanation: 'Routing is not a step before the events: `RouterListener` is itself a `kernel.request` listener, at
+    priority 32, and it writes the matched parameters — `_route`, `_controller`, `id` — into the request attributes. The
+    dispatcher calls the highest priority first, so a listener at 64 runs before the match. At 16, where
+    `LocaleListener` sits for this very reason, it reads `product_show`. Executed with HttpKernel, Routing and
+    EventDispatcher 8.0.15.'
+  official_sources:
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/RouterListener.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/EventListener/RouterListener.php
+      branch: '8.0'
+      symbol_or_lines: 'getSubscribedEvents(): KernelEvents::REQUEST => [[''onKernelRequest'', 32]]'
+      verified_at: '2026-10-17'
+    - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/EventDispatcher/EventDispatcher.php
+      readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/EventDispatcher/EventDispatcher.php
+      branch: '8.0'
+      symbol_or_lines: sortListeners() — krsort, highest priority first
+      verified_at: '2026-10-17'
