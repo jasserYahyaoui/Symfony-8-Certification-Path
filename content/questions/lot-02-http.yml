@@ -1574,7 +1574,7 @@ questions:
     question_archetype: BEHAVIOR_PREDICTION
     assesses_outcomes:
       - OUT-m7sm7y26r3vk
-    version: 1
+    version: 2
     official_topic: HTTP
     official_item: OIT-tc39jp8japfc
     domain: symfony
@@ -1585,8 +1585,8 @@ questions:
     type: mcq
     answer_mode: single
     required_answer_count: 1
-    question: A Symfony response is left at its default cacheability, then setSharedMaxAge(600) is called
-      and nothing else. Which Cache-Control directives does it carry?
+    question: An action calls setSharedMaxAge(600) on its Response, then setPrivate(). May a reverse proxy store the
+      response?
     scoring_policy: all-or-nothing
     shuffle_choices: true
     negative_wording: false
@@ -1596,38 +1596,40 @@ questions:
     verification_status: VERIFIED
     reviewers:
       - tech-lead
-    reviewed_at: '2026-09-11'
+    reviewed_at: '2026-10-17'
     tags:
       - caching
       - cache-control
     choices:
-      - id: CHO-zgdfcdsqbnjf
-        text: public and s-maxage=600, because setSharedMaxAge() calls setPublic() itself
+      - id: CHO-spn509x3frvc
+        text: 'No: private forbids a shared cache to store it, whatever s-maxage says'
         correct: true
-      - id: CHO-nbfhs1z5an60
-        text: private and s-maxage=600, because the default is private and was not changed
+      - id: CHO-569zahepeqte
+        text: 'Yes, for 600 s: s-maxage is addressed to shared caches precisely'
         correct: false
-        explanation: 'The default is indeed private, but setSharedMaxAge() flips it: shared freshness
-          on a private response would be contradictory.'
-      - id: CHO-rvx9e40rszmh
-        text: public and max-age=600, because s-maxage is an alias
+        explanation: 'private outranks it: a shared cache must not store a private response at all.'
+      - id: CHO-3j6btwagdkyr
+        text: 'Yes, for 600 s: setPrivate() only concerns the browser'
         correct: false
-        explanation: They are distinct directives; s-maxage binds shared caches only.
-      - id: CHO-weepqvwx5pm4
-        text: s-maxage=600 alone, leaving cacheability unstated
+        explanation: private is a directive to every shared cache, the reverse proxy included.
+      - id: CHO-hzm9fvga21wq
+        text: No, because setPrivate() removes the s-maxage directive
         correct: false
-        explanation: The public directive is added explicitly by the same call.
-    explanation: 'setSharedMaxAge() is not only a setter: it calls setPublic() before adding the s-maxage
-      directive, removing the private directive in the process. Declaring a shared freshness lifetime
-      on a response no shared cache may store would otherwise be meaningless.'
+        explanation: The directive stays in the header; it is private that forbids the storage.
+    explanation: 'setPrivate() replaces public with private and leaves s-maxage in place: executed on HttpFoundation
+      8.0.15, the header is Cache-Control: private, s-maxage=600, and Response::isCacheable() is false, so Symfony''s
+      HttpCache does not store it. RFC 9111: a shared cache must not store a response marked private.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php
         readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Response.php
-        repository: symfony/symfony
         branch: '8.0'
-        commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
-        symbol_or_lines: setSharedMaxAge lines 841-847, setPublic lines 609-615
-        verified_at: '2026-09-11'
+        symbol_or_lines: setSharedMaxAge(), setPrivate(), isCacheable()
+        verified_at: '2026-10-17'
+      - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9111.html
+        readable_url: https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9111.html
+        anchor: cache-response-directive.private
+        branch: master
+        verified_at: '2026-10-17'
   - id: QST-055ctb1t92na
     question_archetype: SCENARIO_CHOICE
     assesses_outcomes:

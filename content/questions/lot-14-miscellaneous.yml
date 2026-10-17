@@ -67,19 +67,20 @@ questions:
   question_archetype: CONFIG_BEHAVIOR
   assesses_outcomes:
   - OUT-zbp5kh2xgz63
-  version: 1
+  version: 2
   official_topic: Miscellaneous
   official_item: OIT-tvc5rjv6qvse
   domain: symfony
   subtopic: env
   language: en
-  difficulty: medium
-  cognitive_level: KNOW
+  difficulty: hard
+  cognitive_level: APPLY
   exam_skill: DISTINGUISH
   type: mcq
   answer_mode: single
   required_answer_count: 1
-  question: Which .env file is deliberately ignored in the test environment?
+  question: APP_ENV is prod. APP_GREETING is set in .env, in .env.local and in .env.prod, and nowhere else. Which
+    value does the application read?
   scoring_policy: all-or-nothing
   shuffle_choices: true
   negative_wording: false
@@ -89,32 +90,39 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-02'
+  reviewed_at: '2026-10-17'
   tags:
-  - test
+  - env
+  - dotenv
   choices:
-  - id: CHO-qpr57ycem8m1
-    text: .env.local
+  - id: CHO-0jrskgc6n32f
+    text: The one in .env.prod, loaded after .env.local
     correct: true
-  - id: CHO-vs9xcghp43jv
-    text: .env.test.local
+  - id: CHO-nvhzyywx1jhq
+    text: The one in .env.local, because a .local file always wins
     correct: false
-    explanation: That one is read; it is the machine-specific override for the test environment.
-  - id: CHO-911kzjsd0vms
-    text: .env.test
+    explanation: .env.local only beats .env; .env.<env> and .env.<env>.local are loaded after it.
+  - id: CHO-yv5tn9nynee3
+    text: The one in .env, because the first definition is kept
     correct: false
-    explanation: That is the committed test-environment file and is read.
-  - id: CHO-p5b9bs1k33cf
-    text: .env
+    explanation: Among .env files the last one loaded wins; only a real environment variable is kept.
+  - id: CHO-5nz750y20d1c
+    text: 'None: a variable defined in two .env files is an error'
     correct: false
-    explanation: The base file is always read.
-  explanation: .env.local is skipped in tests so that the suite produces the same result on every machine.
+    explanation: Redefining a variable in a later file is the point of the cascade.
+  explanation: 'Dotenv::loadEnv() reads .env, then .env.local (skipped in test), then .env.<env>, then .env.<env>.local,
+    each overriding the previous. Executed with the 8.0 Dotenv: APP_GREETING comes from .env.prod.'
   official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Dotenv/Dotenv.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Dotenv/Dotenv.php
+    branch: '8.0'
+    symbol_or_lines: loadEnv()
+    verified_at: '2026-10-17'
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration.rst
     readable_url: https://github.com/symfony/symfony-docs/blob/8.0/configuration.rst
     branch: '8.0'
     symbol_or_lines: configuration-multiple-env-files
-    verified_at: '2026-09-02'
+    verified_at: '2026-10-17'
 - id: QST-hs62x7n8hq15
   question_archetype: CONCEPT_DISTINCTION
   assesses_outcomes:
@@ -176,19 +184,20 @@ questions:
   question_archetype: BEHAVIOR_DIAGNOSIS
   assesses_outcomes:
   - OUT-nrbst3qj145g
-  version: 1
+  version: 2
   official_topic: Miscellaneous
   official_item: OIT-kv7mbksn7m8v
   domain: symfony
   subtopic: status
   language: en
-  difficulty: medium
+  difficulty: hard
   cognitive_level: UNDERSTAND
   exam_skill: DIAGNOSE
   type: mcq
   answer_mode: single
   required_answer_count: 1
-  question: A controller throws a plain RuntimeException meaning "not found". What status does the error page carry?
+  question: 'An exception class implements HttpExceptionInterface and its getStatusCode() returns 409. framework.exceptions
+    also maps that class to status_code: 423. A controller throws it. What status does the error page carry?'
   scoring_policy: all-or-nothing
   shuffle_choices: true
   negative_wording: false
@@ -198,39 +207,39 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-10-02'
+  reviewed_at: '2026-10-17'
   tags:
   - exception
   choices:
-  - id: CHO-ksyjv1htjx66
-    text: 500, for any plain exception
+  - id: CHO-7z4ayt9g2bmc
+    text: '423: the framework.exceptions mapping is applied first'
     correct: true
-  - id: CHO-rzqsnaj97qpe
-    text: 404, because the message says the resource is missing
+  - id: CHO-8x0b0ctmff1z
+    text: '409: an exception that states its own status always keeps it'
     correct: false
-    explanation: The message is never inspected to derive a status.
-  - id: CHO-a9p9rn2zx0p2
-    text: 400, the default for an unhandled application exception
+    explanation: The configured status_code is applied before the exception is asked for its own.
+  - id: CHO-6678cw2chyde
+    text: '500: the two sources conflict, so the generic status is used'
     correct: false
-    explanation: The default is 500, not 400.
-  - id: CHO-4rvqx5jhvywa
-    text: 'No status: the response is empty'
+    explanation: 'There is no conflict to resolve: the sources are read in a fixed order.'
+  - id: CHO-m2jn9vwxdqa9
+    text: 409 in the dev environment, and 423 in prod
     correct: false
-    explanation: A response is always produced, with a status.
-  explanation: A plain RuntimeException carries no status, and its message is never read, so the page is a 500.
-    A status comes only from HttpExceptionInterface, a WithHttpStatus attribute, a framework.exceptions
-    status_code, or a RequestExceptionInterface (400); executed on Symfony 8.0.15, none applying gave 500.
+    explanation: The environment changes how the page looks, not which status it carries.
+  explanation: 'ErrorListener reads framework.exceptions first, and its status_code wins even over HttpExceptionInterface;
+    then #[WithHttpStatus], ignored when the interface is implemented; then getStatusCode(); then 400 for a RequestExceptionInterface;
+    otherwise 500. Executed on HttpKernel 8.0.15 with ErrorListener and ErrorController: 423.'
   official_sources:
-  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/error_pages.rst
-    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/controller/error_pages.rst
-    branch: '8.0'
-    symbol_or_lines: how-to-customize-error-pages
-    verified_at: '2026-09-02'
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php
     readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/EventListener/ErrorListener.php
     branch: '8.0'
-    symbol_or_lines: logKernelException(); WithHttpStatus
-    verified_at: '2026-10-02'
+    symbol_or_lines: 'logKernelException(): exceptionsMapping, WithHttpStatus'
+    verified_at: '2026-10-17'
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/configuration/framework.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/configuration/framework.rst
+    branch: '8.0'
+    symbol_or_lines: exceptions
+    verified_at: '2026-10-17'
 - id: QST-cs8r5jz7rb07
   question_archetype: CONFIG_BEHAVIOR
   assesses_outcomes:

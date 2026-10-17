@@ -161,6 +161,7 @@ jobs:
                    aud04_content_volume aud05_question_bank aud06_holdout_integrity \
                    aud07_english_readiness aud08_technical_production \
                    aud09_course_sections aud10_answer_length_bias \
+                   semantic_repetition \
                    lot01_second_audit fr2_second_audit; do
             echo "::group::$a"
             python3 "tools/audit/$a.py" || fail=1
@@ -182,6 +183,9 @@ jobs:
           # Four of the Lot 27 classifications return zero on the real corpus,
           # which is the shape every vacuous check in this project had. ~3 s.
           python3 tools/audit/lot27_practice_audit.py --prove
+          # Remediation P3.1: the semantic-repetition audit fires on an
+          # unreviewed pair, an open REPEAT and a review older than its question.
+          python3 tools/audit/semantic_repetition.py --prove
 
       # Remediation P3.3. docs/corrections/changelog.yml names, for each
       # correction, the courses, cards and questions that carry it: --check

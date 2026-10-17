@@ -154,7 +154,7 @@ const config: Config = {
             {label: 'Simulations : à quoi sert chaque mock', to: '/simulations'},
             {label: 'Mock 1 — Knowledge', to: '/mock-1'},
             {label: 'Mock 2 — Application', to: '/mock-2'},
-            {label: 'Mock 3 — Certification difficulty', to: '/mock-3'},
+            {label: 'Mock 3 — Highest estimated difficulty', to: '/mock-3'},
             {label: 'Mock 5 — Weakness-based', to: '/mock-5'},
             {label: 'Mock 4 — finale, à ne passer qu\'une fois', to: '/mock-4'},
             {label: 'Ma progression', to: '/progression'},

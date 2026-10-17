@@ -311,6 +311,7 @@ citation, so a format change has to be designed with it, not applied in bulk.
 | P2.7 Filesystem, Finder | #421 | squash `76ee0dd` | smoke 117235982393 success, log read (« ok remediation P2.7 lot-21 »; 302 ok and 0 error) |
 | P2.7 Runtime (CI harness only, no site change) | #422 | squash `5882b0c` | smoke 117244563874 success, log read (302 ok and 0 error); the `runtime.*` checks ran green in its CI |
 | P2.3 Flashcard recall | #423 | squash `1032fc2` | smoke 117400911384 success, log read (304 ok and 0 error; « ok remediation P2.3: flashcards.json (1940 cards, fronts only); card anchors and recall slot served ») |
+| P3.3 Journal of corrections, version guard | #424 | squash `2a8f7da` | smoke 117423979751 success, log read (308 ok and 0 error in the last 400 lines; « ok remediation P3.3: journal des corrections served, entries anchored », « question-versions.json (59 rewritten questions) ») |
 | P1.7, P2.4, P2.5 (part) | #395, CI green | squash `6c1448c` | job « Production smoke test » 115498368380 success, log read. It checks served pages and payloads, not the client-side progression table, which the CI a11y audit renders. |
 
 ### P3.3 — Maintenance: a journal of corrections, and answers that follow versions
@@ -353,13 +354,63 @@ and no remediation commit changed a HOLDOUT question.
 **Not done.** The independent evaluation after remediation needs a reviewer
 who is not this project: `MISSING`, and nothing here claims READY.
 
+### P3.1 — Question quality: semantic repetition, and « difficulté estimée »
+
+The mission asks for detection of semantic repetition beyond textual
+duplicates, explicit editorial criteria, and « difficulté estimée » rather
+than a certified difficulty until real data exists.
+
+**Semantic repetition.** `tools/audit/semantic_repetition.py` (CI, with
+`--prove`) flags every LEARNING/VALIDATION pair at TF-IDF cosine ≥ 0.45 and
+fails on one not reviewed in `docs/audit/semantic-repetition/reviewed.yml`,
+reviewed against an older version, or still `REPEAT`. Of 82 visible pairs,
+**twelve were `REPEAT`** — the same situation and conclusion reworded, seven of
+them giving the answer of a VALIDATION question to whoever practised the
+LEARNING one. Each LEARNING side was rewritten under a new version, on another
+outcome angle of its item, its key executed where it can be
+(`tools/behavior/single/semantic-p31.php`, eight single-answer checks;
+`questions/semantic-p31.php`, the traits one; three were proved by flipping a
+key). After: 70 visible pairs, 46 `PARALLEL`, 24 `DISTINCT`, 0 `REPEAT`. The
+report is `docs/audit/semantic-repetition/README.md`.
+
+Four first drafts were refused and redone, not forced: two by CMP-002 (71 %
+and 74 % similar to comprehension questions that already asked them), and two
+because a rewrite moved a Practice question towards a HOLDOUT question of the
+same item (0.21 → 0.54 and 0.38 → 0.44, measured as numbers, nothing read).
+HOLDOUT pairs are counted only (25, none involving a rewritten question).
+
+`tools/behavior` gains `symfony/dotenv` and `symfony/twig-bundle` 8.0.15, to
+execute the `.env` cascade and TwigBundle's `strict_variables` default; a
+new `single/` directory holds single-answer checks, held to its shape by
+`SingleAnswerExecutionTest` (questions/ stays multiple-answer, as
+MultipleAnswerEvidenceTest requires).
+
+**« Difficulté estimée ».** The Practice filter reads « Difficulté estimée »
+(facile, moyenne, difficile); Mock 3 is « Highest estimated difficulty »
+rather than « Certification difficulty », in its blueprint, page, footer and
+the home page. The exam menu already said « difficulté estimée ».
+
+**Readiness moved, and why.** Certification Readiness is unchanged (163
+items count either way), but two items pass from `REFINED` to
+`MASTERED_READY` — *TwigBundle* and *Error handling* — because their rewritten
+question is labelled `hard`, the third criterion of that state. Both labels
+follow the question (two facts combined: TwigBundle's `%kernel.debug%` default
+and both behaviours; ErrorListener's order of precedence); a third rewrite,
+on `_format`, was lowered to `medium` because it applies one rule. The
+criterion rests on an estimated difficulty, and says no more than that.
+
+**Not done, and why.** A second reviewer of the pairs, and item difficulty or
+discrimination measured on real answers: both `MISSING`. The editorial
+criteria (autonomous prompt, explicit hypotheses, one defensible key,
+plausible choices, causal explanation, relevant source) are what the rewrites
+were held to; they are not yet a rule a script can check.
+
 ## Next action
 
-P3.3 is delivered in the PR after #423 (journal, version guard, learner
-side). Next: P3.1 — « difficulté estimée » wherever a difficulty is shown, and
-detection of semantic repetition between questions beyond textual
-duplicates — then P3.2 (series mixing components, delayed checks, reasoning
-asked before the answer is revealed).
+P3.3 is delivered in #424; P3.1 in the PR after it. Next: the journal
+entry for the twelve rewritten questions (it cites the squash commit, so it
+lands in the following PR), then P3.2 — series mixing components, delayed
+checks, reasoning asked before the answer is revealed.
 
 Item statistics (P3.1) now have a first local source — per-card recall —
 but no shared data: they stay MISSING until learners' answers are collected

@@ -599,9 +599,8 @@ questions:
   - id: QST-gfqb0xrb7tbx
     question_archetype: BEHAVIOR_DIAGNOSIS
     assesses_outcomes:
-      - OUT-bqf7brva4nwe
       - OUT-rf33669d3w01
-    version: 1
+    version: 2
     official_topic: Dependency Injection
     official_item: OIT-stze9x4aydp3
     domain: symfony
@@ -613,8 +612,8 @@ questions:
     type: mcq
     answer_mode: single
     required_answer_count: 1
-    question: 'A service declared inside a when@test block of services.yaml is not autowired, although
-      _defaults sets autowire: true at the top of the same file. Why?'
+    question: 'config/services.yaml sets _defaults with autowire: true and imports config/services/admin.yaml, which
+      declares App\Report with no option. Is App\Report autowired?'
     scoring_policy: all-or-nothing
     shuffle_choices: true
     negative_wording: false
@@ -624,34 +623,35 @@ questions:
     verification_status: VERIFIED
     reviewers:
       - tech-lead
-    reviewed_at: '2026-09-01'
+    reviewed_at: '2026-10-17'
     tags:
       - defaults
-      - environments
+      - imports
     choices:
-      - id: CHO-5v9b2vtbjgxj
-        text: _defaults does not apply inside when@ blocks
+      - id: CHO-q8en3he7am70
+        text: 'No: _defaults applies only to the services block that declares it'
         correct: true
-      - id: CHO-vvcbdrevycr5
-        text: Autowiring is disabled in the test environment
+      - id: CHO-ed39q1w9sdgg
+        text: 'Yes: an imported file inherits the _defaults of the file importing it'
         correct: false
-        explanation: Autowiring is environment-independent.
-      - id: CHO-e9h8h36w0xsz
-        text: when@ blocks only accept parameters, not services
+        explanation: Each file has its own services block, and _defaults does not cross it.
+      - id: CHO-943dxahjqs8p
+        text: 'Yes: autowire is enabled for every service unless switched off'
         correct: false
-        explanation: They accept service definitions.
-      - id: CHO-9mhqcxrndf81
-        text: The service must also be declared in the main services section
+        explanation: autowire is off unless a definition or its _defaults turns it on.
+      - id: CHO-ghg40a3cw27k
+        text: 'No: a service declared in an imported file can never be autowired'
         correct: false
-        explanation: A service may be declared only in an environment block.
-    explanation: _defaults applies to the section it is written in. An environment block is a separate
-      section and inherits nothing, so the service is registered without autowire or autoconfigure.
+        explanation: 'It can: admin.yaml only needs its own _defaults, or autowire on the service.'
+    explanation: 'Executed on DependencyInjection 8.0.15: App\Mailer, declared in services.yaml, is autowired; App\Report,
+      declared in the imported file, is not. The documentation states that _defaults applies only to services defined
+      in the same services block.'
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
         readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container.rst
         branch: '8.0'
-        symbol_or_lines: service container
-        verified_at: '2026-09-01'
+        symbol_or_lines: The _defaults section applies only to services defined in the same services block
+        verified_at: '2026-10-17'
   - id: QST-q2p4t3hjc5x0
     question_archetype: API_SIGNATURE
     assesses_outcomes:

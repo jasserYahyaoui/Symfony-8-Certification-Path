@@ -503,21 +503,22 @@ questions:
       no route and gets a 404.'
     official_sources: *id001
   - id: QST-af1e821vzx6r
-    question_archetype: API_SIGNATURE
+    question_archetype: BEHAVIOR_PREDICTION
     assesses_outcomes:
       - OUT-zg0vs74c3yef
-    version: 1
+    version: 2
     official_topic: Routing
     official_item: OIT-4pgc74ctc3vc
     domain: symfony
     language: en
     difficulty: medium
-    cognitive_level: KNOW
-    exam_skill: RECOGNIZE
+    cognitive_level: UNDERSTAND
+    exam_skill: APPLY
     type: mcq
     answer_mode: single
     required_answer_count: 1
-    question: What does the special _format route parameter control?
+    question: 'A controller builds its Response with the header Content-Type: text/csv. The route that reached it
+      declares _format: json in its defaults. Which Content-Type does the client receive?'
     scoring_policy: all-or-nothing
     shuffle_choices: true
     negative_wording: false
@@ -527,28 +528,39 @@ questions:
     verification_status: VERIFIED
     reviewers:
       - tech-lead
-    reviewed_at: '2026-09-01'
+    reviewed_at: '2026-10-17'
     tags:
       - special-parameters
     choices:
-      - id: CHO-kctbarqh3b03
-        text: The request format, hence the Content-Type
+      - id: CHO-xc67wkap14cp
+        text: 'text/csv, with its charset: _format only fills in a missing Content-Type'
         correct: true
-      - id: CHO-dhav2zh9fba7
-        text: The template engine used to render the response
+      - id: CHO-hswn9j1s20d7
+        text: application/json, because the route's _format overrides the header
         correct: false
-        explanation: Rendering is chosen by the controller, not by a route parameter.
-      - id: CHO-anax7t8ba468
-        text: The serialization format of the route definition file
+        explanation: Response::prepare() uses the request format only when no Content-Type is set.
+      - id: CHO-f1c0hqaxpqrk
+        text: Both, sent as two separate Content-Type headers
         correct: false
-        explanation: That is unrelated to routing parameters.
-      - id: CHO-rw4exaxv8cdv
-        text: The character encoding of the generated URL
+        explanation: A response carries one Content-Type.
+      - id: CHO-yp0vgqmdgwa8
+        text: 'None: a 406 Not Acceptable is returned since the formats disagree'
         correct: false
-        explanation: Encoding is not what _format expresses.
-    explanation: 'A matched _format of json sets the request format, which translates into Content-Type:
-      application/json. That is how /search.json and /search.xml can share one route.'
-    official_sources: *id001
+        explanation: Nothing compares the two; the controller's header is kept.
+    explanation: 'Response::prepare() sets Content-Type from the request format only when the header is absent. Executed
+      on HttpFoundation 8.0.15 with _format json: an empty header becomes application/json, a text/csv header stays
+      text/csv; charset=utf-8.'
+    official_sources:
+      - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Response.php
+        branch: '8.0'
+        symbol_or_lines: prepare()
+        verified_at: '2026-10-17'
+      - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php
+        branch: '8.0'
+        symbol_or_lines: getRequestFormat()
+        verified_at: '2026-10-17'
   - id: QST-m5x0wprr2kvf
     question_archetype: CONCEPT_DISTINCTION
     assesses_outcomes:

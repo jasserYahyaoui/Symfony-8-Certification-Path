@@ -861,22 +861,22 @@ questions:
     symbol_or_lines: section Precedence
     verified_at: '2026-09-01'
 - id: QST-gpz2ww98k670
-  question_archetype: DEFINITION_RECALL
+  question_archetype: BEHAVIOR_PREDICTION
   assesses_outcomes:
-    - OUT-w9w3hpwesby1
-  version: 1
+  - OUT-w9w3hpwesby1
+  version: 2
   official_topic: PHP
   official_item: OIT-n0zfkcr189af
   domain: php
   language: en
   difficulty: hard
-  cognitive_level: UNDERSTAND
-  exam_skill: DISTINGUISH
+  cognitive_level: APPLY
+  exam_skill: APPLY
   type: mcq
   answer_mode: multiple
   required_answer_count: 2
-  question: Two traits used by the same class both define export(). Which statements are correct? (Choose
-    2)
+  question: Traits A and B both define hello(). The class writes `use A, B { A::hello insteadof B; B::hello as helloB;
+    }`. Which statements are true? (Choose 2)
   scoring_policy: all-or-nothing
   shuffle_choices: true
   negative_wording: false
@@ -886,33 +886,33 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-01'
+  reviewed_at: '2026-10-17'
   tags:
   - traits
   choices:
-  - id: CHO-x5pdh9438tt8
-    text: Without conflict resolution this is a fatal error
+  - id: CHO-s1cyxs66xqg1
+    text: $obj->hello() runs A's implementation
     correct: true
-  - id: CHO-9dx8n8bty7q1
-    text: insteadof selects which implementation is used
+  - id: CHO-axm1ta3xf2xx
+    text: $obj->helloB() runs B's implementation
     correct: true
-  - id: CHO-b8jq5zsr5qzz
-    text: as alone resolves the conflict by renaming one of them
+  - id: CHO-03grz1ptgbty
+    text: $obj->hello() runs B's implementation, from the trait listed last
     correct: false
-    explanation: '`as` adds an alias but leaves the original name in place, so the collision persists.'
-  - id: CHO-wrxa6980y7hm
-    text: PHP silently uses the trait listed first
+    explanation: insteadof B excludes B::hello from the name hello.
+  - id: CHO-8t5ax1h922cx
+    text: The class does not compile, since an excluded method cannot be aliased
     correct: false
-    explanation: PHP never picks silently; an unresolved trait collision always fails.
-  explanation: An unresolved collision between two traits is a fatal error. `insteadof` excludes an implementation;
-    `as` only creates an additional name (and may change visibility).
+    explanation: Aliasing the excluded method with as is the documented way to keep both.
+  explanation: 'insteadof decides which implementation the name hello gets; as adds a second name for the other.
+    Executed on PHP 8.4.19: hello() returns A''s result and helloB() B''s, both public.'
   official_sources:
   - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/traits.xml
     readable_url: https://github.com/php/doc-en/blob/master/language/oop5/traits.xml
     repository: php/doc-en
     branch: master
     symbol_or_lines: section Conflict Resolution
-    verified_at: '2026-09-01'
+    verified_at: '2026-10-17'
 - id: QST-99hmydsyg0qy
   question_archetype: SCENARIO_CHOICE
   assesses_outcomes:
