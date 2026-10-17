@@ -1,0 +1,532 @@
+# Journal des corrections pédagogiques (remédiation P3.3).
+#
+# One entry per correction or extension of what the site teaches, linking the
+# courses, flashcards and questions that carry it. It is published as the page
+# « Journal des corrections », so a learner who studied before a date knows what
+# to read again — and why their earlier answers to a question no longer count
+# once its version has moved.
+#
+# - kind: CORRECTION — something taught was false or misleading;
+#         SCOPE      — an unsourced restriction on what is examinable was lifted;
+#         EXTENSION  — content added; nothing taught before was false.
+# - was: the former wording, quoted as it stood (CORRECTION and SCOPE only). It
+#        is a quotation, so the terminology tool leaves it alone.
+# - commit / pull_request / date: the squash commit on master that shipped it.
+# - courses[].sections: headings as they stand TODAY, so the page can link to
+#        them; CorrectionsChangelogTest fails if one no longer exists.
+# - questions: never a HOLDOUT question — the page would publish it.
+# - reversioned: the listed questions whose version this commit raised — a
+#        learner's answers to the earlier version stop counting. derive.py
+#        --check holds it equal to what the commit did.
+#
+# The id lists are not written from memory: `python3 tools/corrections/derive.py
+# <commit>` reports what each commit changed, and `derive.py --check` (run in
+# CI) fails if an entry names an id its commit did not change, a question whose
+# correct answer changed without a new version, or a date or pull request that
+# does not match the commit.
+schema_version: 1
+entries:
+  - id: CVR-gdpjccezhtax
+    date: '2026-10-13'
+    pull_request: 394
+    commit: 'fdf4035'
+    kind: CORRECTION
+    finding: F1
+    official_items: [OIT-fr58jzaj6jtb]
+    facts: [serializer.normalized-form-not-always-array, serializer.decode-follows-format]
+    title: "Serializer : la forme normalisée n'est pas toujours un array"
+    was: >-
+      « Les données passent toujours par un tableau, dans les deux sens. » — et la flashcard « Que
+      traverse toujours une donnée entre l'objet et le format ? — Un tableau. »
+    now: >-
+      `normalize()` peut rendre un array, une string, un scalaire, un `ArrayObject` ou `null` :
+      `ObjectNormalizer` donne un array pour un object ordinaire, `DateTimeNormalizer` une string RFC 3339,
+      `BackedEnumNormalizer` la valeur de l'enum. Au décodage, le format décide : un object JSON devient un
+      array, une string JSON une string.
+    courses:
+      - id: CRS-3z96cp2s1dka
+        sections: ["Deux étapes, deux responsabilités", "Pièges d'examen", "Points clés"]
+    flashcards: [FLC-50daktpqmkv9]
+    questions: [QST-xeygxgdd5586, QST-et0jfkbyacjy, QST-76tz3feab409, QST-kg5astsr8fz8]
+    reversioned: [QST-xeygxgdd5586, QST-et0jfkbyacjy]
+
+  - id: CVR-0g4ba0b7hkkh
+    date: '2026-10-13'
+    pull_request: 394
+    commit: 'fdf4035'
+    kind: CORRECTION
+    finding: F2
+    official_items: [OIT-78k7kbfpgfxt]
+    facts: [cache.callback-runs-on-hit-with-beta-inf, cache.beta-zero-serves-hit, cache.save-false-not-stored, cache.pools-isolated-by-namespace]
+    title: "Cache : le callback de get() ne s'exécute pas qu'en cas de miss"
+    was: >-
+      « Le second argument est un appelable exécuté seulement en cas de manque. En cas de succès, il n'est
+      pas appelé du tout » ; « Les clés de deux pools ne se heurtent jamais. » La page affirmait aussi qu'avec
+      INF le rappel tourne sur une clé présente : elle se contredisait.
+    now: >-
+      Le callback s'exécute quand l'item n'est pas un hit **ou** quand `beta` vaut `INF` ; le recalcul anticipé
+      probabiliste peut aussi l'élire avant l'expiration. `beta = 0` désactive ce recalcul, pas le cache.
+      `$save = false` rend la valeur sans la stocker. Deux pools ne partagent pas leurs keys grâce au
+      namespace, qui les préfixe ; même namespace et même directory, ils se partagent une key.
+    courses:
+      - id: CRS-p6yhxmpxrzbs
+        sections: ["Quatre mots", "L'API qui surprend", "La ruée sur le cache", "Pièges d'examen", "Points clés"]
+    flashcards: [FLC-5ph49r9vszd1]
+    questions: [QST-ch9mc2vedk60, QST-w6g2sgj7apm1, QST-7kszpvjs383j, QST-1rc72pvqjry1, QST-4312r4ah4gn2]
+    reversioned: [QST-ch9mc2vedk60, QST-w6g2sgj7apm1, QST-1rc72pvqjry1, QST-4312r4ah4gn2]
+
+  - id: CVR-h3rq2rq9yzke
+    date: '2026-10-13'
+    pull_request: 394
+    commit: 'fdf4035'
+    kind: CORRECTION
+    finding: F3
+    official_items: [OIT-7sewqvmw6468]
+    facts: [http-kernel.response-controller-skips-view, http-kernel.view-only-for-non-response, http-kernel.unconverted-view-throws, http-kernel.request-short-circuit]
+    title: "HttpKernel : kernel.view n'est pas une étape de chaque request"
+    was: >-
+      « request → controller → controller_arguments → view → response → finish_request → terminate. »
+      (flashcard et points clés, sans condition sur view ni sur terminate)
+    now: >-
+      `kernel.view` n'est dispatché que si le controller ne rend pas une `Response` ; si aucun listener ne la
+      produit, `ControllerDoesNotReturnResponseException`. Une `Response` posée sur `kernel.request` saute
+      controller et view. `kernel.terminate` suit l'appel séparé à `terminate()`.
+    courses:
+      - id: CRS-mpwjc4g3vmj7
+        sections: ["Points clés"]
+    flashcards: [FLC-jjsdae8j3b56]
+    questions: []
+
+  - id: CVR-a5as7zs4vhe8
+    date: '2026-10-14'
+    pull_request: 398
+    commit: 'afe8926'
+    kind: SCOPE
+    finding: F8
+    official_items: [OIT-fr58jzaj6jtb]
+    facts: [serializer.first-supporting-normalizer-wins, serializer.denormalize-types-need-extractor, serializer.object-to-populate, serializer.context-options]
+    title: "Serializer : quel normalizer agit, dénormaliser, le contexte (STANDARD → DEEP)"
+    was: >-
+      « Le nombre de normaliseurs et d'options du composant n'est pas de la complexité » — justification
+      du niveau STANDARD, sans source.
+    now: >-
+      Le premier normalizer qui accepte la donnée l'emporte ; à la denormalization, le contrôle des types
+      dépend d'un extractor, sans lequel PHP convertit en silence ; `OBJECT_TO_POPULATE`,
+      `COLLECT_DENORMALIZATION_ERRORS`, `skip_null_values`, `datetime_format`. L'item passe en DEEP.
+    courses:
+      - id: CRS-3z96cp2s1dka
+        sections: ["Quel normalizer agit ?", "Dénormaliser", "Le contexte"]
+    flashcards: [FLC-7pd9j9cfpxer, FLC-d5w66y32a3ka, FLC-qqh239qh9bmb]
+    questions: [QST-1wg4b6eb9q3t, QST-6w2q3s8tttm3, QST-hjv0ngsgvqxr, QST-9ydm1brz691j, QST-fd1dm5jy2pyh, QST-t4t79qkyy0gh]
+
+  - id: CVR-8dpa43ay0wmx
+    date: '2026-10-14'
+    pull_request: 399
+    commit: 'effce50'
+    kind: EXTENSION
+    finding: F8
+    official_items: [OIT-78k7kbfpgfxt]
+    facts: [cache.psr6-save-and-null, cache.psr6-deferred-commit, cache.psr16-default-and-has, cache.psr-bridges]
+    title: "Cache : PSR-6 et PSR-16 (STANDARD → DEEP)"
+    now: >-
+      PSR-6 : un `set()` sans `save()` ne stocke rien, un `null` sauvegardé est un hit ; `saveDeferred()`
+      attend `commit()`. PSR-16 : la default value sur un miss, `has()` vrai pour un `null` stocké. Les
+      bridges `Psr16Cache` et `Psr16Adapter`. L'item passe en DEEP.
+    courses:
+      - id: CRS-p6yhxmpxrzbs
+        sections: ["PSR-6 : écrire soi-même", "PSR-16 et les bridges"]
+    flashcards: [FLC-qcvd0xvack55, FLC-zh5xzmekgemg]
+    questions: [QST-eakh06qrdwz5, QST-gfe8kk8nxsgf, QST-1mz08p0dyk3c, QST-3va6n5ybkba5]
+
+  - id: CVR-qvznyaf0cetp
+    date: '2026-10-14'
+    pull_request: 407
+    commit: '30a71ba'
+    kind: EXTENSION
+    finding: F7
+    official_items: []
+    facts: []
+    title: "33 questions à réponses multiples"
+    now: >-
+      Trente questions Practice et trois de l'exam mode demandent plusieurs bonnes réponses ; chaque choix a
+      été exécuté sur Symfony 8.0 ou lu dans sa source.
+    courses: []
+    flashcards: []
+    questions: [QST-42fahb78tb66, QST-4nh0cd7s8rrd, QST-5vhmxncenp53, QST-6ew0t2hfqnsb, QST-6j988v4fwa7n, QST-78tq6ays7vnp, QST-8a3w8pct60kq, QST-99tq1nj7c9vx, QST-9xrwcaceyrnm, QST-b7n04h0xsdrb, QST-bbxhkwvjjhph, QST-dg4pvtdpr5q1, QST-h13r88e3t040, QST-hpn0a2ge2ah2, QST-htty0wd3bvec, QST-kcb8mz5b8cy9, QST-kj1dey8gs671, QST-m4xfyvvr6rnq, QST-nf32gcp2hzy8, QST-ngwbd01akwev, QST-qq5n3a8927cw, QST-qy72c2rzdvrw, QST-rafgr5c0nmkg, QST-sws8a7kgyd2f, QST-szaz294k89ed, QST-vkzw1c93z3ct, QST-w2tv19e0bh82, QST-wbjj5skr4pen, QST-xg0943vmrt8s, QST-xpm0gvpryn1e, QST-ybpw4y25fj78, QST-z9qbypbt56bw, QST-zpyjs8dgyskb]
+
+  - id: CVR-c4bkfcjj4m42
+    date: '2026-10-15'
+    pull_request: 408
+    commit: 'cb639f2'
+    kind: EXTENSION
+    finding: F7
+    official_items: []
+    facts: []
+    title: "10 questions à réponses multiples sur PHP et les tests automatisés"
+    now: >-
+      Neuf questions Practice et une de l'exam mode, même règle : chaque choix exécuté ou lu dans sa source.
+    courses: []
+    flashcards: []
+    questions: [QST-0z642aefqqc9, QST-1qg0yxxx9jxj, QST-4a1ch0v8dv9d, QST-e6fsny5640vm, QST-et0r585d9ra3, QST-fvx988xhq7gw, QST-m4m81mfwc4ww, QST-nyr4h6qq8ayk, QST-rs3tsp2rj4ka, QST-xcwt5f53w57p]
+
+  - id: CVR-p4bd4pcjt0ca
+    date: '2026-10-15'
+    pull_request: 412
+    commit: '1284271'
+    kind: CORRECTION
+    finding: terminology
+    official_items: []
+    facts: []
+    title: "Terminologie : une chaîne d'appels n'est pas une string"
+    was: >-
+      Le passage aux termes anglais du 14 octobre (#401) avait remplacé toute « chaîne » par « string » :
+      « elle termine la string » (chaîne d'appels de `buildViolation()`), la « string » de middlewares, de
+      resolvers, de proxies — et « chaîne de Request » au lieu de query string.
+    now: >-
+      On lit de nouveau chaîne d'appels, chaîne de middlewares, chaîne de resolvers, chaîne de proxies,
+      chaîne de transformers et chaîne de listeners. La partie après « ? » de l'URL : query string. Arrêter
+      les listeners suivants : stopper la propagation.
+    courses:
+      - id: CRS-222wq64mqxye
+        sections: ["Client et proxys", "Pièges d'examen", "Points clés"]
+      - id: CRS-2ec5yksjfm9s
+        sections: ["Ce qui fait correspondre une règle", "Pièges d'examen"]
+      - id: CRS-7zy5ndjgnpk1
+        sections: ["Parameters utiles"]
+      - id: CRS-cj36gys6vatx
+        sections: ["L'ordre d'une chaîne de transformers"]
+      - id: CRS-d235sja3h7y2
+        sections: ["Le builder n'écrit rien tout seul", "Pièges d'examen", "Points clés"]
+      - id: CRS-d5ffd8b704zs
+        sections: ["Le contrat", "Ce que fait `ArgumentResolver`", "Les resolvers ciblés", "Pièges d'examen"]
+      - id: CRS-dpbpbgwjey5c
+        sections: ["Ce que le generator décide seul", "L'escaping", "Pièges d'examen"]
+      - id: CRS-ea3twt9jcan2
+        sections: ["Body et query string"]
+      - id: CRS-fhb1cbhnyaxx
+        sections: ["Objectif", "Arrêter la propagation"]
+      - id: CRS-h3q0qxnq8eq0
+        sections: ["Ce que fait `Request::getMethod()` (8.0)"]
+      - id: CRS-h9bfar3cxyet
+        sections: ["Objectif", "Ce qu'un middleware voit", "Deux passages en asynchrone", "Où se place un middleware maison", "Pièges d'examen"]
+      - id: CRS-nhebf7arqvn4
+        sections: ["Les cinq parameters réservés"]
+      - id: CRS-r3xywnpwrwh7
+        sections: ["Trois exemples documentés qui échouent"]
+      - id: CRS-sx61as7r7p0d
+        sections: ["Les parameters en trop", "Pièges d'examen", "Points clés"]
+      - id: CRS-tgbv3wp66rcc
+        sections: ["Qui redirige, et comment", "Pièges d'examen"]
+      - id: CRS-yw6c5hq2mbax
+        sections: ["Avec ou sans route"]
+      - id: CRS-zmg0wrxvqqdq
+        sections: ["`RedirectController`"]
+    pages:
+      - path: docs/whats-new/02-httpfoundation.md
+        sections: ["Flashcards"]
+    flashcards: [FLC-0vj14dnk16ms, FLC-2gqghjt3hskp, FLC-422dng3d9mpz, FLC-59ts97z4vyjm, FLC-6eg8g2bt06nt, FLC-8qpxejdzj499, FLC-8yczcp0s4a1c, FLC-b8sqj862m829, FLC-bp6xr6zamse7, FLC-c1cqrva0by96, FLC-ce2cr2ndxj9h, FLC-crtrxfbtxbrw, FLC-hknj332kn7e0, FLC-j0jx2hentgr6, FLC-ja23bhb39d80, FLC-jefas56k6j9j, FLC-jfm0shrf4dga, FLC-jne8s99y6nyd, FLC-jvf1823rgfmv, FLC-k0mnbexjd72g, FLC-mt0cdrrrmvsb, FLC-mt50snrhdcsm, FLC-nkpcteg2tsny, FLC-p156fap64fq4, FLC-px4eg1dagj7z, FLC-r4f27cte1wqh, FLC-rrt3hj10ddp2, FLC-s0173seh75yz, FLC-spq017yc9wap, FLC-v2dcq2v3fpwj, FLC-wwt3xqk2j09h, FLC-xwwc4rksxk78]
+    questions: []
+
+  - id: CVR-3bywj23nc054
+    date: '2026-10-15'
+    pull_request: 412
+    commit: '1284271'
+    kind: EXTENSION
+    finding: F8
+    official_items: [OIT-9x3strrjdng7, OIT-0wnxbapegqhv]
+    facts: [validator.null-passes-value-constraints, validator.empty-string-split, validator.options-array-refused, validator.url-requires-tld-by-default, validator.collection-missing-and-extra, validator.list-sequentially-compound, validator.custom-constraint-defaults, validator.custom-validator-sees-null, validator.unexpected-value-vs-type]
+    title: "Validator : null, la string vide, les constraints en 8.0, une constraint sur mesure"
+    now: >-
+      `null` passe toute constraint de valeur, seules `NotNull` et `NotBlank` le refusent ; `''` dépend de la
+      constraint. En 8.0, `new Choice(['a'])` lève une exception et `Url` exige un TLD par défaut. `Collection`,
+      `Sequentially`, `Compound`. Une `Constraint` et son `ConstraintValidator`, qui reçoit aussi `null`.
+    courses:
+      - id: CRS-569y6hb7fwj5
+        sections: ["null et la string vide", "Configurer une constraint en 8.0", "Les constraints de structure"]
+      - id: CRS-d235sja3h7y2
+        sections: ["Une constraint sur mesure"]
+    flashcards: [FLC-84x56c7s0fpd, FLC-t2dp9na2nv8d, FLC-5n69katpvnnd]
+    questions: [QST-axp7pjs0gkx9, QST-f1bervatv72c, QST-v6s83rdh77nq, QST-n7y4xagppx56, QST-tjerswa74bd5, QST-ed52tkyz4n4h]
+
+  - id: CVR-1662aqkdssrt
+    date: '2026-10-15'
+    pull_request: 413
+    commit: 'ebdefeb'
+    kind: CORRECTION
+    finding: terminology
+    official_items: []
+    facts: []
+    title: "Terminologie : requirement de route, filtrer, la réponse à une question"
+    was: >-
+      « constraint » pour un requirement de route (« La constraint filter l'URL »), « filter » pour le verbe
+      filtrer, et « Response » pour la réponse à une question (« est la Response à », « les Responses »).
+    now: >-
+      L'option de route s'appelle `requirements` : un requirement. Le verbe reste « filtrer ». Ce qu'on
+      répond à une question, une solution ou une décision ne sont pas l'object HTTP `Response`.
+    courses:
+      - id: CRS-2b1wzm3rwdrn
+        sections: ["L'option `host`", "Le host accepte des parameters", "Générer vers un autre host", "Pièges d'examen"]
+      - id: CRS-306ppg4454wj
+        sections: ["La différence", "Ce que Symfony ajoute"]
+      - id: CRS-8dgxs89hrah0
+        sections: ["`debug:router` — quelles routes existent", "`router:match` — quelle route répondrait", "Pièges d'examen"]
+      - id: CRS-cpvcczhj7bzx
+        sections: ["Ce que `FileType` écarte"]
+      - id: CRS-erfvgqsx1z2p
+        sections: ["Tips d'examen"]
+      - id: CRS-evzcj63fgdb7
+        sections: ["Par le parameter `_locale`", "Par des paths localisés"]
+      - id: CRS-f92d09x14ggx
+        sections: ["La limite, et elle est importante", "Pièges d'examen"]
+      - id: CRS-f9s8mpaydnbx
+        sections: ["Le controller a deux cas"]
+      - id: CRS-r56yzzb4pye2
+        sections: ["La variable `app`"]
+      - id: CRS-tgbv3wp66rcc
+        sections: ["La barre oblique finale"]
+      - id: CRS-vkgr06y3x72g
+        sections: ["La règle de base", "Tout ce qui suit un parameter facultatif doit l'être", "Défaut et requirement", "Pièges d'examen", "Points clés"]
+      - id: CRS-wg3j0t5pm7w1
+        sections: ["Objectif", "Le problème qu'elle résout", "Ce qui est autorisé", "Deux pièges", "Pièges d'examen", "Points clés"]
+      - id: CRS-x8j99kkmpsng
+        sections: ["La barre n'apparaît pas toujours"]
+      - id: CRS-y3g0v9nmne3t
+        sections: ["Objectif"]
+    pages:
+      - path: docs/whats-new/04-console.md
+        sections: ["Pièges d'examen"]
+    flashcards: [FLC-08tdnh3mgyy6, FLC-3k64rjpnpnxh, FLC-5j15yhjpv3g2, FLC-79nmwswd5a50, FLC-87p1bd8b8xdp, FLC-8zxz7qv3hbny, FLC-9mksrdb0t3m7, FLC-a5zeamryn2dh, FLC-ajgfhqbw3qpy, FLC-azt7yf0s7hnr, FLC-c4cy05q2gj1x, FLC-et2j5rpex5sy, FLC-gpyyfhz014cw, FLC-hd67kse1xz1g, FLC-jjgd2xj2w7y4, FLC-p9y3y6rgwm1j, FLC-s7es8e4pq9vf, FLC-vgsxgsn17ppf, FLC-vqf932cfza5d, FLC-vvs4w740b6rr, FLC-x5tjtg0h3pm1, FLC-xc30442ywxcy, FLC-xc38grsf93jj, FLC-y3gp2pq1v0z1, FLC-yjfg1sxpqe2a, FLC-z5r92g4vkkxa]
+    questions: []
+
+  - id: CVR-1xzkbw9q3a1v
+    date: '2026-10-15'
+    pull_request: 413
+    commit: 'ebdefeb'
+    kind: CORRECTION
+    finding: deep-audit-8.0
+    official_items: [OIT-kbg00jqxxwhq]
+    facts: [console.setcode-closure-typed-and-int]
+    title: "Console 8.0 : ce que setCode() exige vraiment"
+    was: >-
+      « Une closure passée à `setCode()` doit désormais être typée correctement. Du code qui marchait sans
+      types ne passe plus. »
+    now: >-
+      `setCode()` accepte toute closure ; c'est `run()` qui échoue en 8.0 — `LogicException` pour un parameter
+      non typé, `TypeError` si la valeur rendue n'est pas un `int`. Aucun return type déclaré n'est exigé.
+    courses: []
+    pages:
+      - path: docs/whats-new/04-console.md
+        sections: ["Une constraint de typage", "Points clés"]
+    flashcards: [FLC-an8ypmrag2p3]
+    questions: []
+
+  - id: CVR-bvq5zzyc1ne5
+    date: '2026-10-15'
+    pull_request: 413
+    commit: 'ebdefeb'
+    kind: CORRECTION
+    finding: deep-audit-8.0
+    official_items: [OIT-j6tqs8s8f54f]
+    facts: []
+    title: "Upload : $request->get() n'existe plus en 8.0"
+    was: >-
+      Un distracteur `$request->get('brochure')` expliqué par « Uploaded files are not request parameters. »
+    now: >-
+      `Request::get()` a été retirée en 8.0 ; un file envoyé se lit dans `$request->files`.
+    courses: []
+    flashcards: []
+    questions: [QST-y2zcer0shsjy]
+
+  - id: CVR-pkw3gh5e50tp
+    date: '2026-10-15'
+    pull_request: 414
+    commit: 'e76910c'
+    kind: EXTENSION
+    finding: deep-audit-8.0
+    official_items: [OIT-qj4xfkhwdrx7, OIT-xh63g15rz6n3, OIT-sd08j04k60m0, OIT-76x1t7z916f4, OIT-fr58jzaj6jtb]
+    facts: [config.required-node-has-no-default, translation.translatable-not-stringable]
+    title: "Changements 8.0 absents du parcours : configuration, erreurs de sécurité, TranslatableMessage"
+    now: >-
+      Un node ne peut pas être à la fois `isRequired()` et `defaultValue()`. `hide_user_not_found` est retiré
+      au profit de `expose_security_errors` (`none` par défaut). `TranslatableMessage` n'est plus `Stringable` :
+      il ne s'affiche que traduit. Deux flashcards : l'extractor de constructor de PropertyInfo activé par
+      défaut, et `getRetryDelay()` des exceptions récupérables de Messenger.
+    courses:
+      - id: CRS-exs5dvtqa1as
+        sections: ["Requis ou par défaut, pas les deux"]
+      - id: CRS-yvhg325ax38y
+        sections: ["Ce que l'échec révèle"]
+      - id: CRS-q18xc1k4yvb9
+        sections: ["L'object traduisible"]
+    flashcards: [FLC-7hbhn5dg15te, FLC-64kmq5jkgba9, FLC-p6q3ewt9qsj7, FLC-t4se2rxpd497, FLC-pefcdwnxy6ev]
+    questions: [QST-kzd5923s8gg9, QST-8h2bmweh5dxk, QST-zpp1r9fbs8vb, QST-31ajknw5d0qs, QST-jgvk4ebznpt1]
+
+  - id: CVR-0d1wwvhjh9kf
+    date: '2026-10-16'
+    pull_request: 415
+    commit: '0318807'
+    kind: EXTENSION
+    finding: F8
+    official_items: [OIT-5xvjqa4203xe, OIT-fhpttc4c5x0k]
+    facts: [form.collection-extra-entries-refused, form.collection-delete-needs-allow-delete, form.collection-prototype, form.by-reference-object-collection, form.property-path-and-inherit-data]
+    title: "Forms : CollectionType, by_reference, property_path et inherit_data"
+    now: >-
+      Sans `allow_add`, une entrée en trop rend le form invalide (avec l'extension Validator) ; sans
+      `allow_delete`, une entrée manquante
+      devient `null`. Le prototype n'existe qu'avec `allow_add`. `by_reference` sur une collection d'objects :
+      à `true`, aucun setter ni adder n'est appelé. `property_path` et `inherit_data`.
+    courses:
+      - id: CRS-f9pen0bdyrr9
+        sections: ["Une collection de types"]
+      - id: CRS-8msvfwe13mpb
+        sections: ["Ailleurs que sous son nom"]
+    flashcards: [FLC-6gjygtq4ba5b, FLC-z1pt1g2zqn6z, FLC-r6v26rr7gf9q]
+    questions: [QST-gtk4r5hqgvhx, QST-v3wvgyq5thee, QST-3zbbzc4cy9ms, QST-cs5ykmwy2vwm, QST-yxjnqrztscg0]
+
+  - id: CVR-9ehtbzz82brd
+    date: '2026-10-16'
+    pull_request: 416
+    commit: 'a8bb7fd'
+    kind: SCOPE
+    finding: F8
+    official_items: [OIT-46ry8d7dypmb]
+    facts: [php.array-merge-vs-union, php.array-functions-and-keys, php.string-number-comparison, php.php84-array-find-any-all, php.json-decode-defaults]
+    title: "PHP : la bibliothèque standard qu'une question fait prédire"
+    was: >-
+      « Un tableau de versions et les quatre ajouts 8.4 suffisent ; le détail de chaque API PHP n'est ni
+      examinable ni révisable. » — justification de niveau, sans source.
+    now: >-
+      `array_merge` contre `+`, les keys conservées ou renumérotées par `array_filter` et `array_map`, la
+      comparaison string/nombre de PHP 8, les default values de `json_decode`, et la version de chaque
+      function ajoutée depuis 8.0. Deux questions Practice ont été réécrites (version 2) : ce que vous aviez
+      répondu à leur version 1 ne compte plus.
+    courses:
+      - id: CRS-722pscs6e2m0
+        sections: ["Arrays, comparaisons et JSON : ce que renvoie PHP", "Functions ajoutées, par version"]
+    flashcards: [FLC-6yegfjgbqn5g, FLC-c63atm9r74mk]
+    questions: [QST-g3y2dqj5820q, QST-f2m90kz2ya28, QST-8g91k8rjcn8g, QST-cvv4q26x2q2s, QST-xna2m697k5m7]
+    reversioned: [QST-g3y2dqj5820q, QST-f2m90kz2ya28]
+
+  - id: CVR-j213xcnmgz2c
+    date: '2026-10-16'
+    pull_request: 417
+    commit: '17253ae'
+    kind: EXTENSION
+    finding: P2.7
+    official_items: [OIT-9kh5cqz5qtrb]
+    facts: [http-client.unchecked-status-throws-on-destruct, http-client.retry-count-and-last-response, http-client.retry-by-status-and-method, http-client.retry-delay-and-retry-after, http-client.stream-error-chunk, http-client.stream-status-at-first-chunk, http-client.stream-timeout-chunk]
+    title: "HttpClient : une Response jamais lue, les retries, un stream partiellement en échec"
+    now: >-
+      Une `Response` en erreur dont le status n'est jamais lu lève à sa destruction. `RetryableHttpClient` :
+      trois retries, quels status et quelles methods, le délai et `Retry-After`. Dans `stream()`, une erreur
+      de transport est levée par les methods du chunk concerné : attrapée dans la loop, les autres
+      `Response` terminent. Un timeout se signale par un chunk `isTimeout()`.
+    courses:
+      - id: CRS-ez2qmqfk902e
+        sections: ["Une Response jamais lue lève quand même", "Rejouer les échecs : RetryableHttpClient", "Un stream dont une Response échoue"]
+    flashcards: [FLC-64jn4rvgq2j7, FLC-r4e8c0b07twy, FLC-s6byhm4fp6at]
+    questions: [QST-57h88pmcmram, QST-gm49kwkdxbtm, QST-xmc2fdjxha1y, QST-122kweqkmvkb, QST-49wat9m2ymsx, QST-pj447r0ttj70]
+
+  - id: CVR-n901m8jb37be
+    date: '2026-10-16'
+    pull_request: 418
+    commit: 'baa8cec'
+    kind: CORRECTION
+    finding: P2.7
+    official_items: [OIT-cqs3m73y3rpy]
+    facts: [console.alarm-event]
+    title: "Console : quatre constantes, mais cinq events"
+    was: >-
+      « Quatre events, pas cinq. » — et la flashcard « Quatre : COMMAND, SIGNAL, ERROR, TERMINATE. »
+    now: >-
+      `ConsoleEvents` déclare quatre constantes, mais 8.0 dispatche un cinquième event, `ConsoleAlarmEvent`,
+      sous son nom de class (il existe depuis 7.2).
+    courses:
+      - id: CRS-y0zc67f3e5zk
+        sections: ["Quatre constantes, cinq events", "Pièges d'examen", "Points clés"]
+    flashcards: [FLC-hk7rkbxfq90j]
+    questions: []
+
+  - id: CVR-fpf53ebcwzbf
+    date: '2026-10-16'
+    pull_request: 418
+    commit: 'baa8cec'
+    kind: EXTENSION
+    finding: P2.7
+    official_items: [OIT-cqs3m73y3rpy, OIT-65sswf0qhw6c]
+    facts: [console.signal-exits-zero-by-default, console.signalable-command-return, console.command-tester-dispatches-nothing, console.interact-before-validation, console.tester-stderr-separately]
+    title: "Console : signaux, l'alarme, tester une command"
+    now: >-
+      Un signal intercepté sort en code 0, sauf `abortExit()` (la command continue) ou un code posé par
+      `setExitCode()` ; ce que rend `handleSignal()`.
+      `setAlarmInterval()`. `CommandTester` ne dispatche aucun event console, `ApplicationTester` si ;
+      `interact()` avant la validation des arguments ; `capture_stderr_separately`.
+    courses:
+      - id: CRS-y0zc67f3e5zk
+        sections: ["`SIGNAL` — pendant", "L'alarme"]
+      - id: CRS-0ab7kpexq9w9
+        sections: ["Tester une command"]
+    flashcards: [FLC-0rh1nh0y9dgg, FLC-hwy7pnrsb9c9, FLC-p35kr4nxr717]
+    questions: [QST-97at0qx0zavd, QST-wjwkdfb6r539, QST-r56h5h07dq42, QST-47xzn33srh7c, QST-73js5jkzw6a4, QST-grtv1rxf2d0x]
+
+  - id: CVR-gtfs5nj8kaw1
+    date: '2026-10-16'
+    pull_request: 419
+    commit: 'bfd0c04'
+    kind: EXTENSION
+    finding: P2.7
+    official_items: [OIT-d1qsxrtv25kk]
+    facts: [profiler.collector-lifecycle, profiler.serialized-reset-disabled, profiler.collector-in-functional-test]
+    title: "Profiler : un data collector de bout en bout"
+    now: >-
+      `collect()` sur la request, un clone stocké dans le profile, `lateCollect()` avant l'écriture ; une
+      `Closure` dans les données empêche la serialization ; relire le collector dans un functional test avec
+      `enableProfiler()`.
+    courses:
+      - id: CRS-x8j99kkmpsng
+        sections: ["Un collector de bout en bout"]
+    flashcards: [FLC-f1nsnkc89qad, FLC-k3g0ne1da089]
+    questions: [QST-7b6xtj7h9tyf, QST-9w82jjm5746x, QST-rsk9b4q3fds1, QST-wjsnwrw10q5d]
+
+  - id: CVR-04g6rm22qbmj
+    date: '2026-10-17'
+    pull_request: 420
+    commit: 'abbcca0'
+    kind: EXTENSION
+    finding: P2.7
+    official_items: [OIT-sd08j04k60m0, OIT-3dd7821h069b]
+    facts: [translation.icu-plural-categories, translation.icu-nested-select-plural, translation.icu-other-required, translation.icu-parameter-keys, translation.several-catalogues]
+    title: "Translation : plural et select imbriqués, plusieurs catalogues"
+    now: >-
+      Les catégories de pluriel dépendent de la locale ; `=0` passe avant `one` ; sans `other`, une
+      exception à chaque `trans()`. `select` et `plural` s'imbriquent. Pour une même key, la version
+      `+intl-icu` l'emporte ; entre deux ressources d'un même domain et d'une même locale, la dernière
+      chargée gagne.
+    courses:
+      - id: CRS-q18xc1k4yvb9
+        sections: ["Plural et select, exécutés"]
+      - id: CRS-v1808qnchx6g
+        sections: ["Plusieurs catalogues pour une key"]
+    flashcards: [FLC-j7bectmryksk, FLC-xy5sg8rfzbff]
+    questions: [QST-8b6sd8kbc1qx, QST-50q8da3a6j72, QST-tfve3bphv48m, QST-c2ajcg5w4bqk]
+
+  - id: CVR-4rw581c6yq92
+    date: '2026-10-17'
+    pull_request: 421
+    commit: '76ee0dd'
+    kind: EXTENSION
+    finding: P2.7
+    official_items: [OIT-tjn6kyvyc2h9, OIT-a1anzcv85my3]
+    facts: [filesystem.portable-paths, filesystem.tempnam-and-cleanup, finder.sort-for-a-deterministic-order]
+    title: "Filesystem et Finder : un environment de test portable"
+    now: >-
+      `Path` sous Unix garde le backslash comme caractère de nom : la documentation donne les résultats de
+      Windows. `tempnam()` puis `remove()`. Sans tri, Finder rend l'ordre du filesystem ; `sortByName(true)`
+      trie naturellement.
+    courses:
+      - id: CRS-h9nryezt8wnb
+        sections: ["Un environment de test portable"]
+      - id: CRS-jwhqec35jczn
+        sections: ["Un ordre déterministe"]
+    flashcards: [FLC-500k6pc92xev, FLC-myk6e5gjj7qs]
+    questions: [QST-04dzxpcr5n14, QST-fjbhttc65mgv, QST-r1re7fzqmc4z, QST-c2aqc3snwd4y]

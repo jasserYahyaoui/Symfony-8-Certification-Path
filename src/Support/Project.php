@@ -72,6 +72,23 @@ final readonly class Project
     }
 
     /**
+     * The journal of pedagogical corrections (remediation P3.3), or [] when the
+     * project has none — the synthetic fixtures the generator also runs over.
+     *
+     * @return array{entries: list<array<string, mixed>>}|array{}
+     */
+    public function loadCorrections(): array
+    {
+        $path = $this->path('docs/corrections/changelog.yml');
+
+        if (!is_file($path)) {
+            return [];
+        }
+
+        return (new YamlLoader())->load($path, SchemaRegistry::CORRECTIONS_LOG);
+    }
+
+    /**
      * Which lots have passed an expert refinement audit.
      *
      * Read from docs/progress/refinement-log.yml and never inferred from the

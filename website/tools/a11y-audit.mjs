@@ -165,6 +165,21 @@ function seedHistory() {
   };
 }
 
+/**
+ * Remediation P3.3: the same history, plus one answer given to version 1 of a
+ * question rewritten since, so « Ma progression » shows the notice that it no
+ * longer counts.
+ */
+function seedSupersededAnswer() {
+  const state = seedHistory();
+  const rewritten = practicePayload.questions.find((q) => q.version > 1);
+  state.attempts.push({
+    question_id: rewritten.id, question_version: rewritten.version - 1, official_item: rewritten.official_item,
+    correct: true, chosen: [], answered_at: '2026-01-01T00:00:00.500Z', mode: 'practice',
+  });
+  return state;
+}
+
 async function openWeakSeries(page, question) {
   await page.getByLabel('Rejouer mes points faibles').check();
   await page.locator('fieldset.certpath-question').waitFor();
@@ -400,6 +415,16 @@ const PAGES = [
     state: seedDueFlashcard,
     drive: async (page) => {
       await page.getByRole('link', {name: FLASHCARD.front}).waitFor();
+    },
+  }],
+  // Remediation P3.3: the journal of corrections, in both themes, and the
+  // notice « Ma progression » gives when an answer targets an earlier version.
+  ['journal des corrections', '/docs/corrections'],
+  ['journal des corrections, dark', '/docs/corrections', {colorScheme: 'dark'}],
+  ['progression — réponse à une version antérieure', '/progression', {
+    state: seedSupersededAnswer,
+    drive: async (page) => {
+      await page.getByRole('link', {name: 'Journal des corrections'}).first().waitFor();
     },
   }],
 ];

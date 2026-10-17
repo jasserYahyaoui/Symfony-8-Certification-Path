@@ -80,6 +80,16 @@ final readonly class DocsGenerator
         // list must not answer the card it sends the learner to.
         $written[] = $this->writeJson($dataDir.'/flashcards.json', $this->flashcardIndex($content));
 
+        // Remediation P3.3: the current version of every question rewritten at
+        // least once, so a learner's answer to an earlier version stops
+        // counting. The holdout is left out like everywhere else: a Mock 4
+        // answer is never discounted, which is safe only because no holdout
+        // question has changed since it was first answered — derive.py
+        // --versions fails a push that would change one without saying so.
+        $versions = $this->questionVersions($content);
+        PayloadBuilder::assertNoHoldoutLeak($versions, $content);
+        $written[] = $this->writeJson($dataDir.'/question-versions.json', $versions);
+
         // Mock 4 is the one payload that carries the holdout, and it is held
         // to a stricter invariant rather than a looser one: it must match the
         // blueprint exactly — 75 questions, the per-topic allotment, one per
@@ -205,6 +215,20 @@ final readonly class DocsGenerator
 
         foreach ($this->whatsNewPages() as $path => $markdown) {
             $written[] = $this->writeDoc($docsDir.'/'.$path, $markdown);
+        }
+
+        // Remediation P3.3: what was corrected, where to read it again.
+        // Skipped for a content set that lacks the courses the journal names:
+        // the generator is also run over synthetic fixtures. Not a way for the
+        // real bank to pass vacuously — CorrectionsChangelogTest builds the
+        // page from it and fails if an entry is missing, and the production
+        // smoke test fails on a missing page.
+        $corrections = $this->project->loadCorrections();
+        if ([] !== $corrections && CorrectionsPage::applies($corrections, $content)) {
+            $written[] = $this->writeDoc(
+                $docsDir.'/corrections.md',
+                (new CorrectionsPage($this->project))->render($corrections, $content, $this->mdxText(...)),
+            );
         }
 
         // The agenda grid reads the plan as events, not as prose. The payload
@@ -1173,6 +1197,22 @@ Créer des cours avant l'import reviendrait à enseigner un programme deviné.
         }
 
         return ['cards' => $cards];
+    }
+
+    /**
+     * @return array{questions: list<array{id: string, version: int}>}
+     */
+    private function questionVersions(ContentSet $content): array
+    {
+        $questions = [];
+        foreach ([...$content->questions, ...$content->comprehension] as $question) {
+            if (Pool::Holdout !== $question->pool && $question->version > 1) {
+                $questions[] = ['id' => $question->id->value, 'version' => $question->version];
+            }
+        }
+        usort($questions, static fn (array $a, array $b): int => $a['id'] <=> $b['id']);
+
+        return ['questions' => $questions];
     }
 
     private function flashcardsFor(string $itemId, ContentSet $content): array

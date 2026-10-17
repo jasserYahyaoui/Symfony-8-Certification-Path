@@ -281,6 +281,13 @@ def main():
     after = yaml_fields(p, {'note'}, report, re.compile(r'^  - en: '), False)
     if after != before:
         changed[p] = after
+    # The journal of corrections is published prose too. `was` is a quotation
+    # of the former wording and stays as it was written.
+    p = ROOT / 'docs/corrections/changelog.yml'
+    before = p.read_text(encoding='utf-8')
+    after = yaml_fields(p, {'title', 'now'}, report, re.compile(r'^  - id: CVR-'), False)
+    if after != before:
+        changed[p] = after
     for line in report:
         print('GENDER', line)
     for p, text in changed.items():

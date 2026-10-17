@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
 import {clearState, importState, localDay, readState, type FlashcardRecord} from '@site/src/lib/storage';
-import {CHANNELS, MIN_QUESTIONS, enough, observe, type Cell, type Channel, type Observed} from '@site/src/lib/observed';
+import {CHANNELS, MIN_QUESTIONS, enough, observe, superseded, type Cell, type Channel, type Observed} from '@site/src/lib/observed';
 import usePayload from '@site/src/lib/usePayload';
 import type {Payload} from '@site/src/lib/types';
 
@@ -28,57 +28,86 @@ function cellText(cell: Cell): string {
  * What the learner's own answers show (remediation F5). Read on the client
  * only: localStorage does not exist when Docusaurus renders the page.
  */
+interface QuestionVersions {
+  questions: {id: string; version: number}[];
+}
+
 function ObservedTable(): React.JSX.Element {
   const index = usePayload<Payload>('practice.json');
+  // Remediation P3.3: the questions rewritten at least once, with their
+  // current version. An answer to an earlier version is not counted.
+  const versions = usePayload<QuestionVersions>('question-versions.json');
   const [observed, setObserved] = useState<Observed | null>(null);
+  const [outdated, setOutdated] = useState(0);
 
   useEffect(() => {
-    if (index.status !== 'ready') {
+    if (index.status !== 'ready' || versions.status !== 'ready') {
       return;
     }
     const items = index.payload.items ?? {};
+    const rewritten = new Map(versions.payload.questions.map((q) => [q.id, q.version]));
     const state = readState();
-    setObserved(observe(state.attempts, state.comprehension, (id) => items[id]?.official_topic));
-  }, [index.status]);
+    setObserved(observe(state.attempts, state.comprehension, (id) => items[id]?.official_topic, rewritten));
+    setOutdated(superseded(state.attempts, state.comprehension, rewritten));
+  }, [index.status, versions.status]);
 
   if (index.status === 'error') {
     return <p role="status">Index des sujets indisponible : {index.message}</p>;
   }
+  if (versions.status === 'error') {
+    return <p role="status">Versions des questions indisponibles : {versions.message}</p>;
+  }
   if (observed === null) {
     return <p role="status">Lecture de votre historique…</p>;
   }
+
+  const note = outdated > 0 && (
+    <p>
+      {outdated} réponse(s) portent sur une version antérieure d'une question réécrite depuis : elles ne sont plus
+      comptées. Ce qui a changé : <Link to="/docs/corrections">Journal des corrections</Link>.
+    </p>
+  );
+
   if (observed.size === 0) {
-    return <p>Aucune réponse enregistrée dans ce navigateur : rien ne peut encore être observé.</p>;
+    return (
+      <>
+        {note}
+        <p>Aucune réponse enregistrée dans ce navigateur : rien ne peut encore être observé.</p>
+      </>
+    );
   }
 
   const topics = [...observed.keys()].sort((a, b) => a.localeCompare(b, 'fr'));
 
   return (
-    <div className="certpath-table-scroll" tabIndex={0} role="region" aria-label="Vos réponses par sujet officiel">
-      <table>
-        <caption>Vos réponses par sujet officiel, séparées par mode</caption>
-        <thead>
-          <tr>
-            <th scope="col">Sujet officiel</th>
-            {CHANNELS.map((c) => (
-              <th scope="col" key={c}>
-                {CHANNEL_LABEL[c]}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {topics.map((topic) => (
-            <tr key={topic}>
-              <th scope="row">{topic}</th>
+    <>
+      {note}
+      <div className="certpath-table-scroll" tabIndex={0} role="region" aria-label="Vos réponses par sujet officiel">
+        <table>
+          <caption>Vos réponses par sujet officiel, séparées par mode</caption>
+          <thead>
+            <tr>
+              <th scope="col">Sujet officiel</th>
               {CHANNELS.map((c) => (
-                <td key={c}>{cellText(observed.get(topic)![c])}</td>
+                <th scope="col" key={c}>
+                  {CHANNEL_LABEL[c]}
+                </th>
               ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+          </thead>
+          <tbody>
+            {topics.map((topic) => (
+              <tr key={topic}>
+                <th scope="row">{topic}</th>
+                {CHANNELS.map((c) => (
+                  <td key={c}>{cellText(observed.get(topic)![c])}</td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </>
   );
 }
 
