@@ -419,7 +419,7 @@ right after it.
 | Mock 5 | a right answer rated `missed` — a right choice for another reason — counts as a failure; `partial` does not. The series report counts them |
 | `src/lib/delayed.ts` | a lot's comprehension check comes back 7 days after the last answer on the lot, then 14, then 28; six questions: missed last time first, then never asked, then right longest ago. No efficacy claimed for the intervals |
 | `/controle-differe` | the lots due and the next ones; a sitting reuses the comprehension check, corrected after each answer, its answers marked `delayed` |
-| « Ma progression » | how many delayed checks are due, linked |
+| « Ma progression », footer | how many delayed checks are due, linked; the page is in the footer, so it is reachable before any is due (`verify-navigation` failed the first CI run on it) |
 
 Verified: `verify-delayed.mjs` (9 cases), `verify-weakness.mjs` (+2),
 `verify-transfer-ui.mjs` in a browser (6 checks: no correction in the DOM

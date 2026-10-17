@@ -158,6 +158,7 @@ const config: Config = {
             {label: 'Mock 5 — Weakness-based', to: '/mock-5'},
             {label: 'Mock 4 — finale, à ne passer qu\'une fois', to: '/mock-4'},
             {label: 'Ma progression', to: '/progression'},
+            {label: 'Contrôles différés', to: '/controle-differe'},
           ],
         },
         {
