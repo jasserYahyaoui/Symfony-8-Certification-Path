@@ -279,7 +279,8 @@ def versions(base: str) -> int:
     found = unversioned(changes('HEAD', base))
     for what in found:
         print(f'FAIL  {what} changed its prompt or correct answer without a new version', file=sys.stderr)
-    print(f'{base[:12]}..HEAD: {len(found)} question(s) changed without a new version')
+    shown = base[:12] if re.fullmatch(r'[0-9a-f]{40}', base) else base
+    print(f'{shown}..HEAD: {len(found)} question(s) changed without a new version')
     return 1 if found else 0
 
 

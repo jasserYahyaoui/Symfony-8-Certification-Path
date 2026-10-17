@@ -218,8 +218,13 @@ final readonly class DocsGenerator
         }
 
         // Remediation P3.3: what was corrected, where to read it again.
+        // Skipped for a content set that lacks the courses the journal names:
+        // the generator is also run over synthetic fixtures. Not a way for the
+        // real bank to pass vacuously — CorrectionsChangelogTest builds the
+        // page from it and fails if an entry is missing, and the production
+        // smoke test fails on a missing page.
         $corrections = $this->project->loadCorrections();
-        if ([] !== $corrections) {
+        if ([] !== $corrections && CorrectionsPage::applies($corrections, $content)) {
             $written[] = $this->writeDoc(
                 $docsDir.'/corrections.md',
                 (new CorrectionsPage($this->project))->render($corrections, $content, $this->mdxText(...)),

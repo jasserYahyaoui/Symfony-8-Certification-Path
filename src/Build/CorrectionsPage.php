@@ -47,6 +47,28 @@ final class CorrectionsPage
     ];
 
     /**
+     * Whether the content set holds every course the journal names.
+     *
+     * @param array{entries: list<array<string, mixed>>} $log
+     */
+    public static function applies(array $log, ContentSet $content): bool
+    {
+        $courses = [];
+        foreach ($content->courses as $course) {
+            $courses[$course->id->value] = true;
+        }
+        foreach ($log['entries'] as $entry) {
+            foreach ($entry['courses'] ?? [] as $ref) {
+                if (!isset($courses[$ref['id']])) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * @param array{entries: list<array<string, mixed>>} $log
      */
     public function render(array $log, ContentSet $content, callable $mdx): string
