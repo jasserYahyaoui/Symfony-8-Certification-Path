@@ -58,6 +58,12 @@ final class CourseUrl
         return 's-'.self::slug(str_replace('`', '', $heading));
     }
 
+    /** The id of a flashcard's <details> on its course page (remediation P2.3). */
+    public static function flashcardAnchor(string $cardId): string
+    {
+        return 'carte-'.strtolower($cardId);
+    }
+
     public static function forSection(OfficialItem $item, string $heading): string
     {
         return self::forItem($item).'#'.self::sectionAnchor($heading);

@@ -260,6 +260,40 @@ final class BuildTest extends TestCase
         self::assertGreaterThan(0, $checked, 'no generated page renders a flashcard');
     }
 
+    /**
+     * Remediation P2.3: every card carries its recall slot inside its own
+     * <details>, after the back, and the index the due list reads carries each
+     * card's front, version and anchor — never its back, which would answer the
+     * card the list links to.
+     */
+    public function testFlashcardsCarryARecallSlotAndAnIndexWithoutTheirBack(): void
+    {
+        $project = Project::locate();
+        $content = $project->loadContentSet();
+        (new DocsGenerator($project))->generate($content);
+
+        $index = json_decode((string) file_get_contents($project->path('website/static/data/flashcards.json')), true, 512, \JSON_THROW_ON_ERROR);
+        $byId = array_column($index['cards'], null, 'id');
+        self::assertNotEmpty($byId);
+
+        $checked = 0;
+        foreach ($content->flashcards as $card) {
+            $entry = $byId[$card->id->value] ?? null;
+            self::assertNotNull($entry, $card->id->value.' is missing from flashcards.json');
+            self::assertSame(['id', 'version', 'item', 'url', 'front'], array_keys($entry));
+            self::assertSame(DocsGenerator::cardVersion($card), $entry['version']);
+            self::assertStringEndsWith('#carte-'.strtolower($card->id->value), $entry['url']);
+            ++$checked;
+        }
+        self::assertCount($checked, $index['cards'], 'flashcards.json lists a card that is not in the content');
+
+        $page = $this->generatedPageContaining($project, 'FlashcardRecall');
+        self::assertMatchesRegularExpression(
+            '~<details id="carte-flc-[a-z0-9]+">\n<summary>.*?</summary>\n\n.*?<FlashcardRecall card="FLC-[a-z0-9]+" version="[0-9a-f]{12}" item="OIT-[a-z0-9]+" />\n\n</details>~s',
+            $page,
+        );
+    }
+
     /** @return list<string> the `<summary>` lines of a generated page */
     private function summaryLinesOf(string $body): array
     {
@@ -283,10 +317,12 @@ final class BuildTest extends TestCase
         $project = Project::locate();
         (new DocsGenerator($project))->generate($project->loadContentSet());
 
-        $body = $this->generatedPageContaining($project, '<details>');
+        // `<details` and not `<details>`: since remediation P2.3 each card's
+        // <details> carries its anchor id, and the needle must still find it.
+        $body = $this->generatedPageContaining($project, '<details');
 
         self::assertStringContainsString('<summary>', $body);
-        self::assertStringNotContainsString('&lt;details&gt;', $body);
+        self::assertStringNotContainsString('&lt;details', $body);
     }
 
     /** The text between a heading and the next one, or '' when absent. */

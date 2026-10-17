@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import Layout from '@theme/Layout';
-import {clearState, readState} from '@site/src/lib/storage';
+import Link from '@docusaurus/Link';
+import {clearState, importState, localDay, readState, type FlashcardRecord} from '@site/src/lib/storage';
 import {CHANNELS, MIN_QUESTIONS, enough, observe, type Cell, type Channel, type Observed} from '@site/src/lib/observed';
 import usePayload from '@site/src/lib/usePayload';
 import type {Payload} from '@site/src/lib/types';
@@ -81,6 +82,60 @@ function ObservedTable(): React.JSX.Element {
   );
 }
 
+interface FlashcardIndex {
+  cards: {id: string; version: string; item: string; url: string; front: string}[];
+}
+
+/**
+ * The flashcards rated on the course pages, and the ones due (remediation
+ * P2.3). Read from flashcards.json, which carries each card's front and page
+ * but never its back, so the list does not answer the card it links to.
+ */
+function DueFlashcards(): React.JSX.Element {
+  const index = usePayload<FlashcardIndex>('flashcards.json');
+  const [records, setRecords] = useState<Record<string, FlashcardRecord> | null>(null);
+
+  useEffect(() => {
+    setRecords(readState().flashcards);
+  }, []);
+
+  if (index.status === 'loading' || records === null) {
+    return <p role="status">Chargement des flashcards…</p>;
+  }
+  if (index.status === 'error') {
+    return <p role="status">Impossible de charger l'index des flashcards : {index.message}</p>;
+  }
+
+  const today = localDay(new Date());
+  const rated = index.payload.cards.filter((c) => records[c.id]?.card_hash === c.version);
+  const changed = index.payload.cards.filter((c) => records[c.id] && records[c.id].card_hash !== c.version);
+  const due = rated.filter((c) => records[c.id].due_on <= today).sort((a, b) => records[a.id].due_on.localeCompare(records[b.id].due_on));
+
+  return (
+    <>
+      <p>
+        {rated.length} carte(s) notée(s) sur {index.payload.cards.length}, dont <strong>{due.length} à revoir aujourd'hui</strong>.
+        {changed.length > 0 && ` ${changed.length} carte(s) ont changé depuis votre notation : elles repartent de zéro.`}
+      </p>
+      {due.length > 0 && (
+        <ul>
+          {due.map((c) => (
+            <li key={c.id}>
+              <Link to={c.url}>{c.front}</Link>
+            </li>
+          ))}
+        </ul>
+      )}
+      <p className="certpath-note">
+        Une carte n'est planifiée que si vous notez votre rappel après l'avoir
+        ouverte. Le calendrier suit un algorithme d'intervalles simple et
+        déterministe (<code>docs/policy/review-algorithm.md</code>) : aucune
+        efficacité n'est revendiquée.
+      </p>
+    </>
+  );
+}
+
 /**
  * Privacy controls, Master Plan §13: explicit reset and versioned JSON export.
  *
@@ -91,6 +146,7 @@ function ObservedTable(): React.JSX.Element {
 export default function Progression(): React.JSX.Element {
   const [exported, setExported] = useState<string | null>(null);
   const [status, setStatus] = useState('');
+  const [toImport, setToImport] = useState('');
 
   function handleExport(): void {
     const state = readState();
@@ -98,6 +154,14 @@ export default function Progression(): React.JSX.Element {
     setStatus(
       `Export généré : ${state.attempts.length} tentative(s), ${state.sessions.length} session(s). Copiez ce JSON pour le conserver.`,
     );
+  }
+
+  function handleImport(): void {
+    if (!window.confirm('Remplacer votre progression locale par celle de cet export ?')) {
+      return;
+    }
+    const result = importState(toImport);
+    setStatus(result.ok === false ? `Import refusé : ${result.reason}` : 'Progression importée. Rechargez la page pour la voir partout.');
   }
 
   function handleReset(): void {
@@ -114,7 +178,7 @@ export default function Progression(): React.JSX.Element {
   }
 
   return (
-    <Layout title="Ma progression" description="Exporter ou effacer votre progression locale.">
+    <Layout title="Ma progression" description="Vos résultats, vos flashcards à revoir, et l'export, l'import ou l'effacement de votre progression locale.">
       <main className="container margin-vert--lg">
         <h1>Ma progression</h1>
 
@@ -148,7 +212,10 @@ export default function Progression(): React.JSX.Element {
         </p>
         <ObservedTable />
 
-        <h2>Exporter ou effacer</h2>
+        <h2>Flashcards à revoir</h2>
+        <DueFlashcards />
+
+        <h2>Exporter, importer ou effacer</h2>
 
         <p>
           Toute votre progression est conservée dans le stockage local de ce
@@ -180,6 +247,20 @@ export default function Progression(): React.JSX.Element {
             />
           </div>
         )}
+
+        <div className="certpath-field">
+          <label htmlFor="import-input">Importer un export JSON</label>
+          <textarea
+            id="import-input"
+            rows={6}
+            value={toImport}
+            onChange={(e) => setToImport(e.target.value)}
+            style={{width: '100%', fontFamily: 'var(--ifm-font-family-monospace)'}}
+          />
+          <button type="button" className="button button--secondary margin-top--sm" onClick={handleImport} disabled={toImport.trim() === ''}>
+            Importer
+          </button>
+        </div>
 
         <h2>Migrations</h2>
         <p className="certpath-note">

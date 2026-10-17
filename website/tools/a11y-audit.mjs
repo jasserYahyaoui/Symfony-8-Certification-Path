@@ -221,6 +221,36 @@ function diagramsDrawn(markdownPath) {
   };
 }
 
+/** A real card of the lot-02 status-codes page, read from the built index. */
+const FLASHCARD = await (async () => {
+  const index = JSON.parse(await readFile(join(ROOT, 'data/flashcards.json'), 'utf8'));
+  const card = index.cards.find((c) => c.url.startsWith('/docs/courses/lot-02/status-codes#'));
+  if (!card) throw new Error('no flashcard of lot-02/status-codes in flashcards.json');
+  return {...card, page: card.url.split('#')[0], anchor: card.url.split('#')[1]};
+})();
+
+async function rateFlashcard(page) {
+  const details = page.locator(`#${FLASHCARD.anchor}`);
+  await details.locator('summary').click();
+  await details.getByRole('button', {name: /^Bien/}).click();
+  await details.getByRole('status').waitFor();
+}
+
+/** One card rated and due today, at the current storage version. */
+function seedDueFlashcard() {
+  const d = new Date();
+  const pad = (n) => String(n).padStart(2, '0');
+  const today = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+  return {
+    schema_version: 5, attempts: [], sessions: [], practice_sessions: [], comprehension: [],
+    revision: {done: {}, settings: null},
+    flashcards: {[FLASHCARD.id]: {
+      card_hash: FLASHCARD.version, official_item: FLASHCARD.item, interval_days: 1, ease: 2.5,
+      repetitions: 1, lapses: 0, reviewed_at: d.toISOString(), due_on: today, history: [{outcome: 'GOOD', at: d.toISOString()}],
+    }},
+  };
+}
+
 // One page per interactive surface, plus a generated item page carrying the
 // <details> flashcards introduced by Lot 0.5.
 const PAGES = [
@@ -359,6 +389,17 @@ const PAGES = [
     state: seedHistory,
     drive: async (page) => {
       await page.getByRole('region', {name: 'Vos réponses par sujet officiel'}).waitFor();
+    },
+  }],
+  // Remediation P2.3: a flashcard opened and rated, at phone width in both
+  // themes — the four rating buttons wrap, and the status that takes the focus
+  // must show it. Then the due list on « Ma progression ».
+  ['flashcard — notée', FLASHCARD.page, {drive: rateFlashcard}],
+  ['flashcard — notée, dark', FLASHCARD.page, {colorScheme: 'dark', drive: rateFlashcard}],
+  ['progression — flashcards dues', '/progression', {
+    state: seedDueFlashcard,
+    drive: async (page) => {
+      await page.getByRole('link', {name: FLASHCARD.front}).waitFor();
     },
   }],
 ];

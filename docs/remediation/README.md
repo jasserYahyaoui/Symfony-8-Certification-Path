@@ -58,7 +58,7 @@ an idea: it stops the old sentence returning, not every way of being wrong.
 | F7 | Too few multiple-answer questions | **VÉRIFIÉ** — P1.6: +33, then +10 for PHP and Automated Tests (4 VALIDATION, 39 LEARNING in all), every choice executed or read in its source | see P1.6 |
 | F8 | Unsourced "not examinable" restrictions | **EN COURS** — Serializer (P1.5), Cache (P1.4), Validator (P1.3), Forms (P1.2) and PHP API (P1.1) extended, VÉRIFIÉ; P2.7 VÉRIFIÉ (HttpClient, Console, Profiler, Translation, Filesystem/Finder, Runtime) | see P1.5, P1.3, P1.2, P1.1, P2.7 |
 | F9 | PHP source 404 and mutable branch URLs | **BLOQUÉ** (the last 404 is in a HOLDOUT question) — pinning À FAIRE | see P2.6 |
-| F10 | No per-card recall record; comprehension stores nothing | **EN COURS** — comprehension recorded (P2.4, VÉRIFIÉ local); per-card recall À FAIRE (P2.3) | see P2.4 |
+| F10 | No per-card recall record; comprehension stores nothing | **VÉRIFIÉ** (local) — comprehension recorded (P2.4); per-card recall and due day (P2.3) | see P2.4, P2.3 |
 
 ### P0.1 — Serializer (F1)
 
@@ -308,12 +308,43 @@ citation, so a format change has to be designed with it, not applied in bulk.
 | P2.7 Console | #418 | squash `baa8cec` | smoke 117187468251 success, log read (« ok remediation P2.7 lot-12 »; 299 ok and 0 error) |
 | P2.7 Profiler | #419 | squash `bfd0c04` | smoke 117205386196 success, log read (« ok remediation P2.7 lot-15 »; 300 ok and 0 error) |
 | P2.7 Translation | #420 | squash `abbcca0` | smoke 117226027552 success, log read (« ok remediation P2.7 lots 06 and 16 »; 301 ok and 0 error) |
+| P2.7 Filesystem, Finder | #421 | squash `76ee0dd` | smoke 117235982393 success, log read (« ok remediation P2.7 lot-21 »; 302 ok and 0 error) |
+| P2.7 Runtime (CI harness only, no site change) | #422 | squash `5882b0c` | smoke 117244563874 success, log read (302 ok and 0 error); the `runtime.*` checks ran green in its CI |
 | P1.7, P2.4, P2.5 (part) | #395, CI green | squash `6c1448c` | job « Production smoke test » 115498368380 success, log read. It checks served pages and payloads, not the client-side progression table, which the CI a11y audit renders. |
 
 ## Next action
 
-P2.3 (per-card recall, which would give item statistics a source). By the owner's decision of 2026-10-16, Mock 4 is
+Item statistics (P3.1) now have a first local source — per-card recall —
+but no shared data: they stay MISSING until learners' answers are collected
+with consent. By the owner's decision of 2026-10-16, Mock 4 is
 not sat now and is no longer raised in reports; F4 and F9 stay blocked.
+
+### P2.3 — Flashcards: a recall rating and a due day per card (F10)
+
+The cards existed, with their back hidden behind a native `<details>`; nothing
+was recorded. The mission: a recall result and a due day per card, the planned
+scheduler really wired to the page, migration, export/import, the card's
+version, a reset — and never « back shown » taken for « answer known ».
+
+| Piece | What it does |
+|---|---|
+| `src/lib/review.ts` | port of `src/Review/ReviewScheduler.php` (docs/policy/review-algorithm.md); `verify-review.mjs` replays 5 467 sequences, 31 288 states, through both — injected: dropping the 180-day ceiling fails it; two unreachable branches cannot (documented) |
+| `FlashcardRecall` | inside each card's `<details>`, after the back: « Avant de lire le verso, vous saviez ? » and four buttons (À revoir, Difficile, Bien, Facile); the focus moves to the next due day; « Oublier cette carte » |
+| storage schema 5 | slice `flashcards`, card id → schedule, `card_hash`, `due_on`, history; v4 migrates by adding an empty slice |
+| card version | `DocsGenerator::cardVersion()`: a hash of front and back; a schedule for another version is discarded |
+| `flashcards.json` | id, version, item, anchor URL, front — never the back (BuildTest, production smoke) |
+| « Ma progression » | cards rated, due today (linked to the card's anchor), changed cards; JSON import beside export and reset |
+
+`verify-flashcards-ui.mjs` drives it in a browser, by keyboard: opening a card
+records nothing; « Bien » schedules J+1, then J+3; the schedule survives a
+reload at schema 5; a changed card restarts; « Oublier » removes it; a v4 store
+keeps its attempts and the due card is listed with its anchor; export → import
+is identical and a JSON without `schema_version` is refused. Injected: reusing
+a schedule across versions fails it. Accessibility: three new surfaces — a card
+rated at phone width in light and dark, and the due list — axe 0.
+
+No efficacy is claimed, on the page or here: the schedule is the plain one of
+the policy, and the rating is the learner's own judgement.
 
 ### P2.7 — Runtime: the minimal entry point, run in CI
 
