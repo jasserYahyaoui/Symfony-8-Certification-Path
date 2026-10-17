@@ -3,6 +3,7 @@ import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
 import {clearState, importState, localDay, readState, type FlashcardRecord} from '@site/src/lib/storage';
 import {CHANNELS, MIN_QUESTIONS, enough, observe, superseded, type Cell, type Channel, type Observed} from '@site/src/lib/observed';
+import {schedule, type LotSchedule} from '@site/src/lib/delayed';
 import usePayload from '@site/src/lib/usePayload';
 import type {Payload} from '@site/src/lib/types';
 
@@ -108,6 +109,32 @@ function ObservedTable(): React.JSX.Element {
         </table>
       </div>
     </>
+  );
+}
+
+/**
+ * Remediation P3.2: lots whose comprehension check is due again
+ * (src/lib/delayed.ts), with the way to /controle-differe.
+ */
+function DelayedChecksDue(): React.JSX.Element {
+  const [lots, setLots] = useState<LotSchedule[] | null>(null);
+
+  useEffect(() => {
+    setLots(schedule(readState().comprehension, new Date()));
+  }, []);
+
+  if (lots === null) {
+    return <p role="status">Lecture de votre historique…</p>;
+  }
+  const due = lots.filter((l) => l.due);
+
+  return (
+    <p>
+      {lots.length === 0
+        ? 'Aucun contrôle de compréhension passé dans ce navigateur : rien à reprendre pour l’instant.'
+        : `${due.length} contrôle${due.length > 1 ? 's' : ''} différé${due.length > 1 ? 's' : ''} à faire aujourd'hui, sur ${lots.length} lot${lots.length > 1 ? 's' : ''} déjà contrôlé${lots.length > 1 ? 's' : ''}.`}{' '}
+      <Link to="/controle-differe">Voir les contrôles différés</Link>
+    </p>
   );
 }
 
@@ -243,6 +270,9 @@ export default function Progression(): React.JSX.Element {
 
         <h2>Flashcards à revoir</h2>
         <DueFlashcards />
+
+        <h2>Contrôles différés</h2>
+        <DelayedChecksDue />
 
         <h2>Exporter, importer ou effacer</h2>
 

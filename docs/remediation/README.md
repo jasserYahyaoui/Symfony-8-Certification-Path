@@ -312,6 +312,7 @@ citation, so a format change has to be designed with it, not applied in bulk.
 | P2.7 Runtime (CI harness only, no site change) | #422 | squash `5882b0c` | smoke 117244563874 success, log read (302 ok and 0 error); the `runtime.*` checks ran green in its CI |
 | P2.3 Flashcard recall | #423 | squash `1032fc2` | smoke 117400911384 success, log read (304 ok and 0 error; « ok remediation P2.3: flashcards.json (1940 cards, fronts only); card anchors and recall slot served ») |
 | P3.3 Journal of corrections, version guard | #424 | squash `2a8f7da` | smoke 117423979751 success, log read (308 ok and 0 error in the last 400 lines; « ok remediation P3.3: journal des corrections served, entries anchored », « question-versions.json (59 rewritten questions) ») |
+| P3.1 Semantic repetition, « difficulté estimée » | #425 | squash `9cebee6` | smoke 117493721315 success, log read (308 ok and 0 error in the last 400 lines; « question-versions.json (70 rewritten questions) ») |
 | P1.7, P2.4, P2.5 (part) | #395, CI green | squash `6c1448c` | job « Production smoke test » 115498368380 success, log read. It checks served pages and payloads, not the client-side progression table, which the CI a11y audit renders. |
 
 ### P3.3 — Maintenance: a journal of corrections, and answers that follow versions
@@ -405,12 +406,37 @@ criteria (autonomous prompt, explicit hypotheses, one defensible key,
 plausible choices, causal explanation, relevant source) are what the rewrites
 were held to; they are not yet a rule a script can check.
 
+### P3.2 — Transfer and retention (first part): reasoning before the correction, delayed checks
+
+The mission asks for an explanation requested before the reveal and compared
+with the expected one, and for checks delayed after the reading, not only
+right after it.
+
+| Piece | What it does |
+|---|---|
+| « Écrire mon raisonnement avant la correction » (Practice) | an option, remembered per browser. After the answer, a field asks why; the correction is absent from the DOM until a reason of 15 characters or more is given, or « Je ne sais pas l'expliquer ». The reasoning is then quoted beside the expected explanation, and the learner says whether it matches: oui, en partie, non |
+| what is stored | only the rating, on the attempt (`reasoning`: matched, partial, missed, skipped); never the text |
+| Mock 5 | a right answer rated `missed` — a right choice for another reason — counts as a failure; `partial` does not. The series report counts them |
+| `src/lib/delayed.ts` | a lot's comprehension check comes back 7 days after the last answer on the lot, then 14, then 28; six questions: missed last time first, then never asked, then right longest ago. No efficacy claimed for the intervals |
+| `/controle-differe` | the lots due and the next ones; a sitting reuses the comprehension check, corrected after each answer, its answers marked `delayed` |
+| « Ma progression », footer | how many delayed checks are due, linked; the page is in the footer, so it is reachable before any is due (`verify-navigation` failed the first CI run on it) |
+
+Verified: `verify-delayed.mjs` (9 cases), `verify-weakness.mjs` (+2),
+`verify-transfer-ui.mjs` in a browser (6 checks: no correction in the DOM
+before the reasoning, the field focused, the 15-character floor, the rating
+stored and the text not, the option remembered; a lot due after 8 days, its
+missed question served first and recorded `delayed`, the next one 14 days
+later); five new accessibility surfaces, one of them the page a learner with nothing due sees.
+
+**Still to do in P3.2:** series mixing components without announcing the
+trap, and explicit first-exposure rules for parallel forms.
+
 ## Next action
 
-P3.3 is delivered in #424; P3.1 in the PR after it. Next: the journal
-entry for the twelve rewritten questions (it cites the squash commit, so it
-lands in the following PR), then P3.2 — series mixing components, delayed
-checks, reasoning asked before the answer is revealed.
+P3.1 is delivered in #425; its journal entry (`CVR-n1e5ghdcftxn`, the twelve
+rewritten questions, all `reversioned`) lands with P3.2's first part, which
+cites its squash commit. Next: the rest of P3.2 — unseen series mixing
+components, parallel forms and explicit first-exposure rules.
 
 Item statistics (P3.1) now have a first local source — per-card recall —
 but no shared data: they stay MISSING until learners' answers are collected

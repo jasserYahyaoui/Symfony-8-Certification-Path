@@ -63,8 +63,11 @@ export function weaknessSignals(questionsById: Map<string, Question>, now = Date
     if (current && current.version > attempt.question_version) {
       continue;
     }
+    // Remediation P3.2: a right choice the learner judged reached by a wrong
+    // reasoning is not mastery, and counts as a failure here.
+    const counted = attempt.correct && attempt.reasoning === 'missed' ? {...attempt, correct: false} : attempt;
     const bucket = byItem.get(attempt.official_item) ?? [];
-    bucket.push(attempt);
+    bucket.push(counted);
     byItem.set(attempt.official_item, bucket);
 
     const question = questionsById.get(attempt.question_id);
@@ -74,17 +77,17 @@ export function weaknessSignals(questionsById: Map<string, Question>, now = Date
 
     const skill = bySkill.get(question.exam_skill) ?? {asked: 0, wrong: 0};
     skill.asked += 1;
-    skill.wrong += attempt.correct ? 0 : 1;
+    skill.wrong += counted.correct ? 0 : 1;
     bySkill.set(question.exam_skill, skill);
 
     const topic = byTopic.get(question.official_topic) ?? {asked: 0, wrong: 0};
     topic.asked += 1;
-    topic.wrong += attempt.correct ? 0 : 1;
+    topic.wrong += counted.correct ? 0 : 1;
     byTopic.set(question.official_topic, topic);
 
     if (question.language === 'en') {
       englishAsked += 1;
-      englishWrong += attempt.correct ? 0 : 1;
+      englishWrong += counted.correct ? 0 : 1;
     }
   }
 

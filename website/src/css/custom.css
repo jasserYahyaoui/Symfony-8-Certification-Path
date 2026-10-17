@@ -579,3 +579,27 @@ html[data-theme='dark'] {
   outline: 3px solid var(--certpath-focus);
   outline-offset: 2px;
 }
+
+/* Remediation P3.2: the reasoning asked before the correction, then quoted
+   beside it. The field takes the column's width so a phone never scrolls. */
+.certpath-reasoning {
+  margin: 1rem 0;
+}
+
+.certpath-reasoning textarea {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  margin-top: 0.5rem;
+  font: inherit;
+  padding: 0.5rem;
+  border: 1px solid var(--ifm-color-emphasis-500);
+  border-radius: var(--ifm-global-radius);
+  background: var(--ifm-background-color);
+  color: var(--ifm-font-color-base);
+}
+
+.certpath-reasoning-text {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}

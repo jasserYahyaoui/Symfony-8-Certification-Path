@@ -55,6 +55,10 @@ export default function PracticeResults({
   const correct = answered.filter((q) => byQuestion.get(q.id)?.correct).length;
   const wrong = answered.length - correct;
   const unanswered = total - answered.length;
+  // Remediation P3.2: right answers the learner judged reached by another
+  // reasoning than the expected one. Shown only when some were judged.
+  const judged = answered.filter((q) => byQuestion.get(q.id)?.reasoning !== undefined).length;
+  const luckyGuesses = answered.filter((q) => byQuestion.get(q.id)?.correct && byQuestion.get(q.id)?.reasoning === 'missed').length;
 
   const byTopic = new Map<string, Bucket>();
   const byItem = new Map<string, Bucket>();
@@ -105,6 +109,12 @@ export default function PracticeResults({
         <li>Correctes : {correct}</li>
         <li>Incorrectes : {wrong}</li>
         <li>Non répondues : {unanswered}</li>
+        {judged > 0 && (
+          <li>
+            Correctes, mais pour une autre raison que celle attendue : {luckyGuesses} — le Mock 5 les
+            compte comme des erreurs
+          </li>
+        )}
       </ul>
 
       <p className="certpath-note">

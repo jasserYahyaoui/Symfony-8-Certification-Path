@@ -279,6 +279,11 @@ jobs:
       - name: Mock 5's weak items ignore answers to an earlier version
         run: node website/tools/verify-weakness.mjs
 
+      # Remediation P3.2: when a lot's comprehension check comes back (7, 14,
+      # 28 days after its last answer) and which of its questions come first.
+      - name: Delayed checks are scheduled and selected as stated
+        run: node website/tools/verify-delayed.mjs
+
       # `onBrokenLinks: 'throw'` makes this the site-level counterpart of the
       # LNK-001 content rule: a dead link fails the build instead of shipping.
       - name: Build the documentation site
@@ -336,6 +341,12 @@ jobs:
       # recording nothing. Driven by keyboard where a learner would use one.
       - name: Flashcard recall is recorded, scheduled and kept apart from a reveal
         run: node website/tools/verify-flashcards-ui.mjs
+
+      # Remediation P3.2, in the browser: no correction before the reasoning is
+      # given, the self-rating recorded and the text not; a delayed check due
+      # after 8 days, starting with the missed question, recorded as delayed.
+      - name: Reasoning is asked before the correction, and delayed checks come back
+        run: node website/tools/verify-transfer-ui.mjs
 
       - name: Accessibility audit
         run: npm --prefix website run a11y
