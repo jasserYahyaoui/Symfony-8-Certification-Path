@@ -18,8 +18,9 @@ require __DIR__.'/vendor/autoload.php';
 
 $checks = [];
 // checks/ holds the central facts (docs/facts/central-facts.yml); questions/
-// holds questions re-executed choice by choice, keyed by question id.
-foreach ([...glob(__DIR__.'/checks/*.php'), ...glob(__DIR__.'/questions/*.php')] as $file) {
+// holds multiple-answer questions re-executed choice by choice, keyed by
+// question id, and single/ the single-answer ones (remediation P3.1).
+foreach ([...glob(__DIR__.'/checks/*.php'), ...glob(__DIR__.'/questions/*.php'), ...glob(__DIR__.'/single/*.php')] as $file) {
     foreach (require $file as $id => $check) {
         if (isset($checks[$id])) {
             fwrite(\STDERR, "Duplicate fact id $id in $file\n");

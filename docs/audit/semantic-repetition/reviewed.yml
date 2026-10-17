@@ -1,0 +1,646 @@
+# Semantic repetition between exam-bank questions: the reviewed pairs (P3.1).
+#
+# tools/audit/semantic_repetition.py flags every LEARNING/VALIDATION pair at
+# TF-IDF cosine >= 0.45 and fails on one that is not here, was reviewed
+# against an older version of either question, or is still REPEAT.
+#
+# - DISTINCT: the pair shares words, not knowledge.
+# - PARALLEL: same knowledge, another situation; one answer does not give the
+#   other without reasoning. A parallel form is what assessment wants.
+# - REPEAT:   the same situation and the same conclusion, reworded. A finding
+#   until one of the two is rewritten (with a new version).
+#
+# Twelve REPEAT pairs were found on 2026-10-17 and resolved by rewriting the
+# LEARNING side; they are no longer flagged and are listed in README.md.
+schema_version: 1
+pairs:
+- pair:
+  - QST-mbdfczw6tszk
+  - QST-mwp8zhtceb6d
+  versions:
+    QST-mbdfczw6tszk: 1
+    QST-mwp8zhtceb6d: 1
+  verdict: PARALLEL
+  reason: 'Contrast pair: {!page} keeps the default in the URL, {page} drops it.'
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-0djgsnp61392
+  - QST-0cvjqaqn7pay
+  versions:
+    QST-0djgsnp61392: 1
+    QST-0cvjqaqn7pay: 1
+  verdict: DISTINCT
+  reason: 'PSR-11 is implemented, PSR-7 is not: two different facts.'
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-d3z5234k4p9k
+  - QST-1er6x1ts9xk4
+  versions:
+    QST-d3z5234k4p9k: 1
+    QST-1er6x1ts9xk4: 1
+  verdict: PARALLEL
+  reason: Recalling router:match, then choosing it to diagnose a 404.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-m5x0wprr2kvf
+  - QST-f0k6jqb9twcj
+  versions:
+    QST-m5x0wprr2kvf: 2
+    QST-f0k6jqb9twcj: 1
+  verdict: DISTINCT
+  reason: 'One parameter, two facts: what _fragment adds, and that an import refuses it.'
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-9qdj97kmt1m5
+  - QST-qay1zj2m10me
+  versions:
+    QST-9qdj97kmt1m5: 1
+    QST-qay1zj2m10me: 1
+  verdict: PARALLEL
+  reason: The {% dump %} tag in Twig, then PHP dump() with DebugBundle.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-hhxx71xmb9jk
+  - QST-34jsz8p52p6r
+  versions:
+    QST-hhxx71xmb9jk: 1
+    QST-34jsz8p52p6r: 1
+  verdict: PARALLEL
+  reason: What getParent() does, then the parent when none is declared.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-7b5q7zedg43v
+  - QST-42fahb78tb66
+  versions:
+    QST-7b5q7zedg43v: 1
+    QST-42fahb78tb66: 1
+  verdict: PARALLEL
+  reason: The order of the events, then which ones a returned Response dispatches.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-bbxhkwvjjhph
+  - QST-cdnj5f56wpn9
+  versions:
+    QST-bbxhkwvjjhph: 1
+    QST-cdnj5f56wpn9: 1
+  verdict: PARALLEL
+  reason: The list of Request::isMethodSafe(), then the HTTP rule that a safe method is idempotent.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-bjgx2g2df63b
+  - QST-h13r88e3t040
+  versions:
+    QST-bjgx2g2df63b: 1
+    QST-h13r88e3t040: 1
+  verdict: PARALLEL
+  reason: One fact (four years of security fixes), then which version is the LTS and how it is maintained.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-tcvpfdg7b3j7
+  - QST-c8phy0j4j0fq
+  versions:
+    QST-tcvpfdg7b3j7: 1
+    QST-c8phy0j4j0fq: 1
+  verdict: DISTINCT
+  reason: 'Two contents of RFC 9112: the request line and the chunked coding.'
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-0y1zbrpb67fw
+  - QST-mwp8zhtceb6d
+  versions:
+    QST-0y1zbrpb67fw: 1
+    QST-mwp8zhtceb6d: 1
+  verdict: DISTINCT
+  reason: Extra parameters become a query string; a default is dropped from the URL.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-zre5tj917bfe
+  - QST-8vdjp0hj9nra
+  versions:
+    QST-zre5tj917bfe: 1
+    QST-8vdjp0hj9nra: 1
+  verdict: PARALLEL
+  reason: The three condition variables, then which one carries the matched parameters.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-rsbg20z3fzdk
+  - QST-3p3j00y1dgsg
+  versions:
+    QST-rsbg20z3fzdk: 1
+    QST-3p3j00y1dgsg: 1
+  verdict: PARALLEL
+  reason: The three kinds of test, then what separates unit from integration.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-45tm3rfbkjyw
+  - QST-gbzpgycr1r6g
+  versions:
+    QST-45tm3rfbkjyw: 1
+    QST-gbzpgycr1r6g: 1
+  verdict: DISTINCT
+  reason: A message handler and a console command.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-ch9mc2vedk60
+  - QST-w6g2sgj7apm1
+  versions:
+    QST-ch9mc2vedk60: 2
+    QST-w6g2sgj7apm1: 2
+  verdict: DISTINCT
+  reason: When the cache callback runs, and what beta=0 does.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-811tsrpkggk6
+  - QST-5jrgjrw4vr7c
+  versions:
+    QST-811tsrpkggk6: 1
+    QST-5jrgjrw4vr7c: 1
+  verdict: PARALLEL
+  reason: RequestStack for the current request, then for the session.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-bftzbt0t3q8y
+  - QST-a3j6b774kjeb
+  versions:
+    QST-bftzbt0t3q8y: 2
+    QST-a3j6b774kjeb: 1
+  verdict: DISTINCT
+  reason: The .env cascade at runtime, and what dump-env produces.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-0djgsnp61392
+  - QST-rqn99khrxjbz
+  versions:
+    QST-0djgsnp61392: 1
+    QST-rqn99khrxjbz: 1
+  verdict: PARALLEL
+  reason: PSR-11 by name, then read from composer.json beside PSR-12.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-3wrz6qafpv3y
+  - QST-wt21gvjc33t8
+  versions:
+    QST-3wrz6qafpv3y: 1
+    QST-wt21gvjc33t8: 1
+  verdict: PARALLEL
+  reason: 'Changing a third-party argument, then removing a third-party definition: one mechanism, two situations.'
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-trxpf8mvw13a
+  - QST-y7mf6hamqsq3
+  versions:
+    QST-trxpf8mvw13a: 1
+    QST-y7mf6hamqsq3: 1
+  verdict: DISTINCT
+  reason: Valid attribute arguments, and the kind of member Requirement::DIGITS is.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-4a1ch0v8dv9d
+  - QST-fnzna81jz7gv
+  versions:
+    QST-4a1ch0v8dv9d: 1
+    QST-fnzna81jz7gv: 1
+  verdict: DISTINCT
+  reason: A status read in a functional test, and when HttpClient blocks.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-tv47j0hjexr0
+  - QST-cneae0nf93c6
+  versions:
+    QST-tv47j0hjexr0: 1
+    QST-cneae0nf93c6: 1
+  verdict: DISTINCT
+  reason: Where validation runs, and where a dependent field is added.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-mzsqzvya53dc
+  - QST-45tm3rfbkjyw
+  versions:
+    QST-mzsqzvya53dc: 1
+    QST-45tm3rfbkjyw: 1
+  verdict: DISTINCT
+  reason: How a handler is matched to its message, and the recommended form of a handler.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-kr1xezgf2gp6
+  - QST-dg4pvtdpr5q1
+  versions:
+    QST-kr1xezgf2gp6: 1
+    QST-dg4pvtdpr5q1: 1
+  verdict: PARALLEL
+  reason: Expanded single choice renders radios, then which combinations render a select.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-9be1jmm121k3
+  - QST-5565an30ezds
+  versions:
+    QST-9be1jmm121k3: 1
+    QST-5565an30ezds: 1
+  verdict: PARALLEL
+  reason: 'Contrast pair: self and static as return type and constructor.'
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-q8q1ra28925h
+  - QST-fad080pztznw
+  versions:
+    QST-q8q1ra28925h: 1
+    QST-fad080pztznw: 1
+  verdict: PARALLEL
+  reason: The +intl-icu requirement, then diagnosing ICU braces printed literally.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-y51441y0byrz
+  - QST-s76mhj526gjc
+  versions:
+    QST-y51441y0byrz: 1
+    QST-s76mhj526gjc: 1
+  verdict: PARALLEL
+  reason: The priority rule applied to two different pairs of values.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-mr5y3tea9rgw
+  - QST-wbjj5skr4pen
+  versions:
+    QST-mr5y3tea9rgw: 1
+    QST-wbjj5skr4pen: 1
+  verdict: PARALLEL
+  reason: Choosing html_attr for an unquoted attribute, then the list of valid strategies.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-4915capts8mb
+  - QST-w6bjkbw00rmt
+  versions:
+    QST-4915capts8mb: 1
+    QST-w6bjkbw00rmt: 1
+  verdict: PARALLEL
+  reason: What form_row() adds, then the four parts of a field rendering.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-ty80h8rawm9h
+  - QST-8grwagdms0k7
+  versions:
+    QST-ty80h8rawm9h: 1
+    QST-8grwagdms0k7: 1
+  verdict: PARALLEL
+  reason: A role cannot express ownership, then why access_control cannot either.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-k1qgrrevaw40
+  - QST-1qy9s052f4x7
+  versions:
+    QST-k1qgrrevaw40: 2
+    QST-1qy9s052f4x7: 1
+  verdict: PARALLEL
+  reason: 'strict_variables off: a typo prints nothing; unset: what its kernel.debug default does in dev and prod.'
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-et0r585d9ra3
+  - QST-4a1ch0v8dv9d
+  versions:
+    QST-et0r585d9ra3: 1
+    QST-4a1ch0v8dv9d: 1
+  verdict: PARALLEL
+  reason: Following a redirect in a test, then reading a status from the client.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-bn1rbrz3c7pr
+  - QST-nf32gcp2hzy8
+  versions:
+    QST-bn1rbrz3c7pr: 1
+    QST-nf32gcp2hzy8: 1
+  verdict: PARALLEL
+  reason: The order of the five form events, then which ones a submission dispatches.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-y51441y0byrz
+  - QST-qcs153cscpem
+  versions:
+    QST-y51441y0byrz: 1
+    QST-qcs153cscpem: 1
+  verdict: PARALLEL
+  reason: 'Listener priority and compiler pass priority: one ordering rule, two mechanisms.'
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-nzk49a60g2w7
+  - QST-mwp8zhtceb6d
+  versions:
+    QST-nzk49a60g2w7: 1
+    QST-mwp8zhtceb6d: 1
+  verdict: DISTINCT
+  reason: An inline requirement, and a default dropped from the URL.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-pg8rnbwrhn85
+  - QST-ayp9bpzrf6p6
+  versions:
+    QST-pg8rnbwrhn85: 1
+    QST-ayp9bpzrf6p6: 1
+  verdict: PARALLEL
+  reason: getPayload() against the request bag for a form or JSON field, then for a JSON body alone.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-42fahb78tb66
+  - QST-81e3prrcnqx7
+  versions:
+    QST-42fahb78tb66: 1
+    QST-81e3prrcnqx7: 1
+  verdict: PARALLEL
+  reason: The events for a returned Response, then for a response set on kernel.request.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-fhrga35d77wa
+  - QST-c8pj1ywz2erw
+  versions:
+    QST-fhrga35d77wa: 1
+    QST-c8pj1ywz2erw: 1
+  verdict: DISTINCT
+  reason: Defining a throwable type, and catching both families.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-7b5q7zedg43v
+  - QST-tex0099enajm
+  versions:
+    QST-7b5q7zedg43v: 1
+    QST-tex0099enajm: 1
+  verdict: DISTINCT
+  reason: The order of the kernel events, and the name of one constant.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-n45xyv1gqstp
+  - QST-mgckk1edgaen
+  versions:
+    QST-n45xyv1gqstp: 1
+    QST-mgckk1edgaen: 1
+  verdict: PARALLEL
+  reason: path() against url(), then which one gives scheme and host.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-znrf5tj46jjt
+  - QST-xpm0gvpryn1e
+  versions:
+    QST-znrf5tj46jjt: 1
+    QST-xpm0gvpryn1e: 1
+  verdict: PARALLEL
+  reason: Which groups exist, then which constraints the Default group selects.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-e4m2fqttjv3f
+  - QST-nzk49a60g2w7
+  versions:
+    QST-e4m2fqttjv3f: 1
+    QST-nzk49a60g2w7: 1
+  verdict: DISTINCT
+  reason: Route order on a match, and an inline requirement.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-5x6x0fgxqk43
+  - QST-bn1rbrz3c7pr
+  versions:
+    QST-5x6x0fgxqk43: 1
+    QST-bn1rbrz3c7pr: 1
+  verdict: PARALLEL
+  reason: The data each event carries, then the order of the events.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-e4m2fqttjv3f
+  - QST-mwp8zhtceb6d
+  versions:
+    QST-e4m2fqttjv3f: 1
+    QST-mwp8zhtceb6d: 1
+  verdict: DISTINCT
+  reason: Route order on a match, and a default dropped from a generated URL.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-1c6zphv3dzgc
+  - QST-znrf5tj46jjt
+  versions:
+    QST-1c6zphv3dzgc: 1
+    QST-znrf5tj46jjt: 1
+  verdict: PARALLEL
+  reason: A constraint in a named group is skipped by default, then which groups exist.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-myjwe916hpfp
+  - QST-bv3s8kewdfyw
+  versions:
+    QST-myjwe916hpfp: 1
+    QST-bv3s8kewdfyw: 1
+  verdict: PARALLEL
+  reason: MapUploadedFile with no file sent, then the two ways to reach a file.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-0y1zbrpb67fw
+  - QST-mbdfczw6tszk
+  versions:
+    QST-0y1zbrpb67fw: 1
+    QST-mbdfczw6tszk: 1
+  verdict: PARALLEL
+  reason: Extra parameters in a generated URL, then a forced default.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-zkgdt4kc1h0g
+  - QST-z6w320n9hz0m
+  versions:
+    QST-zkgdt4kc1h0g: 2
+    QST-z6w320n9hz0m: 1
+  verdict: DISTINCT
+  reason: isValid() on an unsubmitted form, and a missing CSRF token.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-t4bgmrx3q0cg
+  - QST-wdn59cym1fv8
+  versions:
+    QST-t4bgmrx3q0cg: 1
+    QST-wdn59cym1fv8: 1
+  verdict: PARALLEL
+  reason: A tag nobody reads, then the construct that reads it.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-snvr37zq14z9
+  - QST-0cvjqaqn7pay
+  versions:
+    QST-snvr37zq14z9: 1
+    QST-0cvjqaqn7pay: 1
+  verdict: PARALLEL
+  reason: What PSR-7 interoperability requires, then which PSR is not native.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-bkff08xmt369
+  - QST-ttahda62q0me
+  versions:
+    QST-bkff08xmt369: 1
+    QST-ttahda62q0me: 1
+  verdict: DISTINCT
+  reason: Service location, and constructor injection as the norm.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-8cz03w4xazh4
+  - QST-mg33edgvxqrc
+  versions:
+    QST-8cz03w4xazh4: 1
+    QST-mg33edgvxqrc: 1
+  verdict: PARALLEL
+  reason: What makes an interface autowirable, then when the automatic alias disappears.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-ygz3yc3dy4qb
+  - QST-rmsv83rmgrz3
+  versions:
+    QST-ygz3yc3dy4qb: 1
+    QST-rmsv83rmgrz3: 1
+  verdict: DISTINCT
+  reason: redirect() against redirectToRoute(), and what render() takes.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-mfj1a2ba5h07
+  - QST-c8phy0j4j0fq
+  versions:
+    QST-mfj1a2ba5h07: 1
+    QST-c8phy0j4j0fq: 1
+  verdict: DISTINCT
+  reason: What RFC 9110 makes obsolete, and where the chunked coding is specified.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-rqn99khrxjbz
+  - QST-0cvjqaqn7pay
+  versions:
+    QST-rqn99khrxjbz: 1
+    QST-0cvjqaqn7pay: 1
+  verdict: PARALLEL
+  reason: PSR-11 against PSR-12 in composer.json, then which PSR is not native.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-x7gb8yzg28gr
+  - QST-qyh60jqm5etd
+  versions:
+    QST-x7gb8yzg28gr: 1
+    QST-qyh60jqm5etd: 1
+  verdict: DISTINCT
+  reason: Single inheritance in Twig, and one firewall per request.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-e36h79gzw9gn
+  - QST-c8pj1ywz2erw
+  versions:
+    QST-e36h79gzw9gn: 1
+    QST-c8pj1ywz2erw: 1
+  verdict: PARALLEL
+  reason: Catch order with Throwable first, then the type that catches both families.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-cppkfczac4h1
+  - QST-fvx988xhq7gw
+  versions:
+    QST-cppkfczac4h1: 1
+    QST-fvx988xhq7gw: 1
+  verdict: PARALLEL
+  reason: One assertion for the route, then which assertions WebTestCase provides.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-n45xyv1gqstp
+  - QST-kcb8mz5b8cy9
+  versions:
+    QST-n45xyv1gqstp: 1
+    QST-kcb8mz5b8cy9: 1
+  verdict: PARALLEL
+  reason: path() against url(), then the reference types that carry the host.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-62t90ghtbqzj
+  - QST-jwxp5dskf6ed
+  versions:
+    QST-62t90ghtbqzj: 1
+    QST-jwxp5dskf6ed: 1
+  verdict: PARALLEL
+  reason: The two methods of UserInterface, then what one of them returns.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-r6wwzwfx7mqc
+  - QST-z9qbypbt56bw
+  versions:
+    QST-r6wwzwfx7mqc: 1
+    QST-z9qbypbt56bw: 1
+  verdict: PARALLEL
+  reason: Reading a 404 body without an exception, then which calls throw on a 404.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-2vt07hzxfmvq
+  - QST-ap1bw4et0s4j
+  versions:
+    QST-2vt07hzxfmvq: 1
+    QST-ap1bw4et0s4j: 1
+  verdict: PARALLEL
+  reason: The bus wraps a message in an Envelope, then what a middleware receives.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-152ds6g0w3kn
+  - QST-z3r0at4fmp23
+  versions:
+    QST-152ds6g0w3kn: 1
+    QST-z3r0at4fmp23: 1
+  verdict: PARALLEL
+  reason: Which technique customises an error page, then where the 404 template goes.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-fc8c15hve3qe
+  - QST-zbn2g0es3f4g
+  versions:
+    QST-fc8c15hve3qe: 1
+    QST-zbn2g0es3f4g: 1
+  verdict: PARALLEL
+  reason: RedirectController for an internal redirect, then a permanent external one.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-99hmydsyg0qy
+  - QST-nyr4h6qq8ayk
+  versions:
+    QST-99hmydsyg0qy: 1
+    QST-nyr4h6qq8ayk: 1
+  verdict: DISTINCT
+  reason: tryFrom() on a backed enum, and what a pure enum offers.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-8k29tz9vy6mt
+  - QST-n45xyv1gqstp
+  versions:
+    QST-8k29tz9vy6mt: 1
+    QST-n45xyv1gqstp: 1
+  verdict: PARALLEL
+  reason: The default reference type, then path() against url().
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-ycpqw0ygx9cd
+  - QST-wjwkdfb6r539
+  versions:
+    QST-ycpqw0ygx9cd: 2
+    QST-wjwkdfb6r539: 1
+  verdict: PARALLEL
+  reason: The name the alarm is dispatched under, then what a listener on it does to the exit code.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-qmjm8vzvrzh9
+  - QST-5exn2rx427qm
+  versions:
+    QST-qmjm8vzvrzh9: 1
+    QST-5exn2rx427qm: 1
+  verdict: DISTINCT
+  reason: The default strategy on a tie, and the values of the vote constants.
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-0qfww09cp9hf
+  - QST-0xvabx1zmvhh
+  versions:
+    QST-0qfww09cp9hf: 2
+    QST-0xvabx1zmvhh: 2
+  verdict: PARALLEL
+  reason: 'What security: false means, then its effect on access_control in a scenario.'
+  reviewed_at: '2026-10-17'
+- pair:
+  - QST-2eztey3aja7g
+  - QST-0qfww09cp9hf
+  versions:
+    QST-2eztey3aja7g: 1
+    QST-0qfww09cp9hf: 2
+  verdict: DISTINCT
+  reason: 'Which section decides what is required, and what security: false disables.'
+  reviewed_at: '2026-10-17'

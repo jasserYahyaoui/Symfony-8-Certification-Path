@@ -1700,10 +1700,10 @@ questions:
         symbol_or_lines: voters and strategies
         verified_at: '2026-09-01'
   - id: QST-c8gpyvw5shmy
-    question_archetype: DEFINITION_RECALL
+    question_archetype: BEHAVIOR_PREDICTION
     assesses_outcomes:
       - OUT-bb75dy1j7zcq
-    version: 2
+    version: 3
     official_topic: Security
     official_item: OIT-kqm5mxq4jnkj
     domain: symfony
@@ -1715,7 +1715,8 @@ questions:
     type: mcq
     answer_mode: single
     required_answer_count: 1
-    question: Under the unanimous strategy, three voters abstain and none denies. What is the decision?
+    question: Voters run in priority order and vote abstain, then deny, then grant. Under the priority strategy, what
+      is decided?
     scoring_policy: all-or-nothing
     shuffle_choices: true
     negative_wording: false
@@ -1725,36 +1726,40 @@ questions:
     verification_status: VERIFIED
     reviewers:
       - tech-lead
-    reviewed_at: '2026-10-01'
+    reviewed_at: '2026-10-17'
     tags:
       - voters
       - strategies
     choices:
-      - id: CHO-phhn9bxjc24r
-        text: Denied, by the allow_if_all_abstain default
+      - id: CHO-c2dawec48drw
+        text: 'Denied: the first voter that does not abstain decides'
         correct: true
-      - id: CHO-xkf656884pfe
-        text: Granted, because unanimous means no voter denies
+      - id: CHO-rjxnkbcf8akv
+        text: 'Granted: one grant is enough to allow access'
         correct: false
-        explanation: unanimous also needs at least one grant; when every voter abstains, allow_if_all_abstain
-          decides instead.
-      - id: CHO-84a451h01yjj
-        text: Denied, because abstentions count as denials
+        explanation: That is the affirmative strategy. priority stops at the first non-abstaining vote.
+      - id: CHO-egzxq150bx1v
+        text: 'Granted: a grant and a deny tie, and allow_if_equal_granted_denied is true'
         correct: false
-        explanation: An abstention is neither a grant nor a denial; the denial comes from allow_if_all_abstain.
-      - id: CHO-xmj4zkqg8802
-        text: Undefined, so allow_if_equal_granted_denied applies
+        explanation: That is the consensus strategy; priority counts nothing.
+      - id: CHO-xj2t212avck7
+        text: 'Denied: the first voter abstained, so allow_if_all_abstain applies'
         correct: false
-        explanation: That option belongs to the consensus strategy.
-    explanation: unanimous grants when no voter denies and at least one grants. When every voter abstains there
-      is nothing to aggregate, so allow_if_all_abstain decides, and it defaults to false. Executed on
-      AccessDecisionManager 8.0.15, three abstentions under unanimous are denied.
+        explanation: allow_if_all_abstain applies only when every voter abstains, which is not the case here.
+    explanation: 'priority returns the vote of the first voter, in priority order, that does not abstain. Executed
+      on AccessDecisionManager 8.0.15: abstain, deny, grant is denied under priority, granted under affirmative and
+      consensus, denied under unanimous.'
     official_sources:
+      - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/Authorization/Strategy/PriorityStrategy.php
+        readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Core/Authorization/Strategy/PriorityStrategy.php
+        branch: '8.0'
+        symbol_or_lines: decide()
+        verified_at: '2026-10-17'
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/voters.rst
         readable_url: https://github.com/symfony/symfony-docs/blob/8.0/security/voters.rst
         branch: '8.0'
-        symbol_or_lines: voters and strategies
-        verified_at: '2026-09-01'
+        symbol_or_lines: changing the access decision strategy
+        verified_at: '2026-10-17'
   - id: QST-2yyvqea9bx5j
     question_archetype: BEHAVIOR_DIAGNOSIS
     assesses_outcomes:

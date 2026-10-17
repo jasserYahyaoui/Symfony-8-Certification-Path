@@ -14,7 +14,7 @@ questions:
   question_archetype: CONCEPT_DISTINCTION
   assesses_outcomes:
   - OUT-xw5hbxewf5xf
-  version: 1
+  version: 2
   official_topic: Templating with Twig
   official_item: OIT-b9x8az2bx4t8
   domain: symfony
@@ -25,7 +25,8 @@ questions:
   type: mcq
   answer_mode: single
   required_answer_count: 1
-  question: Which package provides the Twig extensions that expose Symfony's routing and translation inside a template?
+  question: An application without Twig runs composer require symfony/twig-bundle. Which packages does that install,
+    and why?
   scoring_policy: all-or-nothing
   shuffle_choices: true
   negative_wording: false
@@ -35,49 +36,56 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-01'
+  reviewed_at: '2026-10-17'
   tags:
   - twigbundle
   choices:
-  - id: CHO-3b734xahjpmx
-    text: symfony/twig-bridge
+  - id: CHO-63jgq304npkp
+    text: 'The bundle, the bridge and twig/twig: the bundle requires the bridge, which requires Twig'
     correct: true
-  - id: CHO-55466we1vth6
-    text: twig/twig
+  - id: CHO-dbanbzn0ewgj
+    text: The bundle and twig/twig only, since the Twig extensions for Symfony ship inside FrameworkBundle
     correct: false
-    explanation: The engine knows nothing about Symfony; it provides only the language and its core filters.
-  - id: CHO-fektbn8ez3d1
-    text: symfony/twig-bundle
+    explanation: The extensions live in symfony/twig-bridge, a requirement of the bundle.
+  - id: CHO-6p93gj2st8e6
+    text: The bundle alone, because it embeds its own copy of the Twig engine
     correct: false
-    explanation: The bundle configures the integration; the extensions themselves come from the bridge.
-  - id: CHO-ragpb86dr4bp
-    text: symfony/framework-bundle
+    explanation: The engine is the separate twig/twig package, required by the bridge.
+  - id: CHO-dca7wgcfqzn9
+    text: The bundle and the bridge; twig/twig has to be required by hand
     correct: false
-    explanation: It wires the framework, not Twig.
-  explanation: 'Three packages, three roles: the engine, the bridge that exposes Symfony components to templates,
-    and the bundle that makes it all configurable.'
-  official_sources: &id001
-  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst
-    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/templates.rst
+    explanation: The bridge requires twig/twig (^3.21|^4.0 in 8.0), so Composer installs it.
+  explanation: 'Three packages, three roles: twig/twig is the engine, symfony/twig-bridge exposes Symfony components
+    to templates, symfony/twig-bundle integrates both into the framework. In 8.0 the bundle''s composer.json requires
+    symfony/twig-bridge, whose own requires twig/twig.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/TwigBundle/composer.json
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/TwigBundle/composer.json
     branch: '8.0'
-    symbol_or_lines: Symfony templates documentation
-    verified_at: '2026-09-01'
+    symbol_or_lines: 'require: symfony/twig-bridge'
+    verified_at: '2026-10-17'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/composer.json
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/composer.json
+    branch: '8.0'
+    symbol_or_lines: 'require: twig/twig ^3.21|^4.0'
+    verified_at: '2026-10-17'
 - id: QST-k1qgrrevaw40
   question_archetype: CONFIG_BEHAVIOR
   assesses_outcomes:
   - OUT-eqrycamdmt25
-  version: 1
+  version: 2
   official_topic: Templating with Twig
   official_item: OIT-b9x8az2bx4t8
   domain: symfony
   language: en
-  difficulty: medium
+  difficulty: hard
   cognitive_level: APPLY
   exam_skill: DIAGNOSE
   type: mcq
   answer_mode: single
   required_answer_count: 1
-  question: A typo in a variable name renders nothing and raises no error. Which option changes that?
+  question: twig.strict_variables is not configured. A template prints {{ user.nmae }}, a typo for an existing name
+    property. What happens with kernel.debug on, and with it off?
   scoring_policy: all-or-nothing
   shuffle_choices: true
   negative_wording: false
@@ -87,30 +95,40 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-24'
+  reviewed_at: '2026-10-17'
   tags:
   - twigbundle
   - strict-variables
   choices:
-  - id: CHO-rf0axyj3kwnt
-    text: twig.strict_variables
+  - id: CHO-2h7mp28kcrhy
+    text: With debug on, a RuntimeError; with it off, nothing is printed
     correct: true
-  - id: CHO-972chvheezs2
-    text: twig.debug
+  - id: CHO-jrwjzxg2tkyp
+    text: 'Nothing is printed either way: strict_variables is off unless configured'
     correct: false
-    explanation: Debug is the default of auto_reload; it does not change undefined-variable behaviour.
-  - id: CHO-ekmma97qa9dq
-    text: twig.autoescape
+    explanation: TwigBundle does not default the option to false; it follows kernel.debug.
+  - id: CHO-fez8yrbj90az
+    text: 'A RuntimeError either way: strict_variables is on unless configured'
     correct: false
-    explanation: Escaping is about output safety, not about missing variables.
-  - id: CHO-5c5zzcxvmj3z
-    text: framework.strict_variables
+    explanation: It is on only when kernel.debug is, so prod stays permissive.
+  - id: CHO-jz6xzahzvcte
+    text: Nothing is printed with debug on, and a RuntimeError with it off
     correct: false
-    explanation: The option belongs to the twig configuration tree, not the framework one.
-  explanation: Without strict_variables an unresolved name yields null. With it, Twig throws Twig\Error\RuntimeError
-    instead. TwigBundle defaults the option to %kernel.debug%, so a typo fails in dev but renders nothing in
-    prod.
-  official_sources: *id001
+    explanation: 'It is the other way round: strict in dev, permissive in prod.'
+  explanation: 'TwigBundle 8.0 defaults strict_variables to %kernel.debug% (its configuration tree, processed with
+    no value). Executed on Twig 3.22: strict, the typo throws Twig\Error\RuntimeError; permissive, it prints nothing.
+    So a typo fails in dev and renders nothing in prod.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/TwigBundle/DependencyInjection/Configuration.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/TwigBundle/DependencyInjection/Configuration.php
+    branch: '8.0'
+    symbol_or_lines: strict_variables defaultValue('%kernel.debug%')
+    verified_at: '2026-10-17'
+  - url: https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/api.rst
+    readable_url: https://github.com/twigphp/Twig/blob/v3.22.0/doc/api.rst
+    branch: v3.22.0
+    symbol_or_lines: strict_variables
+    verified_at: '2026-10-17'
 - id: QST-2xamk5ahfyyn
   question_archetype: SEQUENCE_ORDER
   assesses_outcomes:
@@ -161,7 +179,12 @@ questions:
     RuntimeError under strict_variables. An object implementing ArrayAccess therefore sees the array
     access win. The Symfony 8.0 page lists the same order without the class-constant step; the Twig
     v3.22.0 engine performs it.
-  official_sources: *id001
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/templates.rst
+    branch: '8.0'
+    symbol_or_lines: Symfony templates documentation
+    verified_at: '2026-09-01'
 - id: QST-fendqkqnnjqj
   question_archetype: DEFINITION_RECALL
   assesses_outcomes:
@@ -535,7 +558,12 @@ questions:
     explanation: path() generates a URL from a route name; it does not report the current one.
   explanation: app.current_route is the documented shortcut for app.request.attributes.get('_route'), with app.current_route_parameters
     alongside it.
-  official_sources: *id001
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/templates.rst
+    branch: '8.0'
+    symbol_or_lines: Symfony templates documentation
+    verified_at: '2026-09-01'
 - id: QST-m49e8kfejtww
   question_archetype: CONFIG_BEHAVIOR
   assesses_outcomes:
@@ -583,7 +611,12 @@ questions:
     explanation: That moves the templates directory.
   explanation: A global suits an application-wide constant. It is not a substitute for passing page data, which
     stays the controller's job.
-  official_sources: *id001
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/templates.rst
+    branch: '8.0'
+    symbol_or_lines: Symfony templates documentation
+    verified_at: '2026-09-01'
 - id: QST-kpt3rdmkphrw
   question_archetype: CONCEPT_DISTINCTION
   assesses_outcomes:
@@ -683,7 +716,12 @@ questions:
     explanation: The command name is the other way round.
   explanation: It also reports the registered template paths, which is the fastest way to see why a namespace does
     not resolve.
-  official_sources: *id001
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/templates.rst
+    branch: '8.0'
+    symbol_or_lines: Symfony templates documentation
+    verified_at: '2026-09-01'
 - id: QST-ds7wq19b5c0b
   question_archetype: BEHAVIOR_DIAGNOSIS
   assesses_outcomes:
@@ -1042,7 +1080,12 @@ questions:
     explanation: controller() only builds a reference; render() executes it.
   explanation: render() takes a URL or a controller reference. Each call is a sub-request, which is why they are
     not free.
-  official_sources: *id001
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/templates.rst
+    branch: '8.0'
+    symbol_or_lines: Symfony templates documentation
+    verified_at: '2026-09-01'
 - id: QST-nfe9sv3qesa2
   question_archetype: CONFIG_BEHAVIOR
   assesses_outcomes:
@@ -1090,7 +1133,12 @@ questions:
     explanation: That registers template directories.
   explanation: Controllers called through controller() are reached by a dedicated internal URL, /_fragment by default,
     rather than by a regular route.
-  official_sources: *id001
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/templates.rst
+    branch: '8.0'
+    symbol_or_lines: Symfony templates documentation
+    verified_at: '2026-09-01'
 - id: QST-6vv657ts3r2y
   question_archetype: API_SIGNATURE
   assesses_outcomes:
@@ -1437,7 +1485,12 @@ questions:
     explanation: Nothing is emitted as JavaScript.
   explanation: The tag suits inspecting a variable without disturbing the layout; the function suits seeing the
     value in place.
-  official_sources: *id001
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/templates.rst
+    branch: '8.0'
+    symbol_or_lines: Symfony templates documentation
+    verified_at: '2026-09-01'
 - id: QST-tk7sqrt8mcwa
   question_archetype: BEHAVIOR_DIAGNOSIS
   assesses_outcomes:
@@ -1486,7 +1539,12 @@ questions:
   explanation: 'dump() is available in dev and test only. Where it is absent, Twig stops compiling the template
     with Unknown "dump" function. The hard failure is deliberate: a forgotten dump would otherwise leak internal
     state.'
-  official_sources: *id001
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/templates.rst
+    branch: '8.0'
+    symbol_or_lines: Symfony templates documentation
+    verified_at: '2026-09-01'
 - id: QST-x9m083b1vy99
   question_archetype: SCENARIO_CHOICE
   assesses_outcomes:
@@ -1534,7 +1592,12 @@ questions:
     explanation: The namespace keeps the class-name casing.
   explanation: The namespace is the bundle name without its Bundle suffix. twig.paths registers further directories
     under a namespace of your choosing.
-  official_sources: *id001
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/templates.rst
+    branch: '8.0'
+    symbol_or_lines: Symfony templates documentation
+    verified_at: '2026-09-01'
 - id: QST-1qy9s052f4x7
   question_archetype: CONFIG_BEHAVIOR
   assesses_outcomes:
@@ -1581,7 +1644,12 @@ questions:
     explanation: The resolution ends at null silently.
   explanation: The resolution order ends with null when nothing matches. Enabling strict_variables turns that final
     step into a RuntimeError instead.
-  official_sources: *id001
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/templates.rst
+    branch: '8.0'
+    symbol_or_lines: Symfony templates documentation
+    verified_at: '2026-09-01'
 - id: QST-xby38797935y
   question_archetype: BEHAVIOR_DIAGNOSIS
   assesses_outcomes:
@@ -1733,7 +1801,12 @@ questions:
     explanation: An empty flash bag is not an error.
   explanation: app.flashes consumes. app.session.flashbag.peekAll() reads without consuming and is what a second
     display needs.
-  official_sources: *id001
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/templates.rst
+    branch: '8.0'
+    symbol_or_lines: Symfony templates documentation
+    verified_at: '2026-09-01'
 - id: QST-1tw52kh5s9sg
   question_archetype: API_SIGNATURE
   assesses_outcomes:
@@ -1935,7 +2008,12 @@ questions:
     explanation: Template caching is unaffected.
   explanation: 'That is the trade-off: a fragment gets its own controller and data, at the price of another pass
     through the kernel. An include renders a template with the current context and costs almost nothing.'
-  official_sources: *id001
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/templates.rst
+    branch: '8.0'
+    symbol_or_lines: Symfony templates documentation
+    verified_at: '2026-09-01'
 - id: QST-t2dpk8eb1x43
   question_archetype: API_SIGNATURE
   assesses_outcomes:

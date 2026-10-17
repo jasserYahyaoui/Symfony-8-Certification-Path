@@ -101,7 +101,7 @@ export default function Home(): React.JSX.Element {
             <h2>Simuler</h2>
             <p>
               Cinq simulations aux rôles distincts : connaissances, application,
-              difficulté certification, points faibles, et la finale au format
+              difficulté estimée la plus haute, points faibles, et la finale au format
               officiel — à ne passer qu'une fois.
             </p>
             <Link to="/simulations">À quoi sert chaque mock →</Link>

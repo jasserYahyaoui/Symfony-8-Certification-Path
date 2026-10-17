@@ -60,23 +60,23 @@ questions:
         branch: master
         verified_at: '2026-09-01'
   - id: QST-enxn0ad65n0w
-    question_archetype: DEFINITION_RECALL
+    question_archetype: CONCEPT_DISTINCTION
     assesses_outcomes:
       - OUT-6sg999w56sxb
-    version: 1
+    version: 2
     official_topic: HTTP
     official_item: OIT-512se83ab7qj
     domain: http
     subtopic: status-codes
     language: en
     difficulty: medium
-    cognitive_level: KNOW
-    exam_skill: RECOGNIZE
+    cognitive_level: UNDERSTAND
+    exam_skill: DISTINGUISH
     type: mcq
     answer_mode: multiple
     required_answer_count: 2
-    question: Which status codes guarantee that a user agent preserves the request method and body when
-      following the redirect? (Choose 2)
+    question: 'A form is POSTed to /orders and the server answers 303 See Other with Location: /orders/42. Which statements
+      are true? (Choose 2)'
     scoring_policy: all-or-nothing
     shuffle_choices: true
     negative_wording: false
@@ -86,35 +86,34 @@ questions:
     verification_status: VERIFIED
     reviewers:
       - tech-lead
-    reviewed_at: '2026-09-01'
+    reviewed_at: '2026-10-17'
     tags:
       - status-codes
       - redirects
     choices:
-      - id: CHO-gb86ayf91w36
-        text: 307 Temporary Redirect
+      - id: CHO-vdh82m0hvgc3
+        text: The user agent then sends a GET (or HEAD) to /orders/42
         correct: true
-      - id: CHO-c6akh0wcm13r
-        text: 308 Permanent Redirect
+      - id: CHO-fax8kkcxbf4s
+        text: It is the redirect the Post/Redirect/Get pattern uses after a POST
         correct: true
-      - id: CHO-h04jnqd0vm6a
-        text: 301 Moved Permanently
+      - id: CHO-gq1b5kx60an1
+        text: The user agent repeats the POST, body included, to /orders/42
         correct: false
-        explanation: 301 is permanent, but user agents have historically rewritten the method to GET when
-          following it. 308 exists precisely to remove that ambiguity.
-      - id: CHO-41tzw255nn2w
-        text: 302 Found
+        explanation: Repeating the method and body is what 307 and 308 guarantee; 303 asks for a retrieval request.
+      - id: CHO-egfdvmyknwtx
+        text: It tells the client that /orders has moved for good and should be bookmarked anew
         correct: false
-        explanation: 302 is the temporary counterpart of 301 and carries the same method rewriting problem.
-          307 is its method-preserving replacement.
-    explanation: 307 and 308 were introduced to guarantee method and body preservation, which 301 and
-      302 do not. After a POST, only 307 or 308 keep the request a POST.
+        explanation: A permanent move is 301 or 308. 303 points to a different resource answering this request.
+    explanation: 'RFC 9110 §15.4.4: after a 303 the user agent can perform a retrieval request — a GET or HEAD — on
+      the Location, and the code is primarily used to redirect the output of a POST to a separate resource. 307 and
+      308 are the redirects that keep the method and the body.'
     official_sources:
       - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html
         readable_url: https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html
-        anchor: status.307
+        anchor: status.303
         branch: master
-        verified_at: '2026-09-01'
+        verified_at: '2026-10-17'
   - id: QST-cfhm8d3qscwq
     question_archetype: CODE_DIAGNOSIS
     assesses_outcomes:

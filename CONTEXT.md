@@ -33,6 +33,7 @@ Branche de travail : `claude/symfony-8-certification-plan-phmkau`.
 | P2.7 Filesystem/Finder : environment de test portable, divergence doc/code sur `isAbsolutePath('c:\\Windows')` | #421 | `76ee0dd` | smoke 117235982393 **success, lu** |
 | P2.7 Runtime : point d'entrée minimal exécuté en CI (plugin Composer) | #422 | `5882b0c` | smoke 117244563874 **success, lu** |
 | P2.3 Flashcards : note de rappel par carte, planification, migration v5, import | #423 | `1032fc2` | smoke 117400911384 **success, lu** (304 ok, 0 erreur) |
+| P3.3 Journal des corrections (21 entrées), garde de version, réponses périmées non comptées | #424 | `2a8f7da` | smoke 117423979751 **success, lu** (308 ok, 0 erreur) |
 
 Nouveau : `tools/behavior/` (Symfony 8.0.* verrouillé, 10 faits exécutés en CI),
 `docs/facts/central-facts.yml` + `CentralFactsTest` (le retour d'une ancienne
@@ -85,11 +86,16 @@ antérieure (`question-versions.json`, `verify-observed`, `verify-weakness`).
 Une entrée cite le commit squash : elle s'écrit dans la PR **suivante**, comme
 une ligne de livraison.
 
-**Prochaine action :** P3.1 — « difficulté estimée » partout où une difficulté
-s'affiche, détection des répétitions sémantiques entre questions (au-delà des
-doublons textuels, HOLDOUT compté sans être lu) ; puis P3.2 (séries mêlant
-plusieurs composants, contrôles différés, raisonnement demandé avant
-révélation). Statistiques par question : MISSING (aucune donnée partagée) ;
+**P3.1 (qualité des questions), PR suivant #424 :** audit sémantique
+`tools/audit/semantic_repetition.py` (CI, `--prove`) et registre
+`docs/audit/semantic-repetition/reviewed.yml` ; 12 répétitions (même situation,
+même conclusion) réécrites côté LEARNING, en version supérieure, réponses
+exécutées (`tools/behavior/single/`, nouveau) ; 70 paires revues, 0 REPEAT ;
+HOLDOUT compté seulement. « Difficulté estimée » dans Practice et Mock 3.
+
+**Prochaine action :** entrée du journal pour les 12 réécritures (PR suivant la
+fusion de P3.1), puis P3.2 (séries mêlant plusieurs composants, contrôles
+différés, raisonnement demandé avant révélation). Statistiques par question : MISSING (aucune donnée partagée) ;
 relecture indépendante après remédiation : MISSING. Note : `tools/behavior` utilise le plugin Composer de symfony/runtime ;
 en local (root), `COMPOSER_ALLOW_SUPERUSER=1 composer install` pour qu'il
 écrive `vendor/autoload_runtime.php`. Toujours : exécuter d'abord dans

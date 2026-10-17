@@ -1089,10 +1089,10 @@ questions:
     symbol_or_lines: SymfonyStyle
     verified_at: '2026-09-01'
 - id: QST-ycpqw0ygx9cd
-  question_archetype: DEFINITION_RECALL
+  question_archetype: API_SIGNATURE
   assesses_outcomes:
   - OUT-2e5yd7119yha
-  version: 1
+  version: 2
   official_topic: Console
   official_item: OIT-cqs3m73y3rpy
   domain: symfony
@@ -1104,7 +1104,8 @@ questions:
   type: mcq
   answer_mode: single
   required_answer_count: 1
-  question: Which events does ConsoleEvents declare?
+  question: A listener must run each time the alarm set with setAlarmInterval() goes off. Under which event name
+    does Symfony 8.0 dispatch that alarm?
   scoring_policy: all-or-nothing
   shuffle_choices: true
   negative_wording: false
@@ -1114,33 +1115,40 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-01'
+  reviewed_at: '2026-10-17'
   tags:
   - console-events
+  - alarm
   choices:
-  - id: CHO-69fn17r8h4fm
-    text: COMMAND, SIGNAL, ERROR and TERMINATE
+  - id: CHO-qy41371tcpya
+    text: 'ConsoleAlarmEvent::class: ConsoleEvents has no constant for it'
     correct: true
-  - id: CHO-y26b2nv8r6ap
-    text: COMMAND, REQUEST, RESPONSE and TERMINATE
+  - id: CHO-g3718j3dwz16
+    text: ConsoleEvents::ALARM, that is console.alarm
     correct: false
-    explanation: REQUEST and RESPONSE belong to the HTTP kernel, not to the console.
-  - id: CHO-zhaxzsaerkcd
-    text: COMMAND, EXCEPTION and TERMINATE
+    explanation: ConsoleEvents declares COMMAND, SIGNAL, ERROR and TERMINATE, and ALIASES; there is no ALARM.
+  - id: CHO-715n8r6s87ws
+    text: 'console.signal only: an alarm is a SIGALRM and has no event of its own'
     correct: false
-    explanation: The error event is named ERROR, and SIGNAL is missing from this list.
-  - id: CHO-zpjq889292ww
-    text: CONFIGURE, COMMAND, ERROR and TERMINATE
+    explanation: console.signal is dispatched for the SIGALRM too, but ConsoleAlarmEvent follows it.
+  - id: CHO-fnh9z9nhk73r
+    text: console.terminate, once the alarm has stopped the command
     correct: false
-    explanation: There is no event around command configuration.
-  explanation: The class declares four events, and a fifth constant, ALIASES, which maps each event class to
-    its event name so that listeners can subscribe by class.
+    explanation: TERMINATE closes every run; the alarm has its own event, dispatched while the command runs.
+  explanation: 'Since Symfony 7.2 the Application dispatches ConsoleAlarmEvent at each alarm, under its class name:
+    ConsoleEvents keeps its four constants and ALIASES. Executed on Console 8.0.15, a listener on ConsoleAlarmEvent::class
+    runs after console.signal.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/ConsoleEvents.php
     readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/ConsoleEvents.php
     branch: '8.0'
-    symbol_or_lines: ConsoleEvents
-    verified_at: '2026-09-01'
+    symbol_or_lines: COMMAND, SIGNAL, TERMINATE, ERROR, ALIASES
+    verified_at: '2026-10-17'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Event/ConsoleAlarmEvent.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Event/ConsoleAlarmEvent.php
+    branch: '8.0'
+    symbol_or_lines: final class ConsoleAlarmEvent
+    verified_at: '2026-10-17'
 - id: QST-tmz33c01yx7r
   question_archetype: SCENARIO_CHOICE
   assesses_outcomes:

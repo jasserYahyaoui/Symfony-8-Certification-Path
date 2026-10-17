@@ -124,8 +124,8 @@ mocks:
       the marginal gain does not justify serving Practice Mode content inside a mock. Recorded as available
       and declined, not as unavailable.'
 - id: mock-3
-  name: Mock 3 — Certification difficulty
-  purpose: 'Certification difficulty: close, plausible distractors at the hardest level the bank carries.'
+  name: Mock 3 — Highest estimated difficulty
+  purpose: 'Highest estimated difficulty: close, plausible distractors, on the questions the bank rates hard. The rating is the author''s estimate, not a measure.'
   when_to_use: "Quand les Mocks 1 et 2 sont pass\xe9s : distracteurs proches, au niveau le plus difficile
     que la banque contient. Un score plus bas y est attendu et ne constitue pas, seul, un signal d'alarme."
   sequence: 3

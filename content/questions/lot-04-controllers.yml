@@ -1829,7 +1829,7 @@ questions:
   question_archetype: API_SIGNATURE
   assesses_outcomes:
   - OUT-y2d9m024g5gk
-  version: 1
+  version: 2
   official_topic: Controllers
   official_item: OIT-6cr9b8ea8g32
   domain: symfony
@@ -1840,7 +1840,8 @@ questions:
   type: mcq
   answer_mode: single
   required_answer_count: 1
-  question: Which request attribute holds the name of the matched route, and where is it read from?
+  question: Routing has matched /blog/hello to the route blog_show, whose controller is App\Controller\BlogController::show.
+    Which request attribute holds that controller, and in what form?
   scoring_policy: all-or-nothing
   shuffle_choices: true
   negative_wording: false
@@ -1850,35 +1851,40 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-11'
+  reviewed_at: '2026-10-17'
   tags:
   - request
   - attributes
   choices:
-  - id: CHO-jwdpfvprsqcd
-    text: '`_route`, read from the attributes bag with `$request->attributes->get(''_route'')`'
+  - id: CHO-wngmv7rwspkv
+    text: _controller, as the string 'App\Controller\BlogController::show'
     correct: true
-  - id: CHO-cv24rq3k3vhe
-    text: '`_route`, read from the query bag with `$request->query->get(''_route'')`'
+  - id: CHO-yt2dtzpennxf
+    text: _route, which names the controller method to call
     correct: false
-    explanation: The query bag holds the URL query string; routing results are put in the attributes
-      bag.
-  - id: CHO-fp7ytvqwr99j
-    text: '`route_name`, read from the attributes bag'
+    explanation: _route holds the route name, blog_show; two routes may share one controller.
+  - id: CHO-nkfyetz6gg8y
+    text: controller, set only once the kernel.controller event has run
     correct: false
-    explanation: The attribute is named `_route`; the underscore prefix marks Symfony's own attributes.
-  - id: CHO-fkgtc05njr6h
-    text: '`_controller`, from which the route name can be derived since it names the controller'
+    explanation: The attribute is _controller, set by the RouterListener on kernel.request, before kernel.controller.
+  - id: CHO-368jmb7q8442
+    text: _route_params, under its '_controller' key beside slug
     correct: false
-    explanation: '`_controller` holds the controller, and two routes may share one controller.'
-  explanation: The documented Post/Redirect/Get idiom reads the current route with `$request->attributes->get('_route')`.
-    Symfony's own request attributes carry an underscore prefix — `_route`, `_controller`, `_route_params`.
+    explanation: _route_params holds the route parameters, here slug only; _controller is a separate attribute.
+  explanation: 'On kernel.request the RouterListener adds the match to the request attributes. Executed on HttpKernel
+    8.0.15: _controller is the string App\Controller\BlogController::show, _route is blog_show, _route_params holds
+    slug.'
   official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/RouterListener.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/EventListener/RouterListener.php
+    branch: '8.0'
+    symbol_or_lines: onKernelRequest(), attributes->add()
+    verified_at: '2026-10-17'
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller.rst
     readable_url: https://github.com/symfony/symfony-docs/blob/8.0/controller.rst
     branch: '8.0'
-    symbol_or_lines: redirecting to the current route, line 143
-    verified_at: '2026-09-11'
+    symbol_or_lines: redirecting to the current route
+    verified_at: '2026-10-17'
 - id: QST-pg8rnbwrhn85
   question_archetype: CONCEPT_DISTINCTION
   assesses_outcomes:

@@ -30,6 +30,13 @@ interface Filters {
 }
 
 /**
+ * Remediation P3.1: a difficulty here is the author's estimate. No learner
+ * data measures it yet (item statistics: MISSING), so the page never calls it
+ * a measured or certified difficulty.
+ */
+const DIFFICULTY_LABEL: Record<string, string> = {easy: 'facile', medium: 'moyenne', hard: 'difficile'};
+
+/**
  * Practice Mode, Master Plan §9.1: un-timed, answer submitted before feedback,
  * explanation and sources shown afterwards, filtering by topic/domain/difficulty,
  * weakness replay, and strict separation from the holdout pool.
@@ -194,7 +201,7 @@ export default function Practice(): React.JSX.Element {
                 </div>
 
                 <div className="certpath-field">
-                  <label htmlFor="filter-difficulty">Difficulté</label>
+                  <label htmlFor="filter-difficulty">Difficulté estimée</label>
                   <select
                     id="filter-difficulty"
                     value={filters.difficulty}
@@ -202,7 +209,7 @@ export default function Practice(): React.JSX.Element {
                     <option value="">Toutes</option>
                     {difficulties.map((d) => (
                       <option key={d} value={d}>
-                        {d}
+                        {DIFFICULTY_LABEL[d] ?? d}
                       </option>
                     ))}
                   </select>
