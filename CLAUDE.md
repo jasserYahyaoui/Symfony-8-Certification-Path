@@ -207,6 +207,19 @@ requête, réponse, attribut. The list is `docs/policy/terminology.yml`; CI runs
 rewrites the prose. A word missing from the list is added to the list, not
 fixed by hand in one page.
 
+**A correction is journaled, and a rewritten question gets a new version (P3.3).**
+`docs/corrections/changelog.yml` records each correction or extension of what
+the site teaches, with the courses, cards and questions carrying it, and is
+published as « Journal des corrections ». An entry cites the squash commit, so
+it is written in the PR after the one that ships the change, like a delivery
+row. Never fill its lists from memory: `python3 tools/corrections/derive.py
+<commit>` reports what the commit changed, and `--check` (CI) fails on an id the
+commit did not change. When a question's prompt or correct answer changes, raise
+its `version` in the same change — `derive.py --versions` fails the push
+otherwise — because « Ma progression » and Mock 5 stop counting answers given to
+an earlier version, and nothing else tells them the question is no longer the
+same.
+
 **Human approval is required (§15)** for: irreversible architecture change,
 official-scope change, major deletion, anything touching authentication,
 permissions or secrets, an unresolved source contradiction, a disabled test or

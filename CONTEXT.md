@@ -32,6 +32,7 @@ Branche de travail : `claude/symfony-8-certification-plan-phmkau`.
 | P2.7 Translation : plural/select ICU imbriqués, `other` obligatoire, plusieurs catalogues | #420 | `abbcca0` | smoke 117226027552 **success, lu** |
 | P2.7 Filesystem/Finder : environment de test portable, divergence doc/code sur `isAbsolutePath('c:\\Windows')` | #421 | `76ee0dd` | smoke 117235982393 **success, lu** |
 | P2.7 Runtime : point d'entrée minimal exécuté en CI (plugin Composer) | #422 | `5882b0c` | smoke 117244563874 **success, lu** |
+| P2.3 Flashcards : note de rappel par carte, planification, migration v5, import | #423 | `1032fc2` | smoke 117400911384 **success, lu** (304 ok, 0 erreur) |
 
 Nouveau : `tools/behavior/` (Symfony 8.0.* verrouillé, 10 faits exécutés en CI),
 `docs/facts/central-facts.yml` + `CentralFactsTest` (le retour d'une ancienne
@@ -74,12 +75,22 @@ item du lot 01, holdout compris (L1-5) ; une question à réponses multiples
 s'accompagne d'une exécution par choix dans `tools/behavior/questions/` ou
 d'une raison dans `MultipleAnswerEvidenceTest::DOCUMENTARY`.
 
-**Prochaine action :** P2.7 (approfondissements secondaires), un composant par
-PR — HttpClient (#417), Console (#418), Profiler (#419), Translation (#420),
-Filesystem/Finder (#421), Runtime (#422) faits ; P2.7 terminé. P2.3 (rappel par
-carte, planification, import) livré dans la PR suivante. Reste du plan : P3
-(qualité des questions, transfert, maintenance), bloqué en partie faute de
-données d'apprenants (statistiques par question : MISSING). Note : `tools/behavior` utilise le plugin Composer de symfony/runtime ;
+**P3.3 (maintenance), PR suivant #423 :** journal des corrections
+`docs/corrections/changelog.yml` (21 entrées, #394 à #421), publié sur
+`/docs/corrections` ; `tools/corrections/derive.py` re-dérive de git ce que
+chaque commit a changé (`--check`, `--prove`, et `--versions <base>` à chaque
+push : une question dont l'énoncé ou la clé change prend une nouvelle version) ;
+« Ma progression » et le Mock 5 ne comptent plus une réponse donnée à une version
+antérieure (`question-versions.json`, `verify-observed`, `verify-weakness`).
+Une entrée cite le commit squash : elle s'écrit dans la PR **suivante**, comme
+une ligne de livraison.
+
+**Prochaine action :** P3.1 — « difficulté estimée » partout où une difficulté
+s'affiche, détection des répétitions sémantiques entre questions (au-delà des
+doublons textuels, HOLDOUT compté sans être lu) ; puis P3.2 (séries mêlant
+plusieurs composants, contrôles différés, raisonnement demandé avant
+révélation). Statistiques par question : MISSING (aucune donnée partagée) ;
+relecture indépendante après remédiation : MISSING. Note : `tools/behavior` utilise le plugin Composer de symfony/runtime ;
 en local (root), `COMPOSER_ALLOW_SUPERUSER=1 composer install` pour qu'il
 écrive `vendor/autoload_runtime.php`. Toujours : exécuter d'abord dans
 `tools/behavior`, écrire ensuite, et décider du niveau sur l'item, jamais sur un

@@ -111,7 +111,8 @@ jobs:
                       "data/revision-calendar.json" \
                       "data/practice.json" "data/exam.json" "data/coverage.json" \
                       "data/readiness.json" "data/simulations.json" "data/mock-4.json" "data/mock-1.json" "data/mock-2.json" "data/mock-3.json" "data/mock-5.json" \
-                      "data/exams.json" "data/comprehension.json" "data/flashcards.json"; do
+                      "data/exams.json" "data/comprehension.json" "data/flashcards.json" \
+                      "data/question-versions.json" "docs/corrections"; do
             url="$BASE_URL/$path"
             code=$(curl -sL -o /tmp/body -w '%{http_code}' --retry 5 --retry-delay 5 --retry-all-errors "$url")
             if [ "$code" != "200" ]; then
@@ -5108,6 +5109,33 @@ jobs:
             fail=1
           else
             echo "ok  remediation  P2.3: flashcards.json ($(cat /tmp/p23-count) cards, fronts only); card anchors and recall slot served"
+          fi
+          # Remediation P3.3: the journal of corrections, and the payload « Ma progression » and
+          # Mock 5 read to stop counting an answer given to an earlier version of a question. The
+          # build asserts the payload holds no HOLDOUT question; this checks what is served. Each
+          # needle is absent from master before the change.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/p33-page -w '%{http_code}' "$BASE_URL/docs/corrections")
+          if [ "$code" != "200" ] || ! grep -aqF -- 'id="cvr-gdpjccezhtax"' /tmp/p33-page \
+             || ! grep -aqF -- 'Ancienne formulation, fausse' /tmp/p33-page; then
+            echo "::error::Remediation P3.3: the corrections page is missing or incomplete ($code)"
+            fail=1
+          else
+            echo "ok  remediation  P3.3: journal des corrections served, entries anchored"
+          fi
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/p33-versions.json -w '%{http_code}' "$BASE_URL/data/question-versions.json")
+          if [ "$code" != "200" ] || ! python3 -c "
+          import json
+          rows=json.load(open('/tmp/p33-versions.json'))['questions']
+          assert len(rows) >= 50, len(rows)
+          assert all(set(r) == {'id','version'} and r['version'] > 1 for r in rows), 'unexpected row'
+          print(len(rows))
+          " > /tmp/p33-count 2>&1; then
+            echo "::error::Remediation P3.3: question-versions.json malformed or missing ($code): $(cat /tmp/p33-count)"
+            fail=1
+          else
+            echo "ok  remediation  P3.3: question-versions.json ($(cat /tmp/p33-count) rewritten questions)"
           fi
           # Remediation P2.7, lot 21: a portable test environment for Filesystem (paths in /, the
           # Windows-only reading of backslashes and drive letters) and a deterministic Finder order.

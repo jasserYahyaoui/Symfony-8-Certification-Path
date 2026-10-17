@@ -56,6 +56,13 @@ export function weaknessSignals(questionsById: Map<string, Question>, now = Date
   let englishWrong = 0;
 
   for (const attempt of state.attempts) {
+    // Remediation P3.3: an answer to an earlier version of a question that
+    // has since been rewritten answered another question — sometimes one whose
+    // key was wrong. It demonstrates nothing about the item as taught now.
+    const current = questionsById.get(attempt.question_id);
+    if (current && current.version > attempt.question_version) {
+      continue;
+    }
     const bucket = byItem.get(attempt.official_item) ?? [];
     bucket.push(attempt);
     byItem.set(attempt.official_item, bucket);

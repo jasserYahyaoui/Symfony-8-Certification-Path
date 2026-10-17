@@ -310,9 +310,56 @@ citation, so a format change has to be designed with it, not applied in bulk.
 | P2.7 Translation | #420 | squash `abbcca0` | smoke 117226027552 success, log read (« ok remediation P2.7 lots 06 and 16 »; 301 ok and 0 error) |
 | P2.7 Filesystem, Finder | #421 | squash `76ee0dd` | smoke 117235982393 success, log read (« ok remediation P2.7 lot-21 »; 302 ok and 0 error) |
 | P2.7 Runtime (CI harness only, no site change) | #422 | squash `5882b0c` | smoke 117244563874 success, log read (302 ok and 0 error); the `runtime.*` checks ran green in its CI |
+| P2.3 Flashcard recall | #423 | squash `1032fc2` | smoke 117400911384 success, log read (304 ok and 0 error; « ok remediation P2.3: flashcards.json (1940 cards, fronts only); card anchors and recall slot served ») |
 | P1.7, P2.4, P2.5 (part) | #395, CI green | squash `6c1448c` | job « Production smoke test » 115498368380 success, log read. It checks served pages and payloads, not the client-side progression table, which the CI a11y audit renders. |
 
+### P3.3 — Maintenance: a journal of corrections, and answers that follow versions
+
+The mission asks for a changelog of pedagogical corrections linking courses,
+cards and questions, a registry of central facts (it exists, P0), regression
+controls on links, versions, budgets, pools, generated content and executable
+examples, and a new independent evaluation.
+
+| Piece | What it does |
+|---|---|
+| `docs/corrections/changelog.yml` | 21 entries (8 `CORRECTION`, 2 `SCOPE`, 11 `EXTENSION`), #394 to #421: what was taught (`was`, quoted), what replaced it, the course sections, whats-new pages, flashcards and questions carrying it, the central facts executing it, and the questions `reversioned` |
+| `tools/corrections/derive.py` | reads a commit and its parent from git and reports every changed entity — course sections by heading, cards, questions with pool and version, outcomes. HOLDOUT questions are counted, never named |
+| `derive.py --check` (CI) | each entry's ids were changed by its commit; its PR and date are its commit's; `reversioned` equals the questions whose version the commit raised; and no cited commit changed a prompt or key without a new version |
+| `derive.py --versions <base>` (CI, every push) | the regression guard: a question whose prompt or correct answer changes must get a new version |
+| `derive.py --prove` (CI) | 13 injections in memory, plus the detector on a real commit (a rewritten key vs a reworded distractor): all reported |
+| `CorrectionsChangelogTest` | every id still exists, every linked section is still a heading, no question is HOLDOUT (proved by injection, restored under SHA-256), the page anchors every entry and prints no question id |
+| « Journal des corrections » (`/docs/corrections`) | newest first; the former wording, what is true, links to sections and card anchors, questions counted by pool |
+| `question-versions.json` | the 59 non-HOLDOUT questions at version 2; « Ma progression » and Mock 5 stop counting an answer given to an earlier version, and « Ma progression » says how many |
+
+The lists were derived, not recalled: two terminology corrections were split
+from the content they shipped with by the word diff of each section (#412:
+« chaîne → string » undone, 17 courses and 32 cards; #413: requirement,
+filtrer and the answer sense of « réponse », 14 courses and 26 cards).
+Re-deriving every remediation commit found **no question whose prompt or key
+changed without a new version**: the seven questions whose prompt or key was
+rewritten (five in #394, two in #416) all moved to version 2. Writing the page's own text, the terminology tool
+turned « chaîne » into « string » and « réponse » into « Response » once more —
+the very defect two entries record; the sentences were rephrased, the list was
+not touched.
+
+**Learner side.** An answer stored before a question was rewritten answered
+another question — for the keys of #394, one whose expected answer was false.
+Until now it kept counting in « Ma progression » (first answer) and in Mock
+5's weak items. `verify-observed.mjs` (7 new cases) and `verify-weakness.mjs`
+(new) pin it; removing either filter fails them (restored byte-identically).
+Mock 4 answers are never discounted: the holdout has no published versions,
+and no remediation commit changed a HOLDOUT question.
+
+**Not done.** The independent evaluation after remediation needs a reviewer
+who is not this project: `MISSING`, and nothing here claims READY.
+
 ## Next action
+
+P3.3 is delivered in the PR after #423 (journal, version guard, learner
+side). Next: P3.1 — « difficulté estimée » wherever a difficulty is shown, and
+detection of semantic repetition between questions beyond textual
+duplicates — then P3.2 (series mixing components, delayed checks, reasoning
+asked before the answer is revealed).
 
 Item statistics (P3.1) now have a first local source — per-card recall —
 but no shared data: they stay MISSING until learners' answers are collected

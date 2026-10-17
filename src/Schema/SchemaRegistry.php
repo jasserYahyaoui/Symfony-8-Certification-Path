@@ -26,6 +26,8 @@ final class SchemaRegistry
     /** Browser-side storage schema (§13), versioned alongside the build-time ones. */
     public const string LEARNER_STATE = 'learner-state';
     public const string REFINEMENT_LOG = 'refinement-log';
+    /** docs/corrections/changelog.yml — remediation P3.3. */
+    public const string CORRECTIONS_LOG = 'corrections-log';
 
     /**
      * @var array<string, int>
@@ -46,6 +48,7 @@ final class SchemaRegistry
         self::EXAM_BLUEPRINT => 1,
         self::LEARNER_STATE => 1,
         self::REFINEMENT_LOG => 1,
+        self::CORRECTIONS_LOG => 1,
     ];
 
     public static function currentVersion(string $schemaName): int

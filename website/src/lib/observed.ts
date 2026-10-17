@@ -67,25 +67,51 @@ function emptyRow(): Record<Channel, Cell> {
 interface Answer {
   channel: Channel;
   question_id: string;
+  question_version: number;
   official_item: string;
   correct: boolean;
   answered_at: string;
 }
 
 /**
- * @param topicOf official item id → official topic; an item it does not know
- *                is grouped under `unknownTopic` rather than dropped silently.
+ * Whether an answer was given to the question as it stands (remediation P3.3).
+ *
+ * A question is rewritten under a new version when what it asks or expects
+ * changes (tools/corrections/derive.py --versions refuses otherwise), so an
+ * answer to an earlier version answered another question — sometimes one
+ * whose key was wrong. `rewritten` maps a question id to its current version,
+ * for the questions rewritten at least once; any other question is current.
+ */
+export function isCurrent(rewritten: ReadonlyMap<string, number>, answer: {question_id: string; question_version: number}): boolean {
+  return (rewritten.get(answer.question_id) ?? 0) <= answer.question_version;
+}
+
+/** How many recorded answers were given to an earlier version of their question. */
+export function superseded(
+  attempts: readonly Attempt[],
+  comprehension: readonly ComprehensionAttempt[],
+  rewritten: ReadonlyMap<string, number>,
+): number {
+  return [...attempts, ...comprehension].filter((a) => !isCurrent(rewritten, a)).length;
+}
+
+/**
+ * @param topicOf   official item id → official topic; an item it does not know
+ *                  is grouped under `unknownTopic` rather than dropped silently.
+ * @param rewritten question id → current version (see isCurrent); an answer to
+ *                  an earlier version is left out of every cell.
  */
 export function observe(
   attempts: readonly Attempt[],
   comprehension: readonly ComprehensionAttempt[],
   topicOf: (item: string) => string | undefined,
+  rewritten: ReadonlyMap<string, number> = new Map(),
   unknownTopic = 'Item inconnu',
 ): Observed {
   const answers: Answer[] = [
     ...attempts.map((a) => ({...a, channel: channelOf(a.mode)})),
     ...comprehension.map((a) => ({...a, channel: 'comprehension' as Channel})),
-  ];
+  ].filter((a) => isCurrent(rewritten, a));
   // Stable on ties, so two answers stamped the same millisecond keep the
   // order they were recorded in.
   const ordered = answers
