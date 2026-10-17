@@ -14,6 +14,8 @@ import {freshState, next, type ReviewOutcome} from './review';
 const STORAGE_KEY = 'certpath.learner-state';
 const STORAGE_VERSION = 5;
 
+export type ReasoningRating = 'matched' | 'partial' | 'missed' | 'skipped';
+
 export interface Attempt {
   question_id: string;
   question_version: number;
@@ -27,6 +29,13 @@ export interface Attempt {
    * invent a series that never happened.
    */
   session_id?: string;
+  /**
+   * Remediation P3.2: in Practice Mode with « écrire mon raisonnement » on, the
+   * learner compares the reasoning written before the correction with the
+   * expected one. `missed` on a right answer is a right choice for a wrong
+   * reason, which Mock 5 counts as a failure. Absent when nothing was asked.
+   */
+  reasoning?: ReasoningRating;
   // `blanc-N` is numbered mock exam N of /examens (1 to 6 fixed, 7 and up drawn).
   mode: 'practice' | 'exam' | 'mock' | 'mock-1' | 'mock-2' | 'mock-3' | 'mock-5' | `blanc-${number}`;
 }
@@ -86,6 +95,8 @@ export interface ComprehensionAttempt {
   lot: string;
   correct: boolean;
   answered_at: string;
+  /** Remediation P3.2: answered in a delayed check, days after the lot was read. */
+  delayed?: boolean;
 }
 
 /**
@@ -260,6 +271,23 @@ export function recordAttempt(attempt: Attempt): void {
   const state = readState();
   state.attempts.push(attempt);
   writeState(state);
+}
+
+/**
+ * Records how the learner judged their own reasoning against the expected one
+ * (remediation P3.2), on the attempt just made for this question in this
+ * series. Nothing is written if that attempt cannot be found.
+ */
+export function rateReasoning(sessionId: string, questionId: string, rating: ReasoningRating): void {
+  const state = readState();
+  for (let i = state.attempts.length - 1; i >= 0; i -= 1) {
+    const attempt = state.attempts[i];
+    if (attempt.session_id === sessionId && attempt.question_id === questionId) {
+      attempt.reasoning = rating;
+      writeState(state);
+      return;
+    }
+  }
 }
 
 export function recordSession(session: ExamSession): void {

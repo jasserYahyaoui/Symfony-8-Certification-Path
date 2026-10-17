@@ -1,6 +1,6 @@
 # CONTEXT.md — Session continuity (Master Plan §23)
 
-**Last updated:** 2026-10-16 (remédiation : P0, P1.1–P1.7, P2.4, P2.5 livrés, P2.7 HttpClient en cours ; audit profond 8.0 ; examen le 29 décembre)
+**Last updated:** 2026-10-17 (remédiation : P0, P1, P2.3–P2.7, P3.1, P3.3 livrés ; P3.2 en cours ; examen le 29 décembre)
 
 ---
 
@@ -34,6 +34,7 @@ Branche de travail : `claude/symfony-8-certification-plan-phmkau`.
 | P2.7 Runtime : point d'entrée minimal exécuté en CI (plugin Composer) | #422 | `5882b0c` | smoke 117244563874 **success, lu** |
 | P2.3 Flashcards : note de rappel par carte, planification, migration v5, import | #423 | `1032fc2` | smoke 117400911384 **success, lu** (304 ok, 0 erreur) |
 | P3.3 Journal des corrections (21 entrées), garde de version, réponses périmées non comptées | #424 | `2a8f7da` | smoke 117423979751 **success, lu** (308 ok, 0 erreur) |
+| P3.1 Répétitions sémantiques (12 questions réécrites, 0 REPEAT), « difficulté estimée » | #425 | `9cebee6` | smoke 117493721315 **success, lu** (308 ok, 0 erreur ; 70 questions réécrites publiées) |
 
 Nouveau : `tools/behavior/` (Symfony 8.0.* verrouillé, 10 faits exécutés en CI),
 `docs/facts/central-facts.yml` + `CentralFactsTest` (le retour d'une ancienne
@@ -93,9 +94,19 @@ même conclusion) réécrites côté LEARNING, en version supérieure, réponses
 exécutées (`tools/behavior/single/`, nouveau) ; 70 paires revues, 0 REPEAT ;
 HOLDOUT compté seulement. « Difficulté estimée » dans Practice et Mock 3.
 
-**Prochaine action :** entrée du journal pour les 12 réécritures (PR suivant la
-fusion de P3.1), puis P3.2 (séries mêlant plusieurs composants, contrôles
-différés, raisonnement demandé avant révélation). Statistiques par question : MISSING (aucune donnée partagée) ;
+**P3.2, première partie (PR suivant #425) :** option « Écrire mon raisonnement
+avant la correction » dans Practice (correction absente du DOM tant qu'aucune
+raison de 15 caractères ou « Je ne sais pas l'expliquer » ; seule
+l'auto-évaluation est stockée, `reasoning` sur la tentative ; le Mock 5 compte
+une bonne réponse jugée `missed` comme une erreur) ; contrôles différés
+`/controle-differe` (7, puis 14, puis 28 jours après la dernière réponse du lot ;
+6 questions : manquées, jamais posées, puis justes les plus anciennes ; réponses
+marquées `delayed`). Vérifié : `verify-delayed` 9 cas, `verify-weakness` +2,
+`verify-transfer-ui` 6 contrôles navigateur, 5 surfaces a11y. La même PR porte
+l'entrée du journal des 12 réécritures de #425 (`CVR-n1e5ghdcftxn`).
+
+**Prochaine action :** P3.2, seconde partie — séries inédites mêlant plusieurs
+composants, formes parallèles et règles de première exposition explicites. Statistiques par question : MISSING (aucune donnée partagée) ;
 relecture indépendante après remédiation : MISSING. Note : `tools/behavior` utilise le plugin Composer de symfony/runtime ;
 en local (root), `COMPOSER_ALLOW_SUPERUSER=1 composer install` pour qu'il
 écrive `vendor/autoload_runtime.php`. Toujours : exécuter d'abord dans

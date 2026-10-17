@@ -1,7 +1,7 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Link from '@docusaurus/Link';
 import type {ItemIndexEntry, Question} from '@site/src/lib/types';
-import {isCorrect} from '@site/src/lib/storage';
+import {isCorrect, type ReasoningRating} from '@site/src/lib/storage';
 import {sectionsFor} from '@site/src/lib/courseSections';
 import RichText from './RichText';
 
@@ -38,7 +38,21 @@ interface Props {
   takeaways?: string[];
   /** Other items a synthesis question ties together, each with its course. */
   relatedItems?: ItemIndexEntry[];
+  /**
+   * Remediation P3.2: the reasoning written before the correction ('' when the
+   * learner could not explain), shown beside the expected explanation.
+   * Absent when none was asked.
+   */
+  reasoning?: string;
+  /** Records how the learner judges their reasoning against the explanation. */
+  onRateReasoning?: (rating: ReasoningRating) => void;
 }
+
+const RATINGS: {rating: ReasoningRating; label: string}[] = [
+  {rating: 'matched', label: 'Oui'},
+  {rating: 'partial', label: 'En partie'},
+  {rating: 'missed', label: 'Non'},
+];
 
 export default function PracticeFeedback({
   question,
@@ -48,8 +62,11 @@ export default function PracticeFeedback({
   isLast,
   takeaways,
   relatedItems = [],
+  reasoning,
+  onRateReasoning,
 }: Props): React.JSX.Element {
   const correct = isCorrect(question, chosen);
+  const [rated, setRated] = useState<ReasoningRating | null>(null);
   const result = correct ? 'correct' : 'incorrect';
   const heading = useRef<HTMLParagraphElement>(null);
 
@@ -111,6 +128,48 @@ export default function PracticeFeedback({
           {question.explanation}
         </RichText>
       </section>
+
+      {/* 3b — Remediation P3.2: the learner's own reasoning, written before
+          this correction existed, beside the expected one above. */}
+      {reasoning !== undefined && (
+        <section aria-labelledby={`fb-reasoning-${question.id}`}>
+          <h3 id={`fb-reasoning-${question.id}`} className="certpath-feedback-heading">
+            Votre raisonnement
+          </h3>
+          {reasoning === '' ? (
+            <p>Vous n'avez pas su l'expliquer avant la correction : relisez l'explication ci-dessus.</p>
+          ) : (
+            <>
+              <blockquote className="certpath-reasoning-text">{reasoning}</blockquote>
+              <div role="group" aria-labelledby={`fb-rate-${question.id}`} className="certpath-actions">
+                <p id={`fb-rate-${question.id}`} className="certpath-note">
+                  Rejoint-il l'explication attendue ?
+                </p>
+                {RATINGS.map(({rating, label}) => (
+                  <button
+                    key={rating}
+                    type="button"
+                    className="button button--sm button--outline button--primary"
+                    aria-pressed={rated === rating}
+                    onClick={() => {
+                      setRated(rating);
+                      onRateReasoning?.(rating);
+                    }}>
+                    {label}
+                  </button>
+                ))}
+              </div>
+              {rated !== null && (
+                <p role="status" className="certpath-note">
+                  {rated === 'missed' && correct
+                    ? 'Noté : bonne réponse, mais pour une autre raison. Le Mock 5 la compte comme une erreur.'
+                    : 'Noté.'}
+                </p>
+              )}
+            </>
+          )}
+        </section>
+      )}
 
       {/* 4 — Why each other choice is wrong, from its own canonical text. */}
       {wrongChoices.some((c) => c.explanation) && (

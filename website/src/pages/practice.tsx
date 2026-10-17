@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
 import {useLocation} from '@docusaurus/router';
@@ -6,6 +6,7 @@ import type {ItemIndexEntry, Question} from '@site/src/lib/types';
 import {
   isCorrect,
   practiceAttempts,
+  rateReasoning,
   recordAttempt,
   recordPracticeSession,
   shuffle,
@@ -14,6 +15,7 @@ import {
 import usePayload from '@site/src/lib/usePayload';
 import QuestionCard from '@site/src/components/QuestionCard';
 import PracticeFeedback from '@site/src/components/PracticeFeedback';
+import ReasoningPrompt from '@site/src/components/ReasoningPrompt';
 import PracticeResults from '@site/src/components/PracticeResults';
 import EmptyBank from '@site/src/components/EmptyBank';
 
@@ -36,6 +38,9 @@ interface Filters {
  */
 const DIFFICULTY_LABEL: Record<string, string> = {easy: 'facile', medium: 'moyenne', hard: 'difficile'};
 
+/** A per-viewer convenience: whether « écrire mon raisonnement » stays on. */
+const EXPLAIN_KEY = 'certpath.explain-first';
+
 /**
  * Practice Mode, Master Plan §9.1: un-timed, answer submitted before feedback,
  * explanation and sources shown afterwards, filtering by topic/domain/difficulty,
@@ -56,6 +61,27 @@ export default function Practice(): React.JSX.Element {
   });
   const [index, setIndex] = useState(0);
   const [answered, setAnswered] = useState<string[] | null>(null);
+  // Remediation P3.2: the reasoning asked before the correction. null until
+  // given for the current question; '' when the learner could not explain.
+  const [explainFirst, setExplainFirst] = useState(false);
+  const [reasoning, setReasoning] = useState<string | null>(null);
+
+  useEffect(() => {
+    try {
+      setExplainFirst(window.localStorage.getItem(EXPLAIN_KEY) === '1');
+    } catch {
+      // Storage refused (private mode): the option simply starts off.
+    }
+  }, []);
+
+  function toggleExplainFirst(on: boolean): void {
+    setExplainFirst(on);
+    try {
+      window.localStorage.setItem(EXPLAIN_KEY, on ? '1' : '0');
+    } catch {
+      // Not remembered, still applied for this visit.
+    }
+  }
   const [round, setRound] = useState(0);
   // One id per series, so the report reads back exactly the attempts of THIS
   // run rather than every practice attempt ever recorded.
@@ -100,6 +126,7 @@ export default function Practice(): React.JSX.Element {
   function startSeries(): void {
     setIndex(0);
     setAnswered(null);
+    setReasoning(null);
     setFinished(false);
     setSessionId(newSessionId());
   }
@@ -238,6 +265,18 @@ export default function Practice(): React.JSX.Element {
                     Rejouer mes points faibles
                   </label>
                 </div>
+
+                <div className="certpath-field">
+                  <label htmlFor="option-explain">
+                    <input
+                      type="checkbox"
+                      id="option-explain"
+                      checked={explainFirst}
+                      onChange={(e) => toggleExplainFirst(e.target.checked)}
+                    />{' '}
+                    Écrire mon raisonnement avant la correction
+                  </label>
+                </div>
               </div>
             </section>
 
@@ -288,12 +327,26 @@ export default function Practice(): React.JSX.Element {
 
                   {/* Mounted only once an answer exists: before submission the
                       correction is absent from the DOM entirely, not hidden. */}
-                  {answered && (
+                  {answered && explainFirst && reasoning === null && (
+                    <ReasoningPrompt
+                      key={question.id}
+                      onDone={(text) => {
+                        setReasoning(text);
+                        if (text === '') {
+                          rateReasoning(sessionId, question.id, 'skipped');
+                        }
+                      }}
+                    />
+                  )}
+
+                  {answered && (!explainFirst || reasoning !== null) && (
                     <PracticeFeedback
                       question={question}
                       chosen={answered}
                       item={items[question.official_item]}
                       isLast={index + 1 >= queue.length}
+                      reasoning={explainFirst ? (reasoning ?? '') : undefined}
+                      onRateReasoning={(rating) => rateReasoning(sessionId, question.id, rating)}
                       onNext={() => {
                         if (index + 1 >= queue.length) {
                           finish();
@@ -301,6 +354,7 @@ export default function Practice(): React.JSX.Element {
                         }
                         setIndex((i) => i + 1);
                         setAnswered(null);
+                        setReasoning(null);
                       }}
                     />
                   )}

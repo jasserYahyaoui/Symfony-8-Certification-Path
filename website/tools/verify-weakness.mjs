@@ -6,7 +6,8 @@
  * Runs website/src/lib/weakness.ts — with the storage module it reads, over a
  * stubbed localStorage — on hand-built histories. A failure given to version 1
  * of a question since rewritten must not make its item weak; the same failure
- * on the current version must.
+ * on the current version must. A right answer the learner judged reached by
+ * a wrong reasoning counts as a failure (remediation P3.2).
  */
 import {mkdtempSync, readFileSync, rmSync, writeFileSync} from 'node:fs';
 import {tmpdir} from 'node:os';
@@ -65,6 +66,13 @@ check('a failure on version 1 of a rewritten question is not a weakness', weakne
 
 history([{question_id: 'Q1', question_version: 2, official_item: 'OIT-rewritten', correct: false}]);
 check('the same failure on the current version is', weaknessSignals(pool, now).items, ['OIT-rewritten']);
+
+// Remediation P3.2: a right choice the learner judged reached by a wrong
+// reasoning counts as a failure; judged right or partly right, it does not.
+history([{question_id: 'Q2', question_version: 1, official_item: 'OIT-plain', correct: true, reasoning: 'missed'}]);
+check('a right answer for a wrong reason is a weakness', weaknessSignals(pool, now).items, ['OIT-plain']);
+history([{question_id: 'Q2', question_version: 1, official_item: 'OIT-plain', correct: true, reasoning: 'partial'}]);
+check('a partly matched reasoning is not', weaknessSignals(pool, now).items, []);
 
 rmSync(out, {recursive: true, force: true});
 console.log(failed === 0 ? 'verify-weakness: all cases pass' : `verify-weakness: ${failed} case(s) failed`);

@@ -180,6 +180,31 @@ function seedSupersededAnswer() {
   return state;
 }
 
+/**
+ * Remediation P3.2: lot 02's comprehension answered eight days ago, one of
+ * them wrong — a delayed check is due, and its sitting starts with that one.
+ */
+const delayedSource = JSON.parse(await readFile(join(WEBSITE, 'static/data/comprehension.json'), 'utf8'));
+function seedDelayedCheck() {
+  const at = new Date(Date.now() - 8 * 86_400_000).toISOString();
+  const questions = delayedSource.questions.filter((q) => q.lot === 'lot-02').slice(0, 5);
+  return {
+    schema_version: 5, attempts: [], sessions: [], practice_sessions: [], revision: {done: {}, settings: null}, flashcards: {},
+    comprehension: questions.map((q, i) => ({
+      question_id: q.id, question_version: q.version, official_item: q.official_item, lot: 'lot-02', correct: i !== 3, answered_at: at,
+    })),
+  };
+}
+
+async function askReasoning(page) {
+  await page.getByLabel('Écrire mon raisonnement avant la correction').check();
+  const card = page.locator('fieldset.certpath-question');
+  await card.waitFor();
+  await card.locator('input').first().check();
+  await page.getByRole('button', {name: 'Valider ma réponse'}).click();
+  await page.getByLabel('Avant la correction : pourquoi cette réponse ?').waitFor();
+}
+
 async function openWeakSeries(page, question) {
   await page.getByLabel('Rejouer mes points faibles').check();
   await page.locator('fieldset.certpath-question').waitFor();
@@ -400,6 +425,8 @@ const PAGES = [
     await page.locator('.certpath-review-passed summary').click();
   }}],
   ['progression', '/progression'],
+  // A learner who has answered no comprehension check yet: nothing is due.
+  ['contrôles différés — aucun dû', '/controle-differe'],
   ['progression — historique', '/progression', {
     state: seedHistory,
     drive: async (page) => {
@@ -419,6 +446,28 @@ const PAGES = [
   }],
   // Remediation P3.3: the journal of corrections, in both themes, and the
   // notice « Ma progression » gives when an answer targets an earlier version.
+  // Remediation P3.2: the reasoning asked before the correction, then shown
+  // beside it with the self-rating; and the delayed checks, listed and sat.
+  ['practice — raisonnement demandé', '/practice', {drive: askReasoning}],
+  ['practice — raisonnement comparé', '/practice', {drive: async (page) => {
+    await askReasoning(page);
+    await page.getByLabel('Avant la correction : pourquoi cette réponse ?').fill('Parce que la règle s’applique avant le reste.');
+    await page.getByRole('button', {name: 'Voir la correction'}).click();
+    await page.getByRole('button', {name: 'En partie'}).click();
+    await page.getByText(/^Noté/).waitFor();
+  }}],
+  ['contrôles différés — liste', '/controle-differe', {
+    state: seedDelayedCheck,
+    drive: async (page) => {
+      await page.getByRole('link', {name: /Lot 02 — contrôle différé/}).waitFor();
+    },
+  }],
+  ['contrôle différé — passation', '/controle-differe?lot=lot-02', {
+    state: seedDelayedCheck,
+    drive: async (page) => {
+      await page.locator('fieldset.certpath-question').waitFor();
+    },
+  }],
   ['journal des corrections', '/docs/corrections'],
   ['journal des corrections, dark', '/docs/corrections', {colorScheme: 'dark'}],
   ['progression — réponse à une version antérieure', '/progression', {

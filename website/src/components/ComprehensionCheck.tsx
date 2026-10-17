@@ -9,6 +9,11 @@ import PracticeFeedback from './PracticeFeedback';
 interface Props {
   /** The lot id, e.g. `lot-12`, written by the generator into the page. */
   lot: string;
+  /**
+   * Remediation P3.2: a delayed check asks these questions only, in this
+   * order (src/lib/delayed.ts chose them), and marks each answer `delayed`.
+   */
+  selection?: readonly string[];
 }
 
 /**
@@ -26,7 +31,8 @@ interface Props {
  * an answer in `attempts` would make Mock 5 select from it. What the record
  * buys is a retake of the questions last missed in this lot.
  */
-export default function ComprehensionCheck({lot}: Props): React.JSX.Element {
+export default function ComprehensionCheck({lot, selection}: Props): React.JSX.Element {
+  const delayed = selection !== undefined;
   const state = usePayload<ComprehensionPayload>('comprehension.json');
   const [index, setIndex] = useState(0);
   const [answered, setAnswered] = useState<string[] | null>(null);
@@ -57,7 +63,11 @@ export default function ComprehensionCheck({lot}: Props): React.JSX.Element {
   }
 
   const payload = state.payload;
-  const lotQuestions = payload.questions.filter((q) => q.lot === lot);
+  const lotQuestions = delayed
+    ? selection
+        .map((id) => payload.questions.find((q) => q.id === id && q.lot === lot))
+        .filter((q): q is ComprehensionQuestion => q !== undefined)
+    : payload.questions.filter((q) => q.lot === lot);
   const retake = lotQuestions.filter((q) => missedBefore?.has(q.id));
   const questions = onlyMissed && retake.length > 0 ? retake : lotQuestions;
   const items: Record<string, ItemIndexEntry> = payload.items ?? {};
@@ -81,6 +91,7 @@ export default function ComprehensionCheck({lot}: Props): React.JSX.Element {
       lot,
       correct,
       answered_at: new Date().toISOString(),
+      ...(delayed ? {delayed: true} : {}),
     });
   }
 
@@ -139,7 +150,7 @@ export default function ComprehensionCheck({lot}: Props): React.JSX.Element {
           <button type="button" className="button button--primary" onClick={() => restart(false)}>
             Recommencer le contrôle
           </button>
-          {missed.length > 0 && (
+          {missed.length > 0 && !delayed && (
             <button type="button" className="button button--secondary" onClick={() => restart(true)}>
               Reprendre les {missed.length} question{missed.length > 1 ? 's' : ''} manquée{missed.length > 1 ? 's' : ''}
             </button>
@@ -152,7 +163,7 @@ export default function ComprehensionCheck({lot}: Props): React.JSX.Element {
   return (
     <section className="certpath-comprehension" aria-labelledby="comprehension-heading">
       <h2 id="comprehension-heading">Questions</h2>
-      {index === 0 && answered === null && !onlyMissed && retake.length > 0 && (
+      {index === 0 && answered === null && !onlyMissed && !delayed && retake.length > 0 && (
         <>
           <p>
             Lors de vos passages précédents, {retake.length} question{retake.length > 1 ? 's' : ''} de

@@ -530,3 +530,24 @@ entries:
         sections: ["Un ordre déterministe"]
     flashcards: [FLC-500k6pc92xev, FLC-myk6e5gjj7qs]
     questions: [QST-04dzxpcr5n14, QST-fjbhttc65mgv, QST-r1re7fzqmc4z, QST-c2aqc3snwd4y]
+
+  - id: CVR-n1e5ghdcftxn
+    date: '2026-10-17'
+    pull_request: 425
+    commit: '9cebee6'
+    kind: EXTENSION
+    finding: P3.1
+    official_items: [OIT-kv7mbksn7m8v, OIT-4pgc74ctc3vc, OIT-tvc5rjv6qvse, OIT-kqm5mxq4jnkj, OIT-512se83ab7qj, OIT-6cr9b8ea8g32, OIT-stze9x4aydp3, OIT-n0zfkcr189af, OIT-b9x8az2bx4t8, OIT-tc39jp8japfc, OIT-cqs3m73y3rpy]
+    facts: []
+    title: "Douze questions de Practice réécrites : elles en répétaient une autre"
+    now: >-
+      Chacune redisait la situation et la conclusion d'une autre question ; sept donnaient ainsi le corrigé
+      d'une question du mode examen à qui les avait pratiquées. Aucune n'était fausse. Chacune interroge
+      désormais un autre angle de son item : `setSharedMaxAge()` suivi de `setPrivate()`, le code 303,
+      `ConsoleAlarmEvent::class`, le défaut `%kernel.debug%` de `strict_variables`, `.env.prod` face à
+      `.env.local`, `insteadof` et `as`, entre autres. Ce que vous aviez choisi sur leur ancienne version ne
+      compte plus.
+    courses: []
+    flashcards: []
+    questions: [QST-3bbtms3dk9ca, QST-af1e821vzx6r, QST-bftzbt0t3q8y, QST-c8gpyvw5shmy, QST-enxn0ad65n0w, QST-gbccz7ynvbd2, QST-gfqb0xrb7tbx, QST-gpz2ww98k670, QST-k1qgrrevaw40, QST-m8byv8zcsa8m, QST-nqeq65rj5m97, QST-ycpqw0ygx9cd]
+    reversioned: [QST-3bbtms3dk9ca, QST-af1e821vzx6r, QST-bftzbt0t3q8y, QST-c8gpyvw5shmy, QST-enxn0ad65n0w, QST-gbccz7ynvbd2, QST-gfqb0xrb7tbx, QST-gpz2ww98k670, QST-k1qgrrevaw40, QST-m8byv8zcsa8m, QST-nqeq65rj5m97, QST-ycpqw0ygx9cd]
