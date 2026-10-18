@@ -186,6 +186,9 @@ jobs:
           # Remediation P3.1: the semantic-repetition audit fires on an
           # unreviewed pair, an open REPEAT and a review older than its question.
           python3 tools/audit/semantic_repetition.py --prove
+          # The independent reviewer's sample (docs/review/): never a HOLDOUT
+          # question, and the refusal names none.
+          python3 tools/review/draw_sample.py --prove
 
       # Remediation P3.3. docs/corrections/changelog.yml names, for each
       # correction, the courses, cards and questions that carry it: --check
