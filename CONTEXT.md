@@ -38,6 +38,7 @@ Branche de travail : `claude/symfony-8-certification-plan-phmkau`.
 | P3.2, première partie : raisonnement avant la correction, contrôles différés | #426 | `8b6c898` | smoke 117514123216 **success, lu** (309 ok, 0 erreur ; `/controle-differe` en 200) |
 | P3.2, seconde partie : premières expositions, formes parallèles, questions d'intégration | #427 | `6c5b918` | smoke 117528038621 **success, lu** (309 ok, 0 erreur ; 583 questions Practice, Mock 5 : 724) |
 | Journal : entrées de #427 (correction du cours des resolvers, questions d'intégration) | #428 | `bdc0de5` | smoke 117637182148 **success, lu** (309 ok, 0 erreur ; journal servi) |
+| Suivi : livraison de #428, F8 VÉRIFIÉ | #429 | `f8c9ad2` | smoke 117643408266 **success, lu** (309 ok, 0 erreur) |
 
 Nouveau : `tools/behavior/` (Symfony 8.0.* verrouillé, 10 faits exécutés en CI),
 `docs/facts/central-facts.yml` + `CentralFactsTest` (le retour d'une ancienne
@@ -132,7 +133,10 @@ livrées par #428. F8 passe à VÉRIFIÉ (ses trois symptômes soldés ; les
 lues, reposent sur `exclusions.yml` ou une note du syllabus importé).
 
 **Prochaine action :** reste de la mission : évaluation indépendante après
-remédiation (MISSING, il faut un relecteur extérieur). Décision du
+remédiation (MISSING, il faut un relecteur extérieur). Dossier prêt :
+`docs/review/independent-evaluation-brief.md` (barème des revues du lot 02,
+HOLDOUT interdit de lecture, commandes de vérification, échantillon tiré d'une
+graine choisie par le relecteur : `tools/review/draw_sample.py`). Décision du
 propriétaire possible : le rythme ou la date, si la question d'intégration
 retenue (Twig + Translation) doit entrer. Statistiques par question : MISSING (aucune donnée partagée) ;
 relecture indépendante après remédiation : MISSING. Note : `tools/behavior` utilise le plugin Composer de symfony/runtime ;
