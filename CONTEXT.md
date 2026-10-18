@@ -36,6 +36,7 @@ Branche de travail : `claude/symfony-8-certification-plan-phmkau`.
 | P3.3 Journal des corrections (21 entrées), garde de version, réponses périmées non comptées | #424 | `2a8f7da` | smoke 117423979751 **success, lu** (308 ok, 0 erreur) |
 | P3.1 Répétitions sémantiques (12 questions réécrites, 0 REPEAT), « difficulté estimée » | #425 | `9cebee6` | smoke 117493721315 **success, lu** (308 ok, 0 erreur ; 70 questions réécrites publiées) |
 | P3.2, première partie : raisonnement avant la correction, contrôles différés | #426 | `8b6c898` | smoke 117514123216 **success, lu** (309 ok, 0 erreur ; `/controle-differe` en 200) |
+| P3.2, seconde partie : premières expositions, formes parallèles, questions d'intégration | #427 | `6c5b918` | smoke 117528038621 **success, lu** (309 ok, 0 erreur ; 583 questions Practice, Mock 5 : 724) |
 
 Nouveau : `tools/behavior/` (Symfony 8.0.* verrouillé, 10 faits exécutés en CI),
 `docs/facts/central-facts.yml` + `CentralFactsTest` (le retour d'une ancienne
@@ -123,10 +124,14 @@ avec elle, le plan de révision ne loge plus les 4 mocks (derniers items le
 14 décembre au lieu du 11) ; le plan n'a plus de marge au rythme du
 propriétaire.
 
-**Prochaine action :** entrée du journal pour les changements de cours et les
-deux questions de P3.2 (PR suivante, elle cite le squash). Puis P3.3 restant :
-évaluation indépendante après remédiation (MISSING, il faut un relecteur
-extérieur). Statistiques par question : MISSING (aucune donnée partagée) ;
+**Journal :** les entrées de #427 (`CVR-a4813yxth40x` correction du cours
+des resolvers, `CVR-zzn9ysgne2mg` les deux questions d'intégration) sont dans
+la PR suivant #427.
+
+**Prochaine action :** reste de la mission : évaluation indépendante après
+remédiation (MISSING, il faut un relecteur extérieur). Décision du
+propriétaire possible : le rythme ou la date, si la question d'intégration
+retenue (Twig + Translation) doit entrer. Statistiques par question : MISSING (aucune donnée partagée) ;
 relecture indépendante après remédiation : MISSING. Note : `tools/behavior` utilise le plugin Composer de symfony/runtime ;
 en local (root), `COMPOSER_ALLOW_SUPERUSER=1 composer install` pour qu'il
 écrive `vendor/autoload_runtime.php`. Toujours : exécuter d'abord dans
