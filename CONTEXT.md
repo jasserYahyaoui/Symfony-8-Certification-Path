@@ -1,6 +1,6 @@
 # CONTEXT.md — Session continuity (Master Plan §23)
 
-**Last updated:** 2026-10-17 (remédiation : P0, P1, P2.3–P2.7, P3.1, P3.3 livrés ; P3.2 en cours ; examen le 29 décembre)
+**Last updated:** 2026-10-18 (remédiation : P0, P1, P2.3–P2.7, P3.1–P3.3 livrés ; F4, F9 bloqués ; examen le 29 décembre)
 
 ---
 
@@ -37,6 +37,7 @@ Branche de travail : `claude/symfony-8-certification-plan-phmkau`.
 | P3.1 Répétitions sémantiques (12 questions réécrites, 0 REPEAT), « difficulté estimée » | #425 | `9cebee6` | smoke 117493721315 **success, lu** (308 ok, 0 erreur ; 70 questions réécrites publiées) |
 | P3.2, première partie : raisonnement avant la correction, contrôles différés | #426 | `8b6c898` | smoke 117514123216 **success, lu** (309 ok, 0 erreur ; `/controle-differe` en 200) |
 | P3.2, seconde partie : premières expositions, formes parallèles, questions d'intégration | #427 | `6c5b918` | smoke 117528038621 **success, lu** (309 ok, 0 erreur ; 583 questions Practice, Mock 5 : 724) |
+| Journal : entrées de #427 (correction du cours des resolvers, questions d'intégration) | #428 | `bdc0de5` | smoke 117637182148 **success, lu** (309 ok, 0 erreur ; journal servi) |
 
 Nouveau : `tools/behavior/` (Symfony 8.0.* verrouillé, 10 faits exécutés en CI),
 `docs/facts/central-facts.yml` + `CentralFactsTest` (le retour d'une ancienne
@@ -125,8 +126,10 @@ avec elle, le plan de révision ne loge plus les 4 mocks (derniers items le
 propriétaire.
 
 **Journal :** les entrées de #427 (`CVR-a4813yxth40x` correction du cours
-des resolvers, `CVR-zzn9ysgne2mg` les deux questions d'intégration) sont dans
-la PR suivant #427.
+des resolvers, `CVR-zzn9ysgne2mg` les deux questions d'intégration) sont
+livrées par #428. F8 passe à VÉRIFIÉ (ses trois symptômes soldés ; les
+9 phrases de périmètre trouvées par recherche de motifs dans les cours, toutes
+lues, reposent sur `exclusions.yml` ou une note du syllabus importé).
 
 **Prochaine action :** reste de la mission : évaluation indépendante après
 remédiation (MISSING, il faut un relecteur extérieur). Décision du

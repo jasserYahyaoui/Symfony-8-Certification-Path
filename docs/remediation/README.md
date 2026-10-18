@@ -56,7 +56,7 @@ an idea: it stops the old sentence returning, not every way of being wrong.
 | F5 | Content metrics read as candidate mastery | **VÉRIFIÉ** (local) | see P1.7 |
 | F6 | Roadmap / mock texts out of sync | **VÉRIFIÉ** (local) — mock texts derived; comprehension load budgeted, exam moved to 29 Dec by owner decision | see P2.5 |
 | F7 | Too few multiple-answer questions | **VÉRIFIÉ** — P1.6: +33, then +10 for PHP and Automated Tests (4 VALIDATION, 39 LEARNING in all), every choice executed or read in its source | see P1.6 |
-| F8 | Unsourced "not examinable" restrictions | **EN COURS** — Serializer (P1.5), Cache (P1.4), Validator (P1.3), Forms (P1.2) and PHP API (P1.1) extended, VÉRIFIÉ; P2.7 VÉRIFIÉ (HttpClient, Console, Profiler, Translation, Filesystem/Finder, Runtime) | see P1.5, P1.3, P1.2, P1.1, P2.7 |
+| F8 | Unsourced "not examinable" restrictions | **VÉRIFIÉ** — its three symptoms are answered: the PHP API reduced to versions (P1.1), helpers said not to need their API details (P2.7 Console), the Validator catalogue sent to the reference (P1.3); Serializer (P1.5), Cache (P1.4) and Forms (P1.2) extended too. On 2026-10-18 a pattern search over the 163 courses (« hors périmètre », « pas au programme », « pas besoin », « référence »…) found 9 scope sentences, all read: each rests on `docs/syllabus/exclusions.yml` (UX, Doctrine, assets, PHPUnit Bridge, ESI, third-party transports) or on a note of `docs/syllabus/official-syllabus.md` (third-party bridges, « Twig syntax up to 3.22 »). A pattern search finds what it looks for; no other wording was hunted | see P1.5, P1.3, P1.2, P1.1, P2.7 |
 | F9 | PHP source 404 and mutable branch URLs | **BLOQUÉ** (the last 404 is in a HOLDOUT question) — pinning À FAIRE | see P2.6 |
 | F10 | No per-card recall record; comprehension stores nothing | **VÉRIFIÉ** (local) — comprehension recorded (P2.4); per-card recall and due day (P2.3) | see P2.4, P2.3 |
 
@@ -315,6 +315,7 @@ citation, so a format change has to be designed with it, not applied in bulk.
 | P3.1 Semantic repetition, « difficulté estimée » | #425 | squash `9cebee6` | smoke 117493721315 success, log read (308 ok and 0 error in the last 400 lines; « question-versions.json (70 rewritten questions) ») |
 | P3.2 (first part) Reasoning before the correction, delayed checks | #426 (first CI run red on `verify-navigation`, fixed in the PR) | squash `8b6c898` | smoke 117514123216 success, log read (309 ok and 0 FAIL in the last 400 lines; « ok 200 …/controle-differe ») |
 | P3.2 (second part) First exposures, parallel forms, questions crossing components | #427 | squash `6c5b918` | smoke 117528038621 success, log read (309 ok and 0 FAIL in the last 400 lines; « practice 583 questions, all LEARNING », « mock-5 724 eligible ») |
+| Journal entries for #427 (`CVR-a4813yxth40x`, `CVR-zzn9ysgne2mg`) | #428 | squash `bdc0de5` | smoke 117637182148 success, log read (309 ok and 0 FAIL in the last 400 lines; « P3.3: journal des corrections served, entries anchored ») |
 | P1.7, P2.4, P2.5 (part) | #395, CI green | squash `6c1448c` | job « Production smoke test » 115498368380 success, log read. It checks served pages and payloads, not the client-side progression table, which the CI a11y audit renders. |
 
 ### P3.3 — Maintenance: a journal of corrections, and answers that follow versions
@@ -515,9 +516,8 @@ length audit pass.
 
 ## Next action
 
-P3.1 is delivered in #425 and P3.2 in #426 and #427; the journal entries for
-#427 (`CVR-a4813yxth40x`, the resolvers course corrected; `CVR-zzn9ysgne2mg`,
-the two questions crossing components) land in the PR after it. The
+P3.1 is delivered in #425, P3.2 in #426 and #427, and the journal entries for
+#427 in #428. The
 held-back third integration question waits for a decision on the revision
 pace or date, which is the owner's. What remains of the mission is the
 independent evaluation after remediation, which needs a reviewer outside this
