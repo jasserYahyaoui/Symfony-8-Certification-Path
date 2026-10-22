@@ -14,13 +14,41 @@ revues du lot 02 (`docs/audit/lot-02-http-fundamentals/REVIEW.md`).
 
 ## Ce que le relecteur ne fait pas
 
-- **Ne pas lire le pool HOLDOUT** : `content/questions/mock-04-holdout.yml` et
-  `website/static/data/mock-4.json`. Ces questions forment la seule mesure sur
-  des questions jamais vues que le site offre ; un relecteur qui les a lues
-  les a consommées pour l'apprenant. Le rapport n'en cite ni identifiant ni
-  contenu.
+- **Ne lire aucune question du pool HOLDOUT.** Ces questions forment la seule
+  mesure sur des questions jamais vues que le site offre ; un relecteur qui
+  les a lues les a consommées pour l'apprenant. Le rapport n'en cite ni
+  identifiant ni contenu. Elles ne sont **pas toutes** dans
+  `content/questions/mock-04-holdout.yml` : les fichiers des lots 01 à 13 et
+  `golden-slice.yml` en mêlent 27 aux autres, et `syllabus-matrix.yml` cite
+  leurs identifiants. **Ne pas ouvrir les fichiers bruts de `content/questions/`
+  ni la matrice dans le dépôt** : relire depuis le paquet ci-dessous, qui les en
+  retire et le prouve. Sur le site, ne pas ouvrir `/mock-4` ni `data/mock-4.json`.
 - Ne pas corriger : le relecteur constate, l'équipe corrige ensuite, chaque
   correction dans sa PR et au journal des corrections.
+
+## Le paquet à joindre (sans navigation)
+
+La première tentative, le 2026-10-22, n'a pu ouvrir aucun lien
+(`docs/audit/independent-evaluation-2026-10-22/`). Un relecteur qui ne navigue
+pas lit des fichiers joints :
+
+```bash
+python3 tools/review/build_pack.py --out DIR \
+  --upstream symfony=<clone de symfony/symfony@8.0> \
+  --upstream symfony-docs=<clone de symfony/symfony-docs@8.0>
+```
+
+- `review-pack-<commit>.zip` : cours, questions LEARNING, VALIDATION et de
+  compréhension, flashcards, syllabus, suivi, journal, ce dossier, les faits
+  exécutés de `tools/behavior` et `draw_sample.py`, qui s'exécute dans le
+  paquet. Son `MANIFEST.md` donne le commit et le sha256 de chaque fichier, et
+  dit lesquels ont été réécrits sans leurs entrées HOLDOUT.
+- `symfony-8.0-reference-<commit>.zip` : le code de `symfony/symfony` (sans
+  tests) et les `.rst` de la documentation, au commit que son manifeste nomme.
+
+`build_pack.py --prove` (en CI) injecte le fichier HOLDOUT, une question
+HOLDOUT dans un fichier de banque et un identifiant HOLDOUT cité dans un
+cours : chaque construction doit être refusée, sans nommer la question.
 
 ## Barème
 
