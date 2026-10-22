@@ -317,6 +317,7 @@ citation, so a format change has to be designed with it, not applied in bulk.
 | P3.2 (second part) First exposures, parallel forms, questions crossing components | #427 | squash `6c5b918` | smoke 117528038621 success, log read (309 ok and 0 FAIL in the last 400 lines; « practice 583 questions, all LEARNING », « mock-5 724 eligible ») |
 | Journal entries for #427 (`CVR-a4813yxth40x`, `CVR-zzn9ysgne2mg`) | #428 | squash `bdc0de5` | smoke 117637182148 success, log read (309 ok and 0 FAIL in the last 400 lines; « P3.3: journal des corrections served, entries anchored ») |
 | Tracker: #428 delivered, F8 VÉRIFIÉ | #429 | squash `f8c9ad2` | smoke 117643408266 success, log read (309 ok and 0 FAIL in the last 400 lines) |
+| Independent evaluation: reviewer's brief, sample drawn from the reviewer's seed | #430 | squash `800278b` | smoke 117655872723 success, log read (309 ok and 0 FAIL in the last 400 lines) |
 | P1.7, P2.4, P2.5 (part) | #395, CI green | squash `6c1448c` | job « Production smoke test » 115498368380 success, log read. It checks served pages and payloads, not the client-side progression table, which the CI a11y audit renders. |
 
 ### P3.3 — Maintenance: a journal of corrections, and answers that follow versions
@@ -526,6 +527,18 @@ project: MISSING. `docs/review/independent-evaluation-brief.md` prepares it —
 who may review, what not to read (the HOLDOUT), the grid of the earlier
 reviews, the commands that verify each claim, and a sample the reviewer draws
 from their own seed (`tools/review/draw_sample.py`, `--prove` in CI).
+
+A first attempt, on 2026-10-22, was **not evaluable**: the reviewer (M365
+Copilot) could open none of its links and gave no score, rightly
+(`docs/audit/independent-evaluation-2026-10-22/REVIEW.md`). It taught two
+things. A reviewer may not browse, so `tools/review/build_pack.py` builds files
+to attach — the project at a commit, and Symfony 8.0's code and documentation
+at theirs. And the brief was wrong about the HOLDOUT: 27 of its questions sit in
+the bank files of lots 01 to 13 and the golden slice, which the prompt allowed.
+The pack's guard refused its own first build on them; the pack now re-serialises
+those files without their HOLDOUT entries, strips the ids from the matrix, and
+`--prove` (in CI) shows each leak refused. Nothing was exposed: the reviewer
+opened nothing.
 
 Item statistics (P3.1) now have a first local source — per-card recall —
 but no shared data: they stay MISSING until learners' answers are collected

@@ -189,6 +189,9 @@ jobs:
           # The independent reviewer's sample (docs/review/): never a HOLDOUT
           # question, and the refusal names none.
           python3 tools/review/draw_sample.py --prove
+          # The reviewer's attachable pack: the HOLDOUT file, a HOLDOUT question
+          # in a mixed bank file and a HOLDOUT id quoted anywhere are refused.
+          python3 tools/review/build_pack.py --prove
 
       # Remediation P3.3. docs/corrections/changelog.yml names, for each
       # correction, the courses, cards and questions that carry it: --check

@@ -39,6 +39,7 @@ Branche de travail : `claude/symfony-8-certification-plan-phmkau`.
 | P3.2, seconde partie : premières expositions, formes parallèles, questions d'intégration | #427 | `6c5b918` | smoke 117528038621 **success, lu** (309 ok, 0 erreur ; 583 questions Practice, Mock 5 : 724) |
 | Journal : entrées de #427 (correction du cours des resolvers, questions d'intégration) | #428 | `bdc0de5` | smoke 117637182148 **success, lu** (309 ok, 0 erreur ; journal servi) |
 | Suivi : livraison de #428, F8 VÉRIFIÉ | #429 | `f8c9ad2` | smoke 117643408266 **success, lu** (309 ok, 0 erreur) |
+| Évaluation indépendante : dossier du relecteur, échantillon tiré de sa graine | #430 | `800278b` | smoke 117655872723 **success, lu** (309 ok, 0 erreur) |
 
 Nouveau : `tools/behavior/` (Symfony 8.0.* verrouillé, 10 faits exécutés en CI),
 `docs/facts/central-facts.yml` + `CentralFactsTest` (le retour d'une ancienne
@@ -136,7 +137,12 @@ lues, reposent sur `exclusions.yml` ou une note du syllabus importé).
 remédiation (MISSING, il faut un relecteur extérieur). Dossier prêt :
 `docs/review/independent-evaluation-brief.md` (barème des revues du lot 02,
 HOLDOUT interdit de lecture, commandes de vérification, échantillon tiré d'une
-graine choisie par le relecteur : `tools/review/draw_sample.py`). Décision du
+graine choisie par le relecteur : `tools/review/draw_sample.py`). Tentative du
+2026-10-22 (M365 Copilot) **non évaluable** : aucun lien ouvert, aucune note.
+Elle a révélé que 27 questions HOLDOUT sont rangées dans les fichiers des lots
+01 à 13 et la tranche de référence, que le prompt autorisait : rien n'a été lu,
+mais la relecture passe désormais par `tools/review/build_pack.py` (fichiers à
+joindre, sans HOLDOUT, `--prove` en CI). Décision du
 propriétaire possible : le rythme ou la date, si la question d'intégration
 retenue (Twig + Translation) doit entrer. Statistiques par question : MISSING (aucune donnée partagée) ;
 relecture indépendante après remédiation : MISSING. Note : `tools/behavior` utilise le plugin Composer de symfony/runtime ;
