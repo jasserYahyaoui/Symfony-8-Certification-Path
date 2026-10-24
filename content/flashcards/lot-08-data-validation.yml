@@ -1524,3 +1524,27 @@ flashcards:
     branch: '8.0'
     symbol_or_lines: 'validateInGroup(): catch UnexpectedValueException, build a Type violation'
     verified_at: '2026-10-15'
+- id: FLC-q7jafcghbdhm
+  official_item: OIT-9x3strrjdng7
+  language: fr
+  level: UNDERSTANDING
+  front: "Validator : `All` et `Collection` s'appliquent à un array. Qu'est-ce qui les distingue ?"
+  back: "`All` applique les mêmes constraints à chaque élément ; `Collection` décrit l'array key par key, et signale les keys manquantes ou en trop."
+  explanation: "Exécuté avec Validator 8.0.15 : `All([NotBlank])` sur `['ok', '']` donne une violation en `[1]` ; `Collection` sur `['name' => 'x']` donne « [email]: This field is missing. »"
+  memorization_justification: "Deux constraints d'array aux usages proches : choisir la bonne est un fait de rappel."
+  verification_status: VERIFIED
+  official_sources:
+  - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/All.rst"
+    readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/reference/constraints/All.rst"
+    repository: "symfony/symfony-docs"
+    branch: "8.0"
+    commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+    symbol_or_lines: "\"this constraint allows you to apply a collection of constraints to each element of the array\""
+    verified_at: "2026-10-24"
+  - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/Collection.rst"
+    readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/reference/constraints/Collection.rst"
+    repository: "symfony/symfony-docs"
+    branch: "8.0"
+    commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+    symbol_or_lines: "\"you'd like to validate different keys of that collection in different ways\""
+    verified_at: "2026-10-24"

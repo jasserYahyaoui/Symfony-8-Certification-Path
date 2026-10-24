@@ -5,7 +5,7 @@ title: "HTTP Caching (reverse proxies, expiration, validation) Note: ESI (Edge S
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-09"
+reviewed_at: "2026-10-24"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_cache.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/http_cache.rst"
@@ -34,6 +34,11 @@ official_sources:
     branch: "8.0"
     symbol_or_lines: "private_headers (Authorization, Cookie): the response is made private unless it is public"
     verified_at: "2026-10-09"
+  - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9111.html"
+    readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9111.html"
+    branch: "master"
+    symbol_or_lines: "section 4.4 Invalidating Stored Responses — a cache MUST invalidate the target URI after a non-error response to an unsafe method"
+    verified_at: "2026-10-24"
 outcome_sections:
   OUT-edevbpg23scq: "Le reverse proxy de Symfony"
   OUT-dvk4cpkj78nz: "Déclarer plutôt que construire"
@@ -51,11 +56,9 @@ Response a été servie du cache ou non.
 **ESI (Edge Side Includes) est hors du périmètre de l'examen** ; cette page ne
 le traite pas.
 
-Deux limites de contenu, aussi. La **sémantique des headers** — les deux
-modèles, `max-age` et `s-maxage`, `public` et `private`, `Vary`, les directives
-voisines — appartient à l'item *Caching* du sujet HTTP. Cette page ne la redit
-pas : elle suppose acquis ce que ces headers signifient, et montre par quels
-moyens Symfony les pose et les honore.
+La **sémantique des headers** — `max-age`, `s-maxage`, `public`, `private`,
+`Vary` — appartient à l'item *Caching* du sujet HTTP : cette page la suppose
+acquise, et montre comment Symfony pose et honore ces headers.
 
 ## Prérequis
 
@@ -174,9 +177,10 @@ La documentation ne cite que `GET` et `HEAD` ; en 8.0,
 Exécuté : deux `QUERY` de même corps, `fresh` ; un autre corps, `miss` ; un
 `POST` à `max-age=60`, `pass, invalidate` à chaque fois.
 
-**L'invalidation ne fait pas partie de la spécification HTTP.** Elle est utile,
-Symfony la rend possible, mais elle sort du protocole — c'est pourquoi le modèle
-d'expiration seul oblige à attendre l'échéance pour voir un contenu modifié.
+**L'invalidation à la demande ne fait pas partie de la spécification HTTP.**
+Elle est utile, Symfony la rend possible, mais elle sort du protocole — c'est
+pourquoi le modèle d'expiration seul oblige à attendre l'échéance pour voir un
+contenu modifié.
 
 ## Schéma
 
@@ -221,7 +225,8 @@ pour `QUERY`.
 
 **Le cache HTTP ne s'applique qu'aux safe methods.**
 
-**L'invalidation est hors spécification HTTP.**
+**L'invalidation à la demande est hors spécification HTTP** ; RFC 9111 §4.4
+n'impose que celle qui suit une method non sûre réussie.
 
 **`X-Symfony-Cache` n'apparaît qu'en debug** ou si `trace_level` le demande.
 
@@ -232,7 +237,7 @@ pour `QUERY`.
 - `X-Symfony-Cache` et `trace_level` expliquent un succès ou un échec de cache.
 - `#[Cache]` déclare la politique ; le controller prime sur elle.
 - `setCache()` en un appel, `expire()` et `setNotModified()` en complément.
-- URI comme key, safe methods seulement, invalidation hors protocole.
+- URI comme key, safe methods seulement, invalidation à la demande hors protocole.
 
 ## Sources officielles
 

@@ -199,6 +199,17 @@ by reading the section, never by pointing at « Points clés » to make the rule
 pass. The generator writes the anchor (`CourseUrl::sectionAnchor`); do not
 hand-write `{#…}` ids in a course.
 
+**Every exam pitfall is rehearsed by a flashcard, or says why not (2026-10-24).**
+`tools/audit/pitfall_flashcards.py` (CI, `--max-gaps 0`) reads each paragraph
+of each « Pièges d'examen » section and requires a verdict in
+`docs/audit/pitfall-flashcards/reviewed.yml`: COVERED by a named card, or
+NO_CARD with a reason. A verdict is keyed by the paragraph's hash, so rewording
+a pitfall voids it. Give the verdict by reading the pitfall against all the
+cards of its item — `--suggest` only ranks them, and on 2026-10-24 it missed 53
+covering cards. A card counts when its question and answer rehearse the trap,
+not when its explanation mentions it. A new card's fact is executed or read in
+the source it cites, like any other.
+
 **Technical terms stay in English in French prose (owner, 2026-10-14).**
 Write `listener`, `compiler pass`, `service container`, `Request`, `Response`,
 `attribute`, never écouteur, passe de compilation, conteneur de services,

@@ -1756,3 +1756,68 @@ flashcards:
     branch: '8.0'
     symbol_or_lines: 'setCode() wraps the closure; parameters need a named type; the result must be an int'
     verified_at: '2026-10-15'
+- id: FLC-3e9fpr3hn6kc
+  official_item: OIT-65sswf0qhw6c
+  language: fr
+  level: APPLICATION
+  front: "Une command écrit avec `echo`. Que voit `CommandTester::getDisplay()`, et que fait `-q` ?"
+  back: "Rien de cet `echo`, et `-q` ne le fait pas taire : il sort hors de l'`OutputInterface`, donc hors de la verbosity, du formateur et des tests."
+  explanation: "Exécuté avec Console 8.0.15 : `getDisplay()` ne contient que ce qui passe par `$output` ; l'`echo` part sur STDOUT, hors de `$output`, même en `VERBOSITY_QUIET`."
+  memorization_justification: "`echo` s'affiche à l'écran, donc l'erreur ne se voit qu'en test ou avec `-q`."
+  verification_status: VERIFIED
+  official_sources:
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Tester/TesterTrait.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Tester/TesterTrait.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+    symbol_or_lines: "getDisplay line 41 — reads the output stream given to the command"
+    verified_at: "2026-10-24"
+- id: FLC-54dgr0wb2405
+  official_item: OIT-65sswf0qhw6c
+  language: fr
+  level: RECALL
+  front: "Command invocable : `#[Argument] string $firstName`. Quel nom passer à `getArgument()` ?"
+  back: "`first-name` : par défaut, le nom du parameter converti en kebab-case."
+  explanation: "Exécuté avec Console 8.0.15 : la definition déclare l'argument `first-name`. L'option `name` de l'attribute le remplace."
+  memorization_justification: "On lit le nom PHP dans la signature ; le nom réel est transformé."
+  verification_status: VERIFIED
+  official_sources:
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Attribute/Argument.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Attribute/Argument.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+    symbol_or_lines: "line 78 — (new UnicodeString($name))->kebab()"
+    verified_at: "2026-10-24"
+  - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console/input.rst"
+    readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/console/input.rst"
+    repository: "symfony/symfony-docs"
+    branch: "8.0"
+    commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+    symbol_or_lines: "name — \"By default, it's the constructor parameter name converted to kebab-case (e.g. $lastName becomes last-name)\""
+    verified_at: "2026-10-24"
+- id: FLC-z2dpxs1ejrgn
+  official_item: OIT-v6wxp78gk42c
+  language: fr
+  level: UNDERSTANDING
+  front: "Une command invocable — `#[AsCommand]` et `__invoke()`, sans `extends` — peut-elle appeler `$this->getHelper('question')` ?"
+  back: "Non : `getHelper()` est une method de `Command`. Sans `extends`, on passe par `SymfonyStyle` ou par `#[Ask]` / `#[Interact]`."
+  explanation: "`Command::getHelper()` lit le HelperSet de la command ; une class invocable n'en hérite pas. `InvokableCommand` injecte un `SymfonyStyle` à qui le type-hinte."
+  memorization_justification: "Les exemples anciens montrent `getHelper()` partout ; la forme invocable de 8.0 ne l'a pas."
+  verification_status: VERIFIED
+  official_sources:
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Command/Command.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Command/Command.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+    symbol_or_lines: "getHelper line 651"
+    verified_at: "2026-10-24"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Command/InvokableCommand.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Command/InvokableCommand.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+    symbol_or_lines: "line 164 — SymfonyStyle::class => new SymfonyStyle($input, $output)"
+    verified_at: "2026-10-24"

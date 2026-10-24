@@ -2831,3 +2831,39 @@ flashcards:
         branch: "8.0"
         symbol_or_lines: "configure, execute"
         verified_at: "2026-09-24"
+
+  - id: FLC-gh32p9t68h99
+    official_item: OIT-1cj08dhtp9hj
+    language: fr
+    level: TRAP
+    front: "Une route porte le requirement `['v' => '\\p{Lu}+']`, sans option `utf8`. Que se passe-t-il ?"
+    back: "Une `LogicException` à la compilation de la route : « Cannot use UTF-8 route requirements without setting the \"utf8\" option ». Avec `utf8: true`, elle compile."
+    explanation: "Un requirement est une expression régulière PCRE ; les properties Unicode y exigent l'option `utf8`. Exécuté avec Routing 8.0.15."
+    memorization_justification: "« Une regex PHP accepte \\p{…} » est vrai en PHP et faux pour une route sans `utf8` : le piège se retient."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/RouteCompiler.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/RouteCompiler.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+        symbol_or_lines: "compilePattern lines 182-183 — LogicException without the \"utf8\" option"
+        verified_at: "2026-10-24"
+
+  - id: FLC-nzzsc08yb57x
+    official_item: OIT-5g82spham3vm
+    language: fr
+    level: APPLICATION
+    front: "Deux routes ont exactement le même path, `/api/posts`, l'une en GET, l'autre en POST. Est-ce valide ?"
+    back: "Oui : la method les départage. GET mène à la première, POST à la seconde — c'est le pattern REST."
+    explanation: "Exécuté avec Routing 8.0.15 : `UrlMatcher` rend `list` en GET et `create` en POST."
+    memorization_justification: "On croit qu'un path identifie une seule route ; la method fait partie de l'appariement."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/routing.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "Matching HTTP Methods — #[Route(\"/api/posts/{id}\", methods: [\"GET\", \"HEAD\"])] and methods: [\"PUT\"] on the same path"
+        verified_at: "2026-10-24"

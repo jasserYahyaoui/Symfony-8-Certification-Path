@@ -3438,3 +3438,111 @@ flashcards:
         branch: "8.0"
         symbol_or_lines: "formatIntl() — new MessageFormatter($locale, $message)"
         verified_at: "2026-10-16"
+
+  - id: FLC-j4brna7btsq6
+    official_item: OIT-dp7w7s85wxjg
+    language: fr
+    level: APPLICATION
+    front: "Twig : `app.session` peut-il valoir `null`, et le lire a-t-il un effet ?"
+    back: "Oui, `null` quand la Request n'a pas de session. Et lire son contenu démarre la session — la page n'est alors plus cachable."
+    explanation: "`AppVariable::getSession()` rend la session seulement si la Request en a une. Exécuté : `get('cart')` fait passer `isStarted()` de `false` à `true`."
+    memorization_justification: "Une lecture dans un template paraît sans effet ; démarrer la session en est un, visible dans les headers de cache."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/AppVariable.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/AppVariable.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+        symbol_or_lines: "getSession line 117 — $request?->hasSession() ? $request->getSession() : null"
+        verified_at: "2026-10-24"
+
+  - id: FLC-j3q4g3v2vswg
+    official_item: OIT-dp7w7s85wxjg
+    language: fr
+    level: RECALL
+    front: "Twig : comment lire le nom de la route courante sans passer par `app.request.attributes` ?"
+    back: "`app.current_route` — et `app.current_route_parameters` pour ses parameters."
+    explanation: "`AppVariable::getCurrent_route()` lit l'attribute `_route` de la Request. Exécuté : rend `blog_show`."
+    memorization_justification: "La forme longue fonctionne aussi, donc l'existence du raccourci se retient."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/AppVariable.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/AppVariable.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+        symbol_or_lines: "getCurrent_route line 196"
+        verified_at: "2026-10-24"
+
+  - id: FLC-6dzrbr07rhb0
+    official_item: OIT-ns36thqnh2jk
+    language: fr
+    level: UNDERSTANDING
+    front: "Twig : `{% set v = '<b>' %}{{ v|raw }}` affiche-t-il `<b>` ou `&lt;b&gt;` ?"
+    back: "`<b>` : l'escaping a lieu à l'affichage d'une expression, pas à l'affectation. `{{ v }}` seul afficherait `&lt;b&gt;`."
+    explanation: "`EscaperNodeVisitor` n'échappe que les nodes d'affichage (`PrintNode`). Exécuté : `<b>|&lt;b&gt;`."
+    memorization_justification: "Croire la variable échappée dès l'affectation fait ajouter un `raw` inutile, ou craindre un double escaping."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/src/NodeVisitor/EscaperNodeVisitor.php"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/src/NodeVisitor/EscaperNodeVisitor.php"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        commit_sha: "5079583d7313b0f0866ca32108036afcc072127d"
+        symbol_or_lines: "line 76 — escaping is applied to a PrintNode"
+        verified_at: "2026-10-24"
+
+  - id: FLC-aaw7xa69q5m8
+    official_item: OIT-ns36thqnh2jk
+    language: fr
+    level: TRAP
+    front: "Twig : que donne `'https://a.example/p?q=1'|e('url')` ?"
+    back: "`https%3A%2F%2Fa.example%2Fp%3Fq%3D1` : l'adresse est détruite. La strategy `url` sert à un sous-composant inséré dans une URI, pas à une URI entière."
+    explanation: "Exécuté : `'a b&c'|e('url')` donne `a%20b%26c`, ce qui est son usage prévu."
+    memorization_justification: "La strategy s'appelle « url » ; ne pas l'appliquer à une URL est contre-intuitif."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/filters/escape.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/filters/escape.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        commit_sha: "5079583d7313b0f0866ca32108036afcc072127d"
+        symbol_or_lines: "\"url: escapes a string for the URI or parameter contexts. This should not be used to escape an entire URI; only a subcomponent being inserted\""
+        verified_at: "2026-10-24"
+
+  - id: FLC-2dya1ngypecc
+    official_item: OIT-vhd83fn6w9wy
+    language: fr
+    level: RECALL
+    front: "Twig : que fait `{% … %}`, et que fait `{{ … }}` ?"
+    back: "`{% %}` exécute une instruction (`for`, `set`, `if`) et n'affiche rien ; `{{ }}` affiche le résultat d'une expression."
+    explanation: "Exécuté : `A{% set x = 1 %}B{{ x }}` rend `AB1`."
+    memorization_justification: "Les deux délimiteurs se confondent au premier abord ; l'examen montre du code qui dépend de la différence."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/templates.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        commit_sha: "5079583d7313b0f0866ca32108036afcc072127d"
+        symbol_or_lines: "\"There are two kinds of delimiters ... The first one is used to execute statements such as for-loops, the latter outputs the result of an expression\""
+        verified_at: "2026-10-24"
+
+  - id: FLC-877fwv133fsn
+    official_item: OIT-vhd83fn6w9wy
+    language: fr
+    level: TRAP
+    front: "Twig : `{{ a && b }}` est-il valide ?"
+    back: "Non : erreur de syntaxe. Les operators logiques de Twig sont `and`, `or`, `not` (et `xor`)."
+    explanation: "Exécuté : « Unexpected character \"&\" ». `{{ (true and false) ? 'y' : 'n' }}` rend `n`."
+    memorization_justification: "Le réflexe PHP `&&` est tenace ; Twig le refuse."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst"
+        readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/templates.rst"
+        repository: "twigphp/Twig"
+        branch: "v3.22.0"
+        commit_sha: "5079583d7313b0f0866ca32108036afcc072127d"
+        symbol_or_lines: "Logic — and, xor, or, not"
+        verified_at: "2026-10-24"

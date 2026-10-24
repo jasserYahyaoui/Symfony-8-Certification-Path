@@ -409,3 +409,20 @@ flashcards:
     symbol_or_lines: SORT_BY_NAME — strcmp ; SORT_BY_NAME_NATURAL — strnatcmp
     branch: '8.0'
     verified_at: '2026-10-16'
+- id: FLC-kas9xgck3taz
+  official_item: OIT-tjn6kyvyc2h9
+  language: fr
+  level: RECALL
+  front: "Filesystem : que peut recevoir `remove()` ?"
+  back: "Un path ou un itérable de paths (`string|iterable`) : files, directories — récursivement — et liens."
+  explanation: "Exécuté avec Filesystem 8.0.15 : `remove([$file, $dir, $link])` supprime les trois."
+  memorization_justification: "On attend une method par type d'entrée ; une seule les traite toutes."
+  verification_status: VERIFIED
+  official_sources:
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Filesystem/Filesystem.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Filesystem/Filesystem.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+    symbol_or_lines: "remove line 145 — string|iterable $files"
+    verified_at: "2026-10-24"

@@ -1,0 +1,4022 @@
+# Pitfall → flashcard registry (read by tools/audit/pitfall_flashcards.py).
+#
+# One entry per paragraph of a course's « Pièges d'examen » section, keyed by
+# the course and the SHA-1 of the paragraph (whitespace collapsed): a reworded
+# pitfall is unreviewed again. `excerpt` is for the reader and is not checked.
+#
+# - COVERED, card: the card's question and answer rehearse the trap. A card of
+#   another item counts — the trap is what is judged.
+# - GAP: no card yet. Reported; CI allows none (--max-gaps 0).
+# - NO_CARD, reason: no card is warranted, and why.
+#
+# First review, 2026-10-24: all 788 pitfalls read against every card of their
+# item, and against cards of other items where the trap belongs elsewhere.
+# 63 GAPs were found; 62 got a card (`added`), each fact executed on PHP 8.4.19
+# or Symfony 8.0.15 or read in the cited source, and one was found unreachable
+# in 8.0 (NO_CARD). See README.md in this directory.
+
+schema_version: 1
+pitfalls:
+- course: CRS-0a0d5bp6769e
+  key: 602c4d56c58d
+  excerpt: '**`getSubscribedServices()` est statique.**'
+  verdict: COVERED
+  card: FLC-0edfg80mngwv
+- course: CRS-0a0d5bp6769e
+  key: d9172ca46d8a
+  excerpt: '**Le locator n''est pas le container** : il est restreint à la liste déclarée, et le dit da'
+  verdict: COVERED
+  card: FLC-6kxhgfz2m24m
+- course: CRS-0a0d5bp6769e
+  key: 42b92e9f461a
+  excerpt: '**Les services sont construits à la demande** — et partagés avec le container.'
+  verdict: COVERED
+  card: FLC-6gn9bhy5jns8
+- course: CRS-0a0d5bp6769e
+  key: b8d276e45980
+  excerpt: '**Sans `?`, un service manquant bloque la compilation** ; avec `?`, `has()` rend `false`.'
+  verdict: COVERED
+  card: FLC-07qvbs53t0hr
+- course: CRS-0a0d5bp6769e
+  key: 188e339ba4d8
+  excerpt: '**En inheritance, il faut fusionner avec `parent::`.**'
+  verdict: COVERED
+  card: FLC-qv0crj3g4w9c
+- course: CRS-0ab7kpexq9w9
+  key: 59d160708eec
+  excerpt: '**Ne jamais utiliser `echo`** : l''output échapperait à la verbosity, au formateur et aux t'
+  verdict: COVERED
+  card: FLC-3e9fpr3hn6kc
+  added: '2026-10-24'
+- course: CRS-0ab7kpexq9w9
+  key: a6f2955588a8
+  excerpt: '**`getErrorOutput()` n''appartient pas à `OutputInterface`** mais à `ConsoleOutputInterface'
+  verdict: COVERED
+  card: FLC-22d2m925vb5x
+- course: CRS-0ab7kpexq9w9
+  key: 790dcbeb383a
+  excerpt: '**`hasOption()` interroge la definition**, pas la ligne de command : il vaut `true` même q'
+  verdict: COVERED
+  card: FLC-s5btfw1686bb
+- course: CRS-0ab7kpexq9w9
+  key: b6618ff37b65
+  excerpt: '**`OUTPUT_PLAIN` garde les couleurs** d''un output décoré.'
+  verdict: COVERED
+  card: FLC-82ct7kq35dt2
+- course: CRS-0ab7kpexq9w9
+  key: 94a37934c6f8
+  excerpt: '**Le nom passé à `getArgument()` est le nom kebab-case** déclaré, pas celui du parameter P'
+  verdict: COVERED
+  card: FLC-54dgr0wb2405
+  added: '2026-10-24'
+- course: CRS-0jtjh77tabt1
+  key: 62ce3e98471a
+  excerpt: '**`abstract private` est une erreur fatale.** Une method abstraite privée serait invisible'
+  verdict: COVERED
+  card: FLC-6t7dhwjwhecc
+- course: CRS-0jtjh77tabt1
+  key: d00f5a784871
+  excerpt: '**Une seule class parente.** Besoin de deux jeux de comportements partagés : c''est un trai'
+  verdict: COVERED
+  card: FLC-h0d16j276qgh
+  added: '2026-10-24'
+- course: CRS-0jtjh77tabt1
+  key: f95089ddad17
+  excerpt: '**`abstract` et `final` sont incompatibles** : l''un exige une extension, l''autre l''interdi'
+  verdict: COVERED
+  card: FLC-1fxqpfkbsm7j
+  added: '2026-10-24'
+- course: CRS-0x4v9jaz4cnq
+  key: 85611e64931b
+  excerpt: '**`enableProfiler()` n''active pas le profiler** ; elle active la collecte.'
+  verdict: COVERED
+  card: FLC-57vzb0a87say
+- course: CRS-0x4v9jaz4cnq
+  key: d52ad98083cc
+  excerpt: '**Elle ne vaut que pour la Request suivante.**'
+  verdict: COVERED
+  card: FLC-svw4s9jp1n6t
+- course: CRS-0x4v9jaz4cnq
+  key: 8b65928b8015
+  excerpt: '**`getProfile()` peut rendre `false` ou `null`** — le tester. `false` : pas de profiler ; '
+  verdict: COVERED
+  card: FLC-qpv2e5qfvpqv
+- course: CRS-0x4v9jaz4cnq
+  key: 1734b7b30c93
+  excerpt: '**`collect: true` collecte à chaque Request**, sans `enableProfiler()`.'
+  verdict: COVERED
+  card: FLC-ss5t4frvwdt2
+- course: CRS-0yhqc0b1q7hz
+  key: 3a907b84d7ef
+  excerpt: '**Le token part avec le tag de closure du form.** Désactiver `render_rest` le fait dispara'
+  verdict: COVERED
+  card: FLC-ztv3eksqkkr2
+- course: CRS-0yhqc0b1q7hz
+  key: 0adca0c2e497
+  excerpt: '**Un form sans token valide est invalide** ; c''est le component qui refuse.'
+  verdict: COVERED
+  card: FLC-4476zezkxadx
+- course: CRS-0yhqc0b1q7hz
+  key: da406d1d9390
+  excerpt: '**L''identifier par défaut est le nom du form**, pas une valeur commune.'
+  verdict: COVERED
+  card: FLC-bdce2jn08pry
+- course: CRS-0yhqc0b1q7hz
+  key: 25855e8c1811
+  excerpt: '**Sans état ne veut pas dire sans contrôle** : ce sont les headers `Origin` et `Referer` q'
+  verdict: COVERED
+  card: FLC-fk4yczw23aat
+- course: CRS-156khyjssm25
+  key: 17f84de15edb
+  excerpt: '**Aucune key `extra` ne déplace `templates/`, `translations/` ni `vendor/`.** Les deux pre'
+  verdict: COVERED
+  card: FLC-srxd7601p8cb
+- course: CRS-156khyjssm25
+  key: 1aedcf9ed9d7
+  excerpt: '**`extra.src-dir` seul ne suffit pas.** Sans `autoload.psr-4` corrigé et `composer dump-au'
+  verdict: COVERED
+  card: FLC-pk8q1bqrtw3v
+- course: CRS-156khyjssm25
+  key: 9b75ff5b0fe7
+  excerpt: '**Les `APP_*_DIR` ne sont pas lues par `Kernel`.** C''est `MicroKernelTrait` qui les lit ; '
+  verdict: COVERED
+  card: FLC-5s3v1d1k2k9a
+- course: CRS-156khyjssm25
+  key: 333ae331251b
+  excerpt: '**`config/packages/test/` ne s''ajoute pas à la configuration commune, il la surcharge.** U'
+  verdict: COVERED
+  card: FLC-a2gc9fn1n43v
+- course: CRS-156khyjssm25
+  key: 30b3a52f96a4
+  excerpt: '**`public/` est le seul directory servi.** Un file utile au navigateur mais posé ailleurs '
+  verdict: COVERED
+  card: FLC-256rcewrq2hm
+- course: CRS-1bkg7pkf78c7
+  key: 39cb83397591
+  excerpt: '**Les arguments vont à la factory.** Le constructor du service n''est pas appelé du tout.'
+  verdict: COVERED
+  card: FLC-j8n3qsftrmm5
+- course: CRS-1bkg7pkf78c7
+  key: 0ef7a92ef688
+  excerpt: '**`[null, ''create'']` désigne la class du service**, pas une function globale.'
+  verdict: COVERED
+  card: FLC-01t2qqerjqx9
+- course: CRS-1bkg7pkf78c7
+  key: 9d2775d6c955
+  excerpt: '**Une factory de service utilise `@`** ; une factory statique nomme la class ; `''@service'''
+  verdict: COVERED
+  card: FLC-tgwxwfrf75bb
+- course: CRS-1bkg7pkf78c7
+  key: e942bf05ac98
+  excerpt: '**Le container ne contrôle pas le type retourné** : l''erreur arrive chez le consommateur.'
+  verdict: COVERED
+  card: FLC-nkx2tz1wn3cq
+- course: CRS-1bxqx6ks853z
+  key: 2b328b902c2d
+  excerpt: '**Un bridge ne configure rien.** C''est la ligne qui sépare bridge et bundle : le bridge re'
+  verdict: COVERED
+  card: FLC-396ywyjsv9pb
+- course: CRS-1bxqx6ks853z
+  key: 45509a27c685
+  excerpt: '**Un component ne dépend pas du framework.** L''installer dans un projet PHP quelconque est'
+  verdict: COVERED
+  card: FLC-0pfe56mwrbrp
+- course: CRS-1bxqx6ks853z
+  key: 466511e2596a
+  excerpt: '**`replace` n''est pas `require`.** Le `composer.json` du mono-dépôt déclare que `symfony/s'
+  verdict: COVERED
+  card: FLC-96yjsk63bse0
+- course: CRS-1en96h22twv7
+  key: 8aa576ac8ebc
+  excerpt: '**`WebTestCase` étend `KernelTestCase`** ; `createClient()` démarre déjà le kernel.'
+  verdict: COVERED
+  card: FLC-jm6rj4fjq624
+- course: CRS-1en96h22twv7
+  key: ccfe835fef7d
+  excerpt: '**`.env.local` est ignoré en test**, contrairement à `.env.test.local`.'
+  verdict: COVERED
+  card: FLC-2g536z94cx54
+- course: CRS-1en96h22twv7
+  key: 33d8b39f8c95
+  excerpt: '**`assertResponseIsSuccessful()` couvre tout le 2xx**, pas seulement 200 — exécuté : une R'
+  verdict: COVERED
+  card: FLC-zqz3f16xj0f7
+- course: CRS-1en96h22twv7
+  key: 66b44c0c8378
+  excerpt: '**Une variable du shell bat `.env.test.local`.**'
+  verdict: COVERED
+  card: FLC-6977vkkp3aep
+- course: CRS-1en96h22twv7
+  key: bfd94455591d
+  excerpt: '**Une URL en dur est la bonne pratique**, à rebours de l''intuition.'
+  verdict: COVERED
+  card: FLC-3etfvfga4ktr
+- course: CRS-1k0ce9dvdr99
+  key: 246b1b242a16
+  excerpt: '**`framework.http_cache: true` suffit** à activer le proxy ; aucune class à écrire.'
+  verdict: COVERED
+  card: FLC-446h1t6qewa1
+- course: CRS-1k0ce9dvdr99
+  key: 9f449adb65f7
+  excerpt: '**Le controller l''emporte sur `#[Cache]`**, pas l''inverse.'
+  verdict: COVERED
+  card: FLC-tgvah1kzef9y
+- course: CRS-1k0ce9dvdr99
+  key: 53464e2411db
+  excerpt: '**La key de cache est l''URI**, pas la route ni ses parameters — corps compris pour `QUERY`'
+  verdict: COVERED
+  card: FLC-f8x38gexqfj0
+- course: CRS-1k0ce9dvdr99
+  key: d7905a0b5f4c
+  excerpt: '**Le cache HTTP ne s''applique qu''aux safe methods.**'
+  verdict: COVERED
+  card: FLC-rkg976vqj9ss
+- course: CRS-1k0ce9dvdr99
+  key: 66bfeb0243f0
+  excerpt: '**L''invalidation à la demande est hors spécification HTTP** ; RFC 9111 §4.4 n''impose que c'
+  verdict: COVERED
+  card: FLC-s96310xtj98g
+  added: '2026-10-24'
+- course: CRS-1k0ce9dvdr99
+  key: e36745bec78c
+  excerpt: '**`X-Symfony-Cache` n''apparaît qu''en debug** ou si `trace_level` le demande.'
+  verdict: COVERED
+  card: FLC-3c72hkh5bgd9
+- course: CRS-21ec5kwrcmkm
+  key: 65718102637f
+  excerpt: '**« Étendre est couvert » est vrai à quatre lignes près.** Ajouter une **property** ou une'
+  verdict: COVERED
+  card: FLC-32zq739dq12k
+- course: CRS-21ec5kwrcmkm
+  key: 359fa6b884aa
+  excerpt: '**Les named arguments ne sont pas couverts**, sauf pour les constructors de classes d''attr'
+  verdict: COVERED
+  card: FLC-rzxtm8jvz6k3
+- course: CRS-21ec5kwrcmkm
+  key: 4448c0f0999b
+  excerpt: '**`@final` n''interdit rien techniquement.** Le code qui étend une class `@final` fonctionn'
+  verdict: COVERED
+  card: FLC-sh9yczbtkr0c
+- course: CRS-21ec5kwrcmkm
+  key: 6103bedc0bb8
+  excerpt: '**Privé d''un trait ≠ privé d''une class.** Le premier est garanti, le second jamais. Le tra'
+  verdict: COVERED
+  card: FLC-g6wrcr52xgcm
+- course: CRS-21ec5kwrcmkm
+  key: 16a528c4da24
+  excerpt: '**Un argument ne s''ajoute qu''en dernière position.** Une signature Symfony qui porte un ar'
+  verdict: COVERED
+  card: FLC-k2171h85a333
+- course: CRS-222wq64mqxye
+  key: e1d1f33df202
+  excerpt: '**`$request->request` n''est pas la Request** : c''est le body POST.'
+  verdict: COVERED
+  card: FLC-g36cqm7ywwy8
+  added: '2026-10-24'
+- course: CRS-222wq64mqxye
+  key: e98cf1d6e3ad
+  excerpt: '**`get()` sur un array lève.** Ce n''est pas `null`, ni le premier élément.'
+  verdict: COVERED
+  card: FLC-ke52b2c0c9vm
+- course: CRS-222wq64mqxye
+  key: bc657e1647b3
+  excerpt: '**`getClientIp()` sans trusted proxies renvoie l''IP du proxy**, pas celle du client — et c'
+  verdict: COVERED
+  card: FLC-gd9eab8nmb9e
+  added: '2026-10-24'
+- course: CRS-222wq64mqxye
+  key: 47b27934d61f
+  excerpt: '**`getClientIp()` ne renvoie pas « la plus à gauche ».** Il renvoie l''adresse non fiable l'
+  verdict: COVERED
+  card: FLC-xwwc4rksxk78
+- course: CRS-222wq64mqxye
+  key: c29c704a7c76
+  excerpt: '**`Request::create()` n''est pas `createFromGlobals()`.** La première fabrique une Request '
+  verdict: COVERED
+  card: FLC-6pjjcba203rq
+- course: CRS-2b1wzm3rwdrn
+  key: 717a383d4f6b
+  excerpt: '**Sans requirement de host, une route accepte n''importe quel host.** L''absence de l''option'
+  verdict: COVERED
+  card: FLC-x5tjtg0h3pm1
+- course: CRS-2b1wzm3rwdrn
+  key: 875ea337bedf
+  excerpt: '**Une default value de host ne sert qu''à la génération.** Contrairement au path, elle ne r'
+  verdict: COVERED
+  card: FLC-8zxmqnpmcc3k
+- course: CRS-2b1wzm3rwdrn
+  key: b3dfbb064551
+  excerpt: '**`path()` vers un autre host donne `//hôte/chemin`**, pas `https://hôte/chemin`.'
+  verdict: COVERED
+  card: FLC-zat18abtqrgm
+- course: CRS-2b1wzm3rwdrn
+  key: d4870c612f31
+  excerpt: '**Le host ignore la casse**, requirement compris.'
+  verdict: COVERED
+  card: FLC-gpyyfhz014cw
+- course: CRS-2b1wzm3rwdrn
+  key: d6f6c501d954
+  excerpt: '**Deux routes peuvent partager le même path** et ne se distinguer que par le host : la rou'
+  verdict: COVERED
+  card: FLC-3zvv0c84pznk
+- course: CRS-2bj91rj9kvj0
+  key: 1b2c4c53e8d6
+  excerpt: '**Trois packages, un seul à installer.** L''engine, le bridge et le bundle sont distincts :'
+  verdict: COVERED
+  card: FLC-aj7ff8fdwg48
+- course: CRS-2bj91rj9kvj0
+  key: 1355586a095a
+  excerpt: '**Le nom d''espace d''un bundle perd son suffixe ; le directory de surcharge le garde.** `@A'
+  verdict: COVERED
+  card: FLC-8288ey1be7jw
+- course: CRS-2bj91rj9kvj0
+  key: 4b485857b0a4
+  excerpt: '**`strict_variables` n''a pas la même valeur partout.** Par défaut elle vaut `kernel.debug`'
+  verdict: COVERED
+  card: FLC-qthbpr7whnmj
+- course: CRS-2bj91rj9kvj0
+  key: 743fa9e50d80
+  excerpt: '**Le directory par défaut se change, mais on peut aussi en ajouter.** Ce sont deux options'
+  verdict: COVERED
+  card: FLC-c2ppxs42sa1x
+- course: CRS-2ec5yksjfm9s
+  key: f3d714d91f35
+  excerpt: '**Seule la première règle correspondante s''applique** ; les autres ne sont pas cumulées.'
+  verdict: COVERED
+  card: FLC-1vc4j2vszk96
+- course: CRS-2ec5yksjfm9s
+  key: ff302d5fd3e4
+  excerpt: '**Du plus spécifique au plus général**, sinon la règle fine devient inatteignable.'
+  verdict: COVERED
+  card: FLC-tjb9496fc7x8
+- course: CRS-2ec5yksjfm9s
+  key: 97f5e16a9841
+  excerpt: '**`path` est une expression régulière**, comparée sans la query string.'
+  verdict: COVERED
+  card: FLC-jefas56k6j9j
+- course: CRS-2ec5yksjfm9s
+  key: e6673014f3ed
+  excerpt: '**`roles` + `allow_if` accorde si l''un des deux suffit**, avec la strategy par défaut.'
+  verdict: COVERED
+  card: FLC-1ptfnjn4pde6
+- course: CRS-2ec5yksjfm9s
+  key: 4479a5bc8327
+  excerpt: '**Aucune règle ne correspond : aucune restriction.**'
+  verdict: COVERED
+  card: FLC-60cvn0h2vkwh
+- course: CRS-2ec5yksjfm9s
+  key: a91357944491
+  excerpt: '**`access_control` ne remplace pas un voter** : il ignore les objects.'
+  verdict: COVERED
+  card: FLC-368xcwb0d0zv
+- course: CRS-2hpcy2rscq7m
+  key: d1efe4e4ce43
+  excerpt: Priority haute = **tôt** ; une priority négative est parfaitement valide.
+  verdict: COVERED
+  card: FLC-4eb8na9yp4g0
+- course: CRS-2hpcy2rscq7m
+  key: adff0f2f9426
+  excerpt: '`stopPropagation()` n''arrête qu''un event, pas la Request.'
+  verdict: COVERED
+  card: FLC-87p1bd8b8xdp
+- course: CRS-2hpcy2rscq7m
+  key: 516ea57124b6
+  excerpt: '`getSubscribedEvents()` est **statique**.'
+  verdict: COVERED
+  card: FLC-nybtat3hrbab
+- course: CRS-2hpcy2rscq7m
+  key: 3c692931f4b4
+  excerpt: '`kernel.terminate` ne peut plus rien changer à la Response.'
+  verdict: COVERED
+  card: FLC-85hfb5gq1xpk
+- course: CRS-2hpcy2rscq7m
+  key: 45a0098117df
+  excerpt: Les constants sont sur `KernelEvents` ; leurs valeurs sont les strings `kernel.*`.
+  verdict: COVERED
+  card: FLC-132j6bb7cgj1
+  added: '2026-10-24'
+- course: CRS-2hpcy2rscq7m
+  key: afa2c878bc88
+  excerpt: '`dispatch()` sans nom explicite utilise le **nom de la class**, pas une string pointée.'
+  verdict: COVERED
+  card: FLC-5ex6g52ysc4h
+- course: CRS-2hpcy2rscq7m
+  key: 367aaa6ed49a
+  excerpt: Un event qui n'implémente pas `StoppableEventInterface` ne peut **pas** être arrêté — `sto
+  verdict: COVERED
+  card: FLC-pk83wg9jz0br
+- course: CRS-2hpcy2rscq7m
+  key: c406d35eb50c
+  excerpt: '`#[AsEventListener]` sans `event` dépend du **type** de l''argument, via `KernelEvents::ALI'
+  verdict: COVERED
+  card: FLC-ns8r1qzptegb
+- course: CRS-2nwv1v57j7ef
+  key: b34fd7af2d0f
+  excerpt: '**`RouterListener` appartient à HttpKernel, pas à FrameworkBundle.** Le bundle l''enregistr'
+  verdict: COVERED
+  card: FLC-07zmbesy2j39
+- course: CRS-2nwv1v57j7ef
+  key: 5df017cc9d20
+  excerpt: '**Apparier et générer sont deux classes distinctes.** Le generator ne voit pas la Request '
+  verdict: COVERED
+  card: FLC-8c8d1d09vx3k
+- course: CRS-2nwv1v57j7ef
+  key: 67596853840b
+  excerpt: '**Le component ne dépend d''aucun autre component Symfony.**'
+  verdict: COVERED
+  card: FLC-6dw96ps91ywe
+- course: CRS-2nwv1v57j7ef
+  key: ef1b74df6a9e
+  excerpt: '**Une route produit des variables, pas un controller.**'
+  verdict: COVERED
+  card: FLC-rccp4f643qpg
+- course: CRS-2nwv1v57j7ef
+  key: 480a394b6833
+  excerpt: '**Une Request qui porte déjà `_controller` n''est pas routée.**'
+  verdict: COVERED
+  card: FLC-gqbmyt3aqx51
+- course: CRS-2nwv1v57j7ef
+  key: 79af9708fc1a
+  excerpt: '**Les routes d''attributes viennent des services étiquetés**, pas d''un parcours de director'
+  verdict: COVERED
+  card: FLC-1jjqrpn2yvds
+- course: CRS-2s6e4qgkcqza
+  key: b1407dbc8fcd
+  excerpt: '**Un role sans `ROLE_` n''est jamais accordé**, même présent dans `getRoles()`.'
+  verdict: COVERED
+  card: FLC-gg4vkjf3jp2x
+- course: CRS-2s6e4qgkcqza
+  key: 0bcf5532ce99
+  excerpt: '**`in_array(''ROLE_ADMIN'', $user->getRoles())` ignore la hiérarchie.** La documentation mar'
+  verdict: COVERED
+  card: FLC-md8t0pnxyt7g
+- course: CRS-2s6e4qgkcqza
+  key: 13272b1cc8e3
+  excerpt: '**Les valeurs de `role_hierarchy` sont statiques** ; une hiérarchie en base demande du cod'
+  verdict: COVERED
+  card: FLC-r4kqpmksraq5
+- course: CRS-2s6e4qgkcqza
+  key: fcc29f9d8f04
+  excerpt: '**`IS_AUTHENTICATED_FULLY` n''est pas un role** et n''a rien à faire dans `getRoles()`.'
+  verdict: COVERED
+  card: FLC-wyand61p3qhq
+- course: CRS-306ppg4454wj
+  key: 06f5ed049b0a
+  excerpt: '**Filter ou function se décide à la source, pas au nom.** On part d''une valeur existante :'
+  verdict: COVERED
+  card: FLC-qhsttsmdnhx6
+- course: CRS-306ppg4454wj
+  key: 8880859c9b57
+  excerpt: '**L''ordre des filters enchaînés compte quand ils ne commutent pas.** `slice` puis `trim` n'
+  verdict: COVERED
+  card: FLC-hr4eeqynrvhm
+- course: CRS-306ppg4454wj
+  key: 31c4079ad4fc
+  excerpt: '**Un filter de la documentation peut exiger un package.** `u`, `format_*`, `markdown_to_ht'
+  verdict: COVERED
+  card: FLC-hcv2em8mgy1w
+- course: CRS-306ppg4454wj
+  key: 80133202fa35
+  excerpt: '**Ce que Symfony ajoute vient du bridge, pas de l''engine.** Les functions de route, d''asse'
+  verdict: COVERED
+  card: FLC-2scrt3zatthj
+- course: CRS-3424z948caan
+  key: a21e466027df
+  excerpt: '**`self` ne suit pas l''inheritance.** Une factory écrite avec `new self()` renvoie toujour'
+  verdict: COVERED
+  card: FLC-xcnrvq0mddck
+- course: CRS-3424z948caan
+  key: 664e32403f88
+  excerpt: '**`private` bloque la surcharge.** Une method `private` redéfinie dans une fille est une m'
+  verdict: COVERED
+  card: FLC-yc7t3pe7a8y8
+  added: '2026-10-24'
+- course: CRS-3424z948caan
+  key: bd94c1151df1
+  excerpt: '**Une property `readonly` typée n''a pas de default value** : elle ne peut pas en avoir, ou'
+  verdict: COVERED
+  card: FLC-26dw5e7m1aqb
+  added: '2026-10-24'
+- course: CRS-3p9jdkw1nd3g
+  key: c1e13f262dcd
+  excerpt: '**Sans interaction, aucune question n''est posée** : la default value s''applique silencieus'
+  verdict: COVERED
+  card: FLC-48na02d14yce
+- course: CRS-3p9jdkw1nd3g
+  key: 65e87eb3b503
+  excerpt: '**`ConfirmationQuestion` vaut `true` par défaut** si le second argument est omis.'
+  verdict: COVERED
+  card: FLC-q51kmfpbywek
+- course: CRS-3p9jdkw1nd3g
+  key: f982e92ede7c
+  excerpt: '**`ProgressBar` n''exige pas de total** : sans lui, elle compte sans pourcentage. `Progress'
+  verdict: COVERED
+  card: FLC-m2vt69dts1c2
+- course: CRS-3p9jdkw1nd3g
+  key: b067db862ca5
+  excerpt: '**Une question sans défaut, en interactif, sur une entrée vide** lève `MissingInputExcepti'
+  verdict: COVERED
+  card: FLC-d715pybeyhft
+- course: CRS-3p9jdkw1nd3g
+  key: 6056c0f465fe
+  excerpt: '**`getHelper()` vient de `Command`** — indisponible dans une command invocable qui ne l''ét'
+  verdict: COVERED
+  card: FLC-z2dpxs1ejrgn
+  added: '2026-10-24'
+- course: CRS-3pbkhqmw83b2
+  key: 6317b3c40d84
+  excerpt: '**`WorkerRunningEvent` se déclenche à vide** : y placer du travail lourd le fait tourner e'
+  verdict: COVERED
+  card: FLC-xanht40a3sgm
+- course: CRS-3pbkhqmw83b2
+  key: e105e19f84d0
+  excerpt: '**`WorkerMessageFailedEvent` n''est pas un abandon** : `willRetry()` dit s''il reste des ten'
+  verdict: COVERED
+  card: FLC-j3zpssr48e7m
+- course: CRS-3pbkhqmw83b2
+  key: e4110a9e231a
+  excerpt: '**Un message non routé n''émet aucun event Messenger** : seul un middleware le voit.'
+  verdict: COVERED
+  card: FLC-vedqf8qqz8nd
+- course: CRS-3pbkhqmw83b2
+  key: da04650dd517
+  excerpt: '**Un listener peut empêcher le traitement** : `shouldHandle(false)` sur `WorkerMessageRece'
+  verdict: COVERED
+  card: FLC-qebhw7y5navx
+- course: CRS-3sggmeyd01x6
+  key: d72daafb4545
+  excerpt: '**`from()` lève, `tryFrom()` renvoie `null`.** Sur une entrée user, `from()` produit une `'
+  verdict: COVERED
+  card: FLC-h8jcxsh0da3t
+- course: CRS-3sggmeyd01x6
+  key: e3426c6ac3d8
+  excerpt: '**Redéfinir `from()` ou `tryFrom()` sur une enum adossée est une erreur fatale.** Ces meth'
+  verdict: COVERED
+  card: FLC-zt3hkwa4smfj
+  added: '2026-10-24'
+- course: CRS-3sggmeyd01x6
+  key: dac6356f22c0
+  excerpt: '**`cases()` sur une enum adossée renvoie les cas, pas les valeurs.** Pour les valeurs : `a'
+  verdict: COVERED
+  card: FLC-91sn9e53zbe4
+  added: '2026-10-24'
+- course: CRS-3sggmeyd01x6
+  key: 891373d80190
+  excerpt: '**Une enum pure n''a pas de `->value`.** Y accéder ne lève rien : PHP émet un avertissement'
+  verdict: COVERED
+  card: FLC-g7j72emr31qb
+  added: '2026-10-24'
+- course: CRS-3z96cp2s1dka
+  key: b83a7e57e2f5
+  excerpt: '**Normalizer puis encoder**, dans les deux sens — mais l''étape du milieu n''est un array qu'
+  verdict: COVERED
+  card: FLC-50daktpqmkv9
+- course: CRS-3z96cp2s1dka
+  key: 0c120f935fcc
+  excerpt: '**Plusieurs normalizers, un seul encoder** par opération ; le **premier** normalizer qui a'
+  verdict: COVERED
+  card: FLC-7pd9j9cfpxer
+- course: CRS-3z96cp2s1dka
+  key: af06bdb743bc
+  excerpt: '**`"7"` pour un `int`** n''est refusé qu''avec un extractor de types.'
+  verdict: COVERED
+  card: FLC-qqh239qh9bmb
+- course: CRS-3z96cp2s1dka
+  key: b72f1830d787
+  excerpt: '**Une property sans group disparaît** dès qu''un group est demandé — si le normalizer dispo'
+  verdict: COVERED
+  card: FLC-8np2kxet6tdr
+- course: CRS-3z96cp2s1dka
+  key: cc3da12e2d76
+  excerpt: '**`circular_reference_limit` vaut `1` par défaut**, et relever le seuil ne supprime pas l'''
+  verdict: COVERED
+  card: FLC-3jbgvyw551fs
+- course: CRS-3z96cp2s1dka
+  key: 632f5ac05bd7
+  excerpt: '**`groups` à `Default` ne rend rien** : seul `*` reprend les properties sans group.'
+  verdict: COVERED
+  card: FLC-8np2kxet6tdr
+- course: CRS-4x4ec26c9bfc
+  key: 7b84914854b1
+  excerpt: '**`createClient()` prend d''abord les options du kernel, ensuite les headers.**'
+  verdict: COVERED
+  card: FLC-hm92fhh8kahc
+- course: CRS-4x4ec26c9bfc
+  key: f2ed7c8f7747
+  excerpt: '**Un header personnalisé devient `HTTP_` + majuscules + soulignés.**'
+  verdict: COVERED
+  card: FLC-31xxh9cs2ah8
+- course: CRS-4x4ec26c9bfc
+  key: d87afdd7a06e
+  excerpt: '**Les headers de Request sont le cinquième argument** de `request()`.'
+  verdict: COVERED
+  card: FLC-1p1v6dtkr9gv
+- course: CRS-4x4ec26c9bfc
+  key: acfc5d406a1c
+  excerpt: '**`$session->save()` est obligatoire** pour que la valeur soit visible.'
+  verdict: COVERED
+  card: FLC-gsje06kr0vax
+- course: CRS-4x4ec26c9bfc
+  key: ff592f2430c7
+  excerpt: '**`catchExceptions(false)` ne change pas l''application**, seulement ce que le client fait '
+  verdict: COVERED
+  card: FLC-e9bc3qqaq3rt
+- course: CRS-569y6hb7fwj5
+  key: 5a7cbbe1b829
+  excerpt: '**`NotBlank` accepte `0`, `''0''` et `'' ''`.** Il refuse le vide au sens de PHP, sauf ces val'
+  verdict: COVERED
+  card: FLC-7p2ygq8ft3x4
+- course: CRS-569y6hb7fwj5
+  key: 32973d17315f
+  excerpt: '**`All` n''est pas `Collection`.** `All` traite les éléments uniformément ; `Collection` dé'
+  verdict: COVERED
+  card: FLC-q7jafcghbdhm
+  added: '2026-10-24'
+- course: CRS-569y6hb7fwj5
+  key: 5418ac4d20c2
+  excerpt: '**Sans `Sequentially`, toutes les constraints s''exécutent** et cumulent leurs violations s'
+  verdict: COVERED
+  card: FLC-a8nj0yz701k3
+- course: CRS-569y6hb7fwj5
+  key: 98b0f14f5a7b
+  excerpt: '**`DivisibleBy` est rangée en comparaison.**'
+  verdict: COVERED
+  card: FLC-48czzty7gf0n
+- course: CRS-569y6hb7fwj5
+  key: 04d0bdcf3b4b
+  excerpt: '**`Email` seule accepte `null` et `''''`.** L''obligation vient de `NotBlank`.'
+  verdict: COVERED
+  card: FLC-t2dp9na2nv8d
+- course: CRS-569y6hb7fwj5
+  key: 92ef172e3325
+  excerpt: '**`Choice([''a'', ''b''])` lève une exception en 8.0** : `choices:` est nommé.'
+  verdict: COVERED
+  card: FLC-84x56c7s0fpd
+- course: CRS-5gezsra1sp01
+  key: 53787efe26f9
+  excerpt: '**`dispatch()` ne signifie pas « traité » en asynchrone** — et signifie « déjà traité » en'
+  verdict: COVERED
+  card: FLC-7wbtaz9pzty2
+- course: CRS-5gezsra1sp01
+  key: d11891f38b3e
+  excerpt: '**Un message n''implémente aucune interface.** C''est une class ordinaire.'
+  verdict: COVERED
+  card: FLC-c1z191gbhw72
+- course: CRS-5gezsra1sp01
+  key: 6c22415af2ad
+  excerpt: '**Le résultat se lit sur l''Envelope retournée**, via `HandledStamp`, et uniquement en sync'
+  verdict: COVERED
+  card: FLC-xzyrnrayrw6x
+- course: CRS-5gezsra1sp01
+  key: 2b076837a466
+  excerpt: '**Un `DelayStamp` ne retarde rien en synchrone.**'
+  verdict: COVERED
+  card: FLC-pcafe57gwn5q
+- course: CRS-5gezsra1sp01
+  key: 9a7e448dc5b8
+  excerpt: '**Sans handler ni routage, `dispatch()` lève une exception.**'
+  verdict: COVERED
+  card: FLC-rw0fscrydbag
+- course: CRS-5gezsra1sp01
+  key: 84bb7f0d54e4
+  excerpt: '**Les six concepts de la documentation** sont sender, receiver, handler, middleware, envel'
+  verdict: COVERED
+  card: FLC-6pxrjzb7gd9p
+- course: CRS-5pns7nw7612s
+  key: 730d8e01d752
+  excerpt: '**Rien de ce que le client annonce sur le file n''est fiable.** Nom, extension, path, type '
+  verdict: COVERED
+  card: FLC-76q0tk8w87yb
+- course: CRS-5pns7nw7612s
+  key: 4fb025dc4f05
+  excerpt: '**`guessClientExtension()` n''est pas `guessExtension()`.** La première part du type annonc'
+  verdict: COVERED
+  card: FLC-c1x5pe3cy2yx
+- course: CRS-5pns7nw7612s
+  key: 695b69c9ce60
+  excerpt: '**Sans déplacement, il ne reste rien.** Le file temporaire disparaît à la fin de la Reques'
+  verdict: COVERED
+  card: FLC-1g7a96r31q4m
+  added: '2026-10-24'
+- course: CRS-5pns7nw7612s
+  key: a2d2f73728c8
+  excerpt: '**Un file manquant donne 422, pas 400.** Sauf argument nullable, avec défaut, ou typé arra'
+  verdict: COVERED
+  card: FLC-4exbrewq89sy
+- course: CRS-5pns7nw7612s
+  key: a08f7b76d1e4
+  excerpt: '**`move()` lève une exception typée** selon l''erreur de téléversement.'
+  verdict: COVERED
+  card: FLC-4ex4dbz4g344
+- course: CRS-5vz7w1ny9shd
+  key: 87d4d09eba8d
+  excerpt: '**Un index de array absent rend `null` ; une property d''object absente lève.** Les deux dé'
+  verdict: COVERED
+  card: FLC-zggyac2jqrp5
+- course: CRS-5vz7w1ny9shd
+  key: cdf83c4d2d8a
+  excerpt: '**Les crochets ne sont pas décoratifs** : ils choisissent la cible array.'
+  verdict: COVERED
+  card: FLC-8yx8edb6pxyb
+- course: CRS-5vz7w1ny9shd
+  key: bbeee96370d5
+  excerpt: '**`__get()` marche seule ; `__call()` doit être activée.**'
+  verdict: COVERED
+  card: FLC-phm7twmh7tvs
+- course: CRS-5vz7w1ny9shd
+  key: a70d7a442c2e
+  excerpt: '**`isReadable()` appelle le getter** — elle ne fait qu''éviter l''exception.'
+  verdict: COVERED
+  card: FLC-93f6yntrt66r
+- course: CRS-5vz7w1ny9shd
+  key: db8d762a95a8
+  excerpt: '**`?` arrête sur `null`**, pas sur une property absente.'
+  verdict: COVERED
+  card: FLC-8hhsxfx9bb9b
+- course: CRS-6gc45etcssfb
+  key: 64574ecc48ab
+  excerpt: '**`supports()` = `null` n''est pas « redemande-moi »** : c''est l''authentication lazy, et se'
+  verdict: COVERED
+  card: FLC-8h5rmwqyaq22
+- course: CRS-6gc45etcssfb
+  key: b97cdb6be904
+  excerpt: '**`RememberMeBadge` n''active rien à lui seul** : sans `remember_me` ni activation, aucun c'
+  verdict: COVERED
+  card: FLC-y77n59qjct98
+- course: CRS-6gc45etcssfb
+  key: 56231b3b46f1
+  excerpt: '**Un badge non résolu est une panne**, pas une permission silencieuse.'
+  verdict: COVERED
+  card: FLC-meseg71ygjta
+- course: CRS-6gc45etcssfb
+  key: b844e7c536d3
+  excerpt: '**`getUser()` sur un passport sans `UserBadge` lève une `LogicException`** : erreur de pro'
+  verdict: NO_CARD
+  reason: 'not reachable in Symfony 8.0: Passport and SelfValidatingPassport require a UserBadge in their constructors (Passport.php:40, SelfValidatingPassport.php:28), so getUser() cannot meet a passport
+    without one through the public API; the LogicException at Passport.php:52-53 is a defensive branch'
+- course: CRS-6gc45etcssfb
+  key: 8b0d915b7505
+  excerpt: '**`createToken()`, pas `createAuthenticatedToken()`.**'
+  verdict: COVERED
+  card: FLC-9anvb10sczz9
+- course: CRS-6hcrc92xv6vt
+  key: 753ca69da59b
+  excerpt: '**`MockClock` n''avance jamais seule.** Sans `sleep()` ni `modify()`, deux appels à `now()`'
+  verdict: COVERED
+  card: FLC-bhhw8akr7mb5
+- course: CRS-6hcrc92xv6vt
+  key: b5391fefefd3
+  excerpt: '**`sleep()` ne suspend pas l''exécution** dans une `MockClock` : elle déplace l''heure simul'
+  verdict: COVERED
+  card: FLC-sd7qt8z39gbs
+- course: CRS-6hcrc92xv6vt
+  key: 339ad790a19f
+  excerpt: '**`NativeClock` est l''équivalent de `new \DateTimeImmutable()`** — l''intérêt n''est pas ce '
+  verdict: COVERED
+  card: FLC-2jn17mmx319e
+- course: CRS-6hcrc92xv6vt
+  key: 85f884d55f02
+  excerpt: '**`MonotonicClock` sert à mesurer une durée**, pas à connaître la date.'
+  verdict: COVERED
+  card: FLC-ye0t2zt3f79m
+- course: CRS-6hcrc92xv6vt
+  key: 0e392c6cec1a
+  excerpt: '**Deux traits, deux roles** : `ClockAwareTrait` dans le service, `ClockSensitiveTrait` dan'
+  verdict: COVERED
+  card: FLC-nnd6b60g4drq
+- course: CRS-6hcrc92xv6vt
+  key: 79e0aeaf768c
+  excerpt: '**`setClock()` est appelé par l''autowiring** (`#[Required]`), pas par l''autoconfiguration.'
+  verdict: COVERED
+  card: FLC-pffdfpvfbb85
+- course: CRS-6hcrc92xv6vt
+  key: 3c9adce38bb7
+  excerpt: '**`DatePoint` lit `Clock`** : ce n''est pas un `DateTimeImmutable` ordinaire — et c''est ce '
+  verdict: COVERED
+  card: FLC-pyt8bp0nh5th
+- course: CRS-6hcrc92xv6vt
+  key: 657f7af14a22
+  excerpt: '**`mockTime(''+2 days'')` part de l''heure figée**, pas de l''heure réelle.'
+  verdict: COVERED
+  card: FLC-pzx3r6am0pr7
+- course: CRS-6m32av3nr9eh
+  key: 0ddc61d3f705
+  excerpt: '**Une LTS n''a pas une seule durée, elle en a deux.** Trois ans de correction de bugs, **qu'
+  verdict: COVERED
+  card: FLC-462kst2hv5fy
+- course: CRS-6m32av3nr9eh
+  key: 4a0d284c6d39
+  excerpt: '**Le calendrier est fixe, le contenu ne l''est pas.** Mineures en mai et novembre, majeures'
+  verdict: COVERED
+  card: FLC-4bdveywx6ayq
+- course: CRS-6m32av3nr9eh
+  key: 37bdc57582b5
+  excerpt: '**8.0 et 7.4 ont les mêmes fonctionnalités.** Elles ne diffèrent que par les deprecations,'
+  verdict: COVERED
+  card: FLC-vwhsj3z9zv9y
+- course: CRS-6m32av3nr9eh
+  key: f51922602b79
+  excerpt: '**« Le minimum PHP est fixé par majeure » souffre une exception.** Une mineure de Symfony '
+  verdict: COVERED
+  card: FLC-d1v69zn5xh8e
+- course: CRS-6m32av3nr9eh
+  key: 726ddb917adb
+  excerpt: '**Durée de maintenance ≠ délai de migration.** Une version standard est maintenue 8 mois, '
+  verdict: COVERED
+  card: FLC-rsbd14ed4kkf
+- course: CRS-722pscs6e2m0
+  key: 966205bd728e
+  excerpt: '**`readonly` n''est pas `private(set)`.** Une property `readonly` ne peut être écrite **qu'''
+  verdict: COVERED
+  card: FLC-ateqfyrqv1d3
+  added: '2026-10-24'
+- course: CRS-722pscs6e2m0
+  key: bdfbf6010f80
+  excerpt: '**Les property hooks ne sont pas des properties calculées mises en cache.** Le hook `get` '
+  verdict: COVERED
+  card: FLC-zjsgcpt10vqp
+  added: '2026-10-24'
+- course: CRS-722pscs6e2m0
+  key: dbe13276d8d5
+  excerpt: '**`#[\Override]` est 8.3, pas 8.4.** Il vérifie qu''une method surcharge bien quelque chose'
+  verdict: COVERED
+  card: FLC-ct626d88p6c7
+  added: '2026-10-24'
+- course: CRS-7fa2behkxmf9
+  key: 1c126e3c0b67
+  excerpt: '**`SameSite=none` sans `Secure` est rejeté.** Ce n''est pas un avertissement : le cookie n'''
+  verdict: COVERED
+  card: FLC-m9c0rxyaz2dj
+- course: CRS-7fa2behkxmf9
+  key: f55a2b4419e4
+  excerpt: '**`HttpOnly` ne protège pas du CSRF.** Il empêche la lecture par script, pas l''envoi autom'
+  verdict: COVERED
+  card: FLC-swct473zwy2w
+- course: CRS-7fa2behkxmf9
+  key: dbf69a972a1a
+  excerpt: '**Supprimer un cookie n''est pas l''écraser.** `clearCookie()` renvoie le cookie avec une da'
+  verdict: COVERED
+  card: FLC-hfx4p10aptcf
+  added: '2026-10-24'
+- course: CRS-7fa2behkxmf9
+  key: 06f85c2572ae
+  excerpt: '**Un cookie de session n''a pas d''expiration** : il disparaît à la closure du navigateur, e'
+  verdict: COVERED
+  card: FLC-sk50h4dwpmbk
+- course: CRS-7fa2behkxmf9
+  key: 185074d6e0ac
+  excerpt: '**`Cookie::fromString()` n''a pas les mêmes défauts que `create()`.** Sa table interne pose'
+  verdict: COVERED
+  card: FLC-bcdef9sd5jbz
+- course: CRS-7fa2behkxmf9
+  key: efb386374368
+  excerpt: '**`removeCookie()` n''efface rien chez le client.** Son propre docblock le dit : « removes '
+  verdict: COVERED
+  card: FLC-cxqsvb6y4nva
+- course: CRS-7fa2behkxmf9
+  key: c3f75786e08d
+  excerpt: '**Les défauts de `Cookie::create()` sont déjà sûrs.** `httpOnly` vaut `true` et `sameSite`'
+  verdict: COVERED
+  card: FLC-bgxzd03hz55x
+- course: CRS-7zy5ndjgnpk1
+  key: 609fc5035b58
+  excerpt: '**Le statut par défaut est 302, pas 301.** Le permanent se demande explicitement, par le t'
+  verdict: COVERED
+  card: FLC-dkb30nnrfmqs
+- course: CRS-7zy5ndjgnpk1
+  key: 393dc52df6cf
+  excerpt: '**304 n''est pas un statut de redirect valide.** Il est dans la plage 3xx, mais la Response'
+  verdict: COVERED
+  card: FLC-qncr957rrs7p
+- course: CRS-7zy5ndjgnpk1
+  key: 966cac8562c2
+  excerpt: '**`redirectToRoute()` produit un path, pas une URL complète.** Le type de référence n''est '
+  verdict: COVERED
+  card: FLC-jfwpkrv4wv2k
+- course: CRS-7zy5ndjgnpk1
+  key: fcacc7845429
+  excerpt: '**Rediriger vers une URL ne valide pas cette URL.** Une destination construite depuis une '
+  verdict: COVERED
+  card: FLC-7y6bzhe3ntwj
+- course: CRS-7zy5ndjgnpk1
+  key: 7bdb4ce9cd80
+  excerpt: '**Un redirect est une vraie Response HTTP.** Le navigateur repart, l''URL affichée change, '
+  verdict: COVERED
+  card: FLC-a68zce7jg14p
+  added: '2026-10-24'
+- course: CRS-82d40ncj59k9
+  key: a4888126d0ad
+  excerpt: '**Dans `multipart/alternative`, la version préférée est la dernière.**'
+  verdict: COVERED
+  card: FLC-x73mesgmmv9b
+- course: CRS-82d40ncj59k9
+  key: 665894f56f8a
+  excerpt: '**`guessMimeType()` ignore le nom du file** — il lit le contenu.'
+  verdict: COVERED
+  card: FLC-0c9fmgmxvc4f
+- course: CRS-82d40ncj59k9
+  key: 7a25bc28522d
+  excerpt: '**Les arrays de `MimeTypes` sont classés par priority, pas alphabétiquement** — et la prio'
+  verdict: COVERED
+  card: FLC-3zx09xq6ccyp
+- course: CRS-82d40ncj59k9
+  key: e8c0fcda1d45
+  excerpt: '**L''UTF-8 dans la partie locale est refusé pour le sender seul.**'
+  verdict: COVERED
+  card: FLC-q155bf3wbg21
+- course: CRS-8dgxs89hrah0
+  key: 09242533b819
+  excerpt: '**La liste des routes est donnée dans l''ordre d''évaluation, pas alphabétique.** La premièr'
+  verdict: COVERED
+  card: FLC-jjgd2xj2w7y4
+- course: CRS-8dgxs89hrah0
+  key: 4718b57c586e
+  excerpt: '**Deux commands, deux questions différentes.** L''une inventorie les routes, l''autre prend '
+  verdict: COVERED
+  card: FLC-rzegz41n4m5b
+- course: CRS-8dgxs89hrah0
+  key: 1503f2cdb33c
+  excerpt: '**`router:match` prend un path, pas une URL.** Host, schéma et method passent par des opti'
+  verdict: COVERED
+  card: FLC-zm07gsesrmvj
+- course: CRS-8dgxs89hrah0
+  key: dfbd929f116d
+  excerpt: '**Un nom partiel suffit à `debug:router`**, et la recherche ignore la casse.'
+  verdict: COVERED
+  card: FLC-n9kw1qmhn8b5
+- course: CRS-8hwpzyk1hrq9
+  key: e141c3d247c1
+  excerpt: '**Un role passe par un voter**, comme n''importe quel attribute.'
+  verdict: COVERED
+  card: FLC-5aybzgzm6053
+- course: CRS-8hwpzyk1hrq9
+  key: 6f32b71975d7
+  excerpt: '**Tous les voters ne votent pas toujours** : en `affirmative`, le premier « accordé » arrê'
+  verdict: COVERED
+  card: FLC-72333txg4f7c
+- course: CRS-8hwpzyk1hrq9
+  key: 6249417bdd5d
+  excerpt: '**Le statut n''est pas toujours 403** : un anonyme reçoit la Response du point d''entrée — r'
+  verdict: COVERED
+  card: FLC-c5s8ragw0q9g
+- course: CRS-8hwpzyk1hrq9
+  key: 957603790f74
+  excerpt: '**Sans sujet, un voter d''object ne peut rien décider** et s''abstient.'
+  verdict: COVERED
+  card: FLC-ggmqsjt5xpg5
+- course: CRS-8msvfwe13mpb
+  key: ed39daa10d8d
+  excerpt: '**Le nom du field n''est pas décoratif.** Le renommer casse le binding.'
+  verdict: COVERED
+  card: FLC-c83z7m99mcw3
+- course: CRS-8msvfwe13mpb
+  key: 84005c2a2821
+  excerpt: '**Les accessors passent avant la property publique** : un getter l''emporte.'
+  verdict: COVERED
+  card: FLC-pg9vkrp6wfht
+- course: CRS-8msvfwe13mpb
+  key: 418077f2a8e6
+  excerpt: '**Le type omis est deviné par les *guessers***, pas par le type PHP ; à défaut, `TextType`'
+  verdict: COVERED
+  card: FLC-201crxsq1sjk
+- course: CRS-8msvfwe13mpb
+  key: 9bfc1ec71514
+  excerpt: '**`data_class` se devine de l''object passé**, mais seule sa déclaration fait instancier l'''
+  verdict: COVERED
+  card: FLC-s6d1ap0dz3eh
+- course: CRS-8msvfwe13mpb
+  key: 539514c6c91f
+  excerpt: '**Un field sans property correspondante doit être déclaré non mappé.**'
+  verdict: COVERED
+  card: FLC-9y9bja40hzxn
+- course: CRS-8zmj5ntgdhjv
+  key: fa616253f6ae
+  excerpt: '**`%param%` est résolu à la compilation**, `%env(VAR)%` à l''exécution. Une valeur qui doit'
+  verdict: COVERED
+  card: FLC-kbnpt2sv2dss
+- course: CRS-8zmj5ntgdhjv
+  key: b11e58237dbe
+  excerpt: '**Les processeurs se lisent de droite à gauche** : le plus proche de la variable s''appliqu'
+  verdict: COVERED
+  card: FLC-twt69f9g23r2
+- course: CRS-8zmj5ntgdhjv
+  key: a83d56ca53e7
+  excerpt: '**`%%` est un pourcent littéral.** Un pourcent seul ne casse rien ; deux pourcents encadra'
+  verdict: COVERED
+  card: FLC-ha61xvb8r3w0
+- course: CRS-8zmj5ntgdhjv
+  key: 6a53d4be8e0f
+  excerpt: '**Un `bind` inutilisé est une erreur**, pas un réglage sans effet.'
+  verdict: COVERED
+  card: FLC-mrc5mc410b56
+- course: CRS-96c85hjezj1r
+  key: adcdf2724ec5
+  excerpt: '**`--silent` masque les erreurs, il ne les perd pas.** Elles restent écrites par le logger'
+  verdict: COVERED
+  card: FLC-78pvemekmtgn
+- course: CRS-96c85hjezj1r
+  key: 5578b4911c5a
+  excerpt: '**`SHELL_VERBOSITY` fixe le niveau globalement, mais `-q` et `-v` l''emportent sur lui.** L'
+  verdict: COVERED
+  card: FLC-19x0pk158s75
+- course: CRS-96c85hjezj1r
+  key: f1e883b9a0d6
+  excerpt: '**`-q` et `--silent` rendent aussi l''entrée non interactive** : `interact()` n''est pas app'
+  verdict: COVERED
+  card: FLC-t5ttsp9ak1ht
+- course: CRS-96c85hjezj1r
+  key: 68f33b274622
+  excerpt: '**Le niveau passé à `writeln()` est un seuil, pas un filter exact.** Un message marqué `VE'
+  verdict: COVERED
+  card: FLC-hf7cqfsmbv03
+- course: CRS-96c85hjezj1r
+  key: 345ec286fb8a
+  excerpt: '**`writeln()` n''a que deux parameters** : le niveau est le second.'
+  verdict: COVERED
+  card: FLC-y0y74j6z6yg1
+- course: CRS-96w05v20b8w1
+  key: c6e2ab21ff68
+  excerpt: '**La signature statique commence par la valeur, pas par le contexte** ; la confondre lève '
+  verdict: COVERED
+  card: FLC-0df5q8rsy59s
+- course: CRS-96w05v20b8w1
+  key: e7799c44c948
+  excerpt: '**Le retour est ignoré.** Une règle non respectée doit produire une violation, pas un `ret'
+  verdict: COVERED
+  card: FLC-0xjd7fmay6cj
+- course: CRS-96w05v20b8w1
+  key: 49a259a6015d
+  excerpt: '**Un nom de method seul est cherché sur la class validée**, jamais ailleurs.'
+  verdict: COVERED
+  card: FLC-53pz9zp44prb
+- course: CRS-96w05v20b8w1
+  key: cd45e3c3559c
+  excerpt: '**`Callback` est une constraint de class** : elle voit tout l''object, ce qui la rend adapt'
+  verdict: COVERED
+  card: FLC-38wz4rh5cy0n
+- course: CRS-984c2bv3wh09
+  key: c1a9983eb0e0
+  excerpt: '**401 vs 403.** `401 Unauthorized` signifie « je ne sais pas qui vous êtes » — authenticat'
+  verdict: COVERED
+  card: FLC-bhhj8tz5bqg3
+- course: CRS-984c2bv3wh09
+  key: 4bbe5327a6d6
+  excerpt: '**301 vs 302 vs 307/308.** `301` et `308` sont permanents, `302` et `307` sont temporaires'
+  verdict: COVERED
+  card: FLC-bwn83abnd4vh
+- course: CRS-984c2bv3wh09
+  key: 16692ffbf0d6
+  excerpt: '**`303 See Other` n''entre pas dans ce 2×2.** Il demande un `GET` (ou `HEAD`) sur une autre'
+  verdict: COVERED
+  card: FLC-9pwkjh2taxkk
+- course: CRS-984c2bv3wh09
+  key: 2d17816af630
+  excerpt: '**204 vs 200.** `204 No Content` interdit un body ; `200` avec un body vide n''est pas équi'
+  verdict: COVERED
+  card: FLC-mkhjd9pf3m32
+- course: CRS-984c2bv3wh09
+  key: 016b82a4e7f6
+  excerpt: '**`415` et `406` ne parlent pas du même message.** `415 Unsupported Media Type` porte sur '
+  verdict: COVERED
+  card: FLC-0b4wq47q299g
+- course: CRS-984c2bv3wh09
+  key: 61e89dd83dbd
+  excerpt: 'Le header à joindre suit la même séparation, et c''est le détail qui tranche : sur un codag'
+  verdict: COVERED
+  card: FLC-nvm4qms1k2tx
+  added: '2026-10-24'
+- course: CRS-984c2bv3wh09
+  key: c161238a80a6
+  excerpt: '**4xx vs 5xx.** Le premier chiffre attribue la faute : au client ou au serveur.'
+  verdict: COVERED
+  card: FLC-78pn0msbyxq0
+  added: '2026-10-24'
+- course: CRS-9fz4erg0wmbq
+  key: c389b355b339
+  excerpt: '**Le suffixe `Controller` est une convention, pas une constraint** — pas plus qu''étendre u'
+  verdict: COVERED
+  card: FLC-xhgvea5evak2
+- course: CRS-9fz4erg0wmbq
+  key: a8fee58633e2
+  excerpt: '**Le nom généré n''est pas du `snake_case`.** Rien ne découpe le `CamelCase` : `LuckyContro'
+  verdict: COVERED
+  card: FLC-djfxw2rrvv2v
+- course: CRS-9fz4erg0wmbq
+  key: 60062f0d53d9
+  excerpt: '**Sans FrameworkBundle, le nom généré reste celui du component.** Le nom court est un appo'
+  verdict: COVERED
+  card: FLC-566hcghhg9wj
+- course: CRS-9fz4erg0wmbq
+  key: 3c788389cfc2
+  excerpt: '**Une deuxième route sur la même method ne collisionne pas** : elle reçoit un suffixe numé'
+  verdict: COVERED
+  card: FLC-mt06vea3jg1p
+- course: CRS-9fz4erg0wmbq
+  key: ab764f35624c
+  excerpt: '**Le suffixe `Action` n''est plus utilisé, mais il est encore reconnu** : le loader du bund'
+  verdict: COVERED
+  card: FLC-9f7dezgkk347
+- course: CRS-9g4qrgfs7nm4
+  key: ffb01d1c17b4
+  excerpt: '**Un cas d''enum s''écrit `UpperCamelCase`, pas en majuscules.** `InputArgumentMode::IsArray'
+  verdict: COVERED
+  card: FLC-sgkfqtmc07qt
+- course: CRS-9g4qrgfs7nm4
+  key: 49ede29f2606
+  excerpt: '**`Abstract` est un préfixe ; `Interface`, `Trait` et `Exception` sont des suffixes.** Il '
+  verdict: COVERED
+  card: FLC-t7ny1j1r75jg
+- course: CRS-9g4qrgfs7nm4
+  key: 4075eb248302
+  excerpt: '**`As...` et `Map...` ne sont pas interchangeables.** `As...` configure un service (`#[AsC'
+  verdict: COVERED
+  card: FLC-00w816qz6wh8
+- course: CRS-9g4qrgfs7nm4
+  key: 7bc6cd349df1
+  excerpt: '**`all()` devient `getXXXs()`, pas `allXXX()`.** De même `replace()` devient `setXXXs()`. '
+  verdict: COVERED
+  card: FLC-3tts21dfmvcj
+- course: CRS-9g4qrgfs7nm4
+  key: 9716a2d283c8
+  excerpt: '**`setXXX()` et `replaceXXX()` diffèrent par un droit.** Seul le premier peut ajouter ; le'
+  verdict: COVERED
+  card: FLC-wbxabshyxyh7
+- course: CRS-a51fqgqynr2d
+  key: f4ea4520bfee
+  excerpt: '**Tester une valeur démarre la session, comme la lire.** Il n''existe pas de consultation n'
+  verdict: COVERED
+  card: FLC-7r316smhg8bj
+- course: CRS-a51fqgqynr2d
+  key: 7a5c06bfbb4d
+  excerpt: '**Activer la session dans la configuration ne la démarre pas.** Le démarrage est lazy ; un'
+  verdict: COVERED
+  card: FLC-0c57w1xzyetd
+- course: CRS-a51fqgqynr2d
+  key: 38845684bb8d
+  excerpt: '**`invalidate()` n''est pas l''opposé de `migrate()`, elle l''utilise.** Elle vide le stockag'
+  verdict: COVERED
+  card: FLC-7t8mkktjbjqe
+- course: CRS-a51fqgqynr2d
+  key: 60f01ae21ff8
+  excerpt: '**`migrate()` seule ne détruit pas l''ancienne session.** Son argument `$destroy` vaut `fal'
+  verdict: COVERED
+  card: FLC-x72hqt7n8k2z
+- course: CRS-a51fqgqynr2d
+  key: 5f53c71f1f14
+  excerpt: '**La documentation ne mentionne pas le test.** Elle parle de lire et d''écrire ; c''est le c'
+  verdict: COVERED
+  card: FLC-2cxgf6616spx
+- course: CRS-a669jpap5zf2
+  key: 3e1ca422d5f9
+  excerpt: '**Deux methods de rendu, deux return types.** L''une retourne une `Response` prête à être r'
+  verdict: COVERED
+  card: FLC-5etrwqqna5bs
+- course: CRS-a669jpap5zf2
+  key: 09d9e6b3a129
+  excerpt: '**Le 422 n''est pas inconditionnel.** Il faut un statut encore à 200, un parameter `FormInt'
+  verdict: COVERED
+  card: FLC-y161503a2e9s
+- course: CRS-a669jpap5zf2
+  key: 327cadde3ab5
+  excerpt: '**Servir un file télécharge par défaut.** L''affichage dans la page demande de changer expl'
+  verdict: COVERED
+  card: FLC-mgsp68pn28ka
+- course: CRS-a669jpap5zf2
+  key: 190799f72f40
+  excerpt: '**Sans Twig, le rendu lève.** La `LogicException` nomme la method et le package manquant ;'
+  verdict: COVERED
+  card: FLC-v6xj4aeg3ec9
+- course: CRS-ak7sdgcdjb7e
+  key: 9be76952b2aa
+  excerpt: '**Lire un flash le consomme.** Afficher les messages deux fois dans la même page par le pa'
+  verdict: COVERED
+  card: FLC-aqxdyasvjn53
+- course: CRS-ak7sdgcdjb7e
+  key: 08e4bcd8dc13
+  excerpt: '**`set()` n''ajoute pas, elle remplace.** Deux `add()` puis un `set()` ne laissent qu''un me'
+  verdict: COVERED
+  card: FLC-4whp54f3kxzn
+- course: CRS-ak7sdgcdjb7e
+  key: de5d9e5544e7
+  excerpt: '**`clear()` retourne les messages qu''elle efface.** Ignorer sa return value jette les mess'
+  verdict: COVERED
+  card: FLC-r5x1vd6kbbww
+- course: CRS-ak7sdgcdjb7e
+  key: 9ba27efdeabd
+  excerpt: '**`get()` ne vide que son type.** Vider tout demande `all()`.'
+  verdict: COVERED
+  card: FLC-279sk7qk3mz9
+- course: CRS-ak7sdgcdjb7e
+  key: a6f222190161
+  excerpt: '**Poser un flash démarre la session.** Le flash message *est* de la session ; il n''y a pas'
+  verdict: COVERED
+  card: FLC-qmpvz7qwt987
+  added: '2026-10-24'
+- course: CRS-ak7sdgcdjb7e
+  key: 118e755cdebf
+  excerpt: '**Le type du message est libre.** `notice`, `warning`, `error` sont des usages, pas une en'
+  verdict: COVERED
+  card: FLC-fwg3mnmxkjge
+  added: '2026-10-24'
+- course: CRS-am0qe9xa8vzk
+  key: 5d98ec5e4993
+  excerpt: '**L''array d''arguments est la forme recommandée** ; la string transfère l''escaping et la po'
+  verdict: COVERED
+  card: FLC-afd7y03jwtv5
+- course: CRS-am0qe9xa8vzk
+  key: 21586d9f9617
+  excerpt: '**Le délai par défaut est de 60 secondes**, et sur un process asynchrone il faut appeler `'
+  verdict: COVERED
+  card: FLC-1ppn91nts4vh
+- course: CRS-am0qe9xa8vzk
+  key: f3e569860c0a
+  excerpt: '**`disableOutput()` interdit aussi `setIdleTimeout()`.**'
+  verdict: COVERED
+  card: FLC-e7drrh9xfx3m
+- course: CRS-am0qe9xa8vzk
+  key: bfd8968b251b
+  excerpt: '**Pour retirer une variable d''environment héritée, il faut la mettre à `false`** — passer '
+  verdict: COVERED
+  card: FLC-e6z27j57z1w6
+- course: CRS-am0qe9xa8vzk
+  key: 32f147bc41e6
+  excerpt: '**`stop()` commence par `SIGTERM`** ; `SIGKILL` n''arrive qu''à l''échéance.'
+  verdict: COVERED
+  card: FLC-r8gke48ra8dc
+- course: CRS-am0qe9xa8vzk
+  key: 5948c84950f1
+  excerpt: '**`wait()` vérifie le délai**, mais `isRunning()` et `getOutput()` non.'
+  verdict: COVERED
+  card: FLC-6d7d31nsnpg2
+- course: CRS-awb7sd999c5j
+  key: ba047723d535
+  excerpt: '**Le hash n''est pas dans `security-core`** : il a son propre package, `password-hasher` — '
+  verdict: COVERED
+  card: FLC-4gw9y2mthcz4
+- course: CRS-awb7sd999c5j
+  key: 95272fb9952d
+  excerpt: '**La protection CSRF n''est pas liée à l''authentication** : aucun firewall requis. Mais `se'
+  verdict: COVERED
+  card: FLC-0ftsn2cka1ym
+- course: CRS-awb7sd999c5j
+  key: bb704502f3e7
+  excerpt: '**Seul `password-hasher` s''installe vraiment seul.**'
+  verdict: COVERED
+  card: FLC-qqssn7t9m6qg
+- course: CRS-awb7sd999c5j
+  key: 2610f10b3766
+  excerpt: '**`security-core` ne dépend pas de HTTP.** Firewalls et authenticators appartiennent à `se'
+  verdict: COVERED
+  card: FLC-w9fhy2zz6fqy
+- course: CRS-ax2v94pgbk0g
+  key: 5ec00b41478d
+  excerpt: '**Sans `Valid` ni `Cascade`, l''object imbriqué est ignoré** — une validation qui passe à t'
+  verdict: COVERED
+  card: FLC-cy846z54y072
+- course: CRS-ax2v94pgbk0g
+  key: a859c9182cbf
+  excerpt: '**`Valid` n''impose pas la présence de l''object** : `null` passe.'
+  verdict: COVERED
+  card: FLC-qp6v48ndhqtq
+- course: CRS-ax2v94pgbk0g
+  key: 02cd929b348b
+  excerpt: '**Redéclarer une constraint dans la fille ne remplace pas celle du parent** : les deux s''a'
+  verdict: COVERED
+  card: FLC-9gwdynzn9n19
+- course: CRS-ax2v94pgbk0g
+  key: ae75ffcf43c1
+  excerpt: '**`loadValidatorMetadata()` est statique** ; non statique, elle lève une `MappingException'
+  verdict: COVERED
+  card: FLC-j1f566z33gwx
+- course: CRS-b2pn9zz55e4n
+  key: d8cd76f37b16
+  excerpt: '`PRE_SUBMIT` reçoit la donnée **brute** : strings, arrays, files téléversés — pas d''object'
+  verdict: COVERED
+  card: FLC-gg8d18g1cqqv
+- course: CRS-b2pn9zz55e4n
+  key: 2f6af5da9d22
+  excerpt: '**À `SUBMIT`, `add()` ne lève rien**, mais le field ajouté n''est jamais soumis ; l''excepti'
+  verdict: COVERED
+  card: FLC-e83vsz7hvkpp
+- course: CRS-b2pn9zz55e4n
+  key: 8741f1e1445d
+  excerpt: '**`POST_SUBMIT` porte la view data** ; le modèle est sur le form.'
+  verdict: COVERED
+  card: FLC-9km1c93000fw
+- course: CRS-b2pn9zz55e4n
+  key: bc23b679b7dd
+  excerpt: 'Dans `PRE_SET_DATA`, **`$form->getData()` lève une exception** : lire `$event->getData()`.'
+  verdict: COVERED
+  card: FLC-edb6sqckb700
+- course: CRS-b2pn9zz55e4n
+  key: cfdfc0e6adee
+  excerpt: La validation s'exécute sur le `POST_SUBMIT` de la **racine**, pas avant.
+  verdict: COVERED
+  card: FLC-jm6tf752qz1a
+- course: CRS-b2pn9zz55e4n
+  key: 9ffdc53c73e8
+  excerpt: Un field dépendant s'ajoute au **parent**.
+  verdict: COVERED
+  card: FLC-6zft820psr5y
+- course: CRS-b4g5s2asb9ye
+  key: 8a3fc2afdc11
+  excerpt: '**Un tag n''a d''effet que si quelque chose le lit.** Taguer un service qu''aucune passe ne c'
+  verdict: COVERED
+  card: FLC-tv2t8a6yt50g
+- course: CRS-b4g5s2asb9ye
+  key: be9c479c9242
+  excerpt: '**`priority` haute = appelé en premier**, comme pour les event listeners.'
+  verdict: COVERED
+  card: FLC-r36r017e5n7f
+- course: CRS-b4g5s2asb9ye
+  key: 1cf1c93c8160
+  excerpt: '**L''iterator est lazy** : les services ne sont pas construits tant qu''on n''itère pas.'
+  verdict: COVERED
+  card: FLC-535fv5hf9amt
+- course: CRS-b4g5s2asb9ye
+  key: 390d0e67dc91
+  excerpt: '**Un iterator sans `index_by` a des keys entières**, même si les services déclarent un `in'
+  verdict: COVERED
+  card: FLC-87kstrsxp1we
+- course: CRS-b5nj93xzz10b
+  key: 65e634d84a75
+  excerpt: '**La closure du form rend aussi ce qui n''a pas été rendu**, token CSRF compris.'
+  verdict: COVERED
+  card: FLC-yvey5gkx1zhd
+- course: CRS-b5nj93xzz10b
+  key: 8d10cfb9c87d
+  excerpt: '**Un field déjà rendu ne se rend pas une seconde fois** : exception.'
+  verdict: COVERED
+  card: FLC-pqbvxpmjsf3v
+- course: CRS-b5nj93xzz10b
+  key: 77c6d7d739eb
+  excerpt: '**`form()` règle aussi action et method**, par le `form_start()` de son block.'
+  verdict: COVERED
+  card: FLC-v32kwemxjxbn
+- course: CRS-b5nj93xzz10b
+  key: '278428681107'
+  excerpt: '**Les functions de rendu prennent le field, pas son nom.**'
+  verdict: COVERED
+  card: FLC-tfvemzsekjqy
+- course: CRS-b7wpm5anh7c6
+  key: 1d9889c0afec
+  excerpt: '**Un parameter est résolu à la compilation, une variable d''environment à l''exécution.**'
+  verdict: COVERED
+  card: FLC-kbnpt2sv2dss
+- course: CRS-b7wpm5anh7c6
+  key: d4a8eac0bfb3
+  excerpt: '**La vraie variable d''environment gagne** contre les files `.env`, sauf avec `overrideExis'
+  verdict: COVERED
+  card: FLC-nb0mh2t8j7r9
+- course: CRS-b7wpm5anh7c6
+  key: 23c21d06ad19
+  excerpt: '**`.env.local` ne s''applique pas en `test`.**'
+  verdict: COVERED
+  card: FLC-2g536z94cx54
+- course: CRS-b7wpm5anh7c6
+  key: 73dd9202d9d7
+  excerpt: '**`.env.<env>` l''emporte sur `.env.local`** : le dernier file chargé gagne.'
+  verdict: COVERED
+  card: FLC-1c5fvxc50w4s
+- course: CRS-b7wpm5anh7c6
+  key: dd15b6d73407
+  excerpt: '**Avec un `.env.local.php`, les files `.env` ne sont plus lus.**'
+  verdict: COVERED
+  card: FLC-y6sxbef8yvmk
+- course: CRS-b7wpm5anh7c6
+  key: 8685d3470f0d
+  excerpt: '**`.env` est relu à chaque Request** — aucun cache à vider.'
+  verdict: COVERED
+  card: FLC-z4e92xkwtnm1
+- course: CRS-b7wpm5anh7c6
+  key: f7c26e03ce64
+  excerpt: '**Les processeurs se chaînent de droite à gauche.**'
+  verdict: COVERED
+  card: FLC-79d8bg4xqgk6
+- course: CRS-b7wpm5anh7c6
+  key: 5667ca853fb3
+  excerpt: '**`%%` pour un `%` littéral.**'
+  verdict: COVERED
+  card: FLC-kbnpt2sv2dss
+- course: CRS-brn6frfqpxxj
+  key: ed4712aaf314
+  excerpt: '**La method d''exécution doit retourner un int.** Ne rien retourner lève une `TypeError`, q'
+  verdict: COVERED
+  card: FLC-jv7m5gaatn96
+- course: CRS-brn6frfqpxxj
+  key: 42d8093eee93
+  excerpt: '**`SUCCESS` vaut 0**, comme la convention Unix ; un code au-delà de 255 sort à 255.'
+  verdict: COVERED
+  card: FLC-cm8xbfk6cxw5
+- course: CRS-brn6frfqpxxj
+  key: 3a979b67deff
+  excerpt: '**Un `cron` n''est pas un mode non interactif** : sans `-n`, `interact()` tourne.'
+  verdict: COVERED
+  card: FLC-6qbmkcgn7de3
+- course: CRS-brn6frfqpxxj
+  key: a54dc8ceb56e
+  excerpt: '**`-q` coupe aussi l''interaction**, pas seulement l''output.'
+  verdict: COVERED
+  card: FLC-3xmbmek68vk3
+- course: CRS-bshgpd44ykba
+  key: 06e70753dc6f
+  excerpt: '**Le conflit n''est pas résolu automatiquement.** Sans `insteadof`, c''est une erreur fatale'
+  verdict: COVERED
+  card: FLC-2yy6sbbm560h
+  added: '2026-10-24'
+- course: CRS-bshgpd44ykba
+  key: c525cde763b4
+  excerpt: '**`as` n''écarte rien.** Il ajoute un nom ; l''original reste. Utiliser `as` seul face à un '
+  verdict: COVERED
+  card: FLC-k9c7n0brvb1c
+  added: '2026-10-24'
+- course: CRS-bshgpd44ykba
+  key: 9c411ced8189
+  excerpt: '**Un trait n''est pas un type.** `$x instanceof Timestampable` compile, mais rend `false` m'
+  verdict: COVERED
+  card: FLC-kggeyx7153s4
+  added: '2026-10-24'
+- course: CRS-bthv5xmh5wea
+  key: ada60a0ec6ad
+  excerpt: '`Default` dans une séquence de class : **exception**, pas récursion — déclarer avec le **n'
+  verdict: COVERED
+  card: FLC-rstx3zwpz28w
+- course: CRS-bthv5xmh5wea
+  key: f98b00960d29
+  excerpt: Valider explicitement un group de la séquence, ou le nom de la class, **ignore** la séquen
+  verdict: COVERED
+  card: FLC-h55rz80mbnvr
+- course: CRS-bthv5xmh5wea
+  key: b4aa882ea23f
+  excerpt: 'Un array **imbriqué** group des groups dans une même étape ; à plat, chacun est sa propre '
+  verdict: COVERED
+  card: FLC-kj2rr5x8r57k
+- course: CRS-bthv5xmh5wea
+  key: c11633cb11a2
+  excerpt: La séquence s'arrête à la **première étape** en échec, pas à la première constraint.
+  verdict: COVERED
+  card: FLC-c77de4fdxhm5
+- course: CRS-cb51hcng9dh5
+  key: 10a7d887d717
+  excerpt: '**Une command invocable n''étend rien.** L''ancienne obligation d''hériter de `Command` n''exi'
+  verdict: COVERED
+  card: FLC-czhm5c0vv1sv
+- course: CRS-cb51hcng9dh5
+  key: 6c32bb4a5272
+  excerpt: '**`__invoke()` doit retourner un `int`.** C''est l''exit code du process.'
+  verdict: COVERED
+  card: FLC-1geh3bkk61mh
+- course: CRS-cb51hcng9dh5
+  key: 419b6cce7872
+  excerpt: '**`#[AsCommand]` exige un `name`.** C''est le seul parameter obligatoire ; `description`, `'
+  verdict: COVERED
+  card: FLC-9vr6c0s8t70h
+- course: CRS-cb51hcng9dh5
+  key: 3be5d836dc22
+  excerpt: '**Sans attribute, une sous-classe de `Command` est quand même enregistrée** ; une class in'
+  verdict: COVERED
+  card: FLC-vd3vjejy3rw2
+- course: CRS-cb51hcng9dh5
+  key: 7177bd4fb99c
+  excerpt: '**`hidden: true` retire la command de `list`, pas de l''application.**'
+  verdict: COVERED
+  card: FLC-6s9k6n1xxm23
+- course: CRS-cb51hcng9dh5
+  key: 9de0e024b035
+  excerpt: '**Interagir ne suppose plus d''étendre `Command`** : `#[Ask]` et `#[Interact]`. Seul `initi'
+  verdict: COVERED
+  card: FLC-s4ggysk12n90
+- course: CRS-cj36gys6vatx
+  key: 78a39ee8f2d0
+  excerpt: '**`transform()` s''exécute quand les données sont posées, pas au rendu.**'
+  verdict: COVERED
+  card: FLC-ks1g8r7f9jtk
+- course: CRS-cj36gys6vatx
+  key: 0dca8554e0ca
+  excerpt: '**Le sens des deux methods se lit depuis le modèle.** L''une va vers la vue, l''autre fait l'
+  verdict: COVERED
+  card: FLC-tta4ns1abpfy
+- course: CRS-cj36gys6vatx
+  key: 3f8ace8a590d
+  excerpt: '**Modèle et vue ne s''attachent pas au même endroit**, et les transformers de modèle s''empi'
+  verdict: COVERED
+  card: FLC-hknj332kn7e0
+- course: CRS-cj36gys6vatx
+  key: 56691b2d0b51
+  excerpt: '**Un échec se signale par l''exception dédiée** ; tout autre type sort de `submit()`. Le me'
+  verdict: COVERED
+  card: FLC-mz4jgevqcjx6
+- course: CRS-cj36gys6vatx
+  key: 51bf7132d8f7
+  excerpt: '**Pour `null`, la valeur rendue suit le type cible** : `''''` pour une string.'
+  verdict: COVERED
+  card: FLC-wzbgmr6tbh3q
+- course: CRS-cj36gys6vatx
+  key: 05f1719dd9a2
+  excerpt: '**L''exemple documenté des tags échoue sur `null`** : `TypeError`.'
+  verdict: COVERED
+  card: FLC-bme3m2zcn4f6
+  added: '2026-10-24'
+- course: CRS-ckdp50w2dmy4
+  key: c429da6cf95f
+  excerpt: '**Aucune interface à implémenter**, ni pour le message ni pour le handler.'
+  verdict: COVERED
+  card: FLC-c1z191gbhw72
+- course: CRS-ckdp50w2dmy4
+  key: 45b86eab2f76
+  excerpt: '**Le message est apparié par le type de l''argument** — union et interface comprises ; sans'
+  verdict: COVERED
+  card: FLC-jjm1bjaq5tsx
+- course: CRS-ckdp50w2dmy4
+  key: 392054df2b7b
+  excerpt: '**Plusieurs handlers sont légitimes** et tous s''exécutent ; `priority` les ordonne.'
+  verdict: COVERED
+  card: FLC-95kez22k1bhm
+- course: CRS-ckdp50w2dmy4
+  key: 4a93d5cea2b7
+  excerpt: '**Une property promue ajoutée casse les messages déjà en file**, même avec un défaut.'
+  verdict: COVERED
+  card: FLC-q92tmn51afjs
+- course: CRS-ckdp50w2dmy4
+  key: 924b0319817a
+  excerpt: '**Ne pas transporter d''object chargé** : un identifier, et un rechargement dans le handler'
+  verdict: COVERED
+  card: FLC-jbj6kppmktaw
+- course: CRS-cpvcczhj7bzx
+  key: 36a797122f7d
+  excerpt: '**Un field de file n''est presque jamais mappé** — et le mapper par erreur n''échoue pas : l'
+  verdict: COVERED
+  card: FLC-2n2exead315n
+- course: CRS-cpvcczhj7bzx
+  key: 3fb52e2bdca3
+  excerpt: '**Un field non mappé n''arrive pas dans l''object**, et vaut `null` quand rien n''a été envoy'
+  verdict: COVERED
+  card: FLC-pd6y0d5ts52s
+- course: CRS-cpvcczhj7bzx
+  key: 314096e52169
+  excerpt: '**Les constraints d''un field non mappé se déclarent sur le field.**'
+  verdict: COVERED
+  card: FLC-vxjn2kn36x8d
+- course: CRS-cpvcczhj7bzx
+  key: 1df39dc29154
+  excerpt: '**`extensions` sans le component Mime** : `LogicException`.'
+  verdict: COVERED
+  card: FLC-rhc8pkmc678z
+- course: CRS-d0nvctfthnrp
+  key: df7dee0f5c67
+  excerpt: '**`--no-dev` et `--optimize-autoloader` répondent à deux besoins différents** : ne pas ins'
+  verdict: COVERED
+  card: FLC-k4xbtfdew9m4
+- course: CRS-d0nvctfthnrp
+  key: ca68e41556de
+  excerpt: '**`cache:clear` s''exécute avec `APP_ENV=prod`**, pas avec l''environment courant.'
+  verdict: COVERED
+  card: FLC-5h8ttf1xfrs8
+- course: CRS-d0nvctfthnrp
+  key: c813344e55a5
+  excerpt: '**`.env.local.php` l''emporte** sur les autres files de configuration.'
+  verdict: COVERED
+  card: FLC-y6sxbef8yvmk
+- course: CRS-d0nvctfthnrp
+  key: 45195267c7f7
+  excerpt: '**`kernel.project_dir` vient de l''emplacement du `composer.json`** ; sans lui, le director'
+  verdict: COVERED
+  card: FLC-6ms8mfn8w1dw
+- course: CRS-d0nvctfthnrp
+  key: 3edd46d0e7ee
+  excerpt: '**`--no-dev` ne retire pas `dump()`** d''une application FrameworkBundle : VarDumper arrive'
+  verdict: COVERED
+  card: FLC-p90betbvqv1q
+- course: CRS-d0nvctfthnrp
+  key: 13bc9e4ef10e
+  excerpt: '**Aucun outil n''est prescrit** : FTP, repository versionné, PaaS ou script de deployment s'
+  verdict: COVERED
+  card: FLC-x4g4nnxmfe23
+- course: CRS-d235sja3h7y2
+  key: a4ee134fb7e6
+  excerpt: '**`buildViolation()` seule n''enregistre rien.** Sans `addViolation()` au bout de la chaîne'
+  verdict: COVERED
+  card: FLC-crtrxfbtxbrw
+- course: CRS-d235sja3h7y2
+  key: 0ed0a913adb4
+  excerpt: '**`addViolation()` existe des deux côtés** : sur le contexte, elle enregistre directement '
+  verdict: COVERED
+  card: FLC-4qgtvf2t0y44
+- course: CRS-d235sja3h7y2
+  key: 4d1cb1e66e47
+  excerpt: '**Sans `atPath()`, une violation de portée class reste attachée à l''object** et le form l'''
+  verdict: COVERED
+  card: FLC-38wz4rh5cy0n
+- course: CRS-d235sja3h7y2
+  key: 568dcb881d69
+  excerpt: '**`atPath()` déplace le path, pas la valeur fautive.**'
+  verdict: COVERED
+  card: FLC-0xewpetw99ks
+- course: CRS-d235sja3h7y2
+  key: fb5eea996ae7
+  excerpt: '**Un validator maison doit ignorer `null` lui-même.**'
+  verdict: COVERED
+  card: FLC-5n69katpvnnd
+- course: CRS-d25bvr0097py
+  key: 6697917a6f27
+  excerpt: Une passe manipule des **definitions**, jamais des instances.
+  verdict: COVERED
+  card: FLC-jppqgfxy1mdf
+- course: CRS-d25bvr0097py
+  key: 28b95fe40d2b
+  excerpt: Le type par défaut est `TYPE_BEFORE_OPTIMIZATION`, priority `0`.
+  verdict: COVERED
+  card: FLC-3f3jxjqynjmj
+- course: CRS-d25bvr0097py
+  key: 4a781047417b
+  excerpt: 'Câbler un service privé **après** `TYPE_REMOVE` échoue : il a déjà disparu — et l''erreur n'
+  verdict: COVERED
+  card: FLC-6pt8500bshxv
+- course: CRS-d25bvr0097py
+  key: e18e27558a56
+  excerpt: Priority haute = **plus tôt**, à type égal — au-delà de 100, avant l'autoconfiguration.
+  verdict: COVERED
+  card: FLC-aqpq5dwm1hhf
+- course: CRS-d25bvr0097py
+  key: 3feedf3444da
+  excerpt: Le noyau-passe tourne à -10000, après les passes de bundle de son étape.
+  verdict: COVERED
+  card: FLC-knjkvq5y9zbc
+- course: CRS-d25bvr0097py
+  key: c0698065ef43
+  excerpt: Une passe s'exécute **une fois**, à la compilation — jamais par Request.
+  verdict: COVERED
+  card: FLC-jdbx2683a0a7
+- course: CRS-d25bvr0097py
+  key: 7860b43e2eec
+  excerpt: '`findTaggedServiceIds()` retourne une **liste** d''attributes par service, pas un seul jeu.'
+  verdict: COVERED
+  card: FLC-mztvjb4y6nmc
+- course: CRS-d5ffd8b704zs
+  key: 4406638c838d
+  excerpt: La documentation dit « toujours un array » ; le type est `iterable`.
+  verdict: COVERED
+  card: FLC-jzgj6r6sdtnb
+- course: CRS-d5ffd8b704zs
+  key: 1dd403f21d8e
+  excerpt: Un array vide passe la main ; si aucun resolver ne fournit de valeur, une `RuntimeExceptio
+  verdict: COVERED
+  card: FLC-59ts97z4vyjm
+- course: CRS-d5ffd8b704zs
+  key: 260ea973fed3
+  excerpt: Le premier resolver qui fournit une valeur **arrête** la chaîne de resolvers.
+  verdict: COVERED
+  card: FLC-75rcpkjjxm83
+  added: '2026-10-24'
+- course: CRS-d5ffd8b704zs
+  key: 73708fb25f13
+  excerpt: Une valeur invalide dans l'URL donne **404**, pas 400.
+  verdict: COVERED
+  card: FLC-a8y6wrrzbjpz
+- course: CRS-d5ffd8b704zs
+  key: df46b4491914
+  excerpt: '`#[MapQueryParameter]` échoue en **404**, `#[MapRequestPayload]` en **422**.'
+  verdict: COVERED
+  card: FLC-7tcj673c27m3
+- course: CRS-d5ffd8b704zs
+  key: 861916b96eef
+  excerpt: 'Un JSON malformé donne **400**, pas 422 : il n''y a rien à valider.'
+  verdict: COVERED
+  card: FLC-snnz88eh57kp
+  added: '2026-10-24'
+- course: CRS-d5ffd8b704zs
+  key: 94990a431272
+  excerpt: Un resolver ciblé ne s'exécute pas sans son attribute.
+  verdict: COVERED
+  card: FLC-a134w160sdtf
+  added: '2026-10-24'
+- course: CRS-d5ffd8b704zs
+  key: bffd671ffa55
+  excerpt: '`SessionInterface $session = null` est déprécié en PHP 8.4.'
+  verdict: COVERED
+  card: FLC-tfpakywaf45a
+- course: CRS-dab7evz3fe29
+  key: c1e256488304
+  excerpt: '**`q=0` refuse explicitement.** `Accept: */*;q=0.8, image/png;q=0` signifie « tout sauf du'
+  verdict: COVERED
+  card: FLC-6ehsc6k7qkjf
+- course: CRS-dab7evz3fe29
+  key: f715ff1f3ee9
+  excerpt: '**Sans `q`, la valeur est `1.0`** — pas `0`, et pas une pondération implicite par la posit'
+  verdict: COVERED
+  card: FLC-61bnm345skcj
+- course: CRS-dab7evz3fe29
+  key: e02c44052290
+  excerpt: '**Oublier `Vary` est le bug de cache classique** et n''a aucun symptôme localement, où il n'
+  verdict: COVERED
+  card: FLC-6vn3593gvj5f
+- course: CRS-dab7evz3fe29
+  key: db1b5d5a5f44
+  excerpt: '**`Accept` est une préférence, pas une constraint.** Un serveur peut répondre autre chose '
+  verdict: COVERED
+  card: FLC-dp1fhxx0me34
+- course: CRS-depbnbc0g82x
+  key: 4de1dfc0b8c8
+  excerpt: '**« RFC 9110 remplace RFC 2616 » est un raccourci.** 2616 a d''abord été éclatée en 7230-72'
+  verdict: COVERED
+  card: FLC-grhnmtks7tcg
+- course: CRS-depbnbc0g82x
+  key: a0a5926f1666
+  excerpt: '**Une ressource n''est pas sa représentation, et ce n''est pas un détail de vocabulaire.** `'
+  verdict: COVERED
+  card: FLC-yj2yrj91zwx2
+- course: CRS-depbnbc0g82x
+  key: 2b7121bbd536
+  excerpt: '**Les properties des methods — sûre, idempotente — sont bien définies par RFC 9110 (§9.2),'
+  verdict: COVERED
+  card: FLC-2sq3a5cdq266
+- course: CRS-depbnbc0g82x
+  key: 27253a3fb534
+  excerpt: '**RFC 9110 ne décrit aucune syntaxe de trame.** Le codage `chunked` ou la ligne de Request'
+  verdict: COVERED
+  card: FLC-kmqcsa6pwgm8
+- course: CRS-dfyab4kpcapw
+  key: 24c8a77173e5
+  excerpt: '**L''interpolation ne fonctionne qu''entre guillemets doubles.** En guillemets simples, la m'
+  verdict: COVERED
+  card: FLC-he6t8kt6dpva
+- course: CRS-dfyab4kpcapw
+  key: b383dff3c8ab
+  excerpt: '**Le choix des guillemets ne coûte rien en performance.**'
+  verdict: COVERED
+  card: FLC-2qm9e1xc0nds
+- course: CRS-dfyab4kpcapw
+  key: 4892f5f67b5e
+  excerpt: '**`\n` est un saut de ligne même entre guillemets simples**, à l''inverse de PHP.'
+  verdict: COVERED
+  card: FLC-mmt864pgsvc0
+- course: CRS-dfyab4kpcapw
+  key: 5803811f8177
+  excerpt: '**L''operator d''addition ne concatène pas.**'
+  verdict: COVERED
+  card: FLC-eq83kvv550kj
+- course: CRS-dpbpbgwjey5c
+  key: 806433eec96c
+  excerpt: '**Le troisième argument n''a pas le même sens dans les deux functions** : path relatif pour'
+  verdict: COVERED
+  card: FLC-zmzkvnnnmpk8
+- course: CRS-dpbpbgwjey5c
+  key: 1bf7a99d3289
+  excerpt: '**La function de path peut retourner une URL absolue**, quand la route exige un autre sché'
+  verdict: COVERED
+  card: FLC-gmr3e6ms0rw6
+- course: CRS-dpbpbgwjey5c
+  key: 04e7458b966a
+  excerpt: '**Un parameter absent de la route part en query string** — une faute de frappe ne produit '
+  verdict: COVERED
+  card: FLC-rrt3hj10ddp2
+- course: CRS-dpbpbgwjey5c
+  key: 5403f358491e
+  excerpt: '**`absolute_url()` prend un path, pas un route name.**'
+  verdict: COVERED
+  card: FLC-7ehtmajtpjr8
+- course: CRS-e3j0d3a8ndrf
+  key: c72c3690a634
+  excerpt: '**`private` est le défaut de Symfony.** Une Response n''est pas mise en cache partagé tant '
+  verdict: COVERED
+  card: FLC-92b1m783f7pc
+- course: CRS-e3j0d3a8ndrf
+  key: 57816c56dbe3
+  excerpt: '**`s-maxage` prime sur `max-age`, mais seulement pour les caches partagés.**'
+  verdict: COVERED
+  card: FLC-b6aztgp7r88m
+- course: CRS-e3j0d3a8ndrf
+  key: e51117e38cc7
+  excerpt: '**Négocier sans `Vary` casse le cache.** Toute Response qui dépend d''un header de Request '
+  verdict: COVERED
+  card: FLC-p4tqdwqy528s
+- course: CRS-e3j0d3a8ndrf
+  key: a5217dedd701
+  excerpt: '**`no-cache` ne veut pas dire « ne pas stocker ».** Il impose une revalidation avant chaqu'
+  verdict: COVERED
+  card: FLC-17ebjqxfdy6d
+- course: CRS-e3j0d3a8ndrf
+  key: 694f3ec246d1
+  excerpt: '**`isNotModified()` sur un `POST` renvoie `false`.** La garde de method passe avant la com'
+  verdict: COVERED
+  card: FLC-p1bv1d3zrvaa
+- course: CRS-e3j0d3a8ndrf
+  key: 67e012f48e36
+  excerpt: '**`setSharedMaxAge()` rend la Response publique** — mais la doc recommande `setPublic()` +'
+  verdict: COVERED
+  card: FLC-xzqkx832q5re
+- course: CRS-e3j0d3a8ndrf
+  key: d130defbc4e1
+  excerpt: '**`max-age` n''est pas « pour les caches privés ».** Un cache partagé l''utilise dès que `s-'
+  verdict: COVERED
+  card: FLC-b6aztgp7r88m
+- course: CRS-e4y7gtn5k4f0
+  key: f8a9a34d4026
+  excerpt: '**La règle d''avant 8.1 est la Response instinctive.** « Une constant d''interface ne se sur'
+  verdict: COVERED
+  card: FLC-rs1m1pw77eb7
+- course: CRS-e4y7gtn5k4f0
+  key: 0d95dd10b1ad
+  excerpt: '**Déclarer une property n''est pas porter un état.** L''interface impose un contrat d''accès '
+  verdict: COVERED
+  card: FLC-1matv67tch5r
+  added: '2026-10-24'
+- course: CRS-e4y7gtn5k4f0
+  key: b8d6e2ad066d
+  excerpt: '**`readonly` ne satisfait pas un `set`.** Le réflexe « readonly est une property publique,'
+  verdict: COVERED
+  card: FLC-q6ac4pm4sm1y
+  added: '2026-10-24'
+- course: CRS-e5astysks0ty
+  key: 90b164837281
+  excerpt: '**Un worker exécute le code chargé à son démarrage** : sans redémarrage, un deployment ne '
+  verdict: COVERED
+  card: FLC-tczfeeq5ygnr
+- course: CRS-e5astysks0ty
+  key: 511b1b7ffe11
+  excerpt: '**`messenger:stop-workers` ne tue pas** : elle demande un arrêt après le message courant.'
+  verdict: COVERED
+  card: FLC-fgsgvjya3d90
+- course: CRS-e5astysks0ty
+  key: 12c60bdb1ab1
+  excerpt: '**Plusieurs transports : priority stricte**, pas de tourniquet.'
+  verdict: COVERED
+  card: FLC-81nqk2pezbtw
+- course: CRS-e5astysks0ty
+  key: 19f29c30453a
+  excerpt: '**Les services sont partagés entre messages**, sauf ceux qui implémentent `ResetInterface`'
+  verdict: COVERED
+  card: FLC-gye0mvg1vk1k
+- course: CRS-e5astysks0ty
+  key: d3db0e2b30d1
+  excerpt: '**Les limites ne sont pas un pansement** : elles sont la façon prévue d''exploiter un worke'
+  verdict: COVERED
+  card: FLC-kt2fa248ea28
+  added: '2026-10-24'
+- course: CRS-e7m4xbcxegyc
+  key: 81d465113004
+  excerpt: '**`use` capture à la definition, pas à l''appel.** Modifier la variable après coup ne chang'
+  verdict: COVERED
+  card: FLC-e59nfw3a5krd
+  added: '2026-10-24'
+- course: CRS-e7m4xbcxegyc
+  key: 75c0abc9c64c
+  excerpt: '**Une function fléchée ne peut pas capturer par référence.** Il n''y a pas de syntaxe `fn ('
+  verdict: COVERED
+  card: FLC-ypkjgzcsjn5v
+- course: CRS-e7m4xbcxegyc
+  key: 50d38b89f212
+  excerpt: '**`static function` ≠ method statique.** Sur une closure, `static` signifie « non liée à `'
+  verdict: COVERED
+  card: FLC-1qbj8sb3scg4
+  added: '2026-10-24'
+- course: CRS-e7m4xbcxegyc
+  key: 76340e8c2d22
+  excerpt: '**Une closure est un object.** `$closure instanceof \Closure` est vrai, et le type `callab'
+  verdict: COVERED
+  card: FLC-xtrdcvjy4swp
+  added: '2026-10-24'
+- course: CRS-ea3twt9jcan2
+  key: d3291bbfa600
+  excerpt: '**Les parameters de route s''apparient par leur nom, jamais par leur position.** Réordonner'
+  verdict: COVERED
+  card: FLC-jygxb3n5n15y
+- course: CRS-ea3twt9jcan2
+  key: f7926935ef51
+  excerpt: '**La Request ne s''injecte pas dans un service.** Typer un argument suffit dans un controll'
+  verdict: COVERED
+  card: FLC-k5rhfzcq75ys
+- course: CRS-ea3twt9jcan2
+  key: 3353aaf53642
+  excerpt: '**`getPayload()` ne fusionne pas form et JSON.** Si le sac des parameters de form n''est pa'
+  verdict: COVERED
+  card: FLC-9k1zssrhm6zk
+- course: CRS-ea3twt9jcan2
+  key: 63ed3cb48afd
+  excerpt: '**Un body JSON invalide ne donne pas un sac vide** : il lève une exception. Le sac vide es'
+  verdict: COVERED
+  card: FLC-5be6f1hbz8fg
+- course: CRS-ea3twt9jcan2
+  key: a46c48e703fa
+  excerpt: '**`getPayload()` rend un clone.** Écrire dans l''object retourné ne change rien à la Reques'
+  verdict: COVERED
+  card: FLC-vwejcabxa7z5
+- course: CRS-enbbsykx22xe
+  key: 88a4bd8858e0
+  excerpt: '**`refreshUser()` s''exécute à chaque Request d''un firewall avec état**, pas seulement à la'
+  verdict: COVERED
+  card: FLC-zpyvxwvf1x8a
+- course: CRS-enbbsykx22xe
+  key: 9dac68a3485a
+  excerpt: '**Un user supprimé est déconnecté** au rechargement suivant : 401 ou redirect, pas 500 ; l'
+  verdict: COVERED
+  card: FLC-e17hpn6p25dk
+- course: CRS-enbbsykx22xe
+  key: 6b1d459c013d
+  excerpt: '**Des roles modifiés en base déconnectent aussi** : le nouveau role ne s''obtient qu''en se '
+  verdict: COVERED
+  card: FLC-6xnwnjg0fb3n
+- course: CRS-enbbsykx22xe
+  key: 38fff8fe7e18
+  excerpt: '**`entity` n''est pas fourni par SecurityBundle** : il faut l''intégration Doctrine. `id` br'
+  verdict: COVERED
+  card: FLC-506hnbept0ra
+- course: CRS-enbbsykx22xe
+  key: d10039a85ca3
+  excerpt: '**Plusieurs providers imposent de nommer celui du firewall.**'
+  verdict: COVERED
+  card: FLC-4swcbchvb35j
+- course: CRS-epx8j3fhb38n
+  key: 96488e13271a
+  excerpt: '**On n''injecte jamais `Request` dans un service.** Un service est construit une fois, la R'
+  verdict: COVERED
+  card: FLC-er0y5dcb5p86
+- course: CRS-epx8j3fhb38n
+  key: 07784e210de0
+  excerpt: '**La dependency va dans un seul sens.** HttpFoundation ne dépend d''aucun component Symfony'
+  verdict: COVERED
+  card: FLC-p419ytejyj1a
+- course: CRS-erfvgqsx1z2p
+  key: 8630004a8bb7
+  excerpt: '**« Sûre » ne veut pas dire « sécurisée ».** Le terme signifie « sans effet de bord attend'
+  verdict: COVERED
+  card: FLC-5z1zvrs31f8y
+  added: '2026-10-24'
+- course: CRS-erfvgqsx1z2p
+  key: 3962a2fbf772
+  excerpt: '**`OPTIONS` et `TRACE` sont sûrs mais non cacheables.**'
+  verdict: COVERED
+  card: FLC-bp6xr6zamse7
+- course: CRS-erfvgqsx1z2p
+  key: 0f48ce84448c
+  excerpt: '**Les cacheables sont `GET`, `HEAD` et `QUERY` — trois, pas deux.** Oublier `QUERY` est l'''
+  verdict: COVERED
+  card: FLC-aqnrx7dwq85w
+- course: CRS-erfvgqsx1z2p
+  key: 8dca8e394ec4
+  excerpt: '**`DELETE` est idempotent.** L''intuition « la seconde suppression échoue, donc ce n''est pa'
+  verdict: COVERED
+  card: FLC-p3vmjc4wdfzy
+- course: CRS-evzcj63fgdb7
+  key: bfa94c58c58d
+  excerpt: '**Fixer la locale depuis un controller arrive trop tard.** Le translator est déjà configur'
+  verdict: COVERED
+  card: FLC-hdwv8cdrrdwb
+- course: CRS-evzcj63fgdb7
+  key: 5c24e58ed498
+  excerpt: '**Un listener maison doit passer avant celui du framework**, donc porter une priority plus'
+  verdict: COVERED
+  card: FLC-b9wz4qb1rjfy
+- course: CRS-evzcj63fgdb7
+  key: e66df2185a88
+  excerpt: '**`Accept-Language` n''agit pas par défaut.** Il faut `set_locale_from_accept_language: tru'
+  verdict: COVERED
+  card: FLC-x2tqmwznksr5
+- course: CRS-evzcj63fgdb7
+  key: 0ff05b271b13
+  excerpt: '**Une route localisée impose sa locale pour toute la Request**, pas seulement pour le rend'
+  verdict: COVERED
+  card: FLC-11t3hbfq4y2g
+- course: CRS-exs5dvtqa1as
+  key: 4fc22513581e
+  excerpt: '**Une key inconnue est une erreur**, pas une valeur ignorée — avec suggestion.'
+  verdict: COVERED
+  card: FLC-t06cnhax520f
+- course: CRS-exs5dvtqa1as
+  key: d9d158427e50
+  excerpt: '**`loadExtension()` s''exécute à la compilation** : elle ne voit ni Request ni état d''exécu'
+  verdict: COVERED
+  card: FLC-avqp3vbg6k93
+- course: CRS-exs5dvtqa1as
+  key: b06ed313c29c
+  excerpt: '**Le *prepend* passe avant l''application**, qui peut donc toujours surcharger ; entre bund'
+  verdict: COVERED
+  card: FLC-rbpr66rbttds
+- course: CRS-exs5dvtqa1as
+  key: b0fb3b2f2d92
+  excerpt: '**`isRequired()` s''applique même si l''application ignore le bundle.**'
+  verdict: COVERED
+  card: FLC-hg5vh8tm581v
+- course: CRS-exs5dvtqa1as
+  key: 583bdb52173f
+  excerpt: '**`isRequired()` et `defaultValue()` sur un même node : `InvalidDefinitionException`**, da'
+  verdict: COVERED
+  card: FLC-7hbhn5dg15te
+- course: CRS-ez2qmqfk902e
+  key: 5ba8b51ee7c4
+  excerpt: '**`toArray()` n''est pas `json_decode()`** : sur un body invalide, il lève une `DecodingExc'
+  verdict: COVERED
+  card: FLC-8drwny5gz56k
+- course: CRS-ez2qmqfk902e
+  key: 04d7c914d1fc
+  excerpt: '**Un POST en 500 n''est pas rejoué**, un POST en 503 l''est.'
+  verdict: COVERED
+  card: FLC-s6byhm4fp6at
+- course: CRS-f74jcpnrrkhz
+  key: 210dd7ca3d44
+  excerpt: '**PSR-7 n''est pas implémentée.** C''est la seule de la liste qui demande un bridge — `symfo'
+  verdict: COVERED
+  card: FLC-f6phwa9qmmek
+- course: CRS-f74jcpnrrkhz
+  key: ae0fcfe8f7d4
+  excerpt: '**Implémentée et suivie ne sont pas la même chose.** PSR-4 et PSR-12 se respectent, elles '
+  verdict: COVERED
+  card: FLC-g6tm7zgffmj0
+- course: CRS-f74jcpnrrkhz
+  key: bd2fb1d7b626
+  excerpt: '**Le container *est* un `Psr\Container\ContainerInterface`.** Il n''y a pas d''adapter à écr'
+  verdict: COVERED
+  card: FLC-pfhcqwca2vhd
+- course: CRS-f74jcpnrrkhz
+  key: af2afc0ac961
+  excerpt: '**`provide` ne contient pas que des PSR.** Sur quinze entrées, sept ne sont pas des `psr/*'
+  verdict: COVERED
+  card: FLC-gkptjb6qvar4
+- course: CRS-f74jcpnrrkhz
+  key: af533b46d851
+  excerpt: '**PSR-6 est déclarée à partir de `2.0`.** Toutes les PSR implémentées ne couvrent pas les '
+  verdict: COVERED
+  card: FLC-pm6b840h0s5t
+- course: CRS-f92d09x14ggx
+  key: 58a06e32a485
+  excerpt: '**Une condition ne s''applique pas à la génération d''URL.** Une route protégée par une cond'
+  verdict: COVERED
+  card: FLC-hyrr6qtdkfh9
+- course: CRS-f92d09x14ggx
+  key: 9b459ef7ed14
+  excerpt: '**Une condition filtre l''entrée ; elle ne documente pas l''output.** C''est toute la différe'
+  verdict: COVERED
+  card: FLC-42dcy4ps4cq2
+- course: CRS-f92d09x14ggx
+  key: b6b939be49c3
+  excerpt: '**L''expression est compilée en PHP, pas interprétée à chaque Request.** Elle est compilée '
+  verdict: COVERED
+  card: FLC-f7fwm11e4szc
+- course: CRS-f92d09x14ggx
+  key: 8daaed0222bb
+  excerpt: '**Condition fausse : pas de 405.** La route disparaît avant le contrôle de method.'
+  verdict: COVERED
+  card: FLC-3b70fk1sxx4h
+- course: CRS-f9pen0bdyrr9
+  key: 7240e4ea7f71
+  excerpt: '**Un form est un type ; la distinction field / form n''existe pas.**'
+  verdict: COVERED
+  card: FLC-8hehkvx6cc0b
+  added: '2026-10-24'
+- course: CRS-f9pen0bdyrr9
+  key: cc0ae925cee0
+  excerpt: '**Aucune des methods d''un type n''est obligatoire.**'
+  verdict: COVERED
+  card: FLC-e78gzmcdnqf6
+- course: CRS-f9pen0bdyrr9
+  key: ad116e5a15b3
+  excerpt: '**Sans parent déclaré, le parent est la racine de tous les types**, pas « aucun ».'
+  verdict: COVERED
+  card: FLC-cafrwa53g55w
+- course: CRS-f9pen0bdyrr9
+  key: 815f3ece95ae
+  excerpt: '**Le parent passe avant l''enfant** : son `buildForm()` s''exécute d''abord, ses options sont'
+  verdict: COVERED
+  card: FLC-hwksd6xa2jsf
+- course: CRS-f9pen0bdyrr9
+  key: 39cb4b687b39
+  excerpt: '**Sans `allow_add`, un élément en trop n''est pas ajouté** ; sans `allow_delete`, un élémen'
+  verdict: COVERED
+  card: FLC-6gjygtq4ba5b
+- course: CRS-f9pen0bdyrr9
+  key: 3cb2dd218ad4
+  excerpt: '**`by_reference: true` n''appelle jamais `addTag()`** sur une collection object.'
+  verdict: COVERED
+  card: FLC-z1pt1g2zqn6z
+- course: CRS-f9s8mpaydnbx
+  key: c6363963b07e
+  excerpt: '**Étendre le template que l''on surcharge crée une loop infinie.** Le nom résout vers la su'
+  verdict: COVERED
+  card: FLC-y51trsyr41em
+- course: CRS-f9s8mpaydnbx
+  key: 74422d02dbc7
+  excerpt: '**Une constraint de validation ne se remplace pas.** Symfony fusionne la configuration de '
+  verdict: COVERED
+  card: FLC-d6tnwq9ft53f
+- course: CRS-f9s8mpaydnbx
+  key: 33c912bd4b4f
+  excerpt: '**Décoration et compiler pass ne sont pas au même niveau.** La décoration enveloppe un ser'
+  verdict: COVERED
+  card: FLC-tqn1hds5k79p
+- course: CRS-f9s8mpaydnbx
+  key: 87eb63fc178a
+  excerpt: '**Un contrôleur-service ne se surcharge pas par une route.** Le document renvoie d''abord à'
+  verdict: COVERED
+  card: FLC-06jf9jywescz
+- course: CRS-f9s8mpaydnbx
+  key: 193e20902b2c
+  excerpt: '**Une translation se surcharge par le domain, pas par le bundle.** Le nom du bundle dans l'
+  verdict: COVERED
+  card: FLC-5qfn4kx12w4c
+- course: CRS-fak8bf9014br
+  key: cf774f4cfc2e
+  excerpt: '**Une deprecation ne fait échouer ni la Request ni le test** par elle-même.'
+  verdict: COVERED
+  card: FLC-36e6ht6k77he
+- course: CRS-fak8bf9014br
+  key: f05fe8146d20
+  excerpt: '**La notice est silencée** : rien dans l''output, et sans handler d''erreurs, aucune trace.'
+  verdict: COVERED
+  card: FLC-3c37tavqy7zm
+- course: CRS-fak8bf9014br
+  key: f7f14b472072
+  excerpt: '**En dev, la debug toolbar les montre** — parce que le handler de Symfony les recueille, p'
+  verdict: COVERED
+  card: FLC-58wq0qnh0e9r
+- course: CRS-fak8bf9014br
+  key: 787bf3371cfd
+  excerpt: '**Le code déprécié fonctionne** jusqu''à la majeure suivante.'
+  verdict: COVERED
+  card: FLC-1qhdkw1e4nfy
+- course: CRS-fak8bf9014br
+  key: 55fad289ce90
+  excerpt: '**On corrige avant la majeure**, pas après.'
+  verdict: COVERED
+  card: FLC-xwc5t92psch7
+- course: CRS-fd24qxy0x1s6
+  key: 1074b53bd3c7
+  excerpt: '**Un *forward* n''est pas un redirect.** Il n''y a qu''une Request HTTP, l''URL affichée ne bo'
+  verdict: COVERED
+  card: FLC-hrd4x7k386wx
+- course: CRS-fd24qxy0x1s6
+  key: 269c2a171130
+  excerpt: '**La query string d''origine n''arrive pas à la cible.** Le défaut du troisième argument est'
+  verdict: COVERED
+  card: FLC-zeq99c7bv0fk
+- course: CRS-fd24qxy0x1s6
+  key: cd9098a1d558
+  excerpt: '**Le body POST, lui, arrive.** L''asymétrie avec la query string vient de ce que l''un est p'
+  verdict: COVERED
+  card: FLC-ycfs7qxfxnh3
+- course: CRS-fd24qxy0x1s6
+  key: 9c19a0f51f4b
+  excerpt: '**Après un forward, la route courante est vide dans le template.** Les attributes ont été '
+  verdict: COVERED
+  card: FLC-xc4v0pz90vh7
+- course: CRS-fd24qxy0x1s6
+  key: a4a304b2792a
+  excerpt: '**Les arguments du controller cible s''apparient par nom**, comme pour une route.'
+  verdict: COVERED
+  card: FLC-cc06swh9hnhg
+- course: CRS-fhb1cbhnyaxx
+  key: 0baf3bbcf2f7
+  excerpt: '**La class de base ne transporte aucune donnée** — il faut hériter, ou utiliser `GenericEv'
+  verdict: COVERED
+  card: FLC-692rhz0m5pny
+- course: CRS-fhb1cbhnyaxx
+  key: c5dc6bf9d994
+  excerpt: '**`stopPropagation()` n''annule rien** : elle empêche seulement les listeners suivants d''êt'
+  verdict: COVERED
+  card: FLC-ajvnm8txb262
+- course: CRS-fhb1cbhnyaxx
+  key: 7cabac07cfa6
+  excerpt: '**L''effet de l''arrêt dépend des priorities**, puisqu''il dépend de l''ordre.'
+  verdict: COVERED
+  card: FLC-3dapyvqdznq8
+- course: CRS-fhb1cbhnyaxx
+  key: 67ba819a8b5d
+  excerpt: '**`isPropagationStopped()` se lit après le `dispatch()`**, côté déclencheur.'
+  verdict: COVERED
+  card: FLC-jvf1823rgfmv
+- course: CRS-fhb1cbhnyaxx
+  key: 9d9c9c7fbbf7
+  excerpt: '**`GenericEvent` implémente `ArrayAccess`** sur ses arguments, pas sur son sujet — et `Ite'
+  verdict: COVERED
+  card: FLC-3abmeaz1cjqc
+- course: CRS-fkebqqqke5y5
+  key: 22a689f6ad04
+  excerpt: '**L''original n''est pas supprimé** : il devient `<décorateur>.inner`.'
+  verdict: COVERED
+  card: FLC-0tvacrj8jzd2
+- course: CRS-fkebqqqke5y5
+  key: bc677a3ac38d
+  excerpt: '**La priority la plus haute est la plus interne.** Elle est appliquée en premier, donc env'
+  verdict: COVERED
+  card: FLC-xj1bfncctk1r
+- course: CRS-fkebqqqke5y5
+  key: 773d178aae0c
+  excerpt: '**Le decorator prend l''identifier de la cible** ; rien ailleurs n''a besoin de changer — à '
+  verdict: COVERED
+  card: FLC-0rgxcc70e9mc
+- course: CRS-fkebqqqke5y5
+  key: 4c42451f1cd0
+  excerpt: '**`ignore` retire le decorator**, il ne décore pas « à vide ».'
+  verdict: COVERED
+  card: FLC-x340h5cy8w78
+- course: CRS-fppjrr6r23tk
+  key: de138111d834
+  excerpt: '**Une exception ordinaire donne 500**, quel que soit son message. Ce qui change le statut '
+  verdict: COVERED
+  card: FLC-63tca08n26r1
+- course: CRS-fppjrr6r23tk
+  key: dcd85ae6c9b7
+  excerpt: '**Un avertissement PHP n''est une exception qu''en debug**, par défaut.'
+  verdict: COVERED
+  card: FLC-7k7y8j23zk0k
+- course: CRS-fppjrr6r23tk
+  key: 751436de07ce
+  excerpt: '**La page d''exception détaillée n''existe qu''en `dev`.**'
+  verdict: COVERED
+  card: FLC-s94fzfw2e4v6
+- course: CRS-fppjrr6r23tk
+  key: 41ccc87933f1
+  excerpt: '**Sa propre page d''erreur ne s''affiche pas en `dev`** : il faut les routes `/_error`.'
+  verdict: COVERED
+  card: FLC-s94fzfw2e4v6
+- course: CRS-fppjrr6r23tk
+  key: de979aadf4d6
+  excerpt: '**`error<code>.html.twig` d''abord, `error.html.twig` ensuite.**'
+  verdict: COVERED
+  card: FLC-hb558d4ex288
+- course: CRS-fppjrr6r23tk
+  key: 794b6c6b2d66
+  excerpt: '**Pas d''information de sécurité sur une 404.**'
+  verdict: COVERED
+  card: FLC-r313z0b2nnp8
+- course: CRS-g4sth72ww979
+  key: 7cfb174040e5
+  excerpt: '**`hashPassword()` reçoit le user**, pas seulement le password.'
+  verdict: COVERED
+  card: FLC-nw4sgmehf8se
+- course: CRS-g4sth72ww979
+  key: cefca3942a5b
+  excerpt: '**`auto` hache en bcrypt**, même quand sodium est disponible.'
+  verdict: COVERED
+  card: FLC-4xn8q0hzt0ym
+- course: CRS-g4sth72ww979
+  key: a86bdc14c29f
+  excerpt: '**Changer d''algorithme peut casser** : un condensat qui ne porte pas son algorithme n''est '
+  verdict: COVERED
+  card: FLC-2gh62cc28177
+- course: CRS-g4sth72ww979
+  key: 971e9019ed8c
+  excerpt: '**La migration exige un `PasswordUpgraderInterface`**, sinon le réencodage n''est jamais sa'
+  verdict: COVERED
+  card: FLC-zk0m2j23s8er
+- course: CRS-g8fteyd38nrt
+  key: c91130bfa753
+  excerpt: '**Un service découvert est privé** : la découverte ne le rend pas public.'
+  verdict: COVERED
+  card: FLC-cv9s7bswxrh8
+- course: CRS-g8fteyd38nrt
+  key: 8ecfab82a2e2
+  excerpt: '**`exclude` ne supprime pas la class** : elle l''exclut de l''enregistrement automatique. Un'
+  verdict: COVERED
+  card: FLC-1sh0svd623qd
+- course: CRS-g8fteyd38nrt
+  key: e09de6c1d847
+  excerpt: '**`_defaults` ne traverse pas les blocks `when@`**, et l''oubli se paie par une `ArgumentCo'
+  verdict: COVERED
+  card: FLC-6a9ngbsfteyg
+- course: CRS-g8fteyd38nrt
+  key: 3e95a4455db1
+  excerpt: '**`#[When]` exclut hors de son environment** ; `#[Exclude]` exclut partout.'
+  verdict: COVERED
+  card: FLC-sn98syzz504z
+  added: '2026-10-24'
+- course: CRS-g8v45328cg95
+  key: dea02b73ddfb
+  excerpt: '**`static::getContainer()` rend un container de test**, pas le container de production : l'
+  verdict: COVERED
+  card: FLC-mkp9h3yfzm3x
+- course: CRS-g8v45328cg95
+  key: c12253d8df18
+  excerpt: '**Un service privé supprimé reste inaccessible** — il faut le rendre public dans `config/s'
+  verdict: COVERED
+  card: FLC-nz6hc8a1mms4
+- course: CRS-g8v45328cg95
+  key: 96367ced909c
+  excerpt: '**`container->set()` doit précéder `get()`** du service consommateur — après, c''est une ex'
+  verdict: COVERED
+  card: FLC-qmtb1bctk7dh
+- course: CRS-g8v45328cg95
+  key: 9d3cda26e9e9
+  excerpt: '**`getContainer()` démarre le kernel** s''il ne l''est pas.'
+  verdict: COVERED
+  card: FLC-q89max2gpmd8
+- course: CRS-g8v45328cg95
+  key: 344d08e4a787
+  excerpt: '**`KERNEL_CLASS` désigne le kernel** ; `getKernelClass()` l''emporte sur elle.'
+  verdict: COVERED
+  card: FLC-wp10w540dvaz
+- course: CRS-g8v45328cg95
+  key: 600d63af0c49
+  excerpt: '**Le kernel redémarre à chaque test**, pas une fois par class — exécuté : deux tests, deux'
+  verdict: COVERED
+  card: FLC-y55hrbna36xg
+- course: CRS-h304h6ht87kc
+  key: 7ca5577d2145
+  excerpt: '**Avec Messenger installé, l''envoi est asynchrone par défaut** selon la documentation, à c'
+  verdict: COVERED
+  card: FLC-xnqfscd5c1cy
+- course: CRS-h304h6ht87kc
+  key: 39bd66c01d78
+  excerpt: '**`MailerInterface::send()` ne rend rien** ; c''est `TransportInterface` qui rend un `SentM'
+  verdict: COVERED
+  card: FLC-yzbn7exq2yjh
+- course: CRS-h304h6ht87kc
+  key: 8031da6f40cf
+  excerpt: '**Le premier transport déclaré est celui par défaut** ; `X-Transport` choisit.'
+  verdict: COVERED
+  card: FLC-s6yy84t6xbkj
+- course: CRS-h304h6ht87kc
+  key: e5b4d6c8327c
+  excerpt: '**`native://default` est déconseillé** : ni erreurs ni retrait des `Bcc`.'
+  verdict: COVERED
+  card: FLC-0cmbsvcgp27n
+- course: CRS-h304h6ht87kc
+  key: 732f03fad8e7
+  excerpt: '**Un message rejeté par `reject()` ne lève rien** : le transport rend `null`.'
+  verdict: COVERED
+  card: FLC-zf48t34ny4gb
+- course: CRS-h3q0qxnq8eq0
+  key: 91d92749ff02
+  excerpt: '**Sans restriction de method, une route accepte tous les verbes.** L''absence de l''option n'
+  verdict: COVERED
+  card: FLC-v2wg754jbxy7
+- course: CRS-h3q0qxnq8eq0
+  key: 2273c34ebf7c
+  excerpt: '**Le field caché ne suffit pas.** Simuler un verbe par `_method` exige `http_method_overri'
+  verdict: COVERED
+  card: FLC-j1fxw4amtsmq
+- course: CRS-h3q0qxnq8eq0
+  key: 04afaed94f94
+  excerpt: '**Le header, lui, n''attend pas cette option.** Seul `allowed_http_method_override: []` le '
+  verdict: COVERED
+  card: FLC-py8afy5792ex
+- course: CRS-h3q0qxnq8eq0
+  key: c8a9db5e4f0d
+  excerpt: '**`methods: [''GET'']` accepte `HEAD`.**'
+  verdict: COVERED
+  card: FLC-zwb2hk9f0v1q
+- course: CRS-h3q0qxnq8eq0
+  key: 2d71b785302d
+  excerpt: '**Deux routes peuvent partager exactement le même path** et ne différer que par la method '
+  verdict: COVERED
+  card: FLC-nzzsc08yb57x
+  added: '2026-10-24'
+- course: CRS-h8s87edcx8ae
+  key: 17f98c4864dc
+  excerpt: '**Étendre `AbstractController` est facultatif.** Un controller est n''importe quel appelabl'
+  verdict: COVERED
+  card: FLC-nrwdtk42t6yk
+- course: CRS-h8s87edcx8ae
+  key: d2d90b94c74a
+  excerpt: '**Ses raccourcis sont `protected`.** Ils ne s''appellent que depuis la sous-classe : un tes'
+  verdict: COVERED
+  card: FLC-w5kmrvzr7a3z
+- course: CRS-h8s87edcx8ae
+  key: 8b8af0f7d317
+  excerpt: '**Ce n''est pas le container.** La class est un *subscriber* : onze services déclarés, tous'
+  verdict: COVERED
+  card: FLC-7r4rxc0vqj7z
+- course: CRS-h8s87edcx8ae
+  key: c97216bc3e8a
+  excerpt: '**Elle vient de FrameworkBundle**, pas du component HttpKernel.'
+  verdict: COVERED
+  card: FLC-nwhnsg35rszb
+- course: CRS-h8s87edcx8ae
+  key: cfcdc25074dd
+  excerpt: '**`addLink()` n''écrit pas dans la Response.** Elle remplit l''attribute de Request `_links`'
+  verdict: COVERED
+  card: FLC-cs6nrz21190h
+- course: CRS-h9bfar3cxyet
+  key: 23f7d8aa9093
+  excerpt: '**Ne pas appeler `$stack->next()` arrête tout** — silencieusement, même pour un message sa'
+  verdict: COVERED
+  card: FLC-spq017yc9wap
+- course: CRS-h9bfar3cxyet
+  key: 4a6a503c1e73
+  excerpt: '**La chaîne de middlewares s''exécute deux fois** en asynchrone : à l''envoi et à la récepti'
+  verdict: COVERED
+  card: FLC-c1cqrva0by96
+- course: CRS-h9bfar3cxyet
+  key: 2611f23ff779
+  excerpt: '**Le middleware reçoit l''Envelope**, pas le message nu : les stamps sont lisibles.'
+  verdict: COVERED
+  card: FLC-4kmjn1566y1n
+- course: CRS-h9bfar3cxyet
+  key: 7adb61b8e4fe
+  excerpt: '**Un middleware maison passe avant `send_message` et `handle_message`.**'
+  verdict: COVERED
+  card: FLC-ajqnnxdhwexx
+- course: CRS-h9bfar3cxyet
+  key: 9f32d7396b20
+  excerpt: '**`default_middleware: false` retire aussi le traitement** : il faut alors déclarer soi-mê'
+  verdict: COVERED
+  card: FLC-sa6j4czc36qf
+- course: CRS-h9nryezt8wnb
+  key: b8c1b4201b0b
+  excerpt: '**`mkdir()` est récursive et ignore l''existant** — elle n''échoue pas sur un directory déjà'
+  verdict: COVERED
+  card: FLC-5mkrd9y45c5x
+- course: CRS-h9nryezt8wnb
+  key: 1d1b2056d5d8
+  excerpt: '**`dumpFile()` est atomique**, `appendToFile()` ne l''est pas.'
+  verdict: COVERED
+  card: FLC-d3hbwc5hfp44
+- course: CRS-h9nryezt8wnb
+  key: c47fd8216534
+  excerpt: '**`readFile()` lève sur un directory**, contrairement à `file_get_contents()`.'
+  verdict: COVERED
+  card: FLC-h3x3rd2fbc39
+- course: CRS-h9nryezt8wnb
+  key: 0253b4ec1dcc
+  excerpt: '**`remove()` accepte un array** et traite files, directories et liens.'
+  verdict: COVERED
+  card: FLC-kas9xgck3taz
+  added: '2026-10-24'
+- course: CRS-h9nryezt8wnb
+  key: 6a280c261501
+  excerpt: '**`getPath()` est sur `IOExceptionInterface`** et nomme le path fautif — sauf pour `readFi'
+  verdict: COVERED
+  card: FLC-h3x3rd2fbc39
+- course: CRS-h9nryezt8wnb
+  key: 5192a9da1ce5
+  excerpt: '**`Path` ne touche pas au disque.**'
+  verdict: COVERED
+  card: FLC-pn9snya6z2f5
+- course: CRS-hdsq2qdz7qdv
+  key: e713ec32337b
+  excerpt: '**`isRedirect()` n''est pas « le statut est 3xx ».** Retenir 201 inclus, 304 exclu.'
+  verdict: COVERED
+  card: FLC-c3jxj5v9jt5n
+- course: CRS-hdsq2qdz7qdv
+  key: ebcb80f60f98
+  excerpt: '**`send()` n''appartient pas au controller.** Un controller retourne une `Response` ; il ne'
+  verdict: COVERED
+  card: FLC-36jw118n66v5
+- course: CRS-hdsq2qdz7qdv
+  key: 37622f67dfb7
+  excerpt: '**`isOk()` n''est pas `isSuccessful()`** : le premier teste 200 exactement, le second toute'
+  verdict: COVERED
+  card: FLC-tc5yj47dh7b5
+- course: CRS-hdsq2qdz7qdv
+  key: e3c75f5a2fe0
+  excerpt: '**Un `RedirectResponse` renvoie 302 par défaut** ; un permanent demande `new RedirectRespo'
+  verdict: COVERED
+  card: FLC-1h9hg9hmge3e
+- course: CRS-hdsq2qdz7qdv
+  key: 83bd0db4f853
+  excerpt: '**Son constructor valide le statut avec `isRedirect()`** et lève une `\InvalidArgumentExce'
+  verdict: COVERED
+  card: FLC-s300d2t0hjcb
+- course: CRS-hgkzgm1dh3my
+  key: 5853a5d915b6
+  excerpt: 'En **synchrone**, l''exception remonte au `dispatch()` : pas de retry.'
+  verdict: COVERED
+  card: FLC-rca0b76cpgwn
+- course: CRS-hgkzgm1dh3my
+  key: 406c95e303fc
+  excerpt: 'En asynchrone, une exception ne perd pas le message : elle déclenche un retry.'
+  verdict: COVERED
+  card: FLC-7hfxx70j2rhg
+- course: CRS-hgkzgm1dh3my
+  key: 0a9dee67e718
+  excerpt: '`max_retries: 3` = **quatre** tentatives au total.'
+  verdict: COVERED
+  card: FLC-7hfxx70j2rhg
+- course: CRS-hgkzgm1dh3my
+  key: bf833d5489d0
+  excerpt: '`RecoverableMessageHandlingException` ignore `max_retries`.'
+  verdict: COVERED
+  card: FLC-tc0mvhq7hc8r
+- course: CRS-hgkzgm1dh3my
+  key: a194a36d4ed1
+  excerpt: Sans `failure_transport`, un message épuisé est **définitivement perdu**.
+  verdict: COVERED
+  card: FLC-e85sc88kcsdz
+- course: CRS-hgkzgm1dh3my
+  key: b28419e06a12
+  excerpt: '`UnrecoverableMessageHandlingException` saute les retries, pas la file d''échec.'
+  verdict: COVERED
+  card: FLC-a9tahjktd0zt
+- course: CRS-hgkzgm1dh3my
+  key: a7c059c2bc7c
+  excerpt: Le délai est **exponentiel**, pas constant ; `max_delay` vaut 0 par défaut.
+  verdict: COVERED
+  card: FLC-8e03wyvq7328
+- course: CRS-hgkzgm1dh3my
+  key: 08cf74d5a099
+  excerpt: '`messenger:failed:retry` traite le message lui-même, depuis la file d''échec.'
+  verdict: COVERED
+  card: FLC-k6xyzs27a8wp
+- course: CRS-htvm3b1gas0d
+  key: 892a4f8196ef
+  excerpt: '**Injection ≠ récupération.** Recevoir le container n''est pas de l''injection de dependenci'
+  verdict: COVERED
+  card: FLC-1y9kmkwvmjg7
+- course: CRS-htvm3b1gas0d
+  key: f493c5f7e01c
+  excerpt: '**Le constructor est la voie normale**, le setter l''exception ; l''inverse n''est pas vrai.'
+  verdict: COVERED
+  card: FLC-3603033a85gj
+- course: CRS-htvm3b1gas0d
+  key: 8a4dd90cdeb7
+  excerpt: '**Un service est privé par défaut** : après `compile()`, il n''est plus récupérable par `ge'
+  verdict: COVERED
+  card: FLC-g83rfk7rmkf5
+- course: CRS-htvm3b1gas0d
+  key: 2efa8537b862
+  excerpt: '**`compile()` fige** : plus de definition ni de parameter ajouté ensuite.'
+  verdict: COVERED
+  card: FLC-j71chhwhsvk2
+- course: CRS-jtkmpfp3nwzk
+  key: 93dac0597554
+  excerpt: '**`debug:container` et `debug:autowiring` ne répondent pas à la même question.** Le premie'
+  verdict: COVERED
+  card: FLC-j30bfaftfpnm
+- course: CRS-jtkmpfp3nwzk
+  key: 389848f132de
+  excerpt: '**On type-hinte le type aliasé, pas la class du service.** Viser la class concrète de `log'
+  verdict: COVERED
+  card: FLC-sxmwshbs1a58
+- course: CRS-jtkmpfp3nwzk
+  key: 818cea54c750
+  excerpt: '**« Toujours une interface » est faux** : `RequestStack` ou `Filesystem` s''injectent par l'
+  verdict: COVERED
+  card: FLC-t9zmv2x9vahc
+- course: CRS-jtkmpfp3nwzk
+  key: f3f6db044d3f
+  excerpt: '**Un service intégré vient d''un bundle, pas du framework en block.** Retirer le bundle ret'
+  verdict: COVERED
+  card: FLC-vpb05exshkwx
+- course: CRS-jwhqec35jczn
+  key: 606e660104e0
+  excerpt: '**Le `Finder` est à état** : deux `name()` s''additionnent. Cloner pour réutiliser.'
+  verdict: COVERED
+  card: FLC-zw88x7tcje1m
+- course: CRS-jwhqec35jczn
+  key: 0d78b4a0f613
+  excerpt: '**Sans `files()` ni `directories()`, les deux sont rendus.**'
+  verdict: COVERED
+  card: FLC-514xhm29f8hg
+- course: CRS-jwhqec35jczn
+  key: 215701a97de8
+  excerpt: '**`in()` est le seul critère obligatoire.**'
+  verdict: COVERED
+  card: FLC-exnqgc20agxs
+- course: CRS-jwhqec35jczn
+  key: 867adfd115f0
+  excerpt: '**Plusieurs `in()` : `iterator_to_array($finder, false)`.**'
+  verdict: COVERED
+  card: FLC-69qm9vnxddx9
+- course: CRS-k2xvr11x936e
+  key: 11d50f702451
+  excerpt: '**Une valeur qui ne change presque jamais ne devient pas un parameter.** La recommandation'
+  verdict: COVERED
+  card: FLC-g0kpwp6w0xg6
+- course: CRS-k2xvr11x936e
+  key: 2639ae5f1a84
+  excerpt: '**L''URL se code en dur dans un functional test.** Ce n''est pas un raccourci toléré, c''est '
+  verdict: COVERED
+  card: FLC-dcyrc9j32m03
+- course: CRS-k2xvr11x936e
+  key: 9df086d67310
+  excerpt: '**Pas de bundle pour le code de l''application.** Un projet est une application ; les bundl'
+  verdict: COVERED
+  card: FLC-xh5wxnqqjrf6
+- course: CRS-k2xvr11x936e
+  key: d9ef281bcb6f
+  excerpt: '**Le bouton n''appartient pas au form.** Le mettre dans la class est précisément ce que le '
+  verdict: COVERED
+  card: FLC-fdpjs4wt0s98
+- course: CRS-k2xvr11x936e
+  key: f0658fa6ee75
+  excerpt: '**`auto` n''est pas un algorithme.** C''est un selector ; ce qu''il choisit aujourd''hui est `'
+  verdict: COVERED
+  card: FLC-2qt87p9ze85p
+- course: CRS-k3v3wrt0hmtx
+  key: ad3b1680ee37
+  excerpt: '**Du contenu hors block dans un enfant est une erreur de syntaxe**, pas un contenu ignoré.'
+  verdict: COVERED
+  card: FLC-mype643dt889
+- course: CRS-k3v3wrt0hmtx
+  key: 77321fb81984
+  excerpt: '**Un seul parent**, mais un parent choisi dynamiquement : variable, liste dont le premier '
+  verdict: COVERED
+  card: FLC-gfcgz4scqv1d
+- course: CRS-k3v3wrt0hmtx
+  key: 1e37538fa8f3
+  excerpt: '**`block()` réaffiche, `parent()` reprend.** Le tag, lui, n''affiche qu''une fois.'
+  verdict: COVERED
+  card: FLC-cyqbsk786f6a
+- course: CRS-k3v3wrt0hmtx
+  key: 88ae7024442c
+  excerpt: '**Un block dans un `if` reste défini.** Seul son rendu dépend de la condition.'
+  verdict: COVERED
+  card: FLC-3y75n5trn2h9
+- course: CRS-k3v3wrt0hmtx
+  key: 96f57501e894
+  excerpt: '**Importer les blocks d''un autre template n''est pas en hériter.**'
+  verdict: COVERED
+  card: FLC-jm1b28fhd199
+- course: CRS-k4ejsd624d1p
+  key: 1334231953e4
+  excerpt: '**Un type crée un field ; une extension modifie ceux qui existent.** Pour ajouter une opti'
+  verdict: COVERED
+  card: FLC-be3pranpsvn1
+- course: CRS-k4ejsd624d1p
+  key: a1456f20c499
+  excerpt: '**La method qui désigne les types étendus est statique**, retourne un itérable, et ne peut'
+  verdict: COVERED
+  card: FLC-j6mn7pg99wky
+- course: CRS-k4ejsd624d1p
+  key: 317bd7dfcd80
+  excerpt: '**Une extension atteint les types enfants**, pas les types frères : étendre `TextType` tou'
+  verdict: COVERED
+  card: FLC-bqtzpa4gwgkk
+- course: CRS-k4ejsd624d1p
+  key: 1249dbb5275c
+  excerpt: '**Étendre le type racine touche tous les fields, pas les boutons.**'
+  verdict: COVERED
+  card: FLC-n4ze2n68raqp
+- course: CRS-k4ejsd624d1p
+  key: 3422f8b182b2
+  excerpt: '**La priority se règle sur le tag**, dans la configuration du service.'
+  verdict: COVERED
+  card: FLC-9hwcm7k0zam5
+- course: CRS-k5wg55q2mg0p
+  key: 0309e9e17d9b
+  excerpt: '**`request()` retourne un `Crawler`**, pas une `Response`.'
+  verdict: COVERED
+  card: FLC-h91n4s24j5qg
+- course: CRS-k5wg55q2mg0p
+  key: d5dd54037e5e
+  excerpt: '**Le client de test ne suit pas les redirects par défaut** — alors que le `AbstractBrowser'
+  verdict: COVERED
+  card: FLC-3fftht22p8gs
+- course: CRS-k5wg55q2mg0p
+  key: 1fd88a0c457a
+  excerpt: '**`followRedirect()` ≠ `followRedirects()`** : une fois, contre un réglage.'
+  verdict: COVERED
+  card: FLC-mfd0x9mcgyvb
+- course: CRS-k5wg55q2mg0p
+  key: 98381910f872
+  excerpt: '**`back()` ne saute que les redirects suivis en mode `followRedirects()`** ; après un `fol'
+  verdict: COVERED
+  card: FLC-n4wy9v7h0cps
+- course: CRS-k5wg55q2mg0p
+  key: a62ce3272e0c
+  excerpt: '**Le kernel redémarre entre deux Requests** et le token en mémoire est perdu ; un firewall'
+  verdict: COVERED
+  card: FLC-ypzrmzxf56gs
+- course: CRS-k5wg55q2mg0p
+  key: 6e31c1500934
+  excerpt: '**Aucun JavaScript n''est exécuté** : c''est un client simulé, pas un navigateur.'
+  verdict: COVERED
+  card: FLC-decb158nk58k
+- course: CRS-kd67y4vnd0mm
+  key: 247c132036e4
+  excerpt: '**Le statut de la Response fournie par un listener n''est pas toujours conservé.** Il ne l'''
+  verdict: COVERED
+  card: FLC-79nmwswd5a50
+- course: CRS-kd67y4vnd0mm
+  key: ab6c08a2c7af
+  excerpt: '**`\RuntimeException` n''est pas le contre-exemple qu''on croit.** `HttpException extends \R'
+  verdict: COVERED
+  card: FLC-4n13szbsvrj8
+- course: CRS-kd67y4vnd0mm
+  key: 0c1b3dc37971
+  excerpt: '**`setResponse()` met fin au traitement de l''erreur** — l''`ErrorListener` intégré ne prend'
+  verdict: COVERED
+  card: FLC-1gt94kdaqnvv
+- course: CRS-kd67y4vnd0mm
+  key: 491eed30d541
+  excerpt: '**« Elle n''implémente pas l''interface, donc 500 » est trop rapide.** `#[WithHttpStatus]` e'
+  verdict: COVERED
+  card: FLC-kw0y3d46bh2p
+- course: CRS-kd67y4vnd0mm
+  key: e3584fe88798
+  excerpt: '**Une exception dans le controller d''erreur n''est pas rattrapée.** La sub-Request est lanc'
+  verdict: COVERED
+  card: FLC-ja23bhb39d80
+- course: CRS-kqq96z5y9r2f
+  key: e5ed04648945
+  excerpt: '**La première route qui correspond gagne, et les suivantes ne sont jamais essayées.** Une '
+  verdict: COVERED
+  card: FLC-t45m07frz2sv
+- course: CRS-kqq96z5y9r2f
+  key: e55ae9a49bfb
+  excerpt: '**La priority est une option d''attribute, pas de YAML.** En YAML on déplace une ligne ; éc'
+  verdict: COVERED
+  card: FLC-0tyh7jyvhc6v
+- course: CRS-kqq96z5y9r2f
+  key: d3962734a319
+  excerpt: '**Les deux formats n''ont pas le même jeu d''options.** L''environment et l''alias existent de'
+  verdict: COVERED
+  card: FLC-df74cxdz9rja
+- course: CRS-kqq96z5y9r2f
+  key: f75bd554b27f
+  excerpt: '**L''ancien namespace d''annotation n''existe plus.** Un import hérité de l''époque Doctrine é'
+  verdict: COVERED
+  card: FLC-727d92jfh8xz
+- course: CRS-mpwjc4g3vmj7
+  key: 0c113f391676
+  excerpt: '`kernel.view` est **conditionnel**, `kernel.response` ne l''est pas.'
+  verdict: COVERED
+  card: FLC-62g2dayy67zs
+- course: CRS-mpwjc4g3vmj7
+  key: 79743a528bee
+  excerpt: '`kernel.terminate` est après l''envoi, pas avant.'
+  verdict: COVERED
+  card: FLC-n6mksp2758pq
+- course: CRS-mpwjc4g3vmj7
+  key: 2730d9fbb3fb
+  excerpt: '`kernel.finish_request` vient après `kernel.response`, pas avant.'
+  verdict: COVERED
+  card: FLC-wzzx6met55dp
+- course: CRS-mpwjc4g3vmj7
+  key: 01f6c17fd0fd
+  excerpt: '`kernel.request` précède la résolution du controller : à ce moment, `_controller` peut êtr'
+  verdict: COVERED
+  card: FLC-rwk8y93ze3b6
+  added: '2026-10-24'
+- course: CRS-mpwjc4g3vmj7
+  key: 04f718ba144c
+  excerpt: Un court-circuit sur `kernel.request` saute le controller, **pas** `kernel.response`, `ker
+  verdict: COVERED
+  card: FLC-z56s5mxrnev5
+- course: CRS-mpwjc4g3vmj7
+  key: 173de3b19b19
+  excerpt: Un seul front controller, `public/index.php` — quel que soit l'URL demandée.
+  verdict: COVERED
+  card: FLC-nt31fkv8p93g
+  added: '2026-10-24'
+- course: CRS-mpwjc4g3vmj7
+  key: 1f18fc415166
+  excerpt: '`kernel.finish_request` a lieu **même quand l''exception remonte**, et même quand `$catch` '
+  verdict: COVERED
+  card: FLC-necajg4mwx4z
+- course: CRS-mpwjc4g3vmj7
+  key: 0cb211de2ecb
+  excerpt: '`kernel.controller_arguments` peut remplacer le controller, pas seulement ses arguments.'
+  verdict: COVERED
+  card: FLC-r9f8qjt94ewq
+- course: CRS-mpwjc4g3vmj7
+  key: b6d6cc22a279
+  excerpt: '`MAIN_REQUEST` vaut **1** et `SUB_REQUEST` **2** — pas `0` et `1`.'
+  verdict: COVERED
+  card: FLC-wtj0r3jza7sb
+- course: CRS-n9ngfssrq1bt
+  key: 36b2835a0ef1
+  excerpt: '**`UserInterface` n''a que deux methods en Symfony 8.0** ; `eraseCredentials()` a été retir'
+  verdict: COVERED
+  card: FLC-ygn9w70dncp1
+- course: CRS-n9ngfssrq1bt
+  key: f063962673bb
+  excerpt: '**`getPassword()` vient de `PasswordAuthenticatedUserInterface`.**'
+  verdict: COVERED
+  card: FLC-3w05sa90j4b2
+  added: '2026-10-24'
+- course: CRS-n9ngfssrq1bt
+  key: 7a683a2b4bca
+  excerpt: '**`getUserIdentifier()` n''est pas l''identifier de base de données.**'
+  verdict: COVERED
+  card: FLC-cgzsgfh274se
+  added: '2026-10-24'
+- course: CRS-n9ngfssrq1bt
+  key: e38e83abe6df
+  excerpt: '**Un user sans role est authentifié** ; `ROLE_USER` est une convention.'
+  verdict: COVERED
+  card: FLC-1eab4s4adgzp
+- course: CRS-n9ngfssrq1bt
+  key: 3e9aa357dbdd
+  excerpt: '**Les roles sont déjà comparés par défaut** : en changer déconnecte.'
+  verdict: COVERED
+  card: FLC-4egzzxjt0qcz
+- course: CRS-n9ngfssrq1bt
+  key: 530f350b7285
+  excerpt: '**Le token fige les roles de la connexion**, même quand `isEqualTo()` garde le user connec'
+  verdict: COVERED
+  card: FLC-v4986hf0yvas
+- course: CRS-n9ngfssrq1bt
+  key: 105b26d52f23
+  excerpt: '**Un compte désactivé relève d''un user checker**, appelé à la connexion seulement.'
+  verdict: COVERED
+  card: FLC-xqkz48gj0kgw
+- course: CRS-nfkzx2s1n3r3
+  key: c047f51e619c
+  excerpt: '**`isValid()` sur un form non soumis lève une exception.** Le garde `isSubmitted() && isVa'
+  verdict: COVERED
+  card: FLC-723xy0kxz8mj
+- course: CRS-nfkzx2s1n3r3
+  key: e1c80b6819b4
+  excerpt: '**Une Request d''une autre method que celle du form est ignorée.**'
+  verdict: COVERED
+  card: FLC-9r74s5gacmv8
+- course: CRS-nfkzx2s1n3r3
+  key: b17102cecac2
+  excerpt: '**Après une submission valide, l''object est déjà à jour.**'
+  verdict: COVERED
+  card: FLC-s1f8zepj0a8h
+- course: CRS-nfkzx2s1n3r3
+  key: e20f22fba2bc
+  excerpt: '**La submission manuelle vide les fields absents par défaut** ; `false` les préserve, et n'
+  verdict: COVERED
+  card: FLC-jsbfc1cnv01y
+- course: CRS-nhebf7arqvn4
+  key: eef3a6eb4d2a
+  excerpt: '**Les parameters réservés commencent tous par un souligné ; les arguments courts de l''attr'
+  verdict: COVERED
+  card: FLC-ce99kzxscxd4
+- course: CRS-nhebf7arqvn4
+  key: 09ea6be7934b
+  excerpt: '**Un seul des cinq est exclu des imports par la documentation** : celui qui pose l''identif'
+  verdict: COVERED
+  card: FLC-nbxrsd1bp94c
+- course: CRS-nhebf7arqvn4
+  key: 68251b2936c1
+  excerpt: '**Pas d''argument `query` dans `#[Route]` en 8.0**, malgré l''exemple officiel. `_query` se '
+  verdict: COVERED
+  card: FLC-qf5wpy6gx491
+- course: CRS-nhebf7arqvn4
+  key: 714f3b068ff6
+  excerpt: '**Le format de Request ne décide du `Content-Type` qu''en l''absence de header.** C''est ce q'
+  verdict: COVERED
+  card: FLC-prd45s4jbakg
+- course: CRS-p1694d5f7r8c
+  key: 8dab192d4cda
+  excerpt: '**Un service est privé par défaut** et ne se récupère donc pas par `get()`.'
+  verdict: COVERED
+  card: FLC-cv9s7bswxrh8
+- course: CRS-p1694d5f7r8c
+  key: 6d03566003b1
+  excerpt: '**Privé ne veut pas dire « non injectable »** : cela ne concerne que l''accès depuis l''exté'
+  verdict: COVERED
+  card: FLC-cv9s7bswxrh8
+- course: CRS-p1694d5f7r8c
+  key: a5ba06f6b138
+  excerpt: '**Le container compilé est du PHP en cache** : la configuration n''est pas relue à l''exécut'
+  verdict: COVERED
+  card: FLC-t5pfn7c9jr2t
+- course: CRS-p1694d5f7r8c
+  key: 01fbd10958e3
+  excerpt: '**`debug:container` n''a pas d''option `--show-private`** ; `--show-hidden` montre les servi'
+  verdict: COVERED
+  card: FLC-asdnwk77st9y
+- course: CRS-p57qsnnfpd2a
+  key: 1dd423dc4241
+  excerpt: '**La method d''aide construit l''exception, elle ne la lève pas.** Sans `throw`, le controll'
+  verdict: COVERED
+  card: FLC-b3yz3wtpa5xx
+- course: CRS-p57qsnnfpd2a
+  key: 5c2eeedfa8bb
+  excerpt: '**Toute exception non HTTP ne donne pas 500.** Celles qui implémentent `RequestExceptionIn'
+  verdict: COVERED
+  card: FLC-fedtdwekfm06
+- course: CRS-p57qsnnfpd2a
+  key: d72b613f36fa
+  excerpt: '**`exception` dans le template n''est pas l''exception levée.** C''est sa version aplatie.'
+  verdict: COVERED
+  card: FLC-91hyny6w2kr4
+- course: CRS-p57qsnnfpd2a
+  key: 6d536dd0555b
+  excerpt: '**Il n''y a pas besoin d''un template par statut.** Le rendu retombe sur le template génériq'
+  verdict: COVERED
+  card: FLC-0m2psvtyh5wa
+- course: CRS-p57qsnnfpd2a
+  key: f1bf86db9b86
+  excerpt: '**La security n''est pas disponible sur une page 404.** Une page d''erreur ne peut pas affic'
+  verdict: COVERED
+  card: FLC-r313z0b2nnp8
+- course: CRS-p6yhxmpxrzbs
+  key: a165e3d68c29
+  excerpt: '**Il n''existe pas de `set()`** dans les Cache Contracts ; en PSR-6, `set()` sans `save()` '
+  verdict: COVERED
+  card: FLC-g4qgr6hx5sv0
+- course: CRS-p6yhxmpxrzbs
+  key: d45815b8a393
+  excerpt: '**`null` n''est pas une absence** : `isHit()` en PSR-6, `has()` en PSR-16.'
+  verdict: COVERED
+  card: FLC-zh5xzmekgemg
+- course: CRS-p6yhxmpxrzbs
+  key: 21afef4401ca
+  excerpt: '**`$save` est passé par référence** ; le mettre à `false` empêche l''enregistrement.'
+  verdict: COVERED
+  card: FLC-xx174sjkfgmm
+- course: CRS-p6yhxmpxrzbs
+  key: df800f2997c0
+  excerpt: '**Le rappel ne tourne pas qu''au manque.** Exécuté : avec `beta` à `INF`, il tourne sur une'
+  verdict: COVERED
+  card: FLC-q4e27600aa61
+- course: CRS-p6yhxmpxrzbs
+  key: 5938e359ebb5
+  excerpt: '**`cache.system` n''est pas un `cache.app` plus rapide** : il suppose des données dérivable'
+  verdict: COVERED
+  card: FLC-93ypz61gna33
+- course: CRS-pchb259hnbh3
+  key: 589e8546037f
+  excerpt: '**Déclarer qu''une option existe n''est pas lui donner une default value** : une option seul'
+  verdict: COVERED
+  card: FLC-ws2hnsz2tjp0
+- course: CRS-pchb259hnbh3
+  key: f9a05c085a95
+  excerpt: '**Une option requise peut avoir un défaut** : elle reste requise, mais n''est plus manquant'
+  verdict: COVERED
+  card: FLC-9w8egpqd3hb5
+- course: CRS-pchb259hnbh3
+  key: 9ec033c137fc
+  excerpt: '**Une option lazy exige le type `Options`** ; sans lui, la closure est la valeur.'
+  verdict: COVERED
+  card: FLC-n650tphmbrc7
+- course: CRS-pchb259hnbh3
+  key: 2912ff945b52
+  excerpt: '**Le normalisateur s''exécute après la validation** : il ne rattrape pas une valeur refusée'
+  verdict: COVERED
+  card: FLC-bezx7jb329wt
+- course: CRS-pchb259hnbh3
+  key: 627fb12dc7a6
+  excerpt: '**Les options imbriquées passent par `setOptions()`**, pas par `setDefault()`.'
+  verdict: COVERED
+  card: FLC-wnjbar981ptm
+- course: CRS-pm5kj5kh3gt2
+  key: 55d7eac55da0
+  excerpt: '**Le file d''entrée retourne une function ; il n''exécute pas l''application.**'
+  verdict: COVERED
+  card: FLC-9je7m8zgfgj8
+- course: CRS-pm5kj5kh3gt2
+  key: 11402683067e
+  excerpt: '**Le script d''entrée est réexécuté** par le runtime : ce qui précède le `require_once` tou'
+  verdict: COVERED
+  card: FLC-0p88y5fvnr6d
+- course: CRS-pm5kj5kh3gt2
+  key: 2ced64118afe
+  excerpt: '**`autoload.php` chargé avant `autoload_runtime.php`** : rien ne s''exécute, sans erreur.'
+  verdict: COVERED
+  card: FLC-53fr216wve6t
+- course: CRS-pm5kj5kh3gt2
+  key: 1975ead8cae7
+  excerpt: '**Le type *et* le nom de l''argument sont significatifs.**'
+  verdict: COVERED
+  card: FLC-2sbkpjz891ky
+- course: CRS-pm5kj5kh3gt2
+  key: 3710b7d5afb7
+  excerpt: '**`--no-plugins` empêche la création de `autoload_runtime.php`.**'
+  verdict: COVERED
+  card: FLC-p38tffs54f47
+- course: CRS-q18xc1k4yvb9
+  key: 16dabcbae0bf
+  excerpt: '**L''ordre des arguments du filter est parameters, puis domain, puis locale.** Les named ar'
+  verdict: COVERED
+  card: FLC-2qe2jetwm5pq
+- course: CRS-q18xc1k4yvb9
+  key: e412700d8485
+  excerpt: '**Une string en deuxième argument** n''est une locale que pour un object traduisible ; aill'
+  verdict: COVERED
+  card: FLC-e1kx846me0jb
+- course: CRS-q18xc1k4yvb9
+  key: c6df75ba5336
+  excerpt: '**Le filter échappe, le tag non.**'
+  verdict: COVERED
+  card: FLC-7v0nhjhqwajs
+- course: CRS-q18xc1k4yvb9
+  key: f84c148e7390
+  excerpt: '**`trans_default_domain` ne traverse pas un `include`.**'
+  verdict: COVERED
+  card: FLC-9rd1zrrvkwcq
+- course: CRS-q18xc1k4yvb9
+  key: 3e0b0434a01c
+  excerpt: '**Dans le tag, un emplacement non fourni vient du contexte.**'
+  verdict: COVERED
+  card: FLC-v0xp666nj56a
+- course: CRS-q18xc1k4yvb9
+  key: 98ab4bd035d1
+  excerpt: '**Accolades et pluriel** : sans le suffixe `+intl-icu`, `{name}` n''est qu''un emplacement o'
+  verdict: COVERED
+  card: FLC-kkzj2fxnseaw
+- course: CRS-q2dxjhx6d35k
+  key: 9e8a7ba87edc
+  excerpt: '**Une option sans default value est une erreur**, pas une option requise. Une option n''est'
+  verdict: COVERED
+  card: FLC-bdrpkzcqw1ww
+- course: CRS-q2dxjhx6d35k
+  key: be9587825ae1
+  excerpt: '**`bool $flag = true` n''est pas un drapeau simple** : il devient négociable, donc `--no-fl'
+  verdict: COVERED
+  card: FLC-g71n3msgyw1m
+- course: CRS-q2dxjhx6d35k
+  key: f25b5543c7f6
+  excerpt: '**Le nom par défaut est kebab-case**, pas le nom du parameter tel quel.'
+  verdict: COVERED
+  card: FLC-gg54k07wxxs9
+- course: CRS-q2dxjhx6d35k
+  key: 07bc0eb4ea86
+  excerpt: '**`shortcut` n''existe que pour les options** — un argument n''a pas de nom, donc pas de rac'
+  verdict: COVERED
+  card: FLC-ghad24cehzcd
+- course: CRS-q2dxjhx6d35k
+  key: b49cc278c583
+  excerpt: '**L''ordre des arguments est contraint.** `InputDefinition` lève une `LogicException` pour '
+  verdict: COVERED
+  card: FLC-891snmpzbef5
+- course: CRS-qa0x33akw264
+  key: 3406c2d69d00
+  excerpt: '**`getPreferredLanguage()` sans argument ne négocie rien.** Elle renvoie la première langu'
+  verdict: COVERED
+  card: FLC-knw9ywe94k4z
+- course: CRS-qa0x33akw264
+  key: 56f1fbed42a2
+  excerpt: '**`q=0` n''est pas filtré par Symfony.** La RFC en fait un refus, mais `getLanguages()` gar'
+  verdict: COVERED
+  card: FLC-qg2jp687b1y6
+  added: '2026-10-24'
+- course: CRS-qa0x33akw264
+  key: bab6d9ae190d
+  excerpt: '**`Accept-Language` est une préférence, pas une instruction.** Un serveur peut légitimemen'
+  verdict: COVERED
+  card: FLC-qm276n2scr2v
+- course: CRS-r3xywnpwrwh7
+  key: 09ad034e4a4f
+  excerpt: '**La liste des themes est parcourue de la fin vers le début.**'
+  verdict: COVERED
+  card: FLC-5g65x0xtgdn7
+- course: CRS-r3xywnpwrwh7
+  key: be7ddfffc574
+  excerpt: '**`text_widget` n''existe dans aucun theme livré** ; `email_widget`, si.'
+  verdict: COVERED
+  card: FLC-9jm3snza2rkh
+- course: CRS-r3xywnpwrwh7
+  key: e3844c2cf34f
+  excerpt: '**Un field remonte sa propre lignée** : un block de type parent ne s''applique pas quand un'
+  verdict: COVERED
+  card: FLC-rnhbqjwxzege
+- course: CRS-r3xywnpwrwh7
+  key: 4291a4ffb558
+  excerpt: '**`_self` exige un template qui en étend un autre.**'
+  verdict: COVERED
+  card: FLC-5x1d6h0qhemb
+- course: CRS-r3xywnpwrwh7
+  key: 91db2db6b962
+  excerpt: '**Redéfinir `_row` quand on voulait `_widget` efface libellé, aide et erreurs.**'
+  verdict: COVERED
+  card: FLC-9fvbdnzmf62w
+- course: CRS-r56yzzb4pye2
+  key: cf1b152fd00f
+  excerpt: '**La session vue depuis un template peut être `null`** — et lire son contenu la démarre, a'
+  verdict: COVERED
+  card: FLC-j4brna7btsq6
+  added: '2026-10-24'
+- course: CRS-r56yzzb4pye2
+  key: 8efc62b98b30
+  excerpt: '**Le user courant vaut `null` quand personne n''est authentifié.** Lire `app.user.email` lè'
+  verdict: COVERED
+  card: FLC-svtr3a18wnga
+- course: CRS-r56yzzb4pye2
+  key: c38061604c33
+  excerpt: '**`_self`, `_context`, `_charset` existent sans Symfony.** Ce sont les globales de Twig ; '
+  verdict: COVERED
+  card: FLC-jxw3kve1asjq
+- course: CRS-r56yzzb4pye2
+  key: f96209d6589d
+  excerpt: '**La forme courte de la route courante existe.** Traverser les attributes de la Request po'
+  verdict: COVERED
+  card: FLC-j3q4g3v2vswg
+  added: '2026-10-24'
+- course: CRS-rdzx4ka72saj
+  key: 4f42adf930bb
+  excerpt: '**Authentication ≠ authorization.** `getUser()` répond à la première, `isGranted()` à la s'
+  verdict: COVERED
+  card: FLC-djzzwsvjg9fq
+- course: CRS-rdzx4ka72saj
+  key: 43487a9d8b33
+  excerpt: '**Pas de user, pas de token** : `getToken()` rend `null` pour une Request anonyme ; le tok'
+  verdict: COVERED
+  card: FLC-wmwwsfzhfn85
+- course: CRS-rdzx4ka72saj
+  key: b480e4159b03
+  excerpt: '**`stateless: true` n''écrit pas le token en session** : le user n''est plus mémorisé d''une '
+  verdict: COVERED
+  card: FLC-01zz93r9r4r5
+- course: CRS-rdzx4ka72saj
+  key: 3dfca1d108c0
+  excerpt: '**Le token en session ne fige pas le user** : il est rechargé par le provider à chaque Req'
+  verdict: COVERED
+  card: FLC-n3pxdj3n10g5
+- course: CRS-rk0fkn1q5byc
+  key: 1329ff92320a
+  excerpt: '**Une command vise `dev` sans `APP_ENV` ni `--env`.** Un `cache:clear` lancé sans rien ne '
+  verdict: COVERED
+  card: FLC-5txke9m0eayx
+- course: CRS-rk0fkn1q5byc
+  key: c827c547458b
+  excerpt: '**`debug:*` lit le container compilé, pas les files de configuration.** C''est précisément '
+  verdict: COVERED
+  card: FLC-9a2cfa1bbdmb
+- course: CRS-rk0fkn1q5byc
+  key: e4c4f5937c01
+  excerpt: '**`bin/console` sans argument exécute `list`.**'
+  verdict: COVERED
+  card: FLC-ga3htj2578ef
+- course: CRS-rk0fkn1q5byc
+  key: 00656c89a5d0
+  excerpt: '**Le préfixe n''indique pas le bundle d''origine** : il nomme le domain.'
+  verdict: COVERED
+  card: FLC-5ch4cx1dvrxd
+- course: CRS-rkq1d437dw5d
+  key: 10d8e64f898e
+  excerpt: '**`trigger_deprecation()` n''appartient pas au framework.** Elle vient d''un package de cont'
+  verdict: COVERED
+  card: FLC-3bfj091w0m3y
+- course: CRS-rkq1d437dw5d
+  key: 7c2dd69e9bce
+  excerpt: '**Rien ne naît déprécié.** Une nouvelle class ne peut pas être introduite dépréciée, ni co'
+  verdict: COVERED
+  card: FLC-n17zfdyt572z
+- course: CRS-rkq1d437dw5d
+  key: 8c3a2da0f313
+  excerpt: '**Déprécier et supprimer ne se font pas dans la même version.** Deprecation en mineure, su'
+  verdict: COVERED
+  card: FLC-9m8p1pfmbs1b
+- course: CRS-rkq1d437dw5d
+  key: 2d60240dccf8
+  excerpt: '**La suppression écrit à son tour.** Une **quatrième** entrée de `CHANGELOG.md` décrit les'
+  verdict: COVERED
+  card: FLC-tr10g3xdvq9f
+- course: CRS-rkq1d437dw5d
+  key: 74e13ebb8a71
+  excerpt: '**Les `CHANGELOG-*` de la racine ne se modifient pas à la main.** Ils sont générés à la pr'
+  verdict: COVERED
+  card: FLC-bhyn20e0t0sr
+- course: CRS-se1jr6cxh2n7
+  key: 9bd823e65336
+  excerpt: '**Sans routage, le message est traité tout de suite** — pas mis en attente, pas perdu.'
+  verdict: COVERED
+  card: FLC-g0g67y6cwvv1
+- course: CRS-se1jr6cxh2n7
+  key: 1e429a0c0013
+  excerpt: '**Une class mal orthographiée dans `routing` fait échouer le build** ; seul un namespace s'
+  verdict: COVERED
+  card: FLC-s5t74pef441y
+- course: CRS-se1jr6cxh2n7
+  key: 841b78c235cd
+  excerpt: '**La configuration l''emporte sur `#[AsMessage]`.**'
+  verdict: COVERED
+  card: FLC-xv33efxv573a
+- course: CRS-se1jr6cxh2n7
+  key: 8662fa3d52f7
+  excerpt: '**`sync://` n''est pas « pas de transport »** : il traite sur place, et pose un `SentStamp`'
+  verdict: COVERED
+  card: FLC-m9ez22nnssyj
+- course: CRS-se1jr6cxh2n7
+  key: 063404e4d6fd
+  excerpt: '**`in-memory://` est réservé aux tests** ; il ne traite jamais rien.'
+  verdict: COVERED
+  card: FLC-v2cegnfffjxa
+- course: CRS-sf3701ncg2va
+  key: 36892515a319
+  excerpt: '**`name` est le seul parameter obligatoire de `#[AsCommand]`.**'
+  verdict: COVERED
+  card: FLC-9vr6c0s8t70h
+- course: CRS-sf3701ncg2va
+  key: 7f5ef995d3c9
+  excerpt: '**`configure()` s''exécute à la construction**, pas à l''exécution : elle ne voit pas l''entr'
+  verdict: COVERED
+  card: FLC-xcgmkzm2gqan
+- course: CRS-sf3701ncg2va
+  key: 61903d72b49b
+  excerpt: '**Properties avant `parent::__construct()`** quand `configure()` en dépend.'
+  verdict: COVERED
+  card: FLC-c51027n1sspw
+- course: CRS-sf3701ncg2va
+  key: 5a486f9a6806
+  excerpt: '**Une command `hidden` reste exécutable** — elle disparaît de `list`, elle n''est pas désac'
+  verdict: COVERED
+  card: FLC-036xnp3hrtb5
+- course: CRS-sf3701ncg2va
+  key: d29d1a6e2b8f
+  excerpt: '**Le premier segment avant `|` est le nom**, le reste sont des alias ; un premier segment '
+  verdict: COVERED
+  card: FLC-y2aaej5gv1s0
+- course: CRS-sf3701ncg2va
+  key: 300e4d08f73c
+  excerpt: '**Des `usages` dans l''attribute d''une command invocable sont ignorés** dans une applicatio'
+  verdict: COVERED
+  card: FLC-fqgk25qs01hr
+- course: CRS-sx61as7r7p0d
+  key: 657ed17e20a2
+  excerpt: '**Un parameter absent de la route n''est pas ignoré : il part en query string.** Une faute '
+  verdict: COVERED
+  card: FLC-rrt3hj10ddp2
+- course: CRS-sx61as7r7p0d
+  key: 4ada3dbedb19
+  excerpt: '**Un object en parameter supplémentaire est converti, selon le code 8.0.** Les properties '
+  verdict: COVERED
+  card: FLC-pxcyrqhbt7eq
+- course: CRS-sx61as7r7p0d
+  key: 4492bee7fcba
+  excerpt: '**Un parameter en trop égal au défaut disparaît de la query string.**'
+  verdict: COVERED
+  card: FLC-mt0cdrrrmvsb
+- course: CRS-sx61as7r7p0d
+  key: c4d3db4b997b
+  excerpt: '**Le type de référence par défaut est le path absolu, pas l''URL absolue.** Générer un lien'
+  verdict: COVERED
+  card: FLC-avhk0n3b3s19
+- course: CRS-tgbv3wp66rcc
+  key: 281cc681beb8
+  excerpt: '**Ni barre finale ni schéma ne redirigent un `POST`.** Les deux mécanismes sont réservés à'
+  verdict: COVERED
+  card: FLC-hjxfcgwjjhkf
+- course: CRS-tgbv3wp66rcc
+  key: 408100868e18
+  excerpt: '**Le schéma agit à l''appariement *et* à la génération.** Une Request dans le mauvais schém'
+  verdict: COVERED
+  card: FLC-ta32kxmaxc7e
+- course: CRS-tgbv3wp66rcc
+  key: 1218d0186899
+  excerpt: '**Le component seul ne redirige pas.** Son `UrlMatcher` échoue en 404 ; c''est le matcher d'
+  verdict: COVERED
+  card: FLC-rsz1m0n5fwht
+- course: CRS-tgbv3wp66rcc
+  key: 59b10e4f17bd
+  excerpt: '**Aucun controller applicatif n''intervient.** Le matcher route la Request vers `RedirectCo'
+  verdict: COVERED
+  card: FLC-ksem3jr21w7d
+- course: CRS-thmkagkjcvh3
+  key: a7c9df88ae65
+  excerpt: '**On lit un cookie sur la Request et on l''écrit sur la Response.** Poser un cookie sur l''o'
+  verdict: COVERED
+  card: FLC-vzb5rxk16y8v
+- course: CRS-thmkagkjcvh3
+  key: 5dc70a1f7456
+  excerpt: '**`removeCookie()` ne supprime rien chez le client.** Elle retire l''entrée du sac, donc le'
+  verdict: COVERED
+  card: FLC-bes1vrcy3p5v
+- course: CRS-thmkagkjcvh3
+  key: 4459114cb5bd
+  excerpt: '**La fonction native de PHP fonctionne, et c''est le problème.** Elle écrit le header hors '
+  verdict: COVERED
+  card: FLC-he5ay10r1yzk
+- course: CRS-thmkagkjcvh3
+  key: 91905d980306
+  excerpt: '**Écrire un cookie oblige donc à tenir la Response.** Un controller qui délègue entièremen'
+  verdict: COVERED
+  card: FLC-b5k068qvbh5t
+- course: CRS-tqcp2kn9r3b5
+  key: 18274d3971b0
+  excerpt: '**Déclarer un attribute ne l''exécute pas.** Sans code de réflexion qui le lit, un attribut'
+  verdict: COVERED
+  card: FLC-shcv7673gcfc
+  added: '2026-10-24'
+- course: CRS-tqcp2kn9r3b5
+  key: be418417d15c
+  excerpt: '**`getAttributes()` ne construit rien.** Tant que `newInstance()` n''est pas appelé, la cla'
+  verdict: COVERED
+  card: FLC-6rbhadxrw3sh
+- course: CRS-tqcp2kn9r3b5
+  key: c07767d61ea1
+  excerpt: '**Les arguments sont des expressions constantes.** `#[Route(path: getPath())]` ne compile '
+  verdict: COVERED
+  card: FLC-y6rz0p94wkxt
+  added: '2026-10-24'
+- course: CRS-tqcp2kn9r3b5
+  key: 4fb549328b46
+  excerpt: '**Sans `IS_REPEATABLE`, répéter un attribute est une erreur** au moment de la lecture par '
+  verdict: COVERED
+  card: FLC-yq3sy3g85yz0
+  added: '2026-10-24'
+- course: CRS-tt9yn0a06ngb
+  key: cbc368a17b8b
+  excerpt: '**Un unit test ne démarre pas le kernel.** Dès qu''un test appelle `bootKernel()`, il est d'
+  verdict: COVERED
+  card: FLC-8p0tpa6x1krf
+- course: CRS-tt9yn0a06ngb
+  key: 28eb3e3a74dc
+  excerpt: '**« Functional test » et « test d''application » désignent la même chose** dans le vocabula'
+  verdict: COVERED
+  card: FLC-p3z5z4g1dvae
+- course: CRS-tt9yn0a06ngb
+  key: 6c422fbcd3bd
+  excerpt: '**`php bin/phpunit`** est la command que donne la documentation 8.0.'
+  verdict: COVERED
+  card: FLC-ntf57j6y8dv2
+- course: CRS-tt9yn0a06ngb
+  key: 47c64b3f5717
+  excerpt: '**Un file `…Tests.php` est ignoré** quand PHPUnit parcourt un directory.'
+  verdict: COVERED
+  card: FLC-qwnqhz06hvg5
+- course: CRS-tt9yn0a06ngb
+  key: 5fbd9e4f3e3d
+  excerpt: '**`phpunit.xml` passe avant `phpunit.dist.xml`.**'
+  verdict: COVERED
+  card: FLC-g05te1ta25ms
+- course: CRS-tt9yn0a06ngb
+  key: 2f4a69f1f79f
+  excerpt: '**`tests/` reflète `src/`**, et les classes se terminent par `Test`.'
+  verdict: COVERED
+  card: FLC-ntf57j6y8dv2
+- course: CRS-txp6tjhjtfy8
+  key: 3164b217db95
+  excerpt: '**Trois couches de données, pas deux.** Modèle, normalisée, vue : la couche intermédiaire '
+  verdict: COVERED
+  card: FLC-jd951drcz26t
+- course: CRS-txp6tjhjtfy8
+  key: 21b6e9c9b4c7
+  excerpt: '**La norm data d''un `DateType` est un `DateTime`**, pas l''array d''ints de l''exemple docume'
+  verdict: COVERED
+  card: FLC-xsegkv0rygp5
+- course: CRS-txp6tjhjtfy8
+  key: e0b83e496356
+  excerpt: '**La vue est faite de strings.** Un navigateur n''envoie que du texte.'
+  verdict: COVERED
+  card: FLC-34km4f37b7zm
+- course: CRS-txp6tjhjtfy8
+  key: 4d274438ff0b
+  excerpt: '**Le component est autonome.** Ce n''est pas une fonctionnalité de FrameworkBundle.'
+  verdict: COVERED
+  card: FLC-qxgkz5wy6bya
+- course: CRS-tyf3yfxjc3sa
+  key: 61640ea17e85
+  excerpt: '**Flex est un plugin Composer, pas un bundle ni une command.** Il n''y a rien à appeler : i'
+  verdict: COVERED
+  card: FLC-sv4mb5ykzn41
+- course: CRS-tyf3yfxjc3sa
+  key: 2aadc5c52bbb
+  excerpt: '**`symfony.lock` n''est pas `composer.lock`.** Il recense les **recipes** appliquées, et il'
+  verdict: COVERED
+  card: FLC-hwymjn4wt8nh
+- course: CRS-tyf3yfxjc3sa
+  key: 5104358585c8
+  excerpt: '**Les deux repositories de recipes ne se comportent pas pareil.** `symfony/recipes` est ap'
+  verdict: COVERED
+  card: FLC-fnnnpss9y72e
+- course: CRS-tygmreqkkds3
+  key: 769689e9beb9
+  excerpt: '**Le component fonctionne sans le bundle.** HttpKernel est autonome : le contrat `handle()'
+  verdict: COVERED
+  card: FLC-e5g4j3jgmjrd
+- course: CRS-tygmreqkkds3
+  key: 0fb9586099fa
+  excerpt: '**FrameworkBundle ne réécrit rien ; il câble.** Listeners enregistrés, resolvers tagués co'
+  verdict: COVERED
+  card: FLC-j9ay345szwmw
+- course: CRS-tygmreqkkds3
+  key: c59318aa12a7
+  excerpt: '**`AbstractController` vient du bundle**, pas du component — c''est le même partage. Le pat'
+  verdict: COVERED
+  card: FLC-nwhnsg35rszb
+- course: CRS-tygmreqkkds3
+  key: 5772181187b9
+  excerpt: '**`Kernel` porte `handle()` sans l''avoir déclaré.** `KernelInterface` étend `HttpKernelInt'
+  verdict: COVERED
+  card: FLC-nc3gmdvptymf
+- course: CRS-v1808qnchx6g
+  key: 594477e041d0
+  excerpt: '**Un message non traduit est retourné tel quel**, sans erreur.'
+  verdict: COVERED
+  card: FLC-bhpwspqa16h9
+- course: CRS-v1808qnchx6g
+  key: 207e8c58d08e
+  excerpt: '**`+intl-icu` est un suffixe de nom de file**, pas une option de configuration.'
+  verdict: COVERED
+  card: FLC-7ar3ewagp1y0
+- course: CRS-v1808qnchx6g
+  key: 82ddff515001
+  excerpt: '**`%name%` en format classique, `{name}` en ICU** — les deux ne se mélangent pas.'
+  verdict: COVERED
+  card: FLC-rjw9k3v453hd
+- course: CRS-v1808qnchx6g
+  key: 241c64eb6441
+  excerpt: '**Le directory `translations/` du projet prime** sur celui des bundles, key par key.'
+  verdict: COVERED
+  card: FLC-kkgjhggdjn2q
+- course: CRS-v1808qnchx6g
+  key: df1b9b9a68bc
+  excerpt: '**La locale parente s''intercale** dans le repli.'
+  verdict: COVERED
+  card: FLC-6prxt27twf8x
+- course: CRS-v1808qnchx6g
+  key: d7f67b8661a2
+  excerpt: '**`trans_default_domain` ne franchit pas un `include`.**'
+  verdict: COVERED
+  card: FLC-t6p1c829q5r4
+- course: CRS-v1808qnchx6g
+  key: 1b4f500051ba
+  excerpt: '**Le tag `{% trans %}` n''échappe pas** ; le filter, si.'
+  verdict: COVERED
+  card: FLC-jashy9jhgs0h
+- course: CRS-vkgr06y3x72g
+  key: 8af0959fb350
+  excerpt: '**Tout ce qui suit un parameter facultatif doit l''être aussi.** La conséquence surprend : '
+  verdict: COVERED
+  card: FLC-x8ga0twzt6g1
+- course: CRS-vkgr06y3x72g
+  key: 02df3b37e55d
+  excerpt: '**Une default value en fin de path disparaît de l''URL générée.** L''inclure de force s''écri'
+  verdict: COVERED
+  card: FLC-5j4yp6wp9yzk
+- course: CRS-vkgr06y3x72g
+  key: 245b076acc0a
+  excerpt: '**`{!page}` rend aussi le parameter obligatoire à l''appariement.** Une variable importante'
+  verdict: COVERED
+  card: FLC-amtk9erxf5fr
+- course: CRS-vkgr06y3x72g
+  key: 297629a91448
+  excerpt: '**Un défaut d''argument ne compte que si le path porte un parameter du même nom.**'
+  verdict: COVERED
+  card: FLC-xgwck7f5y5zq
+- course: CRS-vkgr06y3x72g
+  key: 9ec0f08b0419
+  excerpt: '**La default value n''a pas à satisfaire le requirement du parameter.** Le requirement port'
+  verdict: COVERED
+  card: FLC-s7es8e4pq9vf
+- course: CRS-vskyr5zdwr2t
+  key: e13ee901ffb1
+  excerpt: '**Sans group passé, seul `Default` est validé.** Une constraint étiquetée `registration` n'
+  verdict: COVERED
+  card: FLC-ecb988cmqxdn
+- course: CRS-vskyr5zdwr2t
+  key: 528b7f404169
+  excerpt: '**`Default` et le nom de la class ne sont pas interchangeables** dès qu''il y a un object i'
+  verdict: COVERED
+  card: FLC-11vbya1jem4q
+- course: CRS-vskyr5zdwr2t
+  key: 611b0d46d323
+  excerpt: '**Une constraint étiquetée du seul nom de la class n''est pas dans `Default`**, quoi qu''en '
+  verdict: COVERED
+  card: FLC-qtztdhmmqsg2
+- course: CRS-vskyr5zdwr2t
+  key: 9b87b3e69928
+  excerpt: '**Un group ne se déclare nulle part** : il existe dès qu''une constraint le nomme.'
+  verdict: COVERED
+  card: FLC-kw227s2tr9gj
+- course: CRS-vx5kvfhs0p0s
+  key: 7da1c7d09604
+  excerpt: '**La function et le tag n''écrivent pas au même endroit.**'
+  verdict: COVERED
+  card: FLC-f2fz5g5z16nj
+- course: CRS-vx5kvfhs0p0s
+  key: a3f58ceca237
+  excerpt: '**En production, la function n''existe pas** : erreur à la compilation, pas un avertissemen'
+  verdict: COVERED
+  card: FLC-bvkkyv9gvk04
+- course: CRS-vx5kvfhs0p0s
+  key: d8c4d0f581cd
+  excerpt: '**Sans argument, c''est tout le contexte qui sort.**'
+  verdict: COVERED
+  card: FLC-fe3wkxfj8v05
+- course: CRS-vx5kvfhs0p0s
+  key: a2e381f8add9
+  excerpt: '**Le tag tag par nom de variable ; la function refuse les arguments nommés** avec Twig 3.2'
+  verdict: COVERED
+  card: FLC-e8g289vgszxs
+- course: CRS-w6yfxm6ad4zy
+  key: f0fa1adc5e46
+  excerpt: L'autowiring passe par le **type**, pas par le nom — sauf alias nommé et `#[Target]`.
+  verdict: COVERED
+  card: FLC-yze03t40rkqr
+- course: CRS-w6yfxm6ad4zy
+  key: 8143ff4eebe7
+  excerpt: Deux implémentations d'une interface **suppriment** l'alias automatique.
+  verdict: COVERED
+  card: FLC-yze03t40rkqr
+- course: CRS-w6yfxm6ad4zy
+  key: 07e8937acb5e
+  excerpt: Une faute dans le nom d'argument retombe **en silence** sur l'alias par défaut ; la même f
+  verdict: COVERED
+  card: FLC-8exbtqgre1g2
+- course: CRS-w6yfxm6ad4zy
+  key: 5cb66bc615a8
+  excerpt: '`#[Target]` vise le nom de l''**alias nommé** ; un identifier ne passe que s''il est déjà la'
+  verdict: COVERED
+  card: FLC-a0hf1fp79fjh
+- course: CRS-w6yfxm6ad4zy
+  key: 5e785ef861c3
+  excerpt: Un scalaire ne s'autowire jamais.
+  verdict: COVERED
+  card: FLC-8mmhmby2gv1f
+- course: CRS-w82wtddwhexg
+  key: 503b561dbdc7
+  excerpt: '**La strategy par défaut dépend de l''extension du template.** `.html.twig` échappe en HTML'
+  verdict: COVERED
+  card: FLC-w3yvsts2vzv6
+- course: CRS-w82wtddwhexg
+  key: 32ae62901099
+  excerpt: '**L''escaping a lieu à l''affichage, pas à l''affectation.** Ranger une valeur dans une varia'
+  verdict: COVERED
+  card: FLC-6dzrbr07rhb0
+  added: '2026-10-24'
+- course: CRS-w82wtddwhexg
+  key: 6d1e99c27faa
+  excerpt: '**La strategy HTML ne suffit pas dans un attribute sans guillemets.** C''est la strategy dé'
+  verdict: COVERED
+  card: FLC-a64hqxfhfzpc
+- course: CRS-w82wtddwhexg
+  key: 1491da984b9e
+  excerpt: '**`raw` n''agit que s''il est le dernier filter.**'
+  verdict: COVERED
+  card: FLC-ey0f79wsnp1s
+- course: CRS-w82wtddwhexg
+  key: a98f40502d3a
+  excerpt: '**La strategy d''URL vise un sous-composant, pas une URI entière.** L''appliquer à une adres'
+  verdict: COVERED
+  card: FLC-aaw7xa69q5m8
+  added: '2026-10-24'
+- course: CRS-w83y6pfa5edn
+  key: cd11cc9fdec4
+  excerpt: '**Par défaut, le template inclus voit tout le contexte de l''appelant.** Le fragment marche'
+  verdict: COVERED
+  card: FLC-hhtpt2r6ppfc
+- course: CRS-w83y6pfa5edn
+  key: f5ab9d5ac0ff
+  excerpt: '**Restreindre le contexte s''écrit différemment selon la forme employée** — un mot-clé dans'
+  verdict: COVERED
+  card: FLC-r9f7m45kfgbz
+- course: CRS-w83y6pfa5edn
+  key: 5d1f621cd4e6
+  excerpt: '**Tolérer l''absence aussi** : `ignore missing` en tag, `ignore_missing: true` en function.'
+  verdict: COVERED
+  card: FLC-ps0tj3zen5wk
+- course: CRS-w83y6pfa5edn
+  key: 12dbc0d9a347
+  excerpt: '**Une liste de noms n''inclut qu''un template** : le premier qui existe.'
+  verdict: COVERED
+  card: FLC-wc0h7mtp1txf
+- course: CRS-way4aktj2d5m
+  key: 7c420e78a835
+  excerpt: '**`validate()` ne lève rien pour une donnée invalide**, même mal typée ; une constraint ma'
+  verdict: COVERED
+  card: FLC-wpygfvfw8h61
+- course: CRS-way4aktj2d5m
+  key: 5e91125361b2
+  excerpt: '**Une liste vide est un object.** Seul `count()` dit si la validation a réussi.'
+  verdict: COVERED
+  card: FLC-3varyj6x10n9
+- course: CRS-way4aktj2d5m
+  key: 41d8dfc18425
+  excerpt: '**`createValidator()` ignore les attributes** : il faut `enableAttributeMapping()`.'
+  verdict: COVERED
+  card: FLC-gs9qaxhpg8rd
+- course: CRS-way4aktj2d5m
+  key: e8802cdda6eb
+  excerpt: '**`validatePropertyValue()` n''a pas besoin de l''object peuplé** : elle teste une valeur ca'
+  verdict: COVERED
+  card: FLC-xv34tzgygdz8
+- course: CRS-wbgw87za3w5n
+  key: 299449019d73
+  excerpt: '**Priority haute = appelé en premier**, et les valeurs négatives sont permises.'
+  verdict: COVERED
+  card: FLC-tz5z2qr23ew3
+- course: CRS-wbgw87za3w5n
+  key: 203981be85e9
+  excerpt: '**À priority égale, l''ordre d''ajout décide.**'
+  verdict: COVERED
+  card: FLC-85fj3z1wy7bq
+- course: CRS-wbgw87za3w5n
+  key: '466800896546'
+  excerpt: '**`dispatch()` sans nom utilise la class de l''event.**'
+  verdict: COVERED
+  card: FLC-8h49na8vydar
+- course: CRS-wbgw87za3w5n
+  key: df5a55b85010
+  excerpt: '**`method` est optionnelle sur `#[AsEventListener]`** ; le défaut est `on` + nom de l''even'
+  verdict: COVERED
+  card: FLC-rmtxw62nfx00
+- course: CRS-wbgw87za3w5n
+  key: d44ab0c1ecb4
+  excerpt: '**Un subscriber peut inscrire plusieurs methods sur un même event.**'
+  verdict: COVERED
+  card: FLC-bnbrgjywc741
+- course: CRS-wf523wdsg2xp
+  key: cf9d7238e760
+  excerpt: '**`dd()` arrête l''exécution ; `dump()` non**, et `dump()` rend sa valeur.'
+  verdict: COVERED
+  card: FLC-ha0fycvyrph8
+  added: '2026-10-24'
+- course: CRS-wf523wdsg2xp
+  key: 954dba797eb1
+  excerpt: '**`dump()` va dans la debug toolbar** quand DebugBundle est installé, pas dans la Response'
+  verdict: COVERED
+  card: FLC-rv7x2gdhzfw6
+- course: CRS-wf523wdsg2xp
+  key: a4a563e87553
+  excerpt: '**Un `dump()` déployé ne provoque pas d''erreur** : VarDumper est requis par ErrorHandler. '
+  verdict: COVERED
+  card: FLC-1f4raf4m8wng
+- course: CRS-wf523wdsg2xp
+  key: 4dbd8a5b2143
+  excerpt: '**`debug:config` montre la configuration fusionnée**, pas le contenu d''un file.'
+  verdict: COVERED
+  card: FLC-rtgbvygf8kg5
+- course: CRS-wg3j0t5pm7w1
+  key: 03c3e4112758
+  excerpt: '**Sans requirement, deux routes de même forme sont départagées par l''ordre de déclaration*'
+  verdict: COVERED
+  card: FLC-vqf932cfza5d
+- course: CRS-wg3j0t5pm7w1
+  key: aa729dd6a697
+  excerpt: '**Un requirement est une expression régulière PHP**, avec ce que cela implique : une expre'
+  verdict: COVERED
+  card: FLC-gh32p9t68h99
+  added: '2026-10-24'
+- course: CRS-wg3j0t5pm7w1
+  key: 1e365438916e
+  excerpt: '**Le requirement vaut aussi à la génération.** Générer `blog_list` avec `page: ''abc''` lève'
+  verdict: COVERED
+  card: FLC-hd67kse1xz1g
+- course: CRS-wzmrks85zyh1
+  key: 29723365a3fb
+  excerpt: '**Un accessor doit s''appeler `get…`, `is…` ou `has…`** ; sinon, une `MappingException`, pa'
+  verdict: COVERED
+  card: FLC-c32hym0f67qw
+- course: CRS-wzmrks85zyh1
+  key: 1b8d0c1be1e2
+  excerpt: '**La visibilité ne bloque rien**, ni sur une property ni sur un accessor.'
+  verdict: COVERED
+  card: FLC-n0bjrcwq91qy
+- course: CRS-wzmrks85zyh1
+  key: d2d14a726325
+  excerpt: '**Le path d''une violation d''accessor perd le préfixe** : `isPasswordSafe` donne `passwordS'
+  verdict: COVERED
+  card: FLC-jp7xdv9wx0pd
+- course: CRS-wzmrks85zyh1
+  key: 7f23b9f7ae4c
+  excerpt: '**Une règle qui croise deux properties n''est pas une constraint de property** : il lui fau'
+  verdict: COVERED
+  card: FLC-8j4dh8ez15k0
+- course: CRS-x2f8reencvcs
+  key: 6e1dc71e7546
+  excerpt: '`{{ }}` affiche, `{% %}` exécute — un `{% %}` n''affiche jamais rien.'
+  verdict: COVERED
+  card: FLC-2dya1ngypecc
+  added: '2026-10-24'
+- course: CRS-x2f8reencvcs
+  key: 4d363940df88
+  excerpt: L'ordre de résolution commence par le **array**, pas par la property.
+  verdict: COVERED
+  card: FLC-2e8x0yx9hbbp
+- course: CRS-x2f8reencvcs
+  key: feec9b5c7f49
+  excerpt: Une **constante de class** est lue avant le *getter* si son nom est identique, casse compr
+  verdict: COVERED
+  card: FLC-2e8x0yx9hbbp
+- course: CRS-x2f8reencvcs
+  key: 0e3bdbb79e38
+  excerpt: '`and` / `or` / `not`, jamais `&&` / `||` / `!`.'
+  verdict: COVERED
+  card: FLC-877fwv133fsn
+  added: '2026-10-24'
+- course: CRS-x2f8reencvcs
+  key: 15661cee0396
+  excerpt: '`~` concatène ; `+` additionne.'
+  verdict: COVERED
+  card: FLC-zv7yngs0n7zm
+- course: CRS-x2f8reencvcs
+  key: acb893cb0b9e
+  excerpt: Sans `strict_variables`, une variable inconnue vaut `null` silencieusement.
+  verdict: COVERED
+  card: FLC-r2wsckvngvtb
+- course: CRS-x2f8reencvcs
+  key: 8ebbfde0edec
+  excerpt: '`attribute()` (3.15) et `spaceless` (3.12) sont dépréciés en 3.22.'
+  verdict: COVERED
+  card: FLC-12635kscyps3
+- course: CRS-x5frtpg07mmd
+  key: 11ed9036cdc2
+  excerpt: '**Un seul firewall s''applique**, le premier qui correspond ; les autres sont ignorés.'
+  verdict: COVERED
+  card: FLC-9j0hj0sv3c6j
+- course: CRS-x5frtpg07mmd
+  key: 53bee1463513
+  excerpt: '**Un firewall sans `pattern` attrape tout** et se déclare en dernier.'
+  verdict: COVERED
+  card: FLC-q8j9eyczr7yf
+- course: CRS-x5frtpg07mmd
+  key: 79087d654b5a
+  excerpt: '**Deux firewalls n''échangent pas leur authentication** sans `context` commun.'
+  verdict: COVERED
+  card: FLC-5499cdhqv8q2
+- course: CRS-x5frtpg07mmd
+  key: a7875ecc07fa
+  excerpt: '**`security: false` désactive aussi `access_control`** pour ses URL.'
+  verdict: COVERED
+  card: FLC-xn66nhp6dwy7
+- course: CRS-x5frtpg07mmd
+  key: f82cd878c144
+  excerpt: '**`lazy` épargne le rechargement du user** sur les pages qui ne s''en servent pas — et n''a '
+  verdict: COVERED
+  card: FLC-q3np73b4yht2
+- course: CRS-x8j99kkmpsng
+  key: 6ed7f2ae9e73
+  excerpt: '**La barre n''est injectée que dans du HTML qui a un `</body>`**, hors redirect et hors XHR'
+  verdict: COVERED
+  card: FLC-phj51jdkr8y6
+- course: CRS-x8j99kkmpsng
+  key: 5e3b77503bea
+  excerpt: '**`collect()` est appelée une fois, sur `kernel.response`** ; `lateCollect()` sur `kernel.'
+  verdict: COVERED
+  card: FLC-n1txacsqkexq
+- course: CRS-x8j99kkmpsng
+  key: 1e157cbf964d
+  excerpt: '**Les profils disparaissent après environ 2 jours** — purge déclenchée une fois sur dix, à'
+  verdict: COVERED
+  card: FLC-sqzp7jq9h3ws
+- course: CRS-x8j99kkmpsng
+  key: de40e09cdbe9
+  excerpt: '**`getName()` est la key d''accès** — par défaut le FQCN, avec `AbstractDataCollector`.'
+  verdict: COVERED
+  card: FLC-k3g0ne1da089
+- course: CRS-xkp7v8142jt1
+  key: 5ce3cd5c15f1
+  excerpt: '**`getInternalRequest()` est l''object BrowserKit**, pas celui de l''application.'
+  verdict: COVERED
+  card: FLC-db4h81cqec83
+- course: CRS-xkp7v8142jt1
+  key: 075f6d3108a3
+  excerpt: '**`getRequest()` et `getResponse()` sont les objects HttpFoundation** — ceux que le contro'
+  verdict: COVERED
+  card: FLC-80h962pnszqx
+- course: CRS-xkp7v8142jt1
+  key: abadfeab9653
+  excerpt: '**Avant toute Request, ils lèvent `BadMethodCallException`** — ils ne rendent pas `null`. '
+  verdict: COVERED
+  card: FLC-06zq95crqaxt
+- course: CRS-xkp7v8142jt1
+  key: b8244dd1ea7c
+  excerpt: '**Un redirect non suivi** laisse `_route` sur la route qui a redirigé.'
+  verdict: COVERED
+  card: FLC-6jfvg0g122sk
+- course: CRS-xkp7v8142jt1
+  key: 12522ba828d9
+  excerpt: '**Préférer les assertions Symfony** aux lectures brutes, pour le message d''échec.'
+  verdict: COVERED
+  card: FLC-5h761m18q4eg
+- course: CRS-y0zc67f3e5zk
+  key: 493ca9809417
+  excerpt: '**Quatre constantes, cinq events.** `ConsoleAlarmEvent` n''a pas de constante ; il n''existe'
+  verdict: COVERED
+  card: FLC-hk7rkbxfq90j
+- course: CRS-y0zc67f3e5zk
+  key: 6fb08bf95576
+  excerpt: '**Un signal intercepté sort en code 0** si personne ne le change.'
+  verdict: COVERED
+  card: FLC-hwy7pnrsb9c9
+- course: CRS-y0zc67f3e5zk
+  key: bf23f22742fb
+  excerpt: '**`TERMINATE` est dispatché même après une erreur** — c''est sa raison d''être.'
+  verdict: COVERED
+  card: FLC-kzm6qbe66rmk
+- course: CRS-y0zc67f3e5zk
+  key: 286a9c5dd9e1
+  excerpt: '**`disableCommand()` produit le code 113**, pas 0 ni 1 — et `TERMINATE` est quand même dis'
+  verdict: COVERED
+  card: FLC-xyqq7y95s9n8
+- course: CRS-y0zc67f3e5zk
+  key: ba5390889541
+  excerpt: '**`setExitCode(0)` sur `ERROR` avale l''exception** au lieu de la laisser remonter.'
+  verdict: COVERED
+  card: FLC-n3q35ybfdme0
+- course: CRS-y0zc67f3e5zk
+  key: 91704c267153
+  excerpt: '**Pas de dispatcher, pas d''events** : une `Application` autonome est muette.'
+  verdict: COVERED
+  card: FLC-fzy07xhjbqth
+- course: CRS-y3g0v9nmne3t
+  key: c1260720fa7a
+  excerpt: '`supports()` à `false` = **abstention**, pas refus.'
+  verdict: COVERED
+  card: FLC-ggmqsjt5xpg5
+- course: CRS-y3g0v9nmne3t
+  key: 4cc39f61811b
+  excerpt: L'ancienne signature de `voteOnAttribute()` est une **erreur fatale** en 8.0.
+  verdict: COVERED
+  card: FLC-dx8kfc8r2g03
+- course: CRS-y3g0v9nmne3t
+  key: f911f7a3fc58
+  excerpt: 'Le défaut est `affirmative` : **un seul** accord suffit, même si un autre refuse.'
+  verdict: COVERED
+  card: FLC-kmf16st6cbrg
+- course: CRS-y3g0v9nmne3t
+  key: d2790df82bb9
+  excerpt: '`unanimous` = « aucun refus **et** au moins un accord » ; si tous s''abstiennent, `allow_if'
+  verdict: COVERED
+  card: FLC-04gkbssqmsy2
+- course: CRS-y3g0v9nmne3t
+  key: 778969820b1a
+  excerpt: 'Les voters ne sont pas tous interrogés : seule `consensus` les consulte tous.'
+  verdict: COVERED
+  card: FLC-aepj17vj9rq2
+- course: CRS-y3g0v9nmne3t
+  key: 9fe82f9f779f
+  excerpt: '`priority` dépend de l''ordre des voters.'
+  verdict: COVERED
+  card: FLC-fnvn0qgfavra
+- course: CRS-y84syktt20ww
+  key: 7c7334fca11e
+  excerpt: '**MIT n''est pas copyleft.** Une application qui utilise Symfony n''a aucune obligation d''êt'
+  verdict: COVERED
+  card: FLC-71nhnm9tc4m2
+- course: CRS-y84syktt20ww
+  key: d435d244792c
+  excerpt: '**L''unique obligation porte sur l''avis, pas sur le code.** Il faut reproduire l''avis de co'
+  verdict: COVERED
+  card: FLC-pyh6wnkg7dc5
+- course: CRS-yc9fry0vz4gh
+  key: c067e58278e4
+  excerpt: '**`Error` n''étend pas `Exception`.** Les deux implémentent `Throwable`, et c''est leur seul'
+  verdict: COVERED
+  card: FLC-8xtkgssqtqmg
+- course: CRS-yc9fry0vz4gh
+  key: ce8d87fea601
+  excerpt: '**`finally` s''exécute même après un `return`** dans le `try` — et un `return` dans le `fin'
+  verdict: COVERED
+  card: FLC-1kgaxhvwebpz
+  added: '2026-10-24'
+- course: CRS-yc9fry0vz4gh
+  key: bff1c402180c
+  excerpt: '**L''ordre des `catch` compte** : le premier block compatible gagne. Placer `catch (Throwab'
+  verdict: COVERED
+  card: FLC-p34jqjdzhs24
+  added: '2026-10-24'
+- course: CRS-ym86ptkhfgap
+  key: a9684c94affd
+  excerpt: '**Une barre en tête supprime le préfixe de base**, pas la version.'
+  verdict: COVERED
+  card: FLC-1rh42q3b0njr
+- course: CRS-ym86ptkhfgap
+  key: 61e6356d0f4e
+  excerpt: '**Une URL absolue traverse `asset()` sans version.**'
+  verdict: COVERED
+  card: FLC-zeb3xcky877r
+- course: CRS-ym86ptkhfgap
+  key: d305736ba1f0
+  excerpt: '**`version`, `version_strategy` et `json_manifest_path` ne se combinent pas.**'
+  verdict: COVERED
+  card: FLC-bb7e8m3strnc
+- course: CRS-ym86ptkhfgap
+  key: 1112ab77f99a
+  excerpt: '**Absent du manifeste, un path passe inchangé**, sauf en mode strict.'
+  verdict: COVERED
+  card: FLC-6hrf6qdyygp2
+- course: CRS-ym86ptkhfgap
+  key: a1442fbfa016
+  excerpt: '**Les outils de construction d''assets sont hors périmètre** de l''examen.'
+  verdict: NO_CARD
+  reason: 'scope note: asset build tools are outside the exam; the paragraph states no fact a question could test'
+- course: CRS-yvhg325ax38y
+  key: 85124b441442
+  excerpt: '**`firewalls` et `access_control` ont chacun leur règle de première correspondance**, et c'
+  verdict: COVERED
+  card: FLC-paer6jdxzr95
+- course: CRS-yvhg325ax38y
+  key: 42e3049f6598
+  excerpt: '**Un firewall `security: false` désactive aussi `access_control`** pour ses URL : aucun li'
+  verdict: COVERED
+  card: FLC-d5m12ekr5tn4
+- course: CRS-yvhg325ax38y
+  key: eaf01ce01611
+  excerpt: '**Un firewall sans pattern déclaré en premier capte tout, sans erreur.**'
+  verdict: COVERED
+  card: FLC-sjxnyjr7rajb
+- course: CRS-yvhg325ax38y
+  key: 167ea646d2eb
+  excerpt: '**Plusieurs providers imposent de nommer celui de chaque firewall.**'
+  verdict: COVERED
+  card: FLC-4swcbchvb35j
+- course: CRS-yvhg325ax38y
+  key: 4e16598c6d8b
+  excerpt: '**Par défaut, un user inconnu et un mauvais password donnent la même erreur** : `expose_se'
+  verdict: COVERED
+  card: FLC-64kmq5jkgba9
+- course: CRS-yw6c5hq2mbax
+  key: 53e452f081a4
+  excerpt: '**Rendre un controller depuis un template déclenche une sub-Request**, pas un appel de fun'
+  verdict: COVERED
+  card: FLC-ynhbpp2dtxs4
+- course: CRS-yw6c5hq2mbax
+  key: 61b37f1f603f
+  excerpt: '**`controller()` seul n''affiche rien** : il construit une référence.'
+  verdict: COVERED
+  card: FLC-7de3x0at9tq0
+- course: CRS-yw6c5hq2mbax
+  key: f203d3d6b8cb
+  excerpt: '**Une erreur de fragment ne se comporte pas pareil en `dev` et en `prod`.**'
+  verdict: COVERED
+  card: FLC-89nw0jy80qd0
+- course: CRS-yw6c5hq2mbax
+  key: 02f6a4ff05a7
+  excerpt: '**Un redirect dans un fragment est une erreur.**'
+  verdict: COVERED
+  card: FLC-mp2fp95a9ddz
+- course: CRS-yw6c5hq2mbax
+  key: 246908d3d0a5
+  excerpt: '**`framework.fragments` n''est pas actif par défaut** ; il sert à exposer `/_fragment` à l'''
+  verdict: COVERED
+  card: FLC-pw3wpt6wdcnp
+- course: CRS-zbnzvqkhjknh
+  key: 6ba11a94a74d
+  excerpt: '**La moitié des properties de loop n''existent pas sur un iterator** ; l''index et le test d'
+  verdict: COVERED
+  card: FLC-qd532hzxdazs
+- course: CRS-zbnzvqkhjknh
+  key: 88aab3b9862c
+  excerpt: '**L''index commence à 1.**'
+  verdict: COVERED
+  card: FLC-y4mtc33awnjy
+- course: CRS-zbnzvqkhjknh
+  key: b64cb9498bcd
+  excerpt: '**La clause `else` d''une loop se déclenche sur une séquence vide.**'
+  verdict: COVERED
+  card: FLC-dwsb3ms98g0p
+- course: CRS-zbnzvqkhjknh
+  key: 5088cca3556f
+  excerpt: '**Une variable créée dans une loop n''en sort pas** ; déclarée avant, elle garde sa dernièr'
+  verdict: COVERED
+  card: FLC-5e48vqpr4j8q
+- course: CRS-zbnzvqkhjknh
+  key: b3f6fe76a7b7
+  excerpt: '**`0` est faux mais n''est pas vide ; une collection vide est vraie mais vide.**'
+  verdict: COVERED
+  card: FLC-s9sy69xekw71
+- course: CRS-zg5jg6hqp2mj
+  key: eed17b69020c
+  excerpt: '**CssSelector ne parcourt pas le DOM** : il traduit CSS en XPath.'
+  verdict: COVERED
+  card: FLC-0cvzxn60pazy
+- course: CRS-zg5jg6hqp2mj
+  key: ab343658a4d3
+  excerpt: '**`text()` et `attr()` ne lisent que le premier node.**'
+  verdict: COVERED
+  card: FLC-bwnp2m1384a4
+- course: CRS-zg5jg6hqp2mj
+  key: baa3ae1a5a20
+  excerpt: '**`siblings()` exclut le node courant.**'
+  verdict: COVERED
+  card: FLC-87r764vz6peq
+- course: CRS-zg5jg6hqp2mj
+  key: b9d5c5df02c2
+  excerpt: '**On sélectionne un bouton pour obtenir un form** quand le bouton compte ; le `<form>` seu'
+  verdict: COVERED
+  card: FLC-5ksk3aww2rvk
+- course: CRS-zg5jg6hqp2mj
+  key: 297d21a500de
+  excerpt: '**`text()` normalise les espaces par défaut**, et lève une exception sur une sélection vid'
+  verdict: COVERED
+  card: FLC-h4qbe8kdy7eh
+- course: CRS-zg5jg6hqp2mj
+  key: 20eb0251d4fb
+  excerpt: '**Chaque method de parcours rend un nouveau `Crawler`** ; l''object d''origine n''est pas mod'
+  verdict: COVERED
+  card: FLC-1d9an6bca7nd
+- course: CRS-zmg0wrxvqqdq
+  key: 6b66c7fecd56
+  excerpt: '**Conserver la method HTTP change le status code** : 307 si temporaire, 308 si permanente.'
+  verdict: COVERED
+  card: FLC-wvcgqvv01k3x
+- course: CRS-zmg0wrxvqqdq
+  key: e8bd1fc44a29
+  excerpt: '**Un redirect vers une cible vide renvoie 404 ou 410**, pas une erreur de configuration.'
+  verdict: COVERED
+  card: FLC-ds28jtv8sfeh
+- course: CRS-zmg0wrxvqqdq
+  key: 240214a394ed
+  excerpt: '**`route` et `path` ensemble lèvent une exception** : les modes sont exclusifs, et le code'
+  verdict: COVERED
+  card: FLC-ep71avb5fkmg
+- course: CRS-zmg0wrxvqqdq
+  key: e835c969488b
+  excerpt: '**`keepQueryParams` n''existe qu''en mode `route`.** En mode `path`, la query string suit un'
+  verdict: COVERED
+  card: FLC-q651qspyt2g7
+- course: CRS-zmg0wrxvqqdq
+  key: c31deae9fd35
+  excerpt: '**Un `maxAge` seul rend la Response publique.** Il faut `private: true` pour l''éviter.'
+  verdict: COVERED
+  card: FLC-c85wmcw8a9wf
+- course: CRS-zmg0wrxvqqdq
+  key: 6b5bbe11d805
+  excerpt: '**Un controller de route n''est pas forcément dans `App\`.**'
+  verdict: COVERED
+  card: FLC-24p1bdhhjqxd
+  added: '2026-10-24'
+- course: CRS-zsgx3tvpy1kn
+  key: e0fd543599b6
+  excerpt: '**La famille « texte » n''est pas la lignée de `TextType`** : les types numériques héritent'
+  verdict: COVERED
+  card: FLC-95mce7vx432d
+- course: CRS-zsgx3tvpy1kn
+  key: b97da750562f
+  excerpt: '**Toute la famille des choix hérite de `ChoiceType`.**'
+  verdict: COVERED
+  card: FLC-apfbj9fxhfj9
+- course: CRS-zsgx3tvpy1kn
+  key: ba307256b00a
+  excerpt: '**Les keys de `choices` sont les libellés.**'
+  verdict: COVERED
+  card: FLC-b9hh9h135ne0
+- course: CRS-zsgx3tvpy1kn
+  key: 9f6067d8c7fb
+  excerpt: '**Un bouton n''est pas un `FormType`** : une extension de `FormType` ne le touche pas.'
+  verdict: COVERED
+  card: FLC-afrv326hae6d
+- course: CRS-zsgx3tvpy1kn
+  key: 3aca871f0202
+  excerpt: '**`RepeatedType` rend deux fields mais une seule donnée.**'
+  verdict: COVERED
+  card: FLC-jm0yz44xrdrs

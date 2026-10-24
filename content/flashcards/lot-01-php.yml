@@ -1,6 +1,7 @@
 # Lot 01 flashcards (Master Plan §6).
 #
-# Eleven cards for nine items; the PHP API item carries three (remediation P1.1). PED-010 a comblé Interfaces et Abstract classes.
+# Thirty-four cards for nine items. Eleven came first — the PHP API item carried three (remediation P1.1), PED-010 a comblé Interfaces et Abstract classes —
+# and the pitfall audit of 2026-10-24 added 23, one per « Piège d'examen » no card rehearsed (docs/audit/pitfall-flashcards/).
 # L'exemption d'origine raisonnait en situation d'apprentissage ; à livre fermé,
 # « la règle d'avant 8.1 » et « abstract private est fatal » sont des faits de
 # rappel. La carte Abstract classes ne teste PAS la résolution self/static, déjà
@@ -247,3 +248,406 @@ flashcards:
       branch: master
       symbol_or_lines: section Class Abstraction
       verified_at: '2026-09-11'
+
+  - id: FLC-shcv7673gcfc
+    official_item: OIT-1kjqdnryaw0h
+    language: fr
+    level: UNDERSTANDING
+    front: "PHP : une class porte `#[Boom]`, dont le constructor affiche un texte. Que s'affiche-t-il quand on instancie la class ?"
+    back: "Rien. Un attribute est inerte : son constructor ne tourne qu'à `ReflectionAttribute::newInstance()`, pas même à `getAttributes()`."
+    explanation: "Déclarer un attribute n'exécute aucun code ; il faut qu'un code de réflexion le lise puis l'instancie. En Symfony, c'est le framework qui fait cette lecture. Exécuté en PHP 8.4.19. Le texte n'apparaît qu'à `newInstance()`."
+    memorization_justification: "L'intuition « un attribute agit de lui-même » est fausse, et le moment exact de l'instanciation ne se déduit pas de la syntaxe."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/attributes.xml"
+        readable_url: "https://github.com/php/doc-en/blob/master/language/attributes.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        symbol_or_lines: "Reading Attributes with the Reflection API — \"Objects of the attribute class are instantiated only after calling ReflectionAttribute::newInstance\""
+        verified_at: "2026-10-24"
+
+  - id: FLC-y6rz0p94wkxt
+    official_item: OIT-1kjqdnryaw0h
+    language: fr
+    level: TRAP
+    front: "PHP : `#[Route(path: getPath())]` est-il valide ?"
+    back: "Non : erreur fatale à la compilation, « Constant expression contains invalid operations ». Les arguments d'un attribute sont des expressions constantes."
+    explanation: "Littéraux, constants, `new` (depuis PHP 8.1) et opérations constantes sont admis ; un appel de function ne l'est pas. Exécuté en PHP 8.4.19."
+    memorization_justification: "L'écriture ressemble à un appel ordinaire, où tout argument est permis : la restriction ne se devine pas."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/attributes.xml"
+        readable_url: "https://github.com/php/doc-en/blob/master/language/attributes.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        symbol_or_lines: "Attribute syntax — \"Arguments can only be literal values or constant expressions\""
+        verified_at: "2026-10-24"
+
+  - id: FLC-yq3sy3g85yz0
+    official_item: OIT-1kjqdnryaw0h
+    language: fr
+    level: APPLICATION
+    front: "PHP : `#[T]` est posé deux fois sur une class, sans `Attribute::IS_REPEATABLE`. Quand l'erreur apparaît-elle ?"
+    back: "À la lecture par réflexion, quand on instancie l'attribute : `Error: Attribute \"T\" must not be repeated`. La déclaration, elle, compile."
+    explanation: "Par défaut un attribute ne s'emploie qu'une fois par déclaration ; le drapeau `IS_REPEATABLE` lève la limite. L'attribute étant inerte, le contrôle n'a lieu qu'à `newInstance()`. Exécuté en PHP 8.4.19."
+    memorization_justification: "Le moment de l'erreur — la lecture, pas la compilation — est contre-intuitif."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/attributes.xml"
+        readable_url: "https://github.com/php/doc-en/blob/master/language/attributes.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        symbol_or_lines: "Declaring Attribute Classes — \"By default, an attribute can only be used once per declaration. To allow an attribute to be repeatable, specify it in the bitmask ... using the Attribute::IS_REPEATABLE flag\""
+        verified_at: "2026-10-24"
+
+  - id: FLC-ateqfyrqv1d3
+    official_item: OIT-46ry8d7dypmb
+    language: fr
+    level: TRAP
+    front: "PHP 8.4 : qu'est-ce qui distingue une property `readonly` d'une property `private(set)` ?"
+    back: "`readonly` : une seule écriture, et implicitement `protected(set)` — une class enfant peut l'initialiser. `private(set)` : autant d'écritures que voulu, mais depuis la class seule."
+    explanation: "Exécuté en PHP 8.4.19. Un constructor enfant initialise une property readonly du parent, et la seconde écriture lève « Cannot modify readonly property ». Une property `private(set)` s'écrit plusieurs fois dans sa class et lève hors d'elle."
+    memorization_justification: "Deux restrictions d'écriture voisines, l'une sur le nombre d'écritures, l'autre sur l'endroit d'où l'on peut écrire : on les confond tant qu'on ne les a pas opposées."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/properties.xml"
+        readable_url: "https://github.com/php/doc-en/blob/master/language/oop5/properties.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        symbol_or_lines: "Readonly properties — \"As of PHP 8.4.0, readonly properties are implicitly protected(set), so may be set from child classes\""
+        verified_at: "2026-10-24"
+
+  - id: FLC-zjsgcpt10vqp
+    official_item: OIT-46ry8d7dypmb
+    language: fr
+    level: TRAP
+    front: "PHP 8.4 : le hook `get` d'une property s'exécute-t-il une fois, puis sa valeur est-elle conservée ?"
+    back: "Non : il s'exécute à chaque lecture de la property. Rien n'est mémorisé à sa place."
+    explanation: "Un hook remplace le comportement de lecture : trois lectures, trois exécutions. Exécuté en PHP 8.4.19. Une valeur à mémoriser se range soi-même dans une property ordinaire."
+    memorization_justification: "Le mot « property » suggère une valeur stockée ; que le calcul se répète à chaque accès est un fait à retenir."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/property-hooks.xml"
+        readable_url: "https://github.com/php/doc-en/blob/master/language/oop5/property-hooks.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        symbol_or_lines: "Property hooks — \"They allow overriding the read and write behavior of a property\""
+        verified_at: "2026-10-24"
+
+  - id: FLC-ct626d88p6c7
+    official_item: OIT-46ry8d7dypmb
+    language: fr
+    level: RECALL
+    front: "PHP : dans quelle version `#[\\Override]` apparaît-il, et que vérifie-t-il ?"
+    back: "PHP 8.3. Il vérifie qu'une method surcharge bien une method d'une class parente ou d'une interface ; sinon, erreur fatale à la compilation."
+    explanation: "Exécuté en PHP 8.4.19. « C::foo() has #[\\Override] attribute, but no matching parent method exists ». Ne pas le ranger parmi les nouveautés de PHP 8.4."
+    memorization_justification: "Attribution version-par-fonctionnalité : rien dans l'attribute n'indique sa version, et l'examen porte sur PHP 8.4."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/appendices/migration83/new-features.xml"
+        readable_url: "https://github.com/php/doc-en/blob/master/appendices/migration83/new-features.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        symbol_or_lines: "Override Attribute — \"Added the #[\\Override] attribute to check that a method exists in a parent class or implemented interface\""
+        verified_at: "2026-10-24"
+
+  - id: FLC-1kgaxhvwebpz
+    official_item: OIT-bvnvx2b6yt2y
+    language: fr
+    level: APPLICATION
+    front: "PHP : `try { return 'try'; } finally { return 'finally'; }` — que rend la function ? Et si le `try` appelle `exit()` ?"
+    back: "Elle rend `'finally'` : le `return` du `finally` remplace celui du `try`. Avec `exit()`, le `finally` est sauté."
+    explanation: "Le `finally` s'exécute même après un `return` ; un `return` placé dans le `finally` l'emporte. `exit()` termine le script brutalement : tous les blocks `finally` sont sautés. Exécuté en PHP 8.4.19."
+    memorization_justification: "Deux des trois cas contredisent « finally s'exécute toujours » : ils se retiennent un par un."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/control-structures/finally.xml"
+        readable_url: "https://github.com/php/doc-en/blob/master/language/control-structures/finally.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        symbol_or_lines: "Interaction between a finally block and a return statement — \"if the finally block also contains a return statement, the value from the finally block is returned\"; and exit — \"all finally blocks are skipped\""
+        verified_at: "2026-10-24"
+
+  - id: FLC-p34jqjdzhs24
+    official_item: OIT-bvnvx2b6yt2y
+    language: fr
+    level: TRAP
+    front: "PHP : `catch (Throwable $t)` est écrit avant `catch (InvalidArgumentException $e)`. Lequel attrape une `InvalidArgumentException` ?"
+    back: "`catch (Throwable)` : le premier block compatible gagne, et le second devient inatteignable — sans erreur ni avertissement."
+    explanation: "PHP essaie les `catch` dans l'ordre d'écriture. Exécuté en PHP 8.4.19. On écrit les types du plus spécifique au plus général."
+    memorization_justification: "PHP ne signale pas le block mort : seul le réflexe de l'ordre protège."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/control-structures/try-catch.xml"
+        readable_url: "https://github.com/php/doc-en/blob/master/language/control-structures/try-catch.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        symbol_or_lines: "\"The first catch block that matches the class of the thrown Throwable object will handle the error\""
+        verified_at: "2026-10-24"
+
+  - id: FLC-e59nfw3a5krd
+    official_item: OIT-fhb3vz7xbt5h
+    language: fr
+    level: APPLICATION
+    front: "PHP : `$x = 1; $f = function () use ($x) { return $x; }; $x = 2;` — que rend `$f()` ?"
+    back: "`1` : `use` capture la valeur à la definition de la closure, pas à l'appel. Avec `use (&$x)`, ce serait `2`."
+    explanation: "Exécuté en PHP 8.4.19. `1` par valeur, `2` par référence."
+    memorization_justification: "Le moment de la capture surprend qui lit la closure comme du code exécuté plus tard."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/functions.xml"
+        readable_url: "https://github.com/php/doc-en/blob/master/language/functions.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        symbol_or_lines: "Inheriting variables from the parent scope — \"Inherited variable's value is from when the function is defined, not when called\""
+        verified_at: "2026-10-24"
+
+  - id: FLC-1qbj8sb3scg4
+    official_item: OIT-fhb3vz7xbt5h
+    language: fr
+    level: TRAP
+    front: "PHP : que signifie `static` devant une closure, `static function () { … }` ?"
+    back: "Qu'elle n'est liée à aucun object : `$this` n'y existe pas, et `bindTo()` d'une instance échoue (avertissement, `null`). Rien à voir avec une method statique."
+    explanation: "Exécuté en PHP 8.4.19. « Cannot bind an instance to a static closure ». Une closure `static` peut encore changer de portée de class."
+    memorization_justification: "Le même mot-clé a un autre sens sur une method : la confusion est mécanique."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/functions.xml"
+        readable_url: "https://github.com/php/doc-en/blob/master/language/functions.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        symbol_or_lines: "Static anonymous functions — \"This prevents them from having the current class automatically bound to them. Objects may also not be bound to them at runtime\""
+        verified_at: "2026-10-24"
+
+  - id: FLC-xtrdcvjy4swp
+    official_item: OIT-fhb3vz7xbt5h
+    language: fr
+    level: RECALL
+    front: "PHP : une closure est-elle un object ? Le type `callable` n'accepte-t-il que des closures ?"
+    back: "Oui, une instance de `Closure`. Non : `callable` accepte aussi une string (`'strlen'`) et un array `[$object, 'method']`."
+    explanation: "Exécuté en PHP 8.4.19. `$f instanceof Closure`, `is_callable('strlen')` et `is_callable([new ArrayObject, 'count'])` valent tous `true`."
+    memorization_justification: "Typer `Closure` au lieu de `callable` refuse des valeurs valides : la différence se retient."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/functions.xml"
+        readable_url: "https://github.com/php/doc-en/blob/master/language/functions.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        symbol_or_lines: "\"Anonymous functions are implemented using the Closure class\""
+        verified_at: "2026-10-24"
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/types/callable.xml"
+        readable_url: "https://github.com/php/doc-en/blob/master/language/types/callable.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        symbol_or_lines: "\"string containing the name of a function or a method\"; \"array containing a class name or an object\""
+        verified_at: "2026-10-24"
+
+  - id: FLC-zt3hkwa4smfj
+    official_item: OIT-hqz5c2qse24w
+    language: fr
+    level: RECALL
+    front: "PHP : peut-on redéfinir `from()` ou `tryFrom()` sur une backed enum ?"
+    back: "Non : erreur fatale, « Cannot redeclare S::from() ». Ces methods sont fournies par le langage."
+    explanation: "Exécuté en PHP 8.4.19. Il en va de même pour `cases()`, sur toute enum."
+    memorization_justification: "On personnalise volontiers une method de fabrication ; que le langage l'interdise ici est un fait à retenir."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/enumerations.xml"
+        readable_url: "https://github.com/php/doc-en/blob/master/language/enumerations.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        symbol_or_lines: "\"Manually defining a from() or tryFrom() method on a Backed Enum will result in a fatal error\""
+        verified_at: "2026-10-24"
+
+  - id: FLC-91sn9e53zbe4
+    official_item: OIT-hqz5c2qse24w
+    language: fr
+    level: APPLICATION
+    front: "PHP : que rend `Suit::cases()` sur une backed enum, et comment obtenir ses valeurs ?"
+    back: "Les cas eux-mêmes, des instances de `Suit`. Les valeurs : `array_column(Suit::cases(), 'value')`."
+    explanation: "`cases()` rend la liste ordonnée de tous les cas, quel que soit le type d'enum. Exécuté en PHP 8.4.19."
+    memorization_justification: "Sur une backed enum, on attend les valeurs scalaires : l'erreur est attendue."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/enumerations.xml"
+        readable_url: "https://github.com/php/doc-en/blob/master/language/enumerations.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        symbol_or_lines: "\"cases() returns a packed array of all defined Cases in the order of declaration\""
+        verified_at: "2026-10-24"
+
+  - id: FLC-g7j72emr31qb
+    official_item: OIT-hqz5c2qse24w
+    language: fr
+    level: TRAP
+    front: "PHP : `P::A->value` sur une enum pure lève-t-il une exception ?"
+    back: "Non : un avertissement « Undefined property: P::$value », et la valeur `null`."
+    explanation: "Seuls les cas d'une backed enum portent la property `value`. Exécuté en PHP 8.4.19. Avertissement, puis `NULL`, sans exception."
+    memorization_justification: "On attend une `Error` ; c'est un simple avertissement, qui laisse filer un `null`."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/enumerations.xml"
+        readable_url: "https://github.com/php/doc-en/blob/master/language/enumerations.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        symbol_or_lines: "\"Backed Cases have an additional read-only property, value\""
+        verified_at: "2026-10-24"
+
+  - id: FLC-2yy6sbbm560h
+    official_item: OIT-n0zfkcr189af
+    language: fr
+    level: TRAP
+    front: "PHP : deux traits utilisés par la même class définissent `hi()`. Sans `insteadof`, que se passe-t-il ?"
+    back: "Une erreur fatale à la compilation. PHP ne choisit pas le premier trait en silence."
+    explanation: "Exécuté en PHP 8.4.19. « Trait method B::hi has not been applied as C::hi, because of collision with A::hi »."
+    memorization_justification: "L'intuition « le premier gagne » vient d'autres mécanismes ordonnés ; ici rien n'est choisi."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/traits.xml"
+        readable_url: "https://github.com/php/doc-en/blob/master/language/oop5/traits.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        symbol_or_lines: "Conflict Resolution — \"If two Traits insert a method with the same name, a fatal error is produced, if the conflict is not explicitly resolved\""
+        verified_at: "2026-10-24"
+
+  - id: FLC-k9c7n0brvb1c
+    official_item: OIT-n0zfkcr189af
+    language: fr
+    level: TRAP
+    front: "PHP : `use A, B { B::hi as hiB; }` résout-il un conflit sur `hi()` ?"
+    back: "Non : `as` ajoute un alias sans rien écarter, le conflit reste fatal. Il faut `A::hi insteadof B;`, puis `B::hi as hiB;` pour garder l'autre."
+    explanation: "Exécuté en PHP 8.4.19. Avec `as` seul, même erreur fatale ; avec `insteadof` puis `as`, `hi()` rend celui de A et `hiB()` celui de B."
+    memorization_justification: "Les deux operators se lisent comme deux façons de résoudre ; un seul résout."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/traits.xml"
+        readable_url: "https://github.com/php/doc-en/blob/master/language/oop5/traits.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        symbol_or_lines: "Conflict Resolution — \"the as operator can be used to add an alias to one of the methods. Note the as operator does not rename the method\""
+        verified_at: "2026-10-24"
+
+  - id: FLC-kggeyx7153s4
+    official_item: OIT-n0zfkcr189af
+    language: fr
+    level: TRAP
+    front: "PHP : une class utilise le trait `T`. Que vaut `$objet instanceof T` ?"
+    back: "`false`. Un trait n'est pas un type ; `class_uses()` le voit, mais pour typer il faut une interface."
+    explanation: "Exécuté en PHP 8.4.19. `instanceof` rend `false`, `class_uses()` rend `['T' => 'T']`."
+    memorization_justification: "Le test compile et ne prévient de rien : seul le fait retenu évite une condition toujours fausse."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/traits.xml"
+        readable_url: "https://github.com/php/doc-en/blob/master/language/oop5/traits.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        symbol_or_lines: "\"A Trait is similar to a class, but only intended to group functionality in a fine-grained and consistent way. It is not possible to instantiate a Trait on its own\""
+        verified_at: "2026-10-24"
+
+  - id: FLC-1matv67tch5r
+    official_item: OIT-vt0p9cacpkpd
+    language: fr
+    level: UNDERSTANDING
+    front: "PHP 8.4 : une interface déclare `public string $name { get; }`. La class qui l'implémente doit-elle stocker une valeur ?"
+    back: "Non : l'interface impose un accès, pas un état. Une property virtuelle, dont le hook `get` calcule la valeur, la satisfait."
+    explanation: "Exécuté en PHP 8.4.19. `public string $name { get => 'computed'; }` implémente l'interface sans rien stocker."
+    memorization_justification: "« Property » évoque une valeur stockée ; dans une interface, c'est un contrat d'accès — une distinction nouvelle en PHP 8.4."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/interfaces.xml"
+        readable_url: "https://github.com/php/doc-en/blob/master/language/oop5/interfaces.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        symbol_or_lines: "Properties — \"It may define a public virtual property that implements only the corresponding hook\""
+        verified_at: "2026-10-24"
+
+  - id: FLC-q6ac4pm4sm1y
+    official_item: OIT-vt0p9cacpkpd
+    language: fr
+    level: TRAP
+    front: "PHP 8.4 : l'interface déclare `public string $name { get; set; }`. Une property promue `public readonly string $name` la satisfait-elle ?"
+    back: "Non : erreur fatale. Une property readonly ne satisfait qu'une property d'interface en lecture seule (`{ get; }`)."
+    explanation: "Exécuté en PHP 8.4.19. « Set access level of C::$name must be omitted (as in class I) » : readonly implique `protected(set)`, incompatible avec un `set` public. Avec `{ get; }` seul, la même class compile."
+    memorization_justification: "« readonly est public, donc ça passe » échoue précisément sur la moitié écriture."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/interfaces.xml"
+        readable_url: "https://github.com/php/doc-en/blob/master/language/oop5/interfaces.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        symbol_or_lines: "Properties — \"Or a read property may be satisfied by a readonly property. However, an interface property that is settable may not be readonly\""
+        verified_at: "2026-10-24"
+
+  - id: FLC-h0d16j276qgh
+    official_item: OIT-webdvbgbrfth
+    language: fr
+    level: RECALL
+    front: "PHP : une class a besoin du comportement de deux classes de base. `class C extends A, B` est-il possible ?"
+    back: "Non : erreur de syntaxe. Une class n'a qu'une parente ; on combine par trait ou par composition."
+    explanation: "Exécuté en PHP 8.4.19. « syntax error, unexpected token \",\" »."
+    memorization_justification: "Fait de base, mais l'examen le pose sous forme de code : le reconnaître doit être immédiat."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/basic.xml"
+        readable_url: "https://github.com/php/doc-en/blob/master/language/oop5/basic.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        symbol_or_lines: "extends — \"It is not possible to extend multiple classes; a class can only inherit from one base class\""
+        verified_at: "2026-10-24"
+
+  - id: FLC-1fxqpfkbsm7j
+    official_item: OIT-webdvbgbrfth
+    language: fr
+    level: TRAP
+    front: "PHP : `abstract final class A {}` est-il valide ?"
+    back: "Non : erreur fatale, « Cannot use the final modifier on an abstract class ». `abstract` exige une extension, `final` l'interdit."
+    explanation: "Exécuté en PHP 8.4.19."
+    memorization_justification: "Deux modificateurs valides séparément ; leur combinaison interdite se retient comme telle."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/abstract.xml"
+        readable_url: "https://github.com/php/doc-en/blob/master/language/oop5/abstract.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        symbol_or_lines: "\"Classes defined as abstract cannot be instantiated\""
+        verified_at: "2026-10-24"
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/final.xml"
+        readable_url: "https://github.com/php/doc-en/blob/master/language/oop5/final.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        symbol_or_lines: "\"If the class itself is being defined final then it cannot be extended\""
+        verified_at: "2026-10-24"
+
+  - id: FLC-yc7t3pe7a8y8
+    official_item: OIT-ywrx9x3hg9z8
+    language: fr
+    level: TRAP
+    front: "PHP : une class enfant redéfinit une method `private` de son parent. Le parent qui l'appelle exécute laquelle ?"
+    back: "La sienne : une method private redéfinie est une autre method, pas une surcharge. `#[\\Override]` posé dessus est même une erreur fatale."
+    explanation: "Exécuté en PHP 8.4.19. `P::call()` appelle `$this->f()` et rend `'P'` même sur une instance de C ; `#[\\Override]` sur `C::f()` lève « no matching parent method exists »."
+    memorization_justification: "La surcharge est le réflexe par défaut ; son absence pour une method private produit un comportement qui surprend."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/inheritance.xml"
+        readable_url: "https://github.com/php/doc-en/blob/master/language/oop5/inheritance.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        symbol_or_lines: "\"Private methods of a parent class are not accessible to a child class. As a result, child classes may reimplement a private method themselves without regard for normal inheritance rules\""
+        verified_at: "2026-10-24"
+
+  - id: FLC-26dw5e7m1aqb
+    official_item: OIT-ywrx9x3hg9z8
+    language: fr
+    level: RECALL
+    front: "PHP : `public readonly int $x = 1;` est-il valide ?"
+    back: "Non : erreur fatale, « Readonly property A::$x cannot have default value ». Une property readonly s'initialise une fois, dans la class."
+    explanation: "Une readonly munie d'un défaut serait déjà initialisée, donc équivalente à une constant. Exécuté en PHP 8.4.19."
+    memorization_justification: "L'interdiction n'a pas d'équivalent pour les properties ordinaires : elle se retient."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/properties.xml"
+        readable_url: "https://github.com/php/doc-en/blob/master/language/oop5/properties.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        symbol_or_lines: "Readonly properties — \"Specifying an explicit default value on readonly properties is not allowed\""
+        verified_at: "2026-10-24"
