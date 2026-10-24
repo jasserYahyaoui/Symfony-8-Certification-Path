@@ -270,7 +270,7 @@ flashcards:
     official_item: OIT-1kjqdnryaw0h
     language: fr
     level: TRAP
-    front: "PHP : `#[Route(path: getPath())]` est-il valide ?"
+    front: "PHP : un appel de function en argument d'attribute, `#[Route(path: getPath())]`, est-il valide ?"
     back: "Non : erreur fatale à la compilation, « Constant expression contains invalid operations ». Les arguments d'un attribute sont des expressions constantes."
     explanation: "Littéraux, constants, `new` (depuis PHP 8.1) et opérations constantes sont admis ; un appel de function ne l'est pas. Exécuté en PHP 8.4.19."
     memorization_justification: "L'écriture ressemble à un appel ordinaire, où tout argument est permis : la restriction ne se devine pas."
@@ -599,7 +599,7 @@ flashcards:
     official_item: OIT-webdvbgbrfth
     language: fr
     level: TRAP
-    front: "PHP : `abstract final class A {}` est-il valide ?"
+    front: "PHP : une class déclarée à la fois abstract et final, `abstract final class A {}`, est-elle valide ?"
     back: "Non : erreur fatale, « Cannot use the final modifier on an abstract class ». `abstract` exige une extension, `final` l'interdit."
     explanation: "Exécuté en PHP 8.4.19."
     memorization_justification: "Deux modificateurs valides séparément ; leur combinaison interdite se retient comme telle."
@@ -639,7 +639,7 @@ flashcards:
     official_item: OIT-ywrx9x3hg9z8
     language: fr
     level: RECALL
-    front: "PHP : `public readonly int $x = 1;` est-il valide ?"
+    front: "PHP : une property readonly avec une default value, `public readonly int $x = 1;`, est-elle valide ?"
     back: "Non : erreur fatale, « Readonly property A::$x cannot have default value ». Une property readonly s'initialise une fois, dans la class."
     explanation: "Une readonly munie d'un défaut serait déjà initialisée, donc équivalente à une constant. Exécuté en PHP 8.4.19."
     memorization_justification: "L'interdiction n'a pas d'équivalent pour les properties ordinaires : elle se retient."

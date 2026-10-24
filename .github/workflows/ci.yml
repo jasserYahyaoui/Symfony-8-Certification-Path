@@ -362,6 +362,12 @@ jobs:
       - name: Flashcard recall is recorded, scheduled and kept apart from a reveal
         run: node website/tools/verify-flashcards-ui.mjs
 
+      # A card front's code span holding a brace is emitted as <code> with
+      # character references (the <summary> line is a JSX context): the MDX
+      # compiler must render it exactly as the code span.
+      - name: A card front's code renders as its code span, with no brace in JSX
+        run: node website/tools/verify-summary-code.mjs
+
       # Remediation P3.2, in the browser: no correction before the reasoning is
       # given, the self-rating recorded and the text not; a delayed check due
       # after 8 days, starting with the missed question, recorded as delayed;

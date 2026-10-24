@@ -4335,7 +4335,7 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "Deux value resolvers savent fournir le même argument. Lesquels sont appelés ?"
-    back: "Le premier qui rend une valeur : la résolution s'arrête là, et le suivant n'est pas consulté."
+    back: "Ils sont essayés dans l'ordre : le premier qui rend une valeur arrête la résolution, et le second n'est pas consulté."
     explanation: "`ArgumentResolver` passe à l'argument suivant dès qu'un resolver a fourni une valeur (`continue 2`). Exécuté avec HttpKernel 8.0.15 : seul le premier est appelé."
     memorization_justification: "On imagine une fusion, ou un avantage au dernier ; c'est l'ordre qui tranche."
     verification_status: VERIFIED

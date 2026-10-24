@@ -2627,7 +2627,7 @@ flashcards:
   level: TRAP
   front: "Un CallbackTransformer fait `implode(', ', $tagsAsArray)` dans sa function `transform`. Que se passe-t-il quand la donnée initiale est `null` ?"
   back: "Une `TypeError` : `implode()` refuse `null`. `transform()` reçoit `null` quand le form n'a pas de donnée, et doit le traiter."
-  explanation: "C'est l'exemple de la documentation. Exécuté en PHP 8.4.19 : « If argument #1 ($separator) is of type string, argument #2 ($array) must be of type array, null given ». Le contrat de `DataTransformerInterface` exige de gérer les valeurs vides."
+  explanation: "C'est l'exemple de la documentation. Exécuté avec Form 8.0.15 : sans donnée initiale, `transform()` reçoit `null` et `getForm()` lève « If argument #1 ($separator) is of type string, argument #2 ($array) must be of type array, null given ». Le contrat de `DataTransformerInterface` exige de gérer les valeurs vides."
   memorization_justification: "L'exemple officiel paraît complet ; le cas `null` n'apparaît qu'à l'exécution."
   verification_status: VERIFIED
   official_sources:
