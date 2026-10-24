@@ -116,8 +116,14 @@ final class FlashcardLevelTest extends TestCase
     /**
      * What the escaping was there for must still hold OUTSIDE a code span:
      * `<` would open a JSX tag and `{` a JS expression, and either breaks the
-     * site build. Inside a code span, both must survive untouched — MDX
-     * renders that span verbatim, so an entity there is published as itself.
+     * site build. Inside a code span no entity may be written — MDX renders
+     * that span verbatim, so an entity there is published as itself.
+     *
+     * A front is a `<summary>` line, a JSX context where no literal brace may
+     * appear (BuildTest). Since 2026-10-24 a code span holding one is emitted
+     * as a `<code>` element, its punctuation as character references, which
+     * MDX decodes: verify-summary-code.mjs proves with the site's compiler
+     * that it renders exactly as the code span. This test pins the emission.
      */
     public function testMdxEscapingAppliesOutsideCodeSpansAndNotInside(): void
     {
@@ -136,7 +142,12 @@ final class FlashcardLevelTest extends TestCase
 
         $page = $this->pageMentioning($project, 'Flashcard MDX fixture');
 
-        self::assertStringContainsString('`{motif}i`', $page, 'a code span must reach the page verbatim');
+        self::assertStringContainsString(
+            '<summary>Flashcard MDX fixture : <code>&#123;motif&#125;i</code> puis',
+            $page,
+            'a code span holding a brace must reach the learner intact, with no brace in the JSX line',
+        );
+        self::assertStringNotContainsString('`&#', $page, 'an entity inside a code span is published as itself');
         self::assertStringContainsString('/&#123;page&#125;/blog', $page, '{ outside code opens a JS expression');
         self::assertStringContainsString('&lt;Foo', $page, '< outside code opens a JSX tag');
     }

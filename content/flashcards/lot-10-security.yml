@@ -2284,3 +2284,37 @@ flashcards:
     branch: '8.0'
     symbol_or_lines: 'isSensitiveException()'
     verified_at: '2026-10-15'
+- id: FLC-3w05sa90j4b2
+  official_item: OIT-gkh08ztwdme1
+  language: fr
+  level: RECALL
+  front: "Symfony 8.0 : quelle interface déclare `getPassword()` ?"
+  back: "`PasswordAuthenticatedUserInterface`, pas `UserInterface` — qui n'a que `getRoles()` et `getUserIdentifier()`."
+  explanation: "Un user qui s'authentifie par password implémente les deux ; un user authentifié par token peut se passer de la seconde."
+  memorization_justification: "La séparation se perd quand on a toujours vu les deux interfaces ensemble."
+  verification_status: VERIFIED
+  official_sources:
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/User/PasswordAuthenticatedUserInterface.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Core/User/PasswordAuthenticatedUserInterface.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+    symbol_or_lines: "getPassword line 47"
+    verified_at: "2026-10-24"
+- id: FLC-cgzsgfh274se
+  official_item: OIT-gkh08ztwdme1
+  language: fr
+  level: TRAP
+  front: "Symfony : `getUserIdentifier()` doit-il rendre l'id technique de la ligne en base ?"
+  back: "Non : l'identifier qui sert à se connecter — par exemple le nom du user ou son adresse e-mail."
+  explanation: "Le docblock de `UserInterface` : « Returns the identifier for this user (e.g. username or email address) »."
+  memorization_justification: "« Identifier » évoque l'id technique ; c'est l'identifier de connexion."
+  verification_status: VERIFIED
+  official_sources:
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/User/UserInterface.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Core/User/UserInterface.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+    symbol_or_lines: "getUserIdentifier lines 51-55 — \"Returns the identifier for this user (e.g. username or email address)\""
+    verified_at: "2026-10-24"

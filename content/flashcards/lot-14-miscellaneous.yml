@@ -627,3 +627,20 @@ flashcards:
     branch: '8.0'
     symbol_or_lines: Debugging Routes
     verified_at: '2026-10-02'
+- id: FLC-ha0fycvyrph8
+  official_item: OIT-xgrbftkj67ds
+  language: fr
+  level: RECALL
+  front: "VarDumper : qu'est-ce qui sépare `dump()` de `dd()` ?"
+  back: "`dump()` affiche, rend sa valeur, et l'exécution continue ; `dd()` affiche puis arrête le script (`exit(1)`)."
+  explanation: "Exécuté : `dump(42)` rend 42 ; après `dd('stop')`, la ligne suivante ne s'exécute pas, et l'exit code vaut 1."
+  memorization_justification: "Les deux noms se ressemblent ; l'un arrête tout, ce qui se retient."
+  verification_status: VERIFIED
+  official_sources:
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/VarDumper/Resources/functions/dump.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/VarDumper/Resources/functions/dump.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+    symbol_or_lines: "dump line 20 returns its value; dd line 46 — exit(1)"
+    verified_at: "2026-10-24"

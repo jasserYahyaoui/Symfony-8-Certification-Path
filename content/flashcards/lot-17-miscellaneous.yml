@@ -187,3 +187,25 @@ flashcards:
     branch: '8.0'
     symbol_or_lines: 'generateCacheKey(): URI, plus the body for QUERY'
     verified_at: '2026-10-02'
+- id: FLC-s96310xtj98g
+  official_item: OIT-zezwg9nya501
+  language: fr
+  level: UNDERSTANDING
+  front: "Cache HTTP : l'invalidation fait-elle partie de la spécification ?"
+  back: "L'invalidation à la demande — purger une URL, des tags — non : Symfony la rend possible hors protocole. Seule l'invalidation après une method non sûre réussie (RFC 9111 §4.4) en fait partie."
+  explanation: "La documentation Symfony : « Cache invalidation is *not* part of the HTTP specification ». RFC 9111 §4.4 impose pourtant à un cache d'invalider l'URI cible après un POST, un PUT ou un DELETE qui n'échoue pas."
+  memorization_justification: "Les deux phrases se contredisent si l'on ne distingue pas les deux invalidations : la distinction se retient."
+  verification_status: VERIFIED
+  official_sources:
+  - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_cache.rst"
+    readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/http_cache.rst"
+    repository: "symfony/symfony-docs"
+    branch: "8.0"
+    commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+    symbol_or_lines: "Cache Invalidation — \"Cache invalidation is *not* part of the HTTP specification\""
+    verified_at: "2026-10-24"
+  - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9111.html"
+    readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9111.html"
+    branch: "master"
+    symbol_or_lines: "section 4.4 Invalidating Stored Responses — \"A cache MUST invalidate the target URI ... when it receives a non-error status code in response to an unsafe request method\""
+    verified_at: "2026-10-24"

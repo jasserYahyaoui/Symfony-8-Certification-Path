@@ -170,6 +170,11 @@ jobs:
           echo "::group::aud03_source_anchor --offline"
           python3 tools/audit/aud03_source_anchor.py --offline || fail=1
           echo "::endgroup::"
+          # Every « Pièges d'examen » paragraph has a reviewed verdict, and none
+          # is a GAP: a trap is rehearsed by a flashcard, or says why not.
+          echo "::group::pitfall_flashcards --max-gaps 0"
+          python3 tools/audit/pitfall_flashcards.py --max-gaps 0 || fail=1
+          echo "::endgroup::"
           exit $fail
 
       # A rule that has only ever been silent has not been shown to be capable
@@ -186,6 +191,9 @@ jobs:
           # Remediation P3.1: the semantic-repetition audit fires on an
           # unreviewed pair, an open REPEAT and a review older than its question.
           python3 tools/audit/semantic_repetition.py --prove
+          # The pitfall audit refuses an unreviewed, stale or reworded pitfall,
+          # an unknown card, a bare NO_CARD and a GAP over the ceiling.
+          python3 tools/audit/pitfall_flashcards.py --prove
           # The independent reviewer's sample (docs/review/): never a HOLDOUT
           # question, and the refusal names none.
           python3 tools/review/draw_sample.py --prove
@@ -353,6 +361,12 @@ jobs:
       # recording nothing. Driven by keyboard where a learner would use one.
       - name: Flashcard recall is recorded, scheduled and kept apart from a reveal
         run: node website/tools/verify-flashcards-ui.mjs
+
+      # A card front's code span holding a brace is emitted as <code> with
+      # character references (the <summary> line is a JSX context): the MDX
+      # compiler must render it exactly as the code span.
+      - name: A card front's code renders as its code span, with no brace in JSX
+        run: node website/tools/verify-summary-code.mjs
 
       # Remediation P3.2, in the browser: no correction before the reasoning is
       # given, the self-rating recorded and the text not; a delayed check due

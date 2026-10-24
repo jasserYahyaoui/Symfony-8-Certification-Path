@@ -2570,23 +2570,29 @@ flashcards:
     official_item: OIT-xc4zfr70jjas
     language: fr
     level: APPLICATION
-    front: "Un listener pose une `Response` à **204**. Quel statut sort ?"
-    back: "**500**, sauf appel préalable à `allowCustomResponseCode()`."
+    front: "Le controller lève une `\\RuntimeException` sans statut HTTP ; un listener de `kernel.exception` pose une `Response` à **204**. Quel statut sort ?"
+    back: "**500**, sauf appel préalable à `allowCustomResponseCode()`. Pour une exception HTTP, ce serait son propre statut : **404** pour une `NotFoundHttpException`."
     explanation: >-
       204 n'est ni une erreur client, ni une erreur serveur, ni une
       redirect : la règle 1 ne s'applique pas. L'exception d'origine ne
-      portant pas de statut, le kernel retombe sur 500.
+      portant pas de statut — ni HttpExceptionInterface, ni #[WithHttpStatus],
+      ni entrée framework.exceptions —, le kernel retombe sur 500. Une
+      HttpExceptionInterface impose son getStatusCode(). Exécuté avec
+      HttpKernel 8.0.15 : 500 pour la RuntimeException, 404 pour la
+      NotFoundHttpException, 204 avec allowCustomResponseCode().
     memorization_justification: >-
       Cas concret où le code écrit par le développeur est écrasé sans
-      avertissement ; c'est la forme sous laquelle la règle est testée.
+      avertissement ; c'est la forme sous laquelle la règle est testée, et
+      le statut final dépend du type d'exception.
     verification_status: VERIFIED
+    reviewed_at: "2026-10-24"
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php"
         readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php"
         repository: "symfony/symfony"
         branch: "8.0"
-        symbol_or_lines: "handleThrowable"
-        verified_at: "2026-09-21"
+        symbol_or_lines: "handleThrowable lines 255-263 — HttpExceptionInterface keeps its status, otherwise setStatusCode(500)"
+        verified_at: "2026-10-24"
 
   - id: FLC-kw0y3d46bh2p
     official_item: OIT-xc4zfr70jjas
@@ -5507,3 +5513,64 @@ flashcards:
         branch: "8.0"
         symbol_or_lines: "Naming Conventions"
         verified_at: "2026-09-21"
+
+  - id: FLC-rwk8y93ze3b6
+    official_item: OIT-7sewqvmw6468
+    language: fr
+    level: APPLICATION
+    front: "Un listener de `kernel.request` de priority 64 lit `$request->attributes->get('_controller')`. Que trouve-t-il ?"
+    back: "Rien, pour une Request routée : c'est `RouterListener`, à la priority 32, qui pose `_controller`. Le controller n'est résolu qu'après `kernel.request`."
+    explanation: "`HttpKernel::handleRaw()` dispatche `kernel.request`, puis appelle `getController()`. Exécuté : `RouterListener::getSubscribedEvents()` rend `[['onKernelRequest', 32]]`."
+    memorization_justification: "La priority 32 et l'ordre des étapes se retiennent ; ils décident de ce qu'un listener voit."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+        symbol_or_lines: "handleRaw lines 159-166 — dispatch(KernelEvents::REQUEST) before getController($request)"
+        verified_at: "2026-10-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/EventListener/RouterListener.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/EventListener/RouterListener.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+        symbol_or_lines: "getSubscribedEvents line 178 — KernelEvents::REQUEST => [[\"onKernelRequest\", 32]]"
+        verified_at: "2026-10-24"
+
+  - id: FLC-nt31fkv8p93g
+    official_item: OIT-7sewqvmw6468
+    language: fr
+    level: RECALL
+    front: "Symfony : combien de front controllers traitent les URL d'une application, et lequel ?"
+    back: "Un seul, `public/index.php` : toutes les Requests y passent, quelle que soit l'URL."
+    explanation: "Le front controller est le point de passage unique ; le routage choisit ensuite le controller."
+    memorization_justification: "Base du cycle de la Request ; l'examen l'oppose à « un file PHP par page »."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration/front_controllers_and_kernel.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/configuration/front_controllers_and_kernel.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "The Front Controller — \"a section of code that *all* requests served by an application run through\"; \"this role is taken by the index.php file in the public/ directory\""
+        verified_at: "2026-10-24"
+
+  - id: FLC-132j6bb7cgj1
+    official_item: OIT-rd9b27fkb72r
+    language: fr
+    level: RECALL
+    front: "Que vaut `KernelEvents::REQUEST` ?"
+    back: "La string `'kernel.request'`. Les constants de `KernelEvents` portent les noms `kernel.*` des events."
+    explanation: "Écrire `KernelEvents::REQUEST` ou `'kernel.request'` dans `getSubscribedEvents()` revient au même."
+    memorization_justification: "Reconnaître la constant et sa string comme un seul event évite de croire à deux events."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/KernelEvents.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/KernelEvents.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+        symbol_or_lines: "REQUEST line 39 — public const REQUEST = \"kernel.request\""
+        verified_at: "2026-10-24"

@@ -8,8 +8,10 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Controller\ArgumentResolver;
 use Symfony\Component\HttpKernel\Controller\ControllerResolverInterface;
+use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\HttpKernel;
 use Symfony\Component\HttpKernel\KernelEvents;
 
@@ -94,5 +96,38 @@ return [
         }, false);
 
         return $expect($events, ['request', 'response', 'finish_request']);
+    },
+    // Pitfall audit, 2026-10-24: a 2xx Response set on kernel.exception takes the
+    // exception's status — getStatusCode() for an HttpExceptionInterface, 500
+    // otherwise — unless allowCustomResponseCode() was called.
+    'http-kernel.exception-response-takes-exception-status' => static function (): ?string {
+        $status = static function (Throwable $thrown, bool $allow): int {
+            $dispatcher = new EventDispatcher();
+            $dispatcher->addListener(KernelEvents::EXCEPTION, static function (ExceptionEvent $e) use ($allow): void {
+                $e->setResponse(new Response('', 204));
+                if ($allow) {
+                    $e->allowCustomResponseCode();
+                }
+            });
+            $resolver = new class($thrown) implements ControllerResolverInterface {
+                public function __construct(private Throwable $thrown)
+                {
+                }
+
+                public function getController(Request $request): callable|false
+                {
+                    $thrown = $this->thrown;
+
+                    return static function () use ($thrown): never {
+                        throw $thrown;
+                    };
+                }
+            };
+
+            return (new HttpKernel($dispatcher, $resolver, new RequestStack(), new ArgumentResolver()))->handle(Request::create('/'))->getStatusCode();
+        };
+        $got = [$status(new RuntimeException('x'), false), $status(new NotFoundHttpException('x'), false), $status(new RuntimeException('x'), true)];
+
+        return [500, 404, 204] === $got ? null : 'got '.implode(', ', $got).', expected 500, 404, 204';
     },
 ];

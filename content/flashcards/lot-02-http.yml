@@ -3984,3 +3984,128 @@ flashcards:
         symbol_or_lines: "Dealing with Network Errors — catching TransportExceptionInterface in the foreach loop"
         verified_at: "2026-10-16"
 
+  - id: FLC-nvm4qms1k2tx
+    official_item: OIT-512se83ab7qj
+    language: fr
+    level: TRAP
+    front: "HTTP : un 415 refuse le body envoyé. Quel header de Response la RFC conseille-t-elle selon la cause ?"
+    back: "`Accept-Encoding` si c'est le codage du contenu qui n'est pas supporté ; `Accept` si c'est le type de média."
+    explanation: "RFC 9110 §15.5.16 : le refus peut venir du `Content-Type` ou du `Content-Encoding`, et chaque cause a son header de Response."
+    memorization_justification: "Deux headers aux noms proches, chacun attaché à une cause : un détail de rappel pur."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 15.5.16 415 Unsupported Media Type — \"the Accept-Encoding response header field ... ought to be used\"; \"the Accept response header field ... can be used\""
+        verified_at: "2026-10-24"
+
+  - id: FLC-78pn0msbyxq0
+    official_item: OIT-512se83ab7qj
+    language: fr
+    level: RECALL
+    front: "HTTP : à qui le premier chiffre d'un 4xx et d'un 5xx attribue-t-il la faute ?"
+    back: "4xx : au client — la Request est invalide ou impossible à satisfaire. 5xx : au serveur — il a échoué sur une Request apparemment valide."
+    explanation: "RFC 9110 §15 : seul le premier chiffre détermine la catégorie du statut ; un code inconnu se traite comme le x00 de sa class."
+    memorization_justification: "Base de tout raisonnement sur un statut inconnu ; l'examen la pose sous forme de cas."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 15 Status Codes — \"4xx (Client Error): The request contains bad syntax or cannot be fulfilled\"; \"5xx (Server Error): The server failed to fulfill an apparently valid request\""
+        verified_at: "2026-10-24"
+
+  - id: FLC-hfx4p10aptcf
+    official_item: OIT-bz1f5nh8g9b2
+    language: fr
+    level: APPLICATION
+    front: "Un cookie `sid` a été posé avec `path=/admin`. `clearCookie('sid')` l'efface-t-il chez le client ?"
+    back: "Non : l'appel vise `path=/` par défaut. Le navigateur ne remplace qu'un cookie de même nom, domain et path : il faut `clearCookie('sid', '/admin')`."
+    explanation: "Exécuté avec HttpFoundation 8.0.15 : le header produit porte `path=/`, puis `path=/admin` quand on le précise. Le brouillon Cookies ne remplace qu'un cookie de même nom, domain, host-only-flag et path."
+    memorization_justification: "« Effacer par le nom » est le réflexe ; l'identité d'un cookie à plusieurs composantes ne se devine pas."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+        symbol_or_lines: "clearCookie line 220 — ?string $path = \"/\" by default"
+        verified_at: "2026-10-24"
+      - url: "https://raw.githubusercontent.com/httpwg/http-extensions/main/draft-ietf-httpbis-rfc6265bis.md"
+        readable_url: "https://github.com/httpwg/http-extensions/blob/main/draft-ietf-httpbis-rfc6265bis.md"
+        repository: "httpwg/http-extensions"
+        branch: "main"
+        symbol_or_lines: "Storage Model, step 23 — \"If the cookie store contains a cookie with the same name, domain, host-only-flag, and path as the newly-created cookie\""
+        verified_at: "2026-10-24"
+
+  - id: FLC-g36cqm7ywwy8
+    official_item: OIT-d3nyk9z0q2pd
+    language: fr
+    level: TRAP
+    front: "Symfony : que contient `$request->request` ?"
+    back: "Les parameters du body (`$_POST`), dans un `InputBag` — ni la Request elle-même, ni la query string."
+    explanation: "`Request.php` documente la property comme « Request body parameters ($_POST) ». Exécuté avec HttpFoundation 8.0.15 : sur un POST vers `/x?q=1`, `request->all()` rend le body et `query->all()` la query string."
+    memorization_justification: "Le nom répété `$request->request` égare : le sac qu'il désigne est un fait à retenir."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+        symbol_or_lines: "property $request line 101 — \"Request body parameters ($_POST)\""
+        verified_at: "2026-10-24"
+
+  - id: FLC-gd9eab8nmb9e
+    official_item: OIT-d3nyk9z0q2pd
+    language: fr
+    level: APPLICATION
+    front: "Derrière un proxy non déclaré par `setTrustedProxies()`, que rend `getClientIp()` ?"
+    back: "L'adresse du proxy (`REMOTE_ADDR`), pas celle du client — et c'est le comportement sûr : `X-Forwarded-For` est ignoré."
+    explanation: "Exécuté avec HttpFoundation 8.0.15 : `REMOTE_ADDR` 10.0.0.1 et `X-Forwarded-For` 203.0.113.7 donnent 10.0.0.1 ; une fois 10.0.0.1 déclaré de confiance, 203.0.113.7."
+    memorization_justification: "On croit à un bug alors que c'est une protection : un header que le client écrit lui-même n'est lu que derrière un proxy de confiance."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+        symbol_or_lines: "getClientIps line 798 — if (!$this->isFromTrustedProxy()) only REMOTE_ADDR is returned"
+        verified_at: "2026-10-24"
+
+  - id: FLC-qg2jp687b1y6
+    official_item: OIT-fhjmv9w3wxsb
+    language: fr
+    level: TRAP
+    front: "`Accept-Language: fr;q=0,en`. Que rend `getPreferredLanguage(['de', 'fr'])` ?"
+    back: "`fr` — la langue que le client refuse. Symfony n'écarte pas `q=0` : `getLanguages()` la garde, en fin de liste."
+    explanation: "Exécuté avec HttpFoundation 8.0.15 : `getLanguages()` rend `['en', 'fr']` et le choix tombe sur `fr`. La RFC fait de `q=0` un refus ; Symfony le met seulement en dernier."
+    memorization_justification: "Contraire à la RFC, donc à toute déduction : seul le fait exécuté le donne."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+        symbol_or_lines: "getPreferredLanguage line 1633 and getLanguages line 1663"
+        verified_at: "2026-10-24"
+
+  - id: FLC-5z1zvrs31f8y
+    official_item: OIT-qnm508g1ktqm
+    language: fr
+    level: RECALL
+    front: "HTTP : que signifie qu'une method est « sûre » (safe) ?"
+    back: "Que sa sémantique est essentiellement en lecture seule : le client ne demande aucun changement d'état. Rien à voir avec le fait d'être « sécurisée »."
+    explanation: "RFC 9110 §9.2.1. Une safe method peut avoir des effets de bord côté serveur, un journal par exemple, mais le client ne les a pas demandés."
+    memorization_justification: "« Sûre » se lit spontanément « sécurisée » : le contresens est attendu."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 9.2.1 Safe Methods — \"Request methods are considered safe if their defined semantics are essentially read-only\""
+        verified_at: "2026-10-24"

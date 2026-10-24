@@ -2621,3 +2621,44 @@ flashcards:
     branch: '8.0'
     symbol_or_lines: 'inherit_data'
     verified_at: '2026-10-16'
+- id: FLC-bme3m2zcn4f6
+  official_item: OIT-58r9dadx916v
+  language: fr
+  level: TRAP
+  front: "Un CallbackTransformer fait `implode(', ', $tagsAsArray)` dans sa function `transform`. Que se passe-t-il quand la donnée initiale est `null` ?"
+  back: "Une `TypeError` : `implode()` refuse `null`. `transform()` reçoit `null` quand le form n'a pas de donnée, et doit le traiter."
+  explanation: "C'est l'exemple de la documentation. Exécuté avec Form 8.0.15 : sans donnée initiale, `transform()` reçoit `null` et `getForm()` lève « If argument #1 ($separator) is of type string, argument #2 ($array) must be of type array, null given ». Le contrat de `DataTransformerInterface` exige de gérer les valeurs vides."
+  memorization_justification: "L'exemple officiel paraît complet ; le cas `null` n'apparaît qu'à l'exécution."
+  verification_status: VERIFIED
+  official_sources:
+  - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/data_transformers.rst"
+    readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/form/data_transformers.rst"
+    repository: "symfony/symfony-docs"
+    branch: "8.0"
+    commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+    symbol_or_lines: "Example #1: Transforming Comma-Separated Tags from User Input into an Array — function ($tagsAsArray): string { return implode(\", \", $tagsAsArray); }"
+    verified_at: "2026-10-24"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/DataTransformerInterface.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/DataTransformerInterface.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+    symbol_or_lines: "transform — \"This method must be able to deal with empty values. Usually this will be NULL\""
+    verified_at: "2026-10-24"
+- id: FLC-8hehkvx6cc0b
+  official_item: OIT-5xvjqa4203xe
+  language: fr
+  level: UNDERSTANDING
+  front: "Symfony Forms : un field `TextType` et un form `UserProfileType` sont-ils deux sortes d'objects ?"
+  back: "Non : tous deux sont des form types. Symfony ne distingue pas « form » et « field »."
+  explanation: "Un field, un ensemble de fields ou un form entier sont des form types ; c'est pourquoi un type s'ajoute comme field d'un autre."
+  memorization_justification: "La distinction form / field d'autres frameworks est un faux ami."
+  verification_status: VERIFIED
+  official_sources:
+  - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst"
+    readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/forms.rst"
+    repository: "symfony/symfony-docs"
+    branch: "8.0"
+    commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+    symbol_or_lines: "Form Types — \"In Symfony, all of them are \\\"form types\\\"\""
+    verified_at: "2026-10-24"

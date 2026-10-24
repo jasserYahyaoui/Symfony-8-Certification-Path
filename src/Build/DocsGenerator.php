@@ -1162,7 +1162,7 @@ Créer des cours avant l'import reviendrait à enseigner un programme deviné.
             // The recall rating sits inside <details>, after the back: it is
             // offered once the answer is read, and opening a card records
             // nothing — a reveal is not a recall (remediation P2.3).
-            $markdown .= '<details id="'.CourseUrl::flashcardAnchor($card->id->value).'">'."\n<summary>".$this->mdxText($card->front)."</summary>\n\n"
+            $markdown .= '<details id="'.CourseUrl::flashcardAnchor($card->id->value).'">'."\n<summary>".$this->summaryText($card->front)."</summary>\n\n"
                 ."**".$this->mdxText($card->back)."**\n\n"
                 .$this->mdxText($card->explanation)."\n\n"
                 .'<FlashcardRecall card="'.$card->id->value.'" version="'.self::cardVersion($card).'" item="'.$card->officialItemId.'" />'
@@ -1170,6 +1170,49 @@ Créer des cours avant l'import reviendrait à enseigner un programme deviné.
         }
 
         return $markdown;
+    }
+
+    /**
+     * A card front, for the one-line `<summary>` that renders it.
+     *
+     * `mdxSafe()` leaves a code span verbatim, and MDX renders it literally.
+     * But this line is a JSX context, where no literal brace may appear
+     * (BuildTest::testFlashcardMarkupEscapesBracesInsideTheJsxContext): until
+     * 2026-10-24 no front carried one inside a code span, and the pitfall audit
+     * then added Twig's `{{ … }}` and PHP's `{ get; }` to eleven of them.
+     *
+     * Such a span is emitted as a `<code>` element whose ASCII punctuation is
+     * written as numeric character references. Every punctuation character,
+     * not only the braces: the text of a JSX element is parsed as Markdown,
+     * where a bare `*` opens emphasis and a `\` escapes what follows. Checked
+     * with the site's MDX compiler on every such front, plus `*_[]~<>\` and
+     * autolink cases: the rendered HTML is identical to the code span's, and
+     * `verify-summary-code.mjs` repeats that check on every build in CI.
+     * A span without a brace is left as it was.
+     */
+    private function summaryText(string $front): string
+    {
+        $parts = preg_split('/(`[^`]*`)/', $this->mdxText($front), -1, \PREG_SPLIT_DELIM_CAPTURE);
+        if (false === $parts) {
+            return $this->mdxText($front);
+        }
+
+        $rebuilt = '';
+        foreach ($parts as $part) {
+            if (!str_starts_with($part, '`') || !preg_match('/[{}]/', $part)) {
+                $rebuilt .= $part;
+
+                continue;
+            }
+
+            $rebuilt .= '<code>'.preg_replace_callback(
+                '/[!-\/:-@\[-`{-~]/',
+                static fn (array $m): string => '&#'.\ord($m[0]).';',
+                substr($part, 1, -1),
+            ).'</code>';
+        }
+
+        return $rebuilt;
     }
 
     /**

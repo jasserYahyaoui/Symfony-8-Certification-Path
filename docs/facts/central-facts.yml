@@ -803,3 +803,28 @@ facts:
     behavior_check: runtime.argument-type-and-name
     content: [CRS-pm5kj5kh3gt2]
     forbidden: []
+  http-kernel.exception-response-takes-exception-status:
+    finding: pitfall audit 2026-10-24
+    official_item: OIT-xc4zfr70jjas
+    statement: >-
+      A Response set on kernel.exception that is neither a client error, a server error nor a redirect takes the
+      exception's status: getStatusCode() for an HttpExceptionInterface (404 for a NotFoundHttpException), 500
+      otherwise, unless allowCustomResponseCode() was called.
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php
+    behavior_check: http-kernel.exception-response-takes-exception-status
+    content: [FLC-h2e5dj32pzgg, FLC-79nmwswd5a50, CRS-kd67y4vnd0mm]
+    forbidden:
+      - '/Un listener pose une `Response` à \*\*204\*\*\. Quel statut sort/u'
+  routing.unicode-requirement-needs-utf8:
+    finding: pitfall audit 2026-10-24
+    official_item: OIT-1cj08dhtp9hj
+    statement: >-
+      A route requirement using a Unicode property such as \p{Lu} needs the "utf8" option; without it,
+      RouteCompiler throws a LogicException when the route is compiled.
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/RouteCompiler.php
+    behavior_check: routing.unicode-requirement-needs-utf8
+    content: [CRS-wg3j0t5pm7w1, FLC-gh32p9t68h99]
+    forbidden:
+      - '/les properties Unicode fonctionnent/iu'

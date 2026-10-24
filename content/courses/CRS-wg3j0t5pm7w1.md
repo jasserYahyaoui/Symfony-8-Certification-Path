@@ -5,7 +5,7 @@ title: "Restrict URL parameters"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-10-24"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/routing.rst"
@@ -32,6 +32,12 @@ official_sources:
     repository: "symfony/symfony"
     branch: "8.0"
     verified_at: "2026-09-24"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/RouteCompiler.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/RouteCompiler.php"
+    symbol_or_lines: "compilePattern lines 182-183 — a UTF-8 requirement without the \"utf8\" option throws a LogicException"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    verified_at: "2026-10-24"
 outcome_sections:
   OUT-gxaj5vfr68nt: "Trois façons de l'écrire"
   OUT-t3ajatgs8hh2: "Le problème qu'elle résout"
@@ -120,8 +126,9 @@ déclaration**, pas par ce qui « ressemble » le plus. Contraindre le parameter
 rend l'ordre indifférent — c'est le vrai service rendu.
 
 **Un requirement est une expression régulière PHP**, avec ce que cela implique :
-les properties Unicode fonctionnent, et une expression fragile passe sans que
-rien ne prévienne.
+une expression fragile passe sans que rien ne prévienne. Les properties Unicode
+(`\p{Lu}`) y exigent l'option `utf8: true` ; sans elle, la compilation de la
+route lève une `LogicException` — exécuté avec Routing 8.0.15.
 
 **Le requirement vaut aussi à la génération.** Générer `blog_list` avec
 `page: 'abc'` lève une exception par défaut.

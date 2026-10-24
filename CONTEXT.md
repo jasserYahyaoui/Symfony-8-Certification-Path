@@ -1,6 +1,6 @@
 # CONTEXT.md — Session continuity (Master Plan §23)
 
-**Last updated:** 2026-10-18 (remédiation : P0, P1, P2.3–P2.7, P3.1–P3.3 livrés ; F4, F9 bloqués ; examen le 29 décembre)
+**Last updated:** 2026-10-24 (remédiation : P0, P1, P2.3–P2.7, P3.1–P3.3 livrés ; pièges → flashcards en livraison ; F4, F9 bloqués ; examen le 29 décembre)
 
 ---
 
@@ -40,6 +40,17 @@ Branche de travail : `claude/symfony-8-certification-plan-phmkau`.
 | Journal : entrées de #427 (correction du cours des resolvers, questions d'intégration) | #428 | `bdc0de5` | smoke 117637182148 **success, lu** (309 ok, 0 erreur ; journal servi) |
 | Suivi : livraison de #428, F8 VÉRIFIÉ | #429 | `f8c9ad2` | smoke 117643408266 **success, lu** (309 ok, 0 erreur) |
 | Évaluation indépendante : dossier du relecteur, échantillon tiré de sa graine | #430 | `800278b` | smoke 117655872723 **success, lu** (309 ok, 0 erreur) |
+| Évaluation indépendante : paquets à joindre, HOLDOUT des fichiers mixtes retiré | #431 | `806a8a9` | smoke 120014740019 **success, lu** (309 ok, 0 erreur) |
+
+**Pièges d'examen → flashcards (2026-10-24, en cours de livraison).** Les 788
+paragraphes « Pièges d'examen » lus contre toutes les cartes de leur item :
+63 sans carte. 62 cartes ajoutées (faits exécutés ou lus dans la source citée),
+1 NO_CARD (inatteignable en 8.0). Corrigés au passage : `FLC-h2e5dj32pzgg`
+(500 au lieu de 404 pour une exception HTTP), la phrase Unicode du cours de
+routing (option `utf8` obligatoire), l'invalidation du cours HTTP Caching.
+Garde : `tools/audit/pitfall_flashcards.py --max-gaps 0` et `--prove` en CI.
+Rapport : `docs/audit/pitfall-flashcards/README.md`. Reste : l'entrée du journal
+des corrections, dans la PR suivante (elle cite le commit de squash).
 
 Nouveau : `tools/behavior/` (Symfony 8.0.* verrouillé, 10 faits exécutés en CI),
 `docs/facts/central-facts.yml` + `CentralFactsTest` (le retour d'une ancienne

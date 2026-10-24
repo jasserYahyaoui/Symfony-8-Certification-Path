@@ -4293,3 +4293,151 @@ flashcards:
         branch: "8.0"
         symbol_or_lines: "resolve"
         verified_at: "2026-09-24"
+
+  - id: FLC-qmpvz7qwt987
+    official_item: OIT-65bev6t7wbna
+    language: fr
+    level: APPLICATION
+    front: "Symfony : poser un flash message démarre-t-il la session ?"
+    back: "Oui : le flash est stocké en session. `isStarted()` passe de `false` à `true` dès `getFlashBag()->add()`."
+    explanation: "Exécuté avec HttpFoundation 8.0.15. Il n'y a pas de flash sans session — donc sans cookie de session."
+    memorization_justification: "Le flash paraît un détail d'affichage ; son coût, une session démarrée, se retient."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Session/Session.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Session/Session.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+        symbol_or_lines: "getFlashBag line 209 — the bag is read from the session storage"
+        verified_at: "2026-10-24"
+
+  - id: FLC-fwg3mnmxkjge
+    official_item: OIT-65bev6t7wbna
+    language: fr
+    level: TRAP
+    front: "Symfony : le type d'un flash message doit-il être `success`, `notice`, `warning` ou `error` ?"
+    back: "Non : c'est une string libre, `add(string $type, mixed $message)`. Ces noms sont des usages, pas une liste imposée."
+    explanation: "Exécuté avec HttpFoundation 8.0.15 : `add('anything-goes', 'hi')` puis `peek('anything-goes')` rend `['hi']`."
+    memorization_justification: "Les exemples répètent toujours les mêmes types ; l'examen teste qu'ils ne sont pas obligatoires."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Session/Flash/FlashBag.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Session/Flash/FlashBag.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+        symbol_or_lines: "add line 47 — public function add(string $type, mixed $message): void"
+        verified_at: "2026-10-24"
+
+  - id: FLC-75rcpkjjxm83
+    official_item: OIT-8hs6e05vq91g
+    language: fr
+    level: UNDERSTANDING
+    front: "Deux value resolvers savent fournir le même argument. Lesquels sont appelés ?"
+    back: "Ils sont essayés dans l'ordre : le premier qui rend une valeur arrête la résolution, et le second n'est pas consulté."
+    explanation: "`ArgumentResolver` passe à l'argument suivant dès qu'un resolver a fourni une valeur (`continue 2`). Exécuté avec HttpKernel 8.0.15 : seul le premier est appelé."
+    memorization_justification: "On imagine une fusion, ou un avantage au dernier ; c'est l'ordre qui tranche."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Controller/ArgumentResolver.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Controller/ArgumentResolver.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+        symbol_or_lines: "getArguments line 105 — continue 2 once a resolver yields a value"
+        verified_at: "2026-10-24"
+
+  - id: FLC-snnz88eh57kp
+    official_item: OIT-8hs6e05vq91g
+    language: fr
+    level: TRAP
+    front: "`#[MapRequestPayload]` reçoit un JSON mal formé. Quel statut ?"
+    back: "400, pas 422 : une `BadRequestHttpException`, « Request payload contains invalid \"json\" data ». Il n'y a rien à valider."
+    explanation: "422 sanctionne une donnée décodée mais invalide ; un body illisible échoue avant, au décodage. Exécuté avec HttpKernel 8.0.15."
+    memorization_justification: "422 est le statut associé à `MapRequestPayload` ; l'exception du décodage se retient à part."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Controller/ArgumentResolver/RequestPayloadValueResolver.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Controller/ArgumentResolver/RequestPayloadValueResolver.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+        symbol_or_lines: "lines 241-242 — NotEncodableValueException becomes BadRequestHttpException"
+        verified_at: "2026-10-24"
+
+  - id: FLC-a134w160sdtf
+    official_item: OIT-8hs6e05vq91g
+    language: fr
+    level: UNDERSTANDING
+    front: "Un resolver tagué `controller.targeted_value_resolver` s'exécute-t-il sur tous les arguments ?"
+    back: "Non : seulement sur un argument qui le désigne, par `#[ValueResolver]` ou par son attribute (`#[MapRequestPayload]`, `#[MapQueryParameter]`)."
+    explanation: "`ControllerArgumentValueResolverPass` retire les resolvers ciblés de la liste générale ; `ArgumentResolver` ne les appelle que par leur nom."
+    memorization_justification: "Le tag ressemble au tag ordinaire ; son usage restreint se retient."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/DependencyInjection/ControllerArgumentValueResolverPass.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/DependencyInjection/ControllerArgumentValueResolverPass.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+        symbol_or_lines: "lines 40-46 — a resolver tagged controller.targeted_value_resolver is unset from the general chain"
+        verified_at: "2026-10-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Controller/ArgumentResolver.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Controller/ArgumentResolver.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+        symbol_or_lines: "getArguments line 58 — named resolvers are looked up from the ValueResolver attribute"
+        verified_at: "2026-10-24"
+
+  - id: FLC-a68zce7jg14p
+    official_item: OIT-bwfqarnn6s2f
+    language: fr
+    level: UNDERSTANDING
+    front: "Un controller rend `redirectToRoute('home')`. Le controller de `home` s'exécute-t-il dans la même Request ?"
+    back: "Non : le redirect est une Response 3xx portant `Location`. Le navigateur repart, l'URL affichée change, et `home` s'exécute dans une seconde Request."
+    explanation: "C'est l'opposé de `forward()`, qui exécute la cible en sub-Request sans quitter la Request courante."
+    memorization_justification: "Redirect et forward se confondent ; ce qui les sépare — une ou deux Requests HTTP — se retient."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
+        readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
+        branch: "master"
+        symbol_or_lines: "section 15.4 Redirection 3xx — \"further action needs to be taken by the user agent in order to fulfill the request\""
+        verified_at: "2026-10-24"
+
+  - id: FLC-24p1bdhhjqxd
+    official_item: OIT-e93sa9rd4kd9
+    language: fr
+    level: RECALL
+    front: "Le controller d'une route doit-il être une class du namespace `App\\` ?"
+    back: "Non : n'importe quel callable. Une route peut viser `Symfony\\Bundle\\FrameworkBundle\\Controller\\RedirectController` ou `TemplateController`."
+    explanation: "La documentation montre une route YAML dont le `controller` est `Symfony\\Bundle\\FrameworkBundle\\Controller\\RedirectController`."
+    memorization_justification: "Toutes les routes vues pointent vers `App\\` ; les controllers intégrés se reconnaissent à leur namespace."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/routing.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "Redirecting to URLs and Routes Directly from a Route — controller: Symfony\\Bundle\\FrameworkBundle\\Controller\\RedirectController"
+        verified_at: "2026-10-24"
+
+  - id: FLC-1g7a96r31q4m
+    official_item: OIT-tb3bnd6b0f01
+    language: fr
+    level: RECALL
+    front: "Un file téléversé n'est pas déplacé par le controller. Qu'en reste-t-il après la Request ?"
+    back: "Rien : PHP supprime le file temporaire à la fin de la Request. Il faut `move()` pendant la Request."
+    explanation: "La documentation PHP : le file est effacé du directory temporaire à la fin de la Request s'il n'a été ni déplacé ni renommé."
+    memorization_justification: "On croit le file disponible pour un traitement ultérieur ; c'est la fin de la Request qui l'efface."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/features/file-upload.xml"
+        readable_url: "https://github.com/php/doc-en/blob/master/features/file-upload.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        symbol_or_lines: "\"The file will be deleted from the temporary directory at the end of the request if it has not been moved away or renamed\""
+        verified_at: "2026-10-24"

@@ -1347,3 +1347,20 @@ flashcards:
     branch: '8.0'
     symbol_or_lines: 'getRetryDelay(): ?int'
     verified_at: '2026-10-15'
+- id: FLC-kt2fa248ea28
+  official_item: OIT-dctf03ftx44f
+  language: fr
+  level: UNDERSTANDING
+  front: "Pourquoi lancer `messenger:consume` avec `--limit`, `--memory-limit` ou `--time-limit` ?"
+  back: "Parce qu'un worker ne doit pas tourner indéfiniment : certains services consomment de la mémoire au fil du temps. Le worker s'arrête, et le superviseur de process le relance."
+  explanation: "La documentation : « Don't Let Workers Run Forever ». Ces limites sont l'exploitation prévue, pas un contournement."
+  memorization_justification: "Les limites passent pour un pansement ; la documentation en fait la règle."
+  verification_status: VERIFIED
+  official_sources:
+  - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst"
+    readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst"
+    repository: "symfony/symfony-docs"
+    branch: "8.0"
+    commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+    symbol_or_lines: "Deploying to Production — \"Don't Let Workers Run Forever\""
+    verified_at: "2026-10-24"

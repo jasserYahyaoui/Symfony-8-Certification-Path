@@ -2284,3 +2284,27 @@ flashcards:
     branch: '8.0'
     symbol_or_lines: 'defaultValue() and isRequired(): InvalidDefinitionException when both are set'
     verified_at: '2026-10-15'
+- id: FLC-sn98syzz504z
+  official_item: OIT-stze9x4aydp3
+  language: fr
+  level: RECALL
+  front: "`#[When(env: 'dev')]` et `#[Exclude]` sur une class de `src/` : quelle différence ?"
+  back: "`#[When]` n'enregistre la class comme service que dans cet environment ; `#[Exclude]` ne l'enregistre dans aucun."
+  explanation: "Les deux attributes de DependencyInjection agissent sur l'enregistrement automatique des classes de `src/`."
+  memorization_justification: "Deux attributes d'exclusion voisins ; ce qui les sépare se retient."
+  verification_status: VERIFIED
+  official_sources:
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Attribute/When.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Attribute/When.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+    symbol_or_lines: "class When — \"An attribute to tell under which environment this class should be registered as a service\""
+    verified_at: "2026-10-24"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Attribute/Exclude.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Attribute/Exclude.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+    symbol_or_lines: "class Exclude — \"An attribute to tell the class should not be registered as service\""
+    verified_at: "2026-10-24"

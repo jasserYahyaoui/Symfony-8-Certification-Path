@@ -318,6 +318,7 @@ citation, so a format change has to be designed with it, not applied in bulk.
 | Journal entries for #427 (`CVR-a4813yxth40x`, `CVR-zzn9ysgne2mg`) | #428 | squash `bdc0de5` | smoke 117637182148 success, log read (309 ok and 0 FAIL in the last 400 lines; « P3.3: journal des corrections served, entries anchored ») |
 | Tracker: #428 delivered, F8 VÉRIFIÉ | #429 | squash `f8c9ad2` | smoke 117643408266 success, log read (309 ok and 0 FAIL in the last 400 lines) |
 | Independent evaluation: reviewer's brief, sample drawn from the reviewer's seed | #430 | squash `800278b` | smoke 117655872723 success, log read (309 ok and 0 FAIL in the last 400 lines) |
+| Independent evaluation: attachable review packs, HOLDOUT in mixed bank files | #431 | squash `806a8a9` | smoke 120014740019 success, log read (309 ok and 0 FAIL in the last 400 lines) |
 | P1.7, P2.4, P2.5 (part) | #395, CI green | squash `6c1448c` | job « Production smoke test » 115498368380 success, log read. It checks served pages and payloads, not the client-side progression table, which the CI a11y audit renders. |
 
 ### P3.3 — Maintenance: a journal of corrections, and answers that follow versions
@@ -515,6 +516,19 @@ errors. No threshold moved: none of the questions makes a pair at cosine 0.45 or
 more with any question, HOLDOUT included (counted only), and CMP-002, ARC-001
 (one archetype corrected from CODE_OUTPUT, as the template is inline) and the
 length audit pass.
+
+### After remediation — exam pitfalls rehearsed by flashcards (2026-10-24)
+
+Not one of F1–F10: an extension proposed after them and accepted by the owner.
+Report: `docs/audit/pitfall-flashcards/README.md`.
+
+| | |
+|---|---|
+| **Reproduced** | Every « Pièges d'examen » paragraph — 788 in 163 courses — read against all the cards of its item: 63 traps had no card that rehearses them (23 in lot 01). |
+| **Corrected** | 62 cards added, each fact executed (PHP 8.4.19, Symfony 8.0.15) or read in its source; one pitfall NO_CARD, unreachable in 8.0. `FLC-h2e5dj32pzgg` gave 500 where a `NotFoundHttpException` gives 404, now conditioned. The routing course said Unicode properties work in a requirement; without `utf8` the route does not compile. The HTTP Caching course now says *on-demand* invalidation is outside HTTP, as RFC 9111 §4.4 defines the other kind. |
+| **Guarded** | `tools/audit/pitfall_flashcards.py --max-gaps 0` and `--prove` in CI; two central facts with behavior checks and forbidden patterns. |
+| **Cost** | Plan load 147.8 h → 148.6 h; every item still introduced by 2026-12-11, mocks on the same dates. |
+| **Journal** | The entry cites this PR's squash commit, so it is written in the next PR. |
 
 ## Next action
 
