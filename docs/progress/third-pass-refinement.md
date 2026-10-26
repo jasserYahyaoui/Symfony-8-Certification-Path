@@ -25,7 +25,7 @@ Les questions HOLDOUT n'ont pas été lues.
 | relues | 163 |
 | exactes sur le fond | 145 |
 | corrigées sur le fond (cette PR) | 18 |
-| touchées par la seule réécriture terminologique (PR suivante) | voir plus bas |
+| touchées par la seule réécriture terminologique (PR suivante) | 65 |
 
 Sur le fond, **21 défauts** dans 18 pages : 7 affirmations fausses ou
 généralisées (D), 5 imprécisions (P), 4 énumérations fausses (L), 4 défauts de
@@ -88,3 +88,49 @@ de hashers) devenu `string`, « tableau » (la table ci-dessus) devenu `array`,
 (« la tag »), des élisions cassées (« L'listener »). Ce sont des défauts de
 langue, pas de fond ; ils sont corrigés dans la PR suivante, avec l'outil
 lui-même (motifs `keep`), pour qu'ils ne reviennent pas.
+
+### Ce que la PR terminologique corrige
+
+**71 cours** (65 que la terminologie seule touche, 6 déjà corrigés sur le
+fond) et **14 fichiers de cartes**, chaque occurrence relue dans son contexte et
+réécrite à la main — jamais par remplacement global. Par famille :
+
+| Famille | Exemple avant | Après |
+|---|---|---|
+| « réponse » à une question | « Trois verbes, trois Responses » | « trois verdicts » |
+| « réponse » d'un user en console | « accepte toute Response commençant par `y` » | « toute saisie » |
+| « tableau » (la table de la page) | « ## L'array de décision » | « ## La table de décision » |
+| « chaîne » d'appels, de hashers | « `auto` construit une **string** » | « une **chaîne de hashers** » |
+| « tout entier », « en bloc », « en boucle » | « le framework tout int » | « tout entier » |
+| « commande » (un achat) | « accède alors à la command par `getOrder()` » | « à l'`Order` » |
+| verbe pris pour un nom | « Seul `q` class », « qui la factory » | « ordonne », « qui le génère » |
+| « fermeture » du navigateur, du form | « la closure du navigateur » | « la fermeture du navigateur » |
+| « sortie » d'un process | « terminé avant l'output » | « avant l'arrêt » |
+| « système de fichiers », « agent utilisateur » | « système de files », « l'agent user » | `filesystem`, « le user agent » |
+| accords restés au féminin | « une seconde tag », « aucune redirect » | « un second tag », « aucun redirect » |
+| élisions cassées | « L'**listener** », « index de array » | « Le **listener** », « index d'array » |
+| « requête » Doctrine ou CQRS | « faire la Request dans le controller » | « écrire la query » |
+
+Huit titres changent ; les cinq que `outcome_sections` désigne sont mis à jour
+dans la même modification (`SEC-001`). Treize paragraphes « Pièges d'examen »
+reformulés reçoivent un nouveau verdict dans le registre, chacun relu contre sa
+carte. Aucune question n'est touchée.
+
+**L'outil.** `aucun`/`aucune` sont désormais des déterminants (l'accord suit le
+genre du terme anglais) ; une forme de plusieurs mots est reconnue à travers un
+retour à la ligne ; la fenêtre des motifs `keep` est lue espaces normalisés, si
+bien qu'un motif écrit avec des espaces protège une expression coupée en deux
+lignes — un premier essai de la correction, sans cela, réécrivait en « caching »
+un « mise en cache » coupé par un retour à la ligne. Motifs `keep` ajoutés :
+« en boucle », « en bloc », « d'un bloc », « tout entier », « en entier »,
+« fermeture du navigateur », « redirection de flux ». Deux entrées :
+« système de fichiers » → `filesystem` (avant « fichier », pour gagner), et
+« voteur » → `voter`. Réécrit par l'outil corrigé : 18 fichiers, chaque
+changement relu.
+
+## Livraison
+
+| Étape | PR | Commit | Production |
+|---|---|---|---|
+| Fond : 21 défauts dans 18 cours | #434 | `0bf0ba6` | smoke 121470795931 **success, lu** : 313 ok, 0 FAIL, les quatre lignes « third-pass » |
+| Terminologie, et journal de #434 (13 entrées `CVR-…`, `finding: third-pass`) | PR suivante | — | — |
