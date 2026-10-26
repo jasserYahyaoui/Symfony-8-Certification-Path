@@ -5,7 +5,7 @@ title: "Service container"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-29"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/alias_private.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/service_container/alias_private.rst"
@@ -63,8 +63,9 @@ Un service privé n'est pas caché : il est simplement **inaccessible depuis
 l'extérieur du container**. Exécuté après `compile()` : `get()` sur un service
 privé lève une `ServiceNotFoundException`, « removed or inlined when the
 container was compiled ». L'intérêt est double — le compiler peut l'inliner
-ou le retirer s'il n'est référencé nulle part, et une référence vers un service
-inexistant produit une erreur claire dès la compilation.
+ou le retirer s'il n'est référencé nulle part, et, parce qu'il impose
+l'injection plutôt que `get()`, une dependency manquante se signale dès la
+compilation au lieu d'échouer à l'exécution.
 
 On rend un service public par `public: true` dans la configuration, ou par
 `#[Autoconfigure(public: true)]` sur sa class.

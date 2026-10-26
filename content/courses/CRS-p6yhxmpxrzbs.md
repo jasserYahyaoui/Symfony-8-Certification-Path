@@ -5,7 +5,7 @@ title: "Cache"
 content_level: DEEP
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-14"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/cache.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/cache.rst"
@@ -80,9 +80,9 @@ chacun reçoit un **namespace** dérivé de son nom. Exécuté, deux
 `FilesystemAdapter` construits avec le même namespace et le même dossier
 **partagent** leurs keys.
 
-## Deux approches, une recommandée
+## Trois API, une recommandée
 
-Le component en propose deux :
+Le component en propose trois :
 
 - les **Cache Contracts** — un rappel de recalcul, recommandé par la
   documentation : moins de code, et **protection contre la ruée par défaut** ;

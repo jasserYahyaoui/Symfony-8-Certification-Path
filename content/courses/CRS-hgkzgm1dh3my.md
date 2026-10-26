@@ -5,7 +5,7 @@ title: "Retries and failures"
 content_level: DEEP
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-09"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst"
@@ -88,7 +88,8 @@ qui vaut **0**. Le délai croît **exponentiellement** — `delay × multiplier^
 pour ne pas marteler un service déjà en difficulté ; `max_delay` plafonne la
 progression ; le `jitter` disperse les retries pour que mille messages ne
 repartent pas à la même seconde. Calculé avec `MultiplierRetryStrategy` :
-1000, 2000, 4000 ms sans jitter ; 1096, 2109, 4298 ms avec un jitter de 0,1.
+1000, 2000, 4000 ms sans jitter ; avec un jitter de 0,1, chaque délai varie au
+hasard de ±10 % — un tirage : 1096, 2109, 4298 ms.
 
 `max_retries: 3` signifie **trois retries après l'échec initial**, donc quatre
 tentatives en tout. Exécuté avec un handler qui échoue toujours : **4**

@@ -31,8 +31,8 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Jeudi 1 octobre 2026
 
 - NOUVEAU · **PHP : PHP API up to PHP 8.4 version** (STANDARD) — 38 min · 825 mots · 5 questions, 11 questions de compréhension, 6 flashcards
-- NOUVEAU · **PHP : Object Oriented Programming** (STANDARD) — 27 min · 448 mots · 5 questions, 6 questions de compréhension, 3 flashcards
-- NOUVEAU · **PHP : Attributes** (STANDARD) — 25 min · 377 mots · 4 questions, 5 questions de compréhension, 4 flashcards
+- NOUVEAU · **PHP : Object Oriented Programming** (STANDARD) — 27 min · 449 mots · 5 questions, 6 questions de compréhension, 3 flashcards
+- NOUVEAU · **PHP : Attributes** (STANDARD) — 25 min · 383 mots · 4 questions, 5 questions de compréhension, 4 flashcards
 - NOUVEAU · **PHP : Interfaces** (STANDARD) — 27 min · 563 mots · 5 questions, 5 questions de compréhension, 3 flashcards
 
 *Budget du jour : 117 / 160 min*
@@ -40,7 +40,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Vendredi 2 octobre 2026
 
 - NOUVEAU · **PHP : Anonymous functions and closures** (STANDARD) — 21 min · 428 mots · 4 questions, 4 questions de compréhension, 4 flashcards
-- NOUVEAU · **PHP : Abstract classes** (STANDARD) — 19 min · 335 mots · 5 questions, 3 questions de compréhension, 3 flashcards
+- NOUVEAU · **PHP : Abstract classes** (STANDARD) — 19 min · 345 mots · 5 questions, 3 questions de compréhension, 3 flashcards
 - NOUVEAU · **PHP : Exception and error handling** (STANDARD) — 25 min · 395 mots · 4 questions, 7 questions de compréhension, 3 flashcards
 - NOUVEAU · **PHP : Traits** (STANDARD) — 24 min · 365 mots · 4 questions, 5 questions de compréhension, 4 flashcards
 - Révision **J+1** (24 min) — PHP : PHP API up to PHP 8.4 version · PHP : Object Oriented Programming · PHP : Attributes · PHP : Interfaces
@@ -95,17 +95,17 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - NOUVEAU (suite) · **HTTP : Cookies** (STANDARD) — 4 min · 899 mots · 6 questions, 9 questions de compréhension, 18 flashcards
 - NOUVEAU · **HTTP : Caching** (STANDARD) — 40 min · 897 mots · 6 questions, 5 questions de compréhension, 17 flashcards
 - NOUVEAU · **HTTP : Content negotiation** (STANDARD) — 36 min · 844 mots · 5 questions, 5 questions de compréhension, 16 flashcards
-- NOUVEAU · **HTTP : Language detection** (MINIMAL) — 29 min · 647 mots · 2 questions, 5 questions de compréhension, 16 flashcards
-- NOUVEAU · **HTTP : Symfony HttpClient component** (STANDARD) — 31 min · 895 mots · 9 questions, 13 questions de compréhension, 19 flashcards
+- NOUVEAU · **HTTP : Language detection** (MINIMAL) — 30 min · 680 mots · 2 questions, 5 questions de compréhension, 16 flashcards
+- NOUVEAU · **HTTP : Symfony HttpClient component** (STANDARD) — 30 min · 895 mots · 9 questions, 13 questions de compréhension, 19 flashcards
 - Révision **J+1** (20 min) — HTTP : HTTP request · HTTP : HTTP response · HTTP : HTTP methods
 
 *Budget du jour : 160 / 160 min*
 
 ### Jeudi 8 octobre 2026
 
-- NOUVEAU (suite) · **HTTP : Symfony HttpClient component** (STANDARD) — 31 min · 895 mots · 9 questions, 13 questions de compréhension, 19 flashcards
+- NOUVEAU (suite) · **HTTP : Symfony HttpClient component** (STANDARD) — 32 min · 895 mots · 9 questions, 13 questions de compréhension, 19 flashcards
 - NOUVEAU · **Symfony Architecture : HttpFoundation component** (MINIMAL) — 32 min · 693 mots · 3 questions, 6 questions de compréhension, 15 flashcards
-- NOUVEAU · **Symfony Architecture : Symfony Flex** (STANDARD) — 36 min · 802 mots · 4 questions, 7 questions de compréhension, 15 flashcards
+- NOUVEAU · **Symfony Architecture : Symfony Flex** (STANDARD) — 35 min · 758 mots · 4 questions, 7 questions de compréhension, 15 flashcards
 - Révision **J+1** (22 min) — HTTP : Cookies · HTTP : Caching · HTTP : Content negotiation · HTTP : Language detection
 - Révision **J+3** (10 min) — PHP : Enums · HTTP : HTTP Specification (RFC 9110) · HTTP : Status codes
 - Révision **J+7** (16 min) — PHP : PHP API up to PHP 8.4 version · PHP : Object Oriented Programming · PHP : Attributes · PHP : Interfaces
@@ -189,7 +189,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - NOUVEAU (suite) · **Symfony Architecture : Framework overloading** (STANDARD) — 10 min · 876 mots · 4 questions, 7 questions de compréhension, 17 flashcards
 - NOUVEAU · **Symfony Architecture : Release management and roadmap schedule** (STANDARD) — 43 min · 894 mots · 6 questions, 9 questions de compréhension, 17 flashcards
 - NOUVEAU · **Symfony Architecture : Framework interoperability and PSRs** (STANDARD) — 35 min · 716 mots · 4 questions, 6 questions de compréhension, 17 flashcards
-- NOUVEAU · **Symfony Architecture : Naming conventions** (MINIMAL) — 28 min · 584 mots · 3 questions, 5 questions de compréhension, 15 flashcards
+- NOUVEAU · **Symfony Architecture : Naming conventions** (MINIMAL) — 28 min · 592 mots · 3 questions, 5 questions de compréhension, 15 flashcards
 - Révision **J+1** (18 min) — Symfony Architecture : Official best practices · Symfony Architecture : Backward compatibility promise · Symfony Architecture : Deprecations best practices
 - Révision **J+7** (15 min) — HTTP : Cookies · HTTP : Caching · HTTP : Content negotiation · HTTP : Language detection
 
@@ -290,7 +290,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Jeudi 22 octobre 2026
 
-- NOUVEAU · **Routing : Restrict URL parameters** (STANDARD) — 33 min · 595 mots · 4 questions, 7 questions de compréhension, 14 flashcards
+- NOUVEAU · **Routing : Restrict URL parameters** (STANDARD) — 33 min · 603 mots · 4 questions, 7 questions de compréhension, 14 flashcards
 - NOUVEAU · **Routing : Set default values to URL parameters** (STANDARD) — 32 min · 595 mots · 5 questions, 6 questions de compréhension, 13 flashcards
 - NOUVEAU · **Routing : URLs generation** (STANDARD) — 35 min · 635 mots · 5 questions, 9 questions de compréhension, 12 flashcards
 - Révision **J+1** (20 min) — Controllers : Argument value resolvers · Routing : Routing component and FrameworkBundle · Routing : Configuration (YAML and PHP attributes)
@@ -362,7 +362,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Mardi 27 octobre 2026
 
-- NOUVEAU · **Dependency Injection : Service container** (STANDARD) — 31 min · 620 mots · 5 questions, 6 questions de compréhension, 11 flashcards
+- NOUVEAU · **Dependency Injection : Service container** (STANDARD) — 31 min · 627 mots · 5 questions, 6 questions de compréhension, 11 flashcards
 - NOUVEAU · **Dependency Injection : Built-in services** (MINIMAL) — 22 min · 559 mots · 2 questions, 3 questions de compréhension, 11 flashcards
 - NOUVEAU · **Dependency Injection : Configuration parameters** (STANDARD) — 32 min · 665 mots · 4 questions, 7 questions de compréhension, 11 flashcards
 - NOUVEAU · **Dependency Injection : Services registration (YAML and PHP attributes)** (STANDARD) — 28 min · 637 mots · 6 questions, 7 questions de compréhension, 12 flashcards
@@ -387,7 +387,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Jeudi 29 octobre 2026
 
-- NOUVEAU · **Dependency Injection : Compiler passes** (DEEP) — 37 min · 797 mots · 7 questions, 7 questions de compréhension, 11 flashcards
+- NOUVEAU · **Dependency Injection : Compiler passes** (DEEP) — 37 min · 799 mots · 7 questions, 7 questions de compréhension, 11 flashcards
 - NOUVEAU · **Dependency Injection : Services autowiring** (DEEP) — 35 min · 872 mots · 5 questions, 8 questions de compréhension, 11 flashcards
 - NOUVEAU · **Dependency Injection : Service locators** (STANDARD) — 20 min · 571 mots · 4 questions, 5 questions de compréhension, 11 flashcards
 - Révision **J+1** (30 min) — Dependency Injection : Services registration (YAML and PHP attributes) · Dependency Injection : Service decoration · Dependency Injection : Tags · Dependency Injection : Semantic configuration · Dependency Injection : Factories
@@ -402,7 +402,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - NOUVEAU (suite) · **Dependency Injection : Service locators** (STANDARD) — 8 min · 571 mots · 4 questions, 5 questions de compréhension, 11 flashcards
 - NOUVEAU · **Data Validation : Validator component** (STANDARD) — 31 min · 653 mots · 4 questions, 7 questions de compréhension, 11 flashcards
 - NOUVEAU · **Data Validation : PHP object validation** (STANDARD) — 27 min · 671 mots · 3 questions, 4 questions de compréhension, 11 flashcards
-- NOUVEAU · **Data Validation : Built-in validation constraints** (STANDARD) — 44 min · 859 mots · 7 questions, 10 questions de compréhension, 14 flashcards
+- NOUVEAU · **Data Validation : Built-in validation constraints** (STANDARD) — 44 min · 868 mots · 7 questions, 10 questions de compréhension, 14 flashcards
 - Révision **J+1** (16 min) — Dependency Injection : Compiler passes · Dependency Injection : Services autowiring
 - Révision **J+3** (11 min) — Dependency Injection : Service container · Dependency Injection : Built-in services · Dependency Injection : Configuration parameters
 - Révision **J+7** (11 min) — Routing : Trigger redirects · Routing : Special internal routing attributes · Routing : Domain name matching
@@ -459,7 +459,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - NOUVEAU · **Data Validation : Validation scopes** (STANDARD) — 25 min · 564 mots · 3 questions, 4 questions de compréhension, 11 flashcards
 - NOUVEAU · **Data Validation : Validation groups** (STANDARD) — 29 min · 566 mots · 4 questions, 5 questions de compréhension, 11 flashcards
 - NOUVEAU · **Data Validation : Group sequence** (DEEP) — 29 min · 844 mots · 4 questions, 4 questions de compréhension, 10 flashcards
-- NOUVEAU · **Data Validation : Custom callback validators** (STANDARD) — 28 min · 583 mots · 4 questions, 5 questions de compréhension, 11 flashcards
+- NOUVEAU · **Data Validation : Custom callback validators** (STANDARD) — 28 min · 650 mots · 4 questions, 5 questions de compréhension, 11 flashcards
 - Révision **J+3** (16 min) — Dependency Injection : Service locators · Data Validation : Validator component · Data Validation : PHP object validation · Data Validation : Built-in validation constraints
 - Révision **J+7** (18 min) — Routing : Conditional request matching · Routing : HTTP methods matching · Routing : User's locale guessing · Routing : Router debugging · Dependency Injection : Dependency Injection component
 - Révision **J+14** (10 min) — Controllers : The session · Controllers : The flash messages · Controllers : HTTP redirects · Controllers : Internal redirects
@@ -492,7 +492,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Jeudi 5 novembre 2026
 
 - NOUVEAU · **Forms : Forms theming** (STANDARD) — 31 min · 619 mots · 5 questions, 6 questions de compréhension, 12 flashcards
-- NOUVEAU · **Forms : CSRF protection** (STANDARD) — 31 min · 641 mots · 5 questions, 6 questions de compréhension, 11 flashcards
+- NOUVEAU · **Forms : CSRF protection** (STANDARD) — 32 min · 663 mots · 5 questions, 6 questions de compréhension, 11 flashcards
 - NOUVEAU · **Forms : Handling file upload** (MINIMAL) — 20 min · 434 mots · 2 questions, 4 questions de compréhension, 9 flashcards
 - Révision **J+1** (18 min) — Forms : Forms handling · Forms : Form types (built-in and custom) · Forms : Forms rendering with Twig
 - Révision **J+3** (17 min) — Data Validation : Validation scopes · Data Validation : Validation groups · Data Validation : Group sequence · Data Validation : Custom callback validators
@@ -500,7 +500,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+14** (9 min) — Routing : Restrict URL parameters · Routing : Set default values to URL parameters · Routing : URLs generation
 - Révision **J+30** (10 min) — HTTP : HTTP request · HTTP : HTTP response · HTTP : HTTP methods
 
-*Budget du jour : 146 / 160 min*
+*Budget du jour : 147 / 160 min*
 
 ### Vendredi 6 novembre 2026
 
@@ -659,7 +659,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Lundi 16 novembre 2026
 
 - NOUVEAU · **Messenger : Workers** (STANDARD) — 28 min · 610 mots · 4 questions, 5 questions de compréhension, 12 flashcards
-- NOUVEAU · **Messenger : Retries and failures** (DEEP) — 39 min · 803 mots · 6 questions, 9 questions de compréhension, 12 flashcards
+- NOUVEAU · **Messenger : Retries and failures** (DEEP) — 39 min · 815 mots · 6 questions, 9 questions de compréhension, 12 flashcards
 - NOUVEAU · **Messenger : Middleware** (STANDARD) — 30 min · 629 mots · 4 questions, 6 questions de compréhension, 11 flashcards
 - Révision **J+3** (17 min) — Security : Voters and voting strategies · Messenger : Messenger component · Messenger : Transports · Messenger : Messages and handlers
 - Révision **J+7** (20 min) — Forms : Form events · Forms : Form type extensions · Forms : Form options (OptionsResolver component) · Security : Security Core, CSRF and PasswordHasher components · Security : Authentication
@@ -781,7 +781,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Mercredi 25 novembre 2026
 
-- NOUVEAU · **Console : Options and arguments (using PHP attributes)** (STANDARD) — 34 min · 827 mots · 4 questions, 7 questions de compréhension, 11 flashcards
+- NOUVEAU · **Console : Options and arguments (using PHP attributes)** (STANDARD) — 34 min · 831 mots · 4 questions, 7 questions de compréhension, 11 flashcards
 - NOUVEAU · **Console : Input and Output objects** (STANDARD) — 37 min · 839 mots · 5 questions, 6 questions de compréhension, 14 flashcards
 - NOUVEAU · **Console : Built-in helpers** (STANDARD) — 31 min · 709 mots · 4 questions, 6 questions de compréhension, 12 flashcards
 - Révision **J+1** (16 min) — Console : Built-in commands · Console : Custom commands · Console : Configuration

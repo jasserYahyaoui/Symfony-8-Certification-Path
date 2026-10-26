@@ -5,7 +5,7 @@ title: "Naming conventions"
 content_level: MINIMAL
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/standards.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/standards.rst"
@@ -92,9 +92,10 @@ Dans les PHPDoc et les transtypages : `bool`, `int`, `float` — jamais `boolean
 
 ## Pièges d'examen
 
-**Un cas d'enum s'écrit `UpperCamelCase`, pas en majuscules.**
-`InputArgumentMode::IsArray`, alors que la constant de class équivalente
-s'écrit `IS_ARRAY`. Les deux cohabitent dans le même code.
+**Un cas d'enum s'écrit `UpperCamelCase`, pas en majuscules.** Les standards
+l'illustrent par `InputArgumentMode::IsArray` face à la constant
+`InputArgument::IS_ARRAY` ; seule la constant existe dans Console 8.0 —
+l'enum n'est qu'un exemple de nommage.
 
 **`Abstract` est un préfixe ; `Interface`, `Trait` et `Exception` sont des
 suffixes.** Il n'y a en revanche **aucun** suffixe pour une class ordinaire ou

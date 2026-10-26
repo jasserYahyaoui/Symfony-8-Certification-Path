@@ -5,7 +5,7 @@ title: "Attributes"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-09"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/php/doc-en/master/language/attributes.xml"
     readable_url: "https://github.com/php/doc-en/blob/master/language/attributes.xml"
@@ -101,8 +101,8 @@ pas.
 **Les arguments sont des expressions constantes.** `#[Route(path: getPath())]`
 ne compile pas.
 
-**Sans `IS_REPEATABLE`, répéter un attribute est une erreur** au moment de la
-lecture par réflexion.
+**Sans `IS_REPEATABLE`, répéter un attribute est une erreur** — levée par
+`newInstance()` : `getAttributes()` rend les deux occurrences sans rien dire.
 
 ## Points clés
 

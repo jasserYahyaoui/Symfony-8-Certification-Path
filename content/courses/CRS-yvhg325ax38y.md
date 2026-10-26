@@ -5,7 +5,7 @@ title: "Configuration"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-30"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/security.rst"
@@ -126,7 +126,7 @@ valides. L'option **`security.expose_security_errors`** — à la racine de
 
 Lu dans `AuthenticatorManager::isSensitiveException()` (8.0) : une exception
 jugée sensible est remplacée par `BadCredentialsException('Bad credentials.')`
-avant d'atteindre l'authenticator. Seules ces deux familles sont jamais
+avant d'atteindre l'authenticator. Seules ces deux familles peuvent être
 masquées — `UserNotFoundException` et `AccountStatusException`, sauf sa
 variante `CustomUserMessageAccountStatusException` ; un token CSRF invalide,
 par exemple, reste visible.

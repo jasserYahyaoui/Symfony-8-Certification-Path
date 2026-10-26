@@ -5058,6 +5058,26 @@ jobs:
           else
             echo "ok  second-pass  lot-01 enums: pure enum value access warns and yields null, modification throws an Error"
           fi
+          # Third refinement pass (2026-10-26): four corrections, each needle absent from master before.
+          for spec in \
+            "lot-02/language-detection|Ce qui suit est|lot-02 language detection: subtags after the region are dropped" \
+            "lot-03/naming-conventions|seule la constant existe dans Console 8.0|lot-03 naming conventions: InputArgumentMode is only the standards' example" \
+            "lot-07/csrf-protection|un identifier commun|lot-07 csrf: a Flex application gives submit as the common token id" \
+            "lot-08/custom-callback-validators|Elle accepte aussi une|lot-08 callback: Callback targets a property too, and receives its value"; do
+            page=${spec%%|*}; rest=${spec#*|}; needle=${rest%%|*}; label=${rest#*|}
+            out="/tmp/tp-$(echo "$page" | tr '/' '-')"
+            code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+              -o "$out" -w '%{http_code}' "$BASE_URL/docs/courses/$page")
+            if [ "$code" != "200" ]; then
+              echo "::error::Third pass: page $page serves $code"
+              fail=1
+            elif ! grep -aqF -- "$needle" "$out"; then
+              echo "::error::Third-pass correction missing from $page: $needle"
+              fail=1
+            else
+              echo "ok  third-pass  $label"
+            fi
+          done
           # Remediation P1.3, lot 08: null and '' per constraint, 8.0 named arguments, and a custom
           # Constraint with its ConstraintValidator. Each needle is absent from master before the change.
           for page in built-in-validation-constraints violations-builder; do

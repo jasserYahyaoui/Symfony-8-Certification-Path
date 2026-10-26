@@ -5,7 +5,7 @@ title: "Compiler passes"
 content_level: DEEP
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-30"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/compiler_passes.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/service_container/compiler_passes.rst"
@@ -122,7 +122,7 @@ par défaut.
 
 ## Ce que l'étape rend visible
 
-Le choix n'est pas décoratif. Trois exécutions le montrent :
+Le choix n'est pas décoratif. Quatre exécutions le montrent :
 
 | Passe | Résultat |
 |---|---|
@@ -152,7 +152,7 @@ s'exécute pas à la compilation.
   et l'erreur n'arrive qu'à l'exécution, pas à la compilation.
 - Priority haute = **plus tôt**, à type égal — au-delà de 100, avant
   l'autoconfiguration.
-- Le noyau-passe tourne à -10000, après les passes de bundle de son étape.
+- La passe du kernel tourne à -10000, après les passes de bundle de son étape.
 - Une passe s'exécute **une fois**, à la compilation — jamais par Request.
 - `findTaggedServiceIds()` retourne une **liste** d'attributes par service, pas un
   seul jeu.

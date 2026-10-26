@@ -5,7 +5,7 @@ title: "CSRF protection"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-08"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/csrf.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/security/csrf.rst"
@@ -126,7 +126,9 @@ correspondre à la vérification côté controller.
 **Un form sans token valide est invalide** ; c'est le component qui
 refuse.
 
-**L'identifier par défaut est le nom du form**, pas une valeur commune.
+**Sans `csrf_token_id`, l'identifier est le défaut du type, sinon le nom du
+form** — et dans une application Flex, la configuration fournie donne `submit`
+à tous les form types autoconfigurés : un identifier commun.
 
 **Sans état ne veut pas dire sans contrôle** : ce sont les headers `Origin` et
 `Referer` qui sont vérifiés.

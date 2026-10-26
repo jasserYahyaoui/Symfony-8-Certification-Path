@@ -5,7 +5,7 @@ title: "Restrict URL parameters"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-24"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/routing.rst"
@@ -95,8 +95,8 @@ complexe ; c'est un arbitrage, pas une règle.
 
 Un requirement peut contenir un **parameter de configuration**, ce qui permet de
 définir une expression compliquée une fois et de la réutiliser. Elle accepte
-aussi les **properties Unicode PCRE** : `\p{Lu}` correspond à toute majuscule,
-dans n'importe quelle langue.
+aussi les **properties Unicode PCRE**, avec l'option `utf8: true` de la route :
+`\p{Lu}` correspond alors à toute majuscule, dans n'importe quelle langue.
 
 ## Deux pièges
 

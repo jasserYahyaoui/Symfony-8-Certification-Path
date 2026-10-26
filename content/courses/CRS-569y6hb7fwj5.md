@@ -5,7 +5,7 @@ title: "Built-in validation constraints"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-15"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/map.rst.inc"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/reference/constraints/map.rst.inc"
@@ -116,7 +116,8 @@ de la même façon :
 
 | Constraint sur `''` | Résultat |
 |---|---|
-| `Email`, `Regex`, `Url`, `Type('string')` | acceptée : le validator rend la main |
+| `Email`, `Regex`, `Url` | acceptée : le validator rend la main |
+| `Type('string')` | acceptée : `''` est une string |
 | `Length(min: 3)` | violation : la longueur 0 est mesurée |
 | `Choice(choices: ['a'])` | violation : `''` n'est pas un choix |
 | `Positive` | violation |

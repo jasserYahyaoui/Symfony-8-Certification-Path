@@ -924,9 +924,9 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony : pourquoi #[Option] bool $loud = true accepte-t-il --no-loud ?'
-  back: Parce qu'un bool dont le défaut n'est pas `false` devient négociable (`VALUE_NEGATABLE`).
+  back: Parce qu'un bool dont le défaut n'est pas `false` accepte une forme négative (`VALUE_NEGATABLE`).
   explanation: 'Exécuté : `true` sans option, `false` avec `--no-loud`.'
-  memorization_justification: Option négociable.
+  memorization_justification: Option à forme négative.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Attribute/Option.php

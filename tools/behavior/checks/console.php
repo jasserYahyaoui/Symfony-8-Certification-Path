@@ -41,4 +41,14 @@ return [
             default => null,
         };
     },
+    // Third refinement pass, 2026-10-26: the coding standards illustrate enum
+    // case naming with InputArgumentMode::IsArray; Console 8.0 defines no such
+    // enum, only the InputArgument::IS_ARRAY constant.
+    'console.input-argument-mode-is-only-an-example' => static function (): ?string {
+        return match (true) {
+            enum_exists('Symfony\\Component\\Console\\Input\\InputArgumentMode') => 'InputArgumentMode exists',
+            !\defined(\Symfony\Component\Console\Input\InputArgument::class.'::IS_ARRAY') => 'InputArgument::IS_ARRAY is missing',
+            default => null,
+        };
+    },
 ];

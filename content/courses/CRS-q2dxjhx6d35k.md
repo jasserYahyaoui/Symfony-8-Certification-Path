@@ -5,7 +5,7 @@ title: "Options and arguments (using PHP attributes)"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-02"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Attribute/Option.php"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Attribute/Option.php"
@@ -101,7 +101,7 @@ Même principe, mais avec une constraint supplémentaire et un array plus riche 
 | Signature | Mode | Usage |
 |---|---|---|
 | `bool $yell = false` | `VALUE_NONE` | `--yell` |
-| `bool $yell = true` ou `?bool $yell = null` | `VALUE_NEGATABLE` | `--yell` ou `--no-yell` |
+| `bool $yell = true` ou `?bool $yell = null` | `VALUE_NONE` + `VALUE_NEGATABLE` | `--yell` ou `--no-yell` |
 | `string $format = 'json'`, `int $limit = 10` | `VALUE_REQUIRED` | `--format=csv` |
 | `array $roles = []` | `VALUE_REQUIRED` + `VALUE_IS_ARRAY` | `--roles=ADMIN --roles=USER` |
 | `string\|bool $output = false` | `VALUE_OPTIONAL` | `--output` ou `--output=f.txt` |
@@ -158,8 +158,8 @@ constantes reste donc utile pour lire la déduction.
 **Une option sans default value est une erreur**, pas une option requise.
 Une option n'est jamais requise ; c'est un argument qui peut l'être.
 
-**`bool $flag = true` n'est pas un drapeau simple** : il devient négociable, donc
-`--no-flag` existe.
+**`bool $flag = true` n'est pas un drapeau simple** : il accepte une forme
+négative, donc `--no-flag` existe.
 
 **Le nom par défaut est kebab-case**, pas le nom du parameter tel quel.
 
