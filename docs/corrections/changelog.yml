@@ -1014,3 +1014,23 @@ entries:
         sections: ["Le scope d'une loop"]
     flashcards: [FLC-4apj5ej3vsnp, FLC-4nmfssct51rz, FLC-6c96hwjnbffg, FLC-9pjtx59bzzn5, FLC-d5kwb3j05hb3, FLC-mrzazdafvqn7]
     questions: []
+
+  - id: CVR-6y0s02nyfcv0
+    date: '2026-10-26'
+    pull_request: 437
+    commit: 'ec289fd'
+    kind: EXTENSION
+    finding: third-pass
+    official_items: [OIT-webdvbgbrfth]
+    facts: []
+    title: "Abstract classes : les properties abstraites de PHP 8.4"
+    now: >-
+      Une abstract class peut exiger une property : `abstract public string $label { get; }`. Au moins un
+      hook sans body, `public` ou `protected` (jamais `private`) ; la fille la fournit par une property
+      ordinaire, `readonly` ou hookée, peut élargir sa visibilité mais pas la restreindre ; une property non
+      fournie compte comme une method abstraite. Chaque règle exécutée avec PHP 8.4.19.
+    courses:
+      - id: CRS-0jtjh77tabt1
+        sections: ["Les properties abstraites — depuis PHP 8.4", "Interface ou abstract class ?", "Pièges d'examen"]
+    flashcards: [FLC-tkhpwwer6yc1, FLC-120ygqz995vg, FLC-mtq8ebtfap6p]
+    questions: [QST-bxp5zd6zjqpq, QST-a7gd9ky1631d, QST-mm9ntx30jzm8]

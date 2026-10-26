@@ -1,6 +1,6 @@
 # CONTEXT.md — Session continuity (Master Plan §23)
 
-**Last updated:** 2026-10-26 (remédiation : P0, P1, P2.3–P2.7, P3.1–P3.3 livrés ; pièges → flashcards livrés (#432) ; budget hors objectif (ADR-0011) livré (#433) ; troisième passe livrée : fond (#434), terminologie et journal (#435) ; F4, F9 bloqués ; examen le 29 décembre)
+**Last updated:** 2026-10-26 (remédiation : P0, P1, P2.3–P2.7, P3.1–P3.3 livrés ; pièges → flashcards livrés (#432) ; budget hors objectif (ADR-0011) livré (#433) ; troisième passe livrée : fond (#434), terminologie et journal (#435), extension properties abstraites (#437) ; F4, F9 bloqués ; examen le 29 décembre)
 
 ---
 
@@ -46,6 +46,7 @@ Branche de travail : `claude/symfony-8-certification-plan-phmkau`.
 | Troisième passe : 21 défauts de fond corrigés dans 18 cours, trois faits centraux | #434 | `0bf0ba6` | smoke 121470795931 **success, lu** (313 ok, 0 erreur ; les quatre lignes « third-pass ») |
 | Troisième passe, terminologie : réécritures abusives défaites dans 71 cours, outil corrigé ; journal de #434 | #435 | `dd3ea45` | smoke 121496667051 **success, lu** (313 ok, 0 erreur ; journal servi) |
 | Journal de #435, lignes de livraison, troisième passe close | #436 | `cdb00a6` | smoke 121517190085 **success, lu** (313 ok, 0 erreur ; journal servi) |
+| *Abstract classes* : properties abstraites de PHP 8.4 (section, 3 cartes, 3 questions de compréhension), chaque règle exécutée | #437 | `ec289fd` | smoke 121823444013 **success, lu** (314 ok, 0 erreur ; aiguille `abstract properties` présente ; lot 01 : 54 questions de compréhension) |
 
 **Pièges d'examen → flashcards (2026-10-24, livré : #432, `c48317d`).** Les 788
 paragraphes « Pièges d'examen » lus contre toutes les cartes de leur item :
@@ -79,8 +80,8 @@ L'entrée du journal pour #435 (`CVR-sg2brrtfhfk7`) ne retient que les 16 cours 
 6 cartes où la réécriture changeait le sens. **La troisième passe est close**
 (#436, `cdb00a6`). Ensuite, le manque qu'elle avait consigné : *Abstract classes*
 reçoit les properties abstraites de PHP 8.4 (section, 3 cartes, 3 questions de
-compréhension, chaque règle exécutée) ; son entrée de journal suit dans la PR
-d'après.
+compréhension, chaque règle exécutée), livré dans #437 (`ec289fd`) ; son entrée
+de journal, `CVR-6y0s02nyfcv0`, dans la PR suivante.
 
 Nouveau : `tools/behavior/` (Symfony 8.0.* verrouillé, 10 faits exécutés en CI),
 `docs/facts/central-facts.yml` + `CentralFactsTest` (le retour d'une ancienne
