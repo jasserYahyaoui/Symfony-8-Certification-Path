@@ -5,7 +5,7 @@ title: "Middleware"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-02"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst"
@@ -157,7 +157,7 @@ déclarer soi-même `send_message` et `handle_message`.
 - `MiddlewareInterface::handle(Envelope, StackInterface): Envelope`.
 - `$stack->next()->handle()` continue ; l'omettre interrompt.
 - Deux passages en asynchrone : envoi puis réception.
-- L'ordre déclaré est l'ordre d'exécution ; `handle_message` ferme la string.
+- L'ordre déclaré est l'ordre d'exécution ; `handle_message` ferme la chaîne de middlewares.
 
 ## Sources officielles
 

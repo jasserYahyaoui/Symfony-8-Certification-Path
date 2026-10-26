@@ -5,7 +5,7 @@ title: "Form events"
 content_level: DEEP
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-09"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/events.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/form/events.rst"
@@ -39,7 +39,7 @@ outcome_sections:
   OUT-jz8pzthzk661: "Ce que dit le code sur le verrouillage"
   OUT-eyj84n4wy8wg: "Les forms imbriqués"
   OUT-htmpmeg36syj: "Les forms imbriqués"
-  OUT-0sq5c8vams1s: "L'array de décision"
+  OUT-0sq5c8vams1s: "La table de décision"
 ---
 
 ## Objectif
@@ -129,7 +129,7 @@ une `RuntimeException` : « A cycle was detected. Listeners to the PRE_SET_DATA
 event must not call getData() if the form data has not already been set. » On
 lit la donnée sur l'event.
 
-## L'array de décision
+## La table de décision
 
 | Besoin | Event |
 |---|---|
@@ -190,7 +190,7 @@ racine, de même priority mais enregistré après, l'erreur `NotBlank` est déj�
 
 ## Comment s'abonner
 
-Sur le constructor, pour un cas local :
+Sur le builder, pour un cas local :
 
 ```php
 $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {

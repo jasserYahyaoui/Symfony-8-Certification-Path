@@ -300,8 +300,8 @@ flashcards:
   official_item: OIT-8xcczyjyyanz
   language: fr
   level: APPLICATION
-  front: 'Symfony : transporter une command dans un event.'
-  back: Une sous-classe d'`Event` avec un constructor qui reçoit la command et un `getOrder()`.
+  front: 'Symfony : transporter un `Order` dans un event.'
+  back: Une sous-classe d'`Event` avec un constructor qui reçoit l'`Order` et un `getOrder()`.
   explanation: Documentation *Creating and Dispatching an Event*.
   memorization_justification: Event porteur de données.
   verification_status: VERIFIED

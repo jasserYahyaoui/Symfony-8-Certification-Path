@@ -398,7 +398,7 @@ flashcards:
   language: fr
   level: RECALL
   front: 'Finder : `sortByName()` ou `sortByName(true)`, lequel met `f2` avant `f10` ?'
-  back: '`sortByName(true)`, l''ordre naturel. `sortByName()` compare des strings : `f10` avant `f2`. Sans tri, l''ordre est celui du système de files.'
+  back: '`sortByName(true)`, l''ordre naturel. `sortByName()` compare des strings : `f10` avant `f2`. Sans tri, l''ordre est celui du filesystem.'
   explanation: 'Exécuté sous Linux : `f1` à `f12` créés dans l''ordre reviennent sans tri comme `f4, f12, f9, f10, f1`… Un test qui compare une liste doit trier. Finder 8.0.'
   memorization_justification: Les deux tris ont le même nom ; seul l'argument booléen les distingue.
   verification_status: VERIFIED

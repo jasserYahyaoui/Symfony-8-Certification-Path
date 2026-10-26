@@ -5,7 +5,7 @@ title: "Forms rendering with Twig"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-25"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/forms.rst"
@@ -41,7 +41,7 @@ Rendre un form dans un template, du plus court au plus contrôlé.
 
 | Function | Ce qu'elle produit |
 |---|---|
-| `form(form)` | le form entier, d'un block |
+| `form(form)` | le form entier, d'un seul tenant |
 | `form_start(form)` | le tag `<form>` ouvrant |
 | `form_end(form)` | le tag fermant, **et les fields non encore rendus** |
 | `form_row(form.champ)` | libellé + widget + aide + erreurs, dans son container |
@@ -123,7 +123,7 @@ observer la validation côté serveur.
 
 ## Pièges d'examen
 
-**La closure du form rend aussi ce qui n'a pas été rendu**, token CSRF
+**`form_end()` rend aussi ce qui n'a pas été rendu**, token CSRF
 compris.
 
 **Un field déjà rendu ne se rend pas une seconde fois** : exception.

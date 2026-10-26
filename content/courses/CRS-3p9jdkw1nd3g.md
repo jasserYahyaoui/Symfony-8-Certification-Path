@@ -5,7 +5,7 @@ title: "Built-in helpers"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-02"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/console/helpers/map.rst.inc"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/components/console/helpers/map.rst.inc"
@@ -36,8 +36,7 @@ outcome_sections:
 
 ## Objectif
 
-Savoir quels outils le component fournit déjà, pour ne pas réécrire une barre de
-progression ni une saisie interactive à la main.
+Savoir quels outils le component fournit déjà, pour ne pas réécrire une progress bar ni une saisie interactive à la main.
 
 ## Prérequis
 
@@ -52,7 +51,7 @@ La documentation 8.0 en recense neuf :
 | `QuestionHelper` | poser une question au user |
 | `ProgressBar` | une progress bar sur une tâche de longueur connue |
 | `ProgressIndicator` | un indicateur d'activité quand la longueur est inconnue |
-| `Table` | afficher des données en array |
+| `Table` | afficher des données en table |
 | `Tree` | afficher une arborescence |
 | `FormatterHelper` | blocks et sections colorés |
 | `ProcessHelper` | lancer un process externe en affichant son déroulé |
@@ -73,9 +72,9 @@ new ConfirmationQuestion('Continuer ?', false);
 new ChoiceQuestion('Environnement ?', ['dev', 'prod'], 0);
 ```
 
-`ConfirmationQuestion` accepte toute Response commençant par `y` — donc `yeti`
+`ConfirmationQuestion` accepte toute saisie commençant par `y` — donc `yeti`
 répond « oui ». Son second argument est la valeur rendue quand le user ne
-saisit rien ; en son absence, la Response par défaut est `true`.
+saisit rien ; en son absence, la valeur rendue par défaut est `true`.
 
 Le point structurant : une question n'a de sens que si l'entrée est
 **interactive**. Avec `--no-interaction`, la default value est retenue sans
@@ -86,8 +85,8 @@ Exécuté avec Console 8.0.15 :
 
 | Situation | Résultat |
 |---|---|
-| `ConfirmationQuestion('?', false)`, Response `yeti` ou `Yes` | `true` |
-| `ConfirmationQuestion('?')`, Response vide | `true` |
+| `ConfirmationQuestion('?', false)`, saisie `yeti` ou `Yes` | `true` |
+| `ConfirmationQuestion('?')`, saisie vide | `true` |
 | non interactive, `ChoiceQuestion(…, ['dev', 'prod'], 0)` | `'dev'` — la valeur, pas l'index |
 | non interactive, `Question('?')` sans défaut | `null` |
 | interactive, `Question('?')` sans défaut, fin de l'entrée | `MissingInputException` : « Aborted. » |
@@ -110,7 +109,7 @@ Le total est **facultatif**. Sans lui, la barre s'affiche en mode
 route. `ProgressIndicator`, lui, n'a pas de compteur du tout : il anime une
 attente — une Response réseau — sans unité de progression.
 
-## L'array
+## Le helper Table
 
 ```php
 (new Table($output))

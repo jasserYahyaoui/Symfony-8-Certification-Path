@@ -5,7 +5,7 @@ title: "HTTP redirects"
 content_level: MINIMAL
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/controller.rst"
@@ -67,8 +67,7 @@ protected function redirectToRoute(string $route, array $parameters = [], int $s
 }
 ```
 
-`generateUrl()` est appelée **sans** type de référence, donc avec sa valeur par
-défaut, le path absolu : le header `Location` porte `/accueil`, pas
+`generateUrl()` est appelée **sans** type de référence, donc avec sa default value, le path absolu : le header `Location` porte `/accueil`, pas
 `https://exemple.com/accueil`. `redirectToRoute()` n'a pas de quatrième
 argument pour changer cela ; une URL complète se demande en construisant soi-même
 l'URL puis en appelant `redirect()`.
@@ -106,8 +105,8 @@ Le constructor vérifie le statut par `isRedirect()`, qui n'admet que
 
 ## Le danger de `redirect()`
 
-`redirect()` **ne vérifie pas sa destination**. Passer une valeur venue de
-le user y ouvre un redirect non validé : un attaquant fabrique un
+`redirect()` **ne vérifie pas sa destination**. Passer une valeur venue du
+user y ouvre un redirect non validé : un attaquant fabrique un
 lien vers votre domain qui renvoie vers le sien. Toute URL redirigée doit être
 validée, ou provenir d'une route.
 

@@ -5,7 +5,7 @@ title: "Template inheritance"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/extends.rst"
     readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/extends.rst"
@@ -77,15 +77,15 @@ block **n'est pas ignoré** : le compiler de Twig 3.22 lève une
 content outside Twig blocks` (`Parser::filterBodyNodes()`, fixture de test
 `child_contents_outside_blocks.test`). Seuls les blancs sont tolérés.
 
-Les tags qui n'affichent rien, comme `{% set %}`, restent permises hors block.
+Les tags qui n'affichent rien, comme `{% set %}`, restent permis hors block.
 
 ## Les règles de l'inheritance
 
-**Un seul inheritance.** Un template ne peut étendre qu'un seul parent : une seconde
-tag lève « Multiple extends tags are forbidden. » Placée dans un block ou une
-macro, `extends` est refusée elle aussi.
+**Un seul inheritance.** Un template ne peut étendre qu'un seul parent : un second
+tag lève « Multiple extends tags are forbidden. » Placé dans un block ou une
+macro, `extends` est refusé lui aussi.
 
-**`extends` en tête.** La documentation demande qu'elle soit la première tag
+**`extends` en tête.** La documentation demande qu'il soit le premier tag
 du template.
 
 **Un nom de block, une seule fois par template.** Un block est à la fois un trou à
@@ -133,7 +133,7 @@ non-capturing nodes ».
 ## Réutilisation horizontale
 
 `{% use 'blocks.html.twig' %}` **importe les blocks** d'un autre template sans
-l'étendre ni les afficher. C'est la Response de Twig au besoin d'inheritance
+l'étendre ni les afficher. C'est la solution de Twig au besoin d'inheritance
 multiple, sans sa complexité : on peut `use` plusieurs templates tout en n'en
 `extends` qu'un. Un block du template courant l'emporte sur un block importé du
 même nom ; `with sidebar as base_sidebar` renomme à l'import. La cible de `use`

@@ -5,7 +5,7 @@ title: "Dependency Injection component"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-29"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/service_container.rst"
@@ -75,7 +75,7 @@ $mailer = $container->get('mailer');   // récupération
 Une class qui reçoit le container entier peut demander n'importe quoi, donc
 ses dependencies ne sont plus lisibles dans sa signature. C'est pourquoi le
 container n'est pas injecté dans les services applicatifs. Le cas légitime —
-beaucoup de dependencies dont peu servent à chaque appel — a sa propre Response,
+beaucoup de dependencies dont peu servent à chaque appel — a sa propre solution,
 le *service locator*, traité dans son item.
 
 ## Le component

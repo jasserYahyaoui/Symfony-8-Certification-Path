@@ -5,7 +5,7 @@ title: "Clock"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-02"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/clock.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/components/clock.rst"
@@ -100,7 +100,7 @@ la clock globale `Clock`.
 
 ## `MockClock` : le temps ne passe pas tout seul
 
-C'est le point qui décide le plus de Responses.
+C'est le point le plus souvent interrogé.
 
 ```php
 $clock = new MockClock('2022-11-16 15:20:00');
@@ -140,7 +140,7 @@ clock globale. La function `now()` rend l'heure courante et accepte un
 
 ## `DatePoint`
 
-Une Envelope fine autour de `DateTimeImmutable`, utilisable partout où un
+Une surcouche fine autour de `DateTimeImmutable`, utilisable partout où un
 `DateTimeImmutable` ou un `DateTimeInterface` est attendu.
 
 Sa particularité : **elle prend son heure de `Clock`**. Toute modification de

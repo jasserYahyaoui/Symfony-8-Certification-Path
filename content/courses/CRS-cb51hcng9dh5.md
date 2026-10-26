@@ -5,7 +5,7 @@ title: "Custom commands"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-02"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/console.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/console.rst"
@@ -155,7 +155,7 @@ public function __invoke(#[Argument, Ask('Name?')] string $name): int
 
 | Lancement | Résultat |
 |---|---|
-| sans argument, Response `alice` | la question est posée, `$name` vaut `alice` |
+| sans argument, saisie `alice` | la question est posée, `$name` vaut `alice` |
 | `app:ask bob` | aucune question |
 | `app:ask -n` | « Not enough arguments (missing: "name"). », code 1 |
 

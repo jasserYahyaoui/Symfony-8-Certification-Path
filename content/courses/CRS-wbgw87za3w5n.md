@@ -5,7 +5,7 @@ title: "EventDispatcher"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-02"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/components/event_dispatcher.rst"
@@ -77,7 +77,7 @@ ordre d'ajout, puis `-5`.
 
 Deux façons de s'inscrire, interchangeables.
 
-L'**listener** est branché de l'extérieur — configuration, ou attribute
+Le **listener** est branché de l'extérieur — configuration, ou attribute
 `#[AsEventListener]` :
 
 ```php
@@ -103,7 +103,7 @@ Lu dans `RegisterListenersPass` (8.0) et exécuté :
 Sans method correspondante ni `__invoke()`, la compilation du container
 échoue — lu dans le même file : *None of the … or "__invoke" methods exist*.
 
-L'**subscriber** se déclare lui-même, par `EventSubscriberInterface` et son unique
+Le **subscriber** se déclare lui-même, par `EventSubscriberInterface` et son unique
 method statique `getSubscribedEvents()` :
 
 ```php

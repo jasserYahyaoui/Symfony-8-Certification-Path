@@ -5,7 +5,7 @@ title: "Interfaces"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-09"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/interfaces.xml"
     readable_url: "https://github.com/php/doc-en/blob/master/language/oop5/interfaces.xml"
@@ -56,7 +56,7 @@ final class Article implements Cacheable, Stringable
 
 ## Ce qu'elle ne contient pas
 
-Aucun corps de method, aucune method `private` ou `protected`, aucune
+Aucun body de method, aucune method `private` ou `protected`, aucune
 property **porteuse d'état**.
 
 ## Les constants sont surchargeables — depuis PHP 8.1
@@ -108,7 +108,7 @@ cas. `readonly` convient en revanche pour un `get` seul.
 
 ## Pièges d'examen
 
-**La règle d'avant 8.1 est la Response instinctive.** « Une constant d'interface
+**La règle d'avant 8.1 est le réflexe à corriger.** « Une constant d'interface
 ne se surcharge pas » a été vrai pendant des années ; sur PHP 8.4 c'est faux,
 sauf `final`.
 

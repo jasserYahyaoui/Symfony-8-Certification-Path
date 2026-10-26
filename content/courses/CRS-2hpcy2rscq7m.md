@@ -5,7 +5,7 @@ title: "Event dispatcher and kernel events"
 content_level: DEEP
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-07"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/components/event_dispatcher.rst"
@@ -63,13 +63,13 @@ Le trajet d'une Request et le vocabulaire Request / Response.
 
 Deux façons de réagir à un event, avec la même mécanique dessous.
 
-Un **listener** (*listener*) est un callable enregistré depuis l'extérieur :
+Un **listener** est un callable enregistré depuis l'extérieur :
 
 ```php
 $dispatcher->addListener('acme.foo', [$listener, 'onFooAction'], 10);
 ```
 
-Un **subscriber** (*subscriber*) est une class qui déclare elle-même à quoi elle
+Un **subscriber** est une class qui déclare elle-même à quoi elle
 s'abonne, via la method **statique** `getSubscribedEvents()` de
 `EventSubscriberInterface`. Elle retourne un array indexé par nom d'event,
 dont la valeur est soit le nom d'une method, soit un couple
@@ -201,7 +201,7 @@ premier intervient après `kernel.response`, le second après l'envoi.
 **`krsort` est le mot à retenir pour la priority.** Tri par key décroissante :
 255 avant 0 avant −255. Si le sens s'échappe, le nom de la function le rend.
 
-**Deux questions pour classer un event.** La réponse existe-t-elle déjà ?
+**Deux questions pour classer un event.** La Response existe-t-elle déjà ?
 (oui → on ne peut que la modifier). Est-elle déjà partie ? (oui → on ne peut
 plus rien).
 

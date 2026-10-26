@@ -5,7 +5,7 @@ title: "Internationalization and localization (Note: Intl component utilities to
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-02"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/translation.rst"
@@ -94,7 +94,7 @@ admin.en.xlf
   `json`, `ini`, `po`, `mo`…
 
 La documentation recommande YAML pour un projet simple et XLIFF lorsque des
-translators ou des outils spécialisés interviennent.
+professionnels de la langue ou des outils spécialisés interviennent.
 
 Symfony lit d'abord le directory **`translations/` du projet**, puis celui des
 bundles. La priority du projet est ce qui permet de **redéfinir** la translation
@@ -156,7 +156,7 @@ l'anglais n'a que `one` et `other`, le russe en a quatre.
 Le filter traduit une **expression** ; le tag, un **block statique**. La
 notation `%var%` est **obligatoire** avec le tag. Les messages traduits sont
 échappés par défaut ; `|raw` après `|trans` lève l'escaping. **Le tag,
-elle, n'échappe rien** — parameters compris. Exécuté avec `<i>x</i>` en
+lui, n'échappe rien** — parameters compris. Exécuté avec `<i>x</i>` en
 parameter : `&lt;i&gt;` par le filter, `<i>x</i>` brut par le tag.
 
 `trans_default_domain` ne vaut que pour le template courant, jamais pour les

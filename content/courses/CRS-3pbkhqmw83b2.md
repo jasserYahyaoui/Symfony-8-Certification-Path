@@ -5,7 +5,7 @@ title: "Events"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-02"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst"
@@ -112,7 +112,7 @@ Un listener qui passe avant 100 lit toujours `false`. Le failure transport, lui,
 **`WorkerRunningEvent`** est émis à **chaque itération**, même quand la file est
 vide, et `isWorkerIdle()` le signale. Exécuté, file vide, `--time-limit=2
 --sleep=0.5` : 4 émissions, toutes à vide. Un traitement coûteux placé là
-s'exécute en loop.
+s'exécute en boucle.
 
 ## Un exemple
 

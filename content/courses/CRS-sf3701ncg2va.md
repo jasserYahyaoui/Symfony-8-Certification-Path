@@ -5,7 +5,7 @@ title: "Configuration"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-02"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Attribute/AsCommand.php"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Attribute/AsCommand.php"
@@ -90,8 +90,8 @@ Un **premier segment vide** cache la command : `name: '|app:secret'` équivaut
 
 Renseigner la description **dans l'attribute** plutôt que par `setDescription()`
 permet à Symfony de la lire **sans instancier la class**. `bin/console list`
-n'a alors pas à construire chaque command de l'application pour afficher son
-array. Exécuté sur FrameworkBundle 8.0.15, deux commands dont le
+n'a alors pas à construire chaque command de l'application pour afficher la
+liste. Exécuté sur FrameworkBundle 8.0.15, deux commands dont le
 constructor se signale :
 
 | Description posée… | Class construite par `list` |

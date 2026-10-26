@@ -5,7 +5,7 @@ title: "Group sequence"
 content_level: DEEP
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-29"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation/sequence_provider.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/validation/sequence_provider.rst"
@@ -142,7 +142,7 @@ Un provider n'est pas contrôlé comme une séquence statique : exécuté, un re
   déclarer avec le **nom de la class**, obligatoire.
 - Valider explicitement un group de la séquence, ou le nom de la class,
   **ignore** la séquence.
-- Un array **imbriqué** group des groups dans une même étape ; à plat, chacun
+- Un array **imbriqué** réunit des groups dans une même étape ; à plat, chacun
   est sa propre étape.
 - La séquence s'arrête à la **première étape** en échec, pas à la première
   constraint.

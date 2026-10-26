@@ -5,7 +5,7 @@ title: "PHP object validation"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-29"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/validation.rst"
@@ -129,7 +129,7 @@ Symfony 8.0 documente `#[ExtendsValidationFor(Product::class)]`, posé sur une
 class séparée — souvent abstraite — dont les constraints s'ajoutent à celles
 de `Product`, comme si elles y étaient déclarées.
 
-Hors framework, le lien se déclare au constructor :
+Hors framework, le lien se déclare sur le builder :
 `addAttributeMappings([Product::class => [MyProductValidation::class]])`.
 Exécuté : l'attribute seul ne suffit pas (aucune violation) ; avec la
 correspondance, la constraint `Length(min: 10)` s'applique. Une property

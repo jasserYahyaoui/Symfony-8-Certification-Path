@@ -5,7 +5,7 @@ title: "Controller rendering"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-24"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/templates.rst"
@@ -77,7 +77,7 @@ fragment en cache séparément avec ESI.
 ## Avec ou sans route
 
 `render()` prend une URL ou une référence de controller. Pour un controller
-**sans** route, on l'Envelope dans `controller()` :
+**sans** route, on l'encapsule dans `controller()` :
 
 ```html
 {{ render(controller(
@@ -124,7 +124,7 @@ signature. En `inline`, la sub-Request porte déjà son `_controller`, et le
   le précise pas ; ignorée, l'exception passe par l'event `kernel.exception`
   — pour le logging — et le fragment est vide.
   L'option `alt` désigne un fragment de repli.
-- **Response non 2xx** — un redirect comprise : `FragmentHandler::deliver()`
+- **Response non 2xx** — un redirect compris : `FragmentHandler::deliver()`
   lève une `RuntimeException`, quel que soit `ignore_errors`. Un controller de
   fragment ne redirige pas.
 

@@ -5,7 +5,7 @@ title: "Workers"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-01"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst"
@@ -57,7 +57,7 @@ Les options de `messenger:consume` en 8.0 : `--limit`, `--failure-limit`,
 ## Un worker est un process long
 
 Et c'est là qu'est la difficulté. Un process PHP qui tourne pendant des jours
-accumule de la mémoire et garde en cache des objects périmés. La Response n'est
+accumule de la mémoire et garde en cache des objects périmés. La solution n'est
 pas de corriger les fuites : c'est de **s'arrêter régulièrement**, et de laisser
 un superviseur relancer.
 
@@ -69,7 +69,7 @@ un superviseur relancer.
 ```
 
 Un superviseur — Supervisor, systemd — redémarre alors le process. L'arrêt est
-**gracieux** : le message en cours est terminé avant l'output.
+**gracieux** : le message en cours est terminé avant l'arrêt.
 
 ## Le deployment
 

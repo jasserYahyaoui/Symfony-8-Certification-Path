@@ -174,7 +174,7 @@ depuis Twig 3.12** : la documentation renvoie aux modificateurs ci-dessus.
 ## Pièges d'examen
 
 - `{{ }}` affiche, `{% %}` exécute — un `{% %}` n'affiche jamais rien.
-- L'ordre de résolution commence par le **array**, pas par la property.
+- L'ordre de résolution commence par l'**array**, pas par la property.
 - Une **constante de class** est lue avant le *getter* si son nom est
   identique, casse comprise : `const STATUS` ne masque pas `getStatus()`.
 - `and` / `or` / `not`, jamais `&&` / `||` / `!`.

@@ -5,7 +5,7 @@ title: "PropertyAccess"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-09"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/property_access.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/components/property_access.rst"
@@ -50,7 +50,7 @@ $propertyAccessor->getValue($person, '[first_name]');  // un tableau
 $propertyAccessor->getValue($person, 'firstName');     // un objet
 ```
 
-- Les **crochets** désignent un index de array.
+- Les **crochets** désignent un index d'array.
 - Le **point** désigne une property d'object.
 
 Les deux se combinent librement dans un même path :
@@ -76,7 +76,7 @@ C'est le piège central de l'item, et il ne se déduit pas.
 
 | Cible | Path absent | Par défaut |
 |---|---|---|
-| index de array | `[age]` inexistant | rend **`null`** |
+| index d'array | `[age]` inexistant | rend **`null`** |
 | property d'object | `birthday` inexistante | **lève** `NoSuchPropertyException` |
 
 Un array pardonne, un object non. Les deux comportements se renversent par le
@@ -159,7 +159,7 @@ changent sont touchés.
 
 ## Pièges d'examen
 
-**Un index de array absent rend `null` ; une property d'object absente lève.**
+**Un index d'array absent rend `null` ; une property d'object absente lève.**
 Les deux défauts sont opposés.
 
 **Les crochets ne sont pas décoratifs** : ils choisissent la cible array.

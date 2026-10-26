@@ -5,7 +5,7 @@ title: "Symfony HttpClient component"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-16"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_client.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/http_client.rst"
@@ -235,7 +235,7 @@ Un `timeout` passé à `stream()` produit un chunk dont `isTimeout()` vaut
 sur un body indécodable, et une panne réseau lève toujours.
 
 **Deux zéros, deux sens.** `max_duration = 0` veut dire illimité ;
-`max_redirects = 0` veut dire aucune redirect suivie.
+`max_redirects = 0` veut dire aucun redirect suivi.
 
 ## Points clés
 

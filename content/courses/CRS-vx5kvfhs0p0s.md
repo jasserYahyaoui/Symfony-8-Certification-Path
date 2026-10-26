@@ -5,7 +5,7 @@ title: "Debugging variables"
 content_level: MINIMAL
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-24"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/templates.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/templates.rst"
@@ -64,7 +64,7 @@ C'est la distinction qui compte :
 | `{{ dump(article) }}` | **dans la page**, visible à l'endroit de l'appel |
 | `{% dump articles %}` | dans la **debug toolbar**, pas dans la page |
 
-Le tag est donc la bonne quand on inspecte une variable dans une mise en page
+Le tag est donc le bon choix quand on inspecte une variable dans une mise en page
 qu'on ne veut pas casser. Le code 8.0 le montre : `DumpExtension::dump()` rend
 du HTML inséré dans la page, alors que `DumpNode` compile le tag en un appel
 à `VarDumper::dump()`, que DebugBundle collecte pour la barre.
@@ -92,7 +92,7 @@ seulement.
 - Bundle absent : la function n'existe pas, et la compilation du template échoue
   — `SyntaxError: Unknown "dump" function`. C'est l'« erreur PHP » que décrit la
   documentation pour `prod`.
-- Extension chargée mais `kernel.debug` à `false` : `dump()` rend `null` et la
+- Extension chargée mais `kernel.debug` à `false` : `dump()` rend `null` et le
   tag ne fait rien — les deux testent `isDebug()`.
 
 C'est délibéré : un `dump()` oublié divulguerait l'état interne de
@@ -115,8 +115,7 @@ avertissement.
 
 **Sans argument, c'est tout le contexte qui sort.**
 
-**Le tag tag par nom de variable ; la function refuse les arguments
-nommés** avec Twig 3.22, malgré l'exemple de la documentation.
+**Le tag indexe par nom de variable ; la function refuse les named arguments** avec Twig 3.22, malgré l'exemple de la documentation.
 
 ## Points clés
 

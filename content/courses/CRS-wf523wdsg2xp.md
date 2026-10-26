@@ -5,7 +5,7 @@ title: "Code debugging"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-02"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/var_dumper.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/components/var_dumper.rst"
@@ -47,7 +47,7 @@ compris de sa configuration.
 ## Périmètre
 
 Le **profiler web, la debug toolbar et les data collectors** font
-l'object d'un item distinct ; cette page ne les traite pas. Elle porte sur
+l'objet d'un item distinct ; cette page ne les traite pas. Elle porte sur
 VarDumper et sur les commands d'inspection.
 
 ## Prérequis
@@ -88,7 +88,7 @@ php bin/console server:dump --format=html > dump.html
 ```
 
 Une fois lancé, `dump()` ne s'affiche plus dans la Response : les données lui
-sont envoyées. C'est la Response au cas d'une API JSON, où tout octet imprimé
+sont envoyées. C'est la parade dans le cas d'une API JSON, où tout octet imprimé
 casse la Response.
 
 ## Un `dump()` oublié en production

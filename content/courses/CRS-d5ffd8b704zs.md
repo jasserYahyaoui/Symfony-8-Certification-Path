@@ -5,7 +5,7 @@ title: "Argument value resolvers"
 content_level: DEEP
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/value_resolver.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/controller/value_resolver.rst"
@@ -119,8 +119,7 @@ une, `null` sinon. Un resolver maison qui lit les attributes doit se placer à
 
 La documentation écrit `SessionInterface $session = null`. Symfony 8.0 exige
 PHP 8.4, qui **déprécie** ce nullable implicite. La forme à écrire est
-`?SessionInterface $session = null`. Le mécanisme est inchangé : sans valeur par
-défaut, un type nullable reçoit déjà `null` par `DefaultValueResolver`.
+`?SessionInterface $session = null`. Le mécanisme est inchangé : sans default value, un type nullable reçoit déjà `null` par `DefaultValueResolver`.
 
 ## Le catalogue
 

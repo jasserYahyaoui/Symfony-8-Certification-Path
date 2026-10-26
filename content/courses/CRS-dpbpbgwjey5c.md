@@ -5,7 +5,7 @@ title: "URLs generation"
 content_level: MINIMAL
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-24"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/twig_reference.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/reference/twig_reference.rst"
@@ -96,8 +96,8 @@ et rend le path inchangé si aucun host n'y est défini.
 ## L'escaping
 
 `path()` et `url()` déclarent un `is_safe_callback` : leur output n'est
-dispensée d'escaping HTML que si l'appel n'a pas de parameters, ou un seul
-parameter à valeur littérale. Sinon elle est échappée comme toute valeur — le
+dispensé d'escaping HTML que si l'appel n'a pas de parameters, ou un seul
+parameter à valeur littérale. Sinon il est échappé comme toute valeur — le
 `&` d'une query string devient `&amp;`, ce qui est correct dans un
 attribute HTML.
 

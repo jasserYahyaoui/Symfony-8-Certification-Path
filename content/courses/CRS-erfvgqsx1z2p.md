@@ -5,7 +5,7 @@ title: "HTTP methods"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
     readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
@@ -21,7 +21,7 @@ official_sources:
     verified_at: "2026-09-01"
 outcome_sections:
   OUT-pvvwmsfr9v99: "Les trois properties"
-  OUT-yfskr4jf463t: "Ce que l'array enseigne"
+  OUT-yfskr4jf463t: "Ce que la table enseigne"
   OUT-vx89t3yy7xck: "Pièges d'examen"
 ---
 
@@ -41,13 +41,13 @@ cacheable — qui sont indépendantes les unes des autres.
 Toute safe method est idempotente. L'inverse est faux, et c'est là que se
 situent les erreurs.
 
-## L'array
+## Sûre, idempotente, cacheable
 
 Valeurs telles qu'implémentées par Symfony 8.0. **La RFC et Symfony ne disent
 pas la même chose sur « cacheable »** : RFC 9110 §9.2.3 définit une sémantique
 de cache pour `GET`, `HEAD` **et `POST`** ; `isMethodCacheable()` retient
 `GET`, `HEAD` et `QUERY`. Une question sur la RFC et une question sur Symfony
-n'appellent donc pas la même Response.
+ne se tranchent donc pas de la même façon.
 
 | Method | Sûre | Idempotente | Cacheable |
 |---|:--:|:--:|:--:|
@@ -61,13 +61,13 @@ n'appellent donc pas la même Response.
 | `POST` | ❌ | ❌ | ❌ |
 | `PATCH` | ❌ | ❌ | ❌ |
 
-`QUERY` est la seule ligne de l'array qui puisse surprendre : c'est une method
+`QUERY` est la seule ligne de la table qui puisse surprendre : c'est une method
 récente, pensée pour les lectures dont les critères sont trop volumineux pour
 tenir dans une URL. Elle porte un body, comme `POST`, mais garde la sémantique
 de `GET` — d'où sa place parmi les safe methods, idempotentes **et**
 cacheables. Symfony 8.0 la traite comme telle dans les trois methods ci-dessous.
 
-## Ce que l'array enseigne
+## Ce que la table enseigne
 
 **`PUT` et `DELETE` sont idempotents sans être sûrs.** Ils modifient l'état,
 mais le rejouer ne change rien de plus : remplacer une ressource par la même

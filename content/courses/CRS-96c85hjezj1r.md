@@ -5,7 +5,7 @@ title: "Verbosity levels"
 content_level: MINIMAL
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-02"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Output/OutputInterface.php"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Output/OutputInterface.php"
@@ -37,7 +37,7 @@ six niveaux de Symfony 8.0.
 | Drapeau | Constante | Usage |
 |---|---|---|
 | `--silent` | `VERBOSITY_SILENT` | rien du tout, pas même les erreurs |
-| `-q`, `--quiet` | `VERBOSITY_QUIET` | aucune sortie normale |
+| `-q`, `--quiet` | `VERBOSITY_QUIET` | aucun output normal |
 | *(défaut)* | `VERBOSITY_NORMAL` | le message utile |
 | `-v` | `VERBOSITY_VERBOSE` | information supplémentaire |
 | `-vv` | `VERBOSITY_VERY_VERBOSE` | détail, messages non essentiels |

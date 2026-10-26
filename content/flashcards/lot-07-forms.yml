@@ -2543,7 +2543,7 @@ flashcards:
   front: 'OptionsResolver : restreindre une option à un array d''objects DateTime.'
   back: '`setAllowedTypes(''dates'', ''DateTime[]'')`.'
   explanation: 'Chaque élément est contrôlé : exécuté, un array contenant une string est refusé.'
-  memorization_justification: Syntaxe des types de array.
+  memorization_justification: Syntaxe des types d'array.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/options_resolver.rst

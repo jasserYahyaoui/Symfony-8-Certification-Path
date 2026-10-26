@@ -200,10 +200,10 @@ flashcards:
   official_item: OIT-hs1297vvhr89
   language: fr
   level: APPLICATION
-  front: 'Symfony : récupérer de façon concise le résultat de l''unique handler d''une Request synchrone.'
+  front: 'Symfony : récupérer de façon concise le résultat de l''unique handler d''une query synchrone.'
   back: Utiliser `HandleTrait` et `$this->handle($query)`, qui lit le `HandledStamp`.
   explanation: Le trait exige exactement un handler.
-  memorization_justification: Bus de Requests.
+  memorization_justification: Query bus.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/HandleTrait.php

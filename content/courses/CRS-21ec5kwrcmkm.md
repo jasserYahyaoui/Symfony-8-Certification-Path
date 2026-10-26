@@ -5,7 +5,7 @@ title: "Backward compatibility promise"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/bc.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/bc.rst"
@@ -43,8 +43,8 @@ interface Symfony, instancier, appeler une method publique, lire une property
 publique. **Implémenter une interface** l'est aussi.
 
 **Étendre une class** est couvert pour l'essentiel — accéder à une property
-protégée, appeler ou surcharger une method publique ou protégée. L'array
-officiel répond **non** à quatre lignes, et elles ne se valent pas :
+protégée, appeler ou surcharger une method publique ou protégée. La grille
+officielle répond **non** à quatre lignes, et elles ne se valent pas :
 
 | Dans une class que vous étendez… | Garanti ? |
 |---|---|
@@ -62,7 +62,7 @@ réflexion sort de l'API publique, quelle que soit la class.
 
 ## Les traits, et leur asymétrie avec les classes
 
-Le document leur consacre une section entière, et son array ne répond
+Le document leur consacre une section entière, et sa grille ne répond
 **jamais non** : le trait lui-même, ses properties et ses methods — publiques,
 protégées **ou privées** — son usage pour implémenter une interface, une
 method abstraite ou une abstract class, tout est garanti.
@@ -94,8 +94,8 @@ Sont **hors** de la promesse :
 - ce qui porte `@internal` — class, interface, trait, method, property — et
   tout ce qui vit dans un namespace `*\Tests\` ;
 - les **fonctionnalités expérimentales**, marquées `@experimental`. Une
-  fonctionnalité ne peut le rester **qu'une seule version mineure** — le kernel
-  de l'équipe peut prolonger d'**une** de plus au cas par cas — et ne peut
+  fonctionnalité ne peut le rester **qu'une seule version mineure** — la core team
+  peut prolonger d'**une** de plus au cas par cas — et ne peut
   **jamais** être introduite dans une version **LTS**. Tant qu'elle l'est, le
   `CHANGELOG` doit expliquer chaque rupture et la façon de migrer ;
 - les translations internes de sécurité et de validation.
@@ -139,7 +139,7 @@ officiel.
 
 ## Tips d'examen
 
-**Trois verbes, trois Responses.** Utiliser → oui. Implémenter → oui. Étendre →
+**Trois verbes, trois verdicts.** Utiliser → oui. Implémenter → oui. Étendre →
 oui, sauf ajouter une property ou une method.
 
 **« Une seule mineure » est le chiffre de l'expérimental**, et « jamais en

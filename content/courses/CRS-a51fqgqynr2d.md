@@ -5,7 +5,7 @@ title: "The session"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-08"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/session.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/session.rst"
@@ -117,7 +117,7 @@ public function invalidate(?int $lifetime = null): bool
 public function migrate(bool $destroy = false, ?int $lifetime = null): bool
 ```
 
-Trois choses se lisent là, qu'un array de deux lignes ne dirait pas.
+Trois choses se lisent là, qu'une table de deux lignes ne dirait pas.
 
 **`invalidate()` fait deux gestes, pas un.** Elle vide le stockage, *puis*
 régénère. C'est ce `clear()` qui supprime les données, pas la régénération.

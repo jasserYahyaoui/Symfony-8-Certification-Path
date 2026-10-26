@@ -5,7 +5,7 @@ title: "Configuration (including DotEnv and ExpressionLanguage components)"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-08"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/configuration.rst"
@@ -98,8 +98,8 @@ Deux règles décident du reste, et ce sont elles que l'examen interroge :
   `overrideExistingVars: true` (exécuté). Condition documentée :
   `variables_order` doit contenir `E`, pour exposer `$_ENV`.
 
-Entre les files eux-mêmes, **le dernier chargé gagne**, dans l'ordre du
-array. Exécuté avec Dotenv 8.0.15, une même key définie dans plusieurs
+Entre les files eux-mêmes, **le dernier chargé gagne**, dans l'ordre
+ci-dessus. Exécuté avec Dotenv 8.0.15, une même key définie dans plusieurs
 files :
 
 | Key définie dans | En `dev` | En `test` |

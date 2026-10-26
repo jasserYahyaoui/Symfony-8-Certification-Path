@@ -5,7 +5,7 @@ title: "Event"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-02"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/components/event_dispatcher.rst"
@@ -64,7 +64,7 @@ final class OrderPlacedEvent extends Event
 }
 ```
 
-Chaque listener accède alors à la command par `getOrder()`. C'est le pattern
+Chaque listener accède alors à l'`Order` par `getOrder()`. C'est le pattern
 qu'emploie le framework lui-même : `ResponseEvent`, par exemple, expose de quoi
 lire **et remplacer** la Response.
 

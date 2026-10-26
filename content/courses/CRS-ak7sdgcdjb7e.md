@@ -5,7 +5,7 @@ title: "The flash messages"
 content_level: MINIMAL
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/session.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/session.rst"
@@ -94,14 +94,13 @@ Dans un template Twig, `app.flashes` consomme ; `app.session.flashbag.peekAll()`
 ne consomme pas. Afficher les flashs deux fois dans une même page avec
 `app.flashes` en fait donc disparaître la moitié.
 
-### Trois précisions que l'array écrase
+### Trois précisions qu'une table ne montre pas
 
 **`get()` ne vide qu'un type ; `all()` vide tout.** Lire les `notice` laisse les
 `warning` intacts. Ce n'est pas la même portée.
 
 **`clear()` est un alias de `all()`.** Son body rend `all()`, donc elle vide
-*et retourne* ce qu'elle a vidé. Ce n'est pas une purge silencieuse : la valeur
-de retour porte les messages.
+*et retourne* ce qu'elle a vidé. Ce n'est pas une purge silencieuse : la return value porte les messages.
 
 **Un type vide compte pour absent.** `has()` exige que la key existe **et** que
 son array ne soit pas vide. Un type présent mais vidé répond `false`, et

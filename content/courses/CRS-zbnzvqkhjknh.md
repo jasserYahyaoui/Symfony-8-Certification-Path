@@ -5,7 +5,7 @@ title: "Loops and conditions"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-24"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/for.rst"
     readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/for.rst"
@@ -110,7 +110,7 @@ pas — Twig ne peut pas connaître la taille sans consommer la séquence.
 Une loop a sa propre portée. Une variable **créée** par `{% set %}` dans le
 corps n'existe plus après `{% endfor %}` ; une variable **déclarée avant** la
 loop garde en revanche la dernière valeur qu'elle y a reçue. `ForNode` le
-compile ainsi : à l'output, seules les keys du contexte d'avant la loop sont
+compile ainsi : à la fin de la loop, seules les keys du contexte d'avant la loop sont
 conservées. Pour cumuler un total, on le déclare donc avant.
 
 ## Filtrer et découper

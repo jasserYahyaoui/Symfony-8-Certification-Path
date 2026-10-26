@@ -5,7 +5,7 @@ title: "Data transformers"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-25"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/data_transformers.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/form/data_transformers.rst"
@@ -96,8 +96,7 @@ Le dernier model transformer ajouté est donc le plus proche du modèle.
 
 Quand la valeur soumise ne peut pas être convertie, le transformer lève
 `TransformationFailedException`. Exécuté : le field n'est plus
-**synchronisé** (`isSynchronized()` à `false`), sa donnée vaut `null`, sa donnée
-de vue garde la saisie `'42'`, et le form est invalide avec
+**synchronisé** (`isSynchronized()` à `false`), sa donnée vaut `null`, sa view data garde la saisie `'42'`, et le form est invalide avec
 « This value is not valid. ».
 
 Ce message vient de l'option **`invalid_message`** du field ; celui de

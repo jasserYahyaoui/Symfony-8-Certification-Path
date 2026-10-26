@@ -5,7 +5,7 @@ title: "Built-in internal controllers"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-08"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/routing.rst"
@@ -97,8 +97,7 @@ exclusifs : `route` pour viser une route, `path` pour un path ou une URL.
 | `keepRequestMethod: true` | conserve la method HTTP |
 | `ignoreAttributes` | `true` n'en transmet aucun, un array retire ceux-là |
 
-`keepRequestMethod` mérite d'être retenu : conserver la method change le code
-de statut, parce que 301 et 302 autorisent le navigateur à retomber sur `GET`.
+`keepRequestMethod` mérite d'être retenu : conserver la method change le status code, parce que 301 et 302 autorisent le navigateur à retomber sur `GET`.
 Le statut devient **307** pour un redirect temporaire et **308** pour un
 permanent.
 

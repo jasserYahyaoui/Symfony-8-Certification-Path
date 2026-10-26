@@ -96,7 +96,7 @@ requis**.
 
 ## Le mode d'une option
 
-Même principe, mais avec une constraint supplémentaire et un array plus riche :
+Même principe, mais avec une constraint supplémentaire et davantage de modes :
 
 | Signature | Mode | Usage |
 |---|---|---|

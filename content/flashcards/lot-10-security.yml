@@ -606,7 +606,7 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony : pourquoi un anonyme et un user connu n''obtiennent-ils pas le même code sur la même page ?'
-  back: Parce que le refus d'un anonyme passe par le **entry point** du firewall, celui d'un user connu donne 403.
+  back: Parce que le refus d'un anonyme passe par l'**entry point** du firewall, celui d'un user connu donne 403.
   explanation: 'Exécuté : 401 en `http_basic`, 302 en `form_login`, 403 pour `alice` sans `ROLE_ADMIN`.'
   memorization_justification: Statut lié à l'authentication.
   verification_status: VERIFIED
@@ -1438,7 +1438,7 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony : pourquoi auto vérifie-t-il un hash argon2id sans le produire lui-même ?'
-  back: 'Parce qu''`auto` est une **string** : `native` hache, `sodium` et `pbkdf2` ne servent qu''à vérifier.'
+  back: 'Parce qu''`auto` est une **chaîne de hashers** : `native` hache, `sodium` et `pbkdf2` ne servent qu''à vérifier.'
   explanation: 'Exécuté : argon2id accepté, `needsRehash()` vrai, puis rehaché en `$2y$13$` à la connexion.'
   memorization_justification: Chaîne de hashers.
   verification_status: VERIFIED

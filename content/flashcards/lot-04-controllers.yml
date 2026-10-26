@@ -430,7 +430,7 @@ flashcards:
       resolvers et les exceptions HTTP sont dans le component. On peut écrire
       son propre framework avec cela seul.
     memorization_justification: >-
-      Sens de la dependency, qui command toutes les questions « où se trouve
+      Sens de la dependency, qui régit toutes les questions « où se trouve
       X ? » du sujet.
     verification_status: VERIFIED
     official_sources:
@@ -470,7 +470,7 @@ flashcards:
     front: "Vous cherchez l'arbre de configuration `framework:`. Component ou bundle ?"
     back: "**Bundle.** Un arbre de configuration suppose un service container, que le component n'a pas."
     explanation: >-
-      Le même critère class les commands `bin/console`, les listeners
+      Le même critère range les commands `bin/console`, les listeners
       enregistrés, les resolvers tagués et les routes internes : tout cela
       vient de FrameworkBundle.
     memorization_justification: >-
@@ -852,7 +852,7 @@ flashcards:
     front: "Piège : « le route name généré est écrit en snake case »."
     back: "Faux. Rien ne découpe la casse : `LuckyController` devient `luckycontroller`, pas `lucky_controller`."
     explanation: >-
-      Le nom est mis en minuscules d'un block ; sa lisibilité vient du retrait
+      Le nom est mis en minuscules d'un bloc ; sa lisibilité vient du retrait
       d'un segment, pas d'une conversion de casse.
     memorization_justification: >-
       Le résultat final ressemble à du snake case, ce qui rend la proposition

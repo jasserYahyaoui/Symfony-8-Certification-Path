@@ -5,7 +5,7 @@ title: "Built-in services"
 content_level: MINIMAL
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-29"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/service_container.rst"
@@ -41,7 +41,7 @@ celui dont on a besoin — sans apprendre de liste par cœur.
 
 Chaque bundle installé enregistre ses services dans le container. FrameworkBundle
 en apporte le gros : router, dispatcher d'events, HttpKernel, serializer,
-validator, client HTTP, cache, système de files. TwigBundle ajoute Twig,
+validator, client HTTP, cache, filesystem. TwigBundle ajoute Twig,
 SecurityBundle la security, et ainsi de suite.
 
 C'est pourquoi `composer require` suffit : la recipe Flex active le bundle dans
@@ -110,7 +110,7 @@ concrète de `logger` échoue ; `LoggerInterface` fonctionne.
 **« Toujours une interface » est faux** : `RequestStack` ou `Filesystem`
 s'injectent par leur class, parce que c'est elle que le bundle a aliasée.
 
-**Un service intégré vient d'un bundle, pas du framework en block.** Retirer le
+**Un service intégré vient d'un bundle, pas du framework en bloc.** Retirer le
 bundle retire ses services : sans TwigBundle, pas d'`Environment` à injecter.
 
 ## Points clés

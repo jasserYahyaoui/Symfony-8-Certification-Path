@@ -5,7 +5,7 @@ title: "Error handling"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-02"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller/error_pages.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/controller/error_pages.rst"
@@ -55,7 +55,7 @@ exceptions**, qu'il s'agisse d'un 404 ou d'une erreur fatale levée dans le code
 
 Les erreurs PHP non fatales — un avertissement, une notice — ne sont converties
 en `ErrorException` que si l'option `framework.php_errors.throw` est vraie. Sa
-default value est `%kernel.debug%`. Exécuté sur une key de array absente
+default value est `%kernel.debug%`. Exécuté sur une key d'array absente
 (Symfony 8.0.15) :
 
 | Mode | Résultat |
@@ -119,7 +119,7 @@ La documentation les ordonne du plus léger au plus complet :
 | maîtriser entièrement le traitement | écouter **`kernel.exception`** |
 
 Le principe : prendre le niveau le plus bas qui suffit. Écouter
-`kernel.exception` pour changer une couleur est une Response disproportionnée.
+`kernel.exception` pour changer une couleur est une réaction disproportionnée.
 
 ## Surcharger un template
 
