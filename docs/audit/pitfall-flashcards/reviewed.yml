@@ -86,6 +86,11 @@ pitfalls:
   verdict: COVERED
   card: FLC-1fxqpfkbsm7j
   added: '2026-10-24'
+- course: CRS-0jtjh77tabt1
+  key: ef818f137855
+  excerpt: '**Une property abstraite sans hook est une erreur fatale.** `abstract public string $label'
+  verdict: COVERED
+  card: FLC-tkhpwwer6yc1
 - course: CRS-0x4v9jaz4cnq
   key: 85611e64931b
   excerpt: '**`enableProfiler()` n''active pas le profiler** ; elle active la collecte.'

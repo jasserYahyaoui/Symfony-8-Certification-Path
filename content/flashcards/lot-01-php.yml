@@ -651,3 +651,54 @@ flashcards:
         branch: "master"
         symbol_or_lines: "Readonly properties — \"Specifying an explicit default value on readonly properties is not allowed\""
         verified_at: "2026-10-24"
+
+  - id: FLC-tkhpwwer6yc1
+    official_item: OIT-webdvbgbrfth
+    language: fr
+    level: TRAP
+    front: "PHP 8.4 : `abstract public string $label;` dans une abstract class est-il valide ?"
+    back: "Non : erreur fatale, « Only hooked properties may be declared abstract ». Il faut au moins un hook sans corps : `abstract public string $label { get; }`."
+    explanation: "Exécuté en PHP 8.4.19. Une property abstraite est une property hookée dont un hook au moins n'a pas de corps ; deux corps lèvent « must specify at least one abstract hook »."
+    memorization_justification: "La forme d'une method abstraite, `abstract` puis `;`, transposée à une property ne compile pas."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/abstract.xml"
+        readable_url: "https://github.com/php/doc-en/blob/master/language/oop5/abstract.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        symbol_or_lines: "\"An abstract property on an abstract class may provide implementations for any hook, but must have either get or set declared but not defined\""
+        verified_at: "2026-10-26"
+
+  - id: FLC-120ygqz995vg
+    official_item: OIT-webdvbgbrfth
+    language: fr
+    level: UNDERSTANDING
+    front: "PHP 8.4 : quelle visibilité peut avoir une property abstraite d'abstract class ? Et une property d'interface ?"
+    back: "`public` ou `protected` dans une abstract class, jamais `private` ; `public` seulement dans une interface."
+    explanation: "Exécuté en PHP 8.4.19 : « Property hook cannot be both abstract and private » ; dans une interface, « Property in interface cannot be protected or private »."
+    memorization_justification: "Même partage que pour les methods abstraites, que l'interface limite elle aussi au public."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/abstract.xml"
+        readable_url: "https://github.com/php/doc-en/blob/master/language/oop5/abstract.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        symbol_or_lines: "\"As of PHP 8.4, an abstract class may declare an abstract property, either public or protected\""
+        verified_at: "2026-10-26"
+
+  - id: FLC-mtq8ebtfap6p
+    official_item: OIT-webdvbgbrfth
+    language: fr
+    level: APPLICATION
+    front: "PHP 8.4 : `Shape` exige `abstract public string $label { get; }` ; `Circle extends Shape` déclare `protected string $label`. Résultat ?"
+    back: "Erreur fatale : « Access level to Circle::$label must be public (as in class Shape) ». La fille peut élargir la visibilité, pas la restreindre."
+    explanation: "Exécuté en PHP 8.4.19. Une property `public string $label` ordinaire, `readonly` ou hookée satisfait l'exigence ; une exigence `protected` accepte aussi une property `public`."
+    memorization_justification: "La règle de visibilité des methods héritées s'applique telle quelle aux properties abstraites."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/abstract.xml"
+        readable_url: "https://github.com/php/doc-en/blob/master/language/oop5/abstract.xml"
+        repository: "php/doc-en"
+        branch: "master"
+        symbol_or_lines: "\"A protected abstract property may be satisfied by a property that is readable/writeable from either protected or public scope\""
+        verified_at: "2026-10-26"
