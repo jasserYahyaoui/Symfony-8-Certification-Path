@@ -5,7 +5,7 @@ title: "HTTP response"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-07"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Response.php"
@@ -107,7 +107,7 @@ public function send(bool $flush = true): static
     $this->sendContent();
 
     if (!$flush) {
-        return $this;                 // on s'arrete ici
+        return $this;                 // on s'arrête ici
     }
     // sinon fastcgi_finish_request(), litespeed_finish_request(),
     // ou closeOutputBuffers(0, true) + flush() selon le SAPI

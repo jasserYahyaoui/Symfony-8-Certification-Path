@@ -5,7 +5,7 @@ title: "Language detection"
 content_level: MINIMAL
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-07"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
@@ -68,11 +68,15 @@ puis par une recomposition :
 // fr-latn-fr -> fr_Latn_FR  (la région passe en majuscules)
 ```
 
-La grammaire reconnue est `2 ou 3 lettres` pour la langue, puis **4 lettres**
-optionnelles pour l'écriture, puis **2 lettres** optionnelles pour la région.
-Une valeur qui n'entre pas dans ce moule — ou le `*` d'un `Accept-Language` —
-n'est pas rejetée : elle ressort en minuscules, inchangée. La liste est enfin
-dédoublonnée, donc `fr-FR,fr-fr;q=0.8` ne produit qu'une entrée.
+La grammaire reconnue est `2 ou 3 lettres` pour la langue — ou `i-` suivi
+d'au moins cinq lettres, préfixe retiré —, puis **4 lettres** optionnelles pour
+l'écriture, puis **2 lettres** optionnelles pour la région. **Ce qui suit est
+supprimé** : exécuté, `de-DE-1996` donne `de_DE`, `es-419` donne `es`,
+`zh-Hant-TW-x-private` donne `zh_Hant_TW`, `i-cherokee` donne `cherokee`.
+Une valeur dont le début n'entre pas dans ce moule — `x-klingon`, ou le `*`
+d'un `Accept-Language` — n'est pas rejetée : elle ressort en minuscules,
+inchangée. La liste est enfin dédoublonnée, donc `fr-FR,fr-fr;q=0.8` ne
+produit qu'une entrée.
 
 ## Comment `getPreferredLanguage()` choisit
 

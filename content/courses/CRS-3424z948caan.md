@@ -5,7 +5,7 @@ title: "Object Oriented Programming"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-09"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/visibility.xml"
     readable_url: "https://github.com/php/doc-en/blob/master/language/oop5/visibility.xml"
@@ -57,8 +57,8 @@ de la même class accèdent mutuellement à leurs membres privés.
 final class Money
 {
     public function __construct(
-        private readonly int $amount,
-        private readonly string $currency,
+        public readonly int $amount,
+        public readonly string $currency,
     ) {}
 }
 ```
@@ -74,7 +74,7 @@ rend toutes ses properties `readonly`.
 
 ```php
 $money = new Money(100, 'EUR');
-// $money->amount = 200;  → Error: Cannot modify readonly property
+// $money->amount = 200;  → Error: Cannot modify readonly property Money::$amount
 ```
 
 Attention : `readonly` sur un object interdit la **réaffectation**, pas la
@@ -98,7 +98,7 @@ ChildClass::createStatic();   // ChildClass   — static suit l'appelant
 ```
 
 `self` se résout **à la class où le code est écrit**. `static` se résout à la
-class **réellement appelée** : c'est le binding statique tardive.
+class **réellement appelée** : c'est le *late static binding*.
 
 `parent::` cible la class parente ; `$this::` équivaut à `static::`.
 

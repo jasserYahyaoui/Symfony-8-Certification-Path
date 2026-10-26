@@ -5,7 +5,7 @@ title: "Twig syntax up to 3.22 version"
 content_level: DEEP
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-08"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/templates.rst"
     readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/templates.rst"
@@ -145,7 +145,7 @@ est **dépréciée depuis 3.15**.
 | Filter | `\|` |
 | Functions | `=>` crée une function fléchée ; `...` étend une séquence ou un array (3.7), les arguments d'un appel (3.15) |
 
-Trois pièges reviennent :
+Quatre pièges reviennent :
 
 - la concaténation est `~`, pas `+`. `+` est compilé tel quel en PHP : sur deux
   strings non numériques, PHP 8.4 lève une `TypeError` (« Unsupported operand

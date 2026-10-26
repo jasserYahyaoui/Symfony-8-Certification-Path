@@ -5,7 +5,7 @@ title: "Abstract classes"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-09"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/abstract.xml"
     readable_url: "https://github.com/php/doc-en/blob/master/language/oop5/abstract.xml"
@@ -69,7 +69,7 @@ abstract class Repository
 | Corps de method | Non | Oui |
 | Properties d'état | Non | Oui |
 | Constructor | Signature seulement, déconseillée | Oui |
-| Visibilité | Publique uniquement | `public` ou `protected` |
+| Visibilité d'une method abstraite | Publique uniquement | `public` ou `protected` ; une method concrète peut être `private` |
 | Nombre par class | Plusieurs | **Une seule** |
 
 La règle pratique : une interface décrit **ce qu'un object sait faire** ; une

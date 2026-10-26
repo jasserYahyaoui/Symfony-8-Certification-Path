@@ -87,7 +87,7 @@ flashcards:
     front: "PHP : quelle est la différence entre self et static dans une method statique ?"
     back: >-
       self se résout à la class où le code est écrit ; static se résout à la
-      class réellement appelée (binding statique tardive).
+      class réellement appelée (late static binding).
     explanation: >-
       new self() dans une class parente renvoie toujours le parent, même appelé
       via l'enfant. new static() renvoie l'enfant. C'est la différence entre une

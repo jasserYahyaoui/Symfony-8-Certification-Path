@@ -5266,8 +5266,8 @@ flashcards:
     front: "Quelle casse pour un **cas d'enum**, et pour une **constante** ?"
     back: "`UpperCamelCase` pour le cas d'enum, `SCREAMING_SNAKE_CASE` pour la constant."
     explanation: >-
-      `InputArgumentMode::IsArray` contre `InputArgument::IS_ARRAY`. Les deux
-      cohabitent dans le même code, ce qui rend la confusion facile.
+      `InputArgumentMode::IsArray` contre `InputArgument::IS_ARRAY` : l'exemple
+      des standards de code, où seule la constant existe dans Console 8.0.
     memorization_justification: >-
       Deux casses différentes pour deux choses qui se ressemblent à l'usage, et
       l'exemple montre les deux côte à côte.

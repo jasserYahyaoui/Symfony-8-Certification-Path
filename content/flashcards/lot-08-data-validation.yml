@@ -1192,7 +1192,7 @@ flashcards:
   language: fr
   level: RECALL
   front: 'Validator : où est cherchée la method d''un Callback déclaré par un simple nom ?'
-  back: 'Sur la class de l''object validé : `method_exists($object, $method)`.'
+  back: 'Sur la valeur validée — l''object pour une constraint posée sur la class : `method_exists($object, $method)`, `$object` étant cette valeur.'
   explanation: Pour une method ailleurs, on passe un array `[Classe::class, 'méthode']`.
   memorization_justification: Résolution du nom.
   verification_status: VERIFIED

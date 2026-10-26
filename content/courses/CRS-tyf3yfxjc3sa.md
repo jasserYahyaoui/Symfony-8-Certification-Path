@@ -5,7 +5,7 @@ title: "Symfony Flex"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/setup.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/setup.rst"
@@ -73,13 +73,6 @@ documentation est précise : les recipes contrib « are guaranteed to work » �
 c'est le **package associé** qui « could be unmaintained ». Les deux repositories sont
 alimentés par la communauté ; le principal est une liste *curée*, et c'est le
 seul que Flex consulte sans demander.
-
-## Les packs
-
-Un *pack* est un package qui ne contient aucun code : seulement des dependencies,
-regroupées pour un usage (debug, tests). Flex le **dépaquette** — il inscrit
-les dependencies réelles dans `composer.json` et retire le pack, pour que le
-file reste lisible.
 
 ## Ce qu'une recipe fait, concrètement
 

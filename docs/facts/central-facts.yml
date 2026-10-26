@@ -828,3 +828,41 @@ facts:
     content: [CRS-wg3j0t5pm7w1, FLC-gh32p9t68h99]
     forbidden:
       - '/les properties Unicode fonctionnent/iu'
+  http-foundation.language-tail-dropped:
+    finding: third refinement pass 2026-10-26
+    official_item: OIT-fhjmv9w3wxsb
+    statement: >-
+      Request::getLanguages() keeps a 2-3 letter language (or i- plus five letters, prefix removed), an optional
+      4-letter script and an optional 2-letter region, and drops whatever follows: de-DE-1996 gives de_DE,
+      es-419 gives es. Only a value whose beginning does not fit, such as x-klingon or *, comes back unchanged.
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php
+    behavior_check: http-foundation.language-tail-dropped
+    content: [CRS-qa0x33akw264]
+    forbidden:
+      - '/pour la langue, puis \*\*4 lettres\*\*/u'
+  console.input-argument-mode-is-only-an-example:
+    finding: third refinement pass 2026-10-26
+    official_item: OIT-c9pjp03cv4bq
+    statement: >-
+      The coding standards illustrate enum case naming with InputArgumentMode::IsArray; Console 8.0 defines no
+      such enum, only the InputArgument::IS_ARRAY constant.
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/standards.rst
+    behavior_check: console.input-argument-mode-is-only-an-example
+    content: [CRS-9g4qrgfs7nm4, FLC-sgkfqtmc07qt]
+    forbidden:
+      - '/cohabitent dans le\s+même code/u'
+  validator.callback-targets-class-and-property:
+    finding: third refinement pass 2026-10-26
+    official_item: OIT-hcdrp2y7kbct
+    statement: >-
+      Callback::getTargets() returns the class and the property targets. On a property, the callback receives the
+      property's value, and a bare method name is looked up on that value.
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Constraints/Callback.php
+    behavior_check: validator.callback-targets-class-and-property
+    content: [CRS-96w05v20b8w1, CRS-wzmrks85zyh1]
+    forbidden:
+      - '/`Callback` est une constraint de \*\*class\*\*/u'
+      - '/\*\*`Callback` est une constraint de class\*\*/u'

@@ -66,6 +66,19 @@ final class SlugOnClass
 {
 }
 
+// Third refinement pass, 2026-10-26: Callback targets a property too; the
+// callback then receives the property's value, not the object.
+final class CallbackOnProperty
+{
+    #[Assert\Callback(callback: [self::class, 'check'])]
+    public string $email = 'a@b';
+
+    public static function check(mixed $value, \Symfony\Component\Validator\Context\ExecutionContextInterface $context): void
+    {
+        $context->buildViolation(get_debug_type($value))->addViolation();
+    }
+}
+
 final class StrongPassword extends Assert\Compound
 {
     protected function getConstraints(array $options): array
@@ -220,5 +233,17 @@ return [
         }
 
         return 'UnexpectedTypeException did not propagate';
+    },
+    'validator.callback-targets-class-and-property' => static function () use ($validator): ?string {
+        $targets = (new Assert\Callback())->getTargets();
+        if ([Constraint::CLASS_CONSTRAINT, Constraint::PROPERTY_CONSTRAINT] !== $targets) {
+            return 'Callback targets are '.json_encode($targets);
+        }
+        $violations = $validator()->validate(new CallbackOnProperty());
+        if (1 !== \count($violations) || 'email' !== $violations[0]->getPropertyPath() || 'string' !== $violations[0]->getMessage()) {
+            return 'a Callback on a property did not receive the property value at path "email"';
+        }
+
+        return null;
     },
 ];

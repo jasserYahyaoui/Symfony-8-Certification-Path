@@ -117,8 +117,8 @@ pitfalls:
   verdict: COVERED
   card: FLC-4476zezkxadx
 - course: CRS-0yhqc0b1q7hz
-  key: da406d1d9390
-  excerpt: '**L''identifier par défaut est le nom du form**, pas une valeur commune.'
+  key: 1617482e9927
+  excerpt: '**Sans `csrf_token_id`, l''identifier est le défaut du type, sinon le nom du form** — et dans une'
   verdict: COVERED
   card: FLC-bdce2jn08pry
 - course: CRS-0yhqc0b1q7hz
@@ -1045,13 +1045,13 @@ pitfalls:
   verdict: COVERED
   card: FLC-0xjd7fmay6cj
 - course: CRS-96w05v20b8w1
-  key: 49a259a6015d
-  excerpt: '**Un nom de method seul est cherché sur la class validée**, jamais ailleurs.'
+  key: 0e29424bdba4
+  excerpt: '**Un nom de method seul est cherché sur la valeur validée** — l''object quand la constraint est po'
   verdict: COVERED
   card: FLC-53pz9zp44prb
 - course: CRS-96w05v20b8w1
-  key: cd45e3c3559c
-  excerpt: '**`Callback` est une constraint de class** : elle voit tout l''object, ce qui la rend adapt'
+  key: 06a7ab18962b
+  excerpt: '**Posée sur la class, `Callback` voit tout l''object**, ce qui la rend adaptée aux règles croisée'
   verdict: COVERED
   card: FLC-38wz4rh5cy0n
 - course: CRS-984c2bv3wh09
@@ -1117,8 +1117,8 @@ pitfalls:
   verdict: COVERED
   card: FLC-9f7dezgkk347
 - course: CRS-9g4qrgfs7nm4
-  key: ffb01d1c17b4
-  excerpt: '**Un cas d''enum s''écrit `UpperCamelCase`, pas en majuscules.** `InputArgumentMode::IsArray'
+  key: f235b163a336
+  excerpt: '**Un cas d''enum s''écrit `UpperCamelCase`, pas en majuscules.** Les standards l''illustrent par'
   verdict: COVERED
   card: FLC-sgkfqtmc07qt
 - course: CRS-9g4qrgfs7nm4
@@ -1638,8 +1638,8 @@ pitfalls:
   verdict: COVERED
   card: FLC-aqpq5dwm1hhf
 - course: CRS-d25bvr0097py
-  key: 3feedf3444da
-  excerpt: Le noyau-passe tourne à -10000, après les passes de bundle de son étape.
+  key: 010167799632
+  excerpt: 'La passe du kernel tourne à -10000, après les passes de bundle de son étape.'
   verdict: COVERED
   card: FLC-knjkvq5y9zbc
 - course: CRS-d25bvr0097py
@@ -2996,8 +2996,8 @@ pitfalls:
   verdict: COVERED
   card: FLC-bdrpkzcqw1ww
 - course: CRS-q2dxjhx6d35k
-  key: be9587825ae1
-  excerpt: '**`bool $flag = true` n''est pas un drapeau simple** : il devient négociable, donc `--no-fl'
+  key: 83ea7a02fb34
+  excerpt: '**`bool $flag = true` n''est pas un drapeau simple** : il accepte une forme négative, donc `--no'
   verdict: COVERED
   card: FLC-g71n3msgyw1m
 - course: CRS-q2dxjhx6d35k
@@ -3276,8 +3276,8 @@ pitfalls:
   card: FLC-y6rz0p94wkxt
   added: '2026-10-24'
 - course: CRS-tqcp2kn9r3b5
-  key: 4fb549328b46
-  excerpt: '**Sans `IS_REPEATABLE`, répéter un attribute est une erreur** au moment de la lecture par '
+  key: 91520e614d33
+  excerpt: '**Sans `IS_REPEATABLE`, répéter un attribute est une erreur** — levée par `newInstance()` : `ge'
   verdict: COVERED
   card: FLC-yq3sy3g85yz0
   added: '2026-10-24'
