@@ -5,7 +5,7 @@ title: "Filesystem"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-09"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/filesystem.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/components/filesystem.rst"
@@ -93,7 +93,7 @@ Exécuté sur Filesystem 8.0.15, `umask` à `022` :
 
 `symlink()` accepte un troisième argument qui **duplique le directory** au lieu
 de créer le lien — sous Windows seulement : le code le nomme `$copyOnWindows`.
-La documentation dit « si le système de files ne gère pas les liens » ;
+La documentation dit « si le filesystem ne gère pas les liens » ;
 exécuté sous Linux avec `true`, c'est bien un lien qui est créé.
 
 ## Écrire et lire

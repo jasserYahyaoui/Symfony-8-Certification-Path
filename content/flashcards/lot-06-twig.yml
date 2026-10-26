@@ -453,7 +453,7 @@ flashcards:
     front: "Symfony : dans la surcharge d'un template de bundle, écrivez l'inheritance de l'original."
     back: "{% extends '@!AcmeBlog/user/profile.html.twig' %}"
     explanation: >-
-      Sans le point d'exclamation, @AcmeBlog désignerait la surcharge elle-même, qui s'étendrait en loop.
+      Sans le point d'exclamation, @AcmeBlog désignerait la surcharge elle-même, qui s'étendrait en boucle.
     memorization_justification: >-
       Réutiliser l'original au lieu de le recopier.
     verification_status: VERIFIED
@@ -962,7 +962,7 @@ flashcards:
     official_item: OIT-g3p8wdtww344
     language: fr
     level: RECALL
-    front: "Twig 3.22 : que lève une seconde tag extends dans le même template ?"
+    front: "Twig 3.22 : que lève un second tag extends dans le même template ?"
     back: "Une SyntaxError : Multiple extends tags are forbidden."
     explanation: >-
       L'inheritance est simple ; extends est aussi refusée dans un block ou une macro.
@@ -1083,7 +1083,7 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "Twig : un {% set %} écrit hors block dans un template enfant lève-t-il une erreur ?"
-    back: "Non : seules les outputs hors block sont refusées, texte non blanc ou {{ }}."
+    back: "Non : seuls les outputs hors block sont refusés, texte non blanc ou {{ }}."
     explanation: >-
       Parser::filterBodyNodes() ne rejette que les nodes d'affichage ; une affectation n'affiche rien.
     memorization_justification: >-
@@ -2515,7 +2515,7 @@ flashcards:
     language: fr
     level: TRAP
     front: "Symfony : le controller d'un fragment retourne un redirect. Que produit render() ?"
-    back: "Une `RuntimeException` : toute Response non 2xx, redirect comprise, fait échouer le fragment, même avec `ignore_errors`."
+    back: "Une `RuntimeException` : toute Response non 2xx, redirect compris, fait échouer le fragment, même avec `ignore_errors`."
     explanation: >-
       `FragmentHandler::deliver()` teste `isSuccessful()` sur la Response ; `ignore_errors` ne couvre que les exceptions levées.
     memorization_justification: >-
@@ -2659,7 +2659,7 @@ flashcards:
     official_item: OIT-sd08j04k60m0
     language: fr
     level: APPLICATION
-    front: "Twig : comment passer seulement le domain store au filter trans, sans écrire de array vide ?"
+    front: "Twig : comment passer seulement le domain store au filter trans, sans écrire d'array vide ?"
     back: "Avec un named argument : `'checkout.total'|trans(domain: 'store')`."
     explanation: >-
       Twig 3.22 accepte `:` et `=` comme séparateurs de named argument ; la forme positionnelle équivalente est `trans({}, 'store')`.

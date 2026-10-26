@@ -5,7 +5,7 @@ title: "Finder"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-02"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/finder.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/components/finder.rst"
@@ -156,7 +156,7 @@ rend 5, `iterator_to_array()` 4, avec `false` 5.
 
 ## Un ordre déterministe
 
-Sans tri, le Finder rend les files dans l'ordre du système de files. Exécuté
+Sans tri, le Finder rend les files dans l'ordre du filesystem. Exécuté
 sous Linux sur `f1` à `f12` créés dans l'ordre : `f4, f12, f9, f10, f1…` — ni
 alphabétique, ni de création. Un test qui compare une liste doit donc trier :
 

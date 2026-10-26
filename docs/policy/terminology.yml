@@ -74,6 +74,7 @@ terms:
   - {fr: [valeur de retour, valeurs de retour], en: return value, en_plural: return values, gender: f, elide: false}
   # ---------------- Symfony concepts -----------------------------------------
   - {fr: [écouteur, écouteurs], en: listener, en_plural: listeners, gender: m, elide: false}
+  - {fr: [voteur, voteurs], en: voter, en_plural: voters, gender: m, elide: false}
   - {fr: [abonné, abonnés], en: subscriber, en_plural: subscribers, gender: m, elide: false, keep: ["(?<!un )(?<!les )(?<!l')(?<!l’)abonnés? (à|aux|au)\\b"]}
   - {fr: [événement, événements, évènement, évènements], en: event, en_plural: events, gender: m, elide: true}
   - {fr: [noyau, noyaux], en: kernel, en_plural: kernels, gender: m, elide: false}
@@ -102,7 +103,7 @@ terms:
   - {fr: [balise, balises], en: tag, en_plural: tags, gender: m, fr_gender: f, elide: false}
   - {fr: [contrainte, contraintes], en: constraint, en_plural: constraints, gender: f, elide: false}
   - {fr: [fabrique, fabriques], en: factory, en_plural: factories, gender: f, elide: false, needs_determiner: true}
-  - {fr: [redirection, redirections], en: redirect, en_plural: redirects, gender: m, fr_gender: f, elide: false}
+  - {fr: [redirection, redirections], en: redirect, en_plural: redirects, gender: m, fr_gender: f, elide: false, keep: ['redirections? de flux']}
   - {fr: [routeur, routeurs], en: router, en_plural: routers, gender: m, elide: false}
   - {fr: [formulaire, formulaires], en: form, en_plural: forms, gender: m, elide: false}
   - {fr: [champ, champs], en: field, en_plural: fields, gender: m, elide: false, keep: ['champs? d.application', 'champ libre']}
@@ -123,7 +124,7 @@ terms:
   - {fr: [normalisation], en: normalization, en_plural: normalization, gender: f, elide: false}
   - {fr: [journalisation], en: logging, en_plural: logging, gender: m, elide: false}
   - {fr: [paquet, paquets], en: package, en_plural: packages, gender: m, elide: false}
-  - {fr: [bloc, blocs], en: block, en_plural: blocks, gender: m, elide: false}
+  - {fr: [bloc, blocs], en: block, en_plural: blocks, gender: m, elide: false, keep: ['en bloc', "d['’]un (seul )?bloc"]}
   # « filtre » is also the verb filtrer: « le requirement filtre l'URL ». The
   # conjugated verb is followed by its object or by « par »; « filtre par
   # défaut » stays a noun. Eleven verbs had become « filter » (2026-10-15).
@@ -143,10 +144,10 @@ terms:
   - {fr: [paramètre, paramètres], en: parameter, en_plural: parameters, gender: m, elide: false}
   - {fr: [attribut, attributs], en: attribute, en_plural: attributes, gender: m, elide: true}
   - {fr: [fonction, fonctions], en: function, en_plural: functions, gender: f, elide: false, keep: ['en fonction d', 'fonction(ne|nement)']}
-  - {fr: [entier, entiers], en: int, en_plural: ints, gender: m, elide: true, needs_determiner: true}
+  - {fr: [entier, entiers], en: int, en_plural: ints, gender: m, elide: true, needs_determiner: true, keep: ['tout entier', 'en entier']}
   - {fr: [booléen, booléens], en: bool, en_plural: bools, gender: m, elide: false, needs_determiner: true}
   - {fr: [énumération, énumérations], en: enum, en_plural: enums, gender: f, elide: true}
-  - {fr: [fermeture, fermetures], en: closure, en_plural: closures, gender: f, elide: false}
+  - {fr: [fermeture, fermetures], en: closure, en_plural: closures, gender: f, elide: false, keep: ['fermeture du navigateur']}
   # « chaîne » is a string only when it holds characters. A chain — of calls,
   # middlewares, resolvers, proxies, transformers — is written « chaîne de … »
   # or « chaîne d'… », which the keep patterns protect; a bare « la chaîne » is
@@ -156,6 +157,7 @@ terms:
   - {fr: [chaîne de requête, chaînes de requête, chaîne de Request, chaînes de Request], en: query string, en_plural: query strings, gender: f, elide: false}
   - {fr: [chaîne, chaînes], en: string, en_plural: strings, gender: f, elide: false, keep: ['chaînes?\s+de\s(?!caractères)', 'chaînes?\s+d[''’\x02]', 'en chaîne', 'chaîn(é|er|age)']}
   - {fr: [tableau, tableaux], en: array, en_plural: arrays, gender: m, elide: true, keep: ['tableaux? (ci-dessous|suivants?|des |récapitul|précédent|ci-contre)', '(ce|ces|le|un) tableaux? (montre|résume|donne|liste|compare|ci-)', 'dans (le|ce) tableau', 'du tableau (ci|suivant|précédent)']}
+  - {fr: [système de fichiers, systèmes de fichiers], en: filesystem, en_plural: filesystems, gender: m, elide: false}
   - {fr: [fichier, fichiers], en: file, en_plural: files, gender: m, elide: false}
   - {fr: [répertoire, répertoires], en: directory, en_plural: directories, gender: m, elide: false}
   - {fr: [chemin, chemins], en: path, en_plural: paths, gender: m, elide: false, keep: ['chemin minimal', 'à mi-chemin', 'en chemin', 'chemin faisant']}
@@ -235,7 +237,7 @@ terms:
   - {fr: [compilateur, compilateurs], en: compiler, en_plural: compilers, gender: m, elide: false}
   - {fr: [analyseur, analyseurs], en: parser, en_plural: parsers, gender: m, elide: false}
   - {fr: [échappement, échappements], en: escaping, en_plural: escaping, gender: m, elide: true}
-  - {fr: [boucle, boucles], en: loop, en_plural: loops, gender: f, elide: false}
+  - {fr: [boucle, boucles], en: loop, en_plural: loops, gender: f, elide: false, keep: ['en boucle']}
   - {fr: [opérateur, opérateurs], en: operator, en_plural: operators, gender: m, elide: true}
   - {fr: [soumission, soumissions], en: submission, en_plural: submissions, gender: f, elide: false}
   - {fr: [pont, ponts], en: bridge, en_plural: bridges, gender: m, elide: false}

@@ -1180,7 +1180,7 @@ flashcards:
   language: fr
   level: TRAP
   front: 'Symfony : un tag inconnu comme <script> disparaît-il de l''output normal ?'
-  back: 'Non : le formateur ne touche qu''aux tags qu''il connaît ; `<script>` passe intacte.'
+  back: 'Non : le formateur ne touche qu''aux tags qu''il connaît ; `<script>` passe intact.'
   explanation: Exécuté en `OUTPUT_NORMAL`.
   memorization_justification: Tag inconnu.
   verification_status: VERIFIED
@@ -1245,7 +1245,7 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony : pourquoi « yeti » confirme-t-il une ConfirmationQuestion ?'
-  back: 'Parce que l''expression par défaut est `/^y/i` : toute Response commençant par y, quelle que soit la casse.'
+  back: 'Parce que l''expression par défaut est `/^y/i` : toute saisie commençant par y, quelle que soit la casse.'
   explanation: 'Exécuté : `yeti` et `Yes` donnent `true`.'
   memorization_justification: Expression de confirmation.
   verification_status: VERIFIED

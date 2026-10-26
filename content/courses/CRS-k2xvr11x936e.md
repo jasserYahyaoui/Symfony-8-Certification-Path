@@ -5,7 +5,7 @@ title: "Official best practices"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-07"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/best_practices.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/best_practices.rst"
@@ -45,7 +45,7 @@ règles du framework : rien ne casse si on les ignore.
 | Templates | `snake_case` pour noms et variables ; préfixe `_` pour les fragments |
 | Forms | forms en classes PHP ; **boutons dans les templates** ; constraints sur l'object sous-jacent ; une seule action pour afficher et traiter |
 | Internationalisation | format XLIFF ; **keys** plutôt que texte source |
-| Security | **un seul** firewall ; hasher `auto` ; voteurs pour le fin |
+| Security | **un seul** firewall ; hasher `auto` ; voters pour le contrôle fin |
 | Ressources web | AssetMapper |
 | Tests | *smoke tests* des URL ; URL **en dur** dans un functional test |
 
@@ -84,8 +84,8 @@ avec un ou deux mots descriptifs : `app.contents_dir` plutôt que `app.dir`.
   l'endroit où elle sert. Le même form affiche « Ajouter » à la création
   et « Enregistrer » à l'édition — et le style du bouton reste dans le template.
 - **`EntityValueResolver` est facultatif** : « si c'est commode ». Dès que la
-  logique de récupération se complique, la recommandation est de faire la
-  Request **dans le controller**.
+  logique de récupération se complique, la recommandation est d'écrire la
+  query **dans le controller**.
 - **Hasher `auto`**, qui choisit le meilleur disponible selon l'installation
   PHP. Son défaut actuel est **`bcrypt`**.
 

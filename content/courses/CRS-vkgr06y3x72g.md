@@ -5,7 +5,7 @@ title: "Set default values to URL parameters"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/routing.rst"
@@ -58,8 +58,7 @@ L'endroit où on l'écrit dépend du format :
 | inline | `{page?1}` dans le path |
 
 La forme inline se combine avec un requirement inline :
-`/blog/{page<[0-9]+>?1}`. Un `?` sans valeur, `{page?}`, donne la valeur par
-défaut `null` : l'argument du controller doit alors être nullable.
+`/blog/{page<[0-9]+>?1}`. Un `?` sans valeur, `{page?}`, donne la default value `null` : l'argument du controller doit alors être nullable.
 
 ### D'où vient le défaut en attributes
 

@@ -5,7 +5,7 @@ title: "Request handling"
 content_level: DEEP
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-13"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/http_kernel.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/components/http_kernel.rst"
@@ -141,7 +141,7 @@ par `getParentRequest()`.
 Une exception : si la Response est une `StreamedResponse`, sa function de rendu
 est **réenveloppée** pour réempiler la Request le temps du flux, puis la
 dépiler. Sans cela, `getCurrentRequest()` rendrait `null` à l'intérieur du
-`callback`, puisqu'il s'exécute après l'output de `handle()`.
+`callback`, puisqu'il s'exécute une fois `handle()` terminé.
 
 ## La branche que le trajet nominal ne montre pas
 
@@ -225,7 +225,7 @@ donné.
   `_controller` peut être encore absent.
 - Un court-circuit sur `kernel.request` saute le controller, **pas**
   `kernel.response`, `kernel.finish_request` ni `kernel.terminate`.
-- Un seul front controller, `public/index.php` — quel que soit l'URL demandée.
+- Un seul front controller, `public/index.php` — quelle que soit l'URL demandée.
 - `kernel.finish_request` a lieu **même quand l'exception remonte**, et même
   quand `$catch` vaut `false` — mais une `\Error` hors
   `handle_all_throwables` le saute.

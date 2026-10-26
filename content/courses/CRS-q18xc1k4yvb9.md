@@ -5,7 +5,7 @@ title: "Translations and pluralization"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-24"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/translation.rst"
@@ -74,7 +74,7 @@ outcome_sections:
 
 ## Objectif
 
-Traduire depuis un template, gérer le plural et savoir ce que le filter et la
+Traduire depuis un template, gérer le plural et savoir ce que le filter et le
 tag font différemment. L'organisation des catalogues et la détection de la
 locale appartiennent aux lots Internationalisation et Routing.
 

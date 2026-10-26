@@ -117,7 +117,7 @@ La première est la plus utile. Un message invalide — un identifier qui
 n'existera jamais — ne deviendra pas valide en le rejouant. C'est la
 distinction de fond : **la strategy traite l'échec temporaire,
 `Unrecoverable` l'échec permanent**. La seconde se manie avec prudence : sans
-condition de sortie, elle loop.
+condition de sortie, elle tourne sans fin.
 
 ## Le failure transport
 
@@ -172,7 +172,7 @@ flowchart TD
   FT -->|"non"| LOST(["message perdu"])
 ```
 
-Chaque étage change la Response, et c'est l'ordre qui compte : une
+Chaque étage change l'issue, et c'est l'ordre qui compte : une
 `UnrecoverableMessageHandlingException` saute la strategy mais **pas** le
 failure transport.
 

@@ -219,9 +219,9 @@ flashcards:
     front: 'PHP 8.4 : une class peut-elle redéfinir une constant déclarée dans une interface ?'
     back: Oui, depuis PHP 8.1 — sauf si la constant est déclarée `final`.
     explanation: 'La règle « une constant d''interface ne se surcharge jamais » a été vraie pendant
-      des années et reste la Response instinctive. Sur PHP 8.4 elle est fausse : seule `final` l''interdit.'
+      des années et reste le réflexe. Sur PHP 8.4 elle est fausse : seule `final` l''interdit.'
     memorization_justification: 'Attribution version-par-règle : la syntaxe ne dit pas à partir de quelle
-      version la redéfinition est permise, et l''ancienne règle reste la Response réflexe.'
+      version la redéfinition est permise, et l''ancienne règle reste le réflexe.'
     verification_status: VERIFIED
     official_sources:
     - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/interfaces.xml

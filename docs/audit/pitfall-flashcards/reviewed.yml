@@ -107,8 +107,8 @@ pitfalls:
   verdict: COVERED
   card: FLC-ss5t4frvwdt2
 - course: CRS-0yhqc0b1q7hz
-  key: 3a907b84d7ef
-  excerpt: '**Le token part avec le tag de closure du form.** Désactiver `render_rest` le fait dispara'
+  key: e0147bec9577
+  excerpt: '**Le token est rendu par `form_end()`.** Désactiver son option `render_rest` le fait dispa'
   verdict: COVERED
   card: FLC-ztv3eksqkkr2
 - course: CRS-0yhqc0b1q7hz
@@ -709,8 +709,8 @@ pitfalls:
   verdict: COVERED
   card: FLC-4ex4dbz4g344
 - course: CRS-5vz7w1ny9shd
-  key: 87d4d09eba8d
-  excerpt: '**Un index de array absent rend `null` ; une property d''object absente lève.** Les deux dé'
+  key: 27607210cb3f
+  excerpt: '**Un index d''array absent rend `null` ; une property d''object absente lève.** Les deux déf'
   verdict: COVERED
   card: FLC-zggyac2jqrp5
 - course: CRS-5vz7w1ny9shd
@@ -859,8 +859,8 @@ pitfalls:
   card: FLC-hfx4p10aptcf
   added: '2026-10-24'
 - course: CRS-7fa2behkxmf9
-  key: 06f85c2572ae
-  excerpt: '**Un cookie de session n''a pas d''expiration** : il disparaît à la closure du navigateur, e'
+  key: 8ff44db1d736
+  excerpt: '**Un cookie de session n''a pas d''expiration** : il disparaît à la fermeture du navigateur,'
   verdict: COVERED
   card: FLC-sk50h4dwpmbk
 - course: CRS-7fa2behkxmf9
@@ -955,8 +955,8 @@ pitfalls:
   verdict: COVERED
   card: FLC-72333txg4f7c
 - course: CRS-8hwpzyk1hrq9
-  key: 6249417bdd5d
-  excerpt: '**Le statut n''est pas toujours 403** : un anonyme reçoit la Response du point d''entrée — r'
+  key: 233a67293492
+  excerpt: '**Le statut n''est pas toujours 403** : un anonyme reçoit la Response de l''entry point — re'
   verdict: COVERED
   card: FLC-c5s8ragw0q9g
 - course: CRS-8hwpzyk1hrq9
@@ -1132,7 +1132,7 @@ pitfalls:
   verdict: COVERED
   card: FLC-00w816qz6wh8
 - course: CRS-9g4qrgfs7nm4
-  key: 7bc6cd349df1
+  key: 0b5ef56b2f93
   excerpt: '**`all()` devient `getXXXs()`, pas `allXXX()`.** De même `replace()` devient `setXXXs()`. '
   verdict: COVERED
   card: FLC-3tts21dfmvcj
@@ -1339,8 +1339,8 @@ pitfalls:
   verdict: COVERED
   card: FLC-87kstrsxp1we
 - course: CRS-b5nj93xzz10b
-  key: 65e634d84a75
-  excerpt: '**La closure du form rend aussi ce qui n''a pas été rendu**, token CSRF compris.'
+  key: 0fdd418d041b
+  excerpt: '**`form_end()` rend aussi ce qui n''a pas été rendu**, token CSRF compris.'
   verdict: COVERED
   card: FLC-yvey5gkx1zhd
 - course: CRS-b5nj93xzz10b
@@ -1447,8 +1447,8 @@ pitfalls:
   verdict: COVERED
   card: FLC-h55rz80mbnvr
 - course: CRS-bthv5xmh5wea
-  key: b4aa882ea23f
-  excerpt: 'Un array **imbriqué** group des groups dans une même étape ; à plat, chacun est sa propre '
+  key: 28f491bcf64d
+  excerpt: 'Un array **imbriqué** réunit des groups dans une même étape ; à plat, chacun est sa propre'
   verdict: COVERED
   card: FLC-kj2rr5x8r57k
 - course: CRS-bthv5xmh5wea
@@ -1716,7 +1716,7 @@ pitfalls:
   verdict: COVERED
   card: FLC-dp1fhxx0me34
 - course: CRS-depbnbc0g82x
-  key: 4de1dfc0b8c8
+  key: a81518cf3612
   excerpt: '**« RFC 9110 remplace RFC 2616 » est un raccourci.** 2616 a d''abord été éclatée en 7230-72'
   verdict: COVERED
   card: FLC-grhnmtks7tcg
@@ -1811,8 +1811,8 @@ pitfalls:
   verdict: COVERED
   card: FLC-b6aztgp7r88m
 - course: CRS-e4y7gtn5k4f0
-  key: f8a9a34d4026
-  excerpt: '**La règle d''avant 8.1 est la Response instinctive.** « Une constant d''interface ne se sur'
+  key: a426d689a70a
+  excerpt: '**La règle d''avant 8.1 est le réflexe à corriger.** « Une constant d''interface ne se surch'
   verdict: COVERED
   card: FLC-rs1m1pw77eb7
 - course: CRS-e4y7gtn5k4f0
@@ -2542,8 +2542,8 @@ pitfalls:
   verdict: COVERED
   card: FLC-t9zmv2x9vahc
 - course: CRS-jtkmpfp3nwzk
-  key: f3f6db044d3f
-  excerpt: '**Un service intégré vient d''un bundle, pas du framework en block.** Retirer le bundle ret'
+  key: 9670f2beb6ca
+  excerpt: '**Un service intégré vient d''un bundle, pas du framework en bloc.** Retirer le bundle reti'
   verdict: COVERED
   card: FLC-vpb05exshkwx
 - course: CRS-jwhqec35jczn
@@ -2743,8 +2743,8 @@ pitfalls:
   verdict: COVERED
   card: FLC-z56s5mxrnev5
 - course: CRS-mpwjc4g3vmj7
-  key: 173de3b19b19
-  excerpt: Un seul front controller, `public/index.php` — quel que soit l'URL demandée.
+  key: 38c0905730d0
+  excerpt: 'Un seul front controller, `public/index.php` — quelle que soit l''URL demandée.'
   verdict: COVERED
   card: FLC-nt31fkv8p93g
   added: '2026-10-24'
@@ -3462,8 +3462,8 @@ pitfalls:
   verdict: COVERED
   card: FLC-fe3wkxfj8v05
 - course: CRS-vx5kvfhs0p0s
-  key: a2e381f8add9
-  excerpt: '**Le tag tag par nom de variable ; la function refuse les arguments nommés** avec Twig 3.2'
+  key: e5cbb08644a0
+  excerpt: '**Le tag indexe par nom de variable ; la function refuse les named arguments** avec Twig 3'
   verdict: COVERED
   card: FLC-e8g289vgszxs
 - course: CRS-w6yfxm6ad4zy
@@ -3647,8 +3647,8 @@ pitfalls:
   card: FLC-2dya1ngypecc
   added: '2026-10-24'
 - course: CRS-x2f8reencvcs
-  key: 4d363940df88
-  excerpt: L'ordre de résolution commence par le **array**, pas par la property.
+  key: f2313b353aec
+  excerpt: 'L''ordre de résolution commence par l''**array**, pas par la property.'
   verdict: COVERED
   card: FLC-2e8x0yx9hbbp
 - course: CRS-x2f8reencvcs

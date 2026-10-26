@@ -38,7 +38,7 @@ flashcards:
     front: "L'option condition d'une route est-elle évaluée lors de la génération d'URL ?"
     back: "Non. Les conditions sont ignorées à la génération ; elles ne filtrent que l'appariement."
     explanation: >-
-      Le generator ne connaît ni la Request ni l'agent user, donc il ne
+      Le generator ne connaît ni la Request ni le user agent, donc il ne
       peut pas évaluer l'expression. Une route sous condition reste générable
       vers un contexte où elle ne correspondrait pas. requirements, lui, compte
       dans les deux sens.
@@ -1450,7 +1450,7 @@ flashcards:
     front: "Symfony : une route liste plusieurs schémas et la Request n'en utilise aucun. Vers lequel est-elle redirigée ?"
     back: "Vers le premier schéma listé."
     explanation: >-
-      Si l'un des schémas listés correspond déjà, aucune redirect n'a lieu. Les schémas sont par ailleurs mis en minuscules par Route::setSchemes().
+      Si l'un des schémas listés correspond déjà, aucun redirect n'a lieu. Les schémas sont par ailleurs mis en minuscules par Route::setSchemes().
     memorization_justification: >-
       Règle d'ordre arbitraire, sans équivalent dans la documentation.
     verification_status: VERIFIED
@@ -1648,7 +1648,7 @@ flashcards:
     language: fr
     level: TRAP
     front: "Piège : « une route /foo limitée à methods: ['POST'] redirige GET /foo/ vers /foo »."
-    back: "Faux : la route doit accepter GET. Aucune redirect, et la Response est un 404, pas un 405."
+    back: "Faux : la route doit accepter GET. Aucun redirect, et la Response est un 404, pas un 405."
     explanation: >-
       Le matcher ne redirige vers une route que si elle n'a pas de restriction de method ou si GET en fait partie.
     memorization_justification: >-

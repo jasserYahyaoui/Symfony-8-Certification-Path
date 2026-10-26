@@ -5,7 +5,7 @@ title: "Content negotiation"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
     readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
@@ -145,13 +145,13 @@ autre chose ; il l'annonce par `Content-Type`.
 ## Tips d'examen
 
 **Lire le header, pas la position.** Sans `q`, c'est `1.0` — pas « moins que le
-précédent ». Seul `q` class.
+précédent ». Seul `q` ordonne.
 
 **`q=0` est un refus, pas une préférence faible.** La préférence faible, c'est
 `q=0.001`.
 
 **Proactive = le serveur choisit ; réactive = le client choisit** dans une liste.
-Le mot *driven* du synonyme donne la Response : *server-driven* contre
+Le mot *driven* du synonyme donne l'indice : *server-driven* contre
 *agent-driven*.
 
 **Côté Symfony, deux accessors ne négocient pas ce qu'on croit.**
@@ -163,7 +163,7 @@ ni sur la spécificité, ni en retirant les `q=0`. `getPreferredFormat()` consul
 
 - Une ressource, plusieurs représentations ; le client préfère, le serveur choisit.
 - `q` par défaut `1.0` ; `q=0` refuse ; la spécificité choisit le pattern qui
-  fixe le `q` d'un type, elle ne class pas deux types entre eux.
+  fixe le `q` d'un type, elle n'ordonne pas deux types entre eux.
 - `getAcceptableContentTypes()` renvoie une liste déjà triée.
 - Négocier impose `Vary` ; `406` si rien ne convient.
 

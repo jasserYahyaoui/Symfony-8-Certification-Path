@@ -106,7 +106,7 @@ service (`#[AsCommand]`), `Map...` concerne un argument de controller
 (`#[MapEntity]`).
 
 **`all()` devient `getXXXs()`, pas `allXXX()`.** De même `replace()` devient
-`setXXXs()`. Les deux lignes les moins régulières de l'array.
+`setXXXs()`. Les deux lignes les moins régulières de la table.
 
 **`setXXX()` et `replaceXXX()` diffèrent par un droit.** Seul le premier peut
 ajouter ; le second doit lever une exception sur une clé inconnue.

@@ -505,7 +505,7 @@ flashcards:
   official_item: OIT-bc3brs4a4mtt
   language: fr
   level: RECALL
-  front: 'Symfony : quelle method du client suit une seule redirect en attente ?'
+  front: 'Symfony : quelle method du client suit un seul redirect en attente ?'
   back: '`followRedirect()` ; `followRedirects()` règle le client pour toutes les suivantes.'
   explanation: 'Exécuté : 302, puis 200 sur la cible après `followRedirect()`.'
   memorization_justification: Singulier et pluriel.

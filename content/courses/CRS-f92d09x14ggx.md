@@ -5,7 +5,7 @@ title: "Conditional request matching"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/routing.rst"
@@ -106,7 +106,7 @@ schéma et la method. Une route dont la condition est fausse est ignorée comme
 si elle n'existait pas :
 
 - elle n'ajoute pas ses methods à la liste qui produirait un **405** ;
-- elle ne déclenche aucune redirect de barre finale ou de schéma.
+- elle ne déclenche aucun redirect de barre finale ou de schéma.
 
 Si aucune autre route ne correspond, la Response est un 404.
 
@@ -114,7 +114,7 @@ Si aucune autre route ne correspond, la Response est un 404.
 
 > Les conditions **ne sont pas prises en compte lors de la génération d'URL**.
 
-Le generator ne connaît ni la Request courante ni l'agent user : il ne
+Le generator ne connaît ni la Request courante ni le user agent : il ne
 peut pas évaluer l'expression. Une route protégée par une `condition` reste donc
 parfaitement générable, y compris vers un contexte où elle ne correspondrait
 pas. Une condition filtre l'entrée, elle ne documente pas l'output.

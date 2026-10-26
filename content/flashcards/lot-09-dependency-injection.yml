@@ -231,7 +231,7 @@ flashcards:
   language: fr
   level: TRAP
   front: 'DependencyInjection : get() fonctionne-t-il sur un ContainerBuilder non compilé ?'
-  back: 'Oui : le service est construit et les parameters `%…%` sont même résolus ; mais aucune compiler pass ne s''exécute et rien n''est figé.'
+  back: 'Oui : le service est construit et les parameters `%…%` sont même résolus ; mais aucun compiler pass ne s''exécute et rien n''est figé.'
   explanation: 'Exécuté : `get(''mailer'')` avant `compile()` rend un `Mailer` dont le transport a reçu `smtp.acme.test`.'
   memorization_justification: On croit compile() indispensable pour obtenir un service.
   verification_status: VERIFIED

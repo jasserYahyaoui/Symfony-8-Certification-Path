@@ -5,7 +5,7 @@ title: "Client configuration"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-02"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/testing.rst"
@@ -75,7 +75,7 @@ dans `$request->headers` :
 | `X_SESSION_TOKEN` | `null` |
 
 `CONTENT_TYPE`, sans préfixe, arrive bien comme `Content-Type`. Sans réglage,
-l'agent user vaut `Symfony BrowserKit`.
+le user agent vaut `Symfony BrowserKit`.
 
 ## Par Request plutôt que par client
 

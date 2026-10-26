@@ -120,7 +120,7 @@ correspondre à la vérification côté controller.
 
 ## Pièges d'examen
 
-**Le token part avec le tag de closure du form.** Désactiver
+**Le token est rendu par `form_end()`.** Désactiver son option
 `render_rest` le fait disparaître.
 
 **Un form sans token valide est invalide** ; c'est le component qui

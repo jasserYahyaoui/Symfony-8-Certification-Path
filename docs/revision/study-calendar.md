@@ -33,7 +33,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - NOUVEAU · **PHP : PHP API up to PHP 8.4 version** (STANDARD) — 38 min · 825 mots · 5 questions, 11 questions de compréhension, 6 flashcards
 - NOUVEAU · **PHP : Object Oriented Programming** (STANDARD) — 27 min · 449 mots · 5 questions, 6 questions de compréhension, 3 flashcards
 - NOUVEAU · **PHP : Attributes** (STANDARD) — 25 min · 383 mots · 4 questions, 5 questions de compréhension, 4 flashcards
-- NOUVEAU · **PHP : Interfaces** (STANDARD) — 27 min · 563 mots · 5 questions, 5 questions de compréhension, 3 flashcards
+- NOUVEAU · **PHP : Interfaces** (STANDARD) — 27 min · 564 mots · 5 questions, 5 questions de compréhension, 3 flashcards
 
 *Budget du jour : 117 / 160 min*
 
@@ -84,7 +84,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 - NOUVEAU (suite) · **HTTP : HTTP request** (DEEP) — 22 min · 1189 mots · 5 questions, 9 questions de compréhension, 19 flashcards
 - NOUVEAU · **HTTP : HTTP response** (STANDARD) — 43 min · 856 mots · 6 questions, 8 questions de compréhension, 17 flashcards
-- NOUVEAU · **HTTP : HTTP methods** (STANDARD) — 39 min · 748 mots · 5 questions, 6 questions de compréhension, 18 flashcards
+- NOUVEAU · **HTTP : HTTP methods** (STANDARD) — 39 min · 755 mots · 5 questions, 6 questions de compréhension, 18 flashcards
 - NOUVEAU · **HTTP : Cookies** (STANDARD) — 42 min · 899 mots · 6 questions, 9 questions de compréhension, 18 flashcards
 - Révision **J+1** (14 min) — PHP : Enums · HTTP : HTTP Specification (RFC 9110) · HTTP : Status codes
 
@@ -94,7 +94,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 - NOUVEAU (suite) · **HTTP : Cookies** (STANDARD) — 4 min · 899 mots · 6 questions, 9 questions de compréhension, 18 flashcards
 - NOUVEAU · **HTTP : Caching** (STANDARD) — 40 min · 897 mots · 6 questions, 5 questions de compréhension, 17 flashcards
-- NOUVEAU · **HTTP : Content negotiation** (STANDARD) — 36 min · 844 mots · 5 questions, 5 questions de compréhension, 16 flashcards
+- NOUVEAU · **HTTP : Content negotiation** (STANDARD) — 36 min · 842 mots · 5 questions, 5 questions de compréhension, 16 flashcards
 - NOUVEAU · **HTTP : Language detection** (MINIMAL) — 30 min · 680 mots · 2 questions, 5 questions de compréhension, 16 flashcards
 - NOUVEAU · **HTTP : Symfony HttpClient component** (STANDARD) — 30 min · 895 mots · 9 questions, 13 questions de compréhension, 19 flashcards
 - Révision **J+1** (20 min) — HTTP : HTTP request · HTTP : HTTP response · HTTP : HTTP methods
@@ -166,7 +166,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 - NOUVEAU (suite) · **Symfony Architecture : Request handling** (DEEP) — 28 min · 1195 mots · 6 questions, 9 questions de compréhension, 22 flashcards
 - NOUVEAU · **Symfony Architecture : Exception handling** (STANDARD) — 42 min · 896 mots · 4 questions, 9 questions de compréhension, 16 flashcards
-- NOUVEAU · **Symfony Architecture : Event dispatcher and kernel events** (DEEP) — 46 min · 1063 mots · 6 questions, 9 questions de compréhension, 20 flashcards
+- NOUVEAU · **Symfony Architecture : Event dispatcher and kernel events** (DEEP) — 46 min · 1061 mots · 6 questions, 9 questions de compréhension, 20 flashcards
 - NOUVEAU · **Symfony Architecture : Official best practices** (STANDARD) — 23 min · 877 mots · 5 questions, 7 questions de compréhension, 17 flashcards
 - Révision **J+3** (11 min) — Symfony Architecture : License · Symfony Architecture : Components and Bridges · Symfony Architecture : Code organization
 - Révision **J+7** (10 min) — PHP : Enums · HTTP : HTTP Specification (RFC 9110) · HTTP : Status codes
@@ -188,8 +188,8 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 - NOUVEAU (suite) · **Symfony Architecture : Framework overloading** (STANDARD) — 10 min · 876 mots · 4 questions, 7 questions de compréhension, 17 flashcards
 - NOUVEAU · **Symfony Architecture : Release management and roadmap schedule** (STANDARD) — 43 min · 894 mots · 6 questions, 9 questions de compréhension, 17 flashcards
-- NOUVEAU · **Symfony Architecture : Framework interoperability and PSRs** (STANDARD) — 35 min · 716 mots · 4 questions, 6 questions de compréhension, 17 flashcards
-- NOUVEAU · **Symfony Architecture : Naming conventions** (MINIMAL) — 28 min · 592 mots · 3 questions, 5 questions de compréhension, 15 flashcards
+- NOUVEAU · **Symfony Architecture : Framework interoperability and PSRs** (STANDARD) — 35 min · 713 mots · 4 questions, 6 questions de compréhension, 17 flashcards
+- NOUVEAU · **Symfony Architecture : Naming conventions** (MINIMAL) — 28 min · 593 mots · 3 questions, 5 questions de compréhension, 15 flashcards
 - Révision **J+1** (18 min) — Symfony Architecture : Official best practices · Symfony Architecture : Backward compatibility promise · Symfony Architecture : Deprecations best practices
 - Révision **J+7** (15 min) — HTTP : Cookies · HTTP : Caching · HTTP : Content negotiation · HTTP : Language detection
 
@@ -257,8 +257,8 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Lundi 19 octobre 2026
 
 - NOUVEAU · **Controllers : The session** (STANDARD) — 34 min · 779 mots · 4 questions, 5 questions de compréhension, 16 flashcards
-- NOUVEAU · **Controllers : The flash messages** (MINIMAL) — 33 min · 645 mots · 3 questions, 6 questions de compréhension, 17 flashcards
-- NOUVEAU · **Controllers : HTTP redirects** (MINIMAL) — 27 min · 568 mots · 3 questions, 4 questions de compréhension, 14 flashcards
+- NOUVEAU · **Controllers : The flash messages** (MINIMAL) — 33 min · 646 mots · 3 questions, 6 questions de compréhension, 17 flashcards
+- NOUVEAU · **Controllers : HTTP redirects** (MINIMAL) — 27 min · 566 mots · 3 questions, 4 questions de compréhension, 14 flashcards
 - NOUVEAU · **Controllers : Internal redirects** (STANDARD) — 32 min · 661 mots · 4 questions, 5 questions de compréhension, 14 flashcards
 - Révision **J+3** (10 min) — Controllers : The request · Controllers : The response · Controllers : The cookies
 - Révision **J+7** (14 min) — Symfony Architecture : Request handling · Symfony Architecture : Exception handling · Symfony Architecture : Event dispatcher and kernel events
@@ -270,7 +270,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 - NOUVEAU · **Controllers : Generate 404 pages** (STANDARD) — 35 min · 606 mots · 5 questions, 7 questions de compréhension, 14 flashcards
 - NOUVEAU · **Controllers : File upload** (STANDARD) — 34 min · 590 mots · 5 questions, 6 questions de compréhension, 15 flashcards
-- NOUVEAU · **Controllers : Built-in internal controllers** (STANDARD) — 33 min · 684 mots · 4 questions, 6 questions de compréhension, 15 flashcards
+- NOUVEAU · **Controllers : Built-in internal controllers** (STANDARD) — 33 min · 683 mots · 4 questions, 6 questions de compréhension, 15 flashcards
 - Révision **J+1** (20 min) — Controllers : The session · Controllers : The flash messages · Controllers : HTTP redirects · Controllers : Internal redirects
 - Révision **J+7** (12 min) — Symfony Architecture : Official best practices · Symfony Architecture : Backward compatibility promise · Symfony Architecture : Deprecations best practices
 - Révision **J+14** (10 min) — HTTP : HTTP request · HTTP : HTTP response · HTTP : HTTP methods
@@ -279,7 +279,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Mercredi 21 octobre 2026
 
-- NOUVEAU · **Controllers : Argument value resolvers** (DEEP) — 47 min · 976 mots · 6 questions, 8 questions de compréhension, 19 flashcards
+- NOUVEAU · **Controllers : Argument value resolvers** (DEEP) — 47 min · 975 mots · 6 questions, 8 questions de compréhension, 19 flashcards
 - NOUVEAU · **Routing : Routing component and FrameworkBundle** (STANDARD) — 32 min · 670 mots · 3 questions, 7 questions de compréhension, 15 flashcards
 - NOUVEAU · **Routing : Configuration (YAML and PHP attributes)** (STANDARD) — 33 min · 744 mots · 4 questions, 5 questions de compréhension, 15 flashcards
 - Révision **J+1** (18 min) — Controllers : Generate 404 pages · Controllers : File upload · Controllers : Built-in internal controllers
@@ -291,7 +291,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Jeudi 22 octobre 2026
 
 - NOUVEAU · **Routing : Restrict URL parameters** (STANDARD) — 33 min · 603 mots · 4 questions, 7 questions de compréhension, 14 flashcards
-- NOUVEAU · **Routing : Set default values to URL parameters** (STANDARD) — 32 min · 595 mots · 5 questions, 6 questions de compréhension, 13 flashcards
+- NOUVEAU · **Routing : Set default values to URL parameters** (STANDARD) — 32 min · 594 mots · 5 questions, 6 questions de compréhension, 13 flashcards
 - NOUVEAU · **Routing : URLs generation** (STANDARD) — 35 min · 635 mots · 5 questions, 9 questions de compréhension, 12 flashcards
 - Révision **J+1** (20 min) — Controllers : Argument value resolvers · Routing : Routing component and FrameworkBundle · Routing : Configuration (YAML and PHP attributes)
 - Révision **J+3** (14 min) — Controllers : The session · Controllers : The flash messages · Controllers : HTTP redirects · Controllers : Internal redirects
@@ -302,10 +302,10 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Vendredi 23 octobre 2026
 
-- NOUVEAU · **Routing : Trigger redirects** (STANDARD) — 32 min · 826 mots · 4 questions, 6 questions de compréhension, 12 flashcards
+- NOUVEAU · **Routing : Trigger redirects** (STANDARD) — 32 min · 827 mots · 4 questions, 6 questions de compréhension, 12 flashcards
 - NOUVEAU · **Routing : Special internal routing attributes** (STANDARD) — 36 min · 753 mots · 6 questions, 8 questions de compréhension, 12 flashcards
-- NOUVEAU · **Routing : Domain name matching** (MINIMAL) — 21 min · 530 mots · 2 questions, 5 questions de compréhension, 8 flashcards
-- NOUVEAU · **Routing : Conditional request matching** (STANDARD) — 23 min · 611 mots · 5 questions, 5 questions de compréhension, 12 flashcards
+- NOUVEAU · **Routing : Domain name matching** (MINIMAL) — 21 min · 531 mots · 2 questions, 5 questions de compréhension, 8 flashcards
+- NOUVEAU · **Routing : Conditional request matching** (STANDARD) — 23 min · 612 mots · 5 questions, 5 questions de compréhension, 12 flashcards
 - Révision **J+1** (18 min) — Routing : Restrict URL parameters · Routing : Set default values to URL parameters · Routing : URLs generation
 - Révision **J+3** (12 min) — Controllers : Generate 404 pages · Controllers : File upload · Controllers : Built-in internal controllers
 - Révision **J+7** (10 min) — Controllers : The request · Controllers : The response · Controllers : The cookies
@@ -349,7 +349,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Lundi 26 octobre 2026
 
-- NOUVEAU (suite) · **Routing : Conditional request matching** (STANDARD) — 6 min · 611 mots · 5 questions, 5 questions de compréhension, 12 flashcards
+- NOUVEAU (suite) · **Routing : Conditional request matching** (STANDARD) — 6 min · 612 mots · 5 questions, 5 questions de compréhension, 12 flashcards
 - NOUVEAU · **Routing : HTTP methods matching** (MINIMAL) — 22 min · 497 mots · 2 questions, 5 questions de compréhension, 9 flashcards
 - NOUVEAU · **Routing : User's locale guessing** (STANDARD) — 29 min · 590 mots · 4 questions, 5 questions de compréhension, 12 flashcards
 - NOUVEAU · **Routing : Router debugging** (MINIMAL) — 22 min · 521 mots · 3 questions, 5 questions de compréhension, 8 flashcards
@@ -363,7 +363,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Mardi 27 octobre 2026
 
 - NOUVEAU · **Dependency Injection : Service container** (STANDARD) — 31 min · 627 mots · 5 questions, 6 questions de compréhension, 11 flashcards
-- NOUVEAU · **Dependency Injection : Built-in services** (MINIMAL) — 22 min · 559 mots · 2 questions, 3 questions de compréhension, 11 flashcards
+- NOUVEAU · **Dependency Injection : Built-in services** (MINIMAL) — 22 min · 557 mots · 2 questions, 3 questions de compréhension, 11 flashcards
 - NOUVEAU · **Dependency Injection : Configuration parameters** (STANDARD) — 32 min · 665 mots · 4 questions, 7 questions de compréhension, 11 flashcards
 - NOUVEAU · **Dependency Injection : Services registration (YAML and PHP attributes)** (STANDARD) — 28 min · 637 mots · 6 questions, 7 questions de compréhension, 12 flashcards
 - Révision **J+1** (26 min) — Routing : Conditional request matching · Routing : HTTP methods matching · Routing : User's locale guessing · Routing : Router debugging · Dependency Injection : Dependency Injection component
@@ -376,7 +376,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 - NOUVEAU (suite) · **Dependency Injection : Services registration (YAML and PHP attributes)** (STANDARD) — 5 min · 637 mots · 6 questions, 7 questions de compréhension, 12 flashcards
 - NOUVEAU · **Dependency Injection : Service decoration** (STANDARD) — 28 min · 653 mots · 3 questions, 5 questions de compréhension, 11 flashcards
-- NOUVEAU · **Dependency Injection : Tags** (STANDARD) — 29 min · 635 mots · 4 questions, 6 questions de compréhension, 11 flashcards
+- NOUVEAU · **Dependency Injection : Tags** (STANDARD) — 29 min · 636 mots · 4 questions, 6 questions de compréhension, 11 flashcards
 - NOUVEAU · **Dependency Injection : Semantic configuration** (STANDARD) — 30 min · 736 mots · 5 questions, 5 questions de compréhension, 12 flashcards
 - NOUVEAU · **Dependency Injection : Factories** (STANDARD) — 25 min · 541 mots · 3 questions, 4 questions de compréhension, 11 flashcards
 - Révision **J+1** (16 min) — Dependency Injection : Service container · Dependency Injection : Built-in services · Dependency Injection : Configuration parameters
@@ -401,7 +401,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 - NOUVEAU (suite) · **Dependency Injection : Service locators** (STANDARD) — 8 min · 571 mots · 4 questions, 5 questions de compréhension, 11 flashcards
 - NOUVEAU · **Data Validation : Validator component** (STANDARD) — 31 min · 653 mots · 4 questions, 7 questions de compréhension, 11 flashcards
-- NOUVEAU · **Data Validation : PHP object validation** (STANDARD) — 27 min · 671 mots · 3 questions, 4 questions de compréhension, 11 flashcards
+- NOUVEAU · **Data Validation : PHP object validation** (STANDARD) — 27 min · 672 mots · 3 questions, 4 questions de compréhension, 11 flashcards
 - NOUVEAU · **Data Validation : Built-in validation constraints** (STANDARD) — 44 min · 868 mots · 7 questions, 10 questions de compréhension, 14 flashcards
 - Révision **J+1** (16 min) — Dependency Injection : Compiler passes · Dependency Injection : Services autowiring
 - Révision **J+3** (11 min) — Dependency Injection : Service container · Dependency Injection : Built-in services · Dependency Injection : Configuration parameters
@@ -456,7 +456,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Lundi 2 novembre 2026
 
-- NOUVEAU · **Data Validation : Validation scopes** (STANDARD) — 25 min · 564 mots · 3 questions, 4 questions de compréhension, 11 flashcards
+- NOUVEAU · **Data Validation : Validation scopes** (STANDARD) — 25 min · 563 mots · 3 questions, 4 questions de compréhension, 11 flashcards
 - NOUVEAU · **Data Validation : Validation groups** (STANDARD) — 29 min · 566 mots · 4 questions, 5 questions de compréhension, 11 flashcards
 - NOUVEAU · **Data Validation : Group sequence** (DEEP) — 29 min · 844 mots · 4 questions, 4 questions de compréhension, 10 flashcards
 - NOUVEAU · **Data Validation : Custom callback validators** (STANDARD) — 28 min · 650 mots · 4 questions, 5 questions de compréhension, 11 flashcards
@@ -468,8 +468,8 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Mardi 3 novembre 2026
 
-- NOUVEAU · **Data Validation : Violations builder** (STANDARD) — 35 min · 848 mots · 5 questions, 7 questions de compréhension, 12 flashcards
-- NOUVEAU · **Forms : Form component** (STANDARD) — 30 min · 691 mots · 5 questions, 5 questions de compréhension, 12 flashcards
+- NOUVEAU · **Data Validation : Violations builder** (STANDARD) — 35 min · 849 mots · 5 questions, 7 questions de compréhension, 12 flashcards
+- NOUVEAU · **Forms : Form component** (STANDARD) — 30 min · 690 mots · 5 questions, 5 questions de compréhension, 12 flashcards
 - NOUVEAU · **Forms : Forms creation** (STANDARD) — 33 min · 683 mots · 6 questions, 7 questions de compréhension, 12 flashcards
 - Révision **J+1** (26 min) — Data Validation : Validation scopes · Data Validation : Validation groups · Data Validation : Group sequence · Data Validation : Custom callback validators
 - Révision **J+7** (11 min) — Dependency Injection : Service container · Dependency Injection : Built-in services · Dependency Injection : Configuration parameters
@@ -481,7 +481,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 - NOUVEAU · **Forms : Forms handling** (STANDARD) — 33 min · 589 mots · 5 questions, 7 questions de compréhension, 11 flashcards
 - NOUVEAU · **Forms : Form types (built-in and custom)** (STANDARD) — 38 min · 814 mots · 7 questions, 7 questions de compréhension, 14 flashcards
-- NOUVEAU · **Forms : Forms rendering with Twig** (STANDARD) — 26 min · 516 mots · 4 questions, 4 questions de compréhension, 11 flashcards
+- NOUVEAU · **Forms : Forms rendering with Twig** (STANDARD) — 26 min · 514 mots · 4 questions, 4 questions de compréhension, 11 flashcards
 - Révision **J+1** (18 min) — Data Validation : Violations builder · Forms : Form component · Forms : Forms creation
 - Révision **J+7** (20 min) — Dependency Injection : Services registration (YAML and PHP attributes) · Dependency Injection : Service decoration · Dependency Injection : Tags · Dependency Injection : Semantic configuration · Dependency Injection : Factories
 - Révision **J+14** (10 min) — Controllers : Argument value resolvers · Routing : Routing component and FrameworkBundle · Routing : Configuration (YAML and PHP attributes)
@@ -492,7 +492,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Jeudi 5 novembre 2026
 
 - NOUVEAU · **Forms : Forms theming** (STANDARD) — 31 min · 619 mots · 5 questions, 6 questions de compréhension, 12 flashcards
-- NOUVEAU · **Forms : CSRF protection** (STANDARD) — 32 min · 663 mots · 5 questions, 6 questions de compréhension, 11 flashcards
+- NOUVEAU · **Forms : CSRF protection** (STANDARD) — 32 min · 661 mots · 5 questions, 6 questions de compréhension, 11 flashcards
 - NOUVEAU · **Forms : Handling file upload** (MINIMAL) — 20 min · 434 mots · 2 questions, 4 questions de compréhension, 9 flashcards
 - Révision **J+1** (18 min) — Forms : Forms handling · Forms : Form types (built-in and custom) · Forms : Forms rendering with Twig
 - Révision **J+3** (17 min) — Data Validation : Validation scopes · Data Validation : Validation groups · Data Validation : Group sequence · Data Validation : Custom callback validators
@@ -505,8 +505,8 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Vendredi 6 novembre 2026
 
 - NOUVEAU · **Forms : Built-in form types** (MINIMAL) — 31 min · 653 mots · 5 questions, 8 questions de compréhension, 10 flashcards
-- NOUVEAU · **Forms : Data transformers** (STANDARD) — 30 min · 759 mots · 4 questions, 5 questions de compréhension, 12 flashcards
-- NOUVEAU · **Forms : Form events** (DEEP) — 36 min · 1032 mots · 6 questions, 8 questions de compréhension, 12 flashcards
+- NOUVEAU · **Forms : Data transformers** (STANDARD) — 30 min · 758 mots · 4 questions, 5 questions de compréhension, 12 flashcards
+- NOUVEAU · **Forms : Form events** (DEEP) — 36 min · 1033 mots · 6 questions, 8 questions de compréhension, 12 flashcards
 - Révision **J+1** (16 min) — Forms : Forms theming · Forms : CSRF protection · Forms : Handling file upload
 - Révision **J+3** (12 min) — Data Validation : Violations builder · Forms : Form component · Forms : Forms creation
 - Révision **J+7** (16 min) — Dependency Injection : Service locators · Data Validation : Validator component · Data Validation : PHP object validation · Data Validation : Built-in validation constraints
@@ -552,7 +552,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Lundi 9 novembre 2026
 
-- NOUVEAU (suite) · **Forms : Form events** (DEEP) — 5 min · 1032 mots · 6 questions, 8 questions de compréhension, 12 flashcards
+- NOUVEAU (suite) · **Forms : Form events** (DEEP) — 5 min · 1033 mots · 6 questions, 8 questions de compréhension, 12 flashcards
 - NOUVEAU · **Forms : Form type extensions** (MINIMAL) — 26 min · 577 mots · 4 questions, 5 questions de compréhension, 10 flashcards
 - NOUVEAU · **Forms : Form options (OptionsResolver component)** (STANDARD) — 35 min · 698 mots · 6 questions, 8 questions de compréhension, 10 flashcards
 - NOUVEAU · **Security : Security Core, CSRF and PasswordHasher components** (STANDARD) — 25 min · 517 mots · 3 questions, 5 questions de compréhension, 11 flashcards
@@ -579,7 +579,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 - NOUVEAU (suite) · **Security : Firewalls** (STANDARD) — 4 min · 606 mots · 4 questions, 4 questions de compréhension, 11 flashcards
 - NOUVEAU · **Security : Users** (STANDARD) — 32 min · 675 mots · 5 questions, 6 questions de compréhension, 13 flashcards
-- NOUVEAU · **Security : Password hashers** (STANDARD) — 27 min · 601 mots · 3 questions, 5 questions de compréhension, 11 flashcards
+- NOUVEAU · **Security : Password hashers** (STANDARD) — 27 min · 603 mots · 3 questions, 5 questions de compréhension, 11 flashcards
 - NOUVEAU · **Security : Roles** (MINIMAL) — 23 min · 419 mots · 4 questions, 3 questions de compréhension, 11 flashcards
 - Révision **J+1** (18 min) — Security : Authorization · Security : Configuration · Security : Providers
 - Révision **J+7** (12 min) — Forms : Forms handling · Forms : Form types (built-in and custom) · Forms : Forms rendering with Twig
@@ -591,7 +591,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Jeudi 12 novembre 2026
 
 - NOUVEAU · **Security : Access Control Rules** (STANDARD) — 26 min · 644 mots · 3 questions, 5 questions de compréhension, 11 flashcards
-- NOUVEAU · **Security : Authenticators, Passports and Badges** (DEEP) — 37 min · 887 mots · 5 questions, 7 questions de compréhension, 11 flashcards
+- NOUVEAU · **Security : Authenticators, Passports and Badges** (DEEP) — 37 min · 888 mots · 5 questions, 7 questions de compréhension, 11 flashcards
 - NOUVEAU · **Security : Voters and voting strategies** (DEEP) — 27 min · 810 mots · 6 questions, 6 questions de compréhension, 11 flashcards
 - Révision **J+1** (22 min) — Security : Firewalls · Security : Users · Security : Password hashers · Security : Roles
 - Révision **J+3** (20 min) — Forms : Form events · Forms : Form type extensions · Forms : Form options (OptionsResolver component) · Security : Security Core, CSRF and PasswordHasher components · Security : Authentication
@@ -659,8 +659,8 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Lundi 16 novembre 2026
 
 - NOUVEAU · **Messenger : Workers** (STANDARD) — 28 min · 610 mots · 4 questions, 5 questions de compréhension, 12 flashcards
-- NOUVEAU · **Messenger : Retries and failures** (DEEP) — 39 min · 815 mots · 6 questions, 9 questions de compréhension, 12 flashcards
-- NOUVEAU · **Messenger : Middleware** (STANDARD) — 30 min · 629 mots · 4 questions, 6 questions de compréhension, 11 flashcards
+- NOUVEAU · **Messenger : Retries and failures** (DEEP) — 39 min · 816 mots · 6 questions, 9 questions de compréhension, 12 flashcards
+- NOUVEAU · **Messenger : Middleware** (STANDARD) — 30 min · 631 mots · 4 questions, 6 questions de compréhension, 11 flashcards
 - Révision **J+3** (17 min) — Security : Voters and voting strategies · Messenger : Messenger component · Messenger : Transports · Messenger : Messages and handlers
 - Révision **J+7** (20 min) — Forms : Form events · Forms : Form type extensions · Forms : Form options (OptionsResolver component) · Security : Security Core, CSRF and PasswordHasher components · Security : Authentication
 - Révision **J+14** (13 min) — Data Validation : Validation scopes · Data Validation : Validation groups · Data Validation : Group sequence · Data Validation : Custom callback validators
@@ -672,7 +672,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 - NOUVEAU · **Messenger : Events** (STANDARD) — 29 min · 675 mots · 4 questions, 5 questions de compréhension, 11 flashcards
 - NOUVEAU · **Templating with Twig : TwigBundle** (STANDARD) — 29 min · 641 mots · 5 questions, 5 questions de compréhension, 12 flashcards
-- NOUVEAU · **Templating with Twig : Twig syntax up to 3.22 version** (DEEP) — 45 min · 1014 mots · 7 questions, 10 questions de compréhension, 14 flashcards
+- NOUVEAU · **Templating with Twig : Twig syntax up to 3.22 version** (DEEP) — 45 min · 1013 mots · 7 questions, 10 questions de compréhension, 14 flashcards
 - Révision **J+1** (20 min) — Messenger : Workers · Messenger : Retries and failures · Messenger : Middleware
 - Révision **J+7** (12 min) — Security : Authorization · Security : Configuration · Security : Providers
 - Révision **J+14** (9 min) — Data Validation : Violations builder · Forms : Form component · Forms : Forms creation
@@ -695,7 +695,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 - NOUVEAU · **Templating with Twig : Filters and functions** (STANDARD) — 28 min · 671 mots · 5 questions, 5 questions de compréhension, 12 flashcards
 - NOUVEAU · **Templating with Twig : Template includes** (STANDARD) — 29 min · 641 mots · 4 questions, 5 questions de compréhension, 13 flashcards
-- NOUVEAU · **Templating with Twig : Loops and conditions** (STANDARD) — 41 min · 863 mots · 6 questions, 10 questions de compréhension, 13 flashcards
+- NOUVEAU · **Templating with Twig : Loops and conditions** (STANDARD) — 41 min · 867 mots · 6 questions, 10 questions de compréhension, 13 flashcards
 - Révision **J+1** (18 min) — Templating with Twig : Auto escaping · Templating with Twig : Template inheritance · Templating with Twig : Global variables
 - Révision **J+3** (13 min) — Messenger : Workers · Messenger : Retries and failures · Messenger : Middleware
 - Révision **J+7** (9 min) — Security : Access Control Rules · Security : Authenticators, Passports and Badges
@@ -759,8 +759,8 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - NOUVEAU (suite) · **Templating with Twig : Translations and pluralization** (STANDARD) — 1 min · 836 mots · 8 questions, 7 questions de compréhension, 14 flashcards
 - NOUVEAU · **Templating with Twig : String interpolation** (MINIMAL) — 19 min · 435 mots · 3 questions, 3 questions de compréhension, 9 flashcards
 - NOUVEAU · **Templating with Twig : Assets management** (MINIMAL) — 20 min · 508 mots · 2 questions, 3 questions de compréhension, 10 flashcards
-- NOUVEAU · **Templating with Twig : Debugging variables** (MINIMAL) — 23 min · 484 mots · 3 questions, 4 questions de compréhension, 10 flashcards
-- NOUVEAU · **Console : Console component** (STANDARD) — 35 min · 738 mots · 4 questions, 8 questions de compréhension, 11 flashcards
+- NOUVEAU · **Templating with Twig : Debugging variables** (MINIMAL) — 23 min · 485 mots · 3 questions, 4 questions de compréhension, 10 flashcards
+- NOUVEAU · **Console : Console component** (STANDARD) — 35 min · 737 mots · 4 questions, 8 questions de compréhension, 11 flashcards
 - Révision **J+3** (7 min) — Templating with Twig : URLs generation · Templating with Twig : Controller rendering
 - Révision **J+7** (13 min) — Messenger : Workers · Messenger : Retries and failures · Messenger : Middleware
 - Révision **J+14** (15 min) — Forms : Form events · Forms : Form type extensions · Forms : Form options (OptionsResolver component) · Security : Security Core, CSRF and PasswordHasher components · Security : Authentication
@@ -781,9 +781,9 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Mercredi 25 novembre 2026
 
-- NOUVEAU · **Console : Options and arguments (using PHP attributes)** (STANDARD) — 34 min · 831 mots · 4 questions, 7 questions de compréhension, 11 flashcards
+- NOUVEAU · **Console : Options and arguments (using PHP attributes)** (STANDARD) — 34 min · 830 mots · 4 questions, 7 questions de compréhension, 11 flashcards
 - NOUVEAU · **Console : Input and Output objects** (STANDARD) — 37 min · 839 mots · 5 questions, 6 questions de compréhension, 14 flashcards
-- NOUVEAU · **Console : Built-in helpers** (STANDARD) — 31 min · 709 mots · 4 questions, 6 questions de compréhension, 12 flashcards
+- NOUVEAU · **Console : Built-in helpers** (STANDARD) — 31 min · 711 mots · 4 questions, 6 questions de compréhension, 12 flashcards
 - Révision **J+1** (16 min) — Console : Built-in commands · Console : Custom commands · Console : Configuration
 - Révision **J+7** (12 min) — Templating with Twig : Auto escaping · Templating with Twig : Template inheritance · Templating with Twig : Global variables
 - Révision **J+14** (11 min) — Security : Firewalls · Security : Users · Security : Password hashers · Security : Roles
@@ -858,7 +858,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Lundi 30 novembre 2026
 
 - NOUVEAU · **Automated Tests : Crawler object (CssSelector and DomCrawler components)** (STANDARD) — 38 min · 803 mots · 4 questions, 11 questions de compréhension, 11 flashcards
-- NOUVEAU · **Automated Tests : Profiler object (WebProfiler bundle)** (MINIMAL) — 23 min · 424 mots · 2 questions, 5 questions de compréhension, 11 flashcards
+- NOUVEAU · **Automated Tests : Profiler object (WebProfiler bundle)** (MINIMAL) — 23 min · 425 mots · 2 questions, 5 questions de compréhension, 11 flashcards
 - NOUVEAU · **Automated Tests : Framework objects access** (STANDARD) — 31 min · 612 mots · 3 questions, 8 questions de compréhension, 11 flashcards
 - Révision **J+3** (12 min) — Automated Tests : Unit tests with PHPUnit · Automated Tests : Functional tests with PHPUnit · Automated Tests : Client object
 - Révision **J+7** (17 min) — Templating with Twig : Translations and pluralization · Templating with Twig : String interpolation · Templating with Twig : Assets management · Templating with Twig : Debugging variables · Console : Console component
@@ -872,10 +872,10 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Mardi 1 décembre 2026
 
-- NOUVEAU · **Automated Tests : Client configuration** (STANDARD) — 30 min · 517 mots · 4 questions, 7 questions de compréhension, 11 flashcards
+- NOUVEAU · **Automated Tests : Client configuration** (STANDARD) — 30 min · 518 mots · 4 questions, 7 questions de compréhension, 11 flashcards
 - NOUVEAU · **Automated Tests : Request and response objects introspection** (STANDARD) — 31 min · 804 mots · 4 questions, 6 questions de compréhension, 11 flashcards
 - NOUVEAU · **Automated Tests : Handling legacy deprecated code** (MINIMAL) — 28 min · 683 mots · 4 questions, 4 questions de compréhension, 11 flashcards
-- NOUVEAU · **Miscellaneous : Configuration (including DotEnv and ExpressionLanguage components)** (STANDARD) — 22 min · 895 mots · 4 questions, 15 questions de compréhension, 11 flashcards
+- NOUVEAU · **Miscellaneous : Configuration (including DotEnv and ExpressionLanguage components)** (STANDARD) — 22 min · 894 mots · 4 questions, 15 questions de compréhension, 11 flashcards
 - Révision **J+1** (16 min) — Automated Tests : Crawler object (CssSelector and DomCrawler components) · Automated Tests : Profiler object (WebProfiler bundle) · Automated Tests : Framework objects access
 - Révision **J+7** (11 min) — Console : Built-in commands · Console : Custom commands · Console : Configuration
 - Révision **J+14** (10 min) — Messenger : Events · Templating with Twig : TwigBundle · Templating with Twig : Twig syntax up to 3.22 version
@@ -885,9 +885,9 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Mercredi 2 décembre 2026
 
-- NOUVEAU (suite) · **Miscellaneous : Configuration (including DotEnv and ExpressionLanguage components)** (STANDARD) — 22 min · 895 mots · 4 questions, 15 questions de compréhension, 11 flashcards
-- NOUVEAU · **Miscellaneous : Error handling** (STANDARD) — 37 min · 807 mots · 3 questions, 11 questions de compréhension, 11 flashcards
-- NOUVEAU · **Miscellaneous : Code debugging** (STANDARD) — 30 min · 757 mots · 3 questions, 8 questions de compréhension, 12 flashcards
+- NOUVEAU (suite) · **Miscellaneous : Configuration (including DotEnv and ExpressionLanguage components)** (STANDARD) — 22 min · 894 mots · 4 questions, 15 questions de compréhension, 11 flashcards
+- NOUVEAU · **Miscellaneous : Error handling** (STANDARD) — 37 min · 806 mots · 3 questions, 11 questions de compréhension, 11 flashcards
+- NOUVEAU · **Miscellaneous : Code debugging** (STANDARD) — 30 min · 758 mots · 3 questions, 8 questions de compréhension, 12 flashcards
 - NOUVEAU · **Miscellaneous : Deployment best practices** (STANDARD) — 21 min · 685 mots · 4 questions, 13 questions de compréhension, 11 flashcards
 - Révision **J+1** (16 min) — Automated Tests : Client configuration · Automated Tests : Request and response objects introspection · Automated Tests : Handling legacy deprecated code
 - Révision **J+7** (12 min) — Console : Options and arguments (using PHP attributes) · Console : Input and Output objects · Console : Built-in helpers
@@ -900,7 +900,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 - NOUVEAU (suite) · **Miscellaneous : Deployment best practices** (STANDARD) — 17 min · 685 mots · 4 questions, 13 questions de compréhension, 11 flashcards
 - NOUVEAU · **Miscellaneous : Web Profiler, Web Debug Toolbar and Data collectors** (STANDARD) — 49 min · 885 mots · 6 questions, 16 questions de compréhension, 13 flashcards
-- NOUVEAU · **Miscellaneous : Internationalization and localization (Note: Intl component utilities to access ICU data are not included)** (STANDARD) — 40 min · 881 mots · 4 questions, 18 questions de compréhension, 12 flashcards
+- NOUVEAU · **Miscellaneous : Internationalization and localization (Note: Intl component utilities to access ICU data are not included)** (STANDARD) — 40 min · 884 mots · 4 questions, 18 questions de compréhension, 12 flashcards
 - Révision **J+1** (18 min) — Miscellaneous : Configuration (including DotEnv and ExpressionLanguage components) · Miscellaneous : Error handling · Miscellaneous : Code debugging
 - Révision **J+3** (11 min) — Automated Tests : Crawler object (CssSelector and DomCrawler components) · Automated Tests : Profiler object (WebProfiler bundle) · Automated Tests : Framework objects access
 - Révision **J+7** (7 min) — Console : Console events · Console : Verbosity levels
@@ -911,7 +911,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Vendredi 4 décembre 2026
 
-- NOUVEAU (suite) · **Miscellaneous : Internationalization and localization (Note: Intl component utilities to access ICU data are not included)** (STANDARD) — 8 min · 881 mots · 4 questions, 18 questions de compréhension, 12 flashcards
+- NOUVEAU (suite) · **Miscellaneous : Internationalization and localization (Note: Intl component utilities to access ICU data are not included)** (STANDARD) — 8 min · 884 mots · 4 questions, 18 questions de compréhension, 12 flashcards
 - NOUVEAU · **Miscellaneous : HTTP Caching (reverse proxies, expiration, validation) Note: ESI (Edge Side Includes) is not included** (STANDARD) — 46 min · 898 mots · 3 questions, 18 questions de compréhension, 12 flashcards
 - NOUVEAU · **Miscellaneous : Cache** (DEEP) — 51 min · 1111 mots · 6 questions, 16 questions de compréhension, 13 flashcards
 - Révision **J+1** (12 min) — Miscellaneous : Deployment best practices · Miscellaneous : Web Profiler, Web Debug Toolbar and Data collectors
@@ -968,9 +968,9 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Lundi 7 décembre 2026
 
-- NOUVEAU · **Miscellaneous : Clock** (STANDARD) — 43 min · 891 mots · 5 questions, 13 questions de compréhension, 11 flashcards
-- NOUVEAU · **Miscellaneous : EventDispatcher** (STANDARD) — 33 min · 710 mots · 4 questions, 9 questions de compréhension, 11 flashcards
-- NOUVEAU · **Miscellaneous : Event** (STANDARD) — 29 min · 519 mots · 4 questions, 6 questions de compréhension, 11 flashcards
+- NOUVEAU · **Miscellaneous : Clock** (STANDARD) — 43 min · 889 mots · 5 questions, 13 questions de compréhension, 11 flashcards
+- NOUVEAU · **Miscellaneous : EventDispatcher** (STANDARD) — 33 min · 712 mots · 4 questions, 9 questions de compréhension, 11 flashcards
+- NOUVEAU · **Miscellaneous : Event** (STANDARD) — 29 min · 518 mots · 4 questions, 6 questions de compréhension, 11 flashcards
 - Révision **J+3** (13 min) — Miscellaneous : Internationalization and localization (Note: Intl component utilities to access ICU data are not included) · Miscellaneous : HTTP Caching (reverse proxies, expiration, validation) Note: ESI (Edge Side Includes) is not included · Miscellaneous : Cache
 - Révision **J+7** (11 min) — Automated Tests : Crawler object (CssSelector and DomCrawler components) · Automated Tests : Profiler object (WebProfiler bundle) · Automated Tests : Framework objects access
 - Révision **J+14** (12 min) — Templating with Twig : Translations and pluralization · Templating with Twig : String interpolation · Templating with Twig : Assets management · Templating with Twig : Debugging variables · Console : Console component
@@ -980,8 +980,8 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Mardi 8 décembre 2026
 
-- NOUVEAU · **Miscellaneous : Filesystem** (STANDARD) — 41 min · 798 mots · 5 questions, 11 questions de compréhension, 13 flashcards
-- NOUVEAU · **Miscellaneous : Finder** (STANDARD) — 38 min · 714 mots · 6 questions, 9 questions de compréhension, 12 flashcards
+- NOUVEAU · **Miscellaneous : Filesystem** (STANDARD) — 41 min · 796 mots · 5 questions, 11 questions de compréhension, 13 flashcards
+- NOUVEAU · **Miscellaneous : Finder** (STANDARD) — 38 min · 712 mots · 6 questions, 9 questions de compréhension, 12 flashcards
 - NOUVEAU · **Miscellaneous : Mailer** (STANDARD) — 36 min · 675 mots · 5 questions, 13 questions de compréhension, 11 flashcards
 - Révision **J+1** (18 min) — Miscellaneous : Clock · Miscellaneous : EventDispatcher · Miscellaneous : Event
 - Révision **J+7** (11 min) — Automated Tests : Client configuration · Automated Tests : Request and response objects introspection · Automated Tests : Handling legacy deprecated code
@@ -994,8 +994,8 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 - NOUVEAU (suite) · **Miscellaneous : Mailer** (STANDARD) — 3 min · 675 mots · 5 questions, 13 questions de compréhension, 11 flashcards
 - NOUVEAU · **Miscellaneous : Mime** (STANDARD) — 35 min · 611 mots · 4 questions, 11 questions de compréhension, 11 flashcards
-- NOUVEAU · **Miscellaneous : Process** (STANDARD) — 47 min · 857 mots · 6 questions, 16 questions de compréhension, 11 flashcards
-- NOUVEAU · **Miscellaneous : PropertyAccess** (STANDARD) — 27 min · 792 mots · 4 questions, 15 questions de compréhension, 11 flashcards
+- NOUVEAU · **Miscellaneous : Process** (STANDARD) — 47 min · 859 mots · 6 questions, 16 questions de compréhension, 11 flashcards
+- NOUVEAU · **Miscellaneous : PropertyAccess** (STANDARD) — 27 min · 789 mots · 4 questions, 15 questions de compréhension, 11 flashcards
 - Révision **J+1** (12 min) — Miscellaneous : Filesystem · Miscellaneous : Finder
 - Révision **J+7** (12 min) — Miscellaneous : Configuration (including DotEnv and ExpressionLanguage components) · Miscellaneous : Error handling · Miscellaneous : Code debugging
 - Révision **J+14** (9 min) — Console : Options and arguments (using PHP attributes) · Console : Input and Output objects · Console : Built-in helpers
@@ -1005,7 +1005,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Jeudi 10 décembre 2026
 
-- NOUVEAU (suite) · **Miscellaneous : PropertyAccess** (STANDARD) — 16 min · 792 mots · 4 questions, 15 questions de compréhension, 11 flashcards
+- NOUVEAU (suite) · **Miscellaneous : PropertyAccess** (STANDARD) — 16 min · 789 mots · 4 questions, 15 questions de compréhension, 11 flashcards
 - NOUVEAU · **Miscellaneous : Runtime** (STANDARD) — 41 min · 769 mots · 4 questions, 14 questions de compréhension, 11 flashcards
 - NOUVEAU · **Miscellaneous : Serializer** (DEEP) — 48 min · 1142 mots · 9 questions, 18 questions de compréhension, 15 flashcards
 - Révision **J+1** (18 min) — Miscellaneous : Mailer · Miscellaneous : Mime · Miscellaneous : Process

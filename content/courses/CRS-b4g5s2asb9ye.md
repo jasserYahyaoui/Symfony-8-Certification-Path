@@ -5,7 +5,7 @@ title: "Tags"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-29"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/tags.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/service_container/tags.rst"
@@ -46,7 +46,7 @@ connaisse nommément.
 
 ## Ce qu'un tag fait
 
-Un tag est une **tag sur une definition**. Il ne fait rien par lui-même :
+Un tag est un **marqueur posé sur une definition**. Il ne fait rien par lui-même :
 quelque chose doit le lire — un compiler pass, ou l'injection d'un
 iterator de services tagués.
 
@@ -56,7 +56,7 @@ services:
         tags: ['app.handler']
 ```
 
-C'est le mécanisme d'extension du framework tout int :
+C'est le mécanisme d'extension du framework tout entier :
 `kernel.event_listener`, `controller.argument_value_resolver`,
 `form.type_extension`, `twig.extension` sont des tags.
 
@@ -163,7 +163,7 @@ déclarent un `index`.
 
 ## Points clés
 
-- Un tag tag une definition ; un lecteur — passe ou iterator — lui donne un sens.
+- Un tag marque une definition ; un lecteur — passe ou iterator — lui donne un sens.
 - `!tagged_iterator` et `#[AutowireIterator]` injectent la collection, lazy.
 - `#[AutoconfigureTag]` sur une interface tague ses implémentations.
 - `priority` ordonne (haute d'abord) ; `index` ne donne une key que sous

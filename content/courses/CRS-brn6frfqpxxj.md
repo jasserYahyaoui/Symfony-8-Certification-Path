@@ -5,7 +5,7 @@ title: "Console component"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-02"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Command/Command.php"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Command/Command.php"
@@ -35,8 +35,7 @@ outcome_sections:
 
 ## Objectif
 
-Situer le component, et connaître le contrat d'une command — dont la valeur de
-retour, qui n'est pas facultative, et le moment où elle peut poser des questions.
+Situer le component, et connaître le contrat d'une command — dont la return value, qui n'est pas facultative, et le moment où elle peut poser des questions.
 
 ## Ce qu'il fait
 

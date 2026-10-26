@@ -86,7 +86,7 @@ flashcards:
       la collision est alors inévitable. Surcharger une method existante, en
       revanche, est couvert.
     memorization_justification: >-
-      Deux lignes « No » au milieu d'un array de « Yes » ; l'ajout paraît plus
+      Deux lignes « No » au milieu d'une grille de « Yes » ; l'ajout paraît plus
       inoffensif que la surcharge, alors que c'est l'inverse.
     verification_status: VERIFIED
     official_sources:
@@ -1814,8 +1814,8 @@ flashcards:
     front: "Pourquoi `getShareDir()` peut-il rendre `null` alors que les trois autres non ?"
     back: "Le directory partagé est facultatif ; sans lui, le parameter `%kernel.share_dir%` n'est simplement pas enregistré."
     explanation: >-
-      Il sert aux installations où plusieurs frontaux partagent un système de
-      files. Sa signature est `?string`, et le kernel n'ajoute le parameter de
+      Il sert aux installations où plusieurs frontaux partagent un
+      filesystem. Sa signature est `?string`, et le kernel n'ajoute le parameter de
       container que si la valeur n'est pas nulle.
     memorization_justification: >-
       Seul accessor au type nullable, avec une conséquence observable sur le
@@ -2112,7 +2112,7 @@ flashcards:
       reprend au filter de Response. À `false`, seule `finishRequest()` a lieu
       avant que l'exception ne soit relancée telle quelle.
     memorization_justification: >-
-      Argument souvent lu comme « attraper ou non », alors qu'il command la
+      Argument souvent lu comme « attraper ou non », alors qu'il décide de la
       tenue d'un event précis, avec des conséquences observables.
     verification_status: VERIFIED
     official_sources:
@@ -2134,7 +2134,7 @@ flashcards:
       dispatche `kernel.response` puis `kernel.finish_request`. Seules la
       résolution et l'exécution du controller sont sautées.
     memorization_justification: >-
-      Le mot « court-circuit » suggère un output immédiate ; comprendre par où
+      Le mot « court-circuit » suggère un arrêt immédiat ; comprendre par où
       passe la Response évite l'erreur.
     verification_status: VERIFIED
     official_sources:
@@ -2150,7 +2150,7 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "Pourquoi une `StreamedResponse` reçoit-elle une function de rendu réenveloppée ?"
-    back: "Parce que le flux s'exécute après l'output de `handle()`, donc après le dépilement de la Request."
+    back: "Parce que le flux s'exécute après le retour de `handle()`, donc après le dépilement de la Request."
     explanation: >-
       Sans réenveloppement, `getCurrentRequest()` rendrait `null` à l'intérieur
       du `callback`. Le kernel réempile la Request le temps du flux, puis la
@@ -2306,8 +2306,8 @@ flashcards:
     front: "Vrai ou faux : `kernel.terminate` est dispatché avant l'envoi de la Response."
     back: "Faux. Après l'envoi — c'est tout son intérêt."
     explanation: >-
-      C'est le seul endroit du cycle où un traitement lent ne coûte rien à
-      le user, puisque le client a déjà reçu la Response. Le placer avant
+      C'est le seul endroit du cycle où un traitement lent ne coûte rien au
+      user, puisque le client a déjà reçu la Response. Le placer avant
       l'envoi lui retirerait sa raison d'être.
     memorization_justification: >-
       Le nom suggère une fin de traitement plutôt qu'un après-envoi ; l'ordre
@@ -2573,7 +2573,7 @@ flashcards:
     front: "Le controller lève une `\\RuntimeException` sans statut HTTP ; un listener de `kernel.exception` pose une `Response` à **204**. Quel statut sort ?"
     back: "**500**, sauf appel préalable à `allowCustomResponseCode()`. Pour une exception HTTP, ce serait son propre statut : **404** pour une `NotFoundHttpException`."
     explanation: >-
-      204 n'est ni une erreur client, ni une erreur serveur, ni une
+      204 n'est ni une erreur client, ni une erreur serveur, ni un
       redirect : la règle 1 ne s'applique pas. L'exception d'origine ne
       portant pas de statut — ni HttpExceptionInterface, ni #[WithHttpStatus],
       ni entrée framework.exceptions —, le kernel retombe sur 500. Une
@@ -3228,7 +3228,7 @@ flashcards:
       JavaScript.
     memorization_justification: >-
       Section à une seule entrée : la question « que dit la section ressources
-      web ? » a une Response unique qu'il faut connaître.
+      web ? » n'a qu'une bonne réponse, qu'il faut connaître.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/best_practices.rst"
@@ -3309,7 +3309,7 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "Que signifie le « si c'est commode » de la recommandation sur `EntityValueResolver` ?"
-    back: "Qu'elle est **facultative** : dès que la logique se complique, faire la Request dans le controller."
+    back: "Qu'elle est **facultative** : dès que la logique se complique, écrire la query dans le controller."
     explanation: >-
       C'est la seule recommandation du document assortie d'une condition dans
       son titre même. Le resolver rend aussi une 404 si l'entité est
@@ -3445,10 +3445,10 @@ flashcards:
     explanation: >-
       L'intuition pousse à en créer un par zone — administration, API, site
       public. Le document recommande l'inverse : un firewall unique, et des
-      **voteurs** pour les restrictions fines.
+      **voters** pour les restrictions fines.
     memorization_justification: >-
       Le nombre attendu est contre-intuitif, et la recommandation de repli —
-      les voteurs — fait partie de la même Response.
+      les voters — compte dans la bonne réponse.
     verification_status: VERIFIED
     official_sources:
       - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/best_practices.rst"
@@ -3733,7 +3733,7 @@ flashcards:
     explanation: >-
       Symfony peut introduire une property du même nom en version mineure. La
       règle vaut pour les properties comme pour les methods ; ce sont les deux
-      lignes de l'array qui concernent le code ordinaire.
+      lignes de la grille qui concernent le code ordinaire.
     memorization_justification: >-
       Geste banal qu'on ne soupçonne pas d'être hors promesse ; il se pose
       sous forme de cas concret.
@@ -5245,7 +5245,7 @@ flashcards:
     front: "Que devient `all()` quand la relation n'est pas la principale ?"
     back: "**`getXXXs()`** — pas `allXXX()`."
     explanation: >-
-      C'est l'une des deux lignes irrégulières de l'array : `replace()` devient
+      C'est l'une des deux lignes irrégulières de la table : `replace()` devient
       de même `setXXXs()`, et non `replaceXXXs()`.
     memorization_justification: >-
       Transformation qui ne suit pas le schéma « verbe + XXX » ; la Response
@@ -5396,7 +5396,7 @@ flashcards:
       `all()` est réservé à la relation principale, ici les cookies. Pour toute
       autre relation, c'est `getXXXs()` qui s'applique.
     memorization_justification: >-
-      Met la ligne irrégulière de l'array en situation, forme sous laquelle
+      Met la ligne irrégulière de la table en situation, forme sous laquelle
       l'erreur se produit réellement.
     verification_status: VERIFIED
     official_sources:
@@ -5459,7 +5459,7 @@ flashcards:
     back: "Il n'y en a **pas**. La ligne `keys()` n'a pas de variante `XXX`."
     explanation: >-
       Symétriquement, `replaceXXX()` n'a **aucune** contrepartie en relation
-      principale. L'array n'est donc pas une bijection.
+      principale. La correspondance n'est donc pas une bijection.
     memorization_justification: >-
       Absence là où le schéma en fait attendre une ; inventer `keysXXX()` est
       l'erreur naturelle.

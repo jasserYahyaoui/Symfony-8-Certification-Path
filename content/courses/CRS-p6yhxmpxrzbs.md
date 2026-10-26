@@ -202,8 +202,8 @@ $pool->invalidateTags(['bar']);
 ```
 
 `ItemInterface::tag()` attache un tag ; `invalidateTags()`, de
-`TagAwareCacheInterface`, supprime **tous** les items qui la portent. C'est la
-Response au besoin « effacer plusieurs keys d'un coup » quand on ne connaît pas
+`TagAwareCacheInterface`, supprime **tous** les items qui le portent. C'est la
+solution au besoin « effacer plusieurs keys d'un coup » quand on ne connaît pas
 la liste des keys.
 
 ## Pièges d'examen

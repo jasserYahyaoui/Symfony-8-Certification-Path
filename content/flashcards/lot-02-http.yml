@@ -154,11 +154,11 @@ flashcards:
     front: 'RFC 9110 : `DELETE` reste-t-elle idempotente si le second appel renvoie 404 ?'
     back: Oui. L'idempotence porte sur l'effet sur le serveur de Requests répétées, pas sur l'égalité
       des Responses.
-    explanation: 'C''est le piège classique : on compare les Responses alors que la definition porte
+    explanation: 'C''est le piège classique : on compare les Responses alors que l''idempotence porte
       sur l''état du serveur. Après le premier `DELETE` la ressource est absente ; le second ne change
       rien de plus.'
-    memorization_justification: 'Definition contre-intuitive : la Response instinctive compare les codes
-      de statut, et se trompe.'
+    memorization_justification: 'Notion contre-intuitive : le réflexe compare les status codes, et se
+      trompe.'
     verification_status: VERIFIED
     official_sources:
     - url: https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html
@@ -545,7 +545,7 @@ flashcards:
     language: fr
     level: TRAP
     front: "Vrai ou faux : « en HTTP, toute ressource est identifiée par un URI »."
-    back: "Faux tel quel. §3.1 écrit « **most** resources are identified by a URI » — et la cible d'une Request est une ressource par definition."
+    back: "Faux tel quel. §3.1 écrit « **most** resources are identified by a URI » — et la cible d'une Request est une ressource par nature."
     explanation: >-
       Le mot compte : 9110 ne limite pas la nature d'une ressource, il définit
       seulement l'interface qui permet d'interagir avec elle. D'où la formule
@@ -1137,8 +1137,8 @@ flashcards:
       Symfony complète la chaîne d'adresses avec `REMOTE_ADDR`, retire les adresses des
       proxys déclarés de confiance, puis renverse ce qui reste et prend le
       premier élément. Le client d'origine n'est donc obtenu que si **toute** la
-      chaîne de proxies est déclarée. C'est le comportement sûr : la partie gauche de
-      le header est falsifiable par le client.
+      chaîne de proxies est déclarée. C'est le comportement sûr : la partie gauche du
+      header est falsifiable par le client.
     memorization_justification: >-
       La règle « le client est la première adresse » est vraie dans le cas
       nominal et fausse dès qu'un saut n'est pas déclaré — donc juste assez
@@ -2367,7 +2367,7 @@ flashcards:
     explanation: >-
       La ligne est `return 0 < $expire ? (int) $expire : 0;`. Un timestamp
       négatif, censé exprimer « déjà expiré », produit donc exactement le
-      contraire : un cookie qui vit jusqu'à la closure du navigateur. Pour
+      contraire : un cookie qui vit jusqu'à la fermeture du navigateur. Pour
       effacer, il faut un timestamp **passé mais positif** — ce que fait
       `clearCookie()` avec la valeur `1`.
     memorization_justification: >-
@@ -2415,7 +2415,7 @@ flashcards:
       Ni `Cookie` ni `ResponseHeaderBag` ne contiennent ces strings : la
       vérification n'existe pas dans le framework. Le symptôme est donc « la
       session ne tient pas » sans aucune trace dans les journaux, et le code
-      paraît correct. La règle est entièrement du côté de l'agent user.
+      paraît correct. La règle est entièrement du côté du user agent.
     memorization_justification: >-
       Échec silencieux à distance : la cause est dans le nom du cookie, l'effet
       dans le navigateur, et rien ne relie les deux.
@@ -3051,7 +3051,7 @@ flashcards:
     explanation: >-
       Le texte énonce deux buts, et celui-là est le premier : informer les caches
       qu'ils ne doivent pas servir cette Response à une Request dont les fields
-      listés diffèrent. Le second est d'indiquer à l'agent user les
+      listés diffèrent. Le second est d'indiquer au user agent les
       dimensions sur lesquelles une nouvelle Request peut jouer.
     memorization_justification: >-
       Header compris comme documentaire alors qu'il pilote une mécanique
@@ -3162,7 +3162,7 @@ flashcards:
     language: fr
     level: TRAP
     front: "Vrai ou faux : « l'ordre des valeurs dans `Accept` exprime la préférence »."
-    back: "Faux au regard de la RFC : seul `q` class, et son absence vaut `1.0`. L'ordre n'a de role que dans l'implémentation de Symfony, à qualité égale."
+    back: "Faux au regard de la RFC : seul `q` ordonne, et son absence vaut `1.0`. L'ordre n'a de role que dans l'implémentation de Symfony, à qualité égale."
     explanation: >-
       Les deux niveaux se confondent facilement. Côté protocole, une valeur sans
       `q` est au maximum de préférence, quelle que soit sa position. Côté
@@ -3692,7 +3692,7 @@ flashcards:
       Les `@throws` le disent mot pour mot : « On a 3xx when `$throw` is true
       **and the max_redirects option has been reached** ». Tant que le budget de
       redirects n'est pas épuisé, le client suit et l'appelant ne voit que la
-      Response finale. Poser `max_redirects` à `0` transforme donc toute
+      Response finale. Poser `max_redirects` à `0` transforme donc tout
       redirect en `RedirectionExceptionInterface`.
     memorization_justification: >-
       Condition double — statut **et** budget épuisé — dont l'oubli fait croire

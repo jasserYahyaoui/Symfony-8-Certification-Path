@@ -5,7 +5,7 @@ title: "Naming conventions"
 content_level: MINIMAL
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/controller.rst"
@@ -42,7 +42,7 @@ official_sources:
 outcome_sections:
   OUT-kym7hw6vad3k: "Rien n'est imposé, presque"
   OUT-fzeda7ytt9hf: "Le format `_controller`"
-  OUT-j9vdv1qav4by: "Le route name, et qui la factory"
+  OUT-j9vdv1qav4by: "Le route name, et qui le génère"
 ---
 
 ## Objectif
@@ -77,7 +77,7 @@ de method. C'est cette string que le router dépose dans l'attribute
 Pour une class **invocable**, la class seule suffit : `configureRoute()` écrit
 le nom de class sans `::` quand la method est `__invoke`.
 
-## Le route name, et qui la factory
+## Le route name, et qui le génère
 
 `name` omis, Symfony génère le nom — en **deux couches**, le même partage
 component / bundle que le chapitre précédent.

@@ -5,7 +5,7 @@ title: "Password hashers"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-30"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/passwords.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/security/passwords.rst"
@@ -67,7 +67,7 @@ security:
 
 La documentation le dit : `auto` choisit « the best available hasher
 (currently Bcrypt) ». Lu dans `PasswordHasherFactory` : `auto` construit une
-**string** — `native`, puis `sodium` s'il est disponible, puis `pbkdf2` — dont
+**chaîne de hashers** — `native`, puis `sodium` s'il est disponible, puis `pbkdf2` — dont
 le premier maillon hache, et dont les suivants ne servent qu'à **vérifier**.
 `native` utilise bcrypt, coût 13 par défaut.
 

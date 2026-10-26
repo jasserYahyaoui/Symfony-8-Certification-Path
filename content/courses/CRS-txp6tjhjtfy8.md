@@ -5,7 +5,7 @@ title: "Form component"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-24"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/forms.rst"
@@ -89,8 +89,7 @@ indépendant du format que l'application choisit pour ses données.
 → view transformers → view data → HTML.
 
 **À la submission** : valeurs brutes de la Request → view transformers à
-l'envers → norm data → model transformers à l'envers → donnée du
-modèle, réécrite dans l'object.
+l'envers → norm data → model transformers à l'envers → model data, réécrite dans l'object.
 
 Les mêmes transformers servent dans les deux sens ; c'est leur method
 inverse qui est appelée à la submission.

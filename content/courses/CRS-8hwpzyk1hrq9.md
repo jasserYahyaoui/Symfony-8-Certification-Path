@@ -5,7 +5,7 @@ title: "Authorization"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-30"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/Authorization/Voter/VoterInterface.php"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Core/Authorization/Voter/VoterInterface.php"
@@ -96,8 +96,8 @@ exigeant `ROLE_ADMIN` :
 | anonyme, firewall en `form_login` | **302** vers la page de connexion |
 | `alice` connue, sans `ROLE_ADMIN` | **403** — « Access Denied. The user doesn't have ROLE_ADMIN. » |
 
-Le status code dépend donc de l'authentication — et, pour un anonyme, du
-**entry point** du firewall —, pas de l'authorization.
+Le status code dépend donc de l'authentication — et, pour un anonyme, de
+l'**entry point** du firewall —, pas de l'authorization.
 
 ## Pièges d'examen
 
@@ -106,8 +106,7 @@ Le status code dépend donc de l'authentication — et, pour un anonyme, du
 **Tous les voters ne votent pas toujours** : en `affirmative`, le premier
 « accordé » arrête la consultation.
 
-**Le statut n'est pas toujours 403** : un anonyme reçoit la Response du point
-d'entrée — redirect pour un form, 401 pour HTTP Basic.
+**Le statut n'est pas toujours 403** : un anonyme reçoit la Response de l'entry point — redirect pour un form, 401 pour HTTP Basic.
 
 **Sans sujet, un voter d'object ne peut rien décider** et s'abstient.
 

@@ -5,7 +5,7 @@ title: "Framework overloading"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/bundles/override.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/bundles/override.rst"
@@ -15,7 +15,7 @@ official_sources:
     commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
     verified_at: "2026-09-01"
 outcome_sections:
-  OUT-w0kft9548h99: "L'array"
+  OUT-w0kft9548h99: "Vue d'ensemble"
   OUT-2r6g1ds91vvw: "Les templates"
   OUT-s8kw5gsv7y2e: "Les templates"
   OUT-97dtctsck41f: "La validation ne se surcharge pas"
@@ -26,7 +26,7 @@ outcome_sections:
 Savoir quel mécanisme employer pour surcharger chaque partie d'un bundle tiers —
 et pourquoi ils diffèrent.
 
-## L'array
+## Vue d'ensemble
 
 | Ce que l'on surcharge | Mécanisme |
 |---|---|
@@ -41,8 +41,7 @@ et pourquoi ils diffèrent.
 | un controller **qui est un service** | **décoration**, comme n'importe quel service |
 | le mapping d'une entité | **uniquement** si le bundle expose une *mapped superclass* ; porte alors sur les **attributes** et les **associations** |
 
-Dix lignes pour les **huit** sections du document officiel : décoration et passe
-de compilation relèvent toutes deux de *Services & Configuration*, et le
+Dix lignes pour les **huit** sections du document officiel : décoration et compiler pass relèvent tous deux de *Services & Configuration*, et le
 controller se dédouble selon qu'il est ou non un service. Il n'y a pas de
 mécanisme unique : chaque sous-système a le sien, et c'est exactement ce que
 l'examen vérifie.
@@ -74,7 +73,7 @@ surcharge, c'est-à-dire vers lui-même. La solution est le préfixe spécial `!
 
 ## Les services
 
-On **décore** : le nouveau service reçoit l'ancien en argument et l'Envelope.
+On **décore** : le nouveau service reçoit l'ancien en argument et l'entoure.
 
 Le **compiler pass** est le niveau au-dessous — il intervient pendant
 la compilation du container et permet ce que la configuration ne permet pas :

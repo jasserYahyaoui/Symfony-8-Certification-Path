@@ -5,7 +5,7 @@ title: "Cookies"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-16"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Cookie.php"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Cookie.php"
@@ -138,7 +138,7 @@ l'envoi automatique par le navigateur. C'est `SameSite` qui traite ce risque.
 avec une date d'expiration passée, et **doit reprendre les mêmes `path` et
 `domain`** ; sinon le navigateur conserve l'original.
 
-**Un cookie de session n'a pas d'expiration** : il disparaît à la closure du
+**Un cookie de session n'a pas d'expiration** : il disparaît à la fermeture du
 navigateur, et `withExpires(0)` le produit.
 
 **`Cookie::fromString()` n'a pas les mêmes défauts que `create()`.** Sa table

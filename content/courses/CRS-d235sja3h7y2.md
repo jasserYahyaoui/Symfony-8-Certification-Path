@@ -5,7 +5,7 @@ title: "Violations builder"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-15"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Violation/ConstraintViolationBuilderInterface.php"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Violation/ConstraintViolationBuilderInterface.php"
@@ -90,7 +90,7 @@ Les dix methods de `ConstraintViolationBuilderInterface` (8.0) :
 | `setPlural()` | le nombre servant à choisir la forme plurielle |
 | `setTranslationDomain()` / `disableTranslation()` | le traitement du message |
 | `setCause()` | la cause technique, pour le debug |
-| `addViolation()` | enregistre la violation, en fin de string |
+| `addViolation()` | enregistre la violation, en fin de chaîne d'appels |
 
 Deux méritent un mot. **`atPath()`** est ce qui rend une constraint de class
 utilisable : sans elle, la violation est attachée à l'object — path vide — et

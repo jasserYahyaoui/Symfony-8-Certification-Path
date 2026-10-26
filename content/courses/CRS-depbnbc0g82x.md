@@ -5,7 +5,7 @@ title: "HTTP Specification (RFC 9110)"
 content_level: MINIMAL
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
     readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
@@ -37,8 +37,8 @@ Trois choses s'y cachent.
 
 **7230 n'est obsolétée qu'en partie.** Ce qui relevait de la sémantique passe
 dans 9110 ; ce qui relevait de la syntaxe de trame HTTP/1.1 passe dans **9112**.
-La Table 1 du §1.4 marque d'ailleurs cette ligne d'un astérisque, seule de son
-array.
+La Table 1 du §1.4 marque d'ailleurs cette ligne d'un astérisque, seule de sa
+table.
 
 **7234 n'y figure pas du tout** : le caching est repris par **RFC 9111**.
 
@@ -79,7 +79,7 @@ La distinction ressource / représentation fonde la content negotiation et
 ## Pièges d'examen
 
 **« RFC 9110 remplace RFC 2616 » est un raccourci.** 2616 a d'abord été éclatée
-en 7230-7235 ; c'est cette série-là que les 911x remplacent, et pas d'un block :
+en 7230-7235 ; c'est cette série-là que les 911x remplacent, et pas d'un bloc :
 9110 prend la sémantique, 9111 le cache, 9112 la trame HTTP/1.1.
 
 **Une ressource n'est pas sa représentation, et ce n'est pas un détail de

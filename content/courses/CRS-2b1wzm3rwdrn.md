@@ -5,7 +5,7 @@ title: "Domain name matching"
 content_level: MINIMAL
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-01"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/routing.rst"
@@ -67,8 +67,8 @@ vaut alors `en` (test `testHostIsCaseInsensitive`).
 
 ## Le host accepte des parameters
 
-C'est ce qui rend l'option utile aux applications multi-locataires : le host se
-parameter comme un path, avec default values et requirements.
+C'est ce qui rend l'option utile aux applications multi-locataires : le host
+prend des parameters comme un path, avec default values et requirements.
 
 ```php
 #[Route(

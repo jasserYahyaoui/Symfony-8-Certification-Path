@@ -5,7 +5,7 @@ title: "Input and Output objects"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-02"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Input/InputInterface.php"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Input/InputInterface.php"
@@ -117,7 +117,7 @@ $output->writeln(['plusieurs', 'lignes']);
 ```
 
 Trois modes de rendu contrôlent l'interprétation des tags :
-`OUTPUT_NORMAL` les interprète, `OUTPUT_RAW` les laisse telles quelles,
+`OUTPUT_NORMAL` les interprète, `OUTPUT_RAW` les laisse tels quels,
 `OUTPUT_PLAIN` les interprète **puis** applique `strip_tags()` au résultat.
 Exécuté, `'<info>ok</info> <script>x</script>'` :
 
@@ -148,7 +148,7 @@ $output->writeln('<info>terminé</info>');
 Une string venant du user ou d'une base doit passer par
 `OutputFormatter::escape()`. Exécuté : sans escaping, `<info>x</info>` venu
 du user s'affiche `x`, le tag interprété ; échappé, il s'affiche
-tel quel. Un tag inconnu — `<script>` — passe intacte dans les deux cas.
+tel quel. Un tag inconnu — `<script>` — passe intact dans les deux cas.
 
 ## L'output d'erreur
 

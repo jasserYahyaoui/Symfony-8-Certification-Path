@@ -5,7 +5,7 @@ title: "Access Control Rules"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-09"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/security/access_control.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/security/access_control.rst"
@@ -82,7 +82,7 @@ Une fois la règle choisie, trois options imposent l'accès :
 - `roles` — passés comme attributes à `decide()`, avec la **Request** pour
   sujet ;
 - `allow_if` — une expression, **ajoutée à la liste des attributes** ;
-- `requires_channel` — exécuté : `https` sur une Request `http` donne une
+- `requires_channel` — exécuté : `https` sur une Request `http` donne un
   redirect **301** vers `https://…`.
 
 Plusieurs exigences ne s'additionnent donc pas : elles sont soumises ensemble

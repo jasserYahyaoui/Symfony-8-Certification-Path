@@ -5,7 +5,7 @@ title: "Profiler object (WebProfiler bundle)"
 content_level: MINIMAL
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-02"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/testing/profiling.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/testing/profiling.rst"
@@ -94,7 +94,7 @@ l'incluant dans le message d'échec de l'assertion.
 ## Le cadre d'usage
 
 La documentation est nette : un functional test devrait **tester la Response**.
-Le profiler sert aux cas où la métrique est l'object du test — un budget de
+Le profiler sert aux cas où la métrique est le sujet du test — un budget de
 Requests, un temps passé dans le framework.
 
 ## Pièges d'examen

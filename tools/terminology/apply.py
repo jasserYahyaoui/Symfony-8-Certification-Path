@@ -34,7 +34,7 @@ DET = (r"(?P<det>\b(?:"
        r"[Ll]es|[Ll]e|[Ll]a|[Ll]" + APOS + r"|[Uu]ne|[Uu]n|[Dd]u|[Dd]e la|[Dd]e [Ll]" + APOS +
        r"|[Dd]es|[Aa]ux|[Aa]u|[Àà] la|[Àà] [Ll]" + APOS +
        r"|[Cc]ette|[Cc]et|[Cc]es|[Cc]e|[Ss]on|[Ss]a|[Ss]es|[Mm]on|[Mm]a|[Mm]es|[Tt]on|[Tt]a"
-       r"|[Ll]eurs|[Ll]eur|[Qq]uelle|[Qq]uel|[Cc]haque|[Tt]oute|[Tt]out|[Dd]" + APOS + r")(?: |(?<=['’])))?")
+       r"|[Ll]eurs|[Ll]eur|[Qq]uelle|[Qq]uel|[Cc]haque|[Tt]oute|[Tt]out|[Aa]ucune|[Aa]ucun|[Dd]" + APOS + r")(?: |(?<=['’])))?")
 
 PLURAL_DETS = {'les', 'des', 'ces', 'ses', 'mes', 'leurs', 'aux'}
 
@@ -52,7 +52,9 @@ for t in TERMS:
 ENTRIES.sort(key=lambda e: -len(e[0]))
 
 PATTERNS = [
-    (re.compile(DET + r"(?P<w>(?<![\w-])" + re.escape(form).replace("'", APOS) + r")(?![\w-])(?P<adj> [a-zàâäéèêëîïôöùûüç]+)?", re.IGNORECASE), t, plural)
+    # A line break inside a multi-word form is a space: « valeur par⏎défaut »
+    # escaped the rewrite until 2026-10-26, and --check with it.
+    (re.compile(DET + r"(?P<w>(?<![\w-])" + re.escape(form).replace("'", APOS).replace('\\ ', r'\s+') + r")(?![\w-])(?P<adj> [a-zàâäéèêëîïôöùûüç]+)?", re.IGNORECASE), t, plural)
     for form, t, plural in ENTRIES
 ]
 
@@ -108,6 +110,8 @@ def render_det(det, gender, elide):
         out = 'quel ' if m else 'quelle '
     elif low in ('tout', 'toute'):
         out = 'tout ' if m else 'toute '
+    elif low in ('aucun', 'aucune'):
+        out = 'aucun ' if m else 'aucune '
     elif low == "d'":
         out = "d'" if elide else 'de '
     else:
@@ -119,7 +123,9 @@ def rewrite(text, report, where):
     for pattern, t, plural in PATTERNS:
         def sub(m):
             start, end = m.start('w'), m.end('w')
-            window = text_ref[0][max(0, start - 40):end + 40]
+            # Whitespace collapsed, so that a keep pattern written with spaces
+            # still matches a phrase broken across two lines.
+            window = re.sub(r'\s+', ' ', text_ref[0][max(0, start - 40):end + 40])
             for keep in t.get('keep', []):
                 if re.search(keep, window, re.IGNORECASE):
                     return m.group(0)

@@ -5,7 +5,7 @@ title: "Trigger redirects"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-08"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/routing.rst"
@@ -60,7 +60,7 @@ outcome_sections:
 ## Objectif
 
 Connaître les redirects que **le routage** déclenche de lui-même. Les
-redirects émises par un controller — `redirect()`, `redirectToRoute()` — et
+redirects émis par un controller — `redirect()`, `redirectToRoute()` — et
 les options de `RedirectController` appartiennent au lot Controllers.
 
 ## Qui redirige, et comment
@@ -93,7 +93,7 @@ et `HEAD`**, avec un **301** :
 | `/foo/` | **301** vers `/foo/` | correspond, **200** |
 
 Le redirect va toujours vers la forme déclarée par la route, dans les deux
-sens. Le code ajoute trois conditions que l'array ne montre pas :
+sens. Le code ajoute trois conditions que la table ne montre pas :
 
 - la route doit accepter `GET` : aucune restriction `methods`, ou une liste qui
   contient `GET` ;
@@ -132,9 +132,9 @@ schéma.
 - là encore, **seulement `GET` et `HEAD`**. Un `POST` en HTTP vers `/login`
   reçoit un 404. La documentation écrit simplement que la Request est
   redirigée, sans cette restriction ;
-- avec plusieurs schémas, aucune redirect si l'un d'eux correspond ; sinon
+- avec plusieurs schémas, aucun redirect si l'un d'eux correspond ; sinon
   la cible est le **premier** schéma listé ;
-- barre finale manquante **et** mauvais schéma : une seule redirect corrige
+- barre finale manquante **et** mauvais schéma : un seul redirect corrige
   les deux.
 
 Le schéma peut être imposé à tout un group de routes au moment de leur import

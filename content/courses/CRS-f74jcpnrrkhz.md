@@ -5,7 +5,7 @@ title: "Framework interoperability and PSRs"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-07"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/composer.json"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/composer.json"
@@ -86,8 +86,7 @@ client HTTP qui précède PSR-18 ; HttpClient satisfait les deux.
 
 Deux recommandations ne s'implémentent pas — elles se respectent.
 
-- **PSR-4**, autoloading : c'est elle qui fait correspondre `src/` à l'espace de
-  noms `App\`.
+- **PSR-4**, autoloading : c'est elle qui fait correspondre `src/` au namespace `App\`.
 - **PSR-12**, style de code : les standards de codage de Symfony sont fondés sur
   PSR-12 et PSR-4.
 
@@ -131,7 +130,7 @@ seule pour PSR-20, PSR-14 et PSR-18.
 **Trois verbes pour trois statuts.** Symfony **implémente** (PSR-3, 6, 11, 13,
 14, 16, 18, 20), **suit** (PSR-4, PSR-12), **ponte** (PSR-7 / PSR-17).
 
-**Le nom du package virtuel donne la Response.** `psr/<nom>-implementation` dans
+**Le nom du package virtuel donne l'indice.** `psr/<nom>-implementation` dans
 `provide` ⇒ implémentée. Absent ⇒ pas implémentée, quoi qu'en dise l'intuition.
 
 ## Points clés

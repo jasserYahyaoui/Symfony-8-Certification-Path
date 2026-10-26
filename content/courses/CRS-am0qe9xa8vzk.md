@@ -5,7 +5,7 @@ title: "Process"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-03"
+reviewed_at: "2026-10-26"
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/process.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/components/process.rst"
@@ -62,7 +62,7 @@ Le **array d'arguments est la forme recommandée** : il évite tout
 escaping et laisse passer les signaux.
 
 Une string ne se justifie que pour utiliser une fonctionnalité du shell —
-redirect, exécution conditionnelle. Elle passe alors par la factory
+redirection de flux, exécution conditionnelle. Elle passe alors par la factory
 `Process::fromShellCommandline()`, et **l'escaping comme la portabilité
 deviennent votre affaire**. Les arguments variables passent par des variables
 d'environment, dont la syntaxe de référence dépend du système ; la forme

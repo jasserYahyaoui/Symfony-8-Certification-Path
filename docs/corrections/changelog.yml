@@ -677,3 +677,284 @@ entries:
     courses: []
     flashcards: [FLC-132j6bb7cgj1, FLC-1fxqpfkbsm7j, FLC-1g7a96r31q4m, FLC-1kgaxhvwebpz, FLC-1matv67tch5r, FLC-1qbj8sb3scg4, FLC-24p1bdhhjqxd, FLC-26dw5e7m1aqb, FLC-2dya1ngypecc, FLC-2yy6sbbm560h, FLC-3e9fpr3hn6kc, FLC-3w05sa90j4b2, FLC-54dgr0wb2405, FLC-5z1zvrs31f8y, FLC-6dzrbr07rhb0, FLC-75rcpkjjxm83, FLC-78pn0msbyxq0, FLC-877fwv133fsn, FLC-8hehkvx6cc0b, FLC-91sn9e53zbe4, FLC-a134w160sdtf, FLC-a68zce7jg14p, FLC-aaw7xa69q5m8, FLC-ateqfyrqv1d3, FLC-bme3m2zcn4f6, FLC-cgzsgfh274se, FLC-ct626d88p6c7, FLC-e59nfw3a5krd, FLC-fwg3mnmxkjge, FLC-g36cqm7ywwy8, FLC-g7j72emr31qb, FLC-gd9eab8nmb9e, FLC-gh32p9t68h99, FLC-h0d16j276qgh, FLC-ha0fycvyrph8, FLC-hfx4p10aptcf, FLC-j3q4g3v2vswg, FLC-j4brna7btsq6, FLC-k9c7n0brvb1c, FLC-kas9xgck3taz, FLC-kggeyx7153s4, FLC-kt2fa248ea28, FLC-nt31fkv8p93g, FLC-nvm4qms1k2tx, FLC-nzzsc08yb57x, FLC-p34jqjdzhs24, FLC-q6ac4pm4sm1y, FLC-q7jafcghbdhm, FLC-qg2jp687b1y6, FLC-qmpvz7qwt987, FLC-rwk8y93ze3b6, FLC-s96310xtj98g, FLC-shcv7673gcfc, FLC-sn98syzz504z, FLC-snnz88eh57kp, FLC-xtrdcvjy4swp, FLC-y6rz0p94wkxt, FLC-yc7t3pe7a8y8, FLC-yq3sy3g85yz0, FLC-z2dpxs1ejrgn, FLC-zjsgcpt10vqp, FLC-zt3hkwa4smfj]
     questions: []
+
+  - id: CVR-as7506pd1jtp
+    date: '2026-10-26'
+    pull_request: 434
+    commit: '0bf0ba6'
+    kind: CORRECTION
+    finding: third-pass
+    official_items: [OIT-webdvbgbrfth]
+    facts: []
+    title: "Abstract classes : `private` est interdit aux methods abstraites, pas aux autres"
+    was: >-
+      Dans la comparaison interface / abstract class : « Visibilité | Publique uniquement | `public` ou
+      `protected` ».
+    now: >-
+      La restriction vise les methods **abstraites** d'une abstract class : `public` ou `protected`. Une
+      method concrète de la même class peut être `private`. Exécuté avec PHP 8.4.19.
+    courses:
+      - id: CRS-0jtjh77tabt1
+        sections: ["Interface ou abstract class ?"]
+    flashcards: []
+    questions: []
+
+  - id: CVR-221g3vtwxh2a
+    date: '2026-10-26'
+    pull_request: 434
+    commit: '0bf0ba6'
+    kind: CORRECTION
+    finding: third-pass
+    official_items: [OIT-ywrx9x3hg9z8]
+    facts: []
+    title: "Object Oriented Programming : l'exemple `readonly` lève bien l'erreur qu'il annonce"
+    was: >-
+      `private readonly int $amount`, puis en commentaire « `$money->amount = 200;` → Error: Cannot modify
+      readonly property » ; et « c'est le binding statique tardive. »
+    now: >-
+      Depuis l'extérieur, une property `private` lève d'abord une erreur d'accès. L'exemple déclare
+      désormais `public readonly`, et l'écriture lève « Cannot modify readonly property Money::$amount » —
+      exécuté avec PHP 8.4.19. Le terme est rétabli : *late static binding*.
+    courses:
+      - id: CRS-3424z948caan
+        sections: ["`readonly`", "`self` contre `static`"]
+    flashcards: [FLC-xcnrvq0mddck]
+    questions: []
+
+  - id: CVR-cqxmjjgsqdty
+    date: '2026-10-26'
+    pull_request: 434
+    commit: '0bf0ba6'
+    kind: CORRECTION
+    finding: third-pass
+    official_items: [OIT-1kjqdnryaw0h]
+    facts: []
+    title: "Attributes : un attribute répété sans `IS_REPEATABLE` échoue à `newInstance()`"
+    was: >-
+      « **Sans `IS_REPEATABLE`, répéter un attribute est une erreur** au moment de la lecture par
+      réflexion. »
+    now: >-
+      `getAttributes()` rend les deux occurrences sans rien dire ; c'est `newInstance()` qui lève « Attribute
+      "R" must not be repeated ». Exécuté avec PHP 8.4.19.
+    courses:
+      - id: CRS-tqcp2kn9r3b5
+        sections: ["Pièges d'examen"]
+    flashcards: []
+    questions: []
+
+  - id: CVR-bpswkha4href
+    date: '2026-10-26'
+    pull_request: 434
+    commit: '0bf0ba6'
+    kind: CORRECTION
+    finding: third-pass
+    official_items: [OIT-fhjmv9w3wxsb]
+    facts: [http-foundation.language-tail-dropped]
+    title: "Language detection : ce qui suit la région est supprimé, pas conservé"
+    was: >-
+      « La grammaire reconnue est `2 ou 3 lettres` pour la langue, puis **4 lettres** optionnelles pour
+      l'écriture, puis **2 lettres** optionnelles pour la région. Une valeur qui n'entre pas dans ce moule —
+      ou le `*` … — ressort en minuscules, inchangée. »
+    now: >-
+      Après la langue, l'écriture et la région, le reste est **supprimé** : `de-DE-1996` donne `de_DE`,
+      `es-419` donne `es`, `zh-Hant-TW-x-private` donne `zh_Hant_TW`, et le préfixe `i-` est retiré
+      (`i-cherokee` donne `cherokee`). Seule une valeur dont le début n'entre pas dans le moule — `x-klingon`,
+      `*` — ressort inchangée. Exécuté avec HttpFoundation 8.0.15.
+    courses:
+      - id: CRS-qa0x33akw264
+        sections: ["Comment Symfony normalise un tag de langue"]
+    flashcards: []
+    questions: []
+
+  - id: CVR-hdw3577nd2ct
+    date: '2026-10-26'
+    pull_request: 434
+    commit: '0bf0ba6'
+    kind: CORRECTION
+    finding: third-pass
+    official_items: [OIT-c9pjp03cv4bq]
+    facts: [console.input-argument-mode-is-only-an-example]
+    title: "Naming conventions : `InputArgumentMode` n'existe pas dans Console 8.0"
+    was: >-
+      « `InputArgumentMode::IsArray`, alors que la constant de class équivalente s'écrit `IS_ARRAY`. Les deux
+      cohabitent dans le même code. »
+    now: >-
+      L'enum n'est que l'exemple de nommage des standards de code ; seule la constant
+      `InputArgument::IS_ARRAY` existe dans Console 8.0 (`enum_exists()` rend `false`, exécuté). La carte
+      suit.
+    courses:
+      - id: CRS-9g4qrgfs7nm4
+        sections: ["Pièges d'examen"]
+    flashcards: [FLC-sgkfqtmc07qt]
+    questions: []
+
+  - id: CVR-g1sffhjdyjev
+    date: '2026-10-26'
+    pull_request: 434
+    commit: '0bf0ba6'
+    kind: CORRECTION
+    finding: third-pass
+    official_items: [OIT-dmkbj2x94rks]
+    facts: []
+    title: "CSRF protection : dans une application Flex, l'identifier du token est commun"
+    was: >-
+      « **L'identifier par défaut est le nom du form**, pas une valeur commune. »
+    now: >-
+      Sans `csrf_token_id`, l'identifier est le défaut du type, sinon le nom du form ; mais la configuration
+      fournie par Flex donne `submit` à tous les form types autoconfigurés — un identifier commun, ce que la
+      page disait déjà plus haut. Lu dans `csrf.rst` et `FormTypeCsrfExtension`.
+    courses:
+      - id: CRS-0yhqc0b1q7hz
+        sections: ["Pièges d'examen"]
+    flashcards: []
+    questions: []
+
+  - id: CVR-fd2633j67nmk
+    date: '2026-10-26'
+    pull_request: 434
+    commit: '0bf0ba6'
+    kind: CORRECTION
+    finding: third-pass
+    official_items: [OIT-hcdrp2y7kbct]
+    facts: [validator.callback-targets-class-and-property]
+    title: "Custom callback validators : `Callback` se pose aussi sur une property"
+    was: >-
+      « `Callback` est une constraint de **class** » ; un nom de method seul « cherché sur la **class
+      validée** ».
+    now: >-
+      `getTargets()` rend la class **et** la property. Posé sur une property, le callback reçoit la
+      **valeur** de la property ; un nom de method seul est cherché sur la valeur validée — l'object quand la
+      constraint est sur la class. Exécuté avec Validator 8.0.15. La carte suit.
+    courses:
+      - id: CRS-96w05v20b8w1
+        sections: ["Le principe", "Les formes du `callback`", "Pièges d'examen"]
+    flashcards: [FLC-53pz9zp44prb]
+    questions: []
+
+  - id: CVR-z3thwdw248sa
+    date: '2026-10-26'
+    pull_request: 434
+    commit: '0bf0ba6'
+    kind: CORRECTION
+    finding: third-pass
+    official_items: [OIT-1cj08dhtp9hj]
+    facts: [routing.unicode-requirement-needs-utf8]
+    title: "Restrict URL parameters : la section donne aussi l'option utf8"
+    was: >-
+      « … aussi les **properties Unicode PCRE** : `\p{Lu}` correspond à toute majuscule, dans n'importe
+      quelle langue. »
+    now: >-
+      Les properties Unicode exigent l'option `utf8: true` de la route ; la section le dit désormais, comme
+      le piège depuis le 2026-10-24.
+    courses:
+      - id: CRS-wg3j0t5pm7w1
+        sections: ["Ce qui est autorisé"]
+    flashcards: []
+    questions: []
+
+  - id: CVR-62c2zg56n62e
+    date: '2026-10-26'
+    pull_request: 434
+    commit: '0bf0ba6'
+    kind: CORRECTION
+    finding: third-pass
+    official_items: [OIT-9x3strrjdng7]
+    facts: []
+    title: "Built-in validation constraints : `Type('string')` accepte `''` pour une autre raison"
+    was: >-
+      « `Email`, `Regex`, `Url`, `Type('string')` | acceptée : le validator rend la main »
+    now: >-
+      `Type('string')` accepte `''` parce que c'est une string, pas parce que le validator rend la main :
+      `Type('int')` sur `''` lève une violation. Lu dans `TypeValidator` 8.0.
+    courses:
+      - id: CRS-569y6hb7fwj5
+        sections: ["null et la string vide"]
+    flashcards: []
+    questions: []
+
+  - id: CVR-59ykqxsbn3yj
+    date: '2026-10-26'
+    pull_request: 434
+    commit: '0bf0ba6'
+    kind: CORRECTION
+    finding: third-pass
+    official_items: [OIT-79f4n087b66c]
+    facts: []
+    title: "Service container : l'erreur à la compilation vient de l'injection"
+    was: >-
+      Intérêt d'un service privé : « … et une référence vers un service inexistant produit une erreur claire
+      dès la compilation. »
+    now: >-
+      Toute référence vers un service inexistant échoue à la compilation, public ou privé. Ce que le privé
+      apporte : il impose l'injection plutôt que `get()`, et c'est l'injection qui fait qu'une dependency
+      manquante se signale dès la compilation au lieu d'échouer à l'exécution.
+    courses:
+      - id: CRS-p1694d5f7r8c
+        sections: ["Public ou privé"]
+    flashcards: []
+    questions: []
+
+  - id: CVR-n1s5bnyse11b
+    date: '2026-10-26'
+    pull_request: 434
+    commit: '0bf0ba6'
+    kind: CORRECTION
+    finding: third-pass
+    official_items: [OIT-76x1t7z916f4]
+    facts: []
+    title: "Retries and failures : les délais avec jitter sont un tirage, pas un calcul"
+    was: >-
+      « 1000, 2000, 4000 ms sans jitter ; 1096, 2109, 4298 ms avec un jitter de 0,1. »
+    now: >-
+      Avec un jitter de 0,1, chaque délai varie au hasard de ±10 % (`random_int`) ; 1096, 2109, 4298 ms
+      n'est qu'un tirage — ré-exécuté, on obtient par exemple 1042, 1878, 4325.
+    courses:
+      - id: CRS-hgkzgm1dh3my
+        sections: ["La strategy de retry"]
+    flashcards: []
+    questions: []
+
+  - id: CVR-gf8cm4pnff65
+    date: '2026-10-26'
+    pull_request: 434
+    commit: '0bf0ba6'
+    kind: CORRECTION
+    finding: third-pass
+    official_items: [OIT-nr9m883d15qq]
+    facts: []
+    title: "Options and arguments : `bool $x = true` donne `VALUE_NONE` + `VALUE_NEGATABLE`"
+    was: >-
+      « `bool $yell = true` ou `?bool $yell = null` | `VALUE_NEGATABLE` » ; « il devient négociable, donc
+      `--no-flag` existe. »
+    now: >-
+      Le mode est `VALUE_NONE` + `VALUE_NEGATABLE` (`Attribute\Option` 8.0) : l'option accepte une forme
+      négative, `--no-flag`. La carte suit.
+    courses:
+      - id: CRS-q2dxjhx6d35k
+        sections: ["Le mode d'une option", "Pièges d'examen"]
+    flashcards: [FLC-g71n3msgyw1m]
+    questions: []
+
+  - id: CVR-wmxgaqtec7rj
+    date: '2026-10-26'
+    pull_request: 434
+    commit: '0bf0ba6'
+    kind: CORRECTION
+    finding: third-pass
+    official_items: [OIT-78k7kbfpgfxt, OIT-xh63g15rz6n3]
+    facts: []
+    title: "Cache et Security configuration : deux phrases qui disaient autre chose que la page"
+    was: >-
+      Cache : « Deux approches, une recommandée » — « Le component en propose deux », suivi de trois.
+      Security configuration : « Seules ces deux familles sont jamais masquées », qui se lit « ne sont
+      jamais masquées ».
+    now: >-
+      Cache : trois API (Contracts, PSR-6, PSR-16), une recommandée. Security configuration : seules ces deux
+      familles peuvent être masquées.
+    courses:
+      - id: CRS-p6yhxmpxrzbs
+        sections: ["Trois API, une recommandée"]
+      - id: CRS-yvhg325ax38y
+        sections: ["Ce que l'échec révèle"]
+    flashcards: []
+    questions: []
