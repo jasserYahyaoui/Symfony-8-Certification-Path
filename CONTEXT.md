@@ -45,6 +45,7 @@ Branche de travail : `claude/symfony-8-certification-plan-phmkau`.
 | Préambule hors budget de révision (ADR-0011, OBJ-001) et journal de #432 | #433 | `e8ea073` | smoke 121453492993 **success, lu** (309 ok, 0 erreur) |
 | Troisième passe : 21 défauts de fond corrigés dans 18 cours, trois faits centraux | #434 | `0bf0ba6` | smoke 121470795931 **success, lu** (313 ok, 0 erreur ; les quatre lignes « third-pass ») |
 | Troisième passe, terminologie : réécritures abusives défaites dans 71 cours, outil corrigé ; journal de #434 | #435 | `dd3ea45` | smoke 121496667051 **success, lu** (313 ok, 0 erreur ; journal servi) |
+| Journal de #435, lignes de livraison, troisième passe close | #436 | `cdb00a6` | smoke 121517190085 **success, lu** (313 ok, 0 erreur ; journal servi) |
 
 **Pièges d'examen → flashcards (2026-10-24, livré : #432, `c48317d`).** Les 788
 paragraphes « Pièges d'examen » lus contre toutes les cartes de leur item :
@@ -75,7 +76,11 @@ l'outil (« réponse » → `Response`, « chaîne » → `string`, « tableau �
 14 fichiers de cartes, l'outil corrigé (termes coupés par un retour à la ligne,
 « aucun/aucune », motifs `keep`), et les 13 entrées du journal pour #434.
 L'entrée du journal pour #435 (`CVR-sg2brrtfhfk7`) ne retient que les 16 cours et
-6 cartes où la réécriture changeait le sens. **La troisième passe est close.**
+6 cartes où la réécriture changeait le sens. **La troisième passe est close**
+(#436, `cdb00a6`). Ensuite, le manque qu'elle avait consigné : *Abstract classes*
+reçoit les properties abstraites de PHP 8.4 (section, 3 cartes, 3 questions de
+compréhension, chaque règle exécutée) ; son entrée de journal suit dans la PR
+d'après.
 
 Nouveau : `tools/behavior/` (Symfony 8.0.* verrouillé, 10 faits exécutés en CI),
 `docs/facts/central-facts.yml` + `CentralFactsTest` (le retour d'une ancienne

@@ -72,7 +72,11 @@ nouvelle. Quatre aiguilles de smoke test (`third-pass`), absentes de `master`.
 
 - *Abstract classes* ne dit rien des **properties abstraites** de PHP 8.4
   (`abstract public string $n { get; }`). C'est un manque, pas une erreur : la
-  passe ne corrige que des défauts établis. Consigné pour une extension.
+  passe ne corrige que des défauts établis. Consigné pour une extension —
+  **faite après la passe** : une section « Les properties abstraites — depuis
+  PHP 8.4 », une ligne du tableau interface / abstract class, un piège, trois
+  cartes et trois questions de compréhension ; chaque règle exécutée avec PHP
+  8.4.19, messages cités tels qu'ils sortent.
 - La carte « où est cherchée la method d'un Callback déclaré par un simple
   nom » a été précisée (la valeur validée, l'object sur une class) pour rester
   d'accord avec D7.
@@ -134,4 +138,5 @@ changement relu.
 |---|---|---|---|
 | Fond : 21 défauts dans 18 cours | #434 | `0bf0ba6` | smoke 121470795931 **success, lu** : 313 ok, 0 FAIL, les quatre lignes « third-pass » |
 | Terminologie, et journal de #434 (13 entrées `CVR-…`, `finding: third-pass`) | #435 | `dd3ea45` | smoke 121496667051 **success, lu** : 313 ok, 0 FAIL, journal servi |
-| Journal de #435 (`CVR-sg2brrtfhfk7` : les 16 cours et 6 cartes où la réécriture changeait le sens) | PR suivante | — | — |
+| Journal de #435 (`CVR-sg2brrtfhfk7` : les 16 cours et 6 cartes où la réécriture changeait le sens) | #436 | `cdb00a6` | smoke 121517190085 **success, lu** : 313 ok, 0 FAIL, journal servi |
+| Extension consignée : properties abstraites de PHP 8.4 (*Abstract classes*) | PR suivante | — | — |

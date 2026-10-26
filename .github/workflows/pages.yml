@@ -5058,8 +5058,10 @@ jobs:
           else
             echo "ok  second-pass  lot-01 enums: pure enum value access warns and yields null, modification throws an Error"
           fi
-          # Third refinement pass (2026-10-26): four corrections, each needle absent from master before.
+          # Third refinement pass (2026-10-26): four corrections, then the extension it recorded
+          # (PHP 8.4 abstract properties), each needle absent from master before.
           for spec in \
+            "lot-01/abstract-classes|Only hooked properties may be declared abstract|lot-01 abstract classes: PHP 8.4 abstract properties, each rule executed" \
             "lot-02/language-detection|Ce qui suit est|lot-02 language detection: subtags after the region are dropped" \
             "lot-03/naming-conventions|seule la constant existe dans Console 8.0|lot-03 naming conventions: InputArgumentMode is only the standards' example" \
             "lot-07/csrf-protection|un identifier commun|lot-07 csrf: a Flex application gives submit as the common token id" \

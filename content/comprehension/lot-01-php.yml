@@ -3054,3 +3054,159 @@ questions:
     branch: master
     symbol_or_lines: 'json_validate from PHP 8 >= 8.3.0'
     verified_at: '2026-10-16'
+- id: QST-bxp5zd6zjqpq
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-fs6z2g5dv4qq
+  version: 1
+  official_topic: PHP
+  official_item: OIT-webdvbgbrfth
+  domain: php
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'PHP 8.4: `abstract class Shape { abstract public string $label; }` is compiled. What happens?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-26'
+  tags:
+  - php
+  - abstract
+  choices:
+  - id: CHO-2hk8x447ftfz
+    text: 'Fatal error: only hooked properties may be declared abstract'
+    correct: true
+  - id: CHO-crwt1av2fhh6
+    text: It compiles; each child class must then declare $label
+    correct: false
+    explanation: An abstract property needs a hook without a body, such as `{ get; }`.
+  - id: CHO-m6kt46wmh9fk
+    text: It compiles; $label becomes a virtual property of Shape
+    correct: false
+    explanation: It does not compile.
+  - id: CHO-005tb4g4by5k
+    text: A deprecation notice, and the abstract keyword is dropped from $label
+    correct: false
+    explanation: It is a fatal error, raised before any code runs.
+  explanation: 'Executed on PHP 8.4.19: "Only hooked properties may be declared abstract". The valid form is `abstract public string $label { get; }`.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/abstract.xml
+    repository: php/doc-en
+    branch: master
+    symbol_or_lines: 'Properties defined as abstract may declare a requirement for get or set behavior'
+    verified_at: '2026-10-26'
+- id: QST-a7gd9ky1631d
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-fs6z2g5dv4qq
+  version: 1
+  official_topic: PHP
+  official_item: OIT-webdvbgbrfth
+  domain: php
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'PHP 8.4: `abstract class Shape { abstract public string $label { get; } }`. Which member of `final class Circle extends Shape` satisfies the requirement?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-26'
+  tags:
+  - php
+  - abstract
+  choices:
+  - id: CHO-cq4s75vn0h83
+    text: 'public function __construct(public readonly string $label) {}'
+    correct: true
+  - id: CHO-hw4q90e1z0w3
+    text: "protected string $label = 'circle';"
+    correct: false
+    explanation: 'Fatal error: "Access level to Circle::$label must be public (as in class Shape)".'
+  - id: CHO-0hct8571txht
+    text: "private string $label = 'circle';"
+    correct: false
+    explanation: The same error; a child may widen the visibility, never narrow it.
+  - id: CHO-j83t9djgnyg3
+    text: Nothing, because the parent declaration already provides the get hook
+    correct: false
+    explanation: '"Class Circle contains 1 abstract method and must therefore be declared abstract or implement the remaining methods (Shape::$label::get)".'
+  explanation: 'Executed on PHP 8.4.19: a plain, readonly or hooked public property satisfies `{ get; }`. A protected or private one is refused, and omitting it leaves an abstract member.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/abstract.xml
+    repository: php/doc-en
+    branch: master
+    symbol_or_lines: 'An abstract property may be satisfied either by a standard property or by a property with defined hooks'
+    verified_at: '2026-10-26'
+- id: QST-mm9ntx30jzm8
+  question_archetype: CONCEPT_DISTINCTION
+  assesses_outcomes:
+  - OUT-fs6z2g5dv4qq
+  version: 1
+  official_topic: PHP
+  official_item: OIT-webdvbgbrfth
+  domain: php
+  language: en
+  difficulty: medium
+  cognitive_level: UNDERSTAND
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'PHP 8.4: which visibilities may an abstract property of an abstract class declare, compared with a property declared in an interface?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 45
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-26'
+  tags:
+  - php
+  - abstract
+  choices:
+  - id: CHO-p62wgwrm8dwy
+    text: public or protected in the class; public only in the interface
+    correct: true
+  - id: CHO-ry081q1vrfy3
+    text: public only in both, like the methods an interface declares
+    correct: false
+    explanation: An abstract class may also require a protected property.
+  - id: CHO-9kdx093nhfmy
+    text: any visibility in the class, private included; public only in the interface
+    correct: false
+    explanation: '"Property hook cannot be both abstract and private".'
+  - id: CHO-rz2zcb524n20
+    text: public or protected in both the abstract class and the interface
+    correct: false
+    explanation: '"Property in interface cannot be protected or private".'
+  explanation: 'Executed on PHP 8.4.19: an abstract class may require a public or protected property, never a private one; an interface may only declare public properties.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/php/doc-en/master/language/oop5/abstract.xml
+    repository: php/doc-en
+    branch: master
+    symbol_or_lines: 'As of PHP 8.4, an abstract class may declare an abstract property, either public or protected'
+    verified_at: '2026-10-26'
