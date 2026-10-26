@@ -40,12 +40,12 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Vendredi 2 octobre 2026
 
 - NOUVEAU · **PHP : Anonymous functions and closures** (STANDARD) — 21 min · 428 mots · 4 questions, 4 questions de compréhension, 4 flashcards
-- NOUVEAU · **PHP : Abstract classes** (STANDARD) — 19 min · 345 mots · 5 questions, 3 questions de compréhension, 3 flashcards
+- NOUVEAU · **PHP : Abstract classes** (STANDARD) — 28 min · 690 mots · 5 questions, 6 questions de compréhension, 6 flashcards
 - NOUVEAU · **PHP : Exception and error handling** (STANDARD) — 25 min · 395 mots · 4 questions, 7 questions de compréhension, 3 flashcards
 - NOUVEAU · **PHP : Traits** (STANDARD) — 24 min · 365 mots · 4 questions, 5 questions de compréhension, 4 flashcards
 - Révision **J+1** (24 min) — PHP : PHP API up to PHP 8.4 version · PHP : Object Oriented Programming · PHP : Attributes · PHP : Interfaces
 
-*Budget du jour : 113 / 160 min*
+*Budget du jour : 122 / 160 min*
 
 ### Samedi 3 octobre 2026
 
