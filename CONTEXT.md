@@ -1,6 +1,6 @@
 # CONTEXT.md — Session continuity (Master Plan §23)
 
-**Last updated:** 2026-10-24 (remédiation : P0, P1, P2.3–P2.7, P3.1–P3.3 livrés ; pièges → flashcards livrés (#432) ; budget hors objectif (ADR-0011) et troisième passe de raffinement en cours ; F4, F9 bloqués ; examen le 29 décembre)
+**Last updated:** 2026-10-24 (remédiation : P0, P1, P2.3–P2.7, P3.1–P3.3 livrés ; pièges → flashcards livrés (#432) ; budget hors objectif (ADR-0011) livré (#433) ; troisième passe : correctifs de fond en livraison, terminologie ensuite ; F4, F9 bloqués ; examen le 29 décembre)
 
 ---
 
@@ -42,6 +42,7 @@ Branche de travail : `claude/symfony-8-certification-plan-phmkau`.
 | Évaluation indépendante : dossier du relecteur, échantillon tiré de sa graine | #430 | `800278b` | smoke 117655872723 **success, lu** (309 ok, 0 erreur) |
 | Évaluation indépendante : paquets à joindre, HOLDOUT des fichiers mixtes retiré | #431 | `806a8a9` | smoke 120014740019 **success, lu** (309 ok, 0 erreur) |
 | Pièges d'examen → flashcards : 62 cartes, audit en CI, trois corrections | #432 | `c48317d` | smoke 120947746506 **success, lu** (309 ok, 0 erreur ; flashcards.json 2002 cartes) |
+| Préambule hors budget de révision (ADR-0011, OBJ-001) et journal de #432 | #433 | `e8ea073` | smoke 121453492993 **success, lu** (309 ok, 0 erreur) |
 
 **Pièges d'examen → flashcards (2026-10-24, livré : #432, `c48317d`).** Les 788
 paragraphes « Pièges d'examen » lus contre toutes les cartes de leur item :
@@ -62,11 +63,14 @@ de périmètre ») sont générées depuis la matrice et ne l'ont jamais été. 
 d'un cours (`wordCount()`) et la feuille de route comptent toujours l'objectif.
 OBJ-001 le borne à 60 mots de prose, sans bloc, tableau, liste ni sous-titre.
 
-**Troisième passe de raffinement (2026-10-24, en cours).** Chaque affirmation
-des 163 cours confrontée à la source 8.0 ou à une exécution ; une page ne change
-que sur défaut établi. Lots 01–10 lus en partie (lot 10 : 6 cours sur 12) ;
-constats tenus hors dépôt jusqu'à leur correctif, puis consignés dans
-`docs/progress/third-pass-refinement.md`.
+**Troisième passe de raffinement (2026-10-24 → 26).** Les 163 cours relus,
+chaque affirmation confrontée au code 8.0 ou à une exécution. **21 défauts de
+fond dans 18 cours**, corrigés dans la PR qui suit #433 (trois faits centraux,
+quatre aiguilles de smoke) ; journal `docs/progress/third-pass-refinement.md`.
+Reste : la PR terminologique — réécritures abusives de l'outil (« réponse » →
+`Response`, « chaîne » → `string`, « tableau » → `array`, « tout entier » →
+`int`, accords et élisions), avec l'outil corrigé (termes coupés par un retour à
+la ligne, « aucun/aucune ») ; puis les entrées du journal des corrections.
 
 Nouveau : `tools/behavior/` (Symfony 8.0.* verrouillé, 10 faits exécutés en CI),
 `docs/facts/central-facts.yml` + `CentralFactsTest` (le retour d'une ancienne
