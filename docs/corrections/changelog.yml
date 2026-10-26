@@ -958,3 +958,59 @@ entries:
         sections: ["Ce que l'échec révèle"]
     flashcards: []
     questions: []
+
+  - id: CVR-sg2brrtfhfk7
+    date: '2026-10-26'
+    pull_request: 435
+    commit: 'dd3ea45'
+    kind: CORRECTION
+    finding: third-pass
+    official_items: [OIT-v6wxp78gk42c, OIT-qkcr4bat6dsb, OIT-d3yp0sq36xrx, OIT-v7zyhcm44m88, OIT-83sac57rw0xn, OIT-kbg00jqxxwhq, OIT-0wnxbapegqhv, OIT-mrvrtxm4v2m5, OIT-dctf03ftx44f, OIT-8xcczyjyyanz, OIT-ta627mbwfz7m, OIT-amnpjdprky6z, OIT-hzbednd04fd4, OIT-7sewqvmw6468, OIT-3r7rp470754w, OIT-84j0qwkbcgq6, OIT-hs1297vvhr89]
+    facts: []
+    title: "Terminologie : des mots français pris pour des termes techniques, au point d'en changer le sens"
+    was: >-
+      « `auto` construit une **string** — `native`, puis `sodium` … » ; « `Table` | afficher des données
+      en array » ; « Le tag tag par nom de variable » ; « Sur le constructor, pour un cas local :
+      `$builder->addEventListener` » ; « Chaque listener accède alors à la command par `getOrder()` » ; « il
+      s'exécute après l'output de `handle()` » ; « accepte toute Response commençant par `y` ».
+    now: >-
+      L'outil terminologique avait remplacé des mots ordinaires par le terme technique qu'ils traduisent
+      ailleurs : une chaîne de hashers devenue une string, une table un array, le builder un constructor, un
+      achat (`Order`) une command, la fin de `handle()` son output, la saisie d'un user une Response. Ces
+      phrases disent de nouveau ce qu'elles voulaient dire, et l'outil est corrigé. Dans les autres cours
+      touchés, la réécriture ne réparait que la langue (accords, élisions).
+    courses:
+      - id: CRS-3p9jdkw1nd3g
+        sections: ["Le catalogue", "Les questions", "Le helper Table"]
+      - id: CRS-am0qe9xa8vzk
+        sections: ["Array ou string"]
+      - id: CRS-ax2v94pgbk0g
+        sections: ["Contraindre une class qu'on ne peut pas modifier"]
+      - id: CRS-b2pn9zz55e4n
+        sections: ["Comment s'abonner"]
+      - id: CRS-b4g5s2asb9ye
+        sections: ["Ce qu'un tag fait", "Points clés"]
+      - id: CRS-cb51hcng9dh5
+        sections: ["La syntaxe classique, toujours valide"]
+      - id: CRS-d235sja3h7y2
+        sections: ["Ce que l'on peut régler"]
+      - id: CRS-dab7evz3fe29
+        sections: ["Tips d'examen", "Points clés"]
+      - id: CRS-e5astysks0ty
+        sections: ["Un worker est un process long"]
+      - id: CRS-fhb1cbhnyaxx
+        sections: ["Une class de base délibérément pauvre"]
+      - id: CRS-g4sth72ww979
+        sections: ["`auto` hache en bcrypt"]
+      - id: CRS-h9bfar3cxyet
+        sections: ["Points clés"]
+      - id: CRS-k2xvr11x936e
+        sections: ["Les trente, par section", "Les recommandations qui surprennent"]
+      - id: CRS-mpwjc4g3vmj7
+        sections: ["La pile de Requests, poussée et dépilée par `handle()`"]
+      - id: CRS-vx5kvfhs0p0s
+        sections: ["Pièges d'examen"]
+      - id: CRS-zbnzvqkhjknh
+        sections: ["Le scope d'une loop"]
+    flashcards: [FLC-4apj5ej3vsnp, FLC-4nmfssct51rz, FLC-6c96hwjnbffg, FLC-9pjtx59bzzn5, FLC-d5kwb3j05hb3, FLC-mrzazdafvqn7]
+    questions: []
