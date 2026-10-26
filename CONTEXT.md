@@ -1,6 +1,6 @@
 # CONTEXT.md — Session continuity (Master Plan §23)
 
-**Last updated:** 2026-10-26 (remédiation : P0, P1, P2.3–P2.7, P3.1–P3.3 livrés ; pièges → flashcards livrés (#432) ; budget hors objectif (ADR-0011) livré (#433) ; troisième passe : correctifs de fond livrés (#434), terminologie et journal de #434 en livraison ; F4, F9 bloqués ; examen le 29 décembre)
+**Last updated:** 2026-10-26 (remédiation : P0, P1, P2.3–P2.7, P3.1–P3.3 livrés ; pièges → flashcards livrés (#432) ; budget hors objectif (ADR-0011) livré (#433) ; troisième passe livrée : fond (#434), terminologie et journal (#435) ; F4, F9 bloqués ; examen le 29 décembre)
 
 ---
 
@@ -44,6 +44,7 @@ Branche de travail : `claude/symfony-8-certification-plan-phmkau`.
 | Pièges d'examen → flashcards : 62 cartes, audit en CI, trois corrections | #432 | `c48317d` | smoke 120947746506 **success, lu** (309 ok, 0 erreur ; flashcards.json 2002 cartes) |
 | Préambule hors budget de révision (ADR-0011, OBJ-001) et journal de #432 | #433 | `e8ea073` | smoke 121453492993 **success, lu** (309 ok, 0 erreur) |
 | Troisième passe : 21 défauts de fond corrigés dans 18 cours, trois faits centraux | #434 | `0bf0ba6` | smoke 121470795931 **success, lu** (313 ok, 0 erreur ; les quatre lignes « third-pass ») |
+| Troisième passe, terminologie : réécritures abusives défaites dans 71 cours, outil corrigé ; journal de #434 | #435 | `dd3ea45` | smoke 121496667051 **success, lu** (313 ok, 0 erreur ; journal servi) |
 
 **Pièges d'examen → flashcards (2026-10-24, livré : #432, `c48317d`).** Les 788
 paragraphes « Pièges d'examen » lus contre toutes les cartes de leur item :
@@ -68,11 +69,13 @@ OBJ-001 le borne à 60 mots de prose, sans bloc, tableau, liste ni sous-titre.
 chaque affirmation confrontée au code 8.0 ou à une exécution. **21 défauts de
 fond dans 18 cours**, livrés dans #434 (`0bf0ba6`, trois faits centraux,
 quatre aiguilles de smoke) ; journal `docs/progress/third-pass-refinement.md`.
-PR suivante : la terminologie — réécritures abusives de l'outil (« réponse » →
-`Response`, « chaîne » → `string`, « tableau » → `array`, « tout entier » →
-`int`, accords et élisions) défaites à la main dans 71 cours et 14 fichiers de
-cartes, l'outil corrigé (termes coupés par un retour à la ligne, « aucun/aucune »,
-motifs `keep`) ; et les 13 entrées du journal des corrections pour #434.
+Puis la terminologie, livrée dans #435 (`dd3ea45`) : réécritures abusives de
+l'outil (« réponse » → `Response`, « chaîne » → `string`, « tableau » → `array`,
+« tout entier » → `int`, accords et élisions) défaites à la main dans 71 cours et
+14 fichiers de cartes, l'outil corrigé (termes coupés par un retour à la ligne,
+« aucun/aucune », motifs `keep`), et les 13 entrées du journal pour #434.
+L'entrée du journal pour #435 (`CVR-sg2brrtfhfk7`) ne retient que les 16 cours et
+6 cartes où la réécriture changeait le sens. **La troisième passe est close.**
 
 Nouveau : `tools/behavior/` (Symfony 8.0.* verrouillé, 10 faits exécutés en CI),
 `docs/facts/central-facts.yml` + `CentralFactsTest` (le retour d'une ancienne

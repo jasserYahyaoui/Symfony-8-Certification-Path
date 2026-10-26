@@ -322,6 +322,7 @@ citation, so a format change has to be designed with it, not applied in bulk.
 | Exam pitfalls rehearsed by flashcards: 62 cards, CI audit, three corrections | #432 | squash `c48317d` | smoke 120947746506 success, log read (309 ok and 0 FAIL in the last 400 lines; « P2.3: flashcards.json (2002 cards, fronts only) ») |
 | Page preamble outside the revision budget (ADR-0011, OBJ-001), and the #432 journal | #433 | squash `e8ea073` | smoke 121453492993 success, log read (309 ok and 0 FAIL in the last 400 lines) |
 | Third refinement pass: 21 defects corrected in 18 courses, three central facts | #434 | squash `0bf0ba6` | smoke 121470795931 success, log read (313 ok and 0 FAIL in the last 400 lines; the four « third-pass » lines) |
+| Third pass, terminology: the tool's misrewrites undone in 71 courses, the tool fixed; the #434 journal | #435 | squash `dd3ea45` | smoke 121496667051 success, log read (313 ok and 0 FAIL in the last 400 lines; « P3.3: journal des corrections served, entries anchored ») |
 | P1.7, P2.4, P2.5 (part) | #395, CI green | squash `6c1448c` | job « Production smoke test » 115498368380 success, log read. It checks served pages and payloads, not the client-side progression table, which the CI a11y audit renders. |
 
 ### P3.3 — Maintenance: a journal of corrections, and answers that follow versions

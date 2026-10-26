@@ -25,7 +25,7 @@ Les questions HOLDOUT n'ont pas été lues.
 | relues | 163 |
 | exactes sur le fond | 145 |
 | corrigées sur le fond (cette PR) | 18 |
-| touchées par la seule réécriture terminologique (PR suivante) | 65 |
+| touchées par la seule réécriture terminologique (#435) | 65 |
 
 Sur le fond, **21 défauts** dans 18 pages : 7 affirmations fausses ou
 généralisées (D), 5 imprécisions (P), 4 énumérations fausses (L), 4 défauts de
@@ -86,7 +86,7 @@ de hashers) devenu `string`, « tableau » (la table ci-dessus) devenu `array`,
 « entier » (tout entier) devenu `int`, « commande » (un achat) devenu
 `command`, « boucle » (verbe) devenu `loop`, des accords restés au féminin
 (« la tag »), des élisions cassées (« L'listener »). Ce sont des défauts de
-langue, pas de fond ; ils sont corrigés dans la PR suivante, avec l'outil
+langue, pas de fond ; ils sont corrigés dans #435, avec l'outil
 lui-même (motifs `keep`), pour qu'ils ne reviennent pas.
 
 ### Ce que la PR terminologique corrige
@@ -133,4 +133,5 @@ changement relu.
 | Étape | PR | Commit | Production |
 |---|---|---|---|
 | Fond : 21 défauts dans 18 cours | #434 | `0bf0ba6` | smoke 121470795931 **success, lu** : 313 ok, 0 FAIL, les quatre lignes « third-pass » |
-| Terminologie, et journal de #434 (13 entrées `CVR-…`, `finding: third-pass`) | PR suivante | — | — |
+| Terminologie, et journal de #434 (13 entrées `CVR-…`, `finding: third-pass`) | #435 | `dd3ea45` | smoke 121496667051 **success, lu** : 313 ok, 0 FAIL, journal servi |
+| Journal de #435 (`CVR-sg2brrtfhfk7` : les 16 cours et 6 cartes où la réécriture changeait le sens) | PR suivante | — | — |
