@@ -114,3 +114,12 @@ exception. A plain list does not need one, and a plain-text diagram in a
   its text with it: keep it vertical (`flowchart TD`), and split a flow that
   spreads over three columns into two diagrams.
 
+
+## The objective (ADR-0011)
+
+`## Objectif` opens every course: what the learner will be able to do, in at
+most 60 words of prose — no code, table, list or sub-heading (rule `OBJ-001`).
+A scope note may follow as a `>` blockquote. The section is outside the revision
+budget, like the preamble the generator writes above it, by the owner's
+decision of 2026-10-24; what teaches belongs in the body, where the budget
+counts it.

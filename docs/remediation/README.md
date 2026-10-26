@@ -319,6 +319,7 @@ citation, so a format change has to be designed with it, not applied in bulk.
 | Tracker: #428 delivered, F8 VÉRIFIÉ | #429 | squash `f8c9ad2` | smoke 117643408266 success, log read (309 ok and 0 FAIL in the last 400 lines) |
 | Independent evaluation: reviewer's brief, sample drawn from the reviewer's seed | #430 | squash `800278b` | smoke 117655872723 success, log read (309 ok and 0 FAIL in the last 400 lines) |
 | Independent evaluation: attachable review packs, HOLDOUT in mixed bank files | #431 | squash `806a8a9` | smoke 120014740019 success, log read (309 ok and 0 FAIL in the last 400 lines) |
+| Exam pitfalls rehearsed by flashcards: 62 cards, CI audit, three corrections | #432 | squash `c48317d` | smoke 120947746506 success, log read (309 ok and 0 FAIL in the last 400 lines; « P2.3: flashcards.json (2002 cards, fronts only) ») |
 | P1.7, P2.4, P2.5 (part) | #395, CI green | squash `6c1448c` | job « Production smoke test » 115498368380 success, log read. It checks served pages and payloads, not the client-side progression table, which the CI a11y audit renders. |
 
 ### P3.3 — Maintenance: a journal of corrections, and answers that follow versions
@@ -528,7 +529,7 @@ Report: `docs/audit/pitfall-flashcards/README.md`.
 | **Corrected** | 62 cards added, each fact executed (PHP 8.4.19, Symfony 8.0.15) or read in its source; one pitfall NO_CARD, unreachable in 8.0. `FLC-h2e5dj32pzgg` gave 500 where a `NotFoundHttpException` gives 404, now conditioned. The routing course said Unicode properties work in a requirement; without `utf8` the route does not compile. The HTTP Caching course now says *on-demand* invalidation is outside HTTP, as RFC 9111 §4.4 defines the other kind. |
 | **Guarded** | `tools/audit/pitfall_flashcards.py --max-gaps 0` and `--prove` in CI; two central facts with behavior checks and forbidden patterns. |
 | **Cost** | Plan load 147.8 h → 148.6 h; every item still introduced by 2026-12-11, mocks on the same dates. |
-| **Journal** | The entry cites this PR's squash commit, so it is written in the next PR. |
+| **Journal** | Four entries citing squash `c48317d` (#432), written in the next PR: `CVR-r7b0wgkjebs5`, `CVR-7av4cwx5kw2d`, `CVR-86r6ry4qg2dn` (corrections), `CVR-2kf5ma2p370b` (the 62 cards). |
 
 ## Next action
 

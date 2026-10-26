@@ -14,6 +14,7 @@ use CertPath\Validation\Rule\CourseLevelAgreementRule;
 use CertPath\Validation\Rule\LearnerFacingLinkRule;
 use CertPath\Validation\Rule\DeadInternalLinkRule;
 use CertPath\Validation\Rule\DiagramAccessibilityRule;
+use CertPath\Validation\Rule\ObjectiveSectionRule;
 use CertPath\Validation\Rule\OutcomeSectionRule;
 use CertPath\Validation\Rule\DuplicateQuestionRule;
 use CertPath\Validation\Rule\EnrichmentBudgetRule;
@@ -76,6 +77,7 @@ final class RuleSet
             new OutcomeAssessmentRule(),
             new RevisionBudgetRule(),
             new DiagramAccessibilityRule(),
+            new ObjectiveSectionRule(),
             new OutcomeSectionRule(),
             new ComprehensionCoverageRule(),
             new ComprehensionIndependenceRule(),

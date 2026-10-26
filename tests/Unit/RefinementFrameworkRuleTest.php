@@ -578,6 +578,51 @@ final class RefinementFrameworkRuleTest extends TestCase
         self::assertSame('REV-001', $violations[0]->ruleId);
     }
 
+    /**
+     * ADR-0011: the « Objectif » section leaves the budget, heading included,
+     * and nothing else does. Body words, the size CLAUDE.md reports, keep it.
+     */
+    public function testTheObjectiveIsOutsideTheBudgetButStillABodyWord(): void
+    {
+        $course = $this->courseWithBody("## Objectif\n\nun deux trois\n\n## Règles\n\nquatre cinq");
+
+        self::assertSame(9, $course->wordCount());
+        self::assertSame(4, $course->budgetWordCount());
+    }
+
+    /**
+     * The pattern stops at the next `## ` heading: words written after the
+     * objective are counted, and a heading that only starts like it — the
+     * generator's « Objectifs d'apprentissage » — is not the objective.
+     */
+    public function testOnlyTheObjectiveSectionIsExempt(): void
+    {
+        $course = $this->courseWithBody("## Objectifs d'apprentissage\n\nun deux\n\n## Objectif\n\ntrois\n\n## Suite\n\nquatre");
+
+        self::assertSame(8, $course->budgetWordCount());
+    }
+
+    /**
+     * The exemption removes the objective, not the ceiling: prose one word
+     * over the budget still fails with an objective beside it, and words added
+     * INSIDE the objective do not count against it.
+     */
+    public function testAnObjectiveDoesNotLiftTheBudgetOnProse(): void
+    {
+        $item = ItemFactory::make(['lot' => 'lot-03', 'contentLevel' => ContentLevel::Minimal]);
+        $budget = RevisionBudgetRule::budgets()[ContentLevel::Minimal->value];
+        $objective = "## Objectif\n\n".trim(str_repeat('but ', 50))."\n\n## Corps\n\n";
+
+        $within = $this->courseWithBody($objective.trim(str_repeat('mot ', $budget - 2)), $item->id->value);
+        $over = $this->courseWithBody($objective.trim(str_repeat('mot ', $budget - 1)), $item->id->value);
+
+        self::assertSame([], (new RevisionBudgetRule())->check($this->content([$item], [], courses: [$within])));
+
+        $violations = (new RevisionBudgetRule())->check($this->content([$item], [], courses: [$over]));
+        self::assertCount(1, $violations);
+        self::assertSame('REV-001', $violations[0]->ruleId);
+    }
+
     // ---- fixtures ----------------------------------------------------------
 
     private function courseWithBody(string $body, string $itemId = 'OIT-000000000001'): Course

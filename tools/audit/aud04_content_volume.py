@@ -60,6 +60,9 @@ diagrams = [(fm['_file'], len(collect.MERMAID_BLOCK.findall(body)), collect.merm
 bump('mermaid diagrams', sum(n for _f, n, _w in diagrams))
 bump('courses with a mermaid diagram', sum(1 for _f, n, _w in diagrams if n))
 bump('mermaid tokens, outside the budget', sum(w for _f, _n, w in diagrams))
+# Same reasoning for the objective (ADR-0011): OBJ-001 keeps it short, and its
+# total stays in the report so the exemption's size can be watched.
+bump('objective tokens, outside the budget', sum(collect.objective_words(body) for _fm, body in courses))
 
 # An outlier is judged against this corpus, not an external rule: a course
 # more than four times the median is an outlier by construction.

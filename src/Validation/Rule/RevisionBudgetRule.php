@@ -41,7 +41,9 @@ use CertPath\Validation\Violation;
 final class RevisionBudgetRule implements Rule
 {
     /**
-     * Body words per item. Derived in docs/policy/revision-budget.md, and
+     * Budget words per item — body words without the « Objectif » section
+     * (ADR-0011), see Course::budgetWordCount(). Derived in
+     * docs/policy/revision-budget.md, and
      * bounded by a full-corpus revision pass of roughly one long day at 250
      * words/minute.
      *
@@ -79,7 +81,7 @@ final class RevisionBudgetRule implements Rule
     {
         $wordsByItem = [];
         foreach ($content->courses as $course) {
-            $wordsByItem[$course->officialItemId] = ($wordsByItem[$course->officialItemId] ?? 0) + $course->wordCount();
+            $wordsByItem[$course->officialItemId] = ($wordsByItem[$course->officialItemId] ?? 0) + $course->budgetWordCount();
         }
 
         $violations = [];
@@ -104,7 +106,8 @@ final class RevisionBudgetRule implements Rule
                 $this->id(),
                 Severity::Error,
                 \sprintf(
-                    'Revision cost %d body words exceeds the %s budget of %d; either the content is doing '
+                    'Revision cost %d budget words (body words without the « Objectif », ADR-0011) exceeds the %s '
+                    .'budget of %d; either the content is doing '
                     .'more than the level claims, or the level is wrong.',
                     $words,
                     $level->value,

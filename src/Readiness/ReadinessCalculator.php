@@ -62,7 +62,7 @@ final class ReadinessCalculator
 
         $courseWords = [];
         foreach ($content->courses as $course) {
-            $courseWords[$course->officialItemId] = ($courseWords[$course->officialItemId] ?? 0) + $course->wordCount();
+            $courseWords[$course->officialItemId] = ($courseWords[$course->officialItemId] ?? 0) + $course->budgetWordCount();
         }
 
         $assessments = [];
@@ -98,7 +98,7 @@ final class ReadinessCalculator
 
     /**
      * @param list<Question>     $questions
-     * @param array<string, int> $courseWords body words per official item id
+     * @param array<string, int> $courseWords budget words per official item id (Course::budgetWordCount(), ADR-0011)
      *
      * @return array<string, bool>
      */

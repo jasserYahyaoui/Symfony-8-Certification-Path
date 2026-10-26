@@ -1,6 +1,6 @@
 # CONTEXT.md — Session continuity (Master Plan §23)
 
-**Last updated:** 2026-10-24 (remédiation : P0, P1, P2.3–P2.7, P3.1–P3.3 livrés ; pièges → flashcards en livraison ; F4, F9 bloqués ; examen le 29 décembre)
+**Last updated:** 2026-10-24 (remédiation : P0, P1, P2.3–P2.7, P3.1–P3.3 livrés ; pièges → flashcards livrés (#432) ; budget hors objectif (ADR-0011) et troisième passe de raffinement en cours ; F4, F9 bloqués ; examen le 29 décembre)
 
 ---
 
@@ -41,16 +41,32 @@ Branche de travail : `claude/symfony-8-certification-plan-phmkau`.
 | Suivi : livraison de #428, F8 VÉRIFIÉ | #429 | `f8c9ad2` | smoke 117643408266 **success, lu** (309 ok, 0 erreur) |
 | Évaluation indépendante : dossier du relecteur, échantillon tiré de sa graine | #430 | `800278b` | smoke 117655872723 **success, lu** (309 ok, 0 erreur) |
 | Évaluation indépendante : paquets à joindre, HOLDOUT des fichiers mixtes retiré | #431 | `806a8a9` | smoke 120014740019 **success, lu** (309 ok, 0 erreur) |
+| Pièges d'examen → flashcards : 62 cartes, audit en CI, trois corrections | #432 | `c48317d` | smoke 120947746506 **success, lu** (309 ok, 0 erreur ; flashcards.json 2002 cartes) |
 
-**Pièges d'examen → flashcards (2026-10-24, en cours de livraison).** Les 788
+**Pièges d'examen → flashcards (2026-10-24, livré : #432, `c48317d`).** Les 788
 paragraphes « Pièges d'examen » lus contre toutes les cartes de leur item :
 63 sans carte. 62 cartes ajoutées (faits exécutés ou lus dans la source citée),
 1 NO_CARD (inatteignable en 8.0). Corrigés au passage : `FLC-h2e5dj32pzgg`
 (500 au lieu de 404 pour une exception HTTP), la phrase Unicode du cours de
 routing (option `utf8` obligatoire), l'invalidation du cours HTTP Caching.
 Garde : `tools/audit/pitfall_flashcards.py --max-gaps 0` et `--prove` en CI.
-Rapport : `docs/audit/pitfall-flashcards/README.md`. Reste : l'entrée du journal
-des corrections, dans la PR suivante (elle cite le commit de squash).
+Rapport : `docs/audit/pitfall-flashcards/README.md`. Journal : quatre entrées
+(`CVR-r7b0wgkjebs5`, `CVR-7av4cwx5kw2d`, `CVR-86r6ry4qg2dn`, `CVR-2kf5ma2p370b`)
+écrites dans la PR suivante.
+
+**Budget de révision hors préambule (ADR-0011, décision du propriétaire du
+2026-10-24).** `## Objectif` n'est plus compté par REV-001 ni R14
+(`Course::budgetWordCount()`) ; les quatre autres parties du préambule
+(tableau, « Objectifs d'apprentissage », « Justification du niveau », « Limites
+de périmètre ») sont générées depuis la matrice et ne l'ont jamais été. La taille
+d'un cours (`wordCount()`) et la feuille de route comptent toujours l'objectif.
+OBJ-001 le borne à 60 mots de prose, sans bloc, tableau, liste ni sous-titre.
+
+**Troisième passe de raffinement (2026-10-24, en cours).** Chaque affirmation
+des 163 cours confrontée à la source 8.0 ou à une exécution ; une page ne change
+que sur défaut établi. Lots 01–10 lus en partie (lot 10 : 6 cours sur 12) ;
+constats tenus hors dépôt jusqu'à leur correctif, puis consignés dans
+`docs/progress/third-pass-refinement.md`.
 
 Nouveau : `tools/behavior/` (Symfony 8.0.* verrouillé, 10 faits exécutés en CI),
 `docs/facts/central-facts.yml` + `CentralFactsTest` (le retour d'une ancienne

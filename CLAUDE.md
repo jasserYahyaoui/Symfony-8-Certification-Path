@@ -191,6 +191,17 @@ budget. Each arrow is a claim, verified against the 8.0 code like a sentence.
 Mermaid draws in the browser: the accessibility audit waits for the SVGs, and a
 curl-based smoke test can only see the section around them.
 
+**The page preamble is outside the budget too (owner, 2026-10-24, ADR-0011).**
+The table, « Objectifs d'apprentissage », « Justification du niveau » and
+« Limites de périmètre » are written by the generator from the matrix and were
+never counted; the course's own `## Objectif` now is not either. `REV-001` and
+`R14` read `Course::budgetWordCount()` — body words without that section,
+through one pattern, `Course::OBJECTIVE_SECTION`, mirrored in
+`tools/audit/collect.py` — while `wordCount()`, course size and the revision
+roadmap still count it, because it is read. Rule `OBJ-001` keeps the objective
+to 60 words of prose: no code, table, list or sub-heading. Never move teaching
+into it to fit a page under its budget.
+
 **A course maps each outcome to the section teaching it (owner, 2026-10-14, rule `SEC-001`).**
 A mock's correction links a missed question to the `## ` heading named for its
 outcome in the course's `outcome_sections`. Renaming or removing a heading, or

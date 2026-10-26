@@ -40,11 +40,6 @@ Rendre testable du code qui dépend de l'heure. C'est la raison d'être du
 component, énoncée telle quelle par la documentation : **découpler l'application
 de la clock système** pour pouvoir figer le temps.
 
-Le problème qu'il résout est concret. Une method qui appelle
-`new \DateTimeImmutable()` à l'intérieur d'elle-même ne peut pas être testée
-pour hier, pour dans un mois, ou pour le 29 février : son résultat dépend du
-moment où la suite de tests s'exécute.
-
 ## Prérequis
 
 La dependency injection, et `DateTimeImmutable`.
@@ -70,6 +65,11 @@ ajustements de la clock système, qui peuvent faire reculer l'heure au milieu
 d'une mesure.
 
 ## Injecter la clock
+
+Le problème que le component résout est concret. Une method qui appelle
+`new \DateTimeImmutable()` à l'intérieur d'elle-même ne peut pas être testée
+pour hier, pour dans un mois, ou pour le 29 février : son résultat dépend du
+moment où la suite de tests s'exécute.
 
 ```php
 use Symfony\Component\Clock\ClockInterface;

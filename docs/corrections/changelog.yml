@@ -595,3 +595,85 @@ entries:
         sections: ["Dénormaliser"]
     flashcards: []
     questions: [QST-xfq1w6p4khfq, QST-ayq8xg4be7j8]
+
+  - id: CVR-r7b0wgkjebs5
+    date: '2026-10-24'
+    pull_request: 432
+    commit: 'c48317d'
+    kind: CORRECTION
+    finding: pitfall-flashcards
+    official_items: [OIT-xc4zfr70jjas]
+    facts: [http-kernel.exception-response-takes-exception-status]
+    title: "Exception handling : une Response 204 posée sur kernel.exception ne sort pas toujours en 500"
+    was: >-
+      « Un listener pose une `Response` à **204**. Quel statut sort ? » — « **500**, sauf appel préalable à
+      `allowCustomResponseCode()`. »
+    now: >-
+      Le statut de repli est celui de l'exception : **500** pour une `\RuntimeException` sans statut HTTP,
+      mais **404** pour une `NotFoundHttpException`, et plus généralement le statut d'une exception HTTP —
+      sauf `allowCustomResponseCode()`. La carte précise désormais quelle exception le controller lève. Lu
+      dans `HttpKernel` 8.0 et exécuté.
+    courses: []
+    flashcards: [FLC-h2e5dj32pzgg]
+    questions: []
+
+  - id: CVR-7av4cwx5kw2d
+    date: '2026-10-24'
+    pull_request: 432
+    commit: 'c48317d'
+    kind: CORRECTION
+    finding: pitfall-flashcards
+    official_items: [OIT-1cj08dhtp9hj]
+    facts: [routing.unicode-requirement-needs-utf8]
+    title: "Restrict URL parameters : une property Unicode exige l'option utf8"
+    was: >-
+      « … les properties Unicode fonctionnent, et une expression fragile passe sans que rien ne prévienne. »
+    now: >-
+      Une requirement qui emploie une property Unicode comme `\p{Lu}` exige l'option `utf8: true` ; sans
+      elle, la compilation de la route lève une `LogicException`. Lu dans `RouteCompiler` 8.0 et exécuté avec
+      Routing 8.0.15.
+    courses:
+      - id: CRS-wg3j0t5pm7w1
+        sections: ["Pièges d'examen"]
+    flashcards: []
+    questions: []
+
+  - id: CVR-86r6ry4qg2dn
+    date: '2026-10-24'
+    pull_request: 432
+    commit: 'c48317d'
+    kind: CORRECTION
+    finding: pitfall-flashcards
+    official_items: [OIT-zezwg9nya501]
+    facts: []
+    title: "HTTP Caching : c'est l'invalidation à la demande qui sort de la spécification"
+    was: >-
+      « **L'invalidation ne fait pas partie de la spécification HTTP.** » — en piège « L'invalidation est hors
+      spécification HTTP. » et en point clé « invalidation hors protocole ».
+    now: >-
+      L'invalidation **à la demande** — purger une entrée parce que le contenu a changé — sort du protocole.
+      RFC 9111 §4.4 définit l'autre : un cache doit invalider l'URI cible après une Response non erronée à une
+      method non sûre.
+    courses:
+      - id: CRS-1k0ce9dvdr99
+        sections: ["Ce que le cache ne fera pas", "Pièges d'examen", "Points clés"]
+    flashcards: []
+    questions: []
+
+  - id: CVR-2kf5ma2p370b
+    date: '2026-10-24'
+    pull_request: 432
+    commit: 'c48317d'
+    kind: EXTENSION
+    finding: pitfall-flashcards
+    official_items: [OIT-1cj08dhtp9hj, OIT-1kjqdnryaw0h, OIT-46ry8d7dypmb, OIT-512se83ab7qj, OIT-58r9dadx916v, OIT-5g82spham3vm, OIT-5xvjqa4203xe, OIT-65bev6t7wbna, OIT-65sswf0qhw6c, OIT-7sewqvmw6468, OIT-8hs6e05vq91g, OIT-9x3strrjdng7, OIT-bvnvx2b6yt2y, OIT-bwfqarnn6s2f, OIT-bz1f5nh8g9b2, OIT-d3nyk9z0q2pd, OIT-dctf03ftx44f, OIT-dp7w7s85wxjg, OIT-e93sa9rd4kd9, OIT-fhb3vz7xbt5h, OIT-fhjmv9w3wxsb, OIT-gkh08ztwdme1, OIT-hqz5c2qse24w, OIT-n0zfkcr189af, OIT-ns36thqnh2jk, OIT-qnm508g1ktqm, OIT-rd9b27fkb72r, OIT-stze9x4aydp3, OIT-tb3bnd6b0f01, OIT-tjn6kyvyc2h9, OIT-v6wxp78gk42c, OIT-vhd83fn6w9wy, OIT-vt0p9cacpkpd, OIT-webdvbgbrfth, OIT-xgrbftkj67ds, OIT-ywrx9x3hg9z8, OIT-zezwg9nya501]
+    facts: []
+    title: "62 flashcards : chaque piège d'examen a désormais une carte qui le répète"
+    now: >-
+      Chacun des 788 paragraphes « Pièges d'examen » a été lu face à toutes les cartes de son item : 63
+      n'avaient aucune carte qui les répète. 62 cartes sont ajoutées, chaque fait exécuté (PHP 8.4.19,
+      Symfony 8.0.15) ou lu dans la source citée ; un piège reste sans carte, inatteignable en 8.0. Elles
+      entrent dans votre file de révision comme de nouvelles cartes.
+    courses: []
+    flashcards: [FLC-132j6bb7cgj1, FLC-1fxqpfkbsm7j, FLC-1g7a96r31q4m, FLC-1kgaxhvwebpz, FLC-1matv67tch5r, FLC-1qbj8sb3scg4, FLC-24p1bdhhjqxd, FLC-26dw5e7m1aqb, FLC-2dya1ngypecc, FLC-2yy6sbbm560h, FLC-3e9fpr3hn6kc, FLC-3w05sa90j4b2, FLC-54dgr0wb2405, FLC-5z1zvrs31f8y, FLC-6dzrbr07rhb0, FLC-75rcpkjjxm83, FLC-78pn0msbyxq0, FLC-877fwv133fsn, FLC-8hehkvx6cc0b, FLC-91sn9e53zbe4, FLC-a134w160sdtf, FLC-a68zce7jg14p, FLC-aaw7xa69q5m8, FLC-ateqfyrqv1d3, FLC-bme3m2zcn4f6, FLC-cgzsgfh274se, FLC-ct626d88p6c7, FLC-e59nfw3a5krd, FLC-fwg3mnmxkjge, FLC-g36cqm7ywwy8, FLC-g7j72emr31qb, FLC-gd9eab8nmb9e, FLC-gh32p9t68h99, FLC-h0d16j276qgh, FLC-ha0fycvyrph8, FLC-hfx4p10aptcf, FLC-j3q4g3v2vswg, FLC-j4brna7btsq6, FLC-k9c7n0brvb1c, FLC-kas9xgck3taz, FLC-kggeyx7153s4, FLC-kt2fa248ea28, FLC-nt31fkv8p93g, FLC-nvm4qms1k2tx, FLC-nzzsc08yb57x, FLC-p34jqjdzhs24, FLC-q6ac4pm4sm1y, FLC-q7jafcghbdhm, FLC-qg2jp687b1y6, FLC-qmpvz7qwt987, FLC-rwk8y93ze3b6, FLC-s96310xtj98g, FLC-shcv7673gcfc, FLC-sn98syzz504z, FLC-snnz88eh57kp, FLC-xtrdcvjy4swp, FLC-y6rz0p94wkxt, FLC-yc7t3pe7a8y8, FLC-yq3sy3g85yz0, FLC-z2dpxs1ejrgn, FLC-zjsgcpt10vqp, FLC-zt3hkwa4smfj]
+    questions: []

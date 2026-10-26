@@ -3,7 +3,8 @@
 **Rule:** `REV-001` · **Criterion:** `R14_revision_budget` ·
 **Decision:** [ADR-0007](../adr/0007-refinement-framework-v2.md), budgets
 recalibrated by [ADR-0008](../adr/0008-revision-budget-recalibration.md),
-Mermaid diagrams excluded by [ADR-0009](../adr/0009-mermaid-diagrams-outside-the-revision-budget.md)
+Mermaid diagrams excluded by [ADR-0009](../adr/0009-mermaid-diagrams-outside-the-revision-budget.md),
+the « Objectif » by [ADR-0011](../adr/0011-page-preamble-outside-the-revision-budget.md)
 
 ## The one measure where more is worse
 
@@ -24,6 +25,19 @@ exemption is the diagram's, not the page's: every word outside the fence still
 counts, and rule `DIA-001` requires each block to be a real diagram, with an
 accessible title and description, so that the fence cannot carry prose the
 budget refuses. `AUD-04` reports the Mermaid token count separately.
+
+**The `## Objectif` section is excluded from the budget** — the owner's
+decision of 2026-10-24, recorded in
+[ADR-0011](../adr/0011-page-preamble-outside-the-revision-budget.md), which
+puts the whole preamble of an item page outside the budget. Four of its five
+parts — the table, « Objectifs d'apprentissage », « Justification du niveau »,
+« Limites de périmètre » — are written by the generator from the matrix and
+were never in a course body. The fifth, the objective, is: `REV-001` and `R14`
+read `Course::budgetWordCount()`, which drops it, while `Course::wordCount()` —
+course size, and the revision roadmap — still counts it, because it is read.
+Rule `OBJ-001` holds the section to at most 60 words of prose, without code,
+table, list or sub-heading, so it cannot carry the teaching the budget refuses.
+`AUD-04` reports the objective tokens beside the Mermaid ones.
 
 `Course::wordCount()` deliberately does **not** use PHP's `str_word_count()`:
 its default character class excludes accented letters, so it splits `défaut`

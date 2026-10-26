@@ -57,6 +57,22 @@ def mermaid_words(body):
     return sum(len(b.split()) for b in MERMAID_BLOCK.findall(body))
 
 
+# The `## Objectif` section, as Course::OBJECTIVE_SECTION matches it in PHP.
+# Outside the revision budget since ADR-0011 (owner, 2026-10-24), still counted
+# as body words: a learner reads it.
+OBJECTIVE_SECTION = re.compile(r'^## Objectif[ \t]*(?:\n|\Z).*?(?=^## |\Z)', re.M | re.S)
+
+
+def budget_words(body):
+    """Words REV-001 counts, as Course::budgetWordCount(): body words without the objective."""
+    return len(OBJECTIVE_SECTION.sub(' ', MERMAID_BLOCK.sub(' ', body)).split())
+
+
+def objective_words(body):
+    """Whitespace tokens of the `## Objectif` section: outside the budget, still reported."""
+    return sum(len(s.split()) for s in OBJECTIVE_SECTION.findall(MERMAID_BLOCK.sub(' ', body)))
+
+
 def courses():
     """Each course as (front matter dict, body text). Body excludes front matter."""
     out = []

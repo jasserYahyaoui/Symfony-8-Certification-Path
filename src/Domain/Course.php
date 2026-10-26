@@ -126,7 +126,55 @@ final readonly class Course
      */
     public function wordCount(): int
     {
-        $prose = preg_replace(self::MERMAID_BLOCK, ' ', $this->body) ?? $this->body;
+        return self::tokens(preg_replace(self::MERMAID_BLOCK, ' ', $this->body) ?? $this->body);
+    }
+
+    /**
+     * The `## Objectif` section, heading included, up to the next `## `
+     * heading (ADR-0011). A `## Objectifs …` heading does not match: the
+     * pattern requires the line to end after the word.
+     */
+    public const string OBJECTIVE_SECTION = '/^## Objectif[ \t]*(?:\n|\z).*?(?=^## |\z)/msu';
+
+    /**
+     * The `## Objectif` sections of a Markdown body. A course has one; OBJ-001
+     * reports a second rather than let both leave the budget unnoticed.
+     *
+     * @return list<string>
+     */
+    public static function objectiveSections(string $markdown): array
+    {
+        preg_match_all(self::OBJECTIVE_SECTION, $markdown, $matches);
+
+        return $matches[0];
+    }
+
+    /**
+     * Words the revision budget REV-001 and readiness criterion R14 count:
+     * body words without the `## Objectif` section.
+     *
+     * The owner's decision of 2026-10-24 (ADR-0011): the page's preamble is
+     * not counted. Four of its five parts — the table, « Objectifs
+     * d'apprentissage », « Justification du niveau », « Limites de
+     * périmètre » — are written by the generator from the matrix and were
+     * never in a course body; the objective is, and it leaves the budget here.
+     * OBJ-001 keeps it to a short statement of the goal, so that the exemption
+     * cannot shelter teaching.
+     *
+     * `wordCount()` is unchanged: course size, as CLAUDE.md reports it, and the
+     * revision roadmap still count the objective, because a learner reads it.
+     */
+    public function budgetWordCount(): int
+    {
+        return self::tokens(preg_replace(
+            [self::MERMAID_BLOCK, self::OBJECTIVE_SECTION],
+            ' ',
+            $this->body,
+        ) ?? $this->body);
+    }
+
+    private static function tokens(string $prose): int
+    {
         $tokens = preg_split('/\s+/u', trim($prose), -1, \PREG_SPLIT_NO_EMPTY);
 
         return false === $tokens ? 0 : \count($tokens);
