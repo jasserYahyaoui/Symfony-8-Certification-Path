@@ -1,7 +1,8 @@
 """Proof that the refinement-framework rules of ADR-0007 actually fire.
 
 ARC-001, PED-003 and REV-001 were added to a corpus that satisfies all three,
-and DIA-001 (ADR-0009) to one whose two diagrams satisfy it,
+DIA-001 (ADR-0009) to one whose two diagrams satisfy it, and OBJ-001
+(ADR-0011) to one whose 163 objectives satisfy it,
 so each of them reports nothing on the canonical data. A rule that has only
 ever been silent has not been shown to be capable of speaking: five checks in
 this project were found to be vacuous, four of them comparing a value with
@@ -38,10 +39,17 @@ LINKED_COURSE = 'content/courses/CRS-0a0d5bp6769e.md'
 LOT01_QUESTION = 'content/questions/lot-01-php.yml'
 
 # The first course to carry Mermaid diagrams (ADR-0009): lot 03, Request
-# handling, DEEP, 1199 body words of 1200 once its two diagrams are excluded.
-# That margin of one word is what makes the REV-001 case below a real test of
-# the exemption: prose added next to a diagram must still be counted.
+# handling, DEEP. It stood at 1199 body words of 1200 once its two diagrams
+# were excluded; since ADR-0011 its « Objectif » leaves the budget too, and the
+# margin is computed rather than written down, so the REV-001 case below adds
+# exactly one word over the ceiling: prose added next to a diagram, after the
+# objective, must still be counted.
 DIAGRAM_COURSE = 'content/courses/CRS-mpwjc4g3vmj7.md'
+sys.path.insert(0, str(ROOT / 'tools/audit'))
+import collect  # noqa: E402  (the one Python mirror of Course::budgetWordCount())
+DEEP_BUDGET = 1200
+_body = (ROOT / DIAGRAM_COURSE).read_text(encoding='utf-8').split('---', 2)[2]
+OVER_BY_ONE = DEEP_BUDGET - collect.budget_words(_body) + 1
 
 # The pilot comprehension bank (ADR-0010): lot 12, Console. Its first
 # question is the only one assessing OUT-b3610kc2cj3b, and the only one whose
@@ -204,8 +212,26 @@ CASES = [
         'REV-001 still counts the prose written beside a diagram',
         [(DIAGRAM_COURSE,
           "## Trois façons d'échouer, trois exceptions\n",
-          ('mot ' * 10).strip() + "\n\n## Trois façons d'échouer, trois exceptions\n")],
+          ('mot ' * OVER_BY_ONE).strip() + "\n\n## Trois façons d'échouer, trois exceptions\n")],
         '[ERROR] REV-001',
+    ),
+    # OBJ-001 (ADR-0011). The « Objectif » is outside the budget, so the rule
+    # keeping it a short statement of the goal is what stops teaching from
+    # moving there. Each case breaks the real lot-01 course.
+    (
+        'OBJ-001 rejects an objective grown past sixty words',
+        [(LOT01_COURSE, '\n## Règles\n', ' ' + ('mot ' * 60).strip() + '\n\n## Règles\n')],
+        '[ERROR] OBJ-001',
+    ),
+    (
+        'OBJ-001 rejects code moved into the objective',
+        [(LOT01_COURSE, '\n## Règles\n', '\n```php\n$a = 1;\n```\n\n## Règles\n')],
+        '[ERROR] OBJ-001',
+    ),
+    (
+        'OBJ-001 rejects a second objective, which would leave the budget too',
+        [(LOT01_COURSE, '\n## Points clés\n', '\n## Objectif\n\nUn second objectif.\n\n## Points clés\n')],
+        '[ERROR] OBJ-001',
     ),
     # SEC-001 (owner, 2026-10-14). A wrong answer in a mock links to the course
     # section teaching the outcome; each case would ship a link to nothing.

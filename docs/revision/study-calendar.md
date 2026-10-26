@@ -968,7 +968,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Lundi 7 décembre 2026
 
-- NOUVEAU · **Miscellaneous : Clock** (STANDARD) — 43 min · 889 mots · 5 questions, 13 questions de compréhension, 11 flashcards
+- NOUVEAU · **Miscellaneous : Clock** (STANDARD) — 43 min · 891 mots · 5 questions, 13 questions de compréhension, 11 flashcards
 - NOUVEAU · **Miscellaneous : EventDispatcher** (STANDARD) — 33 min · 710 mots · 4 questions, 9 questions de compréhension, 11 flashcards
 - NOUVEAU · **Miscellaneous : Event** (STANDARD) — 29 min · 519 mots · 4 questions, 6 questions de compréhension, 11 flashcards
 - Révision **J+3** (13 min) — Miscellaneous : Internationalization and localization (Note: Intl component utilities to access ICU data are not included) · Miscellaneous : HTTP Caching (reverse proxies, expiration, validation) Note: ESI (Edge Side Includes) is not included · Miscellaneous : Cache
