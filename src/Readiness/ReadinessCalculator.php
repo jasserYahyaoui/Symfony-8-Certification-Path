@@ -61,7 +61,13 @@ final class ReadinessCalculator
         }
 
         $courseWords = [];
+        $budgetExempt = [];
         foreach ($content->courses as $course) {
+            // ADR-0012: a page in the pedagogical format has no word budget, so
+            // R14 holds for it — the same exemption REV-001 applies.
+            if ($course->isPedagogical()) {
+                $budgetExempt[$course->officialItemId] = true;
+            }
             $courseWords[$course->officialItemId] = ($courseWords[$course->officialItemId] ?? 0) + $course->budgetWordCount();
         }
 
@@ -71,7 +77,7 @@ final class ReadinessCalculator
         foreach ($content->matrix->officialItems() as $item) {
             $questions = $questionsByItem[$item->id->value] ?? [];
             $audited = \in_array($item->lot, $this->auditedLots, true);
-            $criteria = $this->criteriaFor($item, $questions, $content, $courseWords);
+            $criteria = $this->criteriaFor($item, $questions, $content, $courseWords, $budgetExempt);
 
             $assessment = new ItemAssessment(
                 itemId: $item->id->value,
@@ -98,11 +104,12 @@ final class ReadinessCalculator
 
     /**
      * @param list<Question>     $questions
-     * @param array<string, int> $courseWords budget words per official item id (Course::budgetWordCount(), ADR-0011)
+     * @param array<string, int>  $courseWords  budget words per official item id (Course::budgetWordCount(), ADR-0011)
+     * @param array<string, true> $budgetExempt official item ids whose course is in the pedagogical format (ADR-0012)
      *
      * @return array<string, bool>
      */
-    private function criteriaFor(OfficialItem $item, array $questions, ContentSet $content, array $courseWords): array
+    private function criteriaFor(OfficialItem $item, array $questions, ContentSet $content, array $courseWords, array $budgetExempt = []): array
     {
         $level = $item->contentLevel;
         $modes = $item->requiredAssessmentModes;
@@ -145,7 +152,7 @@ final class ReadinessCalculator
             $questions,
             static fn (Question $q): bool => null === $q->questionArchetype,
         );
-        $criteria['R14_revision_budget'] = $this->withinRevisionBudget($item, $courseWords);
+        $criteria['R14_revision_budget'] = $this->withinRevisionBudget($item, $courseWords, $budgetExempt);
 
         // A STANDARD or DEEP item asked for more than one kind of thinking, so
         // one question mould repeated cannot be evidence for it. A MINIMAL item
@@ -242,14 +249,19 @@ final class ReadinessCalculator
     }
 
     /**
-     * @param array<string, int> $courseWords
+     * @param array<string, int>  $courseWords
+     * @param array<string, true> $budgetExempt
      */
-    private function withinRevisionBudget(OfficialItem $item, array $courseWords): bool
+    private function withinRevisionBudget(OfficialItem $item, array $courseWords, array $budgetExempt): bool
     {
         $level = $item->contentLevel;
 
         if (null === $level) {
             return false;
+        }
+
+        if (isset($budgetExempt[$item->id->value])) {
+            return true;
         }
 
         $budget = RevisionBudgetRule::budgets()[$level->value] ?? null;

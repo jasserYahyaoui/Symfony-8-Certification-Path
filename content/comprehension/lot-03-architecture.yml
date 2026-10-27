@@ -5236,6 +5236,165 @@ questions:
     branch: '8.0'
     symbol_or_lines: Deprecate the Deprecated class
     verified_at: '2026-10-09'
+- id: QST-ncw35b77q8v0
+  question_archetype: BEHAVIOR_PREDICTION
+  assesses_outcomes:
+  - OUT-8dx7erg8d1eb
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-ehf5zdnmdb1j
+  domain: symfony
+  language: en
+  difficulty: medium
+  cognitive_level: APPLY
+  exam_skill: APPLY
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: 'Symfony 7.4 runs `trigger_deprecation(''symfony/http-foundation'', ''7.4'', ''Request::get() is deprecated, use properties ->attributes, query or request directly instead.'')`. Which message does an error handler receive?'
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-27'
+  tags:
+  - deprecations
+  - trigger_deprecation
+  choices:
+  - id: CHO-1tm0eqdp0b1v
+    text: 'Since symfony/http-foundation 7.4: Request::get() is deprecated, use properties …'
+    correct: true
+  - id: CHO-vntwr964eb0a
+    text: 'Deprecated until symfony/http-foundation 8.0: Request::get() is deprecated, use properties …'
+    correct: false
+    explanation: The version is the one that introduced the deprecation, and the prefix is « Since ».
+  - id: CHO-v6zevv90h133
+    text: 'symfony/http-foundation 7.4: Request::get() is deprecated, use properties …'
+    correct: false
+    explanation: 'The function prefixes the message with « Since <package> <version>: ».'
+  - id: CHO-j885qaav3y1h
+    text: 'Request::get() is deprecated, use properties … (removed in symfony/http-foundation 8.0)'
+    correct: false
+    explanation: The removal version is never part of the call or of the message.
+  explanation: 'Executed on PHP 8.4.19: the function calls @trigger_error("Since $package $version: ".$message, E_USER_DEPRECATED). The second argument is the version that introduced the deprecation, read as « since ».'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/Deprecation/function.php
+    repository: symfony/symfony
+    branch: '8.0'
+    commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
+    symbol_or_lines: '"Since $package $version: "'
+    verified_at: '2026-10-27'
+- id: QST-vvmr9h74bnhh
+  question_archetype: DEFINITION_RECALL
+  assesses_outcomes:
+  - OUT-8dx7erg8d1eb
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-ehf5zdnmdb1j
+  domain: symfony
+  language: en
+  difficulty: easy
+  cognitive_level: KNOW
+  exam_skill: RECOGNIZE
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: When HttpFoundation deprecates one of its methods, what goes in the first argument of trigger_deprecation()?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 40
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-27'
+  tags:
+  - deprecations
+  - trigger_deprecation
+  choices:
+  - id: CHO-699qtvyt76h0
+    text: The Composer package name, symfony/http-foundation
+    correct: true
+  - id: CHO-nfpfxn44ds7g
+    text: The component namespace, Symfony\Component\HttpFoundation
+    correct: false
+    explanation: A namespace is not a package name.
+  - id: CHO-fx22hjw6xtsb
+    text: The short component name, HttpFoundation
+    correct: false
+    explanation: The convention expects the Composer package name.
+  - id: CHO-mn11x3f09k64
+    text: The fully qualified name of the class being deprecated
+    correct: false
+    explanation: The class belongs in the message, often through a %s placeholder.
+  explanation: 'The function documents it: "@param string $package The name of the Composer package that is triggering the deprecation". Symfony 7.4 passes ''symfony/http-foundation'' in Request::get().'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/Deprecation/function.php
+    repository: symfony/symfony
+    branch: '8.0'
+    commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
+    symbol_or_lines: '@param string $package The name of the Composer package that is triggering the deprecation'
+    verified_at: '2026-10-27'
+- id: QST-msepkm81vjmt
+  question_archetype: SCENARIO_CHOICE
+  assesses_outcomes:
+  - OUT-8dx7erg8d1eb
+  version: 1
+  official_topic: Symfony Architecture
+  official_item: OIT-ehf5zdnmdb1j
+  domain: symfony
+  language: en
+  difficulty: hard
+  cognitive_level: APPLY
+  exam_skill: DISTINGUISH
+  type: mcq
+  answer_mode: single
+  required_answer_count: 1
+  question: A contributor deprecates a whole class whose replacement lives in another namespace. Where should the trigger_deprecation() call go?
+  scoring_policy: all-or-nothing
+  shuffle_choices: true
+  negative_wording: false
+  estimated_time_seconds: 60
+  classification: OFFICIAL
+  pool: COMPREHENSION
+  verification_status: VERIFIED
+  reviewers:
+  - tech-lead
+  reviewed_at: '2026-10-27'
+  tags:
+  - deprecations
+  - trigger_deprecation
+  choices:
+  - id: CHO-d4dqxf6jbqdr
+    text: At file level, after the use declarations, so ::class names the imported class
+    correct: true
+  - id: CHO-cy9v5rszej5d
+    text: At file level, before the use declarations, so that it runs before anything else in the file
+    correct: false
+    explanation: Before the import, the replacement's ::class resolves in the current namespace and names a class that does not exist.
+  - id: CHO-t8t8r4vchds5
+    text: In the constructor, so that every new instance of the deprecated class reports it
+    correct: false
+    explanation: The convention places it at file level for a whole class; a file-level call reports once, when the class is loaded.
+  - id: CHO-p47r3dpe6n7z
+    text: Nowhere, because the @deprecated tag on the class already warns at runtime
+    correct: false
+    explanation: '@deprecated is documentation; only trigger_deprecation() warns when code runs.'
+  explanation: 'The convention: « When deprecating a whole class the trigger_deprecation() call should be placed after the use declarations ». Executed on PHP 8.4.19: placed before the import, the notice names the replacement in the wrong namespace.'
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/conventions.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    commit_sha: eea05cbfe063b9cf99afaf303b8cad76757f43bb
+    symbol_or_lines: '"When deprecating a whole class the trigger_deprecation() call should be placed after the use declarations"'
+    verified_at: '2026-10-27'
 - id: QST-yrh31pytknyz
   question_archetype: SCENARIO_CHOICE
   assesses_outcomes:

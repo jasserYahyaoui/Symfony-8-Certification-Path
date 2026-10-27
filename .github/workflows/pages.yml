@@ -5080,6 +5080,25 @@ jobs:
               echo "ok  third-pass  $label"
             fi
           done
+          # ADR-0012: the first page in the pedagogical format. Each needle was
+          # absent from master before: the running example, an executed fact,
+          # the quiz's correction marker, and the closing digest.
+          code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+            -o /tmp/ped-deprecations -w '%{http_code}' "$BASE_URL/docs/courses/lot-03/deprecations-best-practices")
+          missing=""
+          if [ "$code" != "200" ]; then
+            missing=" page:$code"
+          else
+            for needle in 'Le fil rouge' 'dans le namespace courant' 'Bonne réponse : B.' 'Fiche express'; do
+              grep -aqF -- "$needle" /tmp/ped-deprecations || missing="$missing [$needle]"
+            done
+          fi
+          if [ -n "$missing" ]; then
+            echo "::error::Pedagogical pilot missing from lot-03/deprecations-best-practices:$missing"
+            fail=1
+          else
+            echo "ok  pedagogical  lot-03 deprecations: running example, executed facts, quiz corrections and digest served"
+          fi
           # Remediation P1.3, lot 08: null and '' per constraint, 8.0 named arguments, and a custom
           # Constraint with its ConstraintValidator. Each needle is absent from master before the change.
           for page in built-in-validation-constraints violations-builder; do

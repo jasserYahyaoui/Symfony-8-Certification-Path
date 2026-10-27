@@ -31,6 +31,8 @@ use CertPath\Validation\Rule\QuestionIntegrityRule;
 use CertPath\Validation\Rule\ReadableSourceUrlRule;
 use CertPath\Validation\Rule\ReferentialIntegrityRule;
 use CertPath\Validation\Rule\RevisionBudgetRule;
+use CertPath\Validation\Rule\PedagogicalFormatRule;
+use CertPath\Validation\Rule\CourseQuizIndependenceRule;
 use CertPath\Validation\Rule\SourceAnchorRule;
 use CertPath\Validation\Rule\UniqueItemIdsRule;
 use CertPath\Validation\Rule\ValidationPoolCoverageRule;
@@ -82,6 +84,8 @@ final class RuleSet
             new ComprehensionCoverageRule(),
             new ComprehensionIndependenceRule(),
             new ComprehensionQualityRule(),
+            new PedagogicalFormatRule(),
+            new CourseQuizIndependenceRule(),
         ];
     }
 }

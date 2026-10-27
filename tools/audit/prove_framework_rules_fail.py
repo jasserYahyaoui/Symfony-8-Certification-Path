@@ -1,8 +1,9 @@
 """Proof that the refinement-framework rules of ADR-0007 actually fire.
 
 ARC-001, PED-003 and REV-001 were added to a corpus that satisfies all three,
-DIA-001 (ADR-0009) to one whose two diagrams satisfy it, and OBJ-001
-(ADR-0011) to one whose 163 objectives satisfy it,
+DIA-001 (ADR-0009) to one whose two diagrams satisfy it, OBJ-001
+(ADR-0011) to one whose 163 objectives satisfy it, and FMT-001 and QCM-001
+(ADR-0012) to one whose single pedagogical page satisfies both,
 so each of them reports nothing on the canonical data. A rule that has only
 ever been silent has not been shown to be capable of speaking: five checks in
 this project were found to be vacuous, four of them comparing a value with
@@ -50,6 +51,10 @@ import collect  # noqa: E402  (the one Python mirror of Course::budgetWordCount(
 DEEP_BUDGET = 1200
 _body = (ROOT / DIAGRAM_COURSE).read_text(encoding='utf-8').split('---', 2)[2]
 OVER_BY_ONE = DEEP_BUDGET - collect.budget_words(_body) + 1
+
+# The first course in the pedagogical format (ADR-0012): lot 03, Deprecations
+# best practices. Its quiz has ten questions, its digest seven points.
+PEDAGOGICAL_COURSE = 'content/courses/CRS-rkq1d437dw5d.md'
 
 # The pilot comprehension bank (ADR-0010): lot 12, Console. Its first
 # question is the only one assessing OUT-b3610kc2cj3b, and the only one whose
@@ -287,6 +292,31 @@ CASES = [
           "  pool: COMPREHENSION\n  verification_status: VERIFIED\n  reviewers:\n  - tech-lead\n  reviewed_at: '2026-10-09'\n  tags:\n  - component\n",
           "  pool: LEARNING\n  verification_status: VERIFIED\n  reviewers:\n  - tech-lead\n  reviewed_at: '2026-10-09'\n  tags:\n  - component\n")],
         'COMPREHENSION questions only, found LEARNING',
+    ),
+    # ADR-0012. The pedagogical format leaves the word budget; FMT-001 makes the
+    # flag earn it, and QCM-001 keeps a quiz printed with its correction from
+    # being a bank question. Each case breaks the real pilot page.
+    (
+        'FMT-001 rejects a pedagogical page without its « Fiche express »',
+        [(PEDAGOGICAL_COURSE, '\n## Fiche express\n', '\n## Fiche finale\n')],
+        '[ERROR] FMT-001',
+    ),
+    (
+        'FMT-001 rejects a correction naming a letter that is not a choice',
+        [(PEDAGOGICAL_COURSE, '**Bonne réponse : D.** La version est obligatoire', '**Bonne réponse : E.** La version est obligatoire')],
+        '[ERROR] FMT-001',
+    ),
+    (
+        'FMT-001 rejects the flag on a page that does not live up to it',
+        [(LOT01_COURSE, 'verification_status: VERIFIED\n', 'verification_status: VERIFIED\nformat: pedagogical\n')],
+        '[ERROR] FMT-001',
+    ),
+    (
+        'QCM-001 rejects a course quiz prompt copied from an exam bank',
+        [(PEDAGOGICAL_COURSE,
+          '**Question 10.** Une deprecation peut-elle être introduite dans une version antérieure, déjà publiée et encore maintenue ?',
+          '**Question 10.** Which package must be installed for `trigger_deprecation()` to be available?')],
+        '[ERROR] QCM-001',
     ),
 ]
 

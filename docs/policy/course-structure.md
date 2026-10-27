@@ -123,3 +123,63 @@ A scope note may follow as a `>` blockquote. The section is outside the revision
 budget, like the preamble the generator writes above it, by the owner's
 decision of 2026-10-24; what teaches belongs in the body, where the budget
 counts it.
+
+## Pedagogical pages (ADR-0012)
+
+By the owner's decision of 2026-10-27, a page may be rewritten as a full
+revision course, in this order — each part only where it serves the item:
+
+1. **Understand** — the problem the notion solves, why Symfony works this way,
+   where a developer meets it, before any rule.
+2. **Visualise** — the whole mechanism at once; a ```` ```text ```` diagram for
+   a linear cycle, Mermaid for a branching flow (ADR-0009).
+3. **Example** — one realistic case, real wherever the 8.0 sources offer one,
+   reused through the page. An invented one is labelled as such.
+4. **Official rule** — quoted or paraphrased from the source, then explained:
+   each important rule with its *why*. Where the source states a rule without
+   its reason, say so, and mark a reconstructed reason as reasoning; where
+   execution shows the reason, say it was executed.
+5. **Line by line** — every API, attribute or argument that appears, with the
+   arguments an exam can turn into a trap named as such.
+6. **Distinctions** — a comparison wherever two mechanisms can be confused.
+7. **« Concrètement dans ton application »** — upgrades, Composer, tests, logs,
+   the profiler, third-party code, only where relevant; context outside the
+   item's scope is labelled « contexte complémentaire ».
+8. **« À comprendre », « À mémoriser », « Pièges d'examen »** — the three levels
+   kept apart. Mnemonics must stay technically exact.
+9. **Application** — scenarios with the expected reasoning.
+10. **« QCM d'entraînement »** — at least four questions mixing recall,
+    understanding, code, scenarios and close choices, each with a correction
+    that says why the answer is right and why the others are not.
+11. **« Fiche express »** — « Si tu dois retenir seulement X choses », 5 to 10
+    points, then one sentence to rebuild the mechanism.
+
+The page carries `format: pedagogical` in its front matter. It then has no word
+budget, and rule `FMT-001` checks the parts a script can read: the traps, a
+5-to-10-point digest, and a quiz whose every question is well-formed:
+
+```markdown
+**Question 1.** The prompt, which may hold a fenced code block.
+
+- **A.** first choice
+- **B.** second choice
+- **C.** third choice
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** Why B, and why A and C are not.
+
+</details>
+```
+
+« **Bonnes réponses : A et C.** » announces several correct choices. Rule
+`QCM-001` refuses a prompt 60 % similar to any question of the exam banks,
+holdout included, or of the comprehension checks: the quiz is written for the
+page, never taken from a bank. `CRS-001` is unchanged — the item's own correct
+answers appear in fenced code only, so a quiz tests them through the reasoning
+around them rather than as a choice to pick.
+
+The pilot is *Deprecations best practices* (lot 03): read it before rewriting
+another page.
+

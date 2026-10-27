@@ -202,6 +202,22 @@ roadmap still count it, because it is read. Rule `OBJ-001` keeps the objective
 to 60 words of prose: no code, table, list or sub-heading. Never move teaching
 into it to fit a page under its budget.
 
+**A pedagogical page has no word budget (owner, 2026-10-27, ADR-0012).** The
+owner asked for every page to become a full revision course — understand,
+visualise, example, official rule, memorise, traps, application, quiz — and to
+ignore the word budget. A course opts in with `format: pedagogical`; `REV-001`
+and `R14` skip it, and `AUD-04` leaves it out of `VOL-1` while printing its count
+and words. The flag is earned: rule `FMT-001` requires a « Pièges d'examen », a
+« Fiche express » of 5 to 10 points and a « QCM d'entraînement » of at least four
+well-formed questions, and `QCM-001` refuses a quiz prompt 60 % similar to any
+exam-bank question (holdout included, id withheld) or comprehension question.
+Write « **Bonne réponse : X.** » — « Réponse » alone is rewritten to `Response`
+by the terminology tool. `CRS-001` still applies: the item's own correct answers
+stay in fenced code, never in the prose or in a quiz choice. Longer pages move
+the revision plan; report the reading time a rewrite adds. The pilot is
+*Deprecations best practices*; follow it, and its policy section in
+`docs/policy/course-structure.md`.
+
 **A course maps each outcome to the section teaching it (owner, 2026-10-14, rule `SEC-001`).**
 A mock's correction links a missed question to the `## ` heading named for its
 outcome in the course's `outcome_sections`. Renaming or removing a heading, or

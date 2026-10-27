@@ -5574,3 +5574,73 @@ flashcards:
         commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
         symbol_or_lines: "REQUEST line 39 — public const REQUEST = \"kernel.request\""
         verified_at: "2026-10-24"
+
+  - id: FLC-30ksve14whnz
+    official_item: OIT-ehf5zdnmdb1j
+    language: fr
+    level: TRAP
+    front: "Dans `trigger_deprecation('symfony/http-foundation', '7.4', …)`, `'7.4'` annonce-t-il la version de suppression ?"
+    back: "Non. C'est la version du package qui a **introduit** la deprecation ; la suppression découle de la règle : la majeure suivante, jamais passée en argument."
+    explanation: >-
+      Docblock de la function : « The version of the package that introduced the
+      deprecation ». Le message émis commence par « Since symfony/http-foundation
+      7.4: », qui se lit « depuis 7.4 ».
+    memorization_justification: >-
+      Un numéro de version dans un avertissement se lit spontanément comme une
+      échéance ; ici, c'est un point de départ.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/Deprecation/function.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/Deprecation/function.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+        symbol_or_lines: "@param string $version The version of the package that introduced the deprecation; \"Since $package $version: \""
+        verified_at: "2026-10-27"
+
+  - id: FLC-8gm3ayn16wam
+    official_item: OIT-ehf5zdnmdb1j
+    language: fr
+    level: TRAP
+    front: "Premier argument de `trigger_deprecation()` dans HttpFoundation : `'HttpFoundation'`, `'Symfony\\Component\\HttpFoundation'` ou `'symfony/http-foundation'` ?"
+    back: "`'symfony/http-foundation'` : le **nom Composer** du package qui déprécie, ni un namespace ni un nom court de component."
+    explanation: >-
+      Docblock de la function : « The name of the Composer package that is
+      triggering the deprecation ». Symfony 7.4 l'écrit ainsi dans
+      `Request::get()`.
+    memorization_justification: >-
+      Trois façons plausibles de désigner le même component ; une seule est
+      attendue.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Contracts/Deprecation/function.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/Deprecation/function.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+        symbol_or_lines: "@param string $package The name of the Composer package that is triggering the deprecation"
+        verified_at: "2026-10-27"
+
+  - id: FLC-jv7wkwft8tjp
+    official_item: OIT-ehf5zdnmdb1j
+    language: fr
+    level: UNDERSTANDING
+    front: "Pourquoi l'appel `trigger_deprecation()` d'une class entière se place-t-il **après** les déclarations `use` ?"
+    back: "Parce qu'avant le `use`, le remplacement n'est pas importé : son `::class` est résolu dans le namespace courant, et le message nomme une class qui n'existe pas."
+    explanation: >-
+      La convention donne la règle sans la justifier. Exécuté avec PHP 8.4.19 :
+      avant le `use`, le message annonce `…\DependencyInjection\ContainerLoader` ;
+      après, `…\Loader\ContainerLoader`. Au niveau du file, la notice part une
+      fois, quand l'autoloader charge la class.
+    memorization_justification: >-
+      La raison rend la règle impossible à oublier : un message qui désigne une
+      class inexistante n'aide personne à migrer.
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/conventions.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/conventions.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "\"When deprecating a whole class the trigger_deprecation() call should be placed after the use declarations\""
+        verified_at: "2026-10-27"
