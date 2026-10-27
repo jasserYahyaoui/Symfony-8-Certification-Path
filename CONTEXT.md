@@ -1,6 +1,6 @@
 # CONTEXT.md — Session continuity (Master Plan §23)
 
-**Last updated:** 2026-10-27 (remédiation : P0, P1, P2.3–P2.7, P3.1–P3.3 livrés ; troisième passe livrée (#434–#436) ; extension properties abstraites (#437, #438) ; **cours pédagogiques (ADR-0012) : pilote livré (#439) ; déploiement dans l'ordre du calendrier, lot 09 en cours** ; F4, F9 bloqués ; examen le 29 décembre)
+**Last updated:** 2026-10-27 (remédiation : P0, P1, P2.3–P2.7, P3.1–P3.3 livrés ; troisième passe livrée (#434–#436) ; extension properties abstraites (#437, #438) ; **cours pédagogiques (ADR-0012) : pilote (#439) et lot 09 (#441) livrés ; suite bloquée, le plan ne tient plus au rythme actuel** ; F4, F9 bloqués ; examen le 29 décembre)
 
 ---
 
@@ -50,6 +50,7 @@ Branche de travail : `claude/symfony-8-certification-plan-phmkau`.
 | Journal de #437 (`CVR-6y0s02nyfcv0`), lignes de livraison | #438 | `bd3c25f` | smoke 121851776449 **success, lu** (314 ok, 0 erreur ; journal servi) |
 | Cours pédagogiques (ADR-0012, `FMT-001`, `QCM-001`) : pilote *Deprecations best practices* | #439 (premier run CI rouge : plan de révision non régénéré après trois mots ajoutés, corrigé dans la PR) | `04f42b3` | smoke 122183663573 **success, lu** (315 ok, 0 erreur ; « ok pedagogical lot-03 deprecations ») |
 | Journal de #439 (`CVR-f4zwnrj6ngdr`), lignes de livraison de #438 et #439 | #440 | `e9a2abd` | smoke 122209369550 **success, lu** (315 ok, 0 erreur ; journal servi) |
+| Format pédagogique, lot 09 : *Dependency Injection component* et *Service container* ; deux corrections (quatre formes d'injection ; `--show-hidden`) | #441 | `8148cd0` | smoke 122468005238 **success, lu** (317 ok, 0 erreur ; les deux lignes « pedagogical lot-09 ») |
 
 **Pièges d'examen → flashcards (2026-10-24, livré : #432, `c48317d`).** Les 788
 paragraphes « Pièges d'examen » lus contre toutes les cartes de leur item :
@@ -76,9 +77,19 @@ compréhension. Pilote : *Deprecations best practices* (lot 03), 836 → environ
 nouvelles. Livré dans #439 (`04f42b3`), smoke de production lu ; entrée de
 journal `CVR-f4zwnrj6ngdr` (#440). **Déploiement (« Go » du propriétaire, 2026-10-27)** : les résultats de
 l'apprenant vivent dans son navigateur, donc les pages sont réécrites dans l'ordre du calendrier à partir
-du jour, chacune avant sa lecture. Lot 09 : *Dependency Injection component* et *Service container*, avec
-deux corrections (quatre formes d'injection et non trois ; `--show-hidden` n'affiche que les services
-internes) ; les cours du plan passent de 19,5 h à 20,9 h. Coût à surveiller : au rythme du plan
+du jour, chacune avant sa lecture. Livré : lot 09, *Dependency Injection component* et *Service container*
+(#441, `8148cd0`), avec deux corrections (quatre formes d'injection et non trois ; `--show-hidden` n'affiche que les services
+internes) ; les cours du plan passent de 19,5 h à 20,9 h. Journal de #441 : `CVR-54mbg962trrp`, `CVR-b4bh8gah7ctq`,
+`CVR-b5kb05gv1hz0`, `CVR-mwfcyzg9fsse`.
+
+**Bloqué, décision du propriétaire (2026-10-27) : le plan ne tient plus.** *Router debugging* (lot 05) et
+*Built-in services* (lot 09) sont réécrites et vérifiées, mais leur temps de lecture (+49 min de première
+passe) rend `build_roadmap.py` impossible au rythme décidé le 2026-10-13 (160/220 min, examen le 29
+décembre) : « Pas de place : 4 mocks à caser entre 2026-12-14 et 2026-12-26 », exit code 1, donc CI rouge.
+Mesuré avec ces deux pages : `--max-new 5` ne suffit pas ; 170 min en semaine tient (items introduits le
+9 décembre, 32 révisions perdues) ; 180/240 tient (4 décembre, 23 perdues). Sans elles, master tient
+tout juste (11 décembre, 43 perdues). Les deux pages attendent en patch (hors dépôt) ; aucune autre page
+n'est réécrite avant le choix : rythme, date, ou profondeur des réécritures. Coût à surveiller : au rythme du plan
 (110 mots/min), une page réécrite ajoute 30 à 50 minutes de lecture ; étendue aux 163 pages, la charge
 dépasserait ce que la date du 29 décembre absorbe. Chaque PR reporte donc l'effet mesuré sur le plan, et
 si l'apprenant exporte *Ma progression*, l'ordre passe aux items où il se trompe.
