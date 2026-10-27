@@ -157,7 +157,7 @@ Garde cet exemple en tête : chaque règle de la page va s'y appliquer.
 Avant le détail, voici le mécanisme entier, appliqué au fil rouge :
 
 ```text
-Symfony 7.3   Request::get() fonctionne, sans aucun signal
+Symfony 7.3   avant la deprecation : Request::get() fonctionne, sans signal
      │
      ▼
 Symfony 7.4   MINEURE : la deprecation est introduite
