@@ -73,6 +73,11 @@ def objective_words(body):
     return sum(len(s.split()) for s in OBJECTIVE_SECTION.findall(MERMAID_BLOCK.sub(' ', body)))
 
 
+def is_pedagogical(front_matter):
+    """A course in the revision-course format of ADR-0012 (`format: pedagogical`)."""
+    return front_matter.get('format') == 'pedagogical'
+
+
 def courses():
     """Each course as (front matter dict, body text). Body excludes front matter."""
     out = []

@@ -68,6 +68,11 @@ final readonly class CourseLoader
             $outcomeSections[$outcome] = $heading;
         }
 
+        $format = $meta['format'] ?? null;
+        if (null !== $format && Course::FORMAT_PEDAGOGICAL !== $format) {
+            throw new SchemaException(\sprintf('Course "%s": `format` must be "%s" when present (ADR-0012).', $ctx, Course::FORMAT_PEDAGOGICAL));
+        }
+
         return new Course(
             id: Id::parse($this->req($meta, 'id', $ctx)),
             officialItemId: $this->req($meta, 'official_item', $ctx),
@@ -79,6 +84,7 @@ final readonly class CourseLoader
             verificationStatus: VerificationStatus::from($this->req($meta, 'verification_status', $ctx)),
             reviewedAt: isset($meta['reviewed_at']) ? (string) $meta['reviewed_at'] : null,
             outcomeSections: $outcomeSections,
+            format: $format,
         );
     }
 

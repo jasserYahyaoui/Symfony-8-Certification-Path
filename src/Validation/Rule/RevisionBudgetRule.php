@@ -80,7 +80,16 @@ final class RevisionBudgetRule implements Rule
     public function check(ContentSet $content): array
     {
         $wordsByItem = [];
+        $exempt = [];
         foreach ($content->courses as $course) {
+            // ADR-0012: the owner lifted the budget for a page rewritten in the
+            // pedagogical format (2026-10-27); FMT-001 holds the flag to that
+            // format, so the exemption is earned rather than declared.
+            if ($course->isPedagogical()) {
+                $exempt[$course->officialItemId] = true;
+
+                continue;
+            }
             $wordsByItem[$course->officialItemId] = ($wordsByItem[$course->officialItemId] ?? 0) + $course->budgetWordCount();
         }
 
@@ -88,7 +97,7 @@ final class RevisionBudgetRule implements Rule
 
         foreach ($content->matrix->officialItems() as $item) {
             $level = $item->contentLevel;
-            if (null === $level) {
+            if (null === $level || isset($exempt[$item->id->value])) {
                 continue;
             }
 

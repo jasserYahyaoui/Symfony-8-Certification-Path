@@ -43,6 +43,13 @@ words = []
 for fm, body in courses:
     words.append((fm['_file'], collect.body_words(body)))
 
+# ADR-0012 (owner, 2026-10-27): a page rewritten in the pedagogical format has
+# no word budget, and VOL-1 — four times the median — is a budget by another
+# name. Such a page leaves VOL-1, not the report: its count and its words are
+# printed below, and the median VOL-1 judges the other courses by is theirs
+# alone, so the rewritten pages cannot drag the threshold up for the rest.
+pedagogical = {fm['_file'] for fm, _body in courses if collect.is_pedagogical(fm)}
+
 sizes = sorted(n for _f, n in words)
 total = sum(sizes)
 median = sizes[len(sizes) // 2]
@@ -64,10 +71,16 @@ bump('mermaid tokens, outside the budget', sum(w for _f, _n, w in diagrams))
 # total stays in the report so the exemption's size can be watched.
 bump('objective tokens, outside the budget', sum(collect.objective_words(body) for _fm, body in courses))
 
+bump('pedagogical courses (ADR-0012), outside VOL-1', len(pedagogical))
+bump('pedagogical course body words', sum(n for f, n in words if f in pedagogical))
+
 # An outlier is judged against this corpus, not an external rule: a course
 # more than four times the median is an outlier by construction.
-OUTLIER = median * 4
+legacy = sorted(n for f, n in words if f not in pedagogical)
+OUTLIER = legacy[len(legacy) // 2] * 4
 for fname, n in words:
+    if fname in pedagogical:
+        continue
     if n > OUTLIER:
         note('VOL-1 course far longer than the corpus median',
              f'{fname}: {n} body words, median {median}, threshold {OUTLIER}')

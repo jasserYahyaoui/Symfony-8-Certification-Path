@@ -33,6 +33,9 @@ final class OutcomeSectionRule implements Rule
      */
     private const array NOT_TEACHING = [
         'Objectif', 'Points clés', 'Sources officielles', 'Aller lire la source', 'Prérequis', 'Périmètre',
+        // ADR-0012: recaps and the quiz of a pedagogical page test or summarise;
+        // they do not explain.
+        "QCM d'entraînement", 'Fiche express', 'À comprendre', 'À mémoriser',
     ];
 
     public function id(): string

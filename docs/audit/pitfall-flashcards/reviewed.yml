@@ -3124,11 +3124,6 @@ pitfalls:
   verdict: COVERED
   card: FLC-5ch4cx1dvrxd
 - course: CRS-rkq1d437dw5d
-  key: 10d8e64f898e
-  excerpt: '**`trigger_deprecation()` n''appartient pas au framework.** Elle vient d''un package de cont'
-  verdict: COVERED
-  card: FLC-3bfj091w0m3y
-- course: CRS-rkq1d437dw5d
   key: 7c2dd69e9bce
   excerpt: '**Rien ne naît déprécié.** Une nouvelle class ne peut pas être introduite dépréciée, ni co'
   verdict: COVERED
@@ -3148,6 +3143,26 @@ pitfalls:
   excerpt: '**Les `CHANGELOG-*` de la racine ne se modifient pas à la main.** Ils sont générés à la pr'
   verdict: COVERED
   card: FLC-bhyn20e0t0sr
+- course: CRS-rkq1d437dw5d
+  key: 162d255496c4
+  excerpt: '**Le deuxième argument de `trigger_deprecation()` est la version d''introduction, pas celle'
+  verdict: COVERED
+  card: FLC-30ksve14whnz
+- course: CRS-rkq1d437dw5d
+  key: 64d6970bd222
+  excerpt: '**Le premier argument est un nom de package Composer.** `''symfony/http-foundation''`, pas `'
+  verdict: COVERED
+  card: FLC-8gm3ayn16wam
+- course: CRS-rkq1d437dw5d
+  key: ed0edb1e5d51
+  excerpt: '**`trigger_deprecation()` n''appartient pas au framework.** Elle vient d''un package de cont'
+  verdict: COVERED
+  card: FLC-3bfj091w0m3y
+- course: CRS-rkq1d437dw5d
+  key: 96c2c6f896b3
+  excerpt: '**`@deprecated` seul ne prévient personne à l''exécution.** C''est de la documentation : le '
+  verdict: COVERED
+  card: FLC-tndbf49d5spa
 - course: CRS-se1jr6cxh2n7
   key: 9bd823e65336
   excerpt: '**Sans routage, le message est traité tout de suite** — pas mis en attente, pas perdu.'

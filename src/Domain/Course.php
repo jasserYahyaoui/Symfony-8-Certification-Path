@@ -40,7 +40,229 @@ final readonly class Course
          * @var array<string, string>
          */
         public array $outcomeSections = [],
+        /**
+         * `pedagogical` for a page written in the revision-course format of
+         * ADR-0012, null otherwise. The owner lifted the word budget for that
+         * format (2026-10-27); FMT-001 makes the format earn the exemption.
+         */
+        public ?string $format = null,
     ) {
+    }
+
+    /** The front-matter value of a course in the ADR-0012 format. */
+    public const string FORMAT_PEDAGOGICAL = 'pedagogical';
+
+    /** The section holding the course's own multiple-choice questions. */
+    public const string QUIZ_HEADING = "QCM d'entraînement";
+
+    /** The compact revision sheet closing a page in the ADR-0012 format. */
+    public const string DIGEST_HEADING = 'Fiche express';
+
+    public function isPedagogical(): bool
+    {
+        return self::FORMAT_PEDAGOGICAL === $this->format;
+    }
+
+    /**
+     * The text under `## $heading`, up to the next `## ` heading, or null
+     * when the course has no such section. Fenced code is skipped when looking
+     * for the end, so a `## ` line inside a block does not cut the section.
+     */
+    public function section(string $heading): ?string
+    {
+        $lines = explode("\n", $this->body);
+        $inFence = false;
+        $collected = null;
+        foreach ($lines as $line) {
+            if (str_starts_with(ltrim($line), '```')) {
+                $inFence = !$inFence;
+            } elseif (!$inFence && 1 === preg_match('/^## (.+?)\s*$/u', $line, $m)) {
+                if (null !== $collected) {
+                    break;
+                }
+                if ($m[1] === $heading) {
+                    $collected = [];
+
+                    continue;
+                }
+            }
+            if (null !== $collected) {
+                $collected[] = $line;
+            }
+        }
+
+        return null === $collected ? null : implode("\n", $collected);
+    }
+
+    /**
+     * The questions of the « QCM d'entraînement » section, in page order.
+     *
+     * The format is fixed so that a rule can read it:
+     *
+     *     **Question 1.** The prompt, which may continue on following lines
+     *     and hold a fenced code block.
+     *
+     *     - **A.** first choice
+     *     - **B.** second choice
+     *
+     *     <details>
+     *     <summary>Correction</summary>
+     *
+     *     **Bonne réponse : B.** Why B, and why the others are not.
+     *
+     *     </details>
+     *
+     * « Bonnes réponses : A et C. » announces a question with several correct
+     * choices. Nothing is thrown: each question lists its own problems.
+     *
+     * @return list<CourseQuizQuestion>
+     */
+    public function quizQuestions(): array
+    {
+        $section = $this->section(self::QUIZ_HEADING);
+        if (null === $section) {
+            return [];
+        }
+
+        $blocks = [];
+        $current = null;
+        $inFence = false;
+        foreach (explode("\n", $section) as $line) {
+            if (str_starts_with(ltrim($line), '```')) {
+                $inFence = !$inFence;
+            }
+            if (!$inFence && 1 === preg_match('/^\*\*Question (\d+)\.\*\*\s*(.*)$/u', $line, $m)) {
+                if (null !== $current) {
+                    $blocks[] = $current;
+                }
+                $current = ['number' => (int) $m[1], 'lines' => [$m[2]]];
+
+                continue;
+            }
+            if (null !== $current) {
+                $current['lines'][] = $line;
+            }
+        }
+        if (null !== $current) {
+            $blocks[] = $current;
+        }
+
+        $questions = [];
+        foreach ($blocks as $index => $block) {
+            $questions[] = self::parseQuizBlock($block['number'], $block['lines'], $index + 1);
+        }
+
+        return $questions;
+    }
+
+    /**
+     * @param list<string> $lines
+     */
+    private static function parseQuizBlock(int $number, array $lines, int $expectedNumber): CourseQuizQuestion
+    {
+        $problems = [];
+        if ($number !== $expectedNumber) {
+            $problems[] = \sprintf('numbered %d where %d was expected', $number, $expectedNumber);
+        }
+
+        $prompt = [];
+        $choices = [];
+        $details = null;
+        $inFence = false;
+        $stage = 'prompt';
+        foreach ($lines as $line) {
+            if (str_starts_with(ltrim($line), '```')) {
+                $inFence = !$inFence;
+            }
+            if ('details' === $stage) {
+                if (!$inFence && str_starts_with(trim($line), '</details>')) {
+                    $stage = 'after';
+
+                    continue;
+                }
+                $details[] = $line;
+
+                continue;
+            }
+            if (!$inFence && 'after' !== $stage && str_starts_with(trim($line), '<details>')) {
+                $stage = 'details';
+                $details = [];
+
+                continue;
+            }
+            if (!$inFence && 1 === preg_match('/^- \*\*([A-Z])\.\*\*\s+(.+)$/u', $line, $m)) {
+                if ('prompt' !== $stage && 'choices' !== $stage) {
+                    $problems[] = 'a choice appears after the correction';
+                }
+                $stage = 'choices';
+                if (isset($choices[$m[1]])) {
+                    $problems[] = \sprintf('choice %s is listed twice', $m[1]);
+                }
+                $choices[$m[1]] = trim($m[2]);
+
+                continue;
+            }
+            if ('prompt' === $stage) {
+                $prompt[] = $line;
+            } elseif ('choices' === $stage && '' !== trim($line)) {
+                $problems[] = 'text between the choices and the correction';
+            } elseif ('after' === $stage && '' !== trim($line)) {
+                $problems[] = 'text after the correction';
+            }
+        }
+
+        $letters = array_keys($choices);
+        $count = \count($letters);
+        if ($count < 3 || $count > 5) {
+            $problems[] = \sprintf('%d choice(s), where 3 to 5 are expected', $count);
+        }
+        if ($letters !== \array_slice(range('A', 'Z'), 0, $count)) {
+            $problems[] = 'choices are not lettered A, B, C… in order';
+        }
+
+        $answers = [];
+        $correction = '';
+        if (null === $details) {
+            $problems[] = 'no <details> correction';
+        } else {
+            $body = implode("\n", $details);
+            if (1 !== preg_match('/^\s*<summary>[^<]+<\/summary>\s*$/mu', $body)) {
+                $problems[] = 'the correction has no <summary>';
+            }
+            if (1 === preg_match('/^\*\*(Bonnes? réponses?) : (.+?)\.\*\*/mu', $body, $m)) {
+                preg_match_all('/\b([A-Z])\b/u', $m[2], $found);
+                $answers = array_values(array_unique($found[1]));
+                $plural = 'Bonnes réponses' === $m[1];
+                if ('Bonne réponse' !== $m[1] && !$plural) {
+                    $problems[] = \sprintf('« %s » is neither « Bonne réponse » nor « Bonnes réponses »', $m[1]);
+                }
+                if (!$plural && 1 !== \count($answers)) {
+                    $problems[] = '« Bonne réponse » must name exactly one letter';
+                }
+                if ($plural && \count($answers) < 2) {
+                    $problems[] = '« Bonnes réponses » must name at least two letters';
+                }
+                foreach ($answers as $answer) {
+                    if (!isset($choices[$answer])) {
+                        $problems[] = \sprintf('the correction names %s, which is not a choice', $answer);
+                    }
+                }
+                $explanation = trim(preg_replace(['/^\s*<summary>.*?<\/summary>\s*$/mu', '/^\*\*Bonnes? réponses? : .+?\.\*\*/mu'], '', $body) ?? '');
+                $correction = $explanation;
+                if (self::tokens($explanation) < 12) {
+                    $problems[] = 'the correction explains nothing (under 12 words besides the answer)';
+                }
+            } else {
+                $problems[] = 'the correction does not start with « **Bonne réponse : X.** »';
+            }
+        }
+
+        $promptText = trim(implode("\n", $prompt));
+        if ('' === $promptText) {
+            $problems[] = 'empty prompt';
+        }
+
+        return new CourseQuizQuestion($number, $promptText, $choices, $answers, $correction, $problems);
     }
 
     /**
