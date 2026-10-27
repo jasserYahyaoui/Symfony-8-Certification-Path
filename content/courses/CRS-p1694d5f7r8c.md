@@ -238,14 +238,19 @@ La documentation donne deux raisons, et elles se retiennent ensemble :
 - **performance** : un service privé permet au container d'optimiser *si* et
   *comment* il est instancié (le retirer s'il ne sert à rien, le construire
   directement là où il sert) ;
-- **meilleures erreurs** : comme le compiler connaît tous les usages d'un
-  service privé, une référence vers un service inexistant donne une erreur
-  claire « when you refresh *any* page, even if the problematic code would not
-  have run on that page ».
+- **meilleures erreurs** : la documentation promet une erreur claire « when you
+  refresh *any* page, even if the problematic code would not have run on that
+  page ».
 
-Et une raison de fond, qui vient de la page précédente : un service privé ne
-peut être obtenu que par injection. Le défaut pousse donc vers la bonne
-pratique.
+Attention au mécanisme exact de la seconde raison, parce qu'il est facile de le
+résumer de travers. Ce n'est pas la visibilité qui provoque l'erreur : **toute**
+référence vers un service inexistant fait échouer la compilation, que le
+service qui la porte soit public ou privé (exécuté sur la page *Dependency
+Injection component*). Ce que le privé apporte, c'est d'interdire `get()` : un
+service privé ne peut être obtenu **que par injection**, donc par une référence
+que la compilation vérifie. Un `get('id')` mal tapé, lui, n'échouerait qu'au
+moment où sa ligne s'exécute. Le défaut privé pousse donc vers la bonne
+pratique, et c'est elle qui fait sortir les erreurs tôt.
 
 ### Rendre un service public
 
@@ -457,9 +462,10 @@ lui-même de typer par interface.
   n'utilise qu'une poignée des centaines de services : les construire tous
   serait du temps et de la mémoire perdus. La definition coûte presque rien,
   l'object n'est payé que s'il sert.
-- **Pourquoi privé par défaut ?** Parce que le défaut doit pousser vers
-  l'injection, et parce qu'un service que personne ne peut demander de
-  l'extérieur peut être optimisé, et ses références vérifiées partout.
+- **Pourquoi privé par défaut ?** Parce qu'un service que personne ne peut
+  demander de l'extérieur peut être optimisé ; et comme on ne l'obtient que
+  par injection, chacun de ses usages passe par une référence que la
+  compilation vérifie.
 - **Pourquoi un alias pour une interface ?** Parce que l'autowiring cherche un
   service **nommé** comme le type demandé, et qu'aucun service ne porte le nom
   d'une interface. L'alias est ce nom.
@@ -565,8 +571,8 @@ compilation. *Correction.* Le déclarer public dans `config/services_test.yaml`.
 
 ## QCM d'entraînement
 
-Réponds avant d'ouvrir la correction : c'est l'effort de rappel qui fixe la
-notion.
+Huit questions, une par piège de la page. Engage-toi sur une lettre avant
+d'ouvrir chaque correction.
 
 **Question 1.** Le container vient d'être compilé et aucun appel HTTP n'a encore eu lieu. Combien d'objects `PhpMailer` existent-ils ?
 

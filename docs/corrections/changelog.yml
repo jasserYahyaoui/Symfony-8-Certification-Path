@@ -890,7 +890,7 @@ entries:
       manquante se signale dès la compilation au lieu d'échouer à l'exécution.
     courses:
       - id: CRS-p1694d5f7r8c
-        sections: ["Public ou privé"]
+        sections: ["Public ou privé : trois questions"]
     flashcards: []
     questions: []
 

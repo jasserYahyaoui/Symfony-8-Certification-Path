@@ -756,8 +756,8 @@ sans vérifier sa fraîcheur. *Correction.* Vider le cache au deployment :
 
 ## QCM d'entraînement
 
-Réponds avant d'ouvrir la correction : c'est l'effort de rappel qui fixe la
-notion.
+Choisis une lettre avant de déplier la correction : se tromper puis comprendre
+pourquoi fixe mieux la notion que relire la solution.
 
 **Question 1.** Une class `PaymentService` reçoit `ContainerInterface $c` dans son constructor et appelle `$c->get('gateway')` dans `pay()`. Comment qualifier ce code ?
 
