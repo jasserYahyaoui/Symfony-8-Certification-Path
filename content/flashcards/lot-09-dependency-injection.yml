@@ -262,18 +262,19 @@ flashcards:
   official_item: OIT-92ctf3sy3ddk
   language: fr
   level: RECALL
-  front: 'DependencyInjection : quelles sont les trois formes d''injection, et laquelle est la voie normale ?'
-  back: Constructor (voie normale, dependency obligatoire), setter (facultatif ou cycle), property (déconseillée).
-  explanation: La property se déclare par `Definition::setProperty()` ; exécuté.
-  memorization_justification: Classement des formes d'injection.
+  front: 'DependencyInjection : quelles sont les quatre formes d''injection, et laquelle est la voie normale ?'
+  back: 'Constructor (voie normale, dependency obligatoire), immutable-setter (facultative, la method renvoie un clone), setter (facultative ou cycle à casser), property (déconseillée).'
+  explanation: 'La page *Types of Injection* de la documentation 8.0 les décrit dans cet ordre. Les quatre exécutées avec DependencyInjection 8.0.15 : `addArgument()`, `addMethodCall(…, true)`, `addMethodCall()`, `setProperty()`.'
+  memorization_justification: Classement des formes d'injection ; l'immutable-setter est la forme oubliée.
   verification_status: VERIFIED
   official_sources:
-  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
-    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container.rst
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/injection_types.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/injection_types.rst
     repository: symfony/symfony-docs
     branch: '8.0'
-    symbol_or_lines: Service Container
-    verified_at: '2026-09-25'
+    commit_sha: eea05cbfe063b9cf99afaf303b8cad76757f43bb
+    symbol_or_lines: Constructor Injection; Immutable-setter Injection; Setter Injection; Property Injection
+    verified_at: '2026-10-27'
 - id: FLC-xsv5jbt9xk86
   official_item: OIT-92ctf3sy3ddk
   language: fr
@@ -375,17 +376,25 @@ flashcards:
   language: fr
   level: TRAP
   front: 'Symfony : php bin/console debug:container --show-private affiche-t-il les services privés ?'
-  back: 'Non : l''option `--show-private` n''existe pas en 8.0. Les services privés sont listés par défaut ; `--show-hidden` ajoute les services internes, dont l''identifier commence par un point.'
-  explanation: 'Options relues dans `ContainerDebugCommand` (8.0) : `--show-hidden`, `--tag`, `--tags`, `--parameter`, `--types`, `--env-var`…'
-  memorization_justification: Option imaginaire souvent citée.
+  back: 'Non : l''option `--show-private` n''existe pas en 8.0. Les services privés sont listés par défaut ; `--show-hidden` affiche **uniquement** les services internes, dont l''identifier commence par un point.'
+  explanation: 'Options relues dans `ContainerDebugCommand` (8.0) : `--show-hidden`, `--tag`, `--tags`, `--parameter`, `--types`, `--env-var`… Exécuté sur FrameworkBundle 8.0.15 : `--show-private` lève « The "--show-private" option does not exist. » ; avec `--show-hidden`, le titre devient « Symfony Container Hidden Services » et les services ordinaires disparaissent de la liste.'
+  memorization_justification: Option imaginaire souvent citée, et une option réelle qui remplace la liste au lieu de la compléter.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Command/ContainerDebugCommand.php
     readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Command/ContainerDebugCommand.php
     repository: symfony/symfony
     branch: '8.0'
+    commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
     symbol_or_lines: ContainerDebugCommand options
-    verified_at: '2026-09-25'
+    verified_at: '2026-10-27'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Console/Descriptor/TextDescriptor.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Console/Descriptor/TextDescriptor.php
+    repository: symfony/symfony
+    branch: '8.0'
+    commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
+    symbol_or_lines: 'describeContainerServices() — "if ($showHidden xor ''.'' === ($serviceId[0] ?? null))"'
+    verified_at: '2026-10-27'
 - id: FLC-72frre218kgf
   official_item: OIT-79f4n087b66c
   language: fr
@@ -2308,3 +2317,139 @@ flashcards:
     commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
     symbol_or_lines: "class Exclude — \"An attribute to tell the class should not be registered as service\""
     verified_at: "2026-10-24"
+- id: FLC-44v4qrbn1cy0
+  official_item: OIT-92ctf3sy3ddk
+  language: fr
+  level: TRAP
+  front: 'DependencyInjection : un service déclaré sans autowiring a une method `setLogger()` marquée `#[Required]`. Le setter est-il appelé ?'
+  back: 'Non : `#[Required]` n''est lu que par l''autowiring. Sans autowiring, la property reste `null` ; il faut un appel déclaré (`calls`, `addMethodCall()`).'
+  explanation: 'Exécuté avec DependencyInjection 8.0.15 : appelé si le service est autowiré, jamais sinon ; et un setter sans `#[Required]` n''est pas appelé par l''autowiring.'
+  memorization_justification: Le nom de l'attribute laisse croire à une obligation indépendante de la configuration.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/injection_types.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/injection_types.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    commit_sha: eea05cbfe063b9cf99afaf303b8cad76757f43bb
+    symbol_or_lines: 'Setter Injection — #[Required] (Symfony\Contracts\Service\Attribute\Required) on setMailer()'
+    verified_at: '2026-10-27'
+- id: FLC-43vw1gch2sb3
+  official_item: OIT-92ctf3sy3ddk
+  language: fr
+  level: TRAP
+  front: 'DependencyInjection : deux services se reçoivent mutuellement par leur constructor. Quand et comment cela échoue-t-il ?'
+  back: 'Dès `compile()` : `ServiceCircularReferenceException`, « Circular reference detected for service … ». Passer l''un des deux côtés par un setter résout le cycle.'
+  explanation: 'Exécuté avec DependencyInjection 8.0.15 : A(B) et B(A) échouent à la compilation ; C(D) avec D::setC() compile, et D reçoit la même instance de C.'
+  memorization_justification: On attend une loop à l'exécution ; l'erreur tombe à la compilation.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/injection_types.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/injection_types.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    commit_sha: eea05cbfe063b9cf99afaf303b8cad76757f43bb
+    symbol_or_lines: 'Immutable-setter Injection — "Unless the service is declared lazy, it is incompatible with services that reference each other in what are called circular loops"'
+    verified_at: '2026-10-27'
+- id: FLC-fasj14w1ppwc
+  official_item: OIT-92ctf3sy3ddk
+  language: fr
+  level: TRAP
+  front: 'DependencyInjection : une definition référence un service jamais déclaré, et personne ne demande cette definition. Quand l''erreur apparaît-elle ?'
+  back: 'À `compile()` : « … has a dependency on a non-existent service … ». Le comportement par défaut d''une référence est `EXCEPTION_ON_INVALID_REFERENCE`.'
+  explanation: 'La documentation du component : « throws an exception at compile time (this is the default behavior) ». Exécuté en 8.0.15, avec un argument de constructor, un setter et une property.'
+  memorization_justification: Le moment de l'échec ne dépend pas de l'usage du service.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/dependency_injection.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/dependency_injection.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    commit_sha: eea05cbfe063b9cf99afaf303b8cad76757f43bb
+    symbol_or_lines: 'Getting Services That Don''t Exist — ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE'
+    verified_at: '2026-10-27'
+- id: FLC-crs2djgs9d6j
+  official_item: OIT-92ctf3sy3ddk
+  language: fr
+  level: TRAP
+  front: 'DependencyInjection : `->addArgument(''mailer'')` passe-t-il le service `mailer` au constructor ?'
+  back: 'Non : la string `''mailer''`. Un service se désigne par `new Reference(''mailer'')` (`@mailer` en YAML), un parameter par `''%mailer%''`.'
+  explanation: 'Exécuté avec DependencyInjection 8.0.15 : le constructor reçoit la string, même quand un service `mailer` existe.'
+  memorization_justification: Trois écritures voisines, trois sens différents.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/dependency_injection.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/components/dependency_injection.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    commit_sha: eea05cbfe063b9cf99afaf303b8cad76757f43bb
+    symbol_or_lines: 'Basic Usage — "Use the Reference class to tell the container to inject the mailer service"'
+    verified_at: '2026-10-27'
+- id: FLC-zhn0zsxgs2t6
+  official_item: OIT-92ctf3sy3ddk
+  language: fr
+  level: RECALL
+  front: 'DependencyInjection : avec le component, déclarer l''immutable-setter `withMailer()` d''un service.'
+  back: '`->addMethodCall(''withMailer'', [new Reference(''mailer'')], true)` : le troisième argument garde le clone renvoyé. En YAML, le tag `!returns_clone`.'
+  explanation: 'Exécuté avec DependencyInjection 8.0.15. Avec l''autowiring et `#[Required]`, la method doit renvoyer `static` : typée `self`, elle est appelée mais son résultat est jeté.'
+  memorization_justification: Sans le troisième argument, le clone est perdu et le service garde sa property à `null`.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/injection_types.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/injection_types.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    commit_sha: eea05cbfe063b9cf99afaf303b8cad76757f43bb
+    symbol_or_lines: 'Immutable-setter Injection — calls: withMailer: !returns_clone; note "requires that you add a @return static docblock or the static return type"'
+    verified_at: '2026-10-27'
+- id: FLC-8memsthq7kb6
+  official_item: OIT-79f4n087b66c
+  language: fr
+  level: TRAP
+  front: 'Symfony : le container vient d''être compilé, aucun service n''a encore servi. Combien d''objects de service existent ?'
+  back: 'Aucun : le container ne garde que des definitions. Un object est construit au premier usage, puis réutilisé.'
+  explanation: 'Exécuté avec DependencyInjection 8.0.15 en comptant les constructions : 0 après `compile()`, 1 après le premier usage, toujours 1 après le second.'
+  memorization_justification: On imagine volontiers des services instanciés au démarrage ou à la compilation.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    commit_sha: eea05cbfe063b9cf99afaf303b8cad76757f43bb
+    symbol_or_lines: 'Fetching and using Services — "if you never ask for the service, it''s *never* constructed: saving memory and speed"'
+    verified_at: '2026-10-27'
+- id: FLC-d884n55s2b6j
+  official_item: OIT-79f4n087b66c
+  language: fr
+  level: TRAP
+  front: 'Symfony : une seconde class de `src/` implémente `MailerInterface`, et aucun alias n''est déclaré. Que devient un service qui demande `MailerInterface` ?'
+  back: 'La compilation échoue : « Cannot autowire service … You should maybe alias this interface to one of these existing services ». L''alias automatique n''existe qu''avec une seule implémentation.'
+  explanation: 'Exécuté avec DependencyInjection 8.0.15 et l''enregistrement automatique de `src/` : une implémentation, alias créé ; deux, aucun alias et échec de compilation.'
+  memorization_justification: Le code compilait la veille ; une class de plus suffit à tout casser.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/autowiring.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/autowiring.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    commit_sha: eea05cbfe063b9cf99afaf303b8cad76757f43bb
+    symbol_or_lines: 'Working with Interfaces — "if only one service is discovered that implements an interface, configuring the alias is not mandatory and Symfony will automatically create one"'
+    verified_at: '2026-10-27'
+- id: FLC-sp58g2wvh7mn
+  official_item: OIT-79f4n087b66c
+  language: fr
+  level: TRAP
+  front: 'Symfony : `app.mailer: ''@App\Mail\PhpMailer''` est déclaré. `$container->get(''app.mailer'')` fonctionne-t-il une fois compilé ?'
+  back: 'Non : un alias est privé par défaut, comme un service. Il faut la forme complète avec `public: true` (ou `#[AsAlias(…, public: true)]`).'
+  explanation: 'Exécuté avec DependencyInjection 8.0.15 : `getAlias()->isPublic()` vaut `false` ; l''alias public rend le service, le raccourci lève « removed or inlined ».'
+  memorization_justification: Créer un alias semble donner un accès ; seul un alias public le donne.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/alias_private.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/alias_private.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    commit_sha: eea05cbfe063b9cf99afaf303b8cad76757f43bb
+    symbol_or_lines: 'Aliasing — app.mailer: alias: App\Mail\PhpMailer, public: true; shortcut app.mailer: ''@App\Mail\PhpMailer'''
+    verified_at: '2026-10-27'
