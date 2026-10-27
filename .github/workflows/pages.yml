@@ -5099,6 +5099,32 @@ jobs:
           else
             echo "ok  pedagogical  lot-03 deprecations: running example, executed facts, quiz corrections and digest served"
           fi
+          # ADR-0012 rollout, lot 09: the DI component and Service container pages. Each needle
+          # was absent from both pages on master: the fourth injection form, an executed
+          # reference behaviour, the compiled container class, the executed --show-hidden title,
+          # and the closing digest.
+          for spec in 'dependency-injection-component|Les quatre formes|IGNORE_ON_INVALID_REFERENCE|Fiche express' \
+                      'service-container|App_KernelProdContainer|Symfony Container Hidden Services|Fiche express'; do
+            page=${spec%%|*}
+            code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
+              -o "/tmp/ped-$page" -w '%{http_code}' "$BASE_URL/docs/courses/lot-09/$page")
+            missing=""
+            if [ "$code" != "200" ]; then
+              missing=" page:$code"
+            else
+              rest=${spec#*|}
+              IFS='|' read -r -a needles <<< "$rest"
+              for needle in "${needles[@]}"; do
+                grep -aqF -- "$needle" "/tmp/ped-$page" || missing="$missing [$needle]"
+              done
+            fi
+            if [ -n "$missing" ]; then
+              echo "::error::Pedagogical page missing from lot-09/$page:$missing"
+              fail=1
+            else
+              echo "ok  pedagogical  lot-09 $page: executed facts and digest served"
+            fi
+          done
           # Remediation P1.3, lot 08: null and '' per constraint, 8.0 named arguments, and a custom
           # Constraint with its ConstraintValidator. Each needle is absent from master before the change.
           for page in built-in-validation-constraints violations-builder; do

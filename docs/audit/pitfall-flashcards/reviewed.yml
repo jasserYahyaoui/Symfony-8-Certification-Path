@@ -2512,25 +2512,50 @@ pitfalls:
   verdict: COVERED
   card: FLC-k6xyzs27a8wp
 - course: CRS-htvm3b1gas0d
-  key: 892a4f8196ef
-  excerpt: '**Injection ≠ récupération.** Recevoir le container n''est pas de l''injection de dependenci'
+  key: f7e2304c0f75
+  excerpt: '**« Le container est injecté, donc c''est de la dependency injection. »**'
   verdict: COVERED
   card: FLC-1y9kmkwvmjg7
 - course: CRS-htvm3b1gas0d
-  key: f493c5f7e01c
-  excerpt: '**Le constructor est la voie normale**, le setter l''exception ; l''inverse n''est pas vrai.'
+  key: bd866a5dd841
+  excerpt: '**« Il existe trois formes d''injection. »** La documentation 8.0 en décrit'
   verdict: COVERED
   card: FLC-3603033a85gj
 - course: CRS-htvm3b1gas0d
-  key: 8a4dd90cdeb7
-  excerpt: '**Un service est privé par défaut** : après `compile()`, il n''est plus récupérable par `ge'
+  key: 1b86abf3a725
+  excerpt: '**Constructor et setter inversés.** Le constructor est la voie normale'
   verdict: COVERED
-  card: FLC-g83rfk7rmkf5
+  card: FLC-3603033a85gj
 - course: CRS-htvm3b1gas0d
-  key: 2efa8537b862
-  excerpt: '**`compile()` fige** : plus de definition ni de parameter ajouté ensuite.'
+  key: 2db0fc3d853b
+  excerpt: '**`#[Required]` sans autowiring.** L''attribute seul ne fait rien'
+  verdict: COVERED
+  card: FLC-44v4qrbn1cy0
+- course: CRS-htvm3b1gas0d
+  key: 1eca6773a368
+  excerpt: '**Un service privé n''est pas « non injectable ».** Privé interdit seulement'
+  verdict: COVERED
+  card: FLC-cv9s7bswxrh8
+- course: CRS-htvm3b1gas0d
+  key: 84cdc9f0f2b8
+  excerpt: '**`compile()` fige.** Après compilation, ni nouvelle definition ni nouveau'
   verdict: COVERED
   card: FLC-j71chhwhsvk2
+- course: CRS-htvm3b1gas0d
+  key: c9f2b797fc74
+  excerpt: '**Une référence absente casse `compile()`, pas `get()`.**'
+  verdict: COVERED
+  card: FLC-fasj14w1ppwc
+- course: CRS-htvm3b1gas0d
+  key: cdf505e6b02f
+  excerpt: '**Un cycle entre deux constructors aussi.**'
+  verdict: COVERED
+  card: FLC-43vw1gch2sb3
+- course: CRS-htvm3b1gas0d
+  key: 986e799ab5e4
+  excerpt: '**`addArgument(''mailer'')` n''injecte pas le service `mailer`.**'
+  verdict: COVERED
+  card: FLC-crs2djgs9d6j
 - course: CRS-jtkmpfp3nwzk
   key: 93dac0597554
   excerpt: '**`debug:container` et `debug:autowiring` ne répondent pas à la même question.** Le premie'
@@ -2846,23 +2871,43 @@ pitfalls:
   verdict: COVERED
   card: FLC-prd45s4jbakg
 - course: CRS-p1694d5f7r8c
-  key: 8dab192d4cda
-  excerpt: '**Un service est privé par défaut** et ne se récupère donc pas par `get()`.'
+  key: 9a735ba6f58c
+  excerpt: '**Un service privé est injectable.**'
   verdict: COVERED
   card: FLC-cv9s7bswxrh8
 - course: CRS-p1694d5f7r8c
-  key: 6d03566003b1
-  excerpt: '**Privé ne veut pas dire « non injectable »** : cela ne concerne que l''accès depuis l''exté'
+  key: ce43a4272a7f
+  excerpt: '**Privé est le défaut.** Un `get()` qui échoue sur un service de `src/`'
   verdict: COVERED
   card: FLC-cv9s7bswxrh8
 - course: CRS-p1694d5f7r8c
-  key: a5ba06f6b138
-  excerpt: '**Le container compilé est du PHP en cache** : la configuration n''est pas relue à l''exécut'
+  key: a4d6f32a79ee
+  excerpt: '**Le container ne construit rien à la compilation.**'
+  verdict: COVERED
+  card: FLC-8memsthq7kb6
+- course: CRS-p1694d5f7r8c
+  key: 182669e295fd
+  excerpt: '**Deux injections, une instance.**'
+  verdict: COVERED
+  card: FLC-evpsvekb3ra0
+- course: CRS-p1694d5f7r8c
+  key: e2ddfe6a1ba9
+  excerpt: '**L''alias d''interface n''est automatique qu''avec une seule implémentation.**'
+  verdict: COVERED
+  card: FLC-d884n55s2b6j
+- course: CRS-p1694d5f7r8c
+  key: 2b29fb271665
+  excerpt: '**Un alias est privé par défaut, lui aussi.**'
+  verdict: COVERED
+  card: FLC-sp58g2wvh7mn
+- course: CRS-p1694d5f7r8c
+  key: 683827bbfcd7
+  excerpt: '**La configuration n''est pas relue en production.**'
   verdict: COVERED
   card: FLC-t5pfn7c9jr2t
 - course: CRS-p1694d5f7r8c
-  key: 01fbd10958e3
-  excerpt: '**`debug:container` n''a pas d''option `--show-private`** ; `--show-hidden` montre les servi'
+  key: 8ad5c59fff8e
+  excerpt: '**`--show-private` n''existe pas, et `--show-hidden` ne fait pas ce que son nom suggère.**'
   verdict: COVERED
   card: FLC-asdnwk77st9y
 - course: CRS-p57qsnnfpd2a

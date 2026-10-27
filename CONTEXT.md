@@ -1,6 +1,6 @@
 # CONTEXT.md — Session continuity (Master Plan §23)
 
-**Last updated:** 2026-10-27 (remédiation : P0, P1, P2.3–P2.7, P3.1–P3.3 livrés ; troisième passe livrée (#434–#436) ; extension properties abstraites (#437, #438) ; **cours pédagogiques (ADR-0012) : pilote *Deprecations best practices* livré (#439), ampleur à décider** ; F4, F9 bloqués ; examen le 29 décembre)
+**Last updated:** 2026-10-27 (remédiation : P0, P1, P2.3–P2.7, P3.1–P3.3 livrés ; troisième passe livrée (#434–#436) ; extension properties abstraites (#437, #438) ; **cours pédagogiques (ADR-0012) : pilote livré (#439) ; déploiement dans l'ordre du calendrier, lot 09 en cours** ; F4, F9 bloqués ; examen le 29 décembre)
 
 ---
 
@@ -49,6 +49,7 @@ Branche de travail : `claude/symfony-8-certification-plan-phmkau`.
 | *Abstract classes* : properties abstraites de PHP 8.4 (section, 3 cartes, 3 questions de compréhension), chaque règle exécutée | #437 | `ec289fd` | smoke 121823444013 **success, lu** (314 ok, 0 erreur ; aiguille `abstract properties` présente ; lot 01 : 54 questions de compréhension) |
 | Journal de #437 (`CVR-6y0s02nyfcv0`), lignes de livraison | #438 | `bd3c25f` | smoke 121851776449 **success, lu** (314 ok, 0 erreur ; journal servi) |
 | Cours pédagogiques (ADR-0012, `FMT-001`, `QCM-001`) : pilote *Deprecations best practices* | #439 (premier run CI rouge : plan de révision non régénéré après trois mots ajoutés, corrigé dans la PR) | `04f42b3` | smoke 122183663573 **success, lu** (315 ok, 0 erreur ; « ok pedagogical lot-03 deprecations ») |
+| Journal de #439 (`CVR-f4zwnrj6ngdr`), lignes de livraison de #438 et #439 | #440 | `e9a2abd` | smoke 122209369550 **success, lu** (315 ok, 0 erreur ; journal servi) |
 
 **Pièges d'examen → flashcards (2026-10-24, livré : #432, `c48317d`).** Les 788
 paragraphes « Pièges d'examen » lus contre toutes les cartes de leur item :
@@ -73,11 +74,14 @@ compréhension. Pilote : *Deprecations best practices* (lot 03), 836 → environ
 6 040 mots, fil rouge réel `Request::get()` (déprécié en 7.4, supprimé en 8.0),
 10 questions de QCM corrigées, 3 cartes et 3 questions de compréhension
 nouvelles. Livré dans #439 (`04f42b3`), smoke de production lu ; entrée de
-journal `CVR-f4zwnrj6ngdr` dans la PR suivante. **Décision ouverte, au propriétaire :** l'ampleur du déploiement. Au
-rythme du plan (110 mots/min), la lecture de ce seul item passe d'environ 8 à
-environ 56 minutes ; étendue telle quelle aux 163 pages, elle multiplierait le
-temps de lecture des cours, ce que la date du 29 décembre ne peut pas absorber
-sans choix (tout réécrire, ou prioriser des items).
+journal `CVR-f4zwnrj6ngdr` (#440). **Déploiement (« Go » du propriétaire, 2026-10-27)** : les résultats de
+l'apprenant vivent dans son navigateur, donc les pages sont réécrites dans l'ordre du calendrier à partir
+du jour, chacune avant sa lecture. Lot 09 : *Dependency Injection component* et *Service container*, avec
+deux corrections (quatre formes d'injection et non trois ; `--show-hidden` n'affiche que les services
+internes) ; les cours du plan passent de 19,5 h à 20,9 h. Coût à surveiller : au rythme du plan
+(110 mots/min), une page réécrite ajoute 30 à 50 minutes de lecture ; étendue aux 163 pages, la charge
+dépasserait ce que la date du 29 décembre absorbe. Chaque PR reporte donc l'effet mesuré sur le plan, et
+si l'apprenant exporte *Ma progression*, l'ordre passe aux items où il se trompe.
 
 **Budget de révision hors préambule (ADR-0011, décision du propriétaire du
 2026-10-24).** `## Objectif` n'est plus compté par REV-001 ni R14
