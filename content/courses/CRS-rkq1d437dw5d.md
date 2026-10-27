@@ -690,8 +690,8 @@ Voici ce qu'un relecteur doit signaler, règle par règle :
 3. Deuxième argument `'8.0'` : c'est la version de **suppression** ; il faut la
    version d'introduction, `'7.4'`.
 4. `### Deprecations` : section de **troisième niveau**, interdite.
-5. `deprecated \`Foo::bar()\`.` : ni impératif (`Deprecate`), ni majuscule, et un
-   point final.
+5. `` * deprecated `Foo::bar()`. `` : ni impératif (`Deprecate`), ni majuscule, et
+   un point final.
 6. Il manque les deux files `UPGRADE` : `UPGRADE-7.4.md` et `UPGRADE-8.0.md`,
    dans la même pull request.
 
@@ -842,7 +842,7 @@ fonctionner jusqu'à la majeure.
 
 </details>
 
-**Question 6.** Tu dépréciés une method d'HttpFoundation pour la mineure 7.4. Où écris-tu l'entrée de changelog ?
+**Question 6.** Tu déprécies une method d'HttpFoundation pour la mineure 7.4. Où écris-tu l'entrée de changelog ?
 
 - **A.** Dans `CHANGELOG-7.4.md`, à la racine de `symfony/symfony`
 - **B.** Dans le `CHANGELOG.md` d'HttpFoundation, section `7.4`, en haut de la liste
