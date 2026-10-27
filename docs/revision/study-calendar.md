@@ -177,7 +177,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 - NOUVEAU (suite) · **Symfony Architecture : Official best practices** (STANDARD) — 14 min · 877 mots · 5 questions, 7 questions de compréhension, 17 flashcards
 - NOUVEAU · **Symfony Architecture : Backward compatibility promise** (STANDARD) — 43 min · 887 mots · 5 questions, 8 questions de compréhension, 18 flashcards
-- NOUVEAU · **Symfony Architecture : Deprecations best practices** (STANDARD) — 68 min · 6120 mots · 5 questions, 10 questions de compréhension, 20 flashcards
+- NOUVEAU · **Symfony Architecture : Deprecations best practices** (STANDARD) — 68 min · 6123 mots · 5 questions, 10 questions de compréhension, 20 flashcards
 - Révision **J+1** (22 min) — Symfony Architecture : Request handling · Symfony Architecture : Exception handling · Symfony Architecture : Event dispatcher and kernel events
 - Révision **J+7** (13 min) — HTTP : HTTP request · HTTP : HTTP response · HTTP : HTTP methods
 
@@ -185,7 +185,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Mercredi 14 octobre 2026
 
-- NOUVEAU (suite) · **Symfony Architecture : Deprecations best practices** (STANDARD) — 25 min · 6120 mots · 5 questions, 10 questions de compréhension, 20 flashcards
+- NOUVEAU (suite) · **Symfony Architecture : Deprecations best practices** (STANDARD) — 25 min · 6123 mots · 5 questions, 10 questions de compréhension, 20 flashcards
 - NOUVEAU · **Symfony Architecture : Framework overloading** (STANDARD) — 39 min · 876 mots · 4 questions, 7 questions de compréhension, 17 flashcards
 - NOUVEAU · **Symfony Architecture : Release management and roadmap schedule** (STANDARD) — 43 min · 894 mots · 6 questions, 9 questions de compréhension, 17 flashcards
 - NOUVEAU · **Symfony Architecture : Framework interoperability and PSRs** (STANDARD) — 26 min · 713 mots · 4 questions, 6 questions de compréhension, 17 flashcards
