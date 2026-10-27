@@ -140,4 +140,4 @@ changement relu.
 | Terminologie, et journal de #434 (13 entrées `CVR-…`, `finding: third-pass`) | #435 | `dd3ea45` | smoke 121496667051 **success, lu** : 313 ok, 0 FAIL, journal servi |
 | Journal de #435 (`CVR-sg2brrtfhfk7` : les 16 cours et 6 cartes où la réécriture changeait le sens) | #436 | `cdb00a6` | smoke 121517190085 **success, lu** : 313 ok, 0 FAIL, journal servi |
 | Extension consignée : properties abstraites de PHP 8.4 (*Abstract classes*) | #437 | `ec289fd` | smoke 121823444013 **success, lu** : 314 ok, 0 FAIL, aiguille de la section présente |
-| Journal de #437 (`CVR-6y0s02nyfcv0`, EXTENSION) | PR suivante | — | — |
+| Journal de #437 (`CVR-6y0s02nyfcv0`, EXTENSION) | #438 | `bd3c25f` | smoke 121851776449 **success, lu** : 314 ok, 0 FAIL, journal servi |
