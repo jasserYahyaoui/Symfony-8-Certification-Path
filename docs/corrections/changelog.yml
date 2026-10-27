@@ -1034,3 +1034,26 @@ entries:
         sections: ["Les properties abstraites — depuis PHP 8.4", "Interface ou abstract class ?", "Pièges d'examen"]
     flashcards: [FLC-tkhpwwer6yc1, FLC-120ygqz995vg, FLC-mtq8ebtfap6p]
     questions: [QST-bxp5zd6zjqpq, QST-a7gd9ky1631d, QST-mm9ntx30jzm8]
+
+  - id: CVR-f4zwnrj6ngdr
+    date: '2026-10-27'
+    pull_request: 439
+    commit: '04f42b3'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-ehf5zdnmdb1j]
+    facts: []
+    title: "Deprecations best practices : premier cours au format pédagogique"
+    now: >-
+      La page devient un cours de révision complet : le problème que résout une deprecation, un fil rouge
+      réel (`Request::get()`, signalée en 7.4 par `@deprecated` et `trigger_deprecation()`, retirée en 8.0),
+      le cycle en un schéma, les trois règles avec leur pourquoi, `trigger_deprecation()` argument par
+      argument, quatre scénarios, un QCM corrigé et une fiche express. Deux faits ajoutés, exécutés avec
+      PHP 8.4.19 : un appel placé avant les déclarations `use` nomme le remplacement dans le namespace
+      courant ; un appel au niveau du file ne signale qu'une fois, au chargement de la class. Rien de ce
+      que la page enseignait n'était faux.
+    courses:
+      - id: CRS-rkq1d437dw5d
+        sections: ["Le fil rouge : `Request::get()`, de 7.4 à 8.0", "`trigger_deprecation()` ligne par ligne", "Pièges d'examen", "QCM d'entraînement", "Fiche express"]
+    flashcards: [FLC-30ksve14whnz, FLC-8gm3ayn16wam, FLC-jv7wkwft8tjp]
+    questions: [QST-ncw35b77q8v0, QST-vvmr9h74bnhh, QST-msepkm81vjmt]
