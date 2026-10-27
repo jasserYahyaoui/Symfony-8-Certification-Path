@@ -1,6 +1,6 @@
 # CONTEXT.md — Session continuity (Master Plan §23)
 
-**Last updated:** 2026-10-26 (remédiation : P0, P1, P2.3–P2.7, P3.1–P3.3 livrés ; pièges → flashcards livrés (#432) ; budget hors objectif (ADR-0011) livré (#433) ; troisième passe livrée : fond (#434), terminologie et journal (#435), extension properties abstraites (#437) ; F4, F9 bloqués ; examen le 29 décembre)
+**Last updated:** 2026-10-27 (remédiation : P0, P1, P2.3–P2.7, P3.1–P3.3 livrés ; troisième passe livrée (#434–#436) ; extension properties abstraites (#437, #438) ; **cours pédagogiques (ADR-0012) : pilote *Deprecations best practices* en livraison** ; F4, F9 bloqués ; examen le 29 décembre)
 
 ---
 
@@ -58,6 +58,23 @@ Garde : `tools/audit/pitfall_flashcards.py --max-gaps 0` et `--prove` en CI.
 Rapport : `docs/audit/pitfall-flashcards/README.md`. Journal : quatre entrées
 (`CVR-r7b0wgkjebs5`, `CVR-7av4cwx5kw2d`, `CVR-86r6ry4qg2dn`, `CVR-2kf5ma2p370b`)
 écrites dans la PR suivante.
+
+**Cours pédagogiques (ADR-0012, décision du propriétaire du 2026-10-27).**
+Chaque page doit devenir un vrai cours de révision — comprendre → visualiser →
+exemple → règle officielle → mémoriser → pièges → application → QCM — sans
+budget de mots. Une page s'y engage par `format: pedagogical` : `REV-001` et
+`R14` l'ignorent, `AUD-04` la sort de `VOL-1` en continuant d'afficher sa
+taille ; `FMT-001` exige pièges, « Fiche express » de 5 à 10 points et un « QCM
+d'entraînement » d'au moins quatre questions bien formées ; `QCM-001` refuse un
+énoncé à 60 % d'une question des banques (HOLDOUT compris, id tu) ou de
+compréhension. Pilote : *Deprecations best practices* (lot 03), 836 → environ
+6 040 mots, fil rouge réel `Request::get()` (déprécié en 7.4, supprimé en 8.0),
+10 questions de QCM corrigées, 3 cartes et 3 questions de compréhension
+nouvelles. **Décision ouverte, au propriétaire :** l'ampleur du déploiement. Au
+rythme du plan (110 mots/min), la lecture de ce seul item passe d'environ 8 à
+environ 56 minutes ; étendue telle quelle aux 163 pages, elle multiplierait le
+temps de lecture des cours, ce que la date du 29 décembre ne peut pas absorber
+sans choix (tout réécrire, ou prioriser des items).
 
 **Budget de révision hors préambule (ADR-0011, décision du propriétaire du
 2026-10-24).** `## Objectif` n'est plus compté par REV-001 ni R14

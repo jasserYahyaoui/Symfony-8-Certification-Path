@@ -61,7 +61,7 @@ is not penalised for lacking a diagnosis question it has no need of, and a
 | `R11_outcomes_assessed` — every outcome is named by at least one non-`HOLDOUT` question | ✔ | ✔ | ✔ |
 | `R12_archetypes_declared` — every question declares a structural archetype | ✔ | ✔ | ✔ |
 | `R13_archetype_variety` — the questions use at least two distinct archetypes | | ✔ | ✔ |
-| `R14_revision_budget` — the course stays inside the budget for its level | ✔ | ✔ | ✔ |
+| `R14_revision_budget` — the course stays inside the budget for its level; a page in the pedagogical format has none and meets it (ADR-0012) | ✔ | ✔ | ✔ |
 
 `R11` excludes `HOLDOUT` on purpose. That pool reaches exactly one payload,
 `mock-4.json`, sat once and unseen (ADR-0005, ADR-0006), so an outcome named

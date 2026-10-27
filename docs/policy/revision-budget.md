@@ -4,7 +4,14 @@
 **Decision:** [ADR-0007](../adr/0007-refinement-framework-v2.md), budgets
 recalibrated by [ADR-0008](../adr/0008-revision-budget-recalibration.md),
 Mermaid diagrams excluded by [ADR-0009](../adr/0009-mermaid-diagrams-outside-the-revision-budget.md),
-the « Objectif » by [ADR-0011](../adr/0011-page-preamble-outside-the-revision-budget.md)
+the « Objectif » by [ADR-0011](../adr/0011-page-preamble-outside-the-revision-budget.md),
+pages in the pedagogical format by [ADR-0012](../adr/0012-pedagogical-course-pages.md)
+
+> **Since 2026-10-27, a page in the pedagogical format has no budget.** The
+> owner asked for every page to become a full revision course and to ignore the
+> word budget. A course whose front matter says `format: pedagogical` is skipped
+> by `REV-001` and satisfies `R14`; rule `FMT-001` holds the flag to the format.
+> What follows still governs every page not yet rewritten.
 
 ## The one measure where more is worse
 
