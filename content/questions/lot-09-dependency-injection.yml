@@ -1285,7 +1285,8 @@ questions:
       - id: CHO-2ns6aq8j2jx3
         text: To the service class constructor
         correct: false
-        explanation: With a factory the constructor is not called at all.
+        explanation: With a factory the container does not call the constructor; it passes arguments to
+          the factory.
       - id: CHO-tjxsnt6vbrbb
         text: To both, in order
         correct: false
@@ -1294,8 +1295,9 @@ questions:
         text: Nowhere; factory arguments need the factory_arguments key
         correct: false
         explanation: No such key exists; arguments feeds the factory.
-    explanation: With a factory the container calls the factory and registers its return value. The constructor
-      is out of the path, which is why arguments reaches the factory.
+    explanation: With a factory the container calls the factory and registers its return value. It never
+      calls the constructor itself, which is why arguments reaches the factory; a factory that runs new
+      self() passes the constructor values of its own choosing.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/factories.rst
         readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/factories.rst
@@ -1342,7 +1344,7 @@ questions:
       - id: CHO-j58zzn8qvcsq
         text: Disable the factory and use the constructor
         correct: false
-        explanation: Declaring a factory always bypasses the constructor.
+        explanation: With a factory the container calls the factory, never the constructor directly.
       - id: CHO-98y3qvgvdeky
         text: Call create() on the service whose id is literally null
         correct: false
@@ -1401,7 +1403,8 @@ questions:
       - id: CHO-rkecgcpehfxz
         text: The factory receives the container as its first argument
         correct: false
-        explanation: The container is never passed to a factory.
+        explanation: The container does not pass itself to a factory; the factory receives only the
+          declared or autowired arguments.
     explanation: Without @, the first element is read as a class name and the method is called statically.
       With @, the container resolves a service and calls the method on it, which is what a non-static
       factory method needs.
@@ -2558,7 +2561,8 @@ questions:
           compilation it is meant to shape.
     explanation: A bundle registers a pass from build() with addCompilerPass(). An application has no
       bundle of its own, so the Kernel implements CompilerPassInterface directly and its process() is
-      called during compilation.
+      called during compilation. The 8.0 documentation also shows a separate pass class added from the
+      Kernel's own build() method.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/compiler_passes.rst
         readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/compiler_passes.rst

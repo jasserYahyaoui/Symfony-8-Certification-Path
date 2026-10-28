@@ -989,7 +989,7 @@ entries:
       - id: CRS-b2pn9zz55e4n
         sections: ["Comment s'abonner"]
       - id: CRS-b4g5s2asb9ye
-        sections: ["Ce qu'un tag fait", "Points clés"]
+        sections: ["Ce qu'un tag fait : un marqueur, sans effet propre", "À mémoriser"]
       - id: CRS-cb51hcng9dh5
         sections: ["La syntaxe classique, toujours valide"]
       - id: CRS-d235sja3h7y2
@@ -1184,4 +1184,65 @@ entries:
       - id: CRS-jtkmpfp3nwzk
         sections: ["D'où viennent les services intégrés", "Trouver le bon type : `debug:autowiring`", "Pièges d'examen", "QCM d'entraînement", "Fiche express"]
     flashcards: [FLC-pn3ze1a16jqg]
+    questions: []
+
+  - id: CVR-c1vrzqypma90
+    date: '2026-10-28'
+    pull_request: 444
+    commit: '37fe67a'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-ar4h3zfskjsp]
+    facts: []
+    title: "Configuration parameters : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur un `Archiver`. Faits exécutés et ajoutés : une variable
+      d'environment absente ne fait pas échouer la compilation, seulement la construction du service qui la
+      lit (`EnvNotFoundException`) ; un parameter `env(NAME)` fournit la default value ; un parameter
+      dont le nom commence par un point est supprimé après la compilation ; Symfony 8.0 fournit vingt et un
+      processeurs de variables d'environment.
+    courses:
+      - id: CRS-8zmj5ntgdhjv
+        sections: ["Compilation ou exécution : `%nom%` contre `%env()%`", "Les processeurs : convertir et composer", "Pièges d'examen", "QCM d'entraînement", "Fiche express"]
+    flashcards: [FLC-9yrqzvw76kqs, FLC-f3ew9jr18rhm]
+    questions: []
+
+  - id: CVR-ehrkjcz9emjs
+    date: '2026-10-28'
+    pull_request: 444
+    commit: '37fe67a'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-stze9x4aydp3]
+    facts: []
+    title: "Services registration : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur un `Archiver` et son subscriber. Faits exécutés et ajoutés : une
+      definition explicite placée avant `App\: resource` est remplacée en silence par la découverte (privée,
+      sans argument) ; une class découverte mais jamais référencée n'empêche pas le démarrage ; les services
+      déclarés par `App::config()` sont autowirés et autoconfigurés par défaut.
+    courses:
+      - id: CRS-g8fteyd38nrt
+        sections: ["Trois mécanismes : découvrir, câbler, configurer", "Le cas explicite : des named arguments", "Pièges d'examen", "QCM d'entraînement", "Fiche express"]
+    flashcards: [FLC-94dkq0wbg9s5, FLC-hkkteey629b6]
+    questions: []
+
+  - id: CVR-89m8x8wmdykm
+    date: '2026-10-28'
+    pull_request: 444
+    commit: '37fe67a'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-adhs2ny9hc5f]
+    facts: []
+    title: "Service decoration : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur un `LoggingMailer`. Faits exécutés et ajoutés : un consommateur
+      typé par la class décorée reçoit le decorator et lève un `TypeError` ; trois decorators empilés se
+      lisent de l'intérieur vers l'extérieur, la priority la plus haute étant appliquée d'abord ; le service
+      `.inner` est visible dans `debug:container`.
+    courses:
+      - id: CRS-fkebqqqke5y5
+        sections: ["Le mécanisme : prendre la place, garder l'identifier", "Empiler des decorators : l'ordre contre-intuitif", "`.inner` : l'original n'est pas perdu", "Pièges d'examen", "QCM d'entraînement", "Fiche express"]
+    flashcards: []
     questions: []
