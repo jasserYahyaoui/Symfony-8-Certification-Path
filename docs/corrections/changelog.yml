@@ -1145,3 +1145,43 @@ entries:
         sections: ["Ce que le container contient : des definitions", "Public ou privé : trois questions", "L'alias : un second identifier", "La compilation : pourquoi la configuration n'est pas relue", "Pièges d'examen", "QCM d'entraînement", "Fiche express"]
     flashcards: [FLC-8memsthq7kb6, FLC-d884n55s2b6j, FLC-sp58g2wvh7mn]
     questions: []
+
+  - id: CVR-2e19b92skk6x
+    date: '2026-10-28'
+    pull_request: 443
+    commit: '2a5466e'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-8sr74a2wnb3r]
+    facts: []
+    title: "Router debugging : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur un blog et son API. Faits exécutés et ajoutés : la `priority`
+      d'une route change l'ordre de `debug:router` ; `--method=ANY` ne garde que les routes sans
+      restriction ; `router:match` teste par défaut un GET sur `localhost` ; `/blog/{slug}` déclaré avant
+      `/blog/new` intercepte `/blog/new` ; un format inconnu échoue (« Unsupported format »).
+    courses:
+      - id: CRS-8dgxs89hrah0
+        sections: ["`debug:router` : la liste, dans l'ordre d'évaluation", "Les options de `debug:router`", "`router:match` : quelle route répondrait", "Pièges d'examen", "QCM d'entraînement", "Fiche express"]
+    flashcards: [FLC-snn8kv38wrky, FLC-ecvdbxzewc79, FLC-7qbw1sdafp66]
+    questions: []
+
+  - id: CVR-ywkfngec2mb0
+    date: '2026-10-28'
+    pull_request: 443
+    commit: '2a5466e'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-dy7108w6bf4z]
+    facts: []
+    title: "Built-in services : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur un `InvoiceMailer`. Faits exécutés et ajoutés : une section de
+      FrameworkBundle désactivée n'enregistre aucun service (`framework.serializer.enabled: false` retire
+      `SerializerInterface`, package installé) ; `debug:autowiring` sans résultat sort avec l'exit code 1 ;
+      le service `logger` est privé.
+    courses:
+      - id: CRS-jtkmpfp3nwzk
+        sections: ["D'où viennent les services intégrés", "Trouver le bon type : `debug:autowiring`", "Pièges d'examen", "QCM d'entraînement", "Fiche express"]
+    flashcards: [FLC-pn3ze1a16jqg]
+    questions: []
