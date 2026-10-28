@@ -44,7 +44,7 @@ d'`AbstractController` est traité dans son propre item (lot Controllers).
 
 ## Avant la règle : le problème à résoudre
 
-Un `CommandBus` reçoit une commande et la confie au handler de cette commande.
+Un `CommandBus` reçoit une command et la confie au handler de cette command.
 Il connaît dix handlers. La version naïve les injecte tous :
 
 ```php
@@ -60,7 +60,7 @@ aussi l'autre fausse solution : injecter le container entier, « discouraged
 because it gives too broad access to existing services and it hides the actual
 dependencies ».
 
-Il faut un objet qui :
+Il faut un object qui :
 
 - ne contient **que** les handlers déclarés ;
 - ne construit un handler **qu'au moment** où on le demande.
@@ -228,7 +228,7 @@ services:
 
 La documentation 8.0 décrit une troisième écriture : le trait
 `ServiceMethodsSubscriberTrait` implémente `getSubscribedServices()` à partir
-des methods marquées `#[SubscribedService]`, d'après leur type de retour.
+des methods marquées `#[SubscribedService]`, d'après leur return type.
 
 ```php
 class MyService implements ServiceSubscriberInterface
@@ -269,7 +269,7 @@ fusion, les deux sont présents (exécuté).
   locator.
 - Peu de dependencies, toutes utilisées : l'injection directe, tout simplement.
 - Un handler qui peut ne pas exister : `?` et un `has()` avant le `get()`.
-- Un test unitaire : la documentation 8.0 montre un faux locator, une class
+- Un unit test : la documentation 8.0 montre un faux locator, une class
   anonyme qui implémente `ServiceProviderInterface` avec `ServiceLocatorTrait`
   et reçoit des closures.
 
@@ -280,7 +280,7 @@ fusion, les deux sont présents (exécuté).
 - **Pourquoi est-ce mieux que le container ?** Parce que la liste est écrite
   dans la class : le container peut vérifier chaque dependency avant de
   démarrer.
-- **Pourquoi lazy ?** Parce que le locator garde des fabriques, pas des
+- **Pourquoi lazy ?** Parce que le locator garde des factories, pas des
   objects : chaque `get()` construit le service la première fois, puis rend le
   même.
 - **Pourquoi `parent::` ?** Parce que redéfinir une method statique remplace
@@ -290,11 +290,11 @@ fusion, les deux sont présents (exécuté).
 
 - Locator = container **restreint** et **lazy**.
 - `ServiceSubscriberInterface::getSubscribedServices()` est **public static**.
-- Key de tableau = nom local ; `?` = facultatif (`has()` rend `false`).
+- Key = nom local ; `?` = facultatif (`has()` rend `false`).
 - Sans `?`, service manquant = **compilation** échoue.
 - `get()` d'un service non déclaré : « smaller service locator ».
 - Forme courte : `#[AutowireLocator([...])]` ou `#[AutowireLocator('tag')]`.
-- Héritage : `array_merge(parent::getSubscribedServices(), [...])`.
+- Inheritance : `array_merge(parent::getSubscribedServices(), [...])`.
 - Moyen mnémotechnique : **« Déclarer, puis demander »** — rien n'est construit
   avant le `get()`.
 
@@ -345,7 +345,7 @@ Six questions sur les service locators. Décide avant d'ouvrir la correction.
 <details>
 <summary>Correction</summary>
 
-**Bonne réponse : D.** Le locator garde des fabriques ; exécuté, aucun handler
+**Bonne réponse : D.** Le locator garde des factories ; exécuté, aucun handler
 n'est construit avec le bus, et le premier `get()` construit le sien.
 
 A est l'intuition fausse. B invente une construction partielle. C mélange le
@@ -430,7 +430,7 @@ tag et produit un itérable, pas un locator. D ne crée aucun locator.
 
 - **A.** Les deux keys, `Watermarker` marquée comme absente
 - **B.** Une erreur, car un service facultatif manque
-- **C.** Un tableau vide tant qu'aucun `get()` n'a eu lieu
+- **C.** Un array vide tant qu'aucun `get()` n'a eu lieu
 - **D.** Seulement la key de `PdfRenderer`
 
 <details>
@@ -439,7 +439,7 @@ tag et produit un itérable, pas un locator. D ne crée aucun locator.
 **Bonne réponse : D.** Exécuté : le service facultatif absent n'apparaît ni
 dans `getProvidedServices()` ni dans `count()`.
 
-A invente un marquage. B oublie le rôle de `?`. C confond la liste des
+A invente un marquage. B oublie à quoi sert `?`. C confond la liste des
 services fournis et leur construction.
 
 </details>
@@ -455,7 +455,7 @@ services fournis et leur construction.
 - Un `get()` hors liste : `ServiceNotFoundException`, « smaller service
   locator ».
 - Les services rendus sont **les mêmes** instances que dans le container.
-- En héritage : `array_merge(parent::getSubscribedServices(), [...])`.
+- En inheritance : `array_merge(parent::getSubscribedServices(), [...])`.
 
 **En une phrase, pour tout reconstruire :**
 

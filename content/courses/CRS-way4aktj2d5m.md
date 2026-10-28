@@ -50,7 +50,7 @@ constraints* et *Custom callback validators*.
 
 ## Avant la règle : le problème à résoudre
 
-Une API reçoit l'inscription d'un utilisateur : un email, un nom, une adresse.
+Une API reçoit l'inscription d'un user : un email, un nom, une adresse.
 Avant d'enregistrer quoi que ce soit, il faut savoir si ces données respectent
 des règles — email bien formé, nom d'au moins trois caractères, ville
 renseignée — et, sinon, **lesquelles** sont violées, pour les afficher.
@@ -161,7 +161,7 @@ retourne une liste vide.
 
 | Besoin | Method |
 |---|---|
-| tout l'object, constraints de classe comprises | `validate($object)` |
+| tout l'object, constraints de class comprises | `validate($object)` |
 | une property d'un object existant | `validateProperty($object, 'email')` |
 | une valeur **avant** de l'affecter | `validatePropertyValue(User::class, 'email', $candidat)` |
 | une valeur isolée, sans class | `validate($valeur, new Assert\Email())` |
@@ -187,7 +187,7 @@ if (0 !== count($violations)) {
 
 Exécuté sur le fil rouge : trois violations, de paths `email`, `address.city`
 (l'object imbriqué par `#[Assert\Valid]`) et `name` ; le code d'`Email` est
-`bd79c0ab-ddba-46cc-a703-a7a4b08de310`, la constante
+`bd79c0ab-ddba-46cc-a703-a7a4b08de310`, c'est-à-dire
 `Assert\Email::INVALID_FORMAT_ERROR`.
 
 Tester `if ($violations)` est faux : exécuté, une liste vide convertie en booléen
@@ -235,17 +235,17 @@ Deux cas lèvent, en revanche :
 
 Exécuté avec `Email` sur `'x'` et sur `'a@b.co'`. Ils servent là où l'on attend
 une function, par exemple `setAllowedValues()` d'OptionsResolver ou la
-validation d'une réponse en console.
+validation de ce qu'on saisit en console.
 
 ## Concrètement dans ton application
 
 - Un controller ou un service : injecte `ValidatorInterface`, puis
   `count($violations)`.
-- Un formulaire : le plus souvent, la validation passe par le formulaire, sans
+- Un form : le plus souvent, la validation passe par le form, sans
   appel direct (documentation 8.0).
 - Un script ou une bibliothèque hors framework :
   `createValidatorBuilder()->enableAttributeMapping()->getValidator()`.
-- Un traitement réservé à une erreur précise : `findByCodes()` avec la constante
+- Un traitement réservé à une erreur précise : `findByCodes()` avec le code
   de la constraint.
 - Pour voir les constraints d'une class : `php bin/console debug:validator
   'App\Entity\User'`, ou un dossier entier (`src/Entity`).
@@ -255,7 +255,7 @@ validation d'une réponse en console.
 - **Pourquoi une liste et pas un bool ?** Parce qu'il faut savoir **quoi**
   corriger : chaque violation porte un message, un path et un code.
 - **Pourquoi pas d'exception pour une donnée invalide ?** Parce qu'une donnée
-  invalide est un cas normal (un utilisateur se trompe) ; seule une erreur du
+  invalide est un cas normal (un user se trompe) ; seule une erreur du
   développeur — constraint mal configurée, valeur sans règle — en est une.
 - **Pourquoi `createValidator()` ignore-t-il les attributes ?** Parce que le
   component est autonome : le builder n'active que ce qu'on lui demande.
@@ -299,7 +299,7 @@ n'y appartient, la liste rendue est vide, sans erreur.
 $validator->validate($user)` ; si `count($violations) > 0`, renvoyer pour chaque
 violation son `getPropertyPath()` et son `getMessage()`.
 
-**Scénario 2 — Vérifier un email avant de créer le `User`.** Le formulaire
+**Scénario 2 — Vérifier un email avant de créer le `User`.** Le form
 d'inscription vérifie la saisie au fil de l'eau. *Solution.*
 `validatePropertyValue(User::class, 'email', $saisie)` : les constraints de la
 property, sans instance.
@@ -351,7 +351,7 @@ object. B invente un retour `null`. D invente une erreur.
 
 </details>
 
-**Question 3.** Le formulaire d'inscription veut vérifier la saisie `nope` contre les constraints de `Customer::$email`, avant de créer le moindre `Customer`. Quelle method ?
+**Question 3.** Le form d'inscription veut vérifier la saisie `nope` contre les constraints de `Customer::$email`, avant de créer le moindre `Customer`. Quelle method ?
 
 - **A.** `validatePropertyValue(Customer::class, 'email', 'nope')`
 - **B.** `validateProperty(Customer::class, 'email')`

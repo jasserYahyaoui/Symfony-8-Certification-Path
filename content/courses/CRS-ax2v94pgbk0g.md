@@ -51,8 +51,8 @@ descend. Les scopes — property, accessor, class — sont traités dans
 
 ## Avant la règle : le problème à résoudre
 
-Une commande en ligne a un client, et le client a une adresse de livraison. Le
-code postal de l'adresse est vide. On valide la commande… et le Validator ne
+Un achat en ligne (`Order`) a un client, et le client a une adresse de livraison.
+Le code postal de l'adresse est vide. On valide l'achat… et le Validator ne
 signale **rien**.
 
 Ce n'est pas un bug : par défaut, valider un object ne valide **que cet
@@ -251,7 +251,7 @@ absente de la class cible est refusée : la documentation annonce une
 - **Pourquoi `Valid` laisse-t-il passer `null` ?** Parce qu'il dit « valide ce
   qui est là », pas « il doit y avoir quelque chose » : c'est le travail de
   `NotNull`.
-- **Pourquoi l'héritage fusionne-t-il ?** Parce qu'une fille **est** un parent :
+- **Pourquoi l'inheritance fusionne-t-il ?** Parce qu'une fille **est** un parent :
   elle doit respecter ses règles, et peut en ajouter.
 - **Pourquoi `loadValidatorMetadata()` est-elle statique ?** Parce que les
   metadata décrivent la **class**, lues sans instance.
@@ -262,7 +262,7 @@ absente de la class cible est refusée : la documentation annonce une
 - Sans `Valid` ni `Cascade`, un object imbriqué est **ignoré**.
 - `#[Assert\Valid]` sur la property ; `#[Assert\Cascade]` sur la class
   (properties typées, option `exclude`, pas de `groups`).
-- `Valid` : `null` passe ; tableau → `addresses[0].zipCode`.
+- `Valid` : `null` passe ; array → `addresses[0].zipCode`.
 - `Valid` ne dépend pas du group `Default` : il descend avec le group demandé.
 - Parent + enfant : constraints **fusionnées**, doublons compris.
 - Moyen mnémotechnique : **« Déclarer, Descendre, Hériter »** — et rien ne
@@ -289,7 +289,7 @@ valide un autre group, et y transmet ce group.
 
 ## Application : trois scénarios
 
-**Scénario 1 — La commande valide à tort.** `Order` contient un `Customer`
+**Scénario 1 — L'achat valide à tort.** `Order` contient un `Customer`
 invalide, et `validate($order)` rend une liste vide. *Solution.*
 `#[Assert\Valid]` sur `Order::$customer` (et `#[Assert\NotNull]` si le client
 est obligatoire), ou `#[Assert\Cascade]` sur `Order` avec des properties typées.

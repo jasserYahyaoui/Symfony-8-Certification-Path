@@ -1246,3 +1246,109 @@ entries:
         sections: ["Le mécanisme : prendre la place, garder l'identifier", "Empiler des decorators : l'ordre contre-intuitif", "`.inner` : l'original n'est pas perdu", "Pièges d'examen", "QCM d'entraînement", "Fiche express"]
     flashcards: []
     questions: []
+
+  - id: CVR-rz5avtcb0a6w
+    date: '2026-10-28'
+    pull_request: 445
+    commit: '69d3b7c'
+    kind: CORRECTION
+    finding: ADR-0012
+    official_items: [OIT-h2n7d7dbr56p]
+    facts: []
+    title: "Factories : le container n'appelle pas le constructor, la factory peut le faire"
+    was: >-
+      « Avec une factory, le constructor du service n'est pas appelé du tout » — dans la page, deux
+      flashcards, trois explications de questions et une question de compréhension qui demandait si
+      `Cls::__construct()` est appelé, réponse « No ».
+    now: >-
+      Le container n'appelle pas le constructor lui-même : il appelle la factory avec `arguments`. Une
+      factory qui fait `new self(…)` appelle le constructor, avec les valeurs qu'elle choisit. Exécuté :
+      `create('fabien')` est appelé, puis `__construct('factory:fabien')`. La question de compréhension est
+      réécrite (« quel appel fait le container ? ») et passe en version 2.
+    courses:
+      - id: CRS-1bkg7pkf78c7
+        sections: ["Les arguments vont à la factory", "Pièges d'examen"]
+    flashcards: [FLC-j8n3qsftrmm5, FLC-znaqp8qejrk9, FLC-qbmadhqw0wqp]
+    questions: [QST-xw4d2n9a8hz5, QST-1ss1gkatj0te, QST-arfb4vy3eesd, QST-1h7efg5n27k9]
+    reversioned: [QST-1h7efg5n27k9]
+
+  - id: CVR-wjqk9y02ykz2
+    date: '2026-10-28'
+    pull_request: 445
+    commit: '69d3b7c'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-h2n7d7dbr56p]
+    facts: []
+    title: "Factories : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur un `NewsletterManager`. Faits exécutés et ajoutés : une method
+      d'instance nommée sans `@` échoue au premier `get()` (`Error`) ; `factory` et `constructor` ensemble
+      lèvent `LogicException` ; `#[Autoconfigure(constructor:)]` exige l'autoconfiguration ; une factory en
+      expression (`@=`) exige ExpressionLanguage et ne vaut que pour `factory` ; `shared: false` rappelle la
+      factory ; `debug:container` affiche « Factory Class / Service / Method ».
+    courses:
+      - id: CRS-1bkg7pkf78c7
+        sections: ["Les écritures : choisir selon la nature du callable", "`[null, 'create']` : la class du service elle-même", "Une expression comme factory", "QCM d'entraînement", "Fiche express"]
+    flashcards: [FLC-12ce6qsxkg4s, FLC-608vjq6rrymd, FLC-mkdc2b0dg4ex]
+    questions: []
+
+  - id: CVR-2ybceea0k1jt
+    date: '2026-10-28'
+    pull_request: 445
+    commit: '69d3b7c'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-3y0b9gxyandm]
+    facts: []
+    title: "Compiler passes : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur une chaîne de handlers. Faits exécutés et ajoutés : `load()`
+      d'une extension ne voit ni les services des autres bundles ni ceux de l'application ;
+      `findTaggedServiceIds()` ne trie pas par priority ; `getDefinition()` ne suit pas les alias ;
+      `Kernel::build()` enregistre une passe ; l'ordre réel bundle, `Kernel::build()`, extension-passe
+      (-1000), kernel (-10000) ; un service de bundle redéclaré par l'application est remplacé entier ;
+      `debug:container` n'a plus `--show-arguments`.
+    courses:
+      - id: CRS-d25bvr0097py
+        sections: ["Ce qu'une passe est", "Où l'enregistrer", "Passe ou configuration", "Pièges d'examen", "QCM d'entraînement", "Fiche express"]
+    flashcards: [FLC-3e3sfxasydcc, FLC-4jjn3sqrya6x, FLC-zt98ytj8s58j, FLC-sk2crf6z0z6f]
+    questions: [QST-mkmarkb3w738]
+
+  - id: CVR-2e3f8z6txeg8
+    date: '2026-10-28'
+    pull_request: 445
+    commit: '69d3b7c'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-83sac57rw0xn]
+    facts: []
+    title: "Tags : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur des handlers de notification. Les faits exécutés de la page
+      sont réorganisés (iterator lazy, keys seulement avec `indexAttribute` ou un locator, `UnusedTagsPass`) ;
+      ajouté, exécuté : trois handlers de priorities 0, 10 et -5 sont parcourus dans l'ordre 10, 0, -5.
+    courses:
+      - id: CRS-b4g5s2asb9ye
+        sections: ["Recevoir les services tagués : un iterable lazy", "Ordonner et nommer : `priority` et `index`", "Pièges d'examen", "QCM d'entraînement", "Fiche express"]
+    flashcards: []
+    questions: []
+
+  - id: CVR-j3nb0gh1jahm
+    date: '2026-10-28'
+    pull_request: 445
+    commit: '69d3b7c'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-qj4xfkhwdrx7]
+    facts: []
+    title: "Semantic configuration : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur un `AcmeSocialBundle` : les faits exécutés de la page (key
+      inconnue, `isRequired()` contre default value, prepend, `AbstractBundle` à la compilation) sont
+      réorganisés, avec trois scénarios, un QCM de six questions et une fiche express.
+    courses:
+      - id: CRS-exs5dvtqa1as
+        sections: ["Une key inconnue est une erreur : ce que l'exécution montre", "Configurer un autre bundle : le prepend", "Pièges d'examen", "QCM d'entraînement", "Fiche express"]
+    flashcards: []
+    questions: []

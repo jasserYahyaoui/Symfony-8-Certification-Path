@@ -45,7 +45,7 @@ et ce que l'autowiring ne peut pas deviner.
 
 ## Avant la règle : le problème à résoudre
 
-Un `TwitterClient` a besoin d'un transformateur de texte :
+Un `TwitterClient` a besoin d'un transformer de texte :
 
 ```php
 class TwitterClient
@@ -65,7 +65,7 @@ rien au hasard : il applique une règle simple, et quand elle ne suffit pas, il
 s'arrête avec un message qui dit quoi faire. Ce cours est cette règle, et ses
 trois sorties de secours.
 
-## Le fil rouge : deux transformateurs
+## Le fil rouge : deux transformers
 
 ```php
 namespace App\Util;
@@ -316,7 +316,7 @@ Avec l'autowiring, le container appelle aussi toute method marquée
 - Un scalaire : `#[Autowire(param: …)]`, `#[Autowire(env: …)]` ou `bind`.
 - Un bundle public : la documentation 8.0 recommande d'y **configurer
   explicitement** ses services, sans compter sur l'autowiring de l'application
-  hôte.
+  qui l'installe.
 - Pour comprendre une erreur : `php bin/console debug:autowiring <mot>`.
 
 ## À comprendre
@@ -372,7 +372,7 @@ criarde, sans renommer son argument. *Solution.* L'alias nommé
 `App\Util\TransformerInterface $shoutyTransformer`, et
 `#[Target('shoutyTransformer')]` sur l'argument de `MastodonClient`.
 
-**Scénario 3 — Un répertoire de données.** `ReportWriter` attend `string
+**Scénario 3 — Un directory de données.** `ReportWriter` attend `string
 $dataDir`. *Solution.* `#[Autowire('%kernel.project_dir%/var/data')]` sur
 l'argument : l'autowiring seul lèverait « configure its value explicitly ».
 
@@ -430,7 +430,7 @@ pas d'un nom d'argument. D confond avec un argument nullable.
 **Bonne réponse : C.** `Target::getParsedName()` normalise le nom en camelCase :
 `csv.exporter` devient `csvExporter` (exécuté avec `shouty.transformer`).
 
-A et B ignorent la normalisation. D est le piège : `#[Target]` vise un alias
+A et B ignorent la normalization. D est le piège : `#[Target]` vise un alias
 nommé, pas un identifier libre.
 
 </details>
@@ -453,7 +453,7 @@ A et B inventent une règle de choix. C confond avec un argument nullable.
 
 </details>
 
-**Question 5.** Un constructor prend `int $maxRetries`, sans default value, et rien n'est configuré. Le service est utilisé par un contrôleur. Que se passe-t-il ?
+**Question 5.** Un constructor prend `int $maxRetries`, sans default value, et rien n'est configuré. Le service est utilisé par un controller. Que se passe-t-il ?
 
 - **A.** `$maxRetries` reçoit `0`, la valeur neutre du type
 - **B.** La compilation échoue : aucun service n'est un `int`
