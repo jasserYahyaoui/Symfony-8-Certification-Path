@@ -1352,3 +1352,81 @@ entries:
         sections: ["Une key inconnue est une erreur : ce que l'exécution montre", "Configurer un autre bundle : le prepend", "Pièges d'examen", "QCM d'entraînement", "Fiche express"]
     flashcards: []
     questions: []
+
+  - id: CVR-yd3xb62jge8h
+    date: '2026-10-28'
+    pull_request: 446
+    commit: '642e8bf'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-wm3qdqemtap9]
+    facts: []
+    title: "Services autowiring : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur deux transformers. Faits exécutés et ajoutés : un type union ou
+      intersection ne s'autowire que si un alias couvre le type entier ou si chaque type est un alias vers le
+      même service ; `#[AsAlias]` désigne l'implémentation, mais n'est lu qu'à la découverte des classes ; le
+      quatrième argument de `registerAliasForArgument()` donne un nom pour `#[Target]` ;
+      `#[AutowireServiceClosure]` ne construit rien avant l'appel.
+    courses:
+      - id: CRS-w6yfxm6ad4zy
+        sections: ["La règle, en une phrase : par le type", "Pourquoi une interface a besoin d'un alias", "Trois façons de départager", "Pièges d'examen", "QCM d'entraînement", "Fiche express"]
+    flashcards: [FLC-p9w371w2cmms, FLC-52tek1wv19pc]
+    questions: []
+
+  - id: CVR-khj7j884hxnr
+    date: '2026-10-28'
+    pull_request: 446
+    commit: '642e8bf'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-gkhcbtygef69]
+    facts: []
+    title: "Service locators : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur un `CommandBus`. Faits exécutés et ajoutés : un handler privé est
+      rendu par le locator alors que `$container->has()` est faux ; un service facultatif absent disparaît de
+      `getProvidedServices()` et de `count()` ; `ServiceMethodsSubscriberTrait` indexe par `__METHOD__`.
+    courses:
+      - id: CRS-0a0d5bp6769e
+        sections: ["Le cas légitime : beaucoup de dependencies, une seule utilisée", "Ce que cela n'est pas : le container", "La forme courte : `#[AutowireLocator]`", "Pièges d'examen", "QCM d'entraînement", "Fiche express"]
+    flashcards: [FLC-sy0sgdmsbvgy, FLC-bfc41s3kv2f5]
+    questions: []
+
+  - id: CVR-sm1v3we306hn
+    date: '2026-10-28'
+    pull_request: 446
+    commit: '642e8bf'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-6wd8860brzfy]
+    facts: []
+    title: "Validator component : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur un `User` et son adresse. Faits exécutés et ajoutés : un group
+      inconnu ou mal orthographié rend une liste vide pour un object invalide ; `findByCodes()` et
+      `getConstraint()` ; `createCallable()` rend la valeur quand elle est valide.
+    courses:
+      - id: CRS-way4aktj2d5m
+        sections: ["Les trois manières de valider", "Ce qu'il retourne : une liste, jamais un bool", "Deux raccourcis de `Validation`", "Pièges d'examen", "QCM d'entraînement", "Fiche express"]
+    flashcards: [FLC-328ajzgxx4ae]
+    questions: []
+
+  - id: CVR-44wn49fwawx7
+    date: '2026-10-28'
+    pull_request: 446
+    commit: '642e8bf'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-d3yp0sq36xrx]
+    facts: []
+    title: "PHP object validation : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur un auteur et son adresse. Faits exécutés et ajoutés : `Cascade` ne
+      descend que dans les properties typées par une class, accepte `exclude` et n'a pas d'option `groups` ;
+      `Valid` n'est pas dans le group `Default` et transmet le group demandé à l'object imbriqué.
+    courses:
+      - id: CRS-ax2v94pgbk0g
+        sections: ["La validation ne descend pas toute seule", "Pièges d'examen", "QCM d'entraînement", "Fiche express"]
+    flashcards: [FLC-atx3jbrah7ky, FLC-bfw00ty6skft]
+    questions: []

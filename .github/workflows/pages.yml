@@ -5137,7 +5137,11 @@ jobs:
                       'lot-09/services-autowiring|getCombinedAlias|AsAlias|Fiche express' \
                       'lot-09/service-locators|ServiceMethodsSubscriberTrait|getProvidedServices|Fiche express' \
                       'lot-08/validator-component|findByCodes|debug:validator|Fiche express' \
-                      'lot-08/php-object-validation|Unknown named parameter|Registration|Fiche express'; do
+                      'lot-08/php-object-validation|Unknown named parameter|Registration|Fiche express' \
+                      'lot-08/built-in-validation-constraints|is no longer supported|Bien formé|Fiche express' \
+                      'lot-08/validation-scopes|Stocké, Calculé, Croisé|typée non initialisée|Fiche express' \
+                      'lot-08/validation-groups|Default par défaut, le reste sur demande|BaseUser|Fiche express' \
+                      'lot-08/group-sequence|le simple, ensuite le cher|sous-tableau = une étape|Fiche express'; do
             page=${spec%%|*}
             out="/tmp/ped-${page//\//-}"
             code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
