@@ -269,7 +269,7 @@ entries:
       - id: CRS-306ppg4454wj
         sections: ["La différence", "Ce que Symfony ajoute"]
       - id: CRS-8dgxs89hrah0
-        sections: ["`debug:router` — quelles routes existent", "`router:match` — quelle route répondrait", "Pièges d'examen"]
+        sections: ["`debug:router` : la liste, dans l'ordre d'évaluation", "`router:match` : quelle route répondrait", "Pièges d'examen"]
       - id: CRS-cpvcczhj7bzx
         sections: ["Ce que `FileType` écarte"]
       - id: CRS-erfvgqsx1z2p

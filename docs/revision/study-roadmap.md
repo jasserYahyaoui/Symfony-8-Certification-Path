@@ -4,10 +4,27 @@
 le samedi · 2 h à 3 h le dimanche · aucune indisponibilité · apprentissage en
 français, termes techniques en anglais.
 
-**Départ** : 1er octobre 2026. **Examen visé** : **29 décembre 2026** (15 décembre jusqu'au 13 octobre).
+**Départ** : 1er octobre 2026. **Examen visé** : **2 mars 2027** (15 décembre jusqu'au 13 octobre, 29 décembre jusqu'au 28 octobre).
 **Objectif** : passer la certification du premier coup — un `PASS`, pas un score
 maximal.
 
+> **Date déplacée au mardi 2 mars 2027 — décision du propriétaire, 28 octobre 2026.**
+> Raison : le propriétaire a demandé que **chaque** page de cours devienne un
+> cours de révision complet (ADR-0012), sans budget de mots. Les pages réécrites
+> sont 4 à 10 fois plus longues ; au rythme inchangé (160 min en semaine, 220 le
+> week-end, 4 nouveaux items par jour), le plan ne tenait plus au 29 décembre dès
+> la cinquième page (`build_roadmap.py` : « Pas de place : 4 mocks à caser »).
+> Entre « augmenter le temps quotidien », « limiter les réécritures » et « reculer
+> l'examen », le propriétaire a choisi de **reculer l'examen**.
+>
+> La date vient d'une **projection**, pas d'une mesure : `build_roadmap.py`, lancé
+> avec les longueurs mesurées sur les cinq premières pages réécrites (MINIMAL
+> ≈ 3 100 mots, STANDARD ≈ 5 500, DEEP estimé à 7 200) et 3 cartes de plus par
+> page, donne une première passe d'environ **210 h** (93 h avant), tous les items
+> introduits le **12 février 2027**, et le **2 mars** comme première date qui
+> tient (le 23 février échoue). Le plan publié, lui, est toujours calculé sur les
+> pages telles qu'elles sont : il se remplit à mesure que les pages sont réécrites.
+>
 > **Date déplacée au mardi 29 décembre 2026 — décision du propriétaire, 13 octobre 2026.**
 > Raison : les 1 117 questions des contrôles de compréhension (≈ 15,7 h de
 > réponse, 26,4 h au facteur 1,6 de ce plan) n'étaient comptées nulle part ;
@@ -291,7 +308,7 @@ J+60 sur les transverses — redevient atteignable et redevient le bon choix.
 
 | Fichier | Contenu |
 |---|---|
-| [`study-calendar.md`](study-calendar.md) | Le calendrier jour par jour, du 1er octobre au 29 décembre 2026 (jour de l'examen) |
+| [`study-calendar.md`](study-calendar.md) | Le calendrier jour par jour, du 1er octobre 2026 au jour de l'examen |
 | [`mastery-checkpoints.md`](mastery-checkpoints.md) | Le contrôle de fin de lot, l'analyse des faiblesses, le plan de correction |
 | [`exam-readiness.md`](exam-readiness.md) | Les dates prévisionnelles, la charge, et le critère PRÊT-CANDIDAT |
 
@@ -301,7 +318,7 @@ Le calendrier est **généré**, pas écrit à la main :
 
 ```bash
 python3 tools/revision/build_roadmap.py \
-    --start 2026-10-01 --exam 2026-12-29 \
+    --start 2026-10-01 --exam 2027-03-02 \
     --max-new 4 --weekday 160 --weekend 220
 python3 tools/revision/render_calendar.py
 ```

@@ -1,6 +1,6 @@
 # CONTEXT.md — Session continuity (Master Plan §23)
 
-**Last updated:** 2026-10-27 (remédiation : P0, P1, P2.3–P2.7, P3.1–P3.3 livrés ; troisième passe livrée (#434–#436) ; extension properties abstraites (#437, #438) ; **cours pédagogiques (ADR-0012) : pilote (#439) et lot 09 (#441) livrés ; suite bloquée, le plan ne tient plus au rythme actuel** ; F4, F9 bloqués ; examen le 29 décembre)
+**Last updated:** 2026-10-28 (remédiation : P0, P1, P2.3–P2.7, P3.1–P3.3 livrés ; troisième passe livrée (#434–#436) ; extension properties abstraites (#437, #438) ; **cours pédagogiques (ADR-0012) : toutes les pages, dans l'ordre du calendrier ; examen reculé au 2 mars 2027 (propriétaire, 2026-10-28)** ; F4, F9 bloqués)
 
 ---
 
@@ -51,6 +51,7 @@ Branche de travail : `claude/symfony-8-certification-plan-phmkau`.
 | Cours pédagogiques (ADR-0012, `FMT-001`, `QCM-001`) : pilote *Deprecations best practices* | #439 (premier run CI rouge : plan de révision non régénéré après trois mots ajoutés, corrigé dans la PR) | `04f42b3` | smoke 122183663573 **success, lu** (315 ok, 0 erreur ; « ok pedagogical lot-03 deprecations ») |
 | Journal de #439 (`CVR-f4zwnrj6ngdr`), lignes de livraison de #438 et #439 | #440 | `e9a2abd` | smoke 122209369550 **success, lu** (315 ok, 0 erreur ; journal servi) |
 | Format pédagogique, lot 09 : *Dependency Injection component* et *Service container* ; deux corrections (quatre formes d'injection ; `--show-hidden`) | #441 | `8148cd0` | smoke 122468005238 **success, lu** (317 ok, 0 erreur ; les deux lignes « pedagogical lot-09 ») |
+| Journal de #441 (quatre `CVR-…`), ligne de livraison, limite du plan consignée | #442 | `d243d1e` | smoke 122713804267 **success, lu** (317 ok, 0 erreur ; journal servi) |
 
 **Pièges d'examen → flashcards (2026-10-24, livré : #432, `c48317d`).** Les 788
 paragraphes « Pièges d'examen » lus contre toutes les cartes de leur item :
@@ -82,17 +83,16 @@ du jour, chacune avant sa lecture. Livré : lot 09, *Dependency Injection compon
 internes) ; les cours du plan passent de 19,5 h à 20,9 h. Journal de #441 : `CVR-54mbg962trrp`, `CVR-b4bh8gah7ctq`,
 `CVR-b5kb05gv1hz0`, `CVR-mwfcyzg9fsse`.
 
-**Bloqué, décision du propriétaire (2026-10-27) : le plan ne tient plus.** *Router debugging* (lot 05) et
-*Built-in services* (lot 09) sont réécrites et vérifiées, mais leur temps de lecture (+49 min de première
-passe) rend `build_roadmap.py` impossible au rythme décidé le 2026-10-13 (160/220 min, examen le 29
-décembre) : « Pas de place : 4 mocks à caser entre 2026-12-14 et 2026-12-26 », exit code 1, donc CI rouge.
-Mesuré avec ces deux pages : `--max-new 5` ne suffit pas ; 170 min en semaine tient (items introduits le
-9 décembre, 32 révisions perdues) ; 180/240 tient (4 décembre, 23 perdues). Sans elles, master tient
-tout juste (11 décembre, 43 perdues). Les deux pages attendent en patch (hors dépôt) ; aucune autre page
-n'est réécrite avant le choix : rythme, date, ou profondeur des réécritures. Coût à surveiller : au rythme du plan
-(110 mots/min), une page réécrite ajoute 30 à 50 minutes de lecture ; étendue aux 163 pages, la charge
-dépasserait ce que la date du 29 décembre absorbe. Chaque PR reporte donc l'effet mesuré sur le plan, et
-si l'apprenant exporte *Ma progression*, l'ordre passe aux items où il se trompe.
+**Plan saturé (2026-10-27), tranché par le propriétaire (2026-10-28) : l'examen recule au mardi 2 mars 2027.**
+*Router debugging* (lot 05) et *Built-in services* (lot 09), réécrites et vérifiées, rendaient `build_roadmap.py`
+impossible au rythme du 2026-10-13 (160/220 min, examen le 29 décembre) : « Pas de place : 4 mocks à caser »,
+exit code 1. Options mesurées : `--max-new 5` insuffisant ; 170 min en semaine ou 180/240 tenaient. Le
+propriétaire a choisi de **reculer l'examen** et de **tout réécrire**, rythme inchangé. Date tirée d'une
+projection (`build_roadmap.py` avec les longueurs mesurées par niveau sur les cinq premières pages : MINIMAL
+≈ 3 100 mots, STANDARD ≈ 5 500, DEEP estimé 7 200, +3 cartes par page) : première passe ≈ 210 h (93 h
+avant), items introduits le 12 février 2027, 2 mars première date qui tient (23 février échoue). Le plan
+publié reste calculé sur les pages telles qu'elles sont ; si les longueurs réelles s'écartent de la
+projection, c'est la date qu'on réexamine, pas le rythme. Addendum à ADR-0012.
 
 **Budget de révision hors préambule (ADR-0011, décision du propriétaire du
 2026-10-24).** `## Objectif` n'est plus compté par REV-001 ni R14
@@ -140,7 +140,8 @@ bloqués sans relance, et le travail continue en autonomie sur le reste.
 - **F9** — la dernière citation en 404 est dans une question HOLDOUT : même décision.
 - ~~F6 — charge de compréhension~~ **tranché le 2026-10-13 : option B.** Examen
   déplacé au **29 décembre 2026**, rythme inchangé (160/220 min) ; la charge de
-  compréhension (26,4 h) est comptée. Mock 4 le 26 décembre.
+  compréhension (26,4 h) est comptée. **Puis reculé au 2 mars 2027 (propriétaire,
+  2026-10-28)** pour réécrire toutes les pages (ADR-0012, addendum).
 
 Tests réellement exécutés le 2026-10-15 sur #408 : `validate` 0 bloquant ;
 `gate-full` 366 tests, 27 374 assertions OK, a11y 0 violation ; 11 audits +

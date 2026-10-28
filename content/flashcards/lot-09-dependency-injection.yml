@@ -2453,3 +2453,20 @@ flashcards:
     commit_sha: eea05cbfe063b9cf99afaf303b8cad76757f43bb
     symbol_or_lines: 'Aliasing — app.mailer: alias: App\Mail\PhpMailer, public: true; shortcut app.mailer: ''@App\Mail\PhpMailer'''
     verified_at: '2026-10-27'
+- id: FLC-pn3ze1a16jqg
+  official_item: OIT-dy7108w6bf4z
+  language: fr
+  level: TRAP
+  front: 'Symfony : `symfony/serializer` est installé, mais `framework.serializer.enabled` vaut `false`. `SerializerInterface` est-il injectable ?'
+  back: 'Non : FrameworkBundle n''enregistre pas les services d''une section désactivée. La section est activée par défaut seulement parce que le package est installé.'
+  explanation: 'Exécuté avec FrameworkBundle 8.0.15 : avec la section désactivée, le type disparaît de `debug:autowiring` (89 types au lieu de 98). Lu dans `Configuration.php` : `canBeDisabled` quand le package est présent, `canBeEnabled` sinon.'
+  memorization_justification: On croit que le package suffit ; c'est la section activée du bundle qui enregistre le service.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/Configuration.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/Configuration.php
+    repository: symfony/symfony
+    branch: '8.0'
+    commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
+    symbol_or_lines: '$enableIfStandalone(''symfony/serializer'', Serializer::class) on the serializer section'
+    verified_at: '2026-10-27'

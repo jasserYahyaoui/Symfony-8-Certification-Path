@@ -130,3 +130,27 @@ namespace, and a file-level call reports once, when the class is autoloaded.
   set the precedent for.
 - Nothing changes for coverage, the syllabus matrix, levels, the exam banks,
   or the HOLDOUT's isolation.
+
+## Addendum — the scope decision (owner, 2026-10-28)
+
+The scope question left open above was answered after five pages had been
+rewritten (*Deprecations best practices*, *Dependency Injection component*,
+*Service container*, *Router debugging*, *Built-in services*). The fifth made
+`build_roadmap.py` fail at the owner's pace — 160 minutes on weekdays, 220 at
+weekends, four new items a day, exam on 29 December 2026: « Pas de place : 4
+mocks à caser ». Asked to choose between more daily time, fewer rewrites and a
+later exam, the owner chose the later exam: **every page is rewritten, the
+pace is unchanged, the exam moves.**
+
+The new date, **Tuesday 2 March 2027**, is a projection, not a measurement.
+The roadmap generator was run with each page still to rewrite given the
+length measured on the first five, by level (MINIMAL about 3 100 body words,
+STANDARD about 5 500, DEEP estimated at 7 200 for want of a sample), and three
+more cards per page. It gives a first pass of about 210 hours against 93, every
+item introduced by 12 February 2027, and 2 March as the first exam date at which
+the mocks fit; 23 February fails. The published plan is still computed from the
+pages as they are, and fills up as they are rewritten; if the measured lengths
+drift from the projection, the date is re-examined, not the pace.
+
+Pages are rewritten in the calendar's order from the current day, so each one
+is ready before it is first read.

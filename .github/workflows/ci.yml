@@ -124,7 +124,7 @@ jobs:
         run: |
           set -o pipefail
           python3 tools/revision/build_roadmap.py \
-            --start 2026-10-01 --exam 2026-12-29 \
+            --start 2026-10-01 --exam 2027-03-02 \
             --max-new 4 --weekday 160 --weekend 220
           python3 tools/revision/render_calendar.py
           git diff --exit-code docs/revision/plan.json docs/revision/study-calendar.md
