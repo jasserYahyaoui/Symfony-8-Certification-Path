@@ -1057,3 +1057,91 @@ entries:
         sections: ["Le fil rouge : `Request::get()`, de 7.4 à 8.0", "`trigger_deprecation()` ligne par ligne", "Pièges d'examen", "QCM d'entraînement", "Fiche express"]
     flashcards: [FLC-30ksve14whnz, FLC-8gm3ayn16wam, FLC-jv7wkwft8tjp]
     questions: [QST-ncw35b77q8v0, QST-vvmr9h74bnhh, QST-msepkm81vjmt]
+
+  - id: CVR-54mbg962trrp
+    date: '2026-10-27'
+    pull_request: 441
+    commit: '8148cd0'
+    kind: CORRECTION
+    finding: ADR-0012
+    official_items: [OIT-92ctf3sy3ddk]
+    facts: []
+    title: "Dependency Injection component : quatre formes d'injection, pas trois"
+    was: >-
+      « Trois formes d'injection » : constructor, setter, property — et la flashcard « quelles sont les
+      trois formes d'injection, et laquelle est la voie normale ? — Constructor (voie normale, dependency
+      obligatoire), setter (facultatif ou cycle), property (déconseillée). »
+    now: >-
+      La page *Types of Injection* de la documentation 8.0 en décrit quatre : constructor, immutable-setter
+      (une method qui renvoie un clone portant la dependency, déclarée avec `addMethodCall(…, true)` ou
+      `!returns_clone`), setter et property. Les quatre exécutées avec DependencyInjection 8.0.15.
+    courses:
+      - id: CRS-htvm3b1gas0d
+        sections: ["Les quatre formes d'injection", "Pièges d'examen"]
+    flashcards: [FLC-3603033a85gj]
+    questions: []
+
+  - id: CVR-b4bh8gah7ctq
+    date: '2026-10-27'
+    pull_request: 441
+    commit: '8148cd0'
+    kind: CORRECTION
+    finding: ADR-0012
+    official_items: [OIT-79f4n087b66c]
+    facts: []
+    title: "debug:container : --show-hidden n'affiche que les services internes"
+    was: >-
+      « Les services privés sont listés par défaut ; `--show-hidden` ajoute les services internes, dont
+      l'identifier commence par un point. »
+    now: >-
+      `--show-hidden` remplace la liste au lieu de la compléter : le titre devient « Symfony Container Hidden
+      Services » et seuls les services dont l'identifier commence par un point restent. Lu dans
+      `TextDescriptor` 8.0, exécuté sur FrameworkBundle 8.0.15 (79 services internes, aucun des 395
+      services ordinaires).
+    courses:
+      - id: CRS-p1694d5f7r8c
+        sections: ["Inspecter le container", "Pièges d'examen"]
+    flashcards: [FLC-asdnwk77st9y]
+    questions: []
+
+  - id: CVR-b5kb05gv1hz0
+    date: '2026-10-27'
+    pull_request: 441
+    commit: '8148cd0'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-92ctf3sy3ddk]
+    facts: []
+    title: "Dependency Injection component : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur l'exemple de la documentation (`NewsletterManager` et son
+      `Mailer`). Faits exécutés et ajoutés : `#[Required]` n'agit que sur un service autowiré ; un
+      immutable-setter autowiré doit renvoyer `static` ; un cycle entre deux constructors et une référence
+      absente font échouer `compile()` ; `IGNORE_ON_INVALID_REFERENCE` supprime l'appel du setter ;
+      `addArgument('mailer')` passe une string, pas le service.
+    courses:
+      - id: CRS-htvm3b1gas0d
+        sections: ["Injecter ou récupérer : la distinction de fond", "Les quatre formes d'injection", "Le component seul, ligne par ligne", "Pièges d'examen", "QCM d'entraînement", "Fiche express"]
+    flashcards: [FLC-44v4qrbn1cy0, FLC-43vw1gch2sb3, FLC-fasj14w1ppwc, FLC-crs2djgs9d6j, FLC-zhn0zsxgs2t6]
+    questions: []
+
+  - id: CVR-mwfcyzg9fsse
+    date: '2026-10-27'
+    pull_request: 441
+    commit: '8148cd0'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-79f4n087b66c]
+    facts: []
+    title: "Service container : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur `PhpMailer`, `MailerInterface` et une `Newsletter`. Faits
+      exécutés et ajoutés : rien n'est construit à `compile()` ; l'alias d'une interface n'est créé tout
+      seul qu'avec une implémentation, et deux font échouer la compilation ; un alias est privé par défaut ;
+      la class compilée est `App_KernelProdContainer` dans `var/cache/prod/` ; le container de test sert les
+      services privés non retirés ; `debug:autowiring` n'affiche que les alias sans `--all`.
+    courses:
+      - id: CRS-p1694d5f7r8c
+        sections: ["Ce que le container contient : des definitions", "Public ou privé : trois questions", "L'alias : un second identifier", "La compilation : pourquoi la configuration n'est pas relue", "Pièges d'examen", "QCM d'entraînement", "Fiche express"]
+    flashcards: [FLC-8memsthq7kb6, FLC-d884n55s2b6j, FLC-sp58g2wvh7mn]
+    questions: []
