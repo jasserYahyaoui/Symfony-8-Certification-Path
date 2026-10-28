@@ -37,17 +37,16 @@ groups que Symfony crée sans qu'on les déclare.
 
 La même class `User` sert à deux moments :
 
-- à l'**inscription**, le mot de passe est obligatoire et doit faire au moins
+- à l'**inscription**, le password est obligatoire et doit faire au moins
   sept caractères ;
-- à la **modification du profil**, l'utilisateur change sa ville ; le mot de
-  passe n'est pas dans le formulaire.
+- à la **modification du profil**, le user change sa ville ; le password n'est pas dans le form.
 
 Si toutes les constraints s'appliquaient toujours, la modification du profil
-échouerait sur un mot de passe que personne n'a saisi. Il faut pouvoir dire :
+échouerait sur un password que personne n'a saisi. Il faut pouvoir dire :
 « ici, ne vérifie que **ces** règles-là ».
 
-Un **group** est une étiquette posée sur une constraint ; à la validation, on
-choisit les étiquettes à appliquer.
+Un **group** est un nom attaché à une constraint ; à la validation, on
+choisit les noms à appliquer.
 
 ## Le fil rouge : un `User` à deux usages
 
@@ -161,7 +160,7 @@ valider dans `User` ne le fait pas, car le group transmis à l'`Address` reste
 `User`. Un group nommé, lui, traverse la cascade : `address.street`, étiquetée
 `registration`, est atteinte.
 
-### Et avec l'héritage
+### Et avec l'inheritance
 
 La documentation 8.0 l'ajoute, et l'exécution le confirme avec
 `User extends BaseUser`, chacun portant un `NotBlank` sans group :
@@ -176,9 +175,9 @@ dans l'item *Group sequence*.
 
 ## Concrètement dans ton application
 
-- Un formulaire d'inscription : `validation_groups: ['Default',
+- Un form d'inscription : `validation_groups: ['Default',
   'registration']`, pour garder les règles communes.
-- Un formulaire de profil : rien, ou `['Default']`.
+- Un form de profil : rien, ou `['Default']`.
 - Une règle qui ne doit servir qu'à un moment précis : un group nommé, jamais le
   nom de la class.
 - Une validation qui « ne voit plus rien » : vérifie le nom du group passé, une
@@ -204,7 +203,7 @@ dans l'item *Group sequence*.
 - `groups: ['User']` : **pas** dans `Default` (contrairement à ce que laisse
   croire la documentation).
 - Cascade : `Default` descend, `User` non, un group nommé oui.
-- Héritage : le group de la sous-classe inclut le parent ; le group du parent,
+- Inheritance : le group de la sous-classe inclut le parent ; le group du parent,
   seulement le parent.
 - Moyen mnémotechnique : **« Default par défaut, le reste sur demande »**.
 
@@ -224,7 +223,7 @@ nomme.
 
 ## Application : trois scénarios
 
-**Scénario 1 — L'inscription.** Le mot de passe doit être vérifié à
+**Scénario 1 — L'inscription.** Le password doit être vérifié à
 l'inscription, et la ville toujours. *Solution.* `password` dans
 `registration`, `city` sans group, et `validate($user, null, ['Default',
 'registration'])` — ou `validation_groups` dans le form.
@@ -359,7 +358,7 @@ A, B et C inventent des comportements.
 - `groups: ['User']` n'est **pas** dans `Default`.
 - Cascade : `Default` descend dans l'object imbriqué, le nom de la class non,
   un group nommé oui.
-- Héritage : le group de la sous-classe couvre le parent ; celui du parent,
+- Inheritance : le group de la sous-classe couvre le parent ; celui du parent,
   le parent seul.
 - Un group inconnu ou mal écrit ne lève rien : il ne sélectionne rien.
 

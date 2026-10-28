@@ -60,7 +60,7 @@ référence le donnent.
 
 ## Avant la règle : le problème à résoudre
 
-Un formulaire de contact a quatre champs : un email obligatoire, un
+Un form de contact a quatre fields : un email obligatoire, un
 commentaire facultatif mais toujours envoyé, un âge, et une liste de tags. Pour
 chacun, il faut choisir **la bonne** constraint parmi plus de soixante — et
 les noms se ressemblent : `NotBlank` ou `NotNull` ? `EqualTo` ou `IdenticalTo` ?
@@ -70,7 +70,7 @@ Le piège n'est pas de connaître la liste, mais de savoir **ce que chaque
 constraint laisse passer** : `null`, la string vide, `0`, une string d'espaces.
 C'est là que se cachent les validations qui passent à tort.
 
-## Le fil rouge : un formulaire de contact
+## Le fil rouge : un form de contact
 
 ```php
 class Contact
@@ -224,9 +224,9 @@ not expected. » ; `All([NotBlank])` sur `['a', '']` signale une violation.
 
 ## Concrètement dans ton application
 
-- Champ obligatoire : `NotBlank` ; champ toujours envoyé mais vide permis :
+- Field obligatoire : `NotBlank` ; field toujours envoyé mais vide permis :
   `NotNull`.
-- Champ facultatif avec format : la constraint de format seule (`Email`,
+- Field facultatif avec format : la constraint de format seule (`Email`,
   `Positive`…), `null` passe.
 - Liste homogène : `All` ; array structuré (payload JSON) : `Collection`.
 - Vérification chère (appel distant) après un contrôle de format :
@@ -238,7 +238,7 @@ not expected. » ; `All([NotBlank])` sur `['a', '']` signale une violation.
 
 - **Pourquoi les constraints ignorent-elles `null` ?** Pour séparer « la valeur
   est-elle présente ? » (`NotNull`, `NotBlank`) de « est-elle bien formée ? » :
-  un champ facultatif reste ainsi validable.
+  un field facultatif reste ainsi validable.
 - **Pourquoi `NotBlank` accepte-t-il `0` ?** Parce que `0` est une vraie
   valeur : un âge, une quantité. Seul le « vide » est refusé.
 - **Pourquoi `Sequentially` ?** Parce que, sans lui, toutes les constraints
@@ -278,7 +278,7 @@ violations sur la même property.
 
 ## Application : trois scénarios
 
-**Scénario 1 — L'email obligatoire.** Le formulaire accepte un email vide.
+**Scénario 1 — L'email obligatoire.** Le form accepte un email vide.
 *Solution.* `Email` seule laisse passer `''` et `null` : ajoute `NotBlank`.
 
 **Scénario 2 — Le commentaire.** Il doit toujours être envoyé, mais peut être
@@ -312,7 +312,7 @@ C ignorent les exceptions.
 
 </details>
 
-**Question 2.** Un champ `website` porte `#[Assert\Url]` seul, et l'utilisateur ne le remplit pas (`null`). Que se passe-t-il ?
+**Question 2.** Un field `website` porte `#[Assert\Url]` seul, et le user ne le remplit pas (`null`). Que se passe-t-il ?
 
 - **A.** Une violation « This value is not a valid URL. »
 - **B.** Une violation « This value should not be blank. »

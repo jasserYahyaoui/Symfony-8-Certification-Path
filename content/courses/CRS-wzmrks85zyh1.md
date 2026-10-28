@@ -47,7 +47,7 @@ que les autres ne permettent pas.
 Trois règles pour un même `Author` :
 
 1. le prénom fait au moins trois caractères ;
-2. le mot de passe ne reprend pas le prénom ;
+2. le password ne reprend pas le prénom ;
 3. la date de fin de contrat ne précède pas la date de début.
 
 La première porte sur **une valeur stockée**. La deuxième sur **une valeur
@@ -177,14 +177,14 @@ class Contract
 ```
 
 `atPath()` rattache la violation à une property, pour qu'un form l'affiche sous
-le bon champ ; sans lui, elle est rattachée à l'object (path vide).
+le bon field ; sans lui, elle est rattachée à l'object (path vide).
 
 ## Concrètement dans ton application
 
 - Format, longueur, présence d'une valeur : une constraint de **property**.
-- Une valeur dérivée (« le mot de passe n'est pas le prénom », « le panier
+- Une valeur dérivée (« le password n'est pas le prénom », « le panier
   n'est pas vide ») : un **accessor** `is…` ou `has…` avec `IsTrue`.
-- Une cohérence entre champs (dates, montants) : un `Callback` de **class**, et
+- Une cohérence entre fields (dates, montants) : un `Callback` de **class**, et
   `atPath()` pour placer l'erreur.
 - Un DTO aux properties typées sans default value : penser qu'une property non
   affectée sera validée comme `null`.
@@ -208,7 +208,7 @@ le bon champ ; sans lui, elle est rattachée à l'object (path vide).
   visibilité libre, statique accepté ; path sans préfixe.
 - Mauvais nom → `MappingException` ; argument requis → `ArgumentCountError`.
 - Class : `Callback` ou `getTargets()` qui rend `Constraint::CLASS_CONSTRAINT` ;
-  `atPath()` pour viser un champ.
+  `atPath()` pour viser un field.
 - Moyen mnémotechnique : **« Stocké, Calculé, Croisé »** — property, accessor,
   class.
 
@@ -230,7 +230,7 @@ refuse, mais `Length` ou `Email` la laissent passer.
 
 ## Application : trois scénarios
 
-**Scénario 1 — Le mot de passe et le prénom.** *Solution.* Une method privée
+**Scénario 1 — Le password et le prénom.** *Solution.* Une method privée
 `isPasswordSafe(): bool` portant `#[Assert\IsTrue(message: …)]` ; la violation
 apparaît au path `passwordSafe`.
 
@@ -292,7 +292,7 @@ concerne une method qui exige un argument.
 <summary>Correction</summary>
 
 **Bonne réponse : C.** Seul le scope class voit toutes les properties à la
-fois ; `atPath('checkout')` place l'erreur sur le bon champ.
+fois ; `atPath('checkout')` place l'erreur sur le bon field.
 
 A est le piège : une constraint de property ne reçoit que sa valeur. B ne voit
 que la valeur retournée. D ne compare rien.
@@ -363,7 +363,7 @@ A est l'inverse. C décrit `Callback`. D invente un comportement.
 - Accessor : `get` / `is` / `has`, sans argument ; path **sans préfixe**.
 - Mauvais nom : `MappingException` ; argument requis : `ArgumentCountError`.
 - Property typée non initialisée : validée comme `null`.
-- Règle entre deux champs : `Callback` de class + `atPath()`.
+- Règle entre deux fields : `Callback` de class + `atPath()`.
 
 **En une phrase, pour tout reconstruire :**
 

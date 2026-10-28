@@ -33,13 +33,13 @@ le précédent a réussi — et maîtriser les effets de bord que cet ordre intr
 
 ## Avant la règle : le problème à résoudre
 
-L'inscription vérifie deux choses : que le nom d'utilisateur est rempli, puis
-que le mot de passe n'est pas dans une liste de mots de passe compromis — un
+L'inscription vérifie deux choses : que le `username` est rempli, puis
+que le password n'est pas dans une liste de passwords compromis — un
 appel réseau, lent.
 
 Si le nom est vide, appeler le service distant est inutile : la saisie est déjà
-refusée. Et afficher en même temps « nom obligatoire » et « mot de passe
-compromis » noie l'utilisateur sous des erreurs.
+refusée. Et afficher en même temps « nom obligatoire » et « password
+compromis » noie le user sous des erreurs.
 
 Il faut pouvoir dire : « vérifie d'abord **ceci** ; **seulement si tout
 passe**, vérifie **cela** ». C'est une **group sequence**.
@@ -179,11 +179,11 @@ Un provider n'est pas contrôlé comme une séquence statique : exécuté, un re
 
 ## Concrètement dans ton application
 
-- Un contrôle coûteux (service distant, requête en base) : son propre group,
+- Un contrôle coûteux (service distant, appel à la base de données) : son propre group,
   placé **après** le group du nom de la class.
 - Une séquence de class : `#[Assert\GroupSequence(['User', 'Strict'])]`, jamais
   `Default`.
-- Un formulaire : `validation_groups` peut recevoir une `GroupSequence`.
+- Un form : `validation_groups` peut recevoir une `GroupSequence`.
 - Des règles qui dépendent de l'object (offre gratuite ou payante) :
   `GroupSequenceProviderInterface`.
 - Un test qui valide `['Strict']` directement ne teste **pas** la séquence.
@@ -226,8 +226,8 @@ Un provider n'est pas contrôlé comme une séquence statique : exécuté, un re
 
 ## Application : trois scénarios
 
-**Scénario 1 — Le contrôle distant.** Le mot de passe est vérifié contre un
-service externe, à éviter si le formulaire est déjà invalide. *Solution.*
+**Scénario 1 — Le contrôle distant.** Le password est vérifié contre un
+service externe, à éviter si le form est déjà invalide. *Solution.*
 `#[Assert\GroupSequence(['User', 'Strict'])]`, et la constraint distante dans
 `Strict`.
 
@@ -237,8 +237,8 @@ service externe, à éviter si le formulaire est déjà invalide. *Solution.*
 class.
 
 **Scénario 3 — Les comptes payants.** Les règles `Premium` ne s'appliquent
-qu'aux abonnés, et doivent être signalées en même temps que les règles de base.
-*Solution.* Un provider qui rend `[['User', 'Premium'], 'Api']` pour un abonné,
+qu'aux clients payants, et doivent être signalées en même temps que les règles de base.
+*Solution.* Un provider qui rend `[['User', 'Premium'], 'Api']` pour un client payant,
 `['User', 'Api']` sinon.
 
 ## QCM d'entraînement
