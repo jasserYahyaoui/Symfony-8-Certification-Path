@@ -138,6 +138,10 @@ EXÉCUTION (à chaque construction du service)
 
 ## Compilation ou exécution : `%nom%` contre `%env()%`
 
+Les deux syntaxes se ressemblent, et c'est tout le piège : l'une est résolue
+une fois pour toutes quand le container est compilé, l'autre est lue à chaque
+construction du service. Voici chacune, puis comment choisir.
+
 ### Le parameter : une valeur figée à la compilation
 
 ```yaml

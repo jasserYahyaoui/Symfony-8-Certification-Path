@@ -379,7 +379,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Jeudi 29 octobre 2026
 
-- NOUVEAU · **Dependency Injection : Configuration parameters** (STANDARD) — 59 min · 3562 mots · 4 questions, 7 questions de compréhension, 13 flashcards
+- NOUVEAU · **Dependency Injection : Configuration parameters** (STANDARD) — 59 min · 3598 mots · 4 questions, 7 questions de compréhension, 13 flashcards
 - NOUVEAU · **Dependency Injection : Services registration (YAML and PHP attributes)** (STANDARD) — 49 min · 3104 mots · 6 questions, 7 questions de compréhension, 14 flashcards
 - Révision **J+1** (16 min) — Dependency Injection : Dependency Injection component · Dependency Injection : Service container · Dependency Injection : Built-in services
 - Révision **J+3** (14 min) — Routing : Domain name matching · Routing : Conditional request matching · Routing : HTTP methods matching · Routing : User's locale guessing
