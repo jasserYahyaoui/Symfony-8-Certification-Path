@@ -4185,3 +4185,33 @@ pitfalls:
   excerpt: 'La method `load()` d''une extension ne voit ni les services des autres bundles ni ceux de l''application'
   verdict: COVERED
   card: FLC-zt98ytj8s58j
+- course: CRS-0a0d5bp6769e
+  key: f57b54d483d7
+  excerpt: '**Un service facultatif absent disparaît du locator**'
+  verdict: COVERED
+  card: FLC-sy0sgdmsbvgy
+- course: CRS-ax2v94pgbk0g
+  key: 0998066bbf3f
+  excerpt: '**`Cascade` ne descend que dans les properties typées par une class**'
+  verdict: COVERED
+  card: FLC-atx3jbrah7ky
+- course: CRS-ax2v94pgbk0g
+  key: 2ef805486832
+  excerpt: '**`Valid` n''appartient pas au group `Default`**'
+  verdict: COVERED
+  card: FLC-bfw00ty6skft
+- course: CRS-w6yfxm6ad4zy
+  key: e87348d162db
+  excerpt: 'Un type union ne s''autowire que si **chacun** de ses types est un alias vers le **même** service'
+  verdict: COVERED
+  card: FLC-p9w371w2cmms
+- course: CRS-w6yfxm6ad4zy
+  key: 14f376d920a4
+  excerpt: '`#[AsAlias]` est lu à la **découverte** des classes (`resource`)'
+  verdict: COVERED
+  card: FLC-52tek1wv19pc
+- course: CRS-way4aktj2d5m
+  key: b13bd54a2083
+  excerpt: '**Un group mal orthographié fait paraître l''object valide**'
+  verdict: COVERED
+  card: FLC-328ajzgxx4ae

@@ -5133,7 +5133,11 @@ jobs:
                       'lot-09/tags|NotificationChain|Marquer, Lire, Trier|Fiche express' \
                       'lot-09/semantic-configuration|PaymentGatewayBundle|debug:config framework|Fiche express' \
                       'lot-09/factories|cannot be called statically|as well as a constructor|Fiche express' \
-                      'lot-09/compiler-passes|MergeExtensionConfigurationPass|OutOfBoundsException|Fiche express'; do
+                      'lot-09/compiler-passes|MergeExtensionConfigurationPass|OutOfBoundsException|Fiche express' \
+                      'lot-09/services-autowiring|getCombinedAlias|AsAlias|Fiche express' \
+                      'lot-09/service-locators|ServiceMethodsSubscriberTrait|getProvidedServices|Fiche express' \
+                      'lot-08/validator-component|findByCodes|debug:validator|Fiche express' \
+                      'lot-08/php-object-validation|Unknown named parameter|Registration|Fiche express'; do
             page=${spec%%|*}
             out="/tmp/ped-${page//\//-}"
             code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \

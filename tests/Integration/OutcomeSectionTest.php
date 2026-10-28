@@ -72,7 +72,10 @@ final class OutcomeSectionTest extends TestCase
 
     public function testTheRuleRefusesASummaryAsTarget(): void
     {
-        self::assertMessage('frames the course', $this->withFirstCourse(static fn (array $map): array => array_map(static fn (): string => 'Points clés', $map)));
+        // « Objectif » frames every course, in either format; « Points clés »
+        // no longer exists in a pedagogical page (ADR-0012), so it cannot be
+        // the probe once the first course has been rewritten.
+        self::assertMessage('frames the course', $this->withFirstCourse(static fn (array $map): array => array_map(static fn (): string => 'Objectif', $map)));
     }
 
     public function testTheRuleRefusesAnOutcomeOfAnotherItem(): void

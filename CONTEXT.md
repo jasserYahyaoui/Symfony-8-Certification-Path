@@ -54,6 +54,7 @@ Branche de travail : `claude/symfony-8-certification-plan-phmkau`.
 | Journal de #441 (quatre `CVR-…`), ligne de livraison, limite du plan consignée | #442 | `d243d1e` | smoke 122713804267 **success, lu** (317 ok, 0 erreur ; journal servi) |
 | Examen au 2 mars 2027 (propriétaire, 2026-10-28) ; *Router debugging* et *Built-in services* au format pédagogique ; contrôle du calendrier relatif à l'examen | #443 | `2a5466e` | smoke 122746091763 **success, lu** (319 ok, 0 erreur ; calendrier « stops at the exam », agenda jusqu'au 2027-03-02, cinq lignes « pedagogical ») |
 | *Configuration parameters*, *Services registration* et *Service decoration* au format pédagogique ; journal de #443 | #444 | `37fe67a` | smoke 122785980807 **success, lu** (322 ok, 0 erreur sur les 400 dernières lignes ; calendrier « stops at the exam », agenda jusqu'au 2027-03-02, huit lignes « pedagogical ») |
+| *Tags*, *Semantic configuration*, *Factories* et *Compiler passes* au format pédagogique ; correction du constructor des factories ; journal de #444 | #445 | `69d3b7c` | smoke 123110553850 **success, lu** (326 ok, 0 erreur sur les 400 dernières lignes ; calendrier « stops at the exam », agenda jusqu'au 2027-03-02, douze lignes « pedagogical ») |
 
 **Pièges d'examen → flashcards (2026-10-24, livré : #432, `c48317d`).** Les 788
 paragraphes « Pièges d'examen » lus contre toutes les cartes de leur item :

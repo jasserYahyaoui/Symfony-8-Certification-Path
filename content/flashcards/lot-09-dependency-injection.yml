@@ -2660,3 +2660,71 @@ flashcards:
     commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
     symbol_or_lines: process() — addDefinitions($definitions) after the extensions are merged
     verified_at: '2026-10-28'
+- id: FLC-p9w371w2cmms
+  official_item: OIT-wm3qdqemtap9
+  language: fr
+  level: TRAP
+  front: 'Symfony : un argument typé `AInterface|BInterface`, où les deux interfaces sont des alias vers **deux services différents**. L''autowiring le remplit-il ?'
+  back: 'Non : la compilation échoue (« … but this class was not found »). Une union ne s''autowire que si un alias existe pour le type complet, ou si chaque type est un alias vers le **même** service.'
+  explanation: 'Exécuté avec FrameworkBundle 8.0.15 : avec une class `AB` qui implémente les deux interfaces, l''union et l''intersection reçoivent `AB`. Relu dans `AutowirePass::getCombinedAlias()`.'
+  memorization_justification: Une union ne choisit pas entre deux services ; elle exige qu'ils n'en fassent qu'un.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Compiler/AutowirePass.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Compiler/AutowirePass.php
+    repository: symfony/symfony
+    branch: '8.0'
+    commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
+    symbol_or_lines: getCombinedAlias() — union and intersection types
+    verified_at: '2026-10-28'
+- id: FLC-52tek1wv19pc
+  official_item: OIT-wm3qdqemtap9
+  language: fr
+  level: TRAP
+  front: 'Symfony : deux classes implémentent `SenderInterface` ; `SmsSender` porte `#[AsAlias]`. Les deux sont déclarées une à une par `set()`, sans `resource`. Le consommateur reçoit-il `SmsSender` ?'
+  back: 'Non : l''attribute est lu à la **découverte** des classes. Exécuté, la compilation échoue comme sans alias ; avec `resource`, le consommateur reçoit `SmsSender`.'
+  explanation: Exécuté avec DependencyInjection 8.0.15, autoconfiguration active dans les deux cas.
+  memorization_justification: '`#[AsAlias]` agit là où les classes sont découvertes, pas sur une definition écrite à la main.'
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/autowiring.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/autowiring.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    commit_sha: eea05cbfe063b9cf99afaf303b8cad76757f43bb
+    symbol_or_lines: '#[AsAlias(''third_party.remote_message_formatter'')]'
+    verified_at: '2026-10-28'
+- id: FLC-sy0sgdmsbvgy
+  official_item: OIT-gkhcbtygef69
+  language: fr
+  level: TRAP
+  front: 'Symfony : un subscriber déclare `[PdfRenderer::class, ''?App\Pdf\Watermarker'']`, et `Watermarker` n''existe pas. Que rend `getProvidedServices()` du locator ?'
+  back: 'Seulement la key de `PdfRenderer` : le service facultatif absent disparaît du locator. Exécuté, `count()` ne le compte pas et `has()` rend `false`.'
+  explanation: Exécuté avec FrameworkBundle 8.0.15.
+  memorization_justification: '`?` n''ajoute pas un trou dans la liste ; il retire le service manquant.'
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/service_subscribers_locators.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/service_subscribers_locators.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    commit_sha: eea05cbfe063b9cf99afaf303b8cad76757f43bb
+    symbol_or_lines: Optional Services
+    verified_at: '2026-10-28'
+- id: FLC-bfc41s3kv2f5
+  official_item: OIT-gkhcbtygef69
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : un handler **privé** est déclaré dans un subscriber. Le locator peut-il le rendre ?'
+  back: 'Oui : exécuté, `$container->has()` rend `false` sur le container de l''application, mais le locator rend le handler. Le locator est câblé à la compilation, comme une injection.'
+  explanation: Exécuté avec FrameworkBundle 8.0.15.
+  memorization_justification: Un locator n'est pas la récupération de services sur le container public.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/service_subscribers_locators.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/service_subscribers_locators.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    commit_sha: eea05cbfe063b9cf99afaf303b8cad76757f43bb
+    symbol_or_lines: '"Doing so also requires services to be made public, which isn''t the case by default"'
+    verified_at: '2026-10-28'
