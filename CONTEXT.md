@@ -51,6 +51,7 @@ Branche de travail : `claude/symfony-8-certification-plan-phmkau`.
 | Cours pédagogiques (ADR-0012, `FMT-001`, `QCM-001`) : pilote *Deprecations best practices* | #439 (premier run CI rouge : plan de révision non régénéré après trois mots ajoutés, corrigé dans la PR) | `04f42b3` | smoke 122183663573 **success, lu** (315 ok, 0 erreur ; « ok pedagogical lot-03 deprecations ») |
 | Journal de #439 (`CVR-f4zwnrj6ngdr`), lignes de livraison de #438 et #439 | #440 | `e9a2abd` | smoke 122209369550 **success, lu** (315 ok, 0 erreur ; journal servi) |
 | Format pédagogique, lot 09 : *Dependency Injection component* et *Service container* ; deux corrections (quatre formes d'injection ; `--show-hidden`) | #441 | `8148cd0` | smoke 122468005238 **success, lu** (317 ok, 0 erreur ; les deux lignes « pedagogical lot-09 ») |
+| Journal de #441 (quatre `CVR-…`), ligne de livraison, limite du plan consignée | #442 | `d243d1e` | smoke 122713804267 **success, lu** (317 ok, 0 erreur ; journal servi) |
 
 **Pièges d'examen → flashcards (2026-10-24, livré : #432, `c48317d`).** Les 788
 paragraphes « Pièges d'examen » lus contre toutes les cartes de leur item :
