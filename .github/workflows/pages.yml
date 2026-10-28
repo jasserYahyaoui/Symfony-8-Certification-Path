@@ -144,7 +144,11 @@ jobs:
           # The exam marker is checked too: the generator used to schedule
           # revisions through 09/01/2027, past a 15/12/2026 sitting. If the
           # deployed page ends on the exam day, the truncation reached
-          # production; if it names January 2027, it did not.
+          # production. The check used to look for « Janvier 2027 », which was
+          # right while the exam was in December; since the owner moved it to
+          # 2 March 2027 (2026-10-28), the forbidden dates are computed from
+          # the exam date of this commit's plan.json: no day heading and no
+          # month heading after the exam may appear.
           curl -sL --retry 5 --retry-delay 5 --retry-all-errors -o /tmp/calendar "$BASE_URL/docs/revision/calendar"
           cal_missing=""
           grep -q '1 octobre 2026' /tmp/calendar || cal_missing="$cal_missing first-day"
@@ -154,9 +158,26 @@ jobs:
           # number this far below it means the loop that writes them broke.
           n_days=$(grep -c 'décembre 2026\|novembre 2026\|octobre 2026' /tmp/calendar || true)
           [ "$n_days" -ge 60 ] || cal_missing="$cal_missing only-$n_days-dates"
-          if grep -q 'Janvier 2027' /tmp/calendar; then
-            cal_missing="$cal_missing not-truncated-at-exam"
-          fi
+          after_exam=$(python3 - <<'PY'
+          import datetime, json
+          exam = datetime.date.fromisoformat(json.load(open('docs/revision/plan.json'))['exam'])
+          months = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août',
+                    'septembre', 'octobre', 'novembre', 'décembre']
+          for n in range(1, 120):
+              d = exam + datetime.timedelta(days=n)
+              print(f'{d.day} {months[d.month - 1]} {d.year}')
+              if d.day == 1 and (d.year, d.month) != (exam.year, exam.month):
+                  print(f'{months[d.month - 1].capitalize()} {d.year}')
+          PY
+          )
+          [ -n "$after_exam" ] || cal_missing="$cal_missing no-exam-date-in-plan"
+          while IFS= read -r label; do
+            [ -n "$label" ] || continue
+            if grep -qF -- "$label" /tmp/calendar; then
+              cal_missing="$cal_missing not-truncated-at-exam($label)"
+              break
+            fi
+          done <<< "$after_exam"
           if [ -n "$cal_missing" ]; then
             echo "::error::the published revision calendar is incomplete:$cal_missing"
             fail=1
@@ -5099,15 +5120,17 @@ jobs:
           else
             echo "ok  pedagogical  lot-03 deprecations: running example, executed facts, quiz corrections and digest served"
           fi
-          # ADR-0012 rollout, lot 09: the DI component and Service container pages. Each needle
-          # was absent from both pages on master: the fourth injection form, an executed
-          # reference behaviour, the compiled container class, the executed --show-hidden title,
-          # and the closing digest.
-          for spec in 'dependency-injection-component|Les quatre formes|IGNORE_ON_INVALID_REFERENCE|Fiche express' \
-                      'service-container|App_KernelProdContainer|Symfony Container Hidden Services|Fiche express'; do
+          # ADR-0012 rollout: each page rewritten in the pedagogical format. Every needle was absent
+          # from its page on master before the rewrite: an executed fact, a sourced detail, and the
+          # closing digest. One spec per page: lot/page|needle|needle|needle.
+          for spec in 'lot-09/dependency-injection-component|Les quatre formes|IGNORE_ON_INVALID_REFERENCE|Fiche express' \
+                      'lot-09/service-container|App_KernelProdContainer|Symfony Container Hidden Services|Fiche express' \
+                      'lot-05/router-debugging|Restrictions|Unsupported format|Fiche express' \
+                      'lot-09/built-in-services|au lieu de 98|cache:pool:list|Fiche express'; do
             page=${spec%%|*}
+            out="/tmp/ped-${page//\//-}"
             code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
-              -o "/tmp/ped-$page" -w '%{http_code}' "$BASE_URL/docs/courses/lot-09/$page")
+              -o "$out" -w '%{http_code}' "$BASE_URL/docs/courses/$page")
             missing=""
             if [ "$code" != "200" ]; then
               missing=" page:$code"
@@ -5115,14 +5138,14 @@ jobs:
               rest=${spec#*|}
               IFS='|' read -r -a needles <<< "$rest"
               for needle in "${needles[@]}"; do
-                grep -aqF -- "$needle" "/tmp/ped-$page" || missing="$missing [$needle]"
+                grep -aqF -- "$needle" "$out" || missing="$missing [$needle]"
               done
             fi
             if [ -n "$missing" ]; then
-              echo "::error::Pedagogical page missing from lot-09/$page:$missing"
+              echo "::error::Pedagogical page missing from $page:$missing"
               fail=1
             else
-              echo "ok  pedagogical  lot-09 $page: executed facts and digest served"
+              echo "ok  pedagogical  $page: executed facts and digest served"
             fi
           done
           # Remediation P1.3, lot 08: null and '' per constraint, 8.0 named arguments, and a custom

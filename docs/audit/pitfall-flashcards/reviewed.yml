@@ -930,23 +930,43 @@ pitfalls:
   verdict: COVERED
   card: FLC-q155bf3wbg21
 - course: CRS-8dgxs89hrah0
-  key: 09242533b819
-  excerpt: '**La liste des routes est donnée dans l''ordre d''évaluation, pas alphabétique.** La premièr'
+  key: b063477fe8ad
+  excerpt: '**L''ordre de `debug:router` n''est pas alphabétique.**'
   verdict: COVERED
   card: FLC-jjgd2xj2w7y4
 - course: CRS-8dgxs89hrah0
-  key: 4718b57c586e
-  excerpt: '**Deux commands, deux questions différentes.** L''une inventorie les routes, l''autre prend '
+  key: fa9a6bd8a8b2
+  excerpt: '**Une route paramétrée déclarée plus haut intercepte un path fixe.**'
   verdict: COVERED
-  card: FLC-rzegz41n4m5b
+  card: FLC-snn8kv38wrky
 - course: CRS-8dgxs89hrah0
-  key: 1503f2cdb33c
-  excerpt: '**`router:match` prend un path, pas une URL.** Host, schéma et method passent par des opti'
+  key: 16133bdf4494
+  excerpt: '**La `priority` change l''ordre affiché.**'
+  verdict: COVERED
+  card: FLC-ecvdbxzewc79
+- course: CRS-8dgxs89hrah0
+  key: d6ef8745b1ec
+  excerpt: '**`--method=POST` n''affiche pas que les routes POST.**'
+  verdict: COVERED
+  card: FLC-08tdnh3mgyy6
+- course: CRS-8dgxs89hrah0
+  key: df71f298fc47
+  excerpt: '**`router:match` prend un path, pas une URL.**'
   verdict: COVERED
   card: FLC-zm07gsesrmvj
 - course: CRS-8dgxs89hrah0
-  key: dfbd929f116d
-  excerpt: '**Un nom partiel suffit à `debug:router`**, et la recherche ignore la casse.'
+  key: 112777a17676
+  excerpt: '**Sans options, `router:match` teste un GET sur `localhost`.**'
+  verdict: COVERED
+  card: FLC-7qbw1sdafp66
+- course: CRS-8dgxs89hrah0
+  key: e6fcba2f1500
+  excerpt: '**Aucune correspondance, c''est l''exit code 1.**'
+  verdict: COVERED
+  card: FLC-41y8f4vjv5aa
+- course: CRS-8dgxs89hrah0
+  key: 3fd42d8e5f79
+  excerpt: '**Un nom partiel suffit à `debug:router`, et la casse est ignorée.**'
   verdict: COVERED
   card: FLC-n9kw1qmhn8b5
 - course: CRS-8hwpzyk1hrq9
@@ -4085,3 +4105,8 @@ pitfalls:
   excerpt: '**`RepeatedType` rend deux fields mais une seule donnée.**'
   verdict: COVERED
   card: FLC-jm0yz44xrdrs
+- course: CRS-jtkmpfp3nwzk
+  key: b28135a4cbfb
+  excerpt: '**Une section désactivée n''enregistre aucun service.**'
+  verdict: COVERED
+  card: FLC-pn3ze1a16jqg

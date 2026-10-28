@@ -1,8 +1,25 @@
 # PRÊT-CANDIDAT — dates, charge, et critère de passage
 
-**Date d'examen visée : mardi 29 décembre 2026** (15 décembre jusqu'au 13 octobre). Ce document répond à une seule
+**Date d'examen visée : mardi 2 mars 2027** (15 décembre jusqu'au 13 octobre, 29 décembre jusqu'au 28 octobre). Ce document répond à une seule
 question : cette date est-elle tenable, et à quelles conditions ?
 
+> **Date déplacée au mardi 2 mars 2027 — décision du propriétaire, 28 octobre 2026.**
+> Raison : le propriétaire a demandé que **chaque** page de cours devienne un
+> cours de révision complet (ADR-0012), sans budget de mots. Les pages réécrites
+> sont 4 à 10 fois plus longues ; au rythme inchangé (160 min en semaine, 220 le
+> week-end, 4 nouveaux items par jour), le plan ne tenait plus au 29 décembre dès
+> la cinquième page (`build_roadmap.py` : « Pas de place : 4 mocks à caser »).
+> Entre « augmenter le temps quotidien », « limiter les réécritures » et « reculer
+> l'examen », le propriétaire a choisi de **reculer l'examen**.
+>
+> La date vient d'une **projection**, pas d'une mesure : `build_roadmap.py`, lancé
+> avec les longueurs mesurées sur les cinq premières pages réécrites (MINIMAL
+> ≈ 3 100 mots, STANDARD ≈ 5 500, DEEP estimé à 7 200) et 3 cartes de plus par
+> page, donne une première passe d'environ **210 h** (93 h avant), tous les items
+> introduits le **12 février 2027**, et le **2 mars** comme première date qui
+> tient (le 23 février échoue). Le plan publié, lui, est toujours calculé sur les
+> pages telles qu'elles sont : il se remplit à mesure que les pages sont réécrites.
+>
 > **Date déplacée au mardi 29 décembre 2026 — décision du propriétaire, 13 octobre 2026.**
 > Raison : les 1 117 questions des contrôles de compréhension (≈ 15,7 h de
 > réponse, 26,4 h au facteur 1,6 de ce plan) n'étaient comptées nulle part ;

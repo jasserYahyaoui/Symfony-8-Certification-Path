@@ -2867,3 +2867,54 @@ flashcards:
         commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
         symbol_or_lines: "Matching HTTP Methods — #[Route(\"/api/posts/{id}\", methods: [\"GET\", \"HEAD\"])] and methods: [\"PUT\"] on the same path"
         verified_at: "2026-10-24"
+  - id: FLC-snn8kv38wrky
+    official_item: OIT-8sr74a2wnb3r
+    language: fr
+    level: TRAP
+    front: "Symfony : `/blog/{slug}` est déclarée avant `/blog/new`, sans priority. Quelle route répond à `router:match /blog/new` ?"
+    back: "`/blog/{slug}` : la première route qui correspond gagne, et `new` est une valeur valide pour `slug`."
+    explanation: "Exécuté avec FrameworkBundle 8.0.15 : « [OK] Route \"blog_show\" matches ». Déclarer `blog_new` avant, ou lui donner une priority plus haute, corrige."
+    memorization_justification: "On suppose que la route la plus précise gagne ; c'est l'ordre qui décide."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/routing.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "Debugging Routes — \"lists all your application routes in the same order in which Symfony evaluates them\""
+        verified_at: "2026-10-27"
+  - id: FLC-ecvdbxzewc79
+    official_item: OIT-8sr74a2wnb3r
+    language: fr
+    level: TRAP
+    front: "Symfony : une route déclarée en dernier porte `priority: 2`. Où `debug:router` l'affiche-t-il ?"
+    back: "Avant les routes de priority 0 : la plus haute priority est évaluée et listée d'abord, l'ordre de déclaration ne départage qu'à priority égale."
+    explanation: "Exécuté avec FrameworkBundle 8.0.15 ; lu dans `RouteCollection::all()`, qui trie par priority décroissante puis par ordre d'insertion."
+    memorization_justification: "La liste affichée n'est pas l'ordre des files dès qu'une priority existe."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
+        readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/routing.rst"
+        repository: "symfony/symfony-docs"
+        branch: "8.0"
+        commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
+        symbol_or_lines: "Priority Parameter — \"Routes with higher priority are sorted before routes with lower priority. The default value when it is not defined is 0.\""
+        verified_at: "2026-10-27"
+  - id: FLC-7qbw1sdafp66
+    official_item: OIT-8sr74a2wnb3r
+    language: fr
+    level: TRAP
+    front: "Symfony : sans option, avec quelle method et quel host `router:match` teste-t-il un path ?"
+    back: "GET, sur `localhost` : une route restreinte à un host ou à une autre method n'y correspond qu'en « almost matches »."
+    explanation: "Exécuté avec FrameworkBundle 8.0.15 : « almost matches but host \"localhost\" does not match the requirement ». `--method`, `--host` et `--scheme` changent ce contexte."
+    memorization_justification: "Le contexte par défaut fait échouer une route pourtant correcte."
+    verification_status: VERIFIED
+    official_sources:
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Command/RouterMatchCommand.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Command/RouterMatchCommand.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        commit_sha: "6f841c00f41e5c037d40e1d739e2dc602c8f289d"
+        symbol_or_lines: "execute() — the router context is changed only when --method, --scheme or --host is given"
+        verified_at: "2026-10-27"
