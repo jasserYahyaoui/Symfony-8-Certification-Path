@@ -4215,3 +4215,13 @@ pitfalls:
   excerpt: '**Un group mal orthographié fait paraître l''object valide**'
   verdict: COVERED
   card: FLC-328ajzgxx4ae
+- course: CRS-bthv5xmh5wea
+  key: c486e888fceb
+  excerpt: 'Une `GroupSequence` passée à `validate()` accepte `Default`'
+  verdict: COVERED
+  card: FLC-z3yz7dafkd2z
+- course: CRS-wzmrks85zyh1
+  key: 7fe687860137
+  excerpt: '**Une property typée jamais affectée est validée comme `null`**'
+  verdict: COVERED
+  card: FLC-9p1vqgrekey4

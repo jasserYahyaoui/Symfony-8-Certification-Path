@@ -1599,3 +1599,37 @@ flashcards:
     commit_sha: eea05cbfe063b9cf99afaf303b8cad76757f43bb
     symbol_or_lines: '"the Valid constraint does not use the Default group"'
     verified_at: '2026-10-28'
+- id: FLC-z3yz7dafkd2z
+  official_item: OIT-rwavvsx2d7nq
+  language: fr
+  level: TRAP
+  front: 'Validator : une `GroupSequence([''Default'', ''Strict''])` passée **à `validate()`**, sur une class sans séquence déclarée, lève-t-elle une exception ?'
+  back: 'Non : le refus de `Default` ne vise que la séquence **déclarée sur la class**. Passée à `validate()`, la séquence s''applique : exécuté, `Default` puis `Strict` si `Default` passe.'
+  explanation: Exécuté avec Validator 8.0.15 ; `ClassMetadata::setGroupSequence()` contrôle seulement la séquence de class.
+  memorization_justification: Le contrôle porte sur la déclaration, pas sur l'appel.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Mapping/ClassMetadata.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Mapping/ClassMetadata.php
+    repository: symfony/symfony
+    branch: '8.0'
+    commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
+    symbol_or_lines: setGroupSequence() — Default not allowed, class name required
+    verified_at: '2026-10-28'
+- id: FLC-9p1vqgrekey4
+  official_item: OIT-ttwpe00f32q9
+  language: fr
+  level: TRAP
+  front: 'Validator : `#[Assert\Length(min: 3)] public string $code;` n''est jamais affectée. La validation signale-t-elle `code` ?'
+  back: 'Non : une property typée non initialisée est validée comme `null`, et `Length` ignore `null`. Exécuté : `NotBlank` sur une telle property, elle, la refuse.'
+  explanation: Documentation 8.0, « The validator will use a value null if a typed property is uninitialized » ; exécuté avec Validator 8.0.15.
+  memorization_justification: Non initialisée = `null` pour le Validator, pas une erreur PHP.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/validation.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/validation.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    commit_sha: eea05cbfe063b9cf99afaf303b8cad76757f43bb
+    symbol_or_lines: '"The validator will use a value null if a typed property is uninitialized"'
+    verified_at: '2026-10-28'
