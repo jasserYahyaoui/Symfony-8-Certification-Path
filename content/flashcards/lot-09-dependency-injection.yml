@@ -2470,3 +2470,71 @@ flashcards:
     commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
     symbol_or_lines: '$enableIfStandalone(''symfony/serializer'', Serializer::class) on the serializer section'
     verified_at: '2026-10-27'
+- id: FLC-9yrqzvw76kqs
+  official_item: OIT-ar4h3zfskjsp
+  language: fr
+  level: TRAP
+  front: 'Symfony : un service lit `%env(PAYMENT_KEY)%`, variable jamais définie et sans default value. La compilation échoue-t-elle ?'
+  back: 'Non : `compile()` réussit et le container se construit. C''est la construction de **ce** service qui lève `EnvNotFoundException` ; les autres services fonctionnent.'
+  explanation: 'Exécuté avec DependencyInjection 8.0.15 sur un container compilé et généré en PHP. La documentation : la variable « is only resolved at runtime, when the service using it is instantiated ».'
+  memorization_justification: Un parameter manquant casse la compilation ; une variable manquante, seulement l'appel qui la lit.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/configuration.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    commit_sha: eea05cbfe063b9cf99afaf303b8cad76757f43bb
+    symbol_or_lines: '"the value is **not** read at compile time. Instead, Symfony replaces it with a unique placeholder"'
+    verified_at: '2026-10-28'
+- id: FLC-f3ew9jr18rhm
+  official_item: OIT-ar4h3zfskjsp
+  language: fr
+  level: TRAP
+  front: 'Symfony : que donne `getParameter(''.build.hash'')` après la compilation, si `.build.hash` a servi à calculer `app.version` ?'
+  back: 'Une `ParameterNotFoundException` : un parameter dont le nom commence par un point est supprimé après la compilation. `app.version`, lui, garde sa valeur résolue.'
+  explanation: 'Exécuté avec DependencyInjection 8.0.15 : « It was probably deleted during the compilation of the container. »'
+  memorization_justification: Le point en tête du nom change la durée de vie du parameter.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/configuration.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/configuration.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    commit_sha: eea05cbfe063b9cf99afaf303b8cad76757f43bb
+    symbol_or_lines: 'parameters whose names start with a dot "are available only during the container compilation"'
+    verified_at: '2026-10-28'
+- id: FLC-hkkteey629b6
+  official_item: OIT-stze9x4aydp3
+  language: fr
+  level: TRAP
+  front: 'Symfony : une definition explicite d''`Archiver` (publique, avec `$directory`) est écrite **au-dessus** de `App\: { resource: ''../src/'' }`. Que devient-elle ?'
+  back: 'Elle est remplacée par la découverte écrite plus bas : le service redevient privé et perd ses arguments. Les definitions explicites se placent sous `App\:`.'
+  explanation: 'Exécuté avec DependencyInjection 8.0.15. La documentation : « order is important in this file because service definitions always *replace* previous ones ».'
+  memorization_justification: Rien ne signale la perte ; seul l'ordre du file décide.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    commit_sha: eea05cbfe063b9cf99afaf303b8cad76757f43bb
+    symbol_or_lines: '"order is important in this file because service definitions always *replace* previous ones"'
+    verified_at: '2026-10-28'
+- id: FLC-94dkq0wbg9s5
+  official_item: OIT-stze9x4aydp3
+  language: fr
+  level: TRAP
+  front: 'Symfony 8.0 : un service déclaré avec `App::config()` en PHP, sans `_defaults`, est-il autowiré ?'
+  back: 'Oui : autowiré **et** autoconfiguré par défaut. En YAML, sans `_defaults`, il ne l''est pas.'
+  explanation: 'Lu dans `AppReference` (« Services declared with the config() method below are autowired and autoconfigured by default. ») et exécuté : `isAutowired()` vaut `true` ; le même service en YAML sans `_defaults` lève `ArgumentCountError`.'
+  memorization_justification: Les deux formats n'ont pas les mêmes défauts.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Loader/Configurator/AppReference.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Loader/Configurator/AppReference.php
+    repository: symfony/symfony
+    branch: '8.0'
+    commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
+    symbol_or_lines: '"Services declared with the config() method below are autowired and autoconfigured by default."'
+    verified_at: '2026-10-28'

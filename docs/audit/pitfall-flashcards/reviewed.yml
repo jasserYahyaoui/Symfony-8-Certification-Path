@@ -4110,3 +4110,43 @@ pitfalls:
   excerpt: '**Une section désactivée n''enregistre aucun service.**'
   verdict: COVERED
   card: FLC-pn3ze1a16jqg
+- course: CRS-8zmj5ntgdhjv
+  key: c8ca1cbf8ad2
+  excerpt: '**Une variable d''environment manquante ne casse pas la compilation.**'
+  verdict: COVERED
+  card: FLC-9yrqzvw76kqs
+- course: CRS-8zmj5ntgdhjv
+  key: 9e497b053583
+  excerpt: '**Sans processeur, une variable d''environment est une string**'
+  verdict: COVERED
+  card: FLC-katy3z0029br
+- course: CRS-8zmj5ntgdhjv
+  key: c7111c677123
+  excerpt: '**Un parameter dont le nom commence par un point disparaît après la compilation.**'
+  verdict: COVERED
+  card: FLC-f3ew9jr18rhm
+- course: CRS-fkebqqqke5y5
+  key: 15c144d8b7e1
+  excerpt: '**Un consommateur typé par la class décorée casse.**'
+  verdict: COVERED
+  card: FLC-7014wcwgmtfk
+- course: CRS-fkebqqqke5y5
+  key: 2fed629b5b47
+  excerpt: '**À priority égale, le premier déclaré est le plus interne**'
+  verdict: COVERED
+  card: FLC-rqa9nv7mhbxn
+- course: CRS-g8fteyd38nrt
+  key: d85615975efa
+  excerpt: '**Une definition explicite placée au-dessus de `App\:` est perdue.**'
+  verdict: COVERED
+  card: FLC-hkkteey629b6
+- course: CRS-g8fteyd38nrt
+  key: fbf2630169cd
+  excerpt: '**`autowire` et `autoconfigure` sont deux réglages distincts.**'
+  verdict: COVERED
+  card: FLC-bem67hg3wr04
+- course: CRS-g8fteyd38nrt
+  key: e56218f6b1f0
+  excerpt: '**En PHP avec `App::config()`, autowire et autoconfigure sont actifs par défaut**'
+  verdict: COVERED
+  card: FLC-94dkq0wbg9s5
