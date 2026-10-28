@@ -1548,3 +1548,54 @@ flashcards:
     commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
     symbol_or_lines: "\"you'd like to validate different keys of that collection in different ways\""
     verified_at: "2026-10-24"
+- id: FLC-328ajzgxx4ae
+  official_item: OIT-6wd8860brzfy
+  language: fr
+  level: TRAP
+  front: 'Validator : un `User` invalide est validé avec `validate($user, null, [''Registraton''])`, group mal orthographié. Que se passe-t-il ?'
+  back: 'Une liste **vide**, sans erreur : aucune constraint n''appartient à ce group. Exécuté avec `[''nope'']` sur un object invalide.'
+  explanation: Exécuté avec Validator 8.0.15 ; seules les constraints des groups demandés sont vérifiées.
+  memorization_justification: Un nom de group n'est pas contrôlé ; une faute fait paraître l'object valide.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Validator/Validator/ValidatorInterface.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Validator/ValidatorInterface.php
+    repository: symfony/symfony
+    branch: '8.0'
+    commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
+    symbol_or_lines: validate($value, $constraints = null, $groups = null)
+    verified_at: '2026-10-28'
+- id: FLC-atx3jbrah7ky
+  official_item: OIT-d3yp0sq36xrx
+  language: fr
+  level: TRAP
+  front: 'Validator : `#[Assert\Cascade]` est posé sur la class, et une property **sans type** contient un object invalide. Est-il validé ?'
+  back: 'Non : `Cascade` ne descend que dans les properties typées par une class. Exécuté : la property sans type n''est pas validée, la property typée l''est.'
+  explanation: Exécuté avec Validator 8.0.15. `Cascade` accepte `exclude`, mais pas `groups`.
+  memorization_justification: '`Cascade` se décide sur le type déclaré, pas sur la valeur.'
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/Cascade.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/constraints/Cascade.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    commit_sha: eea05cbfe063b9cf99afaf303b8cad76757f43bb
+    symbol_or_lines: Cascade constraint, exclude option
+    verified_at: '2026-10-28'
+- id: FLC-bfw00ty6skft
+  official_item: OIT-d3yp0sq36xrx
+  language: fr
+  level: TRAP
+  front: 'Validator : `#[Assert\Valid]` est posé sans group, et l''object est validé avec le group `Registration`. `Valid` descend-il ?'
+  back: 'Oui : `Valid` n''utilise pas le group `Default`, il s''applique même quand on valide un autre group, et transmet `Registration` à l''object imbriqué. Exécuté : seule la constraint `Registration` de l''adresse est signalée.'
+  explanation: Documentation 8.0 de `Valid`, « does not use the Default group » ; exécuté avec Validator 8.0.15.
+  memorization_justification: Les autres constraints sont dans `Default` ; `Valid`, non.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/constraints/Valid.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/reference/constraints/Valid.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    commit_sha: eea05cbfe063b9cf99afaf303b8cad76757f43bb
+    symbol_or_lines: '"the Valid constraint does not use the Default group"'
+    verified_at: '2026-10-28'
