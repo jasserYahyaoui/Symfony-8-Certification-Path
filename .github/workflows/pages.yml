@@ -5129,7 +5129,11 @@ jobs:
                       'lot-09/built-in-services|au lieu de 98|cache:pool:list|Fiche express' \
                       'lot-09/configuration-parameters|probably deleted during the compilation|kernel.runtime_environment|Fiche express' \
                       'lot-09/services-registration-yaml-and-php-attributes|App::config|remplacée en silence|Fiche express' \
-                      'lot-09/service-decoration|Log(Cache(Metrics(Repo)))|à la porte|Fiche express'; do
+                      'lot-09/service-decoration|Log(Cache(Metrics(Repo)))|à la porte|Fiche express' \
+                      'lot-09/tags|NotificationChain|Marquer, Lire, Trier|Fiche express' \
+                      'lot-09/semantic-configuration|PaymentGatewayBundle|debug:config framework|Fiche express' \
+                      'lot-09/factories|cannot be called statically|as well as a constructor|Fiche express' \
+                      'lot-09/compiler-passes|MergeExtensionConfigurationPass|OutOfBoundsException|Fiche express'; do
             page=${spec%%|*}
             out="/tmp/ped-${page//\//-}"
             code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \

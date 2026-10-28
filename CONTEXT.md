@@ -53,6 +53,7 @@ Branche de travail : `claude/symfony-8-certification-plan-phmkau`.
 | Format pédagogique, lot 09 : *Dependency Injection component* et *Service container* ; deux corrections (quatre formes d'injection ; `--show-hidden`) | #441 | `8148cd0` | smoke 122468005238 **success, lu** (317 ok, 0 erreur ; les deux lignes « pedagogical lot-09 ») |
 | Journal de #441 (quatre `CVR-…`), ligne de livraison, limite du plan consignée | #442 | `d243d1e` | smoke 122713804267 **success, lu** (317 ok, 0 erreur ; journal servi) |
 | Examen au 2 mars 2027 (propriétaire, 2026-10-28) ; *Router debugging* et *Built-in services* au format pédagogique ; contrôle du calendrier relatif à l'examen | #443 | `2a5466e` | smoke 122746091763 **success, lu** (319 ok, 0 erreur ; calendrier « stops at the exam », agenda jusqu'au 2027-03-02, cinq lignes « pedagogical ») |
+| *Configuration parameters*, *Services registration* et *Service decoration* au format pédagogique ; journal de #443 | #444 | `37fe67a` | smoke 122785980807 **success, lu** (322 ok, 0 erreur sur les 400 dernières lignes ; calendrier « stops at the exam », agenda jusqu'au 2027-03-02, huit lignes « pedagogical ») |
 
 **Pièges d'examen → flashcards (2026-10-24, livré : #432, `c48317d`).** Les 788
 paragraphes « Pièges d'examen » lus contre toutes les cartes de leur item :

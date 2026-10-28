@@ -3292,7 +3292,7 @@ questions:
   question_archetype: BEHAVIOR_PREDICTION
   assesses_outcomes:
   - OUT-5tp6e11ygzgz
-  version: 1
+  version: 2
   official_topic: Dependency Injection
   official_item: OIT-h2n7d7dbr56p
   domain: symfony
@@ -3303,8 +3303,8 @@ questions:
   type: mcq
   answer_mode: single
   required_answer_count: 1
-  question: Service s has class Cls, factory `[null, 'create']` and arguments ['A']. Is Cls::__construct()
-    called?
+  question: Service s has class Cls, factory `[null, 'create']` and arguments ['A']. Which call does the
+    container itself make to build s?
   scoring_policy: all-or-nothing
   shuffle_choices: true
   negative_wording: false
@@ -3314,33 +3314,34 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-10-09'
+  reviewed_at: '2026-10-28'
   tags:
   - factories
   choices:
-  - id: CHO-4f4324qq177g
-    text: 'No'
+  - id: CHO-423j6f3mm8e7
+    text: Cls::create('A')
     correct: true
-  - id: CHO-294vd5671xgw
-    text: Yes, then create() is called
+  - id: CHO-8s3nkzdtr8zq
+    text: new Cls('A'), then create() on that object
     correct: false
-    explanation: The factory replaces the constructor.
-  - id: CHO-w88956f385cs
-    text: Yes, with 'A'
+    explanation: The container builds nothing before calling the factory.
+  - id: CHO-v8dp7w0x3nze
+    text: new Cls('A'), the factory being ignored
     correct: false
-    explanation: Arguments go to the factory.
-  - id: CHO-82r6axdmc90y
-    text: 'An error: null is not callable'
+    explanation: Arguments go to the factory, not to the constructor.
+  - id: CHO-3wz56c06f8xm
+    text: 'None: null is not callable, so the build fails'
     correct: false
-    explanation: null means the service class.
-  explanation: 'Executed with DependencyInjection 8.0.15: no constructor call; Cls::create(''A'') built
-    it.'
+    explanation: null stands for the service's own class.
+  explanation: 'Executed with DependencyInjection 8.0.15: the container calls Cls::create(''A'') once and
+    never calls the constructor itself. If create() runs new self(), it chooses what the constructor
+    receives.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Definition.php
     repository: symfony/symfony
     branch: '8.0'
     symbol_or_lines: setFactory()
-    verified_at: '2026-10-09'
+    verified_at: '2026-10-28'
 - id: QST-aaaffxp6rhr1
   question_archetype: BEHAVIOR_PREDICTION
   assesses_outcomes:

@@ -157,10 +157,25 @@ pitfalls:
   verdict: COVERED
   card: FLC-256rcewrq2hm
 - course: CRS-1bkg7pkf78c7
-  key: 39cb83397591
-  excerpt: '**Les arguments vont à la factory.** Le constructor du service n''est pas appelé du tout.'
+  key: 7a0d79265b5c
+  excerpt: '**Les arguments vont à la factory.** Le container n''appelle pas le constructor du service lui-même'
   verdict: COVERED
   card: FLC-j8n3qsftrmm5
+- course: CRS-1bkg7pkf78c7
+  key: cbfa74b4ab82
+  excerpt: '**Une method d''instance sans `@` échoue au premier `get()`**, pas à la compilation'
+  verdict: COVERED
+  card: FLC-12ce6qsxkg4s
+- course: CRS-1bkg7pkf78c7
+  key: 7702e1b9dd1a
+  excerpt: '**`factory` et `constructor` ne se combinent pas** : `LogicException` dès le chargement'
+  verdict: COVERED
+  card: FLC-608vjq6rrymd
+- course: CRS-1bkg7pkf78c7
+  key: 9118157f5344
+  excerpt: '**`#[Autoconfigure(constructor: …)]` dépend de l''autoconfiguration**'
+  verdict: COVERED
+  card: FLC-mkdc2b0dg4ex
 - course: CRS-1bkg7pkf78c7
   key: 0ef7a92ef688
   excerpt: '**`[null, ''create'']` désigne la class du service**, pas une function globale.'
@@ -4150,3 +4165,23 @@ pitfalls:
   excerpt: '**En PHP avec `App::config()`, autowire et autoconfigure sont actifs par défaut**'
   verdict: COVERED
   card: FLC-94dkq0wbg9s5
+- course: CRS-b4g5s2asb9ye
+  key: ff1a6fdb077e
+  excerpt: '**Une faute de frappe dans un nom de tag ne lève aucune erreur.**'
+  verdict: COVERED
+  card: FLC-t237f1x76pt3
+- course: CRS-d25bvr0097py
+  key: 64ee1a151950
+  excerpt: '`findTaggedServiceIds()` **ne trie pas** par priority'
+  verdict: COVERED
+  card: FLC-3e3sfxasydcc
+- course: CRS-d25bvr0097py
+  key: 604cc4a75a10
+  excerpt: '`getDefinition()` sur un **alias** lève `ServiceNotFoundException`'
+  verdict: COVERED
+  card: FLC-4jjn3sqrya6x
+- course: CRS-d25bvr0097py
+  key: b3335d599d03
+  excerpt: 'La method `load()` d''une extension ne voit ni les services des autres bundles ni ceux de l''application'
+  verdict: COVERED
+  card: FLC-zt98ytj8s58j

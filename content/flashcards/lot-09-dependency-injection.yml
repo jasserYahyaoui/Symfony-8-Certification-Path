@@ -145,9 +145,9 @@ flashcards:
   language: fr
   level: RECALL
   front: Avec une factory, à qui arguments est-il passé ?
-  back: À la factory. Le constructor du service n'est pas appelé du tout.
-  explanation: Le container enregistre la valeur retournée par la factory ; le constructor est hors
-    du path.
+  back: À la factory. Le container n'appelle pas le constructor du service lui-même.
+  explanation: Le container enregistre la valeur retournée par la factory. Si la factory fait `new
+    self(…)`, c'est elle qui choisit ce qu'elle passe au constructor.
   memorization_justification: La key s'appelle arguments, ce qui évoque le constructor.
   verification_status: VERIFIED
   official_sources:
@@ -1629,7 +1629,8 @@ flashcards:
   level: RECALL
   front: 'Symfony : quel attribute désigne une method statique de la class comme fabrique ?'
   back: '`#[Autoconfigure(constructor: ''create'')]`.'
-  explanation: 'Exécuté : le service vient de la method, le constructor n''est pas appelé.'
+  explanation: 'Exécuté : le service vient de la method ; le container n''appelle pas le constructor
+    lui-même. L''attribute n''agit qu''avec l''autoconfiguration.'
   memorization_justification: Fabrique déclarée depuis la class.
   verification_status: VERIFIED
   official_sources:
@@ -1650,7 +1651,9 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: 'Symfony : pourquoi arguments alimente-t-il la factory et pas le constructor ?'
-  back: 'Parce que le constructor n''est pas appelé : exécuté, 0 appel au constructor, 1 appel à `create()`.'
+  back: 'Parce que le container appelle la factory, jamais le constructor : exécuté, `create(''fabien'')`
+    est appelé, puis `create()` fait `new self(''factory:fabien'')` — le constructor reçoit la valeur de la
+    factory, pas l''argument configuré.'
   explanation: Le container enregistre la valeur retournée par la factory.
   memorization_justification: Path de construction.
   verification_status: VERIFIED
@@ -2537,4 +2540,123 @@ flashcards:
     branch: '8.0'
     commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
     symbol_or_lines: '"Services declared with the config() method below are autowired and autoconfigured by default."'
+    verified_at: '2026-10-28'
+- id: FLC-12ce6qsxkg4s
+  official_item: OIT-h2n7d7dbr56p
+  language: fr
+  level: TRAP
+  front: 'Symfony : `factory: [''App\Factory'', ''build'']`, et `build()` n''est pas statique. Que se passe-t-il ?'
+  back: 'La compilation passe ; le premier `get()` lève `Error` — « Non-static method App\Factory::build() cannot be called statically ». Une method d''instance exige `[''@App\Factory'', ''build'']`.'
+  explanation: 'Exécuté avec DependencyInjection 8.0.15 dans une application FrameworkBundle. Sans `@`, le premier élément est un nom de class, donc un appel statique.'
+  memorization_justification: Le `@` décide entre un appel statique et un appel sur un object.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/factories.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/factories.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    commit_sha: eea05cbfe063b9cf99afaf303b8cad76757f43bb
+    symbol_or_lines: Non-Static Factories
+    verified_at: '2026-10-28'
+- id: FLC-608vjq6rrymd
+  official_item: OIT-h2n7d7dbr56p
+  language: fr
+  level: TRAP
+  front: 'Symfony : un service peut-il déclarer à la fois `factory` et `constructor` ?'
+  back: 'Non : exécuté, `LogicException` dès le chargement — « The "s" service cannot declare a factory as well as a constructor. » `constructor: ''create''` vaut déjà `factory: [null, ''create'']`.'
+  explanation: 'Exécuté avec DependencyInjection 8.0.15 ; relu dans `YamlFileLoader::parseDefinition()`.'
+  memorization_justification: Deux façons d'écrire la même factory, donc une seule à la fois.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Loader/YamlFileLoader.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Loader/YamlFileLoader.php
+    repository: symfony/symfony
+    branch: '8.0'
+    commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
+    symbol_or_lines: parseDefinition() — constructor becomes [null, constructor], never with factory
+    verified_at: '2026-10-28'
+- id: FLC-mkdc2b0dg4ex
+  official_item: OIT-h2n7d7dbr56p
+  language: fr
+  level: TRAP
+  front: 'Symfony : `#[Autoconfigure(constructor: ''create'')]` agit-il sur un service déclaré avec `autoconfigure: false` ?'
+  back: 'Non : l''attribute est ignoré. Exécuté : le service vient de `new`, pas de `create()`.'
+  explanation: 'Exécuté avec DependencyInjection 8.0.15 : la même class, `autoconfigure: true`, est construite par `create()`.'
+  memorization_justification: '`#[Autoconfigure]` est de l''autoconfiguration : il en dépend.'
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/factories.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/factories.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    commit_sha: eea05cbfe063b9cf99afaf303b8cad76757f43bb
+    symbol_or_lines: '#[Autoconfigure(bind: [...], constructor: ''create'')]'
+    verified_at: '2026-10-28'
+- id: FLC-3e3sfxasydcc
+  official_item: OIT-3y0b9gxyandm
+  language: fr
+  level: TRAP
+  front: 'Symfony : dans une passe, `findTaggedServiceIds()` rend-il les services triés par `priority` ?'
+  back: 'Non : exécuté, des services déclarés avec les priorities -5, 10 et 0 sortent dans cet ordre de déclaration. Le tri se fait avec `PriorityTaggedServiceTrait::findAndSortTaggedServices()` (10, 0, -5).'
+  explanation: Exécuté avec DependencyInjection 8.0.15.
+  memorization_justification: L'iterator tagué trie ; la method brute de la passe ne trie pas.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Compiler/PriorityTaggedServiceTrait.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Compiler/PriorityTaggedServiceTrait.php
+    repository: symfony/symfony
+    branch: '8.0'
+    commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
+    symbol_or_lines: findAndSortTaggedServices()
+    verified_at: '2026-10-28'
+- id: FLC-4jjn3sqrya6x
+  official_item: OIT-3y0b9gxyandm
+  language: fr
+  level: TRAP
+  front: 'Symfony : dans une passe, que fait `getDefinition(''mailer'')` si `mailer` est un alias ?'
+  back: 'Elle lève `ServiceNotFoundException` (exécuté). `findDefinition()` suit l''alias et rend la definition cible.'
+  explanation: 'Exécuté avec DependencyInjection 8.0.15 ; `has()` rend `true` sur l''alias, `hasDefinition()` rend `false`.'
+  memorization_justification: '« find » cherche à travers les alias ; « get » ne prend que la definition elle-même.'
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/service_container/compiler_passes.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/service_container/compiler_passes.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    commit_sha: eea05cbfe063b9cf99afaf303b8cad76757f43bb
+    symbol_or_lines: $container->getDefinition('app.some_private_service')
+    verified_at: '2026-10-28'
+- id: FLC-zt98ytj8s58j
+  official_item: OIT-3y0b9gxyandm
+  language: fr
+  level: UNDERSTANDING
+  front: 'Symfony : dans `load()`, une extension voit-elle les services déclarés par les autres bundles ou par l''application ?'
+  back: 'Non : exécuté, `hasDefinition()` rend `false` pour les deux. Chaque extension charge dans un container temporaire ; seule une passe voit le container fusionné.'
+  explanation: 'Exécuté avec FrameworkBundle 8.0.15 ; relu dans `MergeExtensionConfigurationPass::process()`.'
+  memorization_justification: C'est la raison d'être d'une compiler pass.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Compiler/MergeExtensionConfigurationPass.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Compiler/MergeExtensionConfigurationPass.php
+    repository: symfony/symfony
+    branch: '8.0'
+    commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
+    symbol_or_lines: process() — each extension loads into a temporary container
+    verified_at: '2026-10-28'
+- id: FLC-sk2crf6z0z6f
+  official_item: OIT-3y0b9gxyandm
+  language: fr
+  level: TRAP
+  front: 'Symfony : l''application redéclare dans `services.yaml`, sous le même id, un service d''un bundle. Quelle definition gagne ?'
+  back: 'Celle de l''application, **entière** : exécuté, elle remplace celle du bundle. Arguments, tags et appels du bundle disparaissent ; pour changer un seul argument, une passe avec `setArgument()`.'
+  explanation: 'Exécuté avec FrameworkBundle 8.0.15 ; `MergeExtensionConfigurationPass` ré-applique les definitions de l''application après celles des extensions.'
+  memorization_justification: Redéclarer n'est pas modifier.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/DependencyInjection/Compiler/MergeExtensionConfigurationPass.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/DependencyInjection/Compiler/MergeExtensionConfigurationPass.php
+    repository: symfony/symfony
+    branch: '8.0'
+    commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
+    symbol_or_lines: process() — addDefinitions($definitions) after the extensions are merged
     verified_at: '2026-10-28'
