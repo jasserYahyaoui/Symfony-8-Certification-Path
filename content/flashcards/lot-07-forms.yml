@@ -15,8 +15,10 @@ flashcards:
   front: 'Forms : que fait le second argument de submit(), et que vaut-il par défaut ?'
   back: 'C''est $clearMissing, vrai par défaut : les fields absents sont mis à null. À false — cas d''un
     PATCH — ils restent intacts.'
-  explanation: Avec $clearMissing à false, la validation ne s'applique qu'aux fields soumis. Pour valider
-    un field absent, il faut l'ajouter explicitement à la donnée soumise avec la valeur null.
+  explanation: Avec $clearMissing à false, un field absent n'est pas soumis, et l'option `constraints`
+    de ce field est sautée ; les constraints déclarées sur la class de l'object valident quand même sa
+    valeur stockée. Pour forcer la validation d'un field absent, l'ajouter à la donnée soumise avec la
+    valeur null, qui remplace alors la valeur stockée.
   memorization_justification: Un bool positionnel dont la default value détruit silencieusement
     des données sur une Request partielle, et dont l'effet de bord sur la validation n'est pas devinable.
   verification_status: VERIFIED
@@ -746,9 +748,9 @@ flashcards:
   official_item: OIT-mgvdw7cfpwyz
   language: fr
   level: APPLICATION
-  front: 'Symfony Forms : une API PATCH ne doit modifier que les fields envoyés, mais le field email doit rester validé même absent. Comment soumettre ?'
+  front: 'Symfony Forms : une API PATCH ne doit modifier que les fields envoyés, mais le field email, dont le `NotBlank` est déclaré dans l''option `constraints`, doit rester validé même absent. Comment soumettre ?'
   back: '`$form->submit(array_merge([''email'' => null], $data), false)` : `false` préserve les absents, et la key ajoutée avec `null` force la validation d''email.'
-  explanation: 'Avec `clearMissing` à `false`, seuls les fields soumis sont validés. Exécuté : sans la key, un `NotBlank` sur un field vide passe ; avec `null`, il échoue.'
+  explanation: 'Avec `clearMissing` à `false`, l''option `constraints` d''un field absent est sautée. Exécuté : sans la key, ce `NotBlank` sur un field vide passe ; avec `null`, il échoue, et `null` remplace la valeur stockée. Une constraint déclarée sur la class, elle, valide la valeur stockée même sans la key.'
   memorization_justification: Parade documentée au piège de la validation partielle.
   verification_status: VERIFIED
   official_sources:
@@ -2662,3 +2664,20 @@ flashcards:
     commit_sha: "eea05cbfe063b9cf99afaf303b8cad76757f43bb"
     symbol_or_lines: "Form Types — \"In Symfony, all of them are \\\"form types\\\"\""
     verified_at: "2026-10-24"
+- id: FLC-krwbm1a24m1y
+  official_item: OIT-mgvdw7cfpwyz
+  language: fr
+  level: TRAP
+  front: 'Symfony Forms : `submit($data, false)` sur un form dont la `data_class` est `User`. `User::$email` porte `#[Assert\Email]` et stocke une valeur invalide ; `$data` ne contient que `nick`. Le form est-il valide ?'
+  back: 'Non : le form racine valide tout l''object avec ses constraints de class, donc `email` est validé avec sa valeur stockée. Seule l''option `constraints` d''un field non soumis est sautée.'
+  explanation: Exécuté avec Form 8.0.15 ; `FormValidator::validate()` valide `data` sur la racine, et les fields enfants seulement s'ils sont soumis.
+  memorization_justification: L'avertissement de la documentation sur la validation partielle ne vaut que pour l'option `constraints` des fields.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Validator/Constraints/FormValidator.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Extension/Validator/Constraints/FormValidator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
+    symbol_or_lines: validate() — data validated on the root form, children only when submitted
+    verified_at: '2026-10-28'

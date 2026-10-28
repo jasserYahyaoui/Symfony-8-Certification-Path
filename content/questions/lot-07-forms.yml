@@ -2316,7 +2316,7 @@ questions:
   question_archetype: BEHAVIOR_DIAGNOSIS
   assesses_outcomes:
   - OUT-hkxn2p2xjmg7
-  version: 1
+  version: 2
   official_topic: Forms
   official_item: OIT-mgvdw7cfpwyz
   domain: symfony
@@ -2327,8 +2327,8 @@ questions:
   type: mcq
   answer_mode: single
   required_answer_count: 1
-  question: A PATCH endpoint submits partial data with the clearing flag turned off. What happens to
-    validation?
+  question: 'A PATCH endpoint calls submit($data, false) on a form whose data_class is User. User::$email
+    carries #[Assert\Email] and its stored value is invalid; $data only contains nick. What happens?'
   scoring_policy: all-or-nothing
   shuffle_choices: true
   negative_wording: false
@@ -2338,28 +2338,30 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-09-11'
+  reviewed_at: '2026-10-28'
   tags:
   - handling
   - patch
   choices:
   - id: CHO-2c1sk30y96ae
-    text: Only the submitted fields are validated
+    text: 'Invalid: class constraints check the stored email'
     correct: true
   - id: CHO-5ck5j9gm90c2
-    text: Every field is validated, missing ones as null
+    text: 'Valid: only the submitted fields are validated'
     correct: false
-    explanation: That is the behaviour with the flag left on.
+    explanation: That holds for the constraints option of an unsubmitted field, not for constraints
+      declared on the class.
   - id: CHO-bmjy90zpstnc
-    text: Validation is skipped for the whole form
+    text: 'Valid: validation is skipped when the flag is off'
     correct: false
-    explanation: The form still validates what it received.
+    explanation: The form still validates; the flag only keeps absent fields untouched.
   - id: CHO-1aa7wt0tzf3v
-    text: Missing required fields raise a transformation failure
+    text: 'An exception: email is missing from the submitted data'
     correct: false
-    explanation: A missing field is simply absent, not an unconvertible value.
-  explanation: 'The documentation is explicit, and gives the workaround: merge the keys you want validated
-    into the submitted array with a null value, so they count as submitted.'
+    explanation: A missing field is simply not submitted; nothing is thrown.
+  explanation: 'Executed with Form 8.0.15: on the root form, FormValidator validates the whole data_class
+    object, so the stored email fails although email was not submitted. Only the constraints option
+    of an unsubmitted field is skipped, which is what the documentation''s warning describes.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/forms.rst
     readable_url: https://github.com/symfony/symfony-docs/blob/8.0/forms.rst
@@ -2367,6 +2369,12 @@ questions:
     branch: '8.0'
     symbol_or_lines: submit() with $clearMissing false, validation warning
     verified_at: '2026-09-11'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Validator/Constraints/FormValidator.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Extension/Validator/Constraints/FormValidator.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: validate() — data validated on the root form, children only when submitted
+    verified_at: '2026-10-28'
 - id: QST-c3kjx34a31md
   question_archetype: CONCEPT_DISTINCTION
   assesses_outcomes:

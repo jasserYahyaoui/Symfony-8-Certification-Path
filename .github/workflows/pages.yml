@@ -5141,7 +5141,12 @@ jobs:
                       'lot-08/built-in-validation-constraints|is no longer supported|Bien formé|Fiche express' \
                       'lot-08/validation-scopes|Stocké, Calculé, Croisé|typée non initialisée|Fiche express' \
                       'lot-08/validation-groups|Default par défaut, le reste sur demande|BaseUser|Fiche express' \
-                      'lot-08/group-sequence|le simple, ensuite le cher|sous-tableau = une étape|Fiche express'; do
+                      'lot-08/group-sequence|le simple, ensuite le cher|sous-tableau = une étape|Fiche express' \
+                      'lot-08/custom-callback-validators|ZipChecker|Aucune violation = valide|Fiche express' \
+                      'lot-08/violations-builder|Construire, viser, coder, ajouter|CLASS_CONSTRAINT|Fiche express' \
+                      'lot-07/form-component|Forms::createFormFactory()|La date stockée en string|Fiche express' \
+                      'lot-07/forms-creation|NumberType|La case des conditions|Fiche express' \
+                      'lot-07/forms-handling|AlreadySubmittedException|Constraints At Field Level|Fiche express'; do
             page=${spec%%|*}
             out="/tmp/ped-${page//\//-}"
             code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
