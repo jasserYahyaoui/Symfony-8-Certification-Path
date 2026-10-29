@@ -5151,7 +5151,12 @@ jobs:
                       'lot-07/forms-rendering-with-twig|field_name|Ouvrir, ranger, fermer|Fiche express' \
                       'lot-07/forms-theming|vip_widget|Du plus précis au plus vague|Fiche express' \
                       'lot-07/csrf-protection|Jeton refusé|Poser, rendre, vérifier|Fiche express' \
-                      'lot-07/handling-file-upload|getClientOriginalName|Recevoir, valider, déplacer, nommer|Fiche express'; do
+                      'lot-07/handling-file-upload|getClientOriginalName|Recevoir, valider, déplacer, nommer|Fiche express' \
+                      'lot-07/built-in-form-types|RepeatedTypeValidatorExtension|La famille range, le parent décide|Fiche express' \
+                      'lot-07/data-transformers|IssueToNumberTransformer|Transformer pour montrer, inverser pour|Fiche express' \
+                      'lot-07/form-events|BadMethodCallException|Poser, compléter, recevoir, normaliser|Fiche express' \
+                      'lot-07/form-type-extensions|IconTextType|Greffer, pas remplacer|Fiche express' \
+                      'lot-07/form-options-optionsresolver-component|PriceType|Connaître, exiger, compléter, vérifier|Fiche express'; do
             page=${spec%%|*}
             out="/tmp/ped-${page//\//-}"
             code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \

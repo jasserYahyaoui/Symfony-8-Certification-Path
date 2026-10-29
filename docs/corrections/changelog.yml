@@ -1615,3 +1615,110 @@ entries:
         sections: ["`add()` et ses trois arguments", "`data_class`", "La correspondance nom ↔ property", "Le field non mappé", "Pièges d'examen", "QCM d'entraînement", "Fiche express"]
     flashcards: []
     questions: []
+
+  - id: CVR-db1e24x82baf
+    date: '2026-10-29'
+    pull_request: 449
+    commit: '1449d61'
+    kind: CORRECTION
+    finding: ADR-0012
+    official_items: [OIT-j2vjdxcer4ft]
+    facts: []
+    title: "Forms theming : sans extends, un theme _self s'affiche sur place et le field l'utilise"
+    was: >-
+      « Sans `extends`, avec `{% form_theme form _self %}`, le block s'affiche en haut de la page et le
+      field garde son rendu par défaut » — dans la page, une question de compréhension et une flashcard.
+    now: >-
+      Exécuté avec Twig Bridge 8.0.15, chaque cas sur un environment Twig neuf : dans un template sans
+      parent, le block est rendu là où il est écrit, et le field rendu après le tag `form_theme` l'utilise
+      aussi — ou le rendu échoue. Le rendu par défaut n'apparaît que pour un field rendu avant le tag.
+      La page devient aussi un cours complet ; la question de compréhension passe en version 2.
+    courses:
+      - id: CRS-r3xywnpwrwh7
+        sections: ["La chaîne de recherche", "Cibler un field, ou plusieurs fields", "Où appliquer un theme", "Pièges d'examen", "QCM d'entraînement", "Fiche express"]
+    flashcards: [FLC-5x1d6h0qhemb, FLC-d5rebvk6t08p]
+    questions: [QST-9hty9e3sggp3]
+    reversioned: [QST-9hty9e3sggp3]
+
+  - id: CVR-4s6zgw53xwnv
+    date: '2026-10-29'
+    pull_request: 449
+    commit: '1449d61'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-5xvjqa4203xe]
+    facts: []
+    title: "Form types (built-in and custom) : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur un achat. Faits exécutés et repris : un form et un field sont
+      tous deux des types ; dans `buildView()` la vue n'a pas encore d'enfants, dans `finishView()` elle
+      les a ; le parent implicite est `FormType`, et le préfixe de block retire `Type` et passe en snake
+      case ; le resolver du parent est cloné, puis l'enfant change un défaut ; un type ajouté comme field
+      imbrique ses données.
+    courses:
+      - id: CRS-f9pen0bdyrr9
+        sections: ["Ce qu'est un type", "Les six methods", "`getParent()` : spécialiser un type existant", "Composer plutôt qu'étendre", "Pièges d'examen", "QCM d'entraînement", "Fiche express"]
+    flashcards: []
+    questions: []
+
+  - id: CVR-wap8yrgz9rh7
+    date: '2026-10-29'
+    pull_request: 449
+    commit: '1449d61'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-gxew257vwhm8]
+    facts: []
+    title: "Forms rendering with Twig : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur le form `task_form`. Faits exécutés et repris :
+      `form_widget()` sur un form composé rend un `<div>` et les lignes des enfants, sans `<form>` ;
+      `_method` n'est lu que si `framework.http_method_override` vaut `true` ; `searchAndRenderBlock()`
+      refuse une string ; le renderer retient les fields rendus, que `form_rest()` saute ensuite.
+    courses:
+      - id: CRS-b5nj93xzz10b
+        sections: ["Les functions", "Trois niveaux de contrôle", "Le détail qui compte", "Action, method, attributes", "Pièges d'examen", "QCM d'entraînement", "Fiche express"]
+    flashcards: [FLC-a8ywcwzsvpma]
+    questions: []
+
+  - id: CVR-7vrby7b4mwr6
+    date: '2026-10-29'
+    pull_request: 449
+    commit: '1449d61'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-dmkbj2x94rks]
+    facts: []
+    title: "CSRF protection : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur le form `task`. Faits exécutés et repris : le token n'est
+      ajouté qu'à la vue racine, un sous-form n'en a pas ; un token est vérifié contre son
+      `csrf_token_id` ; sans protection, aucun `_token` n'est ajouté ni vérifié ; un token invalide
+      soumet le form et fait échouer la validation sur la racine ; `SameOriginCsrfTokenManager` refuse
+      une Request sans aucune information d'origine.
+    courses:
+      - id: CRS-0yhqc0b1q7hz
+        sections: ["Ce qui est automatique", "Les options du form", "Un identifier par form", "Tokens avec ou sans état", "Pièges d'examen", "QCM d'entraînement", "Fiche express"]
+    flashcards: [FLC-sy9sd2q47h4w]
+    questions: []
+
+  - id: CVR-mkcmrh9p1kg3
+    date: '2026-10-29'
+    pull_request: 449
+    commit: '1449d61'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-j6tqs8s8f54f]
+    facts: []
+    title: "Handling file upload : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur une brochure. Faits exécutés et repris : sans constraint
+      `File`, une property mappée reçoit le path temporaire ; le contrôle du type MIME exige le component
+      Mime ; le listener `PRE_SUBMIT` de `FileType` ne garde que de vrais files téléversés ;
+      `multiple: true` donne un array et `data_class` à `null` ; un upload facultatif laissé vide n'est
+      ni envoyé ni lu.
+    courses:
+      - id: CRS-cpvcczhj7bzx
+        sections: ["Le field", "Récupérer le file", "Ce que `FileType` écarte", "Pièges d'examen", "QCM d'entraînement", "Fiche express"]
+    flashcards: []
+    questions: []

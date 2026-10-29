@@ -246,8 +246,9 @@ remplaçant ce marqueur. Sans `allow_add`, pas de prototype.
 | `true`, le défaut | aucun appel : modifiée **sur place** | aucun appel : modifiée sur place |
 | `false` | `removeTag(b)`, puis `addTag(c)` | `setTags()` avec une **nouvelle** instance |
 
-Un adder qui pose l'autre côté d'une relation n'est donc appelé qu'avec
-`by_reference: false`.
+Avec `true`, ni setter, ni adder, ni remover n'est appelé : c'est la même
+instance qui change. Un adder qui pose l'autre côté d'une relation n'est donc
+appelé qu'avec `by_reference: false`.
 
 ## Concrètement dans ton application
 

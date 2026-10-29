@@ -1824,9 +1824,9 @@ flashcards:
   official_item: OIT-p810t98zedem
   language: fr
   level: RECALL
-  front: 'Symfony Forms : quels sont les noms par défaut des deux enfants d''un RepeatedType, et son message d''erreur ?'
-  back: '`first` et `second` ; « The values do not match. », porté par le field répété lui-même.'
-  explanation: Options `first_name`, `second_name` et `invalid_message` de `RepeatedType::configureOptions()` ; l'erreur n'est pas attachée à `second`, vérifié par exécution.
+  front: 'Symfony Forms : noms par défaut des deux enfants d''un RepeatedType, message d''erreur, et field sur lequel il s''affiche ?'
+  back: '`first` et `second` ; « The values do not match. », affiché sur `first` dès que l''extension Validator est active, comme dans une application complète.'
+  explanation: 'Options `first_name`, `second_name` et `invalid_message` de `RepeatedType::configureOptions()` ; `RepeatedTypeValidatorExtension` fixe `error_mapping` à `[''.'' => first_name]`. Exécuté avec Form 8.0.15 : l''erreur est sur `first` ; sans cette extension, ou avec `error_mapping` vide, elle reste sur le field répété.'
   memorization_justification: Noms à connaître pour les options par enfant et le rendu manuel.
   verification_status: VERIFIED
   official_sources:
@@ -1836,6 +1836,12 @@ flashcards:
     branch: '8.0'
     symbol_or_lines: RepeatedType::buildForm(), first_name, second_name, invalid_message
     verified_at: '2026-09-25'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Validator/Type/RepeatedTypeValidatorExtension.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Extension/Validator/Type/RepeatedTypeValidatorExtension.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: configureOptions() — error_mapping '.' => first_name
+    verified_at: '2026-10-29'
 - id: FLC-afrv326hae6d
   official_item: OIT-p810t98zedem
   language: fr
