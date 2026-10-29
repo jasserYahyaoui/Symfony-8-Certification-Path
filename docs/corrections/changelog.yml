@@ -1722,3 +1722,147 @@ entries:
         sections: ["Le field", "Récupérer le file", "Ce que `FileType` écarte", "Pièges d'examen", "QCM d'entraînement", "Fiche express"]
     flashcards: []
     questions: []
+
+  - id: CVR-s92d7fqk3bv2
+    date: '2026-10-29'
+    pull_request: 450
+    commit: 'e693602'
+    kind: CORRECTION
+    finding: ADR-0012
+    official_items: [OIT-p810t98zedem]
+    facts: []
+    title: "Built-in form types : l'erreur de RepeatedType s'affiche sur first"
+    was: >-
+      « `RepeatedType` : `first`, `second`, une donnée, erreur sur le field répété. » — dans la page, et la
+      flashcard « `first` et `second` ; « The values do not match. », porté par le field répété lui-même. »
+    now: >-
+      Exécuté avec Form 8.0.15 et l'extension Validator active, comme dans une application full-stack :
+      `RepeatedTypeValidatorExtension` pose `error_mapping` `'.' => first_name`, donc « The values do not
+      match. » s'affiche sur `first`. Sans le Validator, l'erreur reste sur le field répété. La page devient
+      aussi un cours complet, sur une inscription.
+    courses:
+      - id: CRS-zsgx3tvpy1kn
+        sections: ["Une famille n'est pas une lignée", "La famille des choix", "`RepeatedType`", "Les boutons", "Pièges d'examen", "QCM d'entraînement", "Fiche express"]
+    flashcards: [FLC-v5528877c9dm]
+    questions: []
+
+  - id: CVR-tzd1cswjjnkf
+    date: '2026-10-29'
+    pull_request: 450
+    commit: 'e693602'
+    kind: CORRECTION
+    finding: F14
+    official_items: [OIT-s3jh7wg5km19]
+    facts: []
+    title: "Authenticators : supports() qui retourne null rend l'authentication lazy"
+    was: >-
+      « Returning null means Symfony must call it again on every request », marqué comme bonne réponse dans
+      une question Practice sur `supports()`.
+    now: >-
+      Le docblock 8.0 dit que `null` permet d'appeler `authenticate()` en lazy, quand le token storage est
+      lu ; `AuthenticatorManager::supports()` n'est lazy que si tous les authenticators qui acceptent la
+      Request ont retourné `null`. `supports()` est appelé à chaque Request quoi qu'il retourne. La question
+      passe en version 2 ; le cours était déjà juste.
+    courses: []
+    flashcards: []
+    questions: [QST-3v9qvehmpvj3]
+    reversioned: [QST-3v9qvehmpvj3]
+
+  - id: CVR-hw014cpbndtc
+    date: '2026-10-29'
+    pull_request: 450
+    commit: 'e693602'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-5xvjqa4203xe]
+    facts: []
+    title: "Form types : ce que by_reference true n'appelle pas"
+    now: >-
+      La page dit de nouveau en toutes lettres qu'avec `by_reference: true` ni setter, ni adder, ni remover
+      n'est appelé : la même instance est modifiée sur place. La phrase avait disparu à la réécriture
+      précédente, alors que le comparatif exécuté le montrait déjà.
+    courses:
+      - id: CRS-f9pen0bdyrr9
+        sections: ["Une collection de types"]
+    flashcards: []
+    questions: []
+
+  - id: CVR-gryvgyz7e3p4
+    date: '2026-10-29'
+    pull_request: 450
+    commit: 'e693602'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-58r9dadx916v]
+    facts: []
+    title: "Data transformers : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur un numéro d'issue. Faits exécutés et repris : un model
+      transformer relie modèle et norm, un view transformer norm et vue ; `addModelTransformer()` s'insère
+      en tête, `addViewTransformer()` à la fin ; une `TransformationFailedException` rend le form non
+      synchronisé ; `setInvalidMessage()` n'agit qu'avec le Validator ; `null` devient `''` vers la vue.
+    courses:
+      - id: CRS-cj36gys6vatx
+        sections: ["L'interface", "Signaler un échec", "Valeurs vides", "QCM d'entraînement", "Fiche express"]
+    flashcards: []
+    questions: []
+
+  - id: CVR-tbvb7ep9ckdh
+    date: '2026-10-29'
+    pull_request: 450
+    commit: 'e693602'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-v7zyhcm44m88]
+    facts: []
+    title: "Form events : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur un pays et sa région. Faits exécutés et repris : les données
+      vues par chacun des cinq events ; à `PRE_SET_DATA`, lire `$event->getData()` ; `add()` fonctionne
+      jusqu'à `PRE_SUBMIT`, est ignoré à `SUBMIT` et lève une exception à `POST_SUBMIT` ; un enfant est
+      soumis en entier avant le `SUBMIT` du parent ; la validation se fait au `POST_SUBMIT` de la racine.
+    courses:
+      - id: CRS-b2pn9zz55e4n
+        sections: ["Deux moments, cinq events", "Ce que dit le code sur le verrouillage", "Les forms imbriqués", "Comment s'abonner", "QCM d'entraînement", "Fiche express"]
+    flashcards: []
+    questions: []
+
+  - id: CVR-rwcq1q8bggwh
+    date: '2026-10-29'
+    pull_request: 450
+    commit: 'e693602'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-gcs0jathkv9b]
+    facts: []
+    title: "Form type extensions : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur une option `help_icon`. Faits exécutés et repris :
+      `getExtendedTypes()` est la seule method obligatoire ; une extension atteint les descendants du type
+      étendu ; sur `FormType::class` elle touche tous les fields mais aucun bouton ; l'extension du parent
+      passe d'abord ; la `priority` se pose sur le tag `form.type_extension`.
+    courses:
+      - id: CRS-k4ejsd624d1p
+        sections: ["La seule method obligatoire", "Qui est touché, et quand", "L'enregistrement", "QCM d'entraînement", "Fiche express"]
+    flashcards: []
+    questions: []
+
+  - id: CVR-xnsv7gmafyb3
+    date: '2026-10-29'
+    pull_request: 450
+    commit: 'e693602'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-rj9web4whgmz]
+    facts: []
+    title: "Form options (OptionsResolver) : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur un `PriceType`. Faits exécutés et repris : `setDefaults()` donne
+      une valeur, `setDefined()` autorise sans valeur ; une option inconnue lève
+      `UndefinedOptionsException` ; la validation précède la normalization ; un défaut lazy est une closure
+      typée `Options`, dont le second parameter reçoit le défaut précédent ; `setOptions()` imbrique.
+    courses:
+      - id: CRS-pchb259hnbh3
+        sections: ["Les methods", "Options lazy", "Validation, puis normalization", "QCM d'entraînement", "Fiche express"]
+    flashcards: []
+    questions: []
