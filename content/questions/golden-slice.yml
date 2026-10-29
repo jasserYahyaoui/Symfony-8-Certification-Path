@@ -314,7 +314,7 @@ questions:
     question_archetype: CONCEPT_DISTINCTION
     assesses_outcomes:
       - OUT-pg8zhgwny9pq
-    version: 1
+    version: 2
     official_topic: Security
     official_item: OIT-s3jh7wg5km19
     domain: symfony
@@ -336,7 +336,7 @@ questions:
     verification_status: VERIFIED
     reviewers:
       - tech-lead
-    reviewed_at: '2026-09-01'
+    reviewed_at: '2026-10-29'
     tags:
       - security
       - authenticator
@@ -345,7 +345,7 @@ questions:
         text: It returns ?bool, so null is a valid return value
         correct: true
       - id: CHO-swrhdbhmw4x3
-        text: Returning null means Symfony must call it again on every request
+        text: null lets authenticate() wait until the token is read
         correct: true
       - id: CHO-mwwbf6ghwmxw
         text: Returning false throws an AuthenticationException
@@ -357,8 +357,11 @@ questions:
         correct: false
         explanation: The Passport is built by authenticate(). supports() only decides whether this authenticator
           takes the request at all.
-    explanation: supports() is declared as ?bool. true takes the request, false declines it, and null
-      means "possibly, but do not cache this decision" — Symfony re-asks on every request.
+    explanation: supports() is declared as ?bool. true takes the request and false declines it. null means,
+      in the interface's own words, that authenticate() can be called lazily when the token storage is
+      accessed. Executed with SecurityBundle 8.0.15 on a lazy, stateful firewall, authenticate() never ran
+      on a page that does not read the user. null is not a request to be asked again, since supports() runs on
+      every request whatever it returns.
     official_sources:
       - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Http/Authenticator/AuthenticatorInterface.php
         readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Http/Authenticator/AuthenticatorInterface.php

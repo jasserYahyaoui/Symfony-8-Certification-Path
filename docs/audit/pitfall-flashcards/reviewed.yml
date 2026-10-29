@@ -4255,3 +4255,8 @@ pitfalls:
   excerpt: '**`form_theme … only` écarte aussi le theme par défaut** : un theme in'
   verdict: COVERED
   card: FLC-d5rebvk6t08p
+- course: CRS-zsgx3tvpy1kn
+  key: adcee5433f9a
+  excerpt: '**L''erreur « The values do not match. » s''affiche sur `first`** dans une application complète : l''extension Validator l''y redirige.'
+  verdict: COVERED
+  card: FLC-v5528877c9dm
