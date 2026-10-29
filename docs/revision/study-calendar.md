@@ -634,7 +634,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 - NOUVEAU · **Security : Security Core, CSRF and PasswordHasher components** (STANDARD) — 33 min · 1387 mots · 3 questions, 5 questions de compréhension, 11 flashcards
 - NOUVEAU · **Security : Authentication** (STANDARD) — 38 min · 1708 mots · 4 questions, 6 questions de compréhension, 11 flashcards
-- NOUVEAU · **Security : Authorization** (STANDARD) — 38 min · 1607 mots · 4 questions, 5 questions de compréhension, 11 flashcards
+- NOUVEAU · **Security : Authorization** (STANDARD) — 38 min · 1630 mots · 4 questions, 5 questions de compréhension, 11 flashcards
 - Révision **J+3** (7 min) — Forms : Form type extensions · Forms : Form options (OptionsResolver component)
 - Révision **J+7** (8 min) — Forms : Form component · Forms : Forms creation
 - Révision **J+14** (10 min) — Dependency Injection : Semantic configuration · Dependency Injection : Factories · Dependency Injection : Compiler passes
