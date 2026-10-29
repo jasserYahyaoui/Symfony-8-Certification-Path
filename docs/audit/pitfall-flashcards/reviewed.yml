@@ -4240,3 +4240,18 @@ pitfalls:
   excerpt: '**Un `DateTimeImmutable` en model devient un `DateTime` en norm data**'
   verdict: COVERED
   card: FLC-6kz6nw4196kj
+- course: CRS-0yhqc0b1q7hz
+  key: b810968edbef
+  excerpt: '**Un sous-form n''a pas son propre token** : seul le form racine en reç'
+  verdict: COVERED
+  card: FLC-sy9sd2q47h4w
+- course: CRS-b5nj93xzz10b
+  key: 2bb5a2a85745
+  excerpt: '**Une method `PUT` n''est pas envoyée en `PUT`** : le tag porte `method'
+  verdict: COVERED
+  card: FLC-a8ywcwzsvpma
+- course: CRS-r3xywnpwrwh7
+  key: b4837d0bde64
+  excerpt: '**`form_theme … only` écarte aussi le theme par défaut** : un theme in'
+  verdict: COVERED
+  card: FLC-d5rebvk6t08p

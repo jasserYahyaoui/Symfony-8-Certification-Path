@@ -1538,7 +1538,7 @@ questions:
   question_archetype: CODE_DIAGNOSIS
   assesses_outcomes:
   - OUT-n3gb1pbjv5sn
-  version: 1
+  version: 2
   official_topic: Forms
   official_item: OIT-j2vjdxcer4ft
   domain: symfony
@@ -1549,8 +1549,8 @@ questions:
   type: mcq
   answer_mode: single
   required_answer_count: 1
-  question: A standalone template (no extends) uses `{% form_theme form _self %}` and defines a block.
-    The block text shows at the top of the page and the field is unchanged. Why?
+  question: A standalone template (no extends) uses `{% form_theme form _self %}` and defines a theme
+    block. The block's markup also appears in the page where the block is written. Why?
   code_language: twig
   scoring_policy: all-or-nothing
   shuffle_choices: true
@@ -1581,7 +1581,8 @@ questions:
     correct: false
     explanation: Position is not the cause.
   explanation: Without extends, blocks render as ordinary content in place; the documentation states the
-    extends requirement.
+    extends requirement. Executed with Twig Bridge 8.0.15, the field still uses the block when it is
+    rendered after the form_theme tag, and a block that calls a parent block can make rendering fail.
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/form_themes.rst
     repository: symfony/symfony-docs
