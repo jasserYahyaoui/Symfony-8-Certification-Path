@@ -115,6 +115,10 @@ supportant `EDIT` — le premier accorde, le second refuse :
 | `consensus` | `A` et `B` | accordé (égalité, `allow_if_equal_granted_decisions` vrai par défaut) |
 | `unanimous` | `A` et `B` | refusé |
 
+En `affirmative`, le journal ne montre que `A.supports(EDIT)`, `A.vote` : `B`
+n'a pas même été consulté. `AffirmativeStrategy::decide()` rend `true` au
+premier vote favorable.
+
 Le point à retenir reste que le framework ne compare rien lui-même : un role est
 vérifié par un voter comme le reste. `ROLE_ADMIN` n'est pas traité
 différemment de `EDIT` — seul le voter qui répond change (`RoleVoter`, exécuté :

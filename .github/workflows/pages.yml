@@ -5161,7 +5161,7 @@ jobs:
                       'lot-10/authentication|NullToken|droit ensuite|Fiche express' \
                       'lot-10/authorization|AuditVoter|Demander, voter|Fiche express' \
                       'lot-10/configuration|MainConfiguration|Le premier qui correspond gagne, deux fois|Fiche express' \
-                      'lot-10/providers|UserProviderFactoryInterface|Charger une fois, relire à chaque fois|Fiche express'; do
+                      'lot-10/providers|InvalidConfigurationException|Charger une fois, relire à chaque fois|Fiche express'; do
             page=${spec%%|*}
             out="/tmp/ped-${page//\//-}"
             code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
