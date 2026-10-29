@@ -2881,10 +2881,20 @@ pitfalls:
   verdict: COVERED
   card: FLC-s1f8zepj0a8h
 - course: CRS-nfkzx2s1n3r3
-  key: e20f22fba2bc
-  excerpt: '**La submission manuelle vide les fields absents par défaut** ; `false` les préserve, et n'
+  key: 6ff7b7abc9cc
+  excerpt: '**La submission manuelle vide les fields absents par défaut** ; `false'
   verdict: COVERED
   card: FLC-jsbfc1cnv01y
+- course: CRS-nfkzx2s1n3r3
+  key: c9e18b833743
+  excerpt: '**`false` ne dispense pas un field absent des constraints de la class*'
+  verdict: COVERED
+  card: FLC-krwbm1a24m1y
+- course: CRS-nfkzx2s1n3r3
+  key: 81c4133d7d85
+  excerpt: '**`getPayload()->get()` refuse un form composé** : la valeur est un ar'
+  verdict: COVERED
+  card: FLC-hdx4gm5q983q
 - course: CRS-nhebf7arqvn4
   key: eef3a6eb4d2a
   excerpt: '**Les parameters réservés commencent tous par un souligné ; les arguments courts de l''attr'
@@ -4225,3 +4235,8 @@ pitfalls:
   excerpt: '**Une property typée jamais affectée est validée comme `null`**'
   verdict: COVERED
   card: FLC-9p1vqgrekey4
+- course: CRS-txp6tjhjtfy8
+  key: e908c551f431
+  excerpt: '**Un `DateTimeImmutable` en model devient un `DateTime` en norm data**'
+  verdict: COVERED
+  card: FLC-6kz6nw4196kj

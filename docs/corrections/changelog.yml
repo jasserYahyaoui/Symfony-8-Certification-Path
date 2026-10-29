@@ -196,7 +196,7 @@ entries:
       - id: CRS-cj36gys6vatx
         sections: ["L'ordre d'une chaîne de transformers"]
       - id: CRS-d235sja3h7y2
-        sections: ["Le builder n'écrit rien tout seul", "Pièges d'examen", "Points clés"]
+        sections: ["Le builder n'écrit rien tout seul", "Pièges d'examen", "À mémoriser"]
       - id: CRS-d5ffd8b704zs
         sections: ["Le contrat", "Ce que fait `ArgumentResolver`", "Les resolvers ciblés", "Pièges d'examen"]
       - id: CRS-dpbpbgwjey5c
@@ -1429,4 +1429,85 @@ entries:
       - id: CRS-ax2v94pgbk0g
         sections: ["La validation ne descend pas toute seule", "Pièges d'examen", "QCM d'entraînement", "Fiche express"]
     flashcards: [FLC-atx3jbrah7ky, FLC-bfw00ty6skft]
+    questions: []
+
+  - id: CVR-ev0z96gme3dm
+    date: '2026-10-29'
+    pull_request: 447
+    commit: 'b615365'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-9x3strrjdng7]
+    facts: []
+    title: "Built-in validation constraints : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur un form de contact. Faits exécutés et ajoutés : `Email`, `Regex`,
+      `Url` et `Type` acceptent `null` et la string vide, `Length`, `Choice` et `Positive` acceptent `null` mais
+      pas la string vide ; `Choice(['a', 'b'])` lève une exception en 8.0, `choices:` est nommé ; `Url` refuse
+      `localhost` par défaut et l'accepte avec `requireTld: false` ; `Sequentially` s'arrête à la première
+      violation là où une liste les cumule.
+    courses:
+      - id: CRS-569y6hb7fwj5
+        sections: ["Les distinctions qui décident", "null et la string vide", "Configurer une constraint en 8.0", "Pièges d'examen", "QCM d'entraînement", "Fiche express"]
+    flashcards: []
+    questions: []
+
+  - id: CVR-y9tq45a8hv6f
+    date: '2026-10-29'
+    pull_request: 447
+    commit: 'b615365'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-ttwpe00f32q9]
+    facts: []
+    title: "Validation scopes : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur un `Author`. Faits exécutés et ajoutés : une constraint sur une
+      method qui ne commence ni par `get`, ni par `is`, ni par `has` lève une `MappingException` ; un accessor
+      qui exige un argument lève une `ArgumentCountError` ; le path d'une violation d'accessor perd le préfixe ;
+      une property typée non initialisée est validée comme `null`.
+    courses:
+      - id: CRS-wzmrks85zyh1
+        sections: ["La property", "L'accessor", "La class", "Pièges d'examen", "QCM d'entraînement", "Fiche express"]
+    flashcards: [FLC-9p1vqgrekey4]
+    questions: []
+
+  - id: CVR-nvje2by27sdg
+    date: '2026-10-29'
+    pull_request: 447
+    commit: 'b615365'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-kkhb3wd341ex]
+    facts: []
+    title: "Validation groups : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur un `User` à deux usages. Faits exécutés et repris : sans group
+      passé, seul `Default` est validé ; une constraint étiquetée du seul nom de la class n'est pas dans
+      `Default` ; `Default` et le nom de la class divergent dès qu'un object est imbriqué ; un group ne se
+      déclare nulle part.
+    courses:
+      - id: CRS-vskyr5zdwr2t
+        sections: ["Les groups implicites", "Valider avec un group", "`Default` contre le nom de la class", "Pièges d'examen", "QCM d'entraînement", "Fiche express"]
+    flashcards: []
+    questions: []
+
+  - id: CVR-x0hsge3cz7af
+    date: '2026-10-29'
+    pull_request: 447
+    commit: 'b615365'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-rwavvsx2d7nq]
+    facts: []
+    title: "Group sequence : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur un `User` en deux étapes. Faits exécutés et ajoutés : un array
+      imbriqué réunit des groups dans une même étape ; la séquence s'arrête à la première étape en échec ; une
+      `GroupSequence` passée à `validate()` accepte `Default`, le refus ne visant que la séquence déclarée sur
+      la class.
+    courses:
+      - id: CRS-bthv5xmh5wea
+        sections: ["Le mécanisme", "Le premier effet de bord : `Default` change de sens", "Le deuxième : valider un group de la séquence la contourne", "Pièges d'examen", "QCM d'entraînement", "Fiche express"]
+    flashcards: [FLC-z3yz7dafkd2z]
     questions: []

@@ -827,7 +827,7 @@ questions:
   question_archetype: BEHAVIOR_PREDICTION
   assesses_outcomes:
   - OUT-hkxn2p2xjmg7
-  version: 1
+  version: 2
   official_topic: Forms
   official_item: OIT-mgvdw7cfpwyz
   domain: symfony
@@ -838,8 +838,8 @@ questions:
   type: mcq
   answer_mode: single
   required_answer_count: 1
-  question: Field task has NotBlank and is empty on the object. `submit(['note' => 'n'], false)` runs.
-    Is the form valid?
+  question: The task field declares NotBlank in its `constraints` option; the object itself has no
+    constraint and its task is empty. `submit(['note' => 'n'], false)` runs. Is the form valid?
   scoring_policy: all-or-nothing
   shuffle_choices: true
   negative_wording: false
@@ -849,19 +849,20 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-10-09'
+  reviewed_at: '2026-10-28'
   tags:
   - form-handling
   - clear-missing
   - validation
   choices:
   - id: CHO-18zgbht2pxjw
-    text: 'Yes: only submitted fields are validated'
+    text: 'Yes: task''s own constraints are skipped'
     correct: true
   - id: CHO-1egdqqp5wf1j
     text: 'No: NotBlank fails on task'
     correct: false
-    explanation: Absent fields are skipped with clearMissing false.
+    explanation: It would if NotBlank were declared on the class property, which validates the stored
+      value even when the field is absent.
   - id: CHO-bjva10mh4sze
     text: 'No: every field must be present'
     correct: false
@@ -871,7 +872,7 @@ questions:
     correct: false
     explanation: Nothing is thrown.
   explanation: 'Executed with Form 8.0.15: valid with false, invalid with the default true. Adding task
-    with null forces the check.'
+    with null forces the check. A NotBlank on the class property would fail either way.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Validator/Constraints/FormValidator.php
     repository: symfony/symfony
