@@ -1511,3 +1511,107 @@ entries:
         sections: ["Le mécanisme", "Le premier effet de bord : `Default` change de sens", "Le deuxième : valider un group de la séquence la contourne", "Pièges d'examen", "QCM d'entraînement", "Fiche express"]
     flashcards: [FLC-z3yz7dafkd2z]
     questions: []
+
+  - id: CVR-410ngzfzs41a
+    date: '2026-10-29'
+    pull_request: 448
+    commit: '7ec6900'
+    kind: CORRECTION
+    finding: ADR-0012
+    official_items: [OIT-mgvdw7cfpwyz]
+    facts: []
+    title: "Forms handling : avec clearMissing à false, les constraints de la class valident encore les fields absents"
+    was: >-
+      « Avec `$clearMissing = false`, la validation ne s'applique qu'aux fields soumis », pour toute
+      constraint — dans la page, deux flashcards, une question d'entraînement et une question de
+      compréhension.
+    now: >-
+      Exécuté avec Form 8.0.15 et lu dans `FormValidator::validate()` : l'option `constraints` d'un field
+      absent est sautée, mais les constraints déclarées sur la `data_class` valident tout l'object, donc un
+      field absent est validé avec sa valeur stockée. L'avertissement de la documentation vaut pour l'option
+      `constraints`. La page devient aussi un cours complet ; les deux questions passent en version 2.
+    courses:
+      - id: CRS-nfkzx2s1n3r3
+        sections: ["Quand `handleRequest()` soumet-il ?", "L'object est déjà à jour", "`clearMissing` et la validation", "Pièges d'examen", "QCM d'entraînement", "Fiche express"]
+    flashcards: [FLC-jsbfc1cnv01y, FLC-zpk7hgmqgfgr, FLC-krwbm1a24m1y]
+    questions: [QST-1h2rez4vq4r2, QST-t82bjjqe48m4]
+    reversioned: [QST-1h2rez4vq4r2, QST-t82bjjqe48m4]
+
+  - id: CVR-91na37cqzc0y
+    date: '2026-10-29'
+    pull_request: 448
+    commit: '7ec6900'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-hcdrp2y7kbct]
+    facts: []
+    title: "Custom callback validators : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur un `Author`. Faits exécutés et repris : une method statique
+      reçoit la valeur, puis le contexte, puis le payload, et la signature d'instance y lève une
+      `TypeError` ; la valeur retournée est ignorée ; un nom de method seul est cherché sur la valeur
+      validée ; le `payload` arrive tel quel.
+    courses:
+      - id: CRS-96w05v20b8w1
+        sections: ["Les deux signatures", "Les formes du `callback`", "Ce que le callback doit faire", "Pièges d'examen", "QCM d'entraînement", "Fiche express"]
+    flashcards: []
+    questions: []
+
+  - id: CVR-w1m51e8s58n7
+    date: '2026-10-29'
+    pull_request: 448
+    commit: '7ec6900'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-0wnxbapegqhv]
+    facts: []
+    title: "Violations builder : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur une adresse déjà réservée. Faits exécutés et repris :
+      `buildViolation()` n'enregistre rien sans `addViolation()` ; `atPath()` déplace le path mais pas la
+      valeur fautive ; sans `atPath()`, une violation de class est rattachée au form racine ;
+      `UnexpectedValueException` devient une violation, `UnexpectedTypeException` remonte.
+    courses:
+      - id: CRS-d235sja3h7y2
+        sections: ["Le builder n'écrit rien tout seul", "Ce que l'on peut régler", "Une constraint sur mesure", "Pièges d'examen", "QCM d'entraînement", "Fiche express"]
+    flashcards: []
+    questions: []
+
+  - id: CVR-52emsxc9wddb
+    date: '2026-10-29'
+    pull_request: 448
+    commit: '7ec6900'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-tsxxgp3ppj1n]
+    facts: []
+    title: "Form component : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur l'échéance d'une tâche. Faits exécutés : `Forms::createFormFactory()`
+      suffit sans kernel ; un `IntegerType` a pour vue la string `"42"` ; la norm data d'un `DateType` est un
+      `DateTime`, même quand le modèle est un `DateTimeImmutable`.
+    courses:
+      - id: CRS-txp6tjhjtfy8
+        sections: ["Le problème résolu", "Les trois couches de données", "Les deux sens", "Pièges d'examen", "QCM d'entraînement", "Fiche express"]
+    flashcards: []
+    questions: []
+
+  - id: CVR-7v8a4ehmgy0e
+    date: '2026-10-29'
+    pull_request: 448
+    commit: '7ec6900'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-fhpttc4c5x0k]
+    facts: []
+    title: "Forms creation : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur un `TaskType`. Faits exécutés et repris : sans `data_class`,
+      `add()` sans type prend `TextType` ; les accessors passent avant une property publique ; un field sans
+      property et sans `mapped: false` lève une `NoSuchPropertyException` dès `getForm()` ;
+      `property_path` et `inherit_data`.
+    courses:
+      - id: CRS-8msvfwe13mpb
+        sections: ["`add()` et ses trois arguments", "`data_class`", "La correspondance nom ↔ property", "Le field non mappé", "Pièges d'examen", "QCM d'entraînement", "Fiche express"]
+    flashcards: []
+    questions: []

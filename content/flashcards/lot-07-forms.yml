@@ -1340,7 +1340,7 @@ flashcards:
   level: RECALL
   front: 'Symfony Forms : à quelle condition {% form_theme form _self %} fonctionne-t-il ?'
   back: Le template doit étendre un autre template ; sinon ses blocks sont rendus comme du contenu ordinaire.
-  explanation: 'Avertissement de `form_themes.rst` ; observé sans `extends` : le block s''affiche en tête de page et le field garde son rendu par défaut.'
+  explanation: 'Avertissement de `form_themes.rst`. Exécuté sans `extends` (Twig Bridge 8.0.15) : le block s''affiche là où il est écrit, et le field rendu après le tag l''utilise aussi ; un block qui appelle `form_widget(form)` ou un block parent peut faire échouer le rendu.'
   memorization_justification: Condition d'usage souvent oubliée.
   verification_status: VERIFIED
   official_sources:
@@ -2681,3 +2681,61 @@ flashcards:
     commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
     symbol_or_lines: validate() — data validated on the root form, children only when submitted
     verified_at: '2026-10-28'
+- id: FLC-a8ywcwzsvpma
+  official_item: OIT-gxew257vwhm8
+  language: fr
+  level: TRAP
+  front: 'Twig : un form déclare `''method'' => ''PUT''`. Que rend `form_start(form)`, et que faut-il côté serveur pour que la Request arrive en `PUT` ?'
+  back: '`<form method="post">` suivi d''un field caché `_method` valant `PUT`. Le serveur ne lit ce field que si `framework.http_method_override` vaut `true` — `false` par défaut en 8.0.'
+  explanation: Exécuté avec Twig Bridge 8.0.15 (la variable `method` de `form_start()` ou l'option du form donnent le même rendu) ; default value lue dans la `Configuration` de FrameworkBundle 8.0.
+  memorization_justification: Un navigateur n'envoie que `GET` et `POST` ; le rendu et la configuration sont deux moitiés du même mécanisme.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig
+    repository: symfony/symfony
+    branch: '8.0'
+    commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
+    symbol_or_lines: block form_start — form_method POST and hidden _method
+    verified_at: '2026-10-28'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/Configuration.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/Configuration.php
+    repository: symfony/symfony
+    branch: '8.0'
+    commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
+    symbol_or_lines: http_method_override defaultFalse()
+    verified_at: '2026-10-28'
+- id: FLC-d5rebvk6t08p
+  official_item: OIT-j2vjdxcer4ft
+  language: fr
+  level: TRAP
+  front: 'Twig : `{% form_theme form with [''fields.html.twig''] only %}`, et `fields.html.twig` ne définit que `text_widget`. Que donne `form_row(form.name)` ?'
+  back: 'Une erreur : `only` écarte tous les autres themes, le theme par défaut compris, et aucun block `_row` n''est trouvé. Il faut commencer le theme par `{% use ''form_div_layout.html.twig'' %}`.'
+  explanation: Exécuté avec Twig Bridge 8.0.15 — « Unable to render the form as none of the following blocks exist » ; avec le `use`, le rendu revient. Sans `only`, les themes s'ajoutent aux themes globaux.
+  memorization_justification: '`only` remplace, il n''ajoute pas : la différence ne se voit qu''au rendu.'
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony-docs/8.0/form/form_themes.rst
+    readable_url: https://github.com/symfony/symfony-docs/blob/8.0/form/form_themes.rst
+    repository: symfony/symfony-docs
+    branch: '8.0'
+    commit_sha: eea05cbfe063b9cf99afaf303b8cad76757f43bb
+    symbol_or_lines: '"When using only, your theme must define all necessary blocks"'
+    verified_at: '2026-10-29'
+- id: FLC-sy9sd2q47h4w
+  official_item: OIT-dmkbj2x94rks
+  language: fr
+  level: TRAP
+  front: 'Symfony Forms : un `OrderType` contient un field `address` de type `AddressType`, protection CSRF activée. Le sous-form `address` reçoit-il son propre field `_token` ?'
+  back: 'Non : `FormTypeCsrfExtension` n''ajoute le token qu''à la vue du form racine, celle qui n''a pas de parent. L''`OrderType` porte un seul `_token`.'
+  explanation: Lu dans `FormTypeCsrfExtension::finishView()` (condition `!$view->parent`) ; exécuté avec Form 8.0.15 et security-csrf 8.0, la vue d'`address` n'a que ses propres fields.
+  memorization_justification: Le token protège la submission, qui ne concerne que le form racine.
+  verification_status: VERIFIED
+  official_sources:
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Form/Extension/Csrf/Type/FormTypeCsrfExtension.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Extension/Csrf/Type/FormTypeCsrfExtension.php
+    repository: symfony/symfony
+    branch: '8.0'
+    commit_sha: 6f841c00f41e5c037d40e1d739e2dc602c8f289d
+    symbol_or_lines: finishView() — csrf_protection && !$view->parent && compound
+    verified_at: '2026-10-29'
