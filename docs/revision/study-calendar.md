@@ -961,7 +961,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Mardi 8 décembre 2026
 
 - NOUVEAU · **Automated Tests : Handling legacy deprecated code** (MINIMAL) — 38 min · 1807 mots · 4 questions, 4 questions de compréhension, 11 flashcards
-- NOUVEAU · **Miscellaneous : Configuration (including DotEnv and ExpressionLanguage components)** (STANDARD) — 55 min · 2189 mots · 4 questions, 15 questions de compréhension, 11 flashcards
+- NOUVEAU · **Miscellaneous : Configuration (including DotEnv and ExpressionLanguage components)** (STANDARD) — 55 min · 2192 mots · 4 questions, 15 questions de compréhension, 11 flashcards
 - Révision **J+1** (18 min) — Automated Tests : Framework objects access · Automated Tests : Client configuration · Automated Tests : Request and response objects introspection
 - Révision **J+7** (16 min) — Console : Custom commands · Console : Configuration · Console : Options and arguments (using PHP attributes) · Console : Input and Output objects
 - Révision **J+14** (10 min) — Templating with Twig : TwigBundle · Templating with Twig : Twig syntax up to 3.22 version · Templating with Twig : Auto escaping
