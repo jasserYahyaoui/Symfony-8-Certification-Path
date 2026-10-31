@@ -322,7 +322,8 @@ la concaténation s'écrit `~` : `"Bonjour " ~ nom`.
 
 ## QCM d'entraînement
 
-Six questions sur la configuration. Choisis avant d'ouvrir la correction.
+Six questions sur Dotenv, les parameters et ExpressionLanguage. Choisis avant
+d'ouvrir la correction.
 
 **Question 1.** `APP_ENV` vaut `prod` et `APP_DEBUG` n'est défini nulle part.
 Que vaut `APP_DEBUG` après `Dotenv::bootEnv()` ?
