@@ -5,7 +5,8 @@ title: "Client object"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-08"
+reviewed_at: "2026-10-29"
+format: pedagogical
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/KernelBrowser.php"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/KernelBrowser.php"
@@ -33,9 +34,52 @@ outcome_sections:
 Piloter l'application comme un navigateur : Requests, navigation, redirects,
 authentication.
 
-## Prérequis
+## Avant la règle : le problème à résoudre
 
-Les functional tests avec `WebTestCase`.
+Un test doit se connecter, ouvrir « Mes achats », suivre le redirect qui
+suit une annulation, puis revenir en arrière. Un vrai navigateur ferait cela
+lentement, et il faudrait un serveur web.
+
+Le **client de test** simule un navigateur en mémoire. Trois questions : ce
+qu'il **rend** à chaque Request, comment il traite les **redirects** — pas
+comme un navigateur ordinaire —, et ce qui se passe **entre deux Requests** :
+kernel redémarré, token de sécurité effacé.
+
+## Le fil rouge : annuler un achat
+
+```php
+$client = static::createClient();
+$client->loginUser($user);                      // sans form de connexion
+
+$crawler = $client->request('GET', '/orders');  // un Crawler, pas une Response
+$client->request('POST', '/orders/42/cancel');  // répond par un redirect
+
+$this->assertResponseRedirects('/orders');      // le client ne l'a pas suivi
+$client->followRedirect();                      // on le suit, une fois
+$this->assertSelectorTextContains('.flash', 'annulée');
+```
+
+## Le cycle complet en un schéma
+
+```mermaid
+---
+title: Deux Requests avec le client de test
+---
+flowchart TD
+  accTitle: Ce que fait le client de test entre et pendant les Requests
+  accDescr: request construit une Request en mémoire, la passe au kernel et rend un Crawler ; la Response se lit par getResponse. Une Response de redirect n'est pas suivie par défaut : followRedirect la suit une fois, followRedirects change le mode pour les suivantes. Avant la Request suivante, le kernel redémarre et le container est reconstruit, sauf après disableReboot ; le token en mémoire est perdu, mais un firewall avec état le relit dans la session, contrairement à un firewall stateless.
+  R1["request('GET', '/orders')"] --> K1["kernel : Request en mémoire, aucun serveur"]
+  K1 --> C(["Crawler ; getResponse() pour la Response"])
+  C --> RD{"redirect ?"}
+  RD -->|"oui, mode par défaut"| STAY(["302 conservé ; followRedirect() pour le suivre"])
+  RD -->|"oui, followRedirects()"| GO(["suivi automatiquement"])
+  C --> NEXT{"Request suivante"}
+  NEXT -->|"par défaut"| REBOOT["kernel redémarré, container neuf, token effacé"]
+  NEXT -->|"disableReboot()"| SAME(["même container, services réinitialisés"])
+  REBOOT --> FW{"firewall avec état ?"}
+  FW -->|"oui"| SES(["user relu depuis la session"])
+  FW -->|"stateless"| ANON(["anonyme"])
+```
 
 ## Ce qu'est le client
 
@@ -74,6 +118,10 @@ request(
 Pour une Request AJAX, `xmlHttpRequest()` a les mêmes arguments et ajoute
 le header `HTTP_X_REQUESTED_WITH` automatiquement — exécuté :
 `$client->getRequest()->isXmlHttpRequest()` vaut `true`.
+
+Rejoué pour cette page avec FrameworkBundle 8.0.15 : `request()` rend un
+`Symfony\Component\DomCrawler\Crawler`, et `xmlHttpRequest()` donne de nouveau
+`isXmlHttpRequest()` à `true`.
 
 ## Naviguer
 
@@ -119,6 +167,10 @@ client de test, non. Exécuté, `GET /go` qui redirige vers `/hello` :
 |---|---|---|
 | `createClient()`, par défaut | 302, `isFollowingRedirects()` faux | 200 sur `/hello` |
 
+Rejoué : `302` et `isFollowingRedirects()` à `false` après `request()`, puis
+`200` sur `http://localhost/hello` après `followRedirect()` ; en mode
+`followRedirects()`, `back()` depuis `/hello` ramène à `/created`.
+
 ## Plusieurs Requests dans un test
 
 Après une Request, la suivante **redémarre le kernel** et reconstruit le
@@ -142,6 +194,11 @@ appelle alors `reset()` sur les services marqués `kernel.reset`. Cela efface
 `kernel.reset` du service concerné par un compiler pass en environment
 de test.
 
+Rejoué : deux Requests, deux identifiers d'object container différents ; après
+`disableReboot()`, le même ; et avec un firewall avec état, le journal montre
+« Read existing security token from the session » à la seconde Request, qui
+voit toujours `alice`.
+
 ## S'authentifier
 
 ```php
@@ -164,6 +221,40 @@ remonter jusqu'à PHPUnit. Exécuté, un controller qui lève
 `RuntimeException('kaboom')` : Response 500 par défaut, puis l'exception
 elle-même après `catchExceptions(false)`.
 
+## Concrètement dans ton application
+
+- Lire le contenu : le `Crawler` rendu par `request()` ; le code et les headers :
+  `getResponse()`.
+- Un form qui redirige : `assertResponseRedirects()`, puis
+  `followRedirect()` — ou `followRedirects()` avant la Request.
+- Un espace membre : `loginUser($user)`, pas le form de connexion.
+- Un test qui échoue sur un 500 muet : `catchExceptions(false)` le temps de
+  comprendre.
+- Un service à garder d'une Request à l'autre : `disableReboot()`.
+- Du JavaScript à tester : un autre outil — le client n'en exécute pas.
+
+## À comprendre
+
+- **Que gagne-t-on à ne pas suivre les redirects ?** Le test voit la Response
+  de redirect et peut l'assertir ; la suivre devient un choix explicite.
+- **Pourquoi redémarrer le kernel entre deux Requests ?** Pour isoler chaque
+  Request : chacune repart d'un container neuf.
+- **Pourquoi un firewall avec état garde-t-il le user ?** `loginUser()`
+  écrit aussi le token dans la session, que le firewall relit à la Request
+  suivante.
+
+## À mémoriser
+
+- **`createClient()`** → **`KernelBrowser`**, service **`test.client`**.
+- **`request()`** → **`Crawler`** ; **`getResponse()`** → Response.
+- Redirects **non suivis** par défaut ; **`followRedirect()`** une fois,
+  **`followRedirects()`** en mode.
+- **`back()`** ne saute que les redirects suivis en mode.
+- Kernel **redémarré** entre deux Requests ; **`disableReboot()`** l'évite.
+- **`loginUser()`** ; stateful : session relue ; stateless : perdu.
+- **`catchExceptions(false)`** ; **`xmlHttpRequest()`** ; aucun JavaScript.
+- Moyen mnémotechnique : **« Requêter, rediriger à la main, redémarrer »**.
+
 ## Pièges d'examen
 
 **`request()` retourne un `Crawler`**, pas une `Response`.
@@ -182,13 +273,151 @@ non.
 
 **Aucun JavaScript n'est exécuté** : c'est un client simulé, pas un navigateur.
 
-## Points clés
+## Application : trois scénarios
 
-- `createClient()` rend un `KernelBrowser`, disponible comme service `test.client`.
-- `request()` rend un `Crawler` ; `getResponse()` rend la Response.
-- `back()`, `forward()`, `reload()`, `restart()` pour naviguer.
-- `followRedirect()` une fois, `followRedirects()` en mode.
-- `loginUser()` pour s'authentifier, `catchExceptions(false)` pour déboguer.
+**Scénario 1 — Le 500 sans explication.** Un test échoue sur « 500 is not 200 »
+et la page d'erreur ne s'affiche pas. *Solution.* `$client->catchExceptions(false)`
+avant la Request : l'exception remonte jusqu'à PHPUnit, avec son message et sa
+trace.
+
+**Scénario 2 — Le compteur de service remis à zéro.** Un test compte les appels
+à un service entre deux Requests et trouve toujours 1. *Solution.* Le kernel a
+redémarré : `disableReboot()` garde le même container — en sachant que les
+services `kernel.reset` sont réinitialisés.
+
+**Scénario 3 — L'API déconnectée.** Un test d'API appelle `loginUser()`, puis
+deux endpoints ; le second répond 401. *Solution.* Le firewall de l'API est
+`stateless` : rien n'est relu en session. Appeler `loginUser()` avant chaque
+Request, ou envoyer les credentials attendus.
+
+## QCM d'entraînement
+
+Six questions sur le client de test. Choisis avant d'ouvrir la correction.
+
+**Question 1.** Que change `$client->xmlHttpRequest('GET', '/hello')` par
+rapport à `request()` ?
+
+- **A.** `isXmlHttpRequest()` vaut `true` côté serveur
+- **B.** Le client exécute le JavaScript de la page
+- **C.** La Response est décodée en JSON automatiquement
+- **D.** Rien : c'est un alias
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : A.** Mêmes arguments, plus le header `HTTP_X_REQUESTED_WITH`
+(exécuté).
+
+B est faux : aucun JavaScript ne tourne. C et D sont faux.
+
+</details>
+
+**Question 2.** Un controller lève une `RuntimeException`. Le test appelle
+`$client->catchExceptions(false)` puis fait la Request. Que se passe-t-il ?
+
+- **A.** La Response est un 500, comme par défaut
+- **B.** La Response est vide
+- **C.** L'exception remonte jusqu'à PHPUnit
+- **D.** Le client relance la Request une fois
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : C.** Exécuté : `RuntimeException: kaboom` reçue par le test.
+
+A est le comportement par défaut. B et D sont faux.
+
+</details>
+
+**Question 3.** Que fait `$client->restart()` ?
+
+- **A.** Il redémarre le kernel, sans toucher aux cookies
+- **B.** Il vide les cookies et l'historique
+- **C.** Il rejoue la dernière Request
+- **D.** Il recrée la base de test
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** Le client repart d'un navigateur neuf.
+
+A décrit le redémarrage entre deux Requests. C est `reload()`. D est faux.
+
+</details>
+
+**Question 4.** Lequel de ces clients suit les redirects **par défaut** ?
+
+- **A.** `KernelBrowser`, rendu par `createClient()`
+- **B.** `HttpKernelBrowser`, son parent
+- **C.** Aucun : tout client BrowserKit les laisse en attente
+- **D.** `HttpBrowser`, qui parle à un vrai serveur
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : D.** `AbstractBrowser` les suit par défaut ;
+`HttpKernelBrowser` — et donc `KernelBrowser` — désactive ce comportement dans
+son constructor.
+
+A et B sont justement les clients qui ne les suivent pas. C est faux.
+
+</details>
+
+**Question 5.** Après `$client->disableReboot()`, la Request suivante
+utilise-t-elle le même container ?
+
+- **A.** Oui : il est réinitialisé
+- **B.** Non : le kernel redémarre toujours
+- **C.** Oui, et le token de sécurité est conservé
+- **D.** Seulement en environment `dev`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : A.** Le kernel est réinitialisé au lieu de redémarrer
+(exécuté : même identifier d'object container).
+
+B est le comportement par défaut. C oublie que les services `kernel.reset` —
+dont le stockage du token — sont réinitialisés. D est faux.
+
+</details>
+
+**Question 6.** Où le service `test.client` est-il disponible ?
+
+- **A.** Dans tous les environments, `dev` compris
+- **B.** Seulement dans les commands de console
+- **C.** Là où `framework.test` est activé
+- **D.** Seulement après un `bootKernel()` explicite dans le test
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : C.** C'est l'option `framework.test`, active en environment
+`test`, qui le déclare.
+
+A, B et D inventent d'autres conditions.
+
+</details>
+
+## Fiche express
+
+**Si tu dois retenir seulement 7 choses :**
+
+- **`request()`** → **`Crawler`** ; **`getResponse()`** → Response.
+- **Pas de redirect suivi** par défaut ; **`followRedirect()`** /
+  **`followRedirects()`**.
+- **`back()`** saute seulement les redirects suivis en mode.
+- **Kernel redémarré** entre deux Requests ; **`disableReboot()`**.
+- **`loginUser()`** : stateful relu en session, stateless perdu.
+- **`catchExceptions(false)`** pour voir l'exception.
+- **Aucun JavaScript** ; **`xmlHttpRequest()`** pour l'AJAX.
+
+**En une phrase, pour tout reconstruire :**
+
+```text
+createClient() = KernelBrowser (test.client) ; request() → Crawler ; redirects : à la main (followRedirect) ou en mode ;
+entre deux Requests : reboot (disableReboot), token perdu sauf session ; catchExceptions(false) ; pas de JS
+```
 
 ## Sources officielles
 
