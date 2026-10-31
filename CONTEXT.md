@@ -4,6 +4,23 @@
 
 ---
 
+## Rédaction pédagogique (ADR-0012) — état au 2026-10-31
+
+**60 pages sur 163** au format pédagogique, toutes déployées (#438 à #452). Le
+2026-10-31, le conteneur de travail a été perdu : 39 brouillons jamais poussés
+ont disparu avec lui (fin du lot 10 : 7 ; lot 11 : 7 ; lot 06 : 14 ; lot 12 :
+9 ; lot 13 : 2). Ils sont à réécrire dans l'ordre du calendrier. Depuis, chaque
+brouillon est commité et poussé dès qu'il existe.
+
+À reprendre, avec leurs constats : F15 (propriétés `loop` sur un iterator,
+lot 06, *Loops and conditions*) et F16 (`relative_path()` sur une URL complète,
+lot 06, *URLs generation*, carte FLC-nj22h67r0w1s) restent à corriger.
+
+**Bloqué : PHP 8.4 absent du nouveau conteneur** (PHP 8.3 seulement). La
+compilation de PHP 8.4 depuis les sources a été refusée par le contrôle de
+sécurité de la session ; elle attend la décision du propriétaire. Les gates du
+dépôt passent sous 8.3 ; `tools/behavior` (Symfony 8.0) ne tourne qu'en CI.
+
 ## En cours : remédiation de l'audit du 2026-10-13 (F1–F10)
 
 Suivi complet, reprenable sans la conversation : `docs/remediation/README.md`.
@@ -61,6 +78,7 @@ Branche de travail : `claude/symfony-8-certification-plan-phmkau`.
 | *Form types*, *Forms rendering with Twig*, *Forms theming*, *CSRF protection* et *Handling file upload* au format pédagogique ; correction F12 (`_self` sans `extends`, une question de compréhension en version 2) ; journal de #448 | #449 | `1449d61` | déploiement réussi mais smoke 123415550507 **échec**, log complet lu : 343 ok, 1 erreur — « p12ft:no-by-reference » : la réécriture de *Form types* a perdu la phrase « ni setter, ni adder, ni remover » lue par le contrôle P1.2 (le contenu `by_reference` est resté, en tableau). Phrase rétablie dans la PR du lot 9 ; smoke de production rejoué localement sur le build avant chaque PR |
 | *Built-in form types*, *Data transformers*, *Form events*, *Form type extensions* et *Form options* au format pédagogique ; corrections F13 (erreur de `RepeatedType` sur `first`) et F14 (`supports()` qui retourne `null`, une question en version 2) ; phrase de *Form types* rétablie ; journal de #449 | #450 | `e693602` | smoke 123450103124 **success, lu en entier** (349 ok, 0 erreur ; P1.2 de nouveau ok ; calendrier « stops at the exam », agenda 583 sessions jusqu'au 2027-03-02, cinq nouvelles lignes « pedagogical ») |
 | *Security Core, CSRF and PasswordHasher components*, *Authentication*, *Authorization*, *Configuration* et *Providers* au format pédagogique ; journal de vote rétabli avant la PR ; débordement des cartes de question à 390 px corrigé (5 sur 50, puis 0) ; journal de #450 | #451 | `c942d47` | smoke 124646528256 **success, lu jusqu'au bout** (354 ok, 0 erreur ; calendrier « stops at the exam », agenda 586 sessions jusqu'au 2027-03-02, cinq nouvelles lignes « pedagogical ») |
+| *Client object*, *Crawler object*, *Profiler object*, *Framework objects access*, *Client configuration*, *Introspection*, *Legacy deprecated code*, *Configuration*, *Error handling* et *Code debugging* au format pédagogique, reconstruits depuis l'historique de session après la perte du conteneur ; journal de #451 | #452 | `0c19183` | smoke 124666358094 **success, lu jusqu'au bout** (364 ok, 0 erreur ; agenda 589 sessions jusqu'au 2027-03-02, dix nouvelles lignes « pedagogical ») |
 
 **Pièges d'examen → flashcards (2026-10-24, livré : #432, `c48317d`).** Les 788
 paragraphes « Pièges d'examen » lus contre toutes les cartes de leur item :
