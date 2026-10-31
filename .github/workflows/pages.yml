@@ -5161,7 +5161,17 @@ jobs:
                       'lot-10/authentication|NullToken|droit ensuite|Fiche express' \
                       'lot-10/authorization|AuditVoter|Demander, voter|Fiche express' \
                       'lot-10/configuration|MainConfiguration|Le premier qui correspond gagne, deux fois|Fiche express' \
-                      'lot-10/providers|InvalidConfigurationException|Charger une fois, relire à chaque fois|Fiche express'; do
+                      'lot-10/providers|InvalidConfigurationException|Charger une fois, relire à chaque fois|Fiche express' \
+                      'lot-13/client-object|Read existing security token|Requêter, rediriger à la main|Fiche express' \
+                      'lot-13/crawler-object-cssselector-and-domcrawler-components|CssSelectorConverter|Traduire, parcourir, partir du bouton|Fiche express' \
+                      'lot-13/profiler-object-webprofiler-bundle|hasCollector|Activé par config, collecté sur demande|Fiche express' \
+                      'lot-13/framework-objects-access|Could not find service|Démarrer, atteindre, doubler avant|Fiche express' \
+                      'lot-13/client-configuration|setServerParameter|Kernel, puis serveur|Fiche express' \
+                      'lot-13/request-and-response-objects-introspection|filterResponse|Interne = navigateur|Fiche express' \
+                      'lot-13/handling-legacy-deprecated-code|ignoreSuppressionOfDeprecations|Silencée, journalisée, corrigée avant la majeure|Fiche express' \
+                      'lot-14/configuration-including-dotenv-and-expressionlanguage-components|DotenvDumpCommand|Compilé ou lu|Fiche express' \
+                      'lot-14/error-handling|error_controller|Configuré, attribué, interfacé, sinon 500|Fiche express' \
+                      'lot-14/code-debugging|config:dump-reference|Voir, rendre, demander|Fiche express'; do
             page=${spec%%|*}
             out="/tmp/ped-${page//\//-}"
             code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
