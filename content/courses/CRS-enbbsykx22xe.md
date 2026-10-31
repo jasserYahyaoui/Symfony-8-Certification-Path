@@ -5,7 +5,8 @@ title: "Providers"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-09-30"
+reviewed_at: "2026-10-29"
+format: pedagogical
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Security/Core/User/UserProviderInterface.php"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Security/Core/User/UserProviderInterface.php"
@@ -41,8 +42,72 @@ outcome_sections:
 
 ## Objectif
 
-Savoir d'où vient l'object user, et quelle method est appelée à quel
-moment.
+Savoir d'où vient l'object user, quelle method du provider est appelée à quel
+moment, et ce qui arrive quand le user change pendant sa session.
+
+## Avant la règle : le problème à résoudre
+
+Les users d'une application vivent quelque part : une table, un annuaire, un
+file, une API. Le firewall, lui, ne sait qu'une chose : l'identifier que le
+visiteur a saisi.
+
+Il faut donc un intermédiaire qui **charge** le user à partir de cet
+identifier. Et une question se pose dès la deuxième Request : faut-il
+**garder** le user de la connexion — avec le risque qu'il ait été supprimé ou
+que ses droits aient changé depuis — ou le **relire** à chaque fois ?
+
+## Le fil rouge : un provider maison
+
+```php
+class FileUserProvider implements UserProviderInterface
+{
+    public function loadUserByIdentifier(string $identifier): UserInterface
+    {
+        $data = $this->all()[$identifier] ?? throw new UserNotFoundException();
+
+        return new InMemoryUser($identifier, $data['pw'], $data['roles']);
+    }
+
+    public function refreshUser(UserInterface $user): UserInterface
+    {
+        return $this->loadUserByIdentifier($user->getUserIdentifier());
+    }
+
+    public function supportsClass(string $class): bool
+    {
+        return InMemoryUser::class === $class;
+    }
+}
+```
+
+```yaml
+security:
+    providers:
+        files: { id: App\Security\FileUserProvider }
+    firewalls:
+        main: { provider: files, http_basic: ~ }
+```
+
+## Le cycle complet en un schéma
+
+```mermaid
+---
+title: Le provider, de la connexion aux Requests suivantes
+---
+flowchart TD
+  accTitle: Quand le firewall appelle chaque method du user provider
+  accDescr: À la connexion, le firewall appelle loadUserByIdentifier. Sur un firewall avec état, chaque Request suivante appelle refreshUser, qui relit le user. S'il a disparu, UserNotFoundException retire le token et le user redevient anonyme. Si son password, ses roles ou son identifier ont changé, le token est abandonné aussi. Sinon la Request continue avec le user rechargé. Un firewall sans état n'appelle jamais refreshUser, seulement loadUserByIdentifier à chaque Request.
+  L["connexion"] --> LU["loadUserByIdentifier()"]
+  LU --> T["token en session"]
+  T --> N["Request suivante, avec état"]
+  N --> R["refreshUser()"]
+  R --> G{"user retrouvé ?"}
+  G -->|"non"| A(["token retiré : anonyme"])
+  G -->|"oui"| C{"password, roles, identifier inchangés ?"}
+  C -->|"non"| A
+  C -->|"oui"| OK(["Request avec le user rechargé"])
+  SL["firewall sans état"] --> LU2["loadUserByIdentifier() à chaque Request"]
+```
 
 ## Le contrat
 
@@ -59,8 +124,7 @@ quel entre deux Requests : il est **rechargé**, puis **comparé** à celui du t
 
 ## Ce que l'exécution montre
 
-Un provider sur mesure, lisant ses users dans un file, déclaré
-`id: App\P13\FileUserProvider` dans une application SecurityBundle 8.0.15 :
+Le provider ci-dessus, dans une application SecurityBundle 8.0.15 :
 
 | Request | Methods appelées | Résultat |
 |---|---|---|
@@ -98,15 +162,6 @@ Available options are "chain", "id", "ldap", "memory". »
 | `chain` | plusieurs providers essayés dans l'ordre |
 | `id` | un service qui implémente `UserProviderInterface` |
 
-```yaml
-security:
-    providers:
-        app_user_provider:
-            entity:
-                class: App\Entity\User
-                property: email
-```
-
 `memory` sert aux tests et aux prototypes ; les passwords y sont écrits en
 clair ou pré-hachés dans la configuration.
 
@@ -114,13 +169,45 @@ clair ou pré-hachés dans la configuration.
 
 Un firewall utilise **un** provider. Quand plusieurs sont déclarés, chaque
 firewall doit désigner le sien par la key `provider`, sinon la configuration est
-ambiguë et échoue.
+ambiguë et échoue (`InvalidConfigurationException`, exécuté).
 
 ## Mettre à jour le hash
 
 Un provider qui implémente `PasswordUpgraderInterface` reçoit le password
 réencodé quand l'algorithme a changé. C'est ce qui rend la migration
 transparente pour le user.
+
+## Concrètement dans ton application
+
+- Une table d'users : le provider `entity`, avec l'intégration
+  Doctrine.
+- Une source maison (API, file) : une class `UserProviderInterface`,
+  branchée par `id`.
+- Des comptes de test : `memory`.
+- Deux sources à essayer : `chain`.
+- Un user banni en cours de session : rien à faire — `refreshUser()` le
+  déconnecte à la Request suivante.
+
+## À comprendre
+
+- **Pourquoi recharger à chaque Request ?** Pour qu'un compte supprimé ou dont
+  les droits ont changé ne garde pas ses accès grâce à une vieille session.
+- **Pourquoi déconnecter quand les roles changent ?** Parce que le token
+  portait des droits calculés à la connexion : en changer en silence serait
+  plus risqué que de demander une nouvelle connexion.
+- **Pourquoi `supportsClass()` ?** Pour que, dans un `chain`, chaque provider
+  ne recharge que les users qu'il sait recharger.
+
+## À mémoriser
+
+- `loadUserByIdentifier()` : connexion ; `refreshUser()` : chaque Request avec
+  état ; jamais sans état.
+- User supprimé : token retiré, anonyme (401 ou redirect), pas 500.
+- Roles, password ou identifier changés : token abandonné.
+- Keys : `memory`, `ldap`, `chain`, `id` ; `entity` avec Doctrine.
+- Plusieurs providers : `provider` par firewall.
+- `PasswordUpgraderInterface` : migration de hash transparente.
+- Moyen mnémotechnique : **« Charger une fois, relire à chaque fois »**.
 
 ## Pièges d'examen
 
@@ -138,13 +225,147 @@ Doctrine. `id` branche un provider maison.
 
 **Plusieurs providers imposent de nommer celui du firewall.**
 
-## Points clés
+## Application : trois scénarios
 
-- `loadUserByIdentifier()` connecte, `refreshUser()` recharge à chaque Request
-  avec état, et un user modifié perd son token.
-- Keys : `memory`, `ldap`, `chain`, `id` ; `entity` avec Doctrine.
-- Un firewall = un provider ; à plusieurs, il faut le désigner.
-- `PasswordUpgraderInterface` rend la migration de hash transparente.
+**Scénario 1 — Le role qui n'arrive pas.** Un admin donne `ROLE_EDITOR` à
+`alice`, connectée ; elle se retrouve déconnectée. *Solution.* C'est voulu :
+`refreshUser()` relit le user, les roles diffèrent, le token est abandonné ;
+elle obtient le nouveau role en se reconnectant.
+
+**Scénario 2 — L'API qui ne rafraîchit jamais.** Un provider journalise
+`refreshUser()`, jamais appelé sur l'API. *Solution.* Le firewall de l'API est
+`stateless: true` : `loadUserByIdentifier()` est appelé à chaque Request.
+
+**Scénario 3 — La configuration refusée.** `providers: { users: { entity: … }
+}` lève « Unrecognized option "entity" ». *Solution.* Le provider `entity` vient
+de l'intégration Doctrine : l'installer, ou brancher un provider maison par
+`id`.
+
+## QCM d'entraînement
+
+Six questions sur les user providers. Choisis avant d'ouvrir la correction.
+
+**Question 1.** Sur un firewall **avec état**, quelle method du provider est appelée à la deuxième Request d'un user connecté ?
+
+- **A.** `loadUserByIdentifier()`, comme à la connexion
+- **B.** `refreshUser()`
+- **C.** Aucune : le user est lu dans la session
+- **D.** `supportsClass()` seulement
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** Exécuté : la Request avec le cookie appelle
+`refreshUser(alice)`.
+
+A décrit la connexion, ou un firewall sans état. C oublie le rechargement. D ne
+charge rien.
+
+</details>
+
+**Question 2.** Un user est supprimé de la source pendant sa session. À sa Request suivante sur une page protégée, que se passe-t-il ?
+
+- **A.** Une erreur 500 : `UserNotFoundException` non attrapée
+- **B.** La page s'affiche avec le user de la session
+- **C.** Le token est retiré : anonyme
+- **D.** La session entière est détruite
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : C.** Exécuté : 401 sur un firewall HTTP Basic.
+`ContextListener` retire seulement la key du token de la session.
+
+A est le piège. B oublie le rechargement. D : les autres données de session
+restent.
+
+</details>
+
+**Question 3.** Un admin ajoute `ROLE_EDITOR` à un user connecté. À la Request suivante, ce user a-t-il le nouveau role ?
+
+- **A.** Non : il est déconnecté, le token est abandonné
+- **B.** Oui : `refreshUser()` relit ses roles
+- **C.** Oui, mais seulement après expiration de la session
+- **D.** Non : les roles sont figés jusqu'au cache clear
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : A.** `hasUserChanged()` compare les roles et abandonne le
+token (exécuté : le user redevient anonyme).
+
+B est le piège : le user est relu, mais comparé. C et D sont faux.
+
+</details>
+
+**Question 4.** Sur un firewall `stateless: true`, combien de fois `refreshUser()` est-il appelé sur deux Requests authentifiées ?
+
+- **A.** Une fois, à la seconde Request
+- **B.** Deux fois
+- **C.** Jamais
+- **D.** Une fois, à la première Request
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : C.** `loadUserByIdentifier()` est appelé à chaque Request
+(exécuté). Sans session, il n'y a rien à rafraîchir.
+
+A, B et D supposent un token gardé entre deux Requests.
+
+</details>
+
+**Question 5.** Une application sans l'intégration Doctrine déclare `providers: { users: { entity: { class: App\Entity\User, property: email } } }`. Résultat ?
+
+- **A.** Le provider est ignoré
+- **B.** Une `InvalidConfigurationException`
+- **C.** Le provider fonctionne avec PDO
+- **D.** Une erreur seulement à la première connexion
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** Exécuté : « Unrecognized option "entity" … Available
+options are "chain", "id", "ldap", "memory". ».
+
+A, C et D supposent que la key est connue.
+
+</details>
+
+**Question 6.** Quelle key de provider branche une class maison qui implémente `UserProviderInterface` ?
+
+- **A.** `custom`
+- **B.** `service`
+- **C.** `class`
+- **D.** `id`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : D.** `id` désigne le service du provider.
+
+A, B et C n'existent pas.
+
+</details>
+
+## Fiche express
+
+**Si tu dois retenir seulement 6 choses :**
+
+- **`loadUserByIdentifier()`** à la connexion ; **`refreshUser()`** à chaque
+  Request **avec état**.
+- **Sans état** : jamais `refreshUser()`, toujours `loadUserByIdentifier()`.
+- User **supprimé** : token retiré, anonyme — pas de 500.
+- **Roles, password ou identifier changés** : token abandonné, reconnexion.
+- Keys : **`memory`, `ldap`, `chain`, `id`** ; `entity` avec Doctrine.
+- Plusieurs providers : **`provider` par firewall**.
+
+**En une phrase, pour tout reconstruire :**
+
+```text
+connexion → loadUserByIdentifier() → token ; Request suivante (avec état) → refreshUser()
+  → disparu ou changé ? token retiré : user rechargé ; sans état → loadUserByIdentifier() à chaque fois
+```
 
 ## Sources officielles
 
