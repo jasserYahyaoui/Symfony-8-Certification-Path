@@ -6,7 +6,7 @@
 
 ## Rédaction pédagogique (ADR-0012) — état au 2026-10-31
 
-**60 pages sur 163** au format pédagogique, toutes déployées (#438 à #452). Le
+**50 pages sur 163** au format pédagogique, toutes déployées (#438 à #452). Le
 2026-10-31, le conteneur de travail a été perdu : 39 brouillons jamais poussés
 ont disparu avec lui (fin du lot 10 : 7 ; lot 11 : 7 ; lot 06 : 14 ; lot 12 :
 9 ; lot 13 : 2). Ils sont à réécrire dans l'ordre du calendrier. Depuis, chaque
