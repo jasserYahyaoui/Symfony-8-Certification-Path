@@ -226,7 +226,7 @@ symptôme est déroutant : cela fonctionne en test et échoue en production.
 
 ## Concrètement dans ton application
 
-- Un objet introuvable : `throw $this->createNotFoundException()`, jamais une
+- Un object introuvable : `throw $this->createNotFoundException()`, jamais une
   `RuntimeException`.
 - Une exception métier qui doit dire 409 : `#[WithHttpStatus(409)]`, ou
   `framework.exceptions` si la class n'est pas à toi.
@@ -238,13 +238,13 @@ symptôme est déroutant : cela fonctionne en test et échoue en production.
 
 ## À comprendre
 
-- **Pourquoi tout passer par des exceptions ?** Un seul chemin — `kernel.exception`,
+- **Pourquoi tout passer par des exceptions ?** Un seul path — `kernel.exception`,
   puis le rendu — traite tous les cas, du 404 à l'erreur fatale.
 - **Pourquoi le message n'est-il jamais lu ?** Un message est du texte pour un
   humain ; le statut doit venir d'un contrat explicite : interface, attribute,
   configuration.
 - **Pourquoi la page de dev n'apparaît-elle jamais en prod ?** Elle expose la
-  trace, les chemins et les journaux : c'est le debug, et non un réglage, qui
+  trace, les paths et les journaux : c'est le debug, et non un réglage, qui
   l'active.
 
 ## À mémoriser

@@ -215,7 +215,7 @@ entièrement.
 
 ## À comprendre
 
-- **Pourquoi `HTTP_` ?** Le client remplit le tableau `$_SERVER` simulé, et PHP
+- **Pourquoi `HTTP_` ?** Le client remplit l'array `$_SERVER` simulé, et PHP
   y range les headers sous la convention CGI ; HttpFoundation reconstruit les
   headers à partir de ces keys.
 - **Pourquoi deux niveaux ?** Le client garde un état — host, user agent — pour
@@ -258,7 +258,7 @@ préfixé et en majuscules.
 soumet ; le form est déclaré invalide. *Solution.* `$session->save()` manquait :
 la Request n'a pas vu le token.
 
-**Scénario 3 — Le second domaine.** Tout le test vise `en.example.com`, sauf une
+**Scénario 3 — Le second host.** Tout le test vise `en.example.com`, sauf une
 Request qui doit viser `fr.example.com`. *Solution.* Le 5ᵉ argument de cette
 Request : il l'emporte pour elle seule, et la suivante revient au host du
 client.

@@ -306,7 +306,7 @@ A vaut pour `collect: false`. B et D sont faux.
 
 </details>
 
-**Question 5.** Selon la documentation, que devrait tester en priorité un
+**Question 5.** Selon la documentation, que devrait tester d'abord un
 functional test ?
 
 - **A.** Les données du profiler

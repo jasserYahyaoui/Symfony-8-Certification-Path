@@ -183,9 +183,9 @@ le même test :
 
 | Configuration | Résultat |
 |---|---|
-| `failOnDeprecation="true"` seul | `OK`, code de sortie `0` |
+| `failOnDeprecation="true"` seul | `OK`, exit code `0` |
 | `<source ignoreSuppressionOfDeprecations="true">` | la deprecation est listée ; code `0` |
-| les deux | la deprecation est listée ; code de sortie `1` |
+| les deux | la deprecation est listée ; exit code `1` |
 
 ## Les corriger
 

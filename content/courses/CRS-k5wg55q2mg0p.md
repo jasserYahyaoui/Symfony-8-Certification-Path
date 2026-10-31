@@ -36,7 +36,7 @@ authentication.
 
 ## Avant la règle : le problème à résoudre
 
-Un test doit se connecter, ouvrir « Mes commandes », suivre la redirection qui
+Un test doit se connecter, ouvrir « Mes achats », suivre le redirect qui
 suit une annulation, puis revenir en arrière. Un vrai navigateur ferait cela
 lentement, et il faudrait un serveur web.
 
@@ -45,7 +45,7 @@ qu'il **rend** à chaque Request, comment il traite les **redirects** — pas
 comme un navigateur ordinaire —, et ce qui se passe **entre deux Requests** :
 kernel redémarré, token de sécurité effacé.
 
-## Le fil rouge : annuler une commande
+## Le fil rouge : annuler un achat
 
 ```php
 $client = static::createClient();
@@ -67,7 +67,7 @@ title: Deux Requests avec le client de test
 ---
 flowchart TD
   accTitle: Ce que fait le client de test entre et pendant les Requests
-  accDescr: request construit une Request en mémoire, la passe au kernel et rend un Crawler ; la Response se lit par getResponse. Une Response de redirection n'est pas suivie par défaut : followRedirect la suit une fois, followRedirects change le mode pour les suivantes. Avant la Request suivante, le kernel redémarre et le container est reconstruit, sauf après disableReboot ; le token en mémoire est perdu, mais un firewall avec état le relit dans la session, contrairement à un firewall stateless.
+  accDescr: request construit une Request en mémoire, la passe au kernel et rend un Crawler ; la Response se lit par getResponse. Une Response de redirect n'est pas suivie par défaut : followRedirect la suit une fois, followRedirects change le mode pour les suivantes. Avant la Request suivante, le kernel redémarre et le container est reconstruit, sauf après disableReboot ; le token en mémoire est perdu, mais un firewall avec état le relit dans la session, contrairement à un firewall stateless.
   R1["request('GET', '/orders')"] --> K1["kernel : Request en mémoire, aucun serveur"]
   K1 --> C(["Crawler ; getResponse() pour la Response"])
   C --> RD{"redirect ?"}
@@ -194,7 +194,7 @@ appelle alors `reset()` sur les services marqués `kernel.reset`. Cela efface
 `kernel.reset` du service concerné par un compiler pass en environment
 de test.
 
-Rejoué : deux Requests, deux identifiants d'object container différents ; après
+Rejoué : deux Requests, deux identifiers d'object container différents ; après
 `disableReboot()`, le même ; et avec un firewall avec état, le journal montre
 « Read existing security token from the session » à la seconde Request, qui
 voit toujours `alice`.
@@ -225,7 +225,7 @@ elle-même après `catchExceptions(false)`.
 
 - Lire le contenu : le `Crawler` rendu par `request()` ; le code et les headers :
   `getResponse()`.
-- Un formulaire qui redirige : `assertResponseRedirects()`, puis
+- Un form qui redirige : `assertResponseRedirects()`, puis
   `followRedirect()` — ou `followRedirects()` avant la Request.
 - Un espace membre : `loginUser($user)`, pas le form de connexion.
 - Un test qui échoue sur un 500 muet : `catchExceptions(false)` le temps de
@@ -236,10 +236,10 @@ elle-même après `catchExceptions(false)`.
 ## À comprendre
 
 - **Que gagne-t-on à ne pas suivre les redirects ?** Le test voit la Response
-  de redirection et peut l'assertir ; la suivre devient un choix explicite.
+  de redirect et peut l'assertir ; la suivre devient un choix explicite.
 - **Pourquoi redémarrer le kernel entre deux Requests ?** Pour isoler chaque
   Request : chacune repart d'un container neuf.
-- **Pourquoi un firewall avec état garde-t-il l'utilisateur ?** `loginUser()`
+- **Pourquoi un firewall avec état garde-t-il le user ?** `loginUser()`
   écrit aussi le token dans la session, que le firewall relit à la Request
   suivante.
 
@@ -375,7 +375,7 @@ utilise-t-elle le même container ?
 <summary>Correction</summary>
 
 **Bonne réponse : A.** Le kernel est réinitialisé au lieu de redémarrer
-(exécuté : même identifiant d'object container).
+(exécuté : même identifier d'object container).
 
 B est le comportement par défaut. C oublie que les services `kernel.reset` —
 dont le stockage du token — sont réinitialisés. D est faux.

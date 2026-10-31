@@ -42,8 +42,8 @@ c'est le component qui donne au test l'accès au HTML.
 
 ## Avant la règle : le problème à résoudre
 
-Un test fonctionnel a reçu la page `/products`. Il doit vérifier le titre, lire
-chaque lien de la liste, puis cliquer sur « Supprimer ». Chercher des chaînes
+Un functional test a reçu la page `/products`. Il doit vérifier le titre, lire
+chaque lien de la liste, puis cliquer sur « Supprimer ». Chercher des strings
 dans le HTML brut casse au premier espace ajouté par un template.
 
 Le **crawler** donne au test un accès structuré au document. Trois questions :
@@ -72,7 +72,7 @@ $client->submit($form);
 title: Du HTML rendu à la Request suivante
 ---
 flowchart TD
-  accTitle: Ce que fait le crawler, du selector à la soumission
+  accTitle: Ce que fait le crawler, du selector à la submission
   accDescr: filter reçoit un selector CSS, que CssSelector traduit en XPath ; sans ce component, filter lève une LogicException, alors que filterXpath reçoit directement une expression XPath. Chaque method de parcours rend un nouveau Crawler. text et attr lisent le premier node, extract et each lisent tous les nodes. selectButton puis form construit un Form qui envoie ce bouton et applique son formaction et son formmethod ; form sur l'élément form n'envoie aucun bouton ; form sur un input ordinaire lève une LogicException. Le client soumet le Form.
   CSS["filter('h1.title')"] --> CS["CssSelector : traduit en XPath"]
   CS --> SEL(["sous-ensemble de nodes : un nouveau Crawler"])
@@ -102,15 +102,15 @@ d'écrire `h1.title` là où il faudrait sinon une expression XPath complète.
 
 Exécuté avec CssSelector 8.0.9 — la dernière version 8.0 du component, installée
 avec Symfony 8.0.15 —, `(new CssSelectorConverter())->toXPath('h1.title')` rend
-une **chaîne** :
+une **string** :
 
 ```text
 descendant-or-self::h1[@class and contains(concat(' ', normalize-space(@class), ' '), ' title ')]
 ```
 
 Lu dans `Crawler::filter()` (8.0) : la method crée le convertisseur, appelle
-`toXPath()`, puis filtre avec l'expression obtenue — le même chemin que
-`filterXpath()`.
+`toXPath()`, puis appelle `filterRelativeXPath()` avec l'expression obtenue,
+déjà relative puisqu'elle commence par `descendant-or-self::`.
 
 ## Sélectionner
 
@@ -268,7 +268,7 @@ lève `InvalidArgumentException`, qui liste les valeurs possibles.
 - **Pourquoi deux components ?** Parcourir un DOM et traduire un langage de
   selectors sont deux métiers : DomCrawler ne parle qu'XPath, CssSelector lui
   fournit l'XPath.
-- **Pourquoi `text()` ne lit-il qu'un node ?** Il rend une seule chaîne ; pour
+- **Pourquoi `text()` ne lit-il qu'un node ?** Il rend une seule string ; pour
   plusieurs nodes, `extract()` et `each()` rendent un array.
 - **Pourquoi partir du bouton ?** Le navigateur envoie le bouton cliqué, avec
   sa cible et sa method propres ; seul un `Form` construit depuis ce bouton les
@@ -327,14 +327,14 @@ Six questions sur le crawler. Choisis avant d'ouvrir la correction.
 **Question 1.** Que rend `(new CssSelectorConverter())->toXPath('h1.title')` ?
 
 - **A.** Un `Crawler` limité aux titres `h1.title`
-- **B.** Une chaîne : l'expression XPath équivalente
-- **C.** Un tableau des nodes `h1` qui portent la classe
+- **B.** Une string : l'expression XPath équivalente
+- **C.** Un tableau des nodes `h1` qui portent la class
 - **D.** `true` si le selector est valide, `false` sinon
 
 <details>
 <summary>Correction</summary>
 
-**Bonne réponse : B.** Exécuté : la chaîne
+**Bonne réponse : B.** Exécuté : la string
 `descendant-or-self::h1[@class and contains(…)]`. CssSelector ne lit aucun
 document.
 
@@ -420,7 +420,7 @@ A, B et D restreignent une recherche plus large.
 
 </details>
 
-**Question 6.** Le field `size` est un groupe de deux radio buttons, `M` et
+**Question 6.** Le field `size` réunit deux radio buttons, `M` et
 `L`. Comment le test choisit-il `L` ?
 
 - **A.** `$form['size']->tick('L')`

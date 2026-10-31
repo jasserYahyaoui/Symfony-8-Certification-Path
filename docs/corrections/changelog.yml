@@ -1866,3 +1866,101 @@ entries:
         sections: ["Les methods", "Options lazy", "Validation, puis normalization", "QCM d'entraînement", "Fiche express"]
     flashcards: []
     questions: []
+
+  - id: CVR-r8z8gd9nr6bf
+    date: '2026-10-31'
+    pull_request: 451
+    commit: 'c942d47'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-942znmbjwvad]
+    facts: []
+    title: "Security Core, CSRF and PasswordHasher components : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur trois `composer require`. Faits lus dans les `composer.json`
+      8.0 et vérifiés par une résolution réelle : `password-hasher` ne requiert aucun autre package de
+      security, et `security-core` dépend de lui ; le comportement de `PasswordHasherFactory`.
+    courses:
+      - id: CRS-awb7sd999c5j
+        sections: ["Qui dépend de qui", "Pourquoi la séparation compte", "Ce qui vit dans `security-core`", "QCM d'entraînement", "Fiche express"]
+    flashcards: []
+    questions: []
+
+  - id: CVR-njm2fawxwkdz
+    date: '2026-10-31'
+    pull_request: 451
+    commit: 'c942d47'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-z9c24d68et6w]
+    facts: []
+    title: "Authentication : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur un firewall `main`. Faits exécutés et repris : un firewall
+      sans état ne pose aucun cookie, et la Request suivante répond 401 ; un firewall avec état relit le
+      token dans la session ; la connexion change l'ID de session et garde ses données ; l'entry point
+      répond à l'anonyme, un user connu sans le droit reçoit le 403 « Access Denied ».
+    courses:
+      - id: CRS-rdzx4ka72saj
+        sections: ["Pas de token sans user", "Avec ou sans état", "Ce que le controller voit", "QCM d'entraînement", "Fiche express"]
+    flashcards: []
+    questions: []
+
+  - id: CVR-3k79h9dsby3b
+    date: '2026-10-31'
+    pull_request: 451
+    commit: 'c942d47'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-3qgn13f7zvqx]
+    facts: []
+    title: "Authorization : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur la modification d'un article. Faits exécutés et repris, avec
+      deux voters : `affirmative` ne consulte que `A` et accorde (journal `A.supports(EDIT)`, `A.vote`) ;
+      un voter dont `supports()` refuse s'abstient ; des abstentions seules donnent `false` par défaut.
+    courses:
+      - id: CRS-8hwpzyk1hrq9
+        sections: ["La question posée", "Le path", "Le sujet", "QCM d'entraînement", "Fiche express"]
+    flashcards: []
+    questions: []
+
+  - id: CVR-fk6vm6d0mzrp
+    date: '2026-10-31'
+    pull_request: 451
+    commit: 'c942d47'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-xh63g15rz6n3]
+    facts: []
+    title: "Configuration (Security) : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur un `security.yaml` complet. Faits exécutés et repris : le
+      premier firewall qui correspond prend la Request, sans erreur signalée ; `security: false`
+      n'installe aucun `AccessListener` ; la première règle `access_control` qui correspond s'applique ;
+      un provider ambigu est refusé (« … is ambiguous as there is more than one »).
+    courses:
+      - id: CRS-yvhg325ax38y
+        sections: ["Les deux règles d'ordre", "Plusieurs providers", "Ce que l'échec révèle", "QCM d'entraînement", "Fiche express"]
+    flashcards: []
+    questions: []
+
+  - id: CVR-e8tvrh8fpdha
+    date: '2026-10-31'
+    pull_request: 451
+    commit: 'c942d47'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-45p7535dk4s2]
+    facts: []
+    title: "Providers : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur un provider maison. Faits exécutés et repris : quand le
+      firewall appelle `loadUserByIdentifier()` et `refreshUser()` ; `hasUserChanged()` abandonne le
+      token quand les roles changent ; rien n'est rafraîchi sans session ; `entity` est refusé sans
+      l'intégration Doctrine (« Unrecognized option "entity" … »).
+    courses:
+      - id: CRS-enbbsykx22xe
+        sections: ["Ce que l'exécution montre", "Les providers fournis", "Provider et firewall", "QCM d'entraînement", "Fiche express"]
+    flashcards: []
+    questions: []

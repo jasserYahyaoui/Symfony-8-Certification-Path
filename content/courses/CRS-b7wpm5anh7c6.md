@@ -127,7 +127,7 @@ parameters de l'application de ceux de Symfony.
 
 Rejoué pour cette page avec DependencyInjection 8.0.15, un file YAML chargé
 puis compilé : `!php/enum` donne **le case lui-même** — l'object enum, identique
-à `PostState::Published` — et `!php/const` la valeur de la constante, `7`.
+à `PostState::Published` — et `!php/const` la valeur de la constant, `7`.
 
 Un `%` littéral se **double** : `%%s` produit `%s`. Sans cela, Symfony y verrait
 un nom de parameter. Exécuté : `'a %%s b'` est lu `a %s b`.
@@ -266,7 +266,7 @@ d'authorization.
 - **Pourquoi deux mécanismes ?** Le container compilé est figé ; ce qui doit
   varier d'une machine à l'autre doit être lu après la compilation.
 - **Pourquoi la vraie variable gagne-t-elle ?** Les files `.env` sont des
-  valeurs par défaut pour le développement ; le serveur, lui, sait.
+  default values pour le développement ; le serveur, lui, sait.
 - **Pourquoi `.env.local` est-il ignoré en test ?** Un réglage de poste ne doit
   pas changer le résultat des tests d'un développeur à l'autre.
 

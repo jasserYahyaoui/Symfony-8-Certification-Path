@@ -95,7 +95,7 @@ title: Où part un dump() selon le contexte
 flowchart TD
   accTitle: La destination d'un appel à dump selon le contexte
   accDescr: dump affiche une valeur et la rend ; dd affiche puis arrête le script. Si server:dump tourne, les données lui sont envoyées. Sinon, avec DebugBundle, le dump part dans la debug toolbar, et revient sur l'output si la barre ne peut pas s'afficher. Sans DebugBundle, en production, la function existe toujours, car FrameworkBundle exige ErrorHandler qui exige VarDumper ; le dump est écrit avant la Response, dont les headers sont perdus.
-  D["dump($x)"] --> RET(["rend $x : la chaîne continue"])
+  D["dump($x)"] --> RET(["rend $x : la suite des appels continue"])
   DD["dd($x)"] --> STOP(["affiche, puis arrête le script"])
   D --> SRV{"server:dump lancé ?"}
   SRV -->|"oui"| S(["envoyé au serveur de dump"])
@@ -169,7 +169,7 @@ envoie alors ses propres headers, et ceux de la Response sont perdus. Pas
 d'erreur fatale, donc, mais une Response corrompue — fatale pour une API JSON.
 
 Rejoué pour cette page sur le même serveur : 200, headers `X-Powered-By` et
-`Content-type` de PHP seulement, et le corps commence par le script `Sfdump`,
+`Content-type` de PHP seulement, et le body commence par le script `Sfdump`,
 avant le contenu de la Response.
 
 ## Interroger l'application
@@ -215,7 +215,7 @@ contiennent `Clock`, avec leur alias : `Psr\Clock\ClockInterface - alias:clock`.
 - Une option « ignorée » : `debug:config` pour la valeur retenue,
   `config:dump-reference` pour les valeurs possibles.
 - Un type à injecter : `debug:autowiring <mot>`.
-- Avant un déploiement : chercher les `dump(` et `dd(` oubliés — ils ne
+- Avant un deployment : chercher les `dump(` et `dd(` oubliés — ils ne
   plantent pas, ils corrompent.
 
 ## À comprendre
@@ -254,7 +254,7 @@ file.
 
 ## Application : trois scénarios
 
-**Scénario 1 — L'API cassée en recette.** Une API répond du JSON invalide qui
+**Scénario 1 — L'API cassée en préproduction.** Une API répond du JSON invalide qui
 commence par `<script> Sfdump`. *Solution.* Un `dump()` est resté dans le code :
 le retirer ; pendant le développement, `server:dump` garde les Responses
 propres.
@@ -309,7 +309,7 @@ décrivent pas une extension.
 
 </details>
 
-**Question 3.** Un développeur cherche quel service injecter pour une horloge.
+**Question 3.** Un développeur cherche quel service injecter pour une clock.
 Quelle command filtre les types autowirables par un mot ?
 
 - **A.** `debug:container --tag=clock`
@@ -332,7 +332,7 @@ A filtre par tag, pas par type. C liste des routes. D attend une extension.
 
 - **A.** Une erreur 500 : `dump()` n'existe pas
 - **B.** Le JSON intact : le dump est ignoré hors environment de dev
-- **C.** Un 200 dont le corps commence par le dump HTML
+- **C.** Un 200 dont le body commence par le dump HTML
 - **D.** Une page vide : le dump interrompt le script
 
 <details>
@@ -359,7 +359,7 @@ correspond ?
 **Bonne réponse : D.** Exécuté : *Route "…" does not match: Path "/public"
 does not match*, route par route.
 
-A est la sortie sans `-v`. B et C sont faux.
+A est l'output sans `-v`. B et C sont faux.
 
 </details>
 
