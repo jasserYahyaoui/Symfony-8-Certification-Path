@@ -1964,3 +1964,208 @@ entries:
         sections: ["Ce que l'exécution montre", "Les providers fournis", "Provider et firewall", "QCM d'entraînement", "Fiche express"]
     flashcards: []
     questions: []
+
+  - id: CVR-mryn8xny1vj0
+    date: '2026-10-31'
+    pull_request: 452
+    commit: '0c19183'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-bc3brs4a4mtt]
+    facts: []
+    title: "Client object : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur l'annulation d'un achat. Faits exécutés et repris :
+      `request()` rend un `Crawler` ; le client de test ne suit pas les redirects, alors que
+      l'`AbstractBrowser` de BrowserKit les suit ; `back()` ne saute que les redirects suivis en mode
+      `followRedirects()` ; le kernel redémarre entre deux Requests ; un firewall avec état relit le token
+      dans la session, un firewall `stateless` non.
+    courses:
+      - id: CRS-k5wg55q2mg0p
+        sections: ["Faire une Request", "Les redirects", "Plusieurs Requests dans un test", "QCM d'entraînement", "Fiche express"]
+    flashcards: []
+    questions: []
+
+  - id: CVR-mq84qmtg0y8p
+    date: '2026-10-31'
+    pull_request: 452
+    commit: '0c19183'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-se21g2xv6h4r]
+    facts: []
+    title: "Crawler object : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur la liste des produits. Faits exécutés et repris : `toXPath()`
+      rend une string ; `previousAll()` liste du plus proche au plus lointain ; `eq(5)` sur trois nodes
+      rend un crawler vide, sans exception ; le `formaction` et le `formmethod` du bouton sélectionné
+      s'appliquent ; `selectButton()` compare aussi `value`, `id`, `name` et l'`alt` d'une image ;
+      `tick()` refuse un radio button.
+    courses:
+      - id: CRS-zg5jg6hqp2mj
+        sections: ["Deux components, un role chacun", "Parcourir", "Extraire", "Cliquer et soumettre", "QCM d'entraînement", "Fiche express"]
+    flashcards: []
+    questions: []
+
+  - id: CVR-ybfb04br25zg
+    date: '2026-10-31'
+    pull_request: 452
+    commit: '0c19183'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-t0qx5z264tyf]
+    facts: []
+    title: "Profiler object : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur un budget de temps. Faits exécutés et repris : `getProfile()`
+      rend `false` avant toute Request ; `enableProfiler()` appelée après la Request laisse `null`, et la
+      suivante est profilée ; un collector inconnu lève une `InvalidArgumentException` ; `hasCollector()`
+      ; `getDuration()` en millisecondes.
+    courses:
+      - id: CRS-0x4v9jaz4cnq
+        sections: ["Deux réglages, pas un", "Lire un collector", "QCM d'entraînement", "Fiche express"]
+    flashcards: []
+    questions: []
+
+  - id: CVR-bqy385d8d1zr
+    date: '2026-10-31'
+    pull_request: 452
+    commit: '0c19183'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-mtbcyaax2xsk]
+    facts: []
+    title: "Framework objects access : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur une newsletter sans base de données. Faits exécutés et repris
+      : `$client->getContainer()` est le même `TestContainer` que `static::getContainer()` ; sans
+      `framework.test`, `LogicException` « Could not find service "test.service_container" » ;
+      `bootKernel()` rend le kernel ; une `getKernelClass()` redéfinie l'emporte sur un `KERNEL_CLASS`
+      invalide.
+    courses:
+      - id: CRS-g8v45328cg95
+        sections: ["Démarrer le kernel", "Le container de test", "Depuis un test d'application", "QCM d'entraînement", "Fiche express"]
+    flashcards: []
+    questions: []
+
+  - id: CVR-6ftekvqsw4gz
+    date: '2026-10-31'
+    pull_request: 452
+    commit: '0c19183'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-bswvewkkkj1q]
+    facts: []
+    title: "Client configuration : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur un site sur `en.example.com`. Faits exécutés et repris : les
+      parameters serveur d'une Request l'emportent sur ceux du client, pour elle seule ;
+      `setServerParameter()` change les suivantes ; `HTTP_AUTHORIZATION` arrive comme `Authorization` ; un
+      cookie se pose par `getCookieJar()`.
+    courses:
+      - id: CRS-4x4ec26c9bfc
+        sections: ["La règle de nommage des headers", "Par Request plutôt que par client", "Les cookies", "QCM d'entraînement", "Fiche express"]
+    flashcards: []
+    questions: []
+
+  - id: CVR-tgxpb5r18vfc
+    date: '2026-10-31'
+    pull_request: 452
+    commit: '0c19183'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-bzkq4e7wks9a]
+    facts: []
+    title: "Request and response objects introspection : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur une page qui redirige. Faits exécutés et repris :
+      `getCrawler()` rend le crawler de `request()` ; la Response BrowserKit a `getHeader()`, pas
+      `headers` ; un 302 suivi envoie un `GET`, un 307 garde le `POST` et ses parameters ; le
+      `_controller` d'un controller invocable est la class seule.
+    courses:
+      - id: CRS-xkp7v8142jt1
+        sections: ["Les deux couches", "Les autres objects internes", "Introspecter la Request", "Après un redirect", "QCM d'entraînement", "Fiche express"]
+    flashcards: []
+    questions: []
+
+  - id: CVR-e75kq4r0944c
+    date: '2026-10-31'
+    pull_request: 452
+    commit: '0c19183'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-vj24gwq6r1r4]
+    facts: []
+    title: "Handling legacy deprecated code : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur un appel déprécié dans une bibliothèque. Faits exécutés et
+      repris : le handler ne lève jamais d'exception pour une deprecation, même avec `throwAt(E_ALL)` ;
+      associer `E_USER_DEPRECATED` au niveau `error` change le niveau de journal ; PHPUnit 11.5 ne liste
+      une deprecation silencée qu'avec `<source ignoreSuppressionOfDeprecations="true">`, et échoue alors
+      avec `failOnDeprecation` (code 1) — une précision : « PHPUnit ne montre aucune deprecation » vaut
+      par défaut.
+    courses:
+      - id: CRS-fak8bf9014br
+        sections: ["Une notice, et elle est silencée", "Les voir", "QCM d'entraînement", "Fiche express"]
+    flashcards: []
+    questions: []
+
+  - id: CVR-k8zcqbjm8zrp
+    date: '2026-10-31'
+    pull_request: 452
+    commit: '0c19183'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-tvc5rjv6qvse]
+    facts: []
+    title: "Configuration (DotEnv, ExpressionLanguage) : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur une application sur quatre machines. Faits exécutés et repris
+      : `bootEnv()` fixe `APP_DEBUG` (`1` en dev, `0` en prod) et ignore le `.env.local.php` quand une
+      vraie variable `APP_ENV` en désigne un autre ; `dotenv:dump` n'est pas enregistrée par défaut ;
+      `!php/enum` donne le case lui-même ; `~` concatène en ExpressionLanguage. La version du component
+      est désormais celle du dernier tag 8.0, 8.0.14.
+    courses:
+      - id: CRS-b7wpm5anh7c6
+        sections: ["Les parameters", "La cascade `.env`", "ExpressionLanguage", "QCM d'entraînement", "Fiche express"]
+    flashcards: []
+    questions: []
+
+  - id: CVR-1gebecc1hwc7
+    date: '2026-10-31'
+    pull_request: 452
+    commit: '0c19183'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-kv7mbksn7m8v]
+    facts: []
+    title: "Error handling : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur le produit introuvable. Faits exécutés et repris : par un vrai
+      front controller (Runtime), un avertissement donne 500 en debug et 200 sans ; l'aperçu
+      `/_error/{code}.{_format}`, JSON compris ; `createNotFoundException()` doit être levée ; les
+      variables passées par `TwigErrorRenderer` ; `framework.error_controller`.
+    courses:
+      - id: CRS-fppjrr6r23tk
+        sections: ["Tout est une exception", "Deux affichages, selon l'environment", "Le status code", "Quatre niveaux d'intervention", "Surcharger un template", "QCM d'entraînement", "Fiche express"]
+    flashcards: []
+    questions: []
+
+  - id: CVR-w41gtg8cdgys
+    date: '2026-10-31'
+    pull_request: 452
+    commit: '0c19183'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-xgrbftkj67ds]
+    facts: []
+    title: "Code debugging : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur le total du panier. Faits exécutés et repris : `dump()` rend
+      sa valeur, et plusieurs valeurs sous forme d'array ; `config:dump-reference` face à `debug:config` ;
+      `debug:autowiring <mot>` ; un `dump()` oublié en prod revérifié par un serveur web.
+    courses:
+      - id: CRS-wf523wdsg2xp
+        sections: ["`dump()` plutôt que `var_dump()`", "Un `dump()` oublié en production", "Interroger l'application", "QCM d'entraînement", "Fiche express"]
+    flashcards: []
+    questions: []
