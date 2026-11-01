@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "33fbe8cd90f3268cc92b92e322aeac94",
+    "content-hash": "41eb62a49fb2a1fbf1679e967ce38afe",
     "packages": [
         {
             "name": "psr/cache",
@@ -957,20 +957,20 @@
         },
         {
             "name": "symfony/dom-crawler",
-            "version": "v8.1.5",
+            "version": "v8.0.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dom-crawler.git",
-                "reference": "94f70e1b2e5b7b8f8618871fd9eaad3e39e9f03d"
+                "reference": "011b0ce60417f6d40052434d8ae6295b876ecbdd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dom-crawler/zipball/94f70e1b2e5b7b8f8618871fd9eaad3e39e9f03d",
-                "reference": "94f70e1b2e5b7b8f8618871fd9eaad3e39e9f03d",
+                "url": "https://api.github.com/repos/symfony/dom-crawler/zipball/011b0ce60417f6d40052434d8ae6295b876ecbdd",
+                "reference": "011b0ce60417f6d40052434d8ae6295b876ecbdd",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.4.1",
+                "php": ">=8.4",
                 "symfony/polyfill-ctype": "^1.8",
                 "symfony/polyfill-mbstring": "^1.0"
             },
@@ -1003,7 +1003,7 @@
             "description": "Eases DOM navigation for HTML and XML documents",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/dom-crawler/tree/v8.1.5"
+                "source": "https://github.com/symfony/dom-crawler/tree/v8.0.12"
             },
             "funding": [
                 {
@@ -1023,7 +1023,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-08-21T17:47:34+00:00"
+            "time": "2026-05-20T07:22:03+00:00"
         },
         {
             "name": "symfony/dotenv",
@@ -2244,20 +2244,20 @@
         },
         {
             "name": "symfony/password-hasher",
-            "version": "v8.1.0",
+            "version": "v8.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/password-hasher.git",
-                "reference": "6934d16beaa4677f2c4584229fff1b51099dd7af"
+                "reference": "57ee968d3c38301ed3e5b838f850a10f2d06a7f6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/password-hasher/zipball/6934d16beaa4677f2c4584229fff1b51099dd7af",
-                "reference": "6934d16beaa4677f2c4584229fff1b51099dd7af",
+                "url": "https://api.github.com/repos/symfony/password-hasher/zipball/57ee968d3c38301ed3e5b838f850a10f2d06a7f6",
+                "reference": "57ee968d3c38301ed3e5b838f850a10f2d06a7f6",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.4.1"
+                "php": ">=8.4"
             },
             "require-dev": {
                 "symfony/console": "^7.4|^8.0",
@@ -2293,7 +2293,7 @@
                 "password"
             ],
             "support": {
-                "source": "https://github.com/symfony/password-hasher/tree/v8.1.0"
+                "source": "https://github.com/symfony/password-hasher/tree/v8.0.8"
             },
             "funding": [
                 {
@@ -2313,7 +2313,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-05-29T05:06:50+00:00"
+            "time": "2026-03-30T15:14:47+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
