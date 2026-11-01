@@ -229,7 +229,7 @@ La signature 8.0, lue dans `UserCheckerInterface` :
 
 - La class : `UserInterface` + `PasswordAuthenticatedUserInterface` si elle a
   un password.
-- L'identifier : l'email ou le login, ce que l'utilisateur tape.
+- L'identifier : l'email ou le login, ce que le user tape.
 - `ROLE_USER` : à ajouter soi-même dans `getRoles()`.
 - Les secrets en clair : hors de `__serialize()`, plus d'`eraseCredentials()`.
 - Un nouveau role : il vaut à la prochaine connexion.

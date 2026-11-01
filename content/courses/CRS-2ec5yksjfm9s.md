@@ -180,7 +180,7 @@ role et une expression, un role et un état d'authentication —, la strategy
 décide : « ou » en `affirmative`, « et » en `unanimous`. La documentation
 l'avertit pour `roles` + `allow_if`.
 
-Rejoué pour cette page : les quatre lignes du tableau donnent les mêmes codes.
+Rejoué pour cette page : les quatre lignes ci-dessus donnent les mêmes codes.
 
 Dans `allow_if`, l'expression voit la Request sous `request`. Rejoué,
 `allow_if: "request.headers.has('X-Secure-Access')"` sans `roles` : 200 avec ce

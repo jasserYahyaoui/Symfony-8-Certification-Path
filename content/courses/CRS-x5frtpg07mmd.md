@@ -55,7 +55,7 @@ et savoir **quelle zone** traite une Request donnée.
 Trois questions : **lequel** des firewalls s'applique, **ce qu'il porte** avec
 lui, et ce que changent `lazy`, `stateless`, `context` et `security: false`.
 
-On suppose connus les principes de l'authentication et le fichier
+On suppose connus les principes de l'authentication et le file
 `security.yaml`.
 
 ## Le fil rouge : trois zones
@@ -334,7 +334,7 @@ Request suivante arrive sans credentials. Que voit-elle ?
 
 - **A.** `alice`, relue depuis la session
 - **B.** Un user anonyme
-- **C.** `alice`, mise en cache par le provider
+- **C.** `alice`, servie par un cache du provider
 - **D.** Une erreur : un firewall sans état exige un token
 
 <details>
@@ -407,7 +407,7 @@ A, B et D n'existent pas sous ces noms.
 
 - **Un seul firewall** : le premier dont le matcher correspond.
 - **Sans `pattern` ni `host`** : il attrape tout, donc **en dernier**.
-- **`methods`** seul ne filtre rien.
+- **`methods`** seul ne restreint rien.
 - Un **contexte de session par firewall** ; **`context`** pour partager.
 - **`loginUser()`** prend le **contexte**.
 - **`stateless`** : pas de session ; **`lazy`** ignoré.

@@ -47,7 +47,7 @@ pas sans demander aux users de changer de password.
 
 ## Avant la règle : le problème à résoudre
 
-Une application reprend une base d'utilisateurs dont les passwords sont des
+Une application reprend une base de users dont les passwords sont des
 condensats `sha256` maison. Elle doit hacher les nouveaux comptes avec un
 algorithme moderne, continuer à accepter les anciens, et les convertir au fil
 des connexions — sans que personne ne change de password.
@@ -90,10 +90,10 @@ title: Vérifier, puis migrer un password à la connexion
 ---
 flowchart TD
   accTitle: Ce qui arrive au hash d'un password à la connexion
-  accDescr: Le hasher de la class du user, ou celui que nomme PasswordHasherAwareInterface, vérifie le password. Avec auto, la chaîne native en bcrypt, puis sodium, puis pbkdf2 vérifie les formats qui portent leur algorithme ; un condensat sha256 maison n'est vérifié que par un hasher de migrate_from, sinon la connexion est refusée en 401. Après le succès, si needsRehash est vrai et que le passport porte un PasswordUpgradeBadge, PasswordMigratingListener rehache en bcrypt ; le nouveau hash n'est enregistré que si le provider implémente PasswordUpgraderInterface.
+  accDescr: Le hasher de la class du user, ou celui que nomme PasswordHasherAwareInterface, vérifie le password. Avec auto, les hashers natifs, bcrypt, puis sodium, puis pbkdf2, vérifient les formats qui portent leur algorithme ; un condensat sha256 maison n'est vérifié que par un hasher de migrate_from, sinon la connexion est refusée en 401. Après le succès, si needsRehash est vrai et que le passport porte un PasswordUpgradeBadge, PasswordMigratingListener rehache en bcrypt ; le nouveau hash n'est enregistré que si le provider implémente PasswordUpgraderInterface.
   LOGIN["connexion : password en clair"] --> HSH["hasher de la class, ou nommé par PasswordHasherAwareInterface"]
   HSH --> FMT{"le hash stocké porte-t-il son algorithme ?"}
-  FMT -->|"oui : $2y$, $argon2id$, pbkdf2"| OK["vérifié par la chaîne auto"]
+  FMT -->|"oui : $2y$, $argon2id$, pbkdf2"| OK["vérifié par les hashers de auto"]
   FMT -->|"non : sha256 maison"| MIG{"migrate_from ?"}
   MIG -->|"non"| R401(["401 : refusé"])
   MIG -->|"oui"| OK
@@ -285,7 +285,7 @@ désigner.
 
 Cinq questions sur les password hashers. Choisis avant d'ouvrir la correction.
 
-**Question 1.** La configuration passe de `cost: 10` à la valeur par défaut. Un
+**Question 1.** La configuration retire `cost: 10` pour revenir au cost par défaut. Un
 hash `$2y$10$…` est vérifié par `auto`. Que rendent `verify()` et
 `needsRehash()` ?
 
@@ -367,7 +367,7 @@ user stocké en `sha256` ?
 - **A.** Le password en clair
 - **B.** L'ancien condensat `sha256`
 - **C.** Un nouveau hash `$2y$13$…`
-- **D.** Rien : la méthode n'est appelée qu'à l'inscription
+- **D.** Rien : la method n'est appelée qu'à l'inscription
 
 <details>
 <summary>Correction</summary>

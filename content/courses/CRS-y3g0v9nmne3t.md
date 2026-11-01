@@ -318,7 +318,7 @@ par l'`AccessDecisionManager`.
 - **`affirmative`** par défaut ; **`consensus`**, **`unanimous`**,
   **`priority`** ; **`strategy_service`** pour une strategy maison.
 - **`allow_if_all_abstain: false`**, **`allow_if_equal_granted_denied: true`**.
-- Moyen mnémotechnique : **« supports filtre, voteOnAttribute tranche, la strategy agrège »**.
+- Moyen mnémotechnique : **« supports trie, voteOnAttribute tranche, la strategy agrège »**.
 
 ## Pièges d'examen
 
@@ -383,7 +383,7 @@ A et C supposent un court-circuit qui n'existe pas. D est faux.
 when an offline token is used. » `isGrantedForUser()` construit un token
 `OfflineTokenInterface`, et `AuthenticatedVoter` refuse d'en juger.
 
-A, B et D supposent une réponse booléenne ; un user hors session n'a pas
+A, B et D supposent un résultat booléen ; un user hors session n'a pas
 d'état de connexion.
 
 </details>
@@ -395,7 +395,7 @@ que `Security::isGranted('ROLE_SUPER_ADMIN')` ?
 - **A.** Pour décider sur le token que le voter a reçu
 - **B.** `Security::isGranted()` n'est pas injectable dans un voter
 - **C.** `decide()` ignore la `role_hierarchy`, ce qui est plus sûr
-- **D.** Pour éviter une boucle infinie entre voters
+- **D.** Pour éviter une loop infinie entre voters
 
 <details>
 <summary>Correction</summary>

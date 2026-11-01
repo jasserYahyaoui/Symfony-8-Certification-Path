@@ -43,7 +43,7 @@ Nommer un role correctement et connaître la seule règle que Symfony impose.
 Une application distingue lecteurs, éditeurs et administrateurs. Un
 administrateur doit pouvoir tout ce que peut un éditeur, sans qu'on recopie la
 liste sur chaque compte. Et une page doit parfois dépendre non pas du role,
-mais de la façon dont l'utilisateur s'est connecté.
+mais de la façon dont le user s'est connecté.
 
 Trois questions : ce qu'est **un role valide**, ce que fait **la hiérarchie**,
 et ce que sont les **attributes qui ressemblent à des roles** sans en être.
@@ -144,14 +144,14 @@ framework : exécuté, un service qui décore `security.role_hierarchy` et
 implémente `RoleHierarchyInterface` ajoute un role calculé à l'exécution, et
 `isGranted()` l'accorde.
 
-Rejoué : un décorateur qui ajoute `ROLE_REPORTER` à tout `ROLE_EDITOR`, avec
+Rejoué : un decorator qui ajoute `ROLE_REPORTER` à tout `ROLE_EDITOR`, avec
 `ROLE_ADMIN: ROLE_EDITOR` en configuration — un `ROLE_ADMIN` obtient
 `ROLE_EDITOR` **et** `ROLE_REPORTER`.
 
 `php bin/console debug:security:role-hierarchy` affiche la hiérarchie
 configurée, au format Mermaid.
 
-Rejoué : la sortie commence par `graph TB`, liste les roles, puis une flèche
+Rejoué : l'output commence par `graph TB`, liste les roles, puis une flèche
 par lien — `ROLE_ADMIN --> ROLE_USER`, `ROLE_SUPER_ADMIN --> ROLE_ADMIN`.
 
 ## Les attributes qui ne sont pas des roles
@@ -173,7 +173,7 @@ Rejoué pour un visiteur anonyme : `PUBLIC_ACCESS` vrai, `IS_AUTHENTICATED` et
 - Tester : `isGranted('ROLE_X')`, jamais `in_array()` sur `getRoles()`.
 - Hériter : `role_hierarchy`, du role le plus fort vers les plus faibles.
 - Vérifier la hiérarchie : `debug:security:role-hierarchy`.
-- Une hiérarchie en base : un voter, ou un décorateur de
+- Une hiérarchie en base : un voter, ou un decorator de
   `security.role_hierarchy`.
 - Une page « ré-authentifie-toi » : `IS_AUTHENTICATED_FULLY`, qui refuse le
   retour par cookie.
@@ -193,7 +193,7 @@ Rejoué pour un visiteur anonyme : `PUBLIC_ACCESS` vrai, `IS_AUTHENTICATED` et
 - **`role_hierarchy`** : transitive, descendante seulement.
 - Avec hiérarchie : **`RoleHierarchyVoter`** remplace `RoleVoter`.
 - **`isGranted()`**, pas **`in_array($r, getRoles())`**.
-- Valeurs **statiques** ; base de données → voter ou décorateur.
+- Valeurs **statiques** ; base de données → voter ou decorator.
 - **`debug:security:role-hierarchy`** → Mermaid.
 - **Six états** : `IS_AUTHENTICATED_FULLY`, `_REMEMBERED`, `IS_AUTHENTICATED`,
   `IS_REMEMBERED`, `IS_IMPERSONATOR`, `PUBLIC_ACCESS`.
@@ -288,10 +288,10 @@ A suppose deux voters. B traite les états de connexion. C est faux.
 
 </details>
 
-**Question 4.** Par quoi commence la sortie de `debug:security:role-hierarchy` ?
+**Question 4.** Par quoi commence l'output de `debug:security:role-hierarchy` ?
 
 - **A.** `graph TB`, du Mermaid
-- **B.** Un tableau ASCII des roles
+- **B.** Un array ASCII des roles
 - **C.** Du YAML, la configuration telle qu'écrite
 - **D.** Un JSON des roles atteignables
 
@@ -332,7 +332,7 @@ A et D demandent une connexion. B demande un role.
 - **`role_hierarchy`** est transitive, et descend seulement.
 - **`RoleHierarchyVoter`** remplace `RoleVoter` avec une hiérarchie.
 - **`isGranted()`**, jamais **`in_array()`** sur `getRoles()`.
-- Hiérarchie dynamique : **voter** ou décorateur de `security.role_hierarchy`.
+- Hiérarchie dynamique : **voter** ou decorator de `security.role_hierarchy`.
 - **`IS_AUTHENTICATED_*`**, **`PUBLIC_ACCESS`** : des états, pas des roles.
 
 **En une phrase, pour tout reconstruire :**

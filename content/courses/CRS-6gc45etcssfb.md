@@ -75,7 +75,7 @@ chaque object, savoir lequel construire selon qu'il y a ou non des identifiers
 
 ## Avant la règle : le problème à résoudre
 
-Une API reçoit un header `auth-token` ; un formulaire reçoit un email et un
+Une API reçoit un header `auth-token` ; un form reçoit un email et un
 password. Les deux doivent finir sur la même chose : un user connecté, ou un
 refus propre. Entre les deux, il faut décider **qui prend la Request**,
 **qu'est-ce qui prouve l'identité**, et **qui vérifie la preuve**.
@@ -163,7 +163,7 @@ flowchart TD
 
 Remember-me et rehachage arrivent donc **après** `onAuthenticationSuccess()`.
 
-Une exception levée **dans** `authenticate()` suit le même chemin d'échec :
+Une exception levée **dans** `authenticate()` aboutit au même échec :
 l'appel est dans le même `try` que les events. C'est ce qui rend le
 `throw new CustomUserMessageAuthenticationException(...)` du fil rouge
 suffisant pour produire un 401.
@@ -270,9 +270,9 @@ est refusé dès la construction (`BadCredentialsException`).
 |---|---|
 | `new UserBadge('')` | « Empty user identifier. » |
 | identifier de 4097 octets | « Username too long. » |
-| user loader qui rend `null`, configuration par défaut | clé « Invalid credentials. », message « Bad credentials. » |
-| idem, `expose_security_errors: account_status` | clé « Invalid credentials. » |
-| idem, `expose_security_errors: all` | clé « Username could not be found. » |
+| user loader qui rend `null`, configuration par défaut | key « Invalid credentials. », message « Bad credentials. » |
+| idem, `expose_security_errors: account_status` | key « Invalid credentials. » |
+| idem, `expose_security_errors: all` | key « Username could not be found. » |
 | callable `CustomCredentials` qui rend `true` | — : 200 |
 | callable `CustomCredentials` qui rend `1` ou `false` | « Credentials check failed as the callable passed to CustomCredentials did not return "true". » |
 
@@ -304,7 +304,7 @@ la key `remember_me` sur le firewall, et son activation : parameter
 | `remember_me` | `enable()` | absent | posé |
 | `always_remember_me: true` | non activé | absent | posé |
 
-La méthode de diagnostic tient en trois questions, dans l'ordre du schéma :
+Le diagnostic tient en trois questions, dans l'ordre du schéma :
 
 1. **`authenticate()` est-il appelé ?** Sinon, regarder `supports()` et `lazy`.
 2. **L'échec arrive-t-il avant le token ?** Un badge non résolu, des
@@ -316,15 +316,15 @@ La méthode de diagnostic tient en trois questions, dans l'ordre du schéma :
 ## Concrètement dans ton application
 
 - Token d'API déjà fiable : `SelfValidatingPassport(new UserBadge(...))`.
-- Formulaire maison : `Passport` + `PasswordCredentials`, et
+- Form maison : `Passport` + `PasswordCredentials`, et
   `CsrfTokenBadge`.
 - Ne prendre que certaines Requests : `supports()` rend `false` pour les
   autres.
 - Laisser passer la Request après succès : `onAuthenticationSuccess()` rend
   `null`.
-- Cookie « se souvenir de moi » sans case à cocher :
+- Cookie « se souvenir de moi » sans checkbox :
   `(new RememberMeBadge())->enable()`, et `remember_me` sur le firewall.
-- Message d'erreur pour l'utilisateur : `CustomUserMessageAuthenticationException`,
+- Message d'erreur pour le user : `CustomUserMessageAuthenticationException`,
   dans `authenticate()`.
 
 ## À comprendre
@@ -378,10 +378,10 @@ chaque Request. Rendre `true` quand le header est présent, `false` sinon.
 Le support se plaint que « Invalid credentials. » s'affiche pour un email
 inexistant. *Solution.* C'est le comportement par défaut, voulu ; seul
 `expose_security_errors: all` montre « Username could not be found. », au
-prix de l'énumération des comptes.
+risque de révéler quels comptes existent.
 
 **Scénario 3 — Le SSO en amont.** Un reverse proxy a déjà authentifié
-l'utilisateur et transmet son identifier. *Solution.*
+le user et transmet son identifier. *Solution.*
 `SelfValidatingPassport`, avec `PreAuthenticatedUserBadge` si `checkPreAuth()`
 ne doit pas s'appliquer ; `checkPostAuth()` reste appelé.
 
@@ -390,7 +390,7 @@ ne doit pas s'appliquer ; `checkPostAuth()` reste appelé.
 Cinq questions sur les authenticators. Choisis avant d'ouvrir la correction.
 
 **Question 1.** Le user loader d'un `UserBadge` rend `null`. La configuration
-`security` ne définit pas `expose_security_errors`. Quelle clé de message
+`security` ne définit pas `expose_security_errors`. Quelle key de message
 reçoit `onAuthenticationFailure()` ?
 
 - **A.** « Username could not be found. »
@@ -403,10 +403,10 @@ reçoit `onAuthenticationFailure()` ?
 
 **Bonne réponse : B.** Rejoué avec SecurityBundle 8.0.15 : la
 `UserNotFoundException` est remplacée par une `BadCredentialsException`, de
-clé « Invalid credentials. », tant que `expose_security_errors` ne vaut pas
+key « Invalid credentials. », tant que `expose_security_errors` ne vaut pas
 `all`.
 
-A est la clé visible avec `expose_security_errors: all`. C confond avec un
+A est la key visible avec `expose_security_errors: all`. C confond avec un
 passport sans `UserBadge`. D est faux : l'authentication échoue.
 
 </details>
@@ -426,7 +426,7 @@ valide. Que se passe-t-il ?
 callable passed to CustomCredentials did not return "true". ». Lu dans
 `CustomCredentials::executeCustomChecker()`, la comparaison est stricte.
 
-A et B supposent une comparaison souple. C est faux : aucun type de retour
+A et B supposent une comparaison souple. C est faux : aucun return type
 n'est imposé au callable.
 
 </details>
@@ -452,7 +452,7 @@ faux.
 </details>
 
 **Question 4.** `authenticate()` construit `new UserBadge($email)` avec un
-champ email vide. Que se passe-t-il ?
+field email vide. Que se passe-t-il ?
 
 - **A.** Le user provider est appelé avec `''`
 - **B.** Le user reste anonyme, la page s'affiche
@@ -470,7 +470,7 @@ A suppose que le badge accepte la string vide. B et D sont faux.
 
 </details>
 
-**Question 5.** Une classe étend `AbstractAuthenticator`. Quelle method de
+**Question 5.** Une class étend `AbstractAuthenticator`. Quelle method de
 l'interface n'a-t-elle **pas** besoin d'écrire ?
 
 - **A.** `supports()`
