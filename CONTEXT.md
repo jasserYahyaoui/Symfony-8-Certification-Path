@@ -16,10 +16,20 @@ brouillon est commité et poussé dès qu'il existe.
 lot 06, *Loops and conditions*) et F16 (`relative_path()` sur une URL complète,
 lot 06, *URLs generation*, carte FLC-nj22h67r0w1s) restent à corriger.
 
-**Bloqué : PHP 8.4 absent du nouveau conteneur** (PHP 8.3 seulement). La
-compilation de PHP 8.4 depuis les sources a été refusée par le contrôle de
-sécurité de la session ; elle attend la décision du propriétaire. Les gates du
-dépôt passent sous 8.3 ; `tools/behavior` (Symfony 8.0) ne tourne qu'en CI.
+**PHP 8.4 rétabli (2026-10-31, décision du propriétaire).** Compilé depuis
+php-src `PHP-8.4.19` dans `/opt/php84`, PHP par défaut du conteneur ;
+`tools/behavior` tourne de nouveau en local (127 faits, 0 échec).
+
+**Versions : un composant hors 8.0 n'est plus toléré (2026-10-31).** Le bac à
+sable des sondes, installé par `composer update` avec des contraintes 8.0.* sur
+les seuls paquets de tête, avait résolu 13 composants transitifs en 8.1
+(security-core, http-foundation…). Tout est épinglé en 8.0.* ; les 12 sondes
+du lot 10 rejouées donnent la même sortie. Le dépôt avait le même défaut :
+`tools/behavior/composer.lock` portait `dom-crawler` 8.1.5 et `password-hasher`
+8.1.0. Ils sont épinglés, et `run.php` échoue désormais sur tout composant
+`symfony/*` installé hors 8.0 (prouvé sur l'ancien lock ; 127 faits, mêmes
+verdicts). Non vérifiable : la composition du bac à sable perdu avec le
+conteneur, où ont été exécutés les faits de #451 et #452.
 
 ## En cours : remédiation de l'audit du 2026-10-13 (F1–F10)
 
@@ -79,6 +89,7 @@ Branche de travail : `claude/symfony-8-certification-plan-phmkau`.
 | *Built-in form types*, *Data transformers*, *Form events*, *Form type extensions* et *Form options* au format pédagogique ; corrections F13 (erreur de `RepeatedType` sur `first`) et F14 (`supports()` qui retourne `null`, une question en version 2) ; phrase de *Form types* rétablie ; journal de #449 | #450 | `e693602` | smoke 123450103124 **success, lu en entier** (349 ok, 0 erreur ; P1.2 de nouveau ok ; calendrier « stops at the exam », agenda 583 sessions jusqu'au 2027-03-02, cinq nouvelles lignes « pedagogical ») |
 | *Security Core, CSRF and PasswordHasher components*, *Authentication*, *Authorization*, *Configuration* et *Providers* au format pédagogique ; journal de vote rétabli avant la PR ; débordement des cartes de question à 390 px corrigé (5 sur 50, puis 0) ; journal de #450 | #451 | `c942d47` | smoke 124646528256 **success, lu jusqu'au bout** (354 ok, 0 erreur ; calendrier « stops at the exam », agenda 586 sessions jusqu'au 2027-03-02, cinq nouvelles lignes « pedagogical ») |
 | *Client object*, *Crawler object*, *Profiler object*, *Framework objects access*, *Client configuration*, *Introspection*, *Legacy deprecated code*, *Configuration*, *Error handling* et *Code debugging* au format pédagogique, reconstruits depuis l'historique de session après la perte du conteneur ; journal de #451 | #452 | `0c19183` | smoke 124666358094 **success, lu jusqu'au bout** (364 ok, 0 erreur ; agenda 589 sessions jusqu'au 2027-03-02, dix nouvelles lignes « pedagogical ») |
+| Journal de #452 (dix entrées EXTENSION, `derive.py 0c19183`), lignes de livraison de #452, CONTEXT : état après la perte du conteneur | #453 | `da80393` | smoke 124675104858 **success, lu jusqu'au bout** (364 ok, 0 erreur ; journal des corrections servi ; agenda 589 sessions jusqu'au 2027-03-02 ; aucun cours modifié) |
 
 **Pièges d'examen → flashcards (2026-10-24, livré : #432, `c48317d`).** Les 788
 paragraphes « Pièges d'examen » lus contre toutes les cartes de leur item :
