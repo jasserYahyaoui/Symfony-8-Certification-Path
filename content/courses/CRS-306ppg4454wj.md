@@ -101,7 +101,7 @@ flowchart TD
 - Les filters s'appliquent **de gauche à droite**. L'ordre compte quand ils ne
   commutent pas : sur `'  abcdef'`, `|slice(0, 5)|trim` donne `abc`,
   `|trim|slice(0, 5)` donne `abcde` ; `trim` et `lower` commutent.
-- Arguments nommés : `{{ price|number_format(decimal: 2) }}`.
+- Named arguments : `{{ price|number_format(decimal: 2) }}`.
 - Functions fléchées pour `filter`, `map`, `reduce`, `sort`, `find` :
   `users|filter(u => u.active)|map(u => u.name)|join(', ')` ; `find` rend le
   **premier** élément qui convient.

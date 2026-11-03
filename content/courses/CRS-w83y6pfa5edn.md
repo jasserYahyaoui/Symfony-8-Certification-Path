@@ -165,7 +165,7 @@ en function.
 
 - Un fragment partagé casse sur une page qui n'a pas la variable attendue →
   l'inclure avec `with_context: false` et lui passer ses entrées.
-- Un bandeau optionnel par thème → `include('…', ignore_missing: true)`.
+- Un bandeau optionnel par theme → `include('…', ignore_missing: true)`.
 
 ## QCM d'entraînement
 

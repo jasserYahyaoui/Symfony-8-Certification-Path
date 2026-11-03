@@ -170,7 +170,7 @@ ouverte sans rien signaler.
 
 ## Application
 
-- `{{ "<b>" ~ title ~ "</b>" }}` affiche les balises en texte → écrire le HTML
+- `{{ "<b>" ~ title ~ "</b>" }}` affiche les tags en texte → écrire le HTML
   hors de l'expression : `<b>{{ title }}</b>`.
 - Un email `.txt.twig` affiche `<` brut → c'est voulu : un `.txt` n'est pas
   échappé.

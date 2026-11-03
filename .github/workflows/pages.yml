@@ -5187,12 +5187,12 @@ jobs:
                       'lot-11/middleware|DispatchAfterCurrentBusStamp|passer la main, ou tout|Fiche express' \
                       'lot-11/events|dispatched only once|réussir ou échouer, tourner|Fiche express' \
                       'lot-06/twigbundle|Overridden Files|le bang pour|Fiche express' \
-                      'lot-06/twig-syntax-up-to-3-22-version|parseAttributeFunction|constante exacte, method sans|Fiche express' \
-                      'lot-06/auto-escaping|pre_escape|raw ferme la|Fiche express' \
+                      'lot-06/twig-syntax-up-to-3-22-version|arrondit vers le bas|constante exacte, method sans|Fiche express' \
+                      'lot-06/auto-escaping|échappe son entrée|raw ferme la|Fiche express' \
                       'lot-06/template-inheritance|Unable to find one of the following|rien hors des trous|Fiche express' \
                       'lot-06/global-variables|masque la globale|Symfony dans app|Fiche express' \
                       'lot-06/filters-and-functions|highest precedence|la parenthèse le|Fiche express' \
-                      'lot-06/template-includes|compile, puis le rendu|include insère, only isole|Fiche express' \
+                      'lot-06/template-includes|rien ne remonte|include insère, only isole|Fiche express' \
                       'lot-06/loops-and-conditions|closed generator|Countable pour la fin|Fiche express' \
                       'lot-06/urls-generation|api.example.com|path pour la page, url pour|Fiche express' \
                       'lot-06/controller-rendering|renderer does not exist|prod avale|Fiche express' \

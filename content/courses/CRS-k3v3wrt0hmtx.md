@@ -135,7 +135,7 @@ Le parent peut être une **expression** :
 ## Réutilisation horizontale
 
 `{% use 'blocks.html.twig' %}` **importe les blocks** d'un autre template sans
-l'étendre ni les afficher — la réponse de Twig à l'inheritance multiple : un
+l'étendre ni les afficher — la solution de Twig à l'inheritance multiple : un
 seul `extends`, plusieurs `use`.
 
 - Un block importé compte comme un block de l'enfant : il **remplace** celui du

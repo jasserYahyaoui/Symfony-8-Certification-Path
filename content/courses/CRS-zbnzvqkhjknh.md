@@ -113,7 +113,7 @@ Total : {{ total }}
   **aucune itération n'a eu lieu**. Une valeur non itérable — `null`, une
   string — est traitée comme une séquence vide : `else` aussi.
 - `{% for key, user in users %}` donne la key et la valeur ; `users|keys` les
-  clés seules.
+  keys seules.
 - `0..10` va de 0 à 10 inclus, `'a'..'z'` marche aussi, `3..0` descend ;
   `range(0, 10, 5)` change le pas.
 

@@ -61,7 +61,7 @@ Controllers.
 ## L'essentiel
 
 `render()` exécute un controller depuis un template et insère sa Response —
-utile pour un bloc qui a ses propres données sur toutes les pages, comme une
+utile pour un élément qui a ses propres données sur toutes les pages, comme une
 barre latérale. Chaque appel est une **sub-Request** complète : ce n'est pas
 gratuit, et une erreur ne se comporte pas pareil en `dev` et en `prod`. Pour une
 simple unité d'interface, la documentation 8.0 recommande plutôt les Twig
@@ -166,7 +166,7 @@ l'afficher sans `render()` fait échouer le rendu.
 - La barre latérale est vide en production depuis une semaine → `ignore_errors`
   vaut `true` en `prod` : l'exception est dans les logs ; ajouter un `alt`.
 - Un fragment redirige vers le login et la page entière tombe → afficher un
-  message à la place ; le contrôle d'accès appartient à la page.
+  message à la place ; l'access control appartient à la page.
 
 ## QCM d'entraînement
 
