@@ -5,14 +5,14 @@ title: "Retries and failures"
 content_level: DEEP
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-11-01"
+reviewed_at: "2026-11-03"
 format: pedagogical
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst"
     branch: "8.0"
     symbol_or_lines: "retry_strategy, Unrecoverable and Recoverable exceptions, failure_transport, messenger:failed"
-    verified_at: "2026-11-01"
+    verified_at: "2026-11-03"
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/EventListener/SendFailedMessageForRetryListener.php"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/EventListener/SendFailedMessageForRetryListener.php"
     branch: "8.0"
@@ -38,7 +38,7 @@ official_sources:
     repository: "symfony/symfony"
     branch: "8.0"
     symbol_or_lines: "handle() — a handler with a HandledStamp is skipped; failures wrapped in HandlerFailedException"
-    verified_at: "2026-11-01"
+    verified_at: "2026-11-03"
 outcome_sections:
   OUT-7rq6sxm6qqr3: "La strategy de retry"
   OUT-y57ephy9n9ey: "Court-circuiter la strategy"

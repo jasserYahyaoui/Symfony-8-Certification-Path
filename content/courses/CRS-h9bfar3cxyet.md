@@ -5,14 +5,14 @@ title: "Middleware"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-11-01"
+reviewed_at: "2026-11-03"
 format: pedagogical
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/messenger.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/messenger.rst"
     branch: "8.0"
     symbol_or_lines: "Middleware, MiddlewareInterface, StackInterface"
-    verified_at: "2026-11-01"
+    verified_at: "2026-11-03"
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php"
     branch: "8.0"
@@ -33,13 +33,13 @@ official_sources:
     repository: "symfony/symfony"
     branch: "8.0"
     symbol_or_lines: "handle() — messages stamped DispatchAfterCurrentBusStamp wait for the current handler, dropped if it fails"
-    verified_at: "2026-11-01"
+    verified_at: "2026-11-03"
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Messenger/Middleware/SendMessageMiddleware.php"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/Middleware/SendMessageMiddleware.php"
     repository: "symfony/symfony"
     branch: "8.0"
     symbol_or_lines: "handle() — NoSenderForMessageException unless allowNoSenders"
-    verified_at: "2026-11-01"
+    verified_at: "2026-11-03"
 outcome_sections:
   OUT-se3m27j02981: "Ce qu'un middleware voit"
   OUT-f1z737x6w2pv: "Ce qu'un middleware voit"
