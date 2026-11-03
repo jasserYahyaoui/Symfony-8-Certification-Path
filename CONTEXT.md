@@ -4,7 +4,26 @@
 
 ---
 
-## Rédaction pédagogique (ADR-0012) — état au 2026-10-31
+## Rédaction pédagogique (ADR-0012) — état au 2026-11-03
+
+**Format court, centré examen (propriétaire, 2026-11-03).** « Écrire de façon
+raisonnable, qui peut se réviser, présenter seulement ce qui est utile en
+examen » : environ 5 min de lecture, 800 à 1 000 mots de corps (politique
+« Short, exam-only » de `docs/policy/course-structure.md`). Le propriétaire a
+choisi de l'appliquer aussi aux pages déjà en ligne. **Lot 06** : les 14 pages
+sont au format court sur la branche (moyenne 1 030 mots, contre 2 066). Restent
+à raccourcir les **64 pages déployées** au format long (lots 03, 05, 07, 08, 09,
+10, 11, 13, 14 : moyenne 1 800 à 3 100 mots), puis les lots suivants s'écrivent
+directement au format court.
+
+Constats du lot 06, corrigés sur la branche (entrées CORRECTION au journal dans
+la PR qui suit la fusion) : F15 (propriétés `loop` sur un iterator `Countable`),
+F16 (`relative_path()` d'une URL complète, carte FLC-nj22h67r0w1s), F17
+(`TranslatableMessage` affiché seul : `Error` PHP sur Twig 3.22, question
+QST-zpp1r9fbs8vb en version 2), `controller()` seul, `dump()` sans DebugBundle en
+debug, quatre cartes « RuntimeError qui emballe », et le libellé
+« Translation 8.0.15 », version qui n'existe pas (8.0.14). `tools/behavior` est
+tenu à Twig 3.22.2 ; ses 129 faits passent.
 
 **64 pages sur 163** au format pédagogique, toutes déployées (#438 à #455) ; les lots
 10 et 11 sont terminés. Le
@@ -12,10 +31,6 @@
 ont disparu avec lui (fin du lot 10 : 7 ; lot 11 : 7 ; lot 06 : 14 ; lot 12 :
 9 ; lot 13 : 2). Ils sont à réécrire dans l'ordre du calendrier. Depuis, chaque
 brouillon est commité et poussé dès qu'il existe.
-
-À reprendre, avec leurs constats : F15 (propriétés `loop` sur un iterator,
-lot 06, *Loops and conditions*) et F16 (`relative_path()` sur une URL complète,
-lot 06, *URLs generation*, carte FLC-nj22h67r0w1s) restent à corriger.
 
 **PHP 8.4 rétabli (2026-10-31, décision du propriétaire).** Compilé depuis
 php-src `PHP-8.4.19` dans `/opt/php84`, PHP par défaut du conteneur ;
