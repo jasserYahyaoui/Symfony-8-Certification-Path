@@ -229,8 +229,8 @@ Que se passe-t-il ?
 <details>
 <summary>Correction</summary>
 
-**Bonne réponse : B.** Contrairement à `extends`, `use` n'accepte pas
-d'expression.
+**Bonne réponse : B.** Contrairement à `extends`, qui accepte une variable ou
+une liste, `use` exige le nom du template écrit en toutes lettres.
 
 </details>
 

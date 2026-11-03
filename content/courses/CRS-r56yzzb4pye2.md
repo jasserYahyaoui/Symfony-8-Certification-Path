@@ -180,8 +180,8 @@ template avec `['title' => 'Page']`. Que sort `{{ title }}` ?
 <details>
 <summary>Correction</summary>
 
-**Bonne réponse : B.** Une variable passée au rendu masque la globale du même
-nom.
+**Bonne réponse : B.** Une variable passée au rendu par le controller masque
+la globale du même nom ; la configuration ne prime pas sur le contexte.
 
 </details>
 
@@ -196,8 +196,8 @@ nom.
 <details>
 <summary>Correction</summary>
 
-**Bonne réponse : A.** Sans Request, `app.request` et `app.session` valent
-`null`, et `app.flashes` rend `[]`.
+**Bonne réponse : A.** Sans Request sur la pile, `app.request` et
+`app.session` valent `null`, et `app.flashes` rend un array vide, sans erreur.
 
 </details>
 
@@ -212,8 +212,9 @@ nom.
 <details>
 <summary>Correction</summary>
 
-**Bonne réponse : D.** `Twig\Error\RuntimeError` n'étend pas
-`\RuntimeException` ; l'exception d'`AppVariable` est dans `getPrevious()`.
+**Bonne réponse : D.** Le template reçoit une `Twig\Error\RuntimeError`, qui
+n'étend pas `\RuntimeException` ; l'exception levée par `AppVariable` est dans
+`getPrevious()`.
 
 </details>
 

@@ -210,8 +210,9 @@ template entier.
 <details>
 <summary>Correction</summary>
 
-**Bonne réponse : A.** `find` rend le premier élément qui convient ; B
-décrirait `filter`.
+**Bonne réponse : A.** `find` rend le premier élément pour lequel la function
+fléchée est vraie, et s'arrête là ; B décrirait `filter`, qui garde tous ceux
+qui conviennent.
 
 </details>
 
@@ -228,7 +229,8 @@ publique et est un service autoconfiguré. Que faut-il de plus pour utiliser
 <summary>Correction</summary>
 
 **Bonne réponse : C.** TwigBundle 8.0 enregistre les attributes de Twig 3.21
-par autoconfiguration.
+par autoconfiguration : ni `AbstractExtension`, ni tag, ni `getFilters()` ne
+sont nécessaires.
 
 </details>
 

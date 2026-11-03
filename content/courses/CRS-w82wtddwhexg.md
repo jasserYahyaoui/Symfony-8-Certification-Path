@@ -188,7 +188,8 @@ affiche `{{ v }}`, où `v` vaut `<b>`. Que sort-il ?
 <details>
 <summary>Correction</summary>
 
-**Bonne réponse : C.** Une extension non listée reçoit la strategy `html`.
+**Bonne réponse : C.** Avec `autoescape: 'name'`, une extension non listée,
+comme `.xml`, reçoit la strategy `html` par défaut.
 
 </details>
 
@@ -235,8 +236,8 @@ sans argument, dans un template `.js.twig` ?
 <details>
 <summary>Correction</summary>
 
-**Bonne réponse : D.** Sans argument, le tag vaut `html`, quelle que soit
-l'extension.
+**Bonne réponse : D.** Sans argument, le tag `autoescape` applique la
+strategy `html`, quelle que soit l'extension du template.
 
 </details>
 

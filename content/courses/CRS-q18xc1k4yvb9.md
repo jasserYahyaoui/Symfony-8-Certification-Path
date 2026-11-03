@@ -280,7 +280,8 @@ confond avec les catégories ICU ; la syntaxe à barres n'a pas besoin du suffix
 <details>
 <summary>Correction</summary>
 
-**Bonne réponse : C.** Dans le tag, `%%` est un pourcent littéral.
+**Bonne réponse : C.** Dans le tag, `%percent%` est remplacé par `20`, et le
+pourcent doublé, `%%`, devient un pourcent littéral.
 
 </details>
 

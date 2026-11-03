@@ -213,8 +213,8 @@ Le fragment peut-il lire `site` ?
 <details>
 <summary>Correction</summary>
 
-**Bonne réponse : A.** `only` retire le contexte de l'appelant, pas les
-globales.
+**Bonne réponse : A.** `only` retire les variables du template appelant, mais
+les globales restent visibles partout, fragment compris.
 
 </details>
 

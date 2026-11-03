@@ -230,8 +230,9 @@ contient l'email ?
 <details>
 <summary>Correction</summary>
 
-**Bonne réponse : D.** FrameworkBundle donne au contexte du router le host
-`localhost`.
+**Bonne réponse : D.** Sans Request, `url()` prend le host du contexte du
+router, que FrameworkBundle fixe à `localhost` par défaut ; `default_uri` le
+remplace.
 
 </details>
 
