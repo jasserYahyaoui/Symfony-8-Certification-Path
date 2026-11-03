@@ -5548,6 +5548,7 @@ jobs:
               'lot-10/security-core-csrf-and-passwordhasher-components': 1,
               'lot-10/users': 1,
               'lot-10/voters-and-voting-strategies': 1,
+              'lot-11/events': 1,
               'lot-11/messages-and-handlers': 1,
               'lot-11/messenger-component': 1,
               'lot-11/middleware': 1,
