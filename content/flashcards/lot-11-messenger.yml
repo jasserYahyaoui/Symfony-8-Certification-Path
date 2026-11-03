@@ -777,8 +777,8 @@ flashcards:
   language: fr
   level: TRAP
   front: 'Symfony : un transport in-memory:// convient-il à un worker qui réinitialise les services ?'
-  back: 'Non : il implémente `ResetInterface` et est vidé après le premier message.'
-  explanation: 'Exécuté : seul le premier de trois messages a été consommé.'
+  back: 'Non : il implémente `ResetInterface`, et le premier reset vide sa file ; les messages pas encore lus sont perdus.'
+  explanation: 'Rejoué avec Messenger 8.0 : `messenger:consume high low` traite `high-1`, puis le reset vide `low`, et ses deux messages sont perdus. Sur un seul transport, `get()` rend tout le lot d''un coup : les trois messages passent.'
   memorization_justification: Transport de test.
   verification_status: VERIFIED
   official_sources:
@@ -787,7 +787,7 @@ flashcards:
     repository: symfony/symfony
     branch: '8.0'
     symbol_or_lines: implements ResetInterface; reset()
-    verified_at: '2026-10-01'
+    verified_at: '2026-11-01'
 - id: FLC-tczfeeq5ygnr
   official_item: OIT-dctf03ftx44f
   language: fr

@@ -6,7 +6,8 @@
 
 ## Rédaction pédagogique (ADR-0012) — état au 2026-10-31
 
-**50 pages sur 163** au format pédagogique, toutes déployées (#438 à #452). Le
+**57 pages sur 163** au format pédagogique, toutes déployées (#438 à #454) ; le lot 10
+est terminé. Le
 2026-10-31, le conteneur de travail a été perdu : 39 brouillons jamais poussés
 ont disparu avec lui (fin du lot 10 : 7 ; lot 11 : 7 ; lot 06 : 14 ; lot 12 :
 9 ; lot 13 : 2). Ils sont à réécrire dans l'ordre du calendrier. Depuis, chaque
@@ -90,6 +91,7 @@ Branche de travail : `claude/symfony-8-certification-plan-phmkau`.
 | *Security Core, CSRF and PasswordHasher components*, *Authentication*, *Authorization*, *Configuration* et *Providers* au format pédagogique ; journal de vote rétabli avant la PR ; débordement des cartes de question à 390 px corrigé (5 sur 50, puis 0) ; journal de #450 | #451 | `c942d47` | smoke 124646528256 **success, lu jusqu'au bout** (354 ok, 0 erreur ; calendrier « stops at the exam », agenda 586 sessions jusqu'au 2027-03-02, cinq nouvelles lignes « pedagogical ») |
 | *Client object*, *Crawler object*, *Profiler object*, *Framework objects access*, *Client configuration*, *Introspection*, *Legacy deprecated code*, *Configuration*, *Error handling* et *Code debugging* au format pédagogique, reconstruits depuis l'historique de session après la perte du conteneur ; journal de #451 | #452 | `0c19183` | smoke 124666358094 **success, lu jusqu'au bout** (364 ok, 0 erreur ; agenda 589 sessions jusqu'au 2027-03-02, dix nouvelles lignes « pedagogical ») |
 | Journal de #452 (dix entrées EXTENSION, `derive.py 0c19183`), lignes de livraison de #452, CONTEXT : état après la perte du conteneur | #453 | `da80393` | smoke 124675104858 **success, lu jusqu'au bout** (364 ok, 0 erreur ; journal des corrections servi ; agenda 589 sessions jusqu'au 2027-03-02 ; aucun cours modifié) |
+| *Firewalls*, *Users*, *Password hashers*, *Roles*, *Access Control Rules*, *Authenticators* et *Voters* au format pédagogique (lot 10 terminé) ; `tools/behavior` tenu à Symfony 8.0 ; contrôle Mermaid de production étendu de 10 à 38 pages (`MermaidSmokeMapTest`) ; lignes de #453 | #454 | `0682b5e` | smoke 125796161744 **success, lu jusqu'au bout** (399 ok, 0 erreur ; 38 lignes « diagrams » ; sept nouvelles lignes « pedagogical » ; agenda 592 sessions jusqu'au 2027-03-02) |
 
 **Pièges d'examen → flashcards (2026-10-24, livré : #432, `c48317d`).** Les 788
 paragraphes « Pièges d'examen » lus contre toutes les cartes de leur item :

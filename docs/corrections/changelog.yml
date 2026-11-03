@@ -1003,7 +1003,7 @@ entries:
       - id: CRS-g4sth72ww979
         sections: ["`auto` hache en bcrypt"]
       - id: CRS-h9bfar3cxyet
-        sections: ["Points clés"]
+        sections: ["À mémoriser"]
       - id: CRS-k2xvr11x936e
         sections: ["Les trente, par section", "Les recommandations qui surprennent"]
       - id: CRS-mpwjc4g3vmj7
@@ -2167,5 +2167,145 @@ entries:
     courses:
       - id: CRS-wf523wdsg2xp
         sections: ["`dump()` plutôt que `var_dump()`", "Un `dump()` oublié en production", "Interroger l'application", "QCM d'entraînement", "Fiche express"]
+    flashcards: []
+    questions: []
+
+  - id: CVR-43c1d029dk7j
+    date: '2026-11-03'
+    pull_request: 454
+    commit: '0682b5e'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-rwa6m06crs1h]
+    facts: []
+    title: "Firewalls : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur trois zones d'une application. Faits exécutés et repris : un
+      firewall qui ne pose que `methods` attrape toute Request ; le second argument de `loginUser()` est
+      le **context** du firewall ; un firewall `stateless` ne pose aucun cookie de session ; le matcher
+      `host` ; `getFirewallConfig()->getName()` nomme le firewall courant.
+    courses:
+      - id: CRS-x5frtpg07mmd
+        sections: ["Un seul firewall par Request", "Ce qu'un firewall porte", "`lazy`", "QCM d'entraînement", "Fiche express"]
+    flashcards: []
+    questions: []
+
+  - id: CVR-snx82c5xcjte
+    date: '2026-11-03'
+    pull_request: 454
+    commit: '0682b5e'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-gkh08ztwdme1]
+    facts: []
+    title: "Users : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur la class `User` de l'application. Faits exécutés et repris :
+      avec `EquatableUserInterface`, un changement de password laisse le user connecté si `isEqualTo()` le
+      permet ; l'ordre des appels du user checker est journalisé ; la signature 8.0 de `checkPostAuth()`.
+    courses:
+      - id: CRS-n9ngfssrq1bt
+        sections: ["Comparer deux users", "Interdire un compte", "QCM d'entraînement", "Fiche express"]
+    flashcards: []
+    questions: []
+
+  - id: CVR-asdxa730hk0z
+    date: '2026-11-03'
+    pull_request: 454
+    commit: '0682b5e'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-ta627mbwfz7m]
+    facts: []
+    title: "Password hashers : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur la migration d'une base `sha256`. Faits exécutés et repris :
+      un hash produit avec `cost: 10` rend `needsRehash()` vrai sous le coût par défaut ; un hasher peut
+      être configuré par interface ; `PasswordHasherAwareInterface` choisit un hasher nommé ; le message
+      de la `RuntimeException` quand aucun hasher n'est configuré.
+    courses:
+      - id: CRS-g4sth72ww979
+        sections: ["Hacher", "`auto` hache en bcrypt", "Migrer", "QCM d'entraînement", "Fiche express"]
+    flashcards: []
+    questions: []
+
+  - id: CVR-w3jeyqpe9x6h
+    date: '2026-11-03'
+    pull_request: 454
+    commit: '0682b5e'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-fw6db7ryrk4q]
+    facts: []
+    title: "Roles : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur lecteur, éditeur et administrateur. Faits exécutés et repris :
+      le préfixe `ROLE_` est sensible à la casse ; la hiérarchie est transitive et tolère un cycle ; avec
+      `role_hierarchy`, `RoleHierarchyVoter` remplace `RoleVoter` ; `debug:security:role-hierarchy` écrit
+      un graphe Mermaid ; un decorator de `security.role_hierarchy` ajoute un role.
+    courses:
+      - id: CRS-2s6e4qgkcqza
+        sections: ["La règle", "La hiérarchie", "Les attributes qui ne sont pas des roles", "QCM d'entraînement", "Fiche express"]
+    flashcards: []
+    questions: []
+
+  - id: CVR-05m4rzbqh0gd
+    date: '2026-11-03'
+    pull_request: 454
+    commit: '0682b5e'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-cwfr5t1ngj23]
+    facts: []
+    title: "Access Control Rules : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur un back-office et une zone interne. Faits exécutés et repris :
+      l'ordre des règles inverse le résultat (403/200 contre 200/403) ; `ips` avec `ROLE_NO_ACCESS` ;
+      `allow_if` sur un header ; une règle limitée par `methods`. Les deux diagrammes sont conservés.
+    courses:
+      - id: CRS-2ec5yksjfm9s
+        sections: ["La règle", "Ce qui fait correspondre une règle", "Ce que la règle exige", "QCM d'entraînement", "Fiche express"]
+    flashcards: []
+    questions: []
+
+  - id: CVR-da9t1mrmhe3b
+    date: '2026-11-03'
+    pull_request: 454
+    commit: '0682b5e'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-s3jh7wg5km19]
+    facts: []
+    title: "Authenticators, Passports and Badges : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur un authenticator de token d'API. Faits exécutés et repris : un
+      user loader qui rend `null` arrive à `onAuthenticationFailure()` comme « Invalid credentials. »,
+      sauf `expose_security_errors: all` ; `CustomCredentials` n'accepte que `true` strict ; un identifier
+      vide ou de 4097 octets est refusé à la construction du badge ; `PreAuthenticatedUserBadge` ne saute
+      que `checkPreAuth()`.
+    courses:
+      - id: CRS-6gc45etcssfb
+        sections: ["Les cinq methods de l'authenticator", "Les badges", "Diagnostiquer un badge", "QCM d'entraînement", "Fiche express"]
+    flashcards: []
+    questions: []
+
+  - id: CVR-ppcrn4zvx00g
+    date: '2026-11-03'
+    pull_request: 454
+    commit: '0682b5e'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-kqm5mxq4jnkj]
+    facts: []
+    title: "Voters and voting strategies : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur l'article et son auteur. Faits exécutés et repris : un
+      visiteur anonyme atteint les voters avec un `NullToken` ; `AccessDecision::getMessage()` et
+      `->strategy` ; `isGrantedForUser()` et son token hors session, qui refuse les attributes d'état de
+      connexion ; `supportsAttribute()` mis en cache ; la priority du tag ordonne la strategy `priority` ;
+      `allow_if_all_abstain: true` accorde un attribute mal orthographié.
+    courses:
+      - id: CRS-y3g0v9nmne3t
+        sections: ["Les quatre strategies", "Les deux cas limites", "Ce que le voter reçoit vraiment", "QCM d'entraînement", "Fiche express"]
     flashcards: []
     questions: []

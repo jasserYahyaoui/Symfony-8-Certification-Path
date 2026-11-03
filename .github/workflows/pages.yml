@@ -5178,7 +5178,14 @@ jobs:
                       'lot-10/roles|RoleHierarchyVoter|la hiérarchie dans le voter|Fiche express' \
                       'lot-10/access-control-rules|ROLE_NO_ACCESS|Le premier qui correspond, et la strategy|Fiche express' \
                       'lot-10/authenticators-passports-and-badges|Username could not be found|les listeners vérifient|Fiche express' \
-                      'lot-10/voters-and-voting-strategies|isGrantedForUser|voteOnAttribute tranche|Fiche express'; do
+                      'lot-10/voters-and-voting-strategies|isGrantedForUser|voteOnAttribute tranche|Fiche express' \
+                      'lot-11/messenger-component|handled zero times|emballer, envoyer ou traiter|Fiche express' \
+                      'lot-11/transports|senders locator|le stamp, puis la configuration, puis|Fiche express' \
+                      'lot-11/messages-and-handlers|ne concerne que les messages|le type relie, la priority range|Fiche express' \
+                      'lot-11/workers|Consuming messages from transport|repartir neuf|Fiche express' \
+                      'lot-11/retries-and-failures|Message id must be passed|réessayer, abandonner, mettre de côté|Fiche express' \
+                      'lot-11/middleware|DispatchAfterCurrentBusStamp|passer la main, ou tout|Fiche express' \
+                      'lot-11/events|dispatched only once|réussir ou échouer, tourner|Fiche express'; do
             page=${spec%%|*}
             out="/tmp/ped-${page//\//-}"
             code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
@@ -5548,7 +5555,13 @@ jobs:
               'lot-10/security-core-csrf-and-passwordhasher-components': 1,
               'lot-10/users': 1,
               'lot-10/voters-and-voting-strategies': 1,
+              'lot-11/events': 1,
+              'lot-11/messages-and-handlers': 1,
+              'lot-11/messenger-component': 1,
+              'lot-11/middleware': 1,
               'lot-11/retries-and-failures': 1,
+              'lot-11/transports': 1,
+              'lot-11/workers': 1,
               'lot-12/console-events': 1,
               'lot-13/client-configuration': 1,
               'lot-13/client-object': 1,
