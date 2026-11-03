@@ -231,10 +231,10 @@ Pour une URL absolue — un e-mail, un tag de partage —, on combine avec
 ## Concrètement dans ton application
 
 - Toute ressource de `public/` : `{{ asset('…') }}`, sans barre initiale.
-- Un cache à casser à chaque déploiement : `version`, ou le manifeste de l'outil
+- Un cache à casser à chaque deployment : `version`, ou le manifeste de l'outil
   de build ; une seule strategy.
 - Un format de version personnalisé : chaque `%` doublé.
-- Un CDN pour une partie des fichiers : un package à `base_urls`, appelé par le
+- Un CDN pour une partie des files : un package à `base_urls`, appelé par le
   second argument.
 - Un lien dans un email : `absolute_url(asset(…))` — hors Request, le host est
   celui du contexte du router, `localhost` par défaut.
@@ -245,7 +245,7 @@ Pour une URL absolue — un e-mail, un tag de partage —, on combine avec
   traite un path qui commence par `/` comme déjà complet ; il ne peut pas savoir
   qu'il manque `/shop`.
 - **Pourquoi une URL absolue n'est-elle pas versionnée ?** Elle pointe peut-être
-  ailleurs que chez soi ; la version ne concerne que ses propres fichiers.
+  ailleurs que chez soi ; la version ne concerne que ses propres files.
 - **Pourquoi doubler les `%` ?** La configuration Symfony lit `%nom%` comme un
   parameter du container avant même que le component Asset ne voie le format.
 
@@ -279,12 +279,12 @@ racine, tout marche ; en préproduction, sous `/shop`, les images pointent vers
 `/images/…`. *Solution.* Les templates écrivent `asset('/images/…')` : retirer
 la barre initiale, pour que le préfixe de base s'applique.
 
-**Scénario 2 — Le déploiement qui ne démarre plus.** Après l'ajout de
+**Scénario 2 — Le deployment qui ne démarre plus.** Après l'ajout de
 `version_format: '%s?version=%s'`, le kernel lève une
 `ParameterNotFoundException`. *Solution.* Doubler les pourcents :
 `'%%s?version=%%s'`.
 
-**Scénario 3 — Le fichier oublié du build.** Un template référence
+**Scénario 3 — Le file oublié du build.** Un template référence
 `build/chekout.js`, mal orthographié ; la page charge un 404 sans erreur.
 *Solution.* `strict_mode: true` sur le manifeste : le rendu échoue et propose
 les noms proches.

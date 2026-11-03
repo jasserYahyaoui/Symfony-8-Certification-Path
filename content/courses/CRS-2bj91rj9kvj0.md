@@ -270,7 +270,7 @@ Cinq questions sur TwigBundle. Choisis avant d'ouvrir la correction.
 
 - **A.** Le template d'origine est étendu normalement
 - **B.** Une `LoaderError` : template introuvable
-- **C.** Le rendu boucle jusqu'à épuiser la mémoire
+- **C.** Le rendu tourne sans fin jusqu'à épuiser la mémoire
 - **D.** Twig ignore la surcharge et rend l'original
 
 <details>

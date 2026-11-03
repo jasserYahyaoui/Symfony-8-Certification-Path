@@ -54,7 +54,7 @@ distinguer l'inheritance de la réutilisation horizontale.
 
 ## Avant la règle : le problème à résoudre
 
-Toutes les pages d'un site partagent un en-tête, un menu, un pied de page. Les
+Toutes les pages d'un site partagent un header, un menu, un pied de page. Les
 recopier dans chaque template, c'est les voir diverger au premier changement.
 Il faut **un squelette commun**, et dans chaque page **seulement ce qui change**.
 Twig le fait par l'inheritance : un parent déclare des trous, les enfants les
@@ -280,10 +280,10 @@ fois.
 `{% use 'widgets.html.twig' %}` pour un block `sidebar` ; le `<title>` du site
 change. *Solution.* `widgets.html.twig` définit aussi `title`, qui masque celui
 du parent : renommer à l'import, `with title as widget_title`, ou retirer ce
-block du fichier partagé.
+block du file partagé.
 
 **Scénario 2 — Le layout introuvable.** `{% extends [theme ~ '/layout.html.twig',
-'base_missing.html.twig'] %}` lève une `LoaderError` sur un nouveau thème.
+'base_missing.html.twig'] %}` lève une `LoaderError` sur un nouveau theme.
 *Solution.* Terminer la liste par un template qui existe toujours,
 `base.html.twig`.
 

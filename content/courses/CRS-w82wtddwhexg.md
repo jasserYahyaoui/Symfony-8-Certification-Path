@@ -61,7 +61,7 @@ choisir la bonne selon l'endroit du document.
 
 ## Avant la règle : le problème à résoudre
 
-Un nom d'utilisateur contient `<script>`. Affiché tel quel dans une page, il
+Un nom de user contient `<script>`. Affiché tel quel dans une page, il
 s'exécute chez chaque visiteur : c'est une faille XSS. Échapper la valeur la
 rend inoffensive — mais **comment** échapper dépend de l'endroit : du HTML, un
 attribute sans guillemets, une string JavaScript, une URL. Twig échappe
@@ -82,7 +82,7 @@ Twig 3.22.2, la valeur affichée étant `<b>"x" & y</b>`.
 ```
 
 Le nom est échappé en HTML sans rien demander ; l'attribute sans guillemets, le
-paramètre d'URL et la string JavaScript demandent chacun leur strategy.
+parameter d'URL et la string JavaScript demandent chacun leur strategy.
 
 ## Le cycle complet en un schéma
 
@@ -220,7 +220,7 @@ après.
 - Mettre les attributes entre guillemets ; sinon, `|e('html_attr')`.
 - Une valeur dans une URL : `|e('url')` sur le parameter, jamais sur l'adresse.
 - Une donnée pour JavaScript : `|e('js')` dans une string, ou `|json_encode|raw`
-  seulement si la donnée vient du serveur et ne contient rien de l'utilisateur.
+  seulement si la donnée vient du serveur et ne contient rien du user.
 - `|raw` en dernier, et seulement sur du contenu sûr par construction.
 - Un email texte : `.txt.twig`, rien n'est échappé — ce qui est voulu.
 
@@ -230,7 +230,7 @@ après.
   y écrire `&lt;` serait faux. Le nom du template est le seul indice fiable du
   format de sortie.
 - **Pourquoi pas d'escaping pour une statique ?** Elle est écrite par le
-  développeur, pas fournie par un utilisateur ; seule une variable peut porter
+  développeur, pas fournie par un user ; seule une variable peut porter
   une attaque.
 - **Pourquoi `raw` doit-il être le dernier ?** Un filter après lui produit une
   nouvelle valeur, que Twig ne connaît pas comme sûre.
@@ -279,8 +279,8 @@ attribute entre guillemets ; dans un `<script>`, préférer un template `.js.twi
 ou `|e('js')` valeur par valeur.
 
 **Scénario 3 — Le titre en gras qui ne l'est plus.** `{{ "<b>" ~ title ~ "</b>" }}`
-affiche les balises. *Solution.* La statique cesse de l'être dès qu'une
-variable s'y mêle : écrire les balises hors de l'expression,
+affiche les tags. *Solution.* La statique cesse de l'être dès qu'une
+variable s'y mêle : écrire le HTML hors de l'expression,
 `<b>{{ title }}</b>`.
 
 ## QCM d'entraînement
@@ -353,7 +353,7 @@ B oublie le pre-escape. C échapperait les `<br />`. D ignore le filter.
 <details>
 <summary>Correction</summary>
 
-**Bonne réponse : B.** Rejoué : `json_encode` n'est pas déclaré sûr, sa sortie
+**Bonne réponse : B.** Rejoué : `json_encode` n'est pas déclaré sûr, son output
 est échappée en HTML.
 
 A supposerait un filter sûr ou `|raw`. C décrit les options de `json_encode`

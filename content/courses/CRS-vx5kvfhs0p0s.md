@@ -132,9 +132,9 @@ du HTML inséré dans la page, alors que `DumpNode` compile le tag en un appel
 Sans argument, `{{ dump() }}` comme `{% dump %}` sortent **tout le contexte** du
 template, macros exclues.
 
-**Rejoué** avec DebugBundle, en `debug` : `[{{ dump(x) }}]` insère un bloc HTML
+**Rejoué** avec DebugBundle, en `debug` : `[{{ dump(x) }}]` insère un fragment HTML
 `sf-dump` entre les crochets ; `[{% dump x %}]` laisse la page à `[]`. Sans
-argument, le bloc contient chaque variable du contexte, `app` comprise.
+argument, le fragment contient chaque variable du contexte, `app` comprise.
 
 ## Étiqueter ce qu'on inspecte
 
@@ -211,7 +211,7 @@ function `date(date = null, timezone = null)` et les filters `date` et
 
 - **Pourquoi deux destinations ?** La function sert à regarder une valeur dans
   son contexte visuel ; le tag sert à l'inspecter sans rien changer à ce que
-  voit l'utilisateur.
+  voit le user.
 - **Pourquoi `dump()` existe-t-il parfois sans DebugBundle ?** TwigBundle
   fournit en `debug` la version minimale de Twig, et s'efface quand DebugBundle
   apporte la sienne.
@@ -243,11 +243,11 @@ avertissement.
 
 ## Application : trois scénarios
 
-**Scénario 1 — La mise en page cassée.** Un `{{ dump(cart) }}` dans un tableau
+**Scénario 1 — La mise en page cassée.** Un `{{ dump(cart) }}` dans un `<table>`
 déforme toute la page. *Solution.* Le tag, `{% dump cart %}` : la page reste
 intacte, le dump est dans la debug toolbar.
 
-**Scénario 2 — La 500 du lundi matin.** Après déploiement, la page d'accueil
+**Scénario 2 — La 500 du lundi matin.** Après deployment, la page d'accueil
 lève « Unknown function "dump" ». *Solution.* Un `dump()` est resté dans un
 template ; en production, DebugBundle est absent et `kernel.debug` vaut
 `false`. Retirer l'appel. Rejoué : `lint:twig` lancé dans l'environment `prod`
@@ -362,12 +362,12 @@ est faux.
 
 - **Function** : dans la page ; **tag** : vers la toolbar.
 - Sans argument : **tout le contexte**.
-- Function : **arguments positionnels** seulement ; tag : étiquettes par nom.
+- Function : **arguments positionnels** seulement ; tag : chaque variable nommée.
 - DebugBundle hors `debug` : **rien**.
 - Sans DebugBundle : `debug` → **`var_dump`** de Twig, tag inconnu ; sinon
   **Unknown function**.
 - **`debug:twig --filter=…`** : ce que Twig connaît.
-- **`lint:twig`** : syntaxe seulement, code de sortie `1` en cas d'erreur.
+- **`lint:twig`** : syntaxe seulement, exit code `1` en cas d'erreur.
 
 **En une phrase, pour tout reconstruire :**
 

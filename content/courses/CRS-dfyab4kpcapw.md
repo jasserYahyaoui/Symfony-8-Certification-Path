@@ -78,14 +78,14 @@ title: Ce que Twig fait d'une string littérale
 ---
 flowchart TD
   accTitle: Le traitement d'une string littérale par Twig 3.22
-  accDescr: Dans les deux sortes de guillemets, les séquences d'escaping sont traitées ; une barre oblique inverse devant un caractère non reconnu est ignorée avec une deprecation depuis Twig 3.12. Entre guillemets simples, il n'y a pas d'interpolation et la string reste une constante, que l'escaping laisse intacte. Entre guillemets doubles, un dièse suivi d'une accolade ouvre une interpolation, sauf s'il est précédé d'une barre oblique inverse. L'expression interpolée est évaluée et concaténée ; la string obtenue n'est plus une constante, et l'escaping s'applique à toute la string, balises écrites dans le template comprises.
+  accDescr: Dans les deux sortes de guillemets, les séquences d'escaping sont traitées ; une barre oblique inverse devant un caractère non reconnu est ignorée avec une deprecation depuis Twig 3.12. Entre guillemets simples, il n'y a pas d'interpolation et la string reste une constant, que l'escaping laisse intacte. Entre guillemets doubles, un dièse suivi d'une accolade ouvre une interpolation, sauf s'il est précédé d'une barre oblique inverse. L'expression interpolée est évaluée et concaténée ; la string obtenue n'est plus une constant, et l'escaping s'applique à toute la string, tags écrites dans le template comprises.
   LIT["string littérale"] --> ESC["séquences \n \t \x41 \101 traitées ; \P : deprecation 3.12, barre ignorée"]
   ESC --> Q{"guillemets ?"}
   Q -->|"simples"| CONST(["constante : #{…} est du texte ; jamais échappée"])
   Q -->|"doubles"| H{"#{ présent ?"}
   H -->|"non, ou \#{"| CONST
   H -->|"oui"| EXPR["l'expression est évaluée et concaténée"]
-  EXPR --> ALL(["plus une constante : toute la string est échappée"])
+  EXPR --> ALL(["plus une constant : toute la string est échappée"])
 ```
 
 ## La syntaxe
@@ -149,7 +149,7 @@ Un path Windows s'écrit donc en doublant la barre : `'c:\\Program Files'`.
 
 ## L'escaping de la string entière
 
-Une string **littérale** est une constante : `SafeAnalysisNodeVisitor` la juge
+Une string **littérale** est une constant : `SafeAnalysisNodeVisitor` la juge
 sûre, et `{{ '<b>x</b>' }}` affiche du gras, sans escaping. Une string
 **interpolée** est une expression : son résultat est échappé **en entier**.
 
@@ -234,7 +234,7 @@ PHP.
 
 ## Application : trois scénarios
 
-**Scénario 1 — Le gras qui s'affiche en balises.** `{{ "<strong>#{price}</strong> €" }}`
+**Scénario 1 — Le gras qui s'affiche en texte brut.** `{{ "<strong>#{price}</strong> €" }}`
 affiche `<strong>` en toutes lettres. *Solution.* La string interpolée est
 échappée en entier : écrire `<strong>{{ price }}</strong> €`.
 
@@ -262,7 +262,7 @@ source HTML produit par `{{ "<b>#{name}</b>" }}` ?
 <summary>Correction</summary>
 
 **Bonne réponse : C.** Rejoué avec Twig 3.22.2 : la string interpolée n'est
-plus une constante ; le résultat entier est échappé, balises comprises.
+plus une constant ; le résultat entier est échappé, `<b>` et `</b>` compris.
 
 A vaudrait pour `<b>{{ name }}</b>`. D suppose un escaping partiel, qui
 n'existe pas. B décrit des guillemets simples.

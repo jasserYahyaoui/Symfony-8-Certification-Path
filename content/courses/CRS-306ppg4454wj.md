@@ -99,7 +99,7 @@ flowchart TD
   KIND -->|"non"| FN["function, par nom(...)"]
   F --> PREC{"sans parenthèses ?"}
   PREC -->|"oui"| NEAR(["s'applique à l'opérande le plus proche, avant -, ~, +"])
-  PREC -->|"non"| GROUP(["s'applique au groupe entre parenthèses"])
+  PREC -->|"non"| GROUP(["s'applique à l'expression entre parenthèses"])
   F --> CHAIN(["enchaînés : de gauche à droite"])
   FN --> KNOWN{"connue ?"}
   KNOWN -->|"non"| ERR(["SyntaxError à la compilation"])

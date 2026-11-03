@@ -224,10 +224,10 @@ s'exécute dans le contexte de l'embed, réduit à `x`.
 
 - Un fragment réutilisable : `include()` avec `with_context: false`, et ses
   entrées passées explicitement.
-- Un fragment optionnel, comme un bandeau par thème : `ignore_missing: true`.
-- Un layout par thème avec repli : une liste `[theme ~ '/x.html.twig', 'x.html.twig']`.
+- Un fragment optionnel, comme un bandeau par theme : `ignore_missing: true`.
+- Un layout par theme avec repli : une liste `[theme ~ '/x.html.twig', 'x.html.twig']`.
 - Une variante d'un fragment : `embed` et un block redéfini.
-- Un template fourni par un utilisateur : `sandboxed: true` **et**
+- Un template fourni par un user : `sandboxed: true` **et**
   `SandboxExtension` enregistrée.
 - Un résultat d'inclusion à transformer : la function, `{% set html = include(…) %}`.
 
@@ -272,11 +272,11 @@ en function.
 **Scénario 1 — Le compteur qui ne compte pas.** Un fragment fait
 `{% set total = total + 1 %}` à chaque inclusion ; la page affiche toujours `0`.
 *Solution.* Rien ne remonte d'un fragment : calculer le total dans l'appelant,
-avant ou autour de la boucle.
+avant ou autour de la loop.
 
 **Scénario 2 — Le bac à sable qui n'en est pas un.** Une page inclut des
-gabarits écrits par les clients avec `sandboxed: true` ; un audit montre qu'ils
-appellent n'importe quelle méthode. *Solution.* `SandboxExtension` n'est pas
+templates écrits par les clients avec `sandboxed: true` ; un audit montre qu'ils
+appellent n'importe quelle method. *Solution.* `SandboxExtension` n'est pas
 enregistrée : sans elle, l'option est ignorée. L'enregistrer, avec sa policy.
 
 **Scénario 3 — La variante de la carte.** Deux pages veulent la carte d'article
@@ -384,7 +384,7 @@ A est l'idée reçue. B et C sont faux.
 
 **Si tu dois retenir seulement 7 choses :**
 
-- **`include()`** recommandée : composable, arguments nommés.
+- **`include()`** recommandée : composable, named arguments.
 - Contexte **hérité** par défaut ; **`only`** / **`with_context: false`** le coupe.
 - Les **globales** restent visibles ; **rien ne remonte** du fragment.
 - Liste : le **premier existant** ; absent : **`LoaderError`**.

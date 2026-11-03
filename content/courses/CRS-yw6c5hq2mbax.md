@@ -168,7 +168,7 @@ controllers peut peser nettement sur les performances.
 
 **Rejoué**, la page étant appelée avec un cookie et un header
 `If-None-Match` : le fragment voit le cookie, ne voit pas le header, et reçoit
-la méthode `GET`, le format `html` et la locale de la page.
+la method `GET`, le format `html` et la locale de la page.
 
 ## Les strategies
 
@@ -227,9 +227,9 @@ de la **page**, pas celle du fragment — `deliver()` lit la Request courante.
 
 ## Concrètement dans ton application
 
-- Un bloc réutilisable sans logique propre : un `include`, ou un Twig
+- Un élément réutilisable sans logique propre : un `include`, ou un Twig
   Component, pas un controller.
-- Un bloc qui a besoin de ses propres données sur toutes les pages :
+- Un élément qui a besoin de ses propres données sur toutes les pages :
   `render(controller(…))`, en sachant que chaque appel est une sub-Request.
 - Un fragment à mettre en cache à part : `render_esi()`, avec `framework.esi`
   activé — sinon l'appel échoue.
@@ -288,7 +288,7 @@ visible, et surveiller les logs.
 **Scénario 2 — Le fragment qui veut connecter.** Le controller du fragment
 redirige vers la page de login quand le user n'est pas connecté ; la page entière
 tombe en erreur. *Solution.* Un fragment ne redirige pas : rendre un message
-« Connectez-vous » à la place, et laisser le contrôle d'accès à la page.
+« Connectez-vous » à la place, et laisser l'access control à la page.
 
 **Scénario 3 — L'ESI qui n'existe pas.** `render_esi()` est ajouté pour mettre
 un fragment en cache ; la page lève « The "esi" renderer does not exist. ».
@@ -345,7 +345,7 @@ A ignore `alt`. B décrit `prod` sans `alt`. D décrit `prod` avec `alt`, où
 `{{ render_esi(controller('…::recent')) }}` ?
 
 - **A.** Il rend le fragment en `inline`, faute d'ESI
-- **B.** Il écrit une balise `<esi:include>` dans la page
+- **B.** Il écrit un tag `<esi:include>` dans la page
 - **C.** Il échoue : le renderer `esi` n'existe pas
 - **D.** Il ne rend rien
 

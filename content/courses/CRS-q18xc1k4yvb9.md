@@ -127,7 +127,7 @@ Ce que fait le filter d'un message, lu dans `TranslationExtension` et rejoué :
 title: Ce que fait le filter trans d'un message
 ---
 flowchart TD
-  accTitle: Le chemin d'un message à travers le filter trans de Symfony 8.0
+  accTitle: Le parcours d'un message à travers le filter trans de Symfony 8.0
   accDescr: Si le message est un object traduisible, une string en deuxième argument est prise comme locale et l'object se traduit avec ses propres parameters et son domain. Sinon le deuxième argument doit être un array de parameters, faute de quoi le filter lève une TypeError que Twig remonte dans une RuntimeError. Le domain est celui passé en argument, sinon celui de trans_default_domain dans le template courant, sinon messages. Si le file du catalogue porte le suffixe intl-icu, le message passe par MessageFormatter avec des emplacements entre accolades, plural et select. Sinon les emplacements sont remplacés par strtr et la syntaxe à barres choisit d'après count. L'output du filter est échappé, celui du tag ne l'est pas.
   MSG{"le message est un object traduisible ?"} -->|"oui"| OBJ["string en 2e argument = locale ; parameters et domain de l'object"]
   MSG -->|"non"| ARR{"2e argument = array ?"}
@@ -164,7 +164,7 @@ message est un object traduisible : elle désigne alors la **locale**. Sur une
 string ordinaire, `|trans('store')` fait lever une `TypeError` au filter.
 
 **Rejoué :** les quatre appels ci-dessus, `trans(domain: 'store')` et
-`trans(domain = 'store')` rendent la traduction attendue ; `|trans(count: 3)`
+`trans(domain = 'store')` rendent la translation attendue ; `|trans(count: 3)`
 remplit `%count%`. Et `'checkout.total'|trans('store')` arrive dans le template
 sous la forme d'une `Twig\Error\RuntimeError` dont `getPrevious()` est la
 `TypeError` : « Unless the message is a "…TranslatableInterface", argument 2
@@ -284,9 +284,9 @@ domain `store` porté par l'object.
   en tête du template.
 - Un texte avec variables : `|trans({'%name%': …})`, la key **avec** ses
   pourcents.
-- Un pluriel, un genre : un file `+intl-icu` et des `{name}` ; la syntaxe à
+- Un plural, un genre : un file `+intl-icu` et des `{name}` ; la syntaxe à
   barres seulement pour des intervalles.
-- Du HTML dans une traduction : le tag, ou `|trans|raw` — en sachant que rien
+- Du HTML dans une translation : le tag, ou `|trans|raw` — en sachant que rien
   n'est alors échappé.
 - Un label calculé ailleurs — enum, service, Form — : renvoyer `t(…)`, et
   l'afficher avec `|trans`, jamais seul.
@@ -301,7 +301,7 @@ domain `store` porté par l'object.
 - **Pourquoi `trans_default_domain` ne traverse-t-il pas un `include` ?** Un
   fragment inclus doit traduire pareil partout, quel que soit le template qui
   l'inclut.
-- **Pourquoi `t()` plutôt qu'une key ?** La traduction a lieu au rendu, dans la
+- **Pourquoi `t()` plutôt qu'une key ?** La translation a lieu au rendu, dans la
   locale du rendu, avec les parameters et le domain voulus par celui qui a créé
   le message.
 
@@ -344,7 +344,7 @@ emplacement ordinaire — rien n'est pluralisé.
 `%name%` : `strtr()` a remplacé `name` seul. Écrire la key avec ses pourcents,
 `{'%name%': …}`.
 
-**Scénario 2 — Le pluriel qui ne pluralise pas.** Le panier affiche
+**Scénario 2 — Le plural qui ne pluralise pas.** Le panier affiche
 `{count, plural, one {# article} other {# articles}}` tel quel. *Solution.* Le
 file s'appelle `store.fr.yaml` : sans `+intl-icu`, les accolades ne sont pas
 interprétées. Le renommer `store+intl-icu.fr.yaml`.
@@ -356,7 +356,7 @@ interprétées. Le renommer `store+intl-icu.fr.yaml`.
 
 ## QCM d'entraînement
 
-Cinq questions sur la traduction dans Twig. Choisis avant d'ouvrir la
+Cinq questions sur la translation dans Twig. Choisis avant d'ouvrir la
 correction.
 
 **Question 1.** Le catalogue traduit `user.greeting` par `Bonjour %name%`. Que

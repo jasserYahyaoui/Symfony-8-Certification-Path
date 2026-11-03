@@ -296,7 +296,7 @@ clause `else` de la loop répond à la même question sans parcourir deux fois.
   pour `loop.last`, passer un array ou implémenter `Countable`.
 - Un total : `{% set total = 0 %}` **avant** la loop.
 - Un sous-ensemble : `filter`, `slice` ou `sort` sur la séquence ; mieux encore,
-  une requête qui ne ramène que les bons éléments.
+  ne charger que les bons éléments depuis la base.
 - Une comparaison stricte : `is same as(…)`.
 
 ## À comprendre

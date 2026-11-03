@@ -2362,7 +2362,7 @@ entries:
     now: >-
       La page devient un cours complet, sur l'achat validé. Faits exécutés et repris : `fromTransport`
       ne s'applique qu'aux messages reçus, un dispatch synchrone appelle encore le handler ; `priority`
-      ordonne les handlers d'un même type de message, un handler de la classe à 0 passant avant un
+      ordonne les handlers d'un même type de message, un handler de la class à 0 passant avant un
       handler de l'interface à 100 ; le versionnement d'un message rejoué entre deux process.
     courses:
       - id: CRS-ckdp50w2dmy4

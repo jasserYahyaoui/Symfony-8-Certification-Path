@@ -138,7 +138,7 @@ traduire ce bool en type de référence avant d'appeler le generator.
 | `url('post', {slug: 'mon-article'})` | `http://example.com/post/mon-article` |
 | `url('post', {slug: 'mon-article'}, true)` | `//example.com/post/mon-article` |
 
-Le chemin relatif part du **dossier** de la page courante : depuis
+Le path relatif part du **dossier** de la page courante : depuis
 `/products/hover-board`, il remonte d'un niveau. Les named arguments marchent
 aussi : `path(name: 'post', parameters: {…}, relative: true)`.
 
@@ -229,11 +229,11 @@ et refuse une route inconnue. Une string écrite à la main ne fait rien de cela
 ## Concrètement dans ton application
 
 - Un lien de navigation : `path()`.
-- Un canonical, un lien dans un email, une balise de partage : `url()`, ou
-  `absolute_url(asset(…))` pour un fichier public.
+- Un canonical, un lien dans un email, un tag de partage : `url()`, ou
+  `absolute_url(asset(…))` pour un file public.
 - Un email envoyé hors d'une Request : `framework.router.default_uri` —
   sans lui, `url()` rend une URL en `http://localhost/…`.
-- Un parameter de filtre ou de tracking : un parameter en plus, qui part en
+- Un parameter de filter ou de tracking : un parameter en plus, qui part en
   query string — attention aux fautes de frappe, elles ne lèvent rien.
 - Un path relatif : `path(…, true)` pour une route, `relative_path('/…')` pour
   un path — jamais une URL complète.
@@ -291,7 +291,7 @@ host par défaut est `localhost` : configurer `framework.router.default_uri`.
 la route est liée à un autre host, et un path seul pointerait vers le mauvais
 site.
 
-**Scénario 3 — Le chemin relatif qui ne l'est pas.** Un template écrit
+**Scénario 3 — Le path relatif qui ne l'est pas.** Un template écrit
 `relative_path(url('download'))` et obtient l'URL complète. *Solution.*
 `relative_path()` ne touche pas une URL complète : écrire
 `path('download', {}, true)`.
@@ -368,7 +368,7 @@ sont faux.
 <details>
 <summary>Correction</summary>
 
-**Bonne réponse : A.** Rejoué : le chemin relatif part du dossier de la page
+**Bonne réponse : A.** Rejoué : le path relatif part du dossier de la page
 courante, `/products/`, et doit en remonter.
 
 B vaudrait depuis une page à la racine. C est le `true` d'`url()`. D est

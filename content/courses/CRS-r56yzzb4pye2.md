@@ -190,7 +190,7 @@ template qui les appelle. C'est adapté à une constant d'application ; ce n'est
 pas un substitut au passage de variables, qui reste la voie normale pour les
 données d'une page.
 
-**Rejoué, la priorité :** une globale `title: GLOBAL`, et un rendu qui passe
+**Rejoué, la priority :** une globale `title: GLOBAL`, et un rendu qui passe
 `title: CONTEXT` — le template affiche `CONTEXT`. Une variable passée au rendu
 masque la globale du même nom. Et une macro affiche la globale `site`, mais pas
 la variable `local` du template appelant.
@@ -212,13 +212,13 @@ après lecture, `peekAll()` rend un array vide.
   de debug.
 - Un template rendu hors Request — email, PDF : ne pas compter sur
   `app.request`.
-- Une constante d'application : `twig.globals` ; un service : `'@id'`.
+- Une constant d'application : `twig.globals` ; un service : `'@id'`.
 - Un nom de globale qui ne heurte aucune variable de page.
 
 ## À comprendre
 
 - **Pourquoi `app` plutôt que des variables séparées ?** Un seul object donne
-  un accès paresseux : la session n'est lue que si un template la demande.
+  un accès lazy : la session n'est lue que si un template la demande.
 - **Pourquoi le contexte masque-t-il la globale ?** Le controller sait mieux
   que la configuration ce qu'une page doit afficher.
 - **Pourquoi une exception plutôt que `null` sans Security ?** `null` veut déjà
@@ -266,9 +266,9 @@ globale. Nommer la globale autrement, `site_title`, évite la confusion.
 
 **Scénario 2 — L'email qui plante.** Une command rend un email qui affiche
 `{{ app.request.host }}` : erreur, `app.request` vaut `null`. *Solution.* Hors
-Request, passer l'hôte en variable, ou le lire dans la configuration.
+Request, passer le host en variable, ou le lire dans la configuration.
 
-**Scénario 3 — Le gestionnaire d'erreur muet.** Un `catch (\RuntimeException)`
+**Scénario 3 — Le handler d'erreur muet.** Un `catch (\RuntimeException)`
 autour du rendu devait capter l'absence de Security ; l'erreur passe au travers.
 *Solution.* Twig la remonte en `Twig\Error\RuntimeError` : attraper celle-ci,
 ou `Twig\Error\Error`.
@@ -291,7 +291,7 @@ template avec `['title' => 'Page']`. Que sort `{{ title }}` ?
 **Bonne réponse : B.** Rejoué : une variable passée au rendu masque la globale
 du même nom.
 
-A inverse la priorité. C et D sont faux.
+A inverse la priority. C et D sont faux.
 
 </details>
 

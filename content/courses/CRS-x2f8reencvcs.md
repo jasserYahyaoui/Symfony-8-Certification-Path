@@ -82,7 +82,7 @@ Trois questions : les **délimiteurs**, la **résolution** de `foo.bar`, et les
 **operators**. Tous les faits de cette page ont été exécutés avec Twig 3.22.2,
 sous PHP 8.4.
 
-## Le fil rouge : la fiche commande
+## Le fil rouge : la fiche d'un achat
 
 ```twig
 {# templates/order/show.html.twig #}
@@ -93,7 +93,7 @@ sous PHP 8.4.
 {% endif %}
 ```
 
-`order.status` peut venir d'une key, d'une property, d'une constante ou d'un
+`order.status` peut venir d'une key, d'une property, d'une constant ou d'un
 getter ; `~` concatène ; `and` relie ; `has some` teste une séquence ; `??`
 couvre un nickname absent.
 
@@ -107,7 +107,7 @@ title: Comment Twig résout foo.bar
 ---
 flowchart TD
   accTitle: L'ordre de résolution de foo.bar dans Twig 3.22
-  accDescr: Twig essaie d'abord foo comme array, ArrayObject ou ArrayAccess avec la key bar. Puis une property publique bar. Puis une constante de class nommée bar, à la casse près. Puis les methods bar, getBar, isBar et hasBar, cherchées sans tenir compte de la casse, un hasser étant écarté quand un isser du même nom existe. Puis __call. Si rien ne correspond, null, ou une RuntimeError quand strict_variables est active.
+  accDescr: Twig essaie d'abord foo comme array, ArrayObject ou ArrayAccess avec la key bar. Puis une property publique bar. Puis une constant de class nommée bar, à la casse près. Puis les methods bar, getBar, isBar et hasBar, cherchées sans tenir compte de la casse, un hasser étant écarté quand un isser du même nom existe. Puis __call. Si rien ne correspond, null, ou une RuntimeError quand strict_variables est active.
   A{"array ou ArrayAccess, key bar ?"} -->|"oui"| R1(["foo['bar']"])
   A -->|"non"| P{"property publique bar ?"}
   P -->|"oui"| R2(["foo->bar"])
@@ -166,7 +166,7 @@ l'aurait masqué.
 | Class | Expression | Résultat |
 |---|---|---|
 | `const STATUS`, `getStatus()` | `o.status` | le getter |
-| `const status`, `getStatus()` | `o.status` | **la constante** |
+| `const status`, `getStatus()` | `o.status` | **la constant** |
 | `ArrayAccess` et property publique `bar` | `o.bar` | la valeur d'`offsetGet()` |
 | `isActive()` et `hasActive()` | `o.active` | `isActive()` |
 | `GETNAME()` seulement | `o.getname` | la method, casse ignorée |
@@ -220,7 +220,7 @@ Quatre pièges reviennent :
   Sur une variable absente, `?:` déclenche `strict_variables`, `??` non ;
 - sur un itérable vide, `has every` vaut `true` et `has some` vaut `false`.
 
-**Rejoué, avec les sorties exactes :**
+**Rejoué, avec les résultats exacts :**
 
 | Expression | Sortie |
 |---|---|
@@ -260,7 +260,7 @@ sauts de ligne garde les sauts de ligne ; `{% apply spaceless %}` émet
 - Concaténer : `~`, toujours.
 - Une valeur facultative : `??` plutôt que `?:`, qui avale aussi `0` et `''`.
 - Un attribute au nom dynamique : `obj.(name)`, plus `attribute()`.
-- Un objet qui expose une constante et un getter du même nom, casse comprise :
+- Un object qui expose une constant et un getter du même nom, casse comprise :
   renommer l'un des deux.
 - Les blancs : `-` et `~` sur les tags, plus `spaceless`.
 
@@ -282,7 +282,7 @@ sauts de ligne garde les sauts de ligne ; `{% apply spaceless %}` émet
 - **`//`** : division entière, arrondie vers le bas.
 - **`?:`** teste la vérité, **`??`** l'existence.
 - **`and or not`**, jamais `&& || !`.
-- Moyen mnémotechnique : **« array d'abord, constante exacte, méthode sans
+- Moyen mnémotechnique : **« array d'abord, constante exacte, method sans
   casse »**.
 
 ## Pièges d'examen
@@ -298,9 +298,9 @@ sauts de ligne garde les sauts de ligne ; `{% apply spaceless %}` émet
 
 ## Application : trois scénarios
 
-**Scénario 1 — Le statut qui affiche une constante.** Une class `Order` déclare
+**Scénario 1 — Le statut qui affiche une constant.** Une class `Order` déclare
 `const status = 'draft'` et `getStatus()` ; la page affiche toujours `draft`.
-*Solution.* La constante, à la casse exacte, passe avant le getter : la
+*Solution.* La constant, à la casse exacte, passe avant le getter : la
 renommer, ou appeler `order.getStatus()`.
 
 **Scénario 2 — La pagination négative.** `{{ offset // size }}` donne `-1` pour
@@ -335,7 +335,7 @@ A suppose une troncature. B est le résultat de `/`. D est faux.
 **Question 2.** Une class déclare `const status = 'CONST'` et une method
 `getStatus()` qui rend `'GETTER'`. Que rend `{{ o.status }}` ?
 
-- **A.** `GETTER` : les methods passent avant les constantes
+- **A.** `GETTER` : les methods passent avant les constants
 - **B.** `CONST`
 - **C.** Une erreur : deux candidats
 - **D.** `null` : le nom est ambigu
@@ -343,7 +343,7 @@ A suppose une troncature. B est le résultat de `/`. D est faux.
 <details>
 <summary>Correction</summary>
 
-**Bonne réponse : B.** Rejoué. La constante est testée avant les methods, et son
+**Bonne réponse : B.** Rejoué. La constant est testée avant les methods, et son
 nom correspond ici à la casse près. Avec `const STATUS`, ce serait le getter.
 
 A inverse l'ordre. C et D sont faux.
