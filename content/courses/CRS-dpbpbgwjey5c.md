@@ -57,36 +57,14 @@ outcome_sections:
 Générer une URL depuis un template. Le generator lui-même et ses quatre types de
 référence sont traités dans le lot Routing.
 
-## Avant la règle : le problème à résoudre
+## L'essentiel
 
-Un blog affiche des liens vers ses articles : dans le menu, dans un flux RSS,
-dans l'email de la newsletter. Écrire `/blog/mon-article` à la main marche le
-premier jour ; le jour où la route gagne un préfixe `/fr`, chaque lien casse
-sans qu'un test ne le voie. Et l'email exige une URL complète, avec le host,
-quand le menu se contente d'un path.
+Deux functions prennent un **route name** — `path()` pour un path, `url()` pour
+une URL complète — et deux autres prennent un **path** — `absolute_url()` et
+`relative_path()`. Le generator peut élargir la référence demandée, et une URL
+ne s'écrit jamais à la main.
 
-Twig répond avec **deux functions sur un route name** — `path()` et `url()` —
-et **deux functions sur un path** — `absolute_url()` et `relative_path()`.
-Tous les faits de cette page ont été exécutés avec Symfony 8.0.15 et Twig
-3.22.2, depuis la page `http://example.com/products/hover-board`.
-
-## Le fil rouge : les liens d'un article
-
-```twig
-{# templates/blog/show.html.twig #}
-<a href="{{ path('blog_show', {slug: post.slug}) }}">Lien interne</a>
-<link rel="canonical" href="{{ url('blog_show', {slug: post.slug}) }}">
-<meta property="og:image" content="{{ absolute_url(asset('images/' ~ post.cover)) }}">
-<a href="{{ path('blog_list', {page: 2, tag: 'symfony'}) }}">Page suivante</a>
-```
-
-Le lien du menu prend un path ; le canonical et l'image de partage, lus par
-d'autres sites, prennent une URL complète ; le dernier lien montre un
-parameter que la route ne déclare pas, `tag`, qui part en query string.
-
-## Le cycle complet en un schéma
-
-Quelle function prendre, et ce que le generator peut décider à sa place :
+## Le schéma
 
 ```mermaid
 ---
@@ -109,157 +87,60 @@ flowchart TD
   RP -->|"/human.txt"| REL(["../human.txt"])
   RP -->|"http://…"| SAME(["rendue telle quelle"])
 ```
-
 ## Deux functions
 
 ```html
 <a href="{{ path('blog_show', {slug: post.slug}) }}">Lire</a>
-<a href="{{ url('blog_show', {slug: post.slug}) }}">Lien absolu</a>
+<link rel="canonical" href="{{ url('blog_show', {slug: post.slug}) }}">
 ```
 
-| Appel | Type de référence | Résultat |
+| Appel | Type de référence | Depuis `/products/hover-board` |
 |---|---|---|
-| `path(nom, params)` | `ABSOLUTE_PATH` | `/blog/mon-article` |
-| `path(nom, params, true)` | `RELATIVE_PATH` | `blog/mon-article`, relatif à la page courante |
-| `url(nom, params)` | `ABSOLUTE_URL` | `https://example.com/blog/mon-article` |
-| `url(nom, params, true)` | `NETWORK_PATH` | `//example.com/blog/mon-article` |
+| `path(nom, params)` | `ABSOLUTE_PATH` | `/post/mon-article` |
+| `path(nom, params, true)` | `RELATIVE_PATH` | `../post/mon-article` |
+| `url(nom, params)` | `ABSOLUTE_URL` | `http://example.com/post/mon-article` |
+| `url(nom, params, true)` | `NETWORK_PATH` | `//example.com/post/mon-article` |
 
-Les deux premiers arguments sont communs : le nom de la route, puis un array
-de parameters. Le **troisième diffère** : `relative` pour `path()`,
-`schemeRelative` pour `url()`. `RoutingExtension` (Twig Bridge 8.0) se borne à
-traduire ce bool en type de référence avant d'appeler le generator.
-
-**Rejoué** depuis `/products/hover-board`, route `post` sur `/post/{slug}` :
-
-| Appel | Résultat |
-|---|---|
-| `path('post', {slug: 'mon-article'})` | `/post/mon-article` |
-| `path('post', {slug: 'mon-article'}, true)` | `../post/mon-article` |
-| `url('post', {slug: 'mon-article'})` | `http://example.com/post/mon-article` |
-| `url('post', {slug: 'mon-article'}, true)` | `//example.com/post/mon-article` |
-
-Le path relatif part du **dossier** de la page courante : depuis
-`/products/hover-board`, il remonte d'un niveau. Les named arguments marchent
-aussi : `path(name: 'post', parameters: {…}, relative: true)`.
+Les deux premiers arguments sont communs ; le **troisième diffère** :
+`relative` pour `path()`, `schemeRelative` pour `url()`.
 
 ## Ce que le generator décide seul
 
-Le comportement du generator ne change pas parce qu'on l'appelle depuis un
-template. `UrlGenerator` peut **élargir** le type demandé :
-
-- une route dont le schéma exigé diffère de celui de la Request courante rend
-  une URL absolue, même par `path()` ;
-- une route liée à un autre host rend une référence `//hôte/chemin`.
-
-Un parameter absent de la route devient une query string, et une route
-inconnue lève `RouteNotFoundException`.
-
-**Rejoué**, la page étant servie en `http` sur `example.com` :
-
-| Route | `path()` rend |
-|---|---|
-| `/sec`, `schemes: [https]` | `https://example.com/sec` |
-| `/o`, `host: api.example.com` | `//api.example.com/o` |
-| `post` avec un `ref` en plus | `/post/x?ref=nl` |
-| `/blog/{page}`, `page` à 1 par défaut, appelée avec `page: 1` | `/blog` |
-
-Une route inconnue, ou un parameter obligatoire oublié, arrive dans le
-template emballé : une `Twig\Error\RuntimeError` dont `getPrevious()` est la
-`RouteNotFoundException` ou la `MissingMandatoryParametersException`.
-
-Sans Request — dans une command ou un worker qui envoie un email — `url()` ne
-connaît que le contexte du router, dont FrameworkBundle fixe le host à
-`localhost` par défaut. La documentation du routing le dit, et c'est rejoué
-dans un kernel 8.0 démarré sans Request : `url('post', {slug: 'z'})` rend
-`http://localhost/post/z`. Avec `framework.router.default_uri:
-'https://example.org/my/path/'`, le même appel rend
-`https://example.org/my/path/post/z`.
+- Une route qui exige un autre **schéma** que la Request rend une URL absolue,
+  même par `path()` : `https://example.com/sec`.
+- Une route liée à un autre **host** rend une référence `//api.example.com/o`.
+- Un parameter absent de la route part en **query string** : `/post/x?ref=nl`.
+- Une route inconnue lève `RouteNotFoundException`, que le template reçoit dans
+  une `RuntimeError`.
+- Sans Request — une command qui envoie un email —, `url()` prend le host du
+  contexte du router, `localhost` par défaut : `http://localhost/post/z`.
+  `framework.router.default_uri` le corrige.
 
 ## Deux functions voisines, sans route
 
-`HttpFoundationExtension` ajoute deux functions qui prennent un **path**, pas
-un route name :
+`HttpFoundationExtension` ajoute deux functions qui prennent un **path** :
 
-- `absolute_url('/images/logo.png')` rend l'URL absolue du path, sur le host
-  courant — la documentation la combine avec `asset()` ;
-- `relative_path('/human.txt')` rend le path relatif à la page courante, ici
-  `../human.txt` depuis `/products/hover-board`.
+- `absolute_url('/images/logo.png')` → `http://example.com/images/logo.png`,
+  souvent combinée à `asset()` ;
+- `relative_path('/human.txt')` → `../human.txt` depuis `/products/hover-board`.
 
-Sans Request disponible, `absolute_url()` se replie sur le contexte du router,
-et rend le path inchangé si aucun host n'y est défini.
-
-**Rejoué**, et lu dans `UrlHelper` (HttpFoundation 8.0) :
-
-| Appel | Résultat |
-|---|---|
-| `absolute_url('/images/logo.png')` | `http://example.com/images/logo.png` |
-| `absolute_url('images/logo.png')` | `http://example.com/products/images/logo.png` |
-| `absolute_url('#top')` | l'URI courante, query comprise, suivie de `#top` |
-| `absolute_url('?page=2')` | le path courant suivi de `?page=2` — l'ancienne query est remplacée |
-| `relative_path('/products/other')` | `other` |
-| `relative_path('http://example.com/human.txt')` | `http://example.com/human.txt`, **inchangée** |
-
-Le dernier cas contredit l'exemple de la documentation de référence, qui
-annonce `../human.txt`. Le code 8.0 tranche : `getRelativePath()` rend tel
-quel tout argument qui contient `://` ou commence par `//`. Pour obtenir
-`../human.txt`, on passe le path, `/human.txt`.
+`relative_path()` rend **inchangée** une URL complète : avec
+`'http://example.com/human.txt'`, le résultat est l'URL elle-même — contrairement
+à l'exemple de la documentation de référence ; le code 8.0 tranche.
 
 ## L'escaping
 
-`path()` et `url()` déclarent un `is_safe_callback` : leur output n'est
-dispensé d'escaping HTML que si l'appel n'a pas de parameters, ou un seul
-parameter à valeur littérale. Sinon il est échappé comme toute valeur — le
-`&` d'une query string devient `&amp;`, ce qui est correct dans un
-attribute HTML.
-
-**Rejoué :** `path('post', {slug: 'x', ref: 'nl', utm: 'a'})` écrit
-`/post/x?ref=nl&amp;utm=a` dans le source HTML ; le navigateur lit bien
-`&utm=a`. Et une valeur contenant `&` ou une espace est encodée par le
-generator — `a%26b%20c` — avant même l'escaping.
+`path()` et `url()` déclarent un `is_safe_callback` : leur output n'échappe pas
+sans parameters, ou avec un seul parameter littéral. Sinon il est échappé : le
+`&` d'une query string devient `&amp;`, ce qui est correct dans un attribute
+HTML.
 
 ## Jamais d'URL écrite à la main
 
 Une URL ne s'écrit jamais à la main dans un template : changer le path d'une
-route mettrait alors les liens en défaut sans qu'aucun test ne le signale.
-
-Le generator fait plus que concaténer : il applique le schéma et le host exigés
-par la route, retire un parameter égal à sa default value, encode les valeurs
-et refuse une route inconnue. Une string écrite à la main ne fait rien de cela.
-
-## Concrètement dans ton application
-
-- Un lien de navigation : `path()`.
-- Un canonical, un lien dans un email, un tag de partage : `url()`, ou
-  `absolute_url(asset(…))` pour un file public.
-- Un email envoyé hors d'une Request : `framework.router.default_uri` —
-  sans lui, `url()` rend une URL en `http://localhost/…`.
-- Un parameter de filter ou de tracking : un parameter en plus, qui part en
-  query string — attention aux fautes de frappe, elles ne lèvent rien.
-- Un path relatif : `path(…, true)` pour une route, `relative_path('/…')` pour
-  un path — jamais une URL complète.
-
-## À comprendre
-
-- **Pourquoi `path()` peut-il rendre une URL complète ?** Un path seul
-  garderait le schéma courant ; si la route exige `https`, il faut l'écrire.
-- **Pourquoi l'output est-il parfois échappé ?** Twig ne peut prouver qu'il est
-  sûr que si les parameters sont connus à la compilation.
-- **Pourquoi `relative_path()` ignore-t-il une URL complète ?** Elle peut
-  pointer vers un autre host ; le code ne la touche pas, quel que soit son
-  host.
-
-## À mémoriser
-
-- **`path()`** → `/post/x` ; **`url()`** → `http://host/post/x`.
-- Troisième argument **`true`** : `../post/x` pour `path()`, `//host/post/x`
-  pour `url()`.
-- Autre **schéma** exigé → URL absolue ; autre **host** → `//host/…`.
-- Parameter en plus → **query string** ; route inconnue → `RuntimeError`
-  autour de `RouteNotFoundException`.
-- **`absolute_url()`** et **`relative_path()`** prennent un **path**.
-- `relative_path('http://…')` → **inchangée**.
-- Moyen mnémotechnique : **« path pour la page, url pour l'extérieur, et
-  jamais à la main »**.
+route mettrait alors les liens en défaut sans qu'aucun test ne le signale. Le
+generator applique aussi le schéma et le host exigés, retire un parameter égal à
+sa default value et encode les valeurs.
 
 ## Pièges d'examen
 
@@ -279,26 +160,14 @@ frappe ne produit aucune erreur.
 `/human.txt`, devient relatif — contrairement à l'exemple de la documentation
 de référence.
 
-## Application : trois scénarios
+## Application
 
-**Scénario 1 — Le lien mort de la newsletter.** Une command envoie la
-newsletter ; les liens de l'email pointent vers `http://localhost/blog/…`.
-*Solution.* Hors Request, `url()` ne connaît que le contexte du router, dont le
-host par défaut est `localhost` : configurer `framework.router.default_uri`.
-
-**Scénario 2 — Le lien vers l'API.** Un `path('api_status')` rend
-`//api.example.com/status` au lieu d'un path. *Solution.* Rien n'est cassé :
-la route est liée à un autre host, et un path seul pointerait vers le mauvais
-site.
-
-**Scénario 3 — Le path relatif qui ne l'est pas.** Un template écrit
-`relative_path(url('download'))` et obtient l'URL complète. *Solution.*
-`relative_path()` ne touche pas une URL complète : écrire
-`path('download', {}, true)`.
+- Les liens d'une newsletter envoyée par une command pointent vers
+  `http://localhost/…` → configurer `framework.router.default_uri`.
+- `relative_path(url('download'))` rend l'URL complète → écrire
+  `path('download', {}, true)`.
 
 ## QCM d'entraînement
-
-Cinq questions sur la génération d'URL. Choisis avant d'ouvrir la correction.
 
 **Question 1.** Depuis `http://example.com/products/hover-board`, que rend
 `{{ relative_path('http://example.com/human.txt') }}` sur Symfony 8.0 ?
@@ -311,11 +180,9 @@ Cinq questions sur la génération d'URL. Choisis avant d'ouvrir la correction.
 <details>
 <summary>Correction</summary>
 
-**Bonne réponse : C.** Rejoué avec HttpFoundation 8.0.15 :
-`UrlHelper::getRelativePath()` rend tel quel tout argument qui contient `://`.
-
-A est l'exemple de la documentation, que le code ne suit pas ; on l'obtient en
-passant `/human.txt`. B et D sont faux.
+**Bonne réponse : C.** `UrlHelper::getRelativePath()` rend tel quel tout
+argument qui contient `://`. A est l'exemple de la documentation ; on l'obtient
+en passant `/human.txt`.
 
 </details>
 
@@ -330,11 +197,8 @@ HTML** produit par `{{ path('post', {slug: 'x', ref: 'nl', utm: 'a'}) }}` ?
 <details>
 <summary>Correction</summary>
 
-**Bonne réponse : B.** Rejoué : avec plus d'un parameter, l'`is_safe_callback`
-de `RoutingExtension` ne dispense plus l'output d'escaping, et `&` devient
-`&amp;` — ce que le navigateur relit comme `&`.
-
-A est ce que le navigateur interprète, pas le source. C et D sont faux.
+**Bonne réponse : B.** Avec plus d'un parameter, l'output n'est plus dispensé
+d'escaping. A est ce que le navigateur interprète.
 
 </details>
 
@@ -349,36 +213,14 @@ liée au host `api.example.com`. Que rend `{{ path('status') }}` ?
 <details>
 <summary>Correction</summary>
 
-**Bonne réponse : D.** Rejoué : le generator élargit la référence en
-`NETWORK_PATH`, car un path seul pointerait vers `example.com`.
-
-B serait le résultat d'un schéma différent, pas d'un host différent. A et C
-sont faux.
+**Bonne réponse : D.** Le generator élargit en `NETWORK_PATH`. B serait le
+résultat d'un schéma différent.
 
 </details>
 
-**Question 4.** Depuis `/products/hover-board`, que rend
-`{{ path('post', {slug: 'mon-article'}, true) }}` ?
-
-- **A.** `../post/mon-article`
-- **B.** `post/mon-article`
-- **C.** `//example.com/post/mon-article`
-- **D.** `/post/mon-article`
-
-<details>
-<summary>Correction</summary>
-
-**Bonne réponse : A.** Rejoué : le path relatif part du dossier de la page
-courante, `/products/`, et doit en remonter.
-
-B vaudrait depuis une page à la racine. C est le `true` d'`url()`. D est
-`path()` sans troisième argument.
-
-</details>
-
-**Question 5.** Une command Symfony 8.0, sans Request, rend un template
-d'email avec `{{ url('post', {slug: 'z'}) }}`. `default_uri` n'est pas
-configuré. Que contient l'email ?
+**Question 4.** Une command Symfony 8.0, sans Request, rend un email avec
+`{{ url('post', {slug: 'z'}) }}`. `default_uri` n'est pas configuré. Que
+contient l'email ?
 
 - **A.** Une erreur : aucune Request à lire
 - **B.** `/post/z`, sans host
@@ -388,11 +230,8 @@ configuré. Que contient l'email ?
 <details>
 <summary>Correction</summary>
 
-**Bonne réponse : D.** Rejoué dans un kernel 8.0 démarré sans Request :
-FrameworkBundle donne au contexte du router le host `localhost`, ce que la
-documentation du routing annonce. `framework.router.default_uri` le corrige.
-
-A, B et C supposent un contexte vide, que FrameworkBundle ne laisse pas.
+**Bonne réponse : D.** FrameworkBundle donne au contexte du router le host
+`localhost`.
 
 </details>
 
@@ -405,13 +244,13 @@ A, B et C supposent un contexte vide, que FrameworkBundle ne laisse pas.
   `url()`.
 - **Autre schéma** → URL absolue ; **autre host** → `//host/…`.
 - Parameter en plus → **query string**, sans erreur.
-- Plus d'un parameter, ou une valeur variable → output **échappé** (`&amp;`).
-- **`absolute_url()` / `relative_path()`** : un path ; `relative_path()` laisse
-  une **URL complète inchangée**.
-- Hors Request, **`url()`** rend **`http://localhost/…`** sans
-  `framework.router.default_uri`.
+- Plus d'un parameter → output **échappé** (`&amp;`).
+- **`absolute_url()` / `relative_path()`** : un path ; une URL complète reste
+  **inchangée**.
+- Hors Request, **`url()`** rend **`http://localhost/…`** sans `default_uri`.
 
-**En une phrase, pour tout reconstruire :**
+Moyen mnémotechnique : **« path pour la page, url pour l'extérieur, et
+jamais à la main »**.
 
 ```text
 path = /x, url = http://host/x ; true = relatif / sans schéma ; schéma ≠ → absolue, host ≠ → //host ;
@@ -425,3 +264,4 @@ extra → query ; >1 param → &amp; ; absolute_url/relative_path sur un path, U
 - [Symfony Routing, générer des URL dans une command](https://github.com/symfony/symfony-docs/blob/8.0/routing.rst)
 - [HttpFoundation 8.0, `UrlHelper`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/UrlHelper.php)
 - [Routing 8.0, `UrlGenerator`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php)
+
