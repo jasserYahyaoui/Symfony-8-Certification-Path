@@ -2701,9 +2701,11 @@ flashcards:
     language: fr
     level: TRAP
     front: "Twig : que produit 'checkout.total'|trans('fr') ?"
-    back: "Une `TypeError` : sur une string, le deuxième argument doit être un array de parameters."
+    back: "Une `Twig\\Error\\RuntimeError`, qui emballe la `TypeError` du filter : sur une string, le deuxième argument doit être un array de parameters."
     explanation: >-
       Une string n'y est admise que si le message est un object traduisible ; elle est alors prise comme locale : `t('x')|trans('fr')`.
+      Rejoué avec Twig 3.22.2 et Translation 8.0 : `TranslationExtension::trans()` lève la `TypeError`, et le rendu la remonte
+      dans une `Twig\Error\RuntimeError` dont `getPrevious()` est la `TypeError`.
     memorization_justification: >-
       Même écriture, valide ou fatale selon le type du message.
     verification_status: VERIFIED
