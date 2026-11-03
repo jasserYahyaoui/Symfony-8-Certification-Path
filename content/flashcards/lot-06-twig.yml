@@ -38,10 +38,13 @@ flashcards:
     language: fr
     level: TRAP
     front: "Twig : que produit {{ 'a' + 'b' }} ?"
-    back: "Une TypeError. Le + est l'addition ; la concaténation s'écrit ~."
+    back: "Une Twig\\Error\\RuntimeError, qui emballe la TypeError de PHP. Le + est l'addition ; la concaténation s'écrit ~."
     explanation: >-
       Twig compile + vers le + de PHP. Sur PHP 8.4, la version exigée par
-      Symfony 8.0, additionner deux strings non numériques lève une TypeError.
+      Symfony 8.0, additionner deux strings non numériques lève une TypeError
+      (« Unsupported operand types: string + string ») ; rejoué avec Twig 3.22.2,
+      le rendu la remonte dans une Twig\Error\RuntimeError, dont getPrevious()
+      est la TypeError — un catch (\TypeError) ne l'attrape pas.
     memorization_justification: >-
       L'habitude de PHP et de JavaScript pousse à écrire +, et l'erreur ne se
       voit qu'au rendu du template.
@@ -1252,9 +1255,11 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "Symfony : que produit {{ app.user }} dans une application sans le component Security ?"
-    back: "Une RuntimeException : The app.user variable is not available."
+    back: "Une Twig\\Error\\RuntimeError, qui emballe la RuntimeException d'AppVariable : The app.user variable is not available."
     explanation: >-
-      TwigBundle n'appelle setTokenStorage() que si le service existe ; sans lui, AppVariable lève une exception au lieu de rendre null.
+      TwigBundle n'appelle setTokenStorage() que si le service existe ; sans lui, AppVariable lève une RuntimeException au lieu de rendre null.
+      Rejoué avec Twig 3.22.2 : le rendu la remonte dans une Twig\Error\RuntimeError, qui n'est pas une \RuntimeException —
+      un catch (\RuntimeException) ne l'attrape pas.
     memorization_justification: >-
       On attend null, comme pour un visiteur anonyme.
     verification_status: VERIFIED
@@ -1390,7 +1395,7 @@ flashcards:
     language: fr
     level: TRAP
     front: "Piège : « app.user vaut null quand le component Security n'est pas installé »."
-    back: "Faux : app.user lève une RuntimeException ; null signifie qu'aucun user n'est authentifié."
+    back: "Faux : app.user lève une exception (la RuntimeException d'AppVariable, remontée par Twig en RuntimeError) ; null signifie qu'aucun user n'est authentifié."
     explanation: >-
       Seul app.flashes retombe sur un array vide quand son service manque.
     memorization_justification: >-
