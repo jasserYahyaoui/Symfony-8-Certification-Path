@@ -183,3 +183,30 @@ around them rather than as a choice to pick.
 The pilot is *Deprecations best practices* (lot 03): read it before rewriting
 another page.
 
+### Short, exam-only (owner, 2026-11-03)
+
+By the owner's decision of 2026-11-03 — « écrire de façon raisonnable, qui
+peut se réviser, présenter seulement ce qui est utile en examen » — a
+pedagogical page aims at **about five minutes of reading, 800 to 1 000 body
+words**; a DEEP item may run somewhat longer. The order above stays, condensed:
+
+| Section | What it holds |
+|---|---|
+| Objectif | unchanged |
+| L'essentiel | the problem and the key idea, in a few sentences |
+| Le schéma | one diagram |
+| L'exemple | one realistic code example |
+| the outcome sections | the rules and the facts that answer an exam question, as compact lists or tables |
+| Pièges d'examen | unchanged — each paragraph carries a reviewed flashcard verdict |
+| Application | two one-line situations and their fix |
+| QCM d'entraînement | four questions; each correction still explains (`FMT-001`) |
+| Fiche express | 5 to 8 points, the mnemonic, the one-sentence rebuild |
+| Sources officielles | the sources read, internal class names included |
+
+Facts are still executed or read in the 8.0 source before they are written; the
+page states the result, not the replay. Left out: the narration of how a fact
+was checked and with which patch versions, internal mechanics no question asks,
+« Concrètement dans ton application » and « À comprendre ». A quiz question
+that repeats a bank or comprehension question, even below the `QCM-001`
+threshold, is replaced: it teaches nothing the learner will not meet anyway.
+
