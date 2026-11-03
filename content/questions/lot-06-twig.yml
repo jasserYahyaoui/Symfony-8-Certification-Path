@@ -3361,7 +3361,7 @@ questions:
     text: '{n} fichiers, unformatted'
     correct: false
     explanation: 'The +intl-icu domain makes MessageFormatter format the message.'
-  explanation: 'Plural categories follow the rules of the locale the message is formatted in. French puts 0 and 1, and also 1.5, in one, so 0 gives "0 fichier"; English puts 0 in other. Executed on Translation 8.0.15 with intl.'
+  explanation: 'Plural categories follow the rules of the locale the message is formatted in. French puts 0 and 1, and also 1.5, in one, so 0 gives "0 fichier"; English puts 0 in other. Executed on Translation 8.0.14 with intl (ICU 74.2).'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Translation/Formatter/IntlFormatter.php
     readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Translation/Formatter/IntlFormatter.php

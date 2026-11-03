@@ -3445,7 +3445,7 @@ flashcards:
     back: "`0 fichier` : en français, 0 et 1,5 sont dans la catégorie `one`. En anglais, 0 est `other`."
     explanation: >-
       Les catégories suivent les règles de la locale qui formate le message. Un select ou un plural sans branche
-      other lève une InvalidArgumentException à chaque trans(). Exécuté avec Translation 8.0.15 et intl.
+      other lève une InvalidArgumentException à chaque trans(). Exécuté avec Translation 8.0.14 et intl (ICU 74.2).
     memorization_justification: >-
       L'intuition anglaise (0 = pluriel) se trompe en français ; rien dans le message ne le signale.
     verification_status: VERIFIED
