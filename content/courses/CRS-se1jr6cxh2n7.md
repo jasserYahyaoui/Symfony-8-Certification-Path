@@ -87,11 +87,11 @@ title: Où part un message dispatché
 ---
 flowchart TD
   accTitle: L'ordre dans lequel Messenger choisit les transports d'un message
-  accDescr: Si l'Envelope porte un TransportNamesStamp, ses transports sont utilisés et rien d'autre n'est lu. Sinon, la configuration routing est lue pour la class du message, ses parents et ses interfaces ; les clés terminées par une étoile ne servent que si aucune clé plus précise n'a trouvé de transport. Si la configuration a trouvé au moins un transport, l'attribute AsMessage est ignoré. Sinon, les transports de AsMessage sont utilisés. Si rien n'a été trouvé, le message est traité tout de suite, de façon synchrone.
+  accDescr: Si l'Envelope porte un TransportNamesStamp, ses transports sont utilisés et rien d'autre n'est lu. Sinon, la configuration routing est lue pour la class du message, ses parents et ses interfaces ; les keys terminées par une étoile ne servent que si aucune key plus précise n'a trouvé de transport. Si la configuration a trouvé au moins un transport, l'attribute AsMessage est ignoré. Sinon, les transports de AsMessage sont utilisés. Si rien n'a été trouvé, le message est traité tout de suite, de façon synchrone.
   START["dispatch(message)"] --> TNS{"TransportNamesStamp sur l'Envelope ?"}
   TNS -->|"oui"| USE(["ces transports, rien d'autre"])
   TNS -->|"non"| CFG{"routing : class, parents, interfaces ?"}
-  CFG -->|"non"| WILD{"une clé en * correspond ?"}
+  CFG -->|"non"| WILD{"une key en * correspond ?"}
   CFG -->|"oui"| CONF(["les transports de la configuration"])
   WILD -->|"oui"| CONF
   WILD -->|"non"| ATTR{"#[AsMessage] sur la class ?"}
@@ -100,7 +100,7 @@ flowchart TD
 ```
 
 Deux conséquences : **la configuration l'emporte** sur l'attribute, et **une
-clé en `*` n'est qu'un repli**.
+key en `*` n'est qu'un repli**.
 
 ## Déclarer
 
@@ -219,7 +219,7 @@ remplacer quand un autre système doit lire la file. C'est cette étape qui impo
 qu'un message soit sérialisable, et qui explique qu'on n'y mette pas d'entité.
 
 Par défaut, lu dans `Configuration` de FrameworkBundle :
-`messenger.transport.native_php_serializer`, soit les fonctions natives
+`messenger.transport.native_php_serializer`, soit les functions natives
 `serialize()` et `unserialize()` de PHP, que la documentation nomme.
 
 ## Choisir plusieurs transports
@@ -292,7 +292,7 @@ devait copier chaque message dans `audit`, mais `Welcome`, routé vers `async`,
 n'y arrive jamais. *Solution.* Un joker est un repli : nommer `audit` dans la
 règle de `Welcome`, `[async, audit]`.
 
-**Scénario 3 — L'attribute qui casse au premier envoi.** Le déploiement passe,
+**Scénario 3 — L'attribute qui casse au premier envoi.** Le deployment passe,
 puis la première inscription lève « sender "async" is not in the senders
 locator ». *Solution.* Le transport n'existe pas dans cet environment ;
 l'attribute n'est vérifié qu'au dispatch. Le déclarer, ou router par la

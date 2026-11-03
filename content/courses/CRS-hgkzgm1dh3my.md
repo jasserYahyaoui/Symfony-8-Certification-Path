@@ -56,7 +56,7 @@ c'est leur ordre qui décide.
 ## Avant la règle : le problème à résoudre
 
 Une API de paiement répond en timeout ; une adresse email n'existe plus ; un
-identifier pointe vers une ligne supprimée. Trois échecs, trois réponses
+identifier pointe vers une ligne supprimée. Trois échecs, trois réactions
 différentes : **réessayer plus tard**, **abandonner tout de suite**, ou **mettre
 de côté** pour qu'un humain décide. Il faut savoir laquelle Messenger choisit,
 et comment la lui imposer.

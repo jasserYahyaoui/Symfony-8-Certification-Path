@@ -101,10 +101,10 @@ title: La pile de middlewares du bus par défaut
 ---
 flowchart TD
   accTitle: L'ordre des middlewares que traverse un message dans le bus par défaut
-  accDescr: Le message traverse d'abord les middlewares par défaut qui posent des stamps et gèrent les cas particuliers, add_default_stamps, add_bus_name_stamp, reject_redelivered_message, dispatch_after_current_bus et failed_message_processing. Viennent ensuite les middlewares déclarés sous middleware, dans l'ordre de la liste. send_message envoie au transport si le message est routé, et la chaîne s'arrête alors. Sinon handle_message appelle les handlers. Un middleware qui ne rappelle pas la suite arrête la chaîne à sa place.
+  accDescr: Le message traverse d'abord les middlewares par défaut qui posent des stamps et gèrent les cas particuliers, add_default_stamps, add_bus_name_stamp, reject_redelivered_message, dispatch_after_current_bus et failed_message_processing. Viennent ensuite les middlewares déclarés sous middleware, dans l'ordre de la liste. send_message envoie au transport si le message est routé, et la traversée s'arrête alors. Sinon handle_message appelle les handlers. Un middleware qui ne rappelle pas la suite arrête la traversée à sa place.
   IN(["dispatch()"]) --> DEF["add_default_stamps, add_bus_name_stamp, reject_redelivered_message, dispatch_after_current_bus, failed_message_processing"]
   DEF --> MINE["vos middlewares, dans l'ordre de la liste middleware"]
-  MINE -->|"ne rappelle pas la suite"| STOP(["chaîne arrêtée, rien d'autre"])
+  MINE -->|"ne rappelle pas la suite"| STOP(["traversée arrêtée, rien d'autre"])
   MINE --> SEND{"send_message : routé ?"}
   SEND -->|"oui"| SENT(["envoyé au transport"])
   SEND -->|"non"| HANDLE(["handle_message : les handlers"])
@@ -253,7 +253,7 @@ défaut, qui retient le message.
 - Toujours `return $stack->next()->handle($envelope, $stack);`, sauf pour
   arrêter volontairement.
 - Un middleware qui ne doit agir qu'une fois : tester `ReceivedStamp`.
-- Un bus d'événements sans abonné obligatoire : `default_middleware:
+- Un bus d'events sans subscriber obligatoire : `default_middleware:
   allow_no_handlers`.
 - Un message dispatché depuis un handler qui peut échouer :
   `DispatchAfterCurrentBusStamp`.
@@ -262,7 +262,7 @@ défaut, qui retient le message.
 
 ## À comprendre
 
-- **Pourquoi une chaîne plutôt que des events ?** Chaque maillon décide de
+- **Pourquoi une chaîne de middlewares plutôt que des events ?** Chaque maillon décide de
   continuer ou non, et peut agir avant **et** après la suite : un event ne
   peut pas envelopper le traitement.
 - **Pourquoi l'arrêt est-il silencieux ?** L'erreur « pas de handler » vient du
@@ -373,7 +373,7 @@ Le message est traité en synchrone. Le stamp est-il sur l'Envelope que
 <details>
 <summary>Correction</summary>
 
-**Bonne réponse : B.** Rejoué. L'Envelope enrichie descend la chaîne, et le
+**Bonne réponse : B.** Rejoué. L'Envelope enrichie descend la chaîne de middlewares, et le
 middleware rend celle que lui rend la suite, qui porte le stamp.
 
 A et C sont faux. D est faux : en synchrone aussi.
@@ -414,7 +414,7 @@ retirer la pile par défaut ?
 allow_no_handlers: true` ; le message sans handler passe, les autres sont
 traités.
 
-A vide la pile : plus rien n'est traité. B est déjà la valeur par défaut. C
+A vide la pile : plus rien n'est traité. B est déjà le réglage par défaut. C
 arrête tout, handlers compris.
 
 </details>

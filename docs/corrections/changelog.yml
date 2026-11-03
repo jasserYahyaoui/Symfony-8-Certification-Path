@@ -2242,7 +2242,7 @@ entries:
       La page devient un cours complet, sur lecteur, éditeur et administrateur. Faits exécutés et repris :
       le préfixe `ROLE_` est sensible à la casse ; la hiérarchie est transitive et tolère un cycle ; avec
       `role_hierarchy`, `RoleHierarchyVoter` remplace `RoleVoter` ; `debug:security:role-hierarchy` écrit
-      un graphe Mermaid ; un décorateur de `security.role_hierarchy` ajoute un role.
+      un graphe Mermaid ; un decorator de `security.role_hierarchy` ajoute un role.
     courses:
       - id: CRS-2s6e4qgkcqza
         sections: ["La règle", "La hiérarchie", "Les attributes qui ne sont pas des roles", "QCM d'entraînement", "Fiche express"]

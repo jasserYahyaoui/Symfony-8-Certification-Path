@@ -105,12 +105,12 @@ title: Le trajet d'un message dans le bus
 ---
 flowchart TD
   accTitle: Le trajet d'un message dispatché, en synchrone et en asynchrone
-  accDescr: dispatch() emballe le message dans une Envelope et la fait traverser les middleware. SendMessageMiddleware cherche un sender pour ce message. Sans sender, la chaîne continue jusqu'à HandleMessageMiddleware, qui appelle les handlers et ajoute un HandledStamp par handler : c'est le cas synchrone. Avec un sender, l'Envelope reçoit un SentStamp, part vers le transport, et la chaîne s'arrête là. Plus tard, un worker lit le transport, redispatche l'Envelope avec un ReceivedStamp : les middleware sont traversés une seconde fois, SendMessageMiddleware ne renvoie pas un message reçu, et HandleMessageMiddleware appelle les handlers.
+  accDescr: dispatch() emballe le message dans une Envelope et la fait traverser les middleware. SendMessageMiddleware cherche un sender pour ce message. Sans sender, la traversée continue jusqu'à HandleMessageMiddleware, qui appelle les handlers et ajoute un HandledStamp par handler : c'est le cas synchrone. Avec un sender, l'Envelope reçoit un SentStamp, part vers le transport, et la traversée s'arrête là. Plus tard, un worker lit le transport, redispatche l'Envelope avec un ReceivedStamp : les middleware sont traversés une seconde fois, SendMessageMiddleware ne renvoie pas un message reçu, et HandleMessageMiddleware appelle les handlers.
   D["dispatch(message)"] --> ENV["Envelope + stamps"]
   ENV --> MW["middleware, premier passage"]
   MW --> SEND{"SendMessageMiddleware : un sender pour ce message ?"}
   SEND -->|"non : synchrone"| HANDLE["HandleMessageMiddleware : handlers, un HandledStamp chacun"]
-  SEND -->|"oui"| SENT(["SentStamp, envoi au transport : la chaîne s'arrête"])
+  SEND -->|"oui"| SENT(["SentStamp, envoi au transport : la traversée s'arrête"])
   SENT -.->|"plus tard"| W["worker : le receiver lit le transport"]
   W --> MW2["middleware, second passage, avec ReceivedStamp"]
   MW2 --> HANDLE
@@ -213,7 +213,7 @@ les stamps déjà posés.
 
 ## Concrètement dans ton application
 
-- Un message : une class finale, des propriétés publiques ou en lecture, rien
+- Un message : une class finale, des properties publiques ou en lecture, rien
   d'autre.
 - Un handler : `#[AsMessageHandler]` et un `__invoke()` typé sur le message.
 - Synchrone ou asynchrone : une ligne de `routing`, pas une ligne du controller.
@@ -347,7 +347,7 @@ $b = $a->with(new DelayStamp(1000));
 
 - **A.** `true` : `with()` ajoute le stamp à l'Envelope
 - **B.** `true`, mais seulement sans transport
-- **C.** Une erreur : `with()` attend un tableau
+- **C.** Une erreur : `with()` attend un array
 - **D.** `false` : c'est une autre Envelope
 
 <details>
@@ -373,7 +373,7 @@ juste après `dispatch()` ?
 
 **Bonne réponse : A.** Rejoué : une Envelope dans `getSent()` du transport,
 aucun handler appelé. Lu dans `SendMessageMiddleware` : avec un sender, la
-chaîne s'arrête avant `HandleMessageMiddleware`.
+traversée s'arrête avant `HandleMessageMiddleware`.
 
 B, C et D sont faux.
 

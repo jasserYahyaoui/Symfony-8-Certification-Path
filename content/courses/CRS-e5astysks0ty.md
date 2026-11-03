@@ -74,7 +74,7 @@ php bin/console messenger:consume async_high async \
 php bin/console messenger:stop-workers
 ```
 
-Le worker lit `async_high` en priorité, `async` quand la première est vide. Il
+Le worker lit `async_high` d'abord, `async` quand la première est vide. Il
 s'arrête de lui-même après 100 messages, 128 Mo ou une heure ; le superviseur
 le relance. `messenger:stop-workers` lui fait prendre le nouveau code.
 
@@ -84,10 +84,10 @@ Lu dans `Worker::run()` et rejoué avec Messenger 8.0 :
 
 ```mermaid
 ---
-title: La boucle d'un worker
+title: La loop d'un worker
 ---
 flowchart TD
-  accTitle: La boucle de Worker::run, de la lecture des transports à l'arrêt
+  accTitle: La loop de Worker::run, de la lecture des transports à l'arrêt
   accDescr: Au démarrage, le worker émet WorkerStartedEvent. À chaque tour, il s'arrête si la time-limit est dépassée. Sinon il lit les transports dans l'ordre donné. Dès qu'un transport rend des messages, il les traite un par un ; après chacun, WorkerRunningEvent déclenche les listeners de limite, de signal de redémarrage et de remise à zéro des services, et le worker s'arrête si l'un d'eux l'a demandé. Après le lot d'un transport, il repart du premier transport. Si aucun transport n'a de message, il émet WorkerRunningEvent en état idle, dort, puis recommence.
   START(["WorkerStartedEvent"]) --> TIME{"time-limit dépassée ?"}
   TIME -->|"oui"| STOP(["arrêt : WorkerStoppedEvent"])
@@ -211,7 +211,7 @@ pas à un worker.
 
 - Toujours au moins une limite : `--time-limit`, `--memory-limit` ou `--limit`.
 - Un superviseur qui relance, et des récepteurs **nommés** dans sa command.
-- `messenger:stop-workers` dans le script de déploiement, après le nouveau
+- `messenger:stop-workers` dans le script de deployment, après le nouveau
   code.
 - Les files rapides en premier : `messenger:consume async_high async`.
 - Un service qui met en cache : `ResetInterface`, et un `reset()` qui vide.

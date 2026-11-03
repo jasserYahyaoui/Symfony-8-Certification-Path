@@ -45,10 +45,10 @@ qui attendent en file.
 ## Avant la règle : le problème à résoudre
 
 Un achat est validé : il faut une facture et une notification. Deux équipes,
-deux morceaux de code, un même événement. Il faut un object qui **décrit ce qui
+deux morceaux de code, un même event. Il faut un object qui **décrit ce qui
 s'est passé**, du code qui **y réagit**, et un câblage qui les relie sans table
 écrite à la main. Et comme le message peut attendre des heures dans une file, il
-doit survivre à un déploiement.
+doit survivre à un deployment.
 
 Trois questions : **à quoi ressemble un message**, **qu'est-ce qui le relie à
 ses handlers**, et **comment le faire évoluer** sans casser la file.
@@ -216,7 +216,7 @@ trois lignes se reproduisent à l'identique.
 
 ## Concrètement dans ton application
 
-- Un message : `final`, des propriétés `readonly`, des identifiers.
+- Un message : `final`, des properties `readonly`, des identifiers.
 - Un handler par responsabilité, plutôt qu'un handler qui fait tout.
 - Plusieurs messages dans une class : `#[AsMessageHandler]` sur chaque method.
 - Un ordre entre handlers d'un même message : `priority`, sur le même type.
@@ -274,7 +274,7 @@ l'ordre.
 routage, il tourne quand même. *Solution.* `fromTransport` ne concerne que les
 messages reçus ; c'est le **routage** qui décide de l'asynchrone.
 
-**Scénario 3 — Le déploiement du lundi.** Un champ `public string $channel =
+**Scénario 3 — Le deployment du lundi.** Une property `public string $channel =
 'email'` est ajouté au constructor de `SendWelcomeEmail` ; les messages déjà en
 file échouent. *Solution.* Le déclarer comme property, `public string $channel
 = 'email';`, hors du constructor : les anciens messages le lisent avec son
@@ -297,7 +297,7 @@ Son message n'est routé nulle part et il est dispatché. Le handler tourne-t-il
 <summary>Correction</summary>
 
 **Bonne réponse : B.** Rejoué. Lu dans `HandlersLocator::shouldHandle()` :
-sans `ReceivedStamp`, le filtre `from_transport` n'est pas consulté.
+sans `ReceivedStamp`, le filter `from_transport` n'est pas consulté.
 
 A est l'idée reçue. C et D supposent un filtre sur l'envoi.
 
@@ -367,7 +367,7 @@ la version 1 est lu sous PHP 8.4. Que se passe-t-il ?
 
 - **A.** Une `Error` à la lecture
 - **B.** Le message est rejeté vers le failure transport
-- **C.** Décodé, avec une dépréciation PHP
+- **C.** Décodé, avec une deprecation PHP
 - **D.** La property est ignorée en silence
 
 <details>
