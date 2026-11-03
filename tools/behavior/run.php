@@ -38,6 +38,26 @@ if (in_array('--list', $argv, true)) {
 
 printf("PHP %s, symfony/http-kernel %s\n", PHP_VERSION, Composer\InstalledVersions::getPrettyVersion('symfony/http-kernel'));
 
+// Every fact claims Symfony 8.0. A component left unpinned is resolved to the
+// newest release its dependents allow — symfony/browser-kit 8.0 accepts
+// dom-crawler ^7.4|^8.0, so dom-crawler 8.1 was installed and executed while
+// the run printed http-kernel 8.0. The contracts and polyfills have their own
+// version lines and are not components; a virtual package such as
+// symfony/cache-implementation has no install path and no version.
+$offVersion = [];
+foreach (Composer\InstalledVersions::getInstalledPackages() as $package) {
+    if (!str_starts_with($package, 'symfony/') || str_ends_with($package, '-contracts') || str_starts_with($package, 'symfony/polyfill-')) {
+        continue;
+    }
+    if (null === Composer\InstalledVersions::getInstallPath($package)) {
+        continue;
+    }
+    $version = (string) Composer\InstalledVersions::getPrettyVersion($package);
+    if (!preg_match('/^v?8\.0\./', $version)) {
+        $offVersion[] = "$package $version";
+    }
+}
+
 // The `correct` flags of every question a check in questions/ names. The
 // holdout file is never opened: no check may name a holdout question.
 $flags = [];
@@ -53,6 +73,9 @@ foreach (glob(dirname(__DIR__, 2).'/content/questions/*.yml') as $file) {
 }
 
 $failed = 0;
+foreach ($offVersion as $package) {
+    echo "FAIL symfony-8.0-only — $package is installed; pin it to 8.0.* in tools/behavior/composer.json\n";
+}
 foreach ($checks as $id => $check) {
     try {
         $error = $check();
@@ -77,4 +100,7 @@ foreach ($checks as $id => $check) {
 }
 
 printf("%d fact(s), %d failed\n", count($checks), $failed);
-exit($failed > 0 ? 1 : 0);
+if ($offVersion) {
+    printf("%d Symfony component(s) outside 8.0: no fact above was executed against 8.0 alone\n", count($offVersion));
+}
+exit($failed > 0 || $offVersion ? 1 : 0);

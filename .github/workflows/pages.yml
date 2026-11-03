@@ -5171,7 +5171,14 @@ jobs:
                       'lot-13/handling-legacy-deprecated-code|ignoreSuppressionOfDeprecations|Silencée, journalisée, corrigée avant la majeure|Fiche express' \
                       'lot-14/configuration-including-dotenv-and-expressionlanguage-components|DotenvDumpCommand|Compilé ou lu|Fiche express' \
                       'lot-14/error-handling|error_controller|Configuré, attribué, interfacé, sinon 500|Fiche express' \
-                      'lot-14/code-debugging|config:dump-reference|Voir, rendre, demander|Fiche express'; do
+                      'lot-14/code-debugging|config:dump-reference|Voir, rendre, demander|Fiche express' \
+                      'lot-10/firewalls|getFirewallConfig|Le premier prend tout|Fiche express' \
+                      'lot-10/users|UserCheckerInterface|Deux methods, trois comparaisons|Fiche express' \
+                      'lot-10/password-hashers|PasswordHasherAwareInterface|Hacher en bcrypt|Fiche express' \
+                      'lot-10/roles|RoleHierarchyVoter|la hiérarchie dans le voter|Fiche express' \
+                      'lot-10/access-control-rules|ROLE_NO_ACCESS|Le premier qui correspond, et la strategy|Fiche express' \
+                      'lot-10/authenticators-passports-and-badges|Username could not be found|les listeners vérifient|Fiche express' \
+                      'lot-10/voters-and-voting-strategies|isGrantedForUser|voteOnAttribute tranche|Fiche express'; do
             page=${spec%%|*}
             out="/tmp/ped-${page//\//-}"
             code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
@@ -5518,15 +5525,43 @@ jobs:
           base = sys.argv[1]
           PAGES = {
               'lot-03/request-handling': 2,
-              'lot-11/retries-and-failures': 1,
-              'lot-10/authenticators-passports-and-badges': 1,
-              'lot-22/mailer': 1,
-              'lot-10/voters-and-voting-strategies': 1,
-              'lot-17/http-caching-reverse-proxies-expiration-validation-note-esi-edge-side-includes-is-not-included': 2,
-              'lot-12/console-events': 1,
-              'lot-07/forms-handling': 1,
-              'lot-10/access-control-rules': 2,
+              'lot-07/built-in-form-types': 1,
+              'lot-07/csrf-protection': 1,
+              'lot-07/data-transformers': 1,
               'lot-07/form-events': 1,
+              'lot-07/form-options-optionsresolver-component': 1,
+              'lot-07/form-type-extensions': 1,
+              'lot-07/form-types-built-in-and-custom': 1,
+              'lot-07/forms-handling': 1,
+              'lot-07/forms-rendering-with-twig': 1,
+              'lot-07/forms-theming': 1,
+              'lot-07/handling-file-upload': 1,
+              'lot-10/access-control-rules': 2,
+              'lot-10/authentication': 1,
+              'lot-10/authenticators-passports-and-badges': 1,
+              'lot-10/authorization': 1,
+              'lot-10/configuration': 1,
+              'lot-10/firewalls': 1,
+              'lot-10/password-hashers': 1,
+              'lot-10/providers': 1,
+              'lot-10/roles': 1,
+              'lot-10/security-core-csrf-and-passwordhasher-components': 1,
+              'lot-10/users': 1,
+              'lot-10/voters-and-voting-strategies': 1,
+              'lot-11/retries-and-failures': 1,
+              'lot-12/console-events': 1,
+              'lot-13/client-configuration': 1,
+              'lot-13/client-object': 1,
+              'lot-13/crawler-object-cssselector-and-domcrawler-components': 1,
+              'lot-13/framework-objects-access': 1,
+              'lot-13/handling-legacy-deprecated-code': 1,
+              'lot-13/profiler-object-webprofiler-bundle': 1,
+              'lot-13/request-and-response-objects-introspection': 1,
+              'lot-14/code-debugging': 1,
+              'lot-14/configuration-including-dotenv-and-expressionlanguage-components': 1,
+              'lot-14/error-handling': 1,
+              'lot-17/http-caching-reverse-proxies-expiration-validation-note-esi-edge-side-includes-is-not-included': 2,
+              'lot-22/mailer': 1,
           }
           def get(url):
               for attempt in range(5):
