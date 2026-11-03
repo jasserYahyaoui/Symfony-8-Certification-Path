@@ -4005,8 +4005,8 @@ pitfalls:
   verdict: COVERED
   card: FLC-ynhbpp2dtxs4
 - course: CRS-yw6c5hq2mbax
-  key: 61b37f1f603f
-  excerpt: '**`controller()` seul n''affiche rien** : il construit une référence.'
+  key: 2e8a42777da5
+  excerpt: '**`controller()` seul n''exécute rien** : il construit une référence, et l''afficher sans `ren'
   verdict: COVERED
   card: FLC-7de3x0at9tq0
 - course: CRS-yw6c5hq2mbax

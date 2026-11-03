@@ -2435,9 +2435,11 @@ flashcards:
     language: fr
     level: TRAP
     front: "Twig : que fait controller() à lui seul, sans render() ?"
-    back: "Il construit une `ControllerReference` (controller, attributes, query) et n'exécute rien."
+    back: "Il construit une `ControllerReference` (controller, attributes, query) et n'exécute rien. L'afficher seul, {{ controller(...) }}, fait échouer le rendu."
     explanation: >-
       `HttpKernelExtension::controller()` se contente de `new ControllerReference(...)` ; l'exécution appartient à `render()`.
+      Rejoué avec Symfony 8.0.15 et Twig 3.22.2 : la référence n'a pas de `__toString()`, et le rendu lève une
+      Error PHP, « Object of class ...ControllerReference could not be converted to string ».
     memorization_justification: >-
       Le nom suggère une exécution qui n'a pas lieu.
     verification_status: VERIFIED
