@@ -357,13 +357,18 @@ facts:
     finding: deep-audit-8.0
     official_item: OIT-sd08j04k60m0
     statement: >-
-      TranslatableMessage has no __toString() in 8.0: Twig printing it without |trans throws a RuntimeError,
-      where 7.4 printed the raw key. {{ message|trans }} translates it.
+      TranslatableMessage has no __toString() in 8.0: printed without |trans, it makes the rendering fail,
+      where 7.4 printed the raw key. On Twig 3.22, the examined version, the failure is a plain PHP Error
+      (« could not be converted to string »), not a Twig RuntimeError: Template::display() echoes what the
+      template yields outside the try/catch that wraps exceptions. {{ message|trans }} translates it.
     sources:
       - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Translation/CHANGELOG.md
+      - https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/src/Template.php
     behavior_check: translation.translatable-not-stringable
     content: [CRS-q18xc1k4yvb9, FLC-p6q3ewt9qsj7, QST-zpp1r9fbs8vb]
-    forbidden: []
+    forbidden:
+      - "/en 8\\.0\\.15 il lève une `RuntimeError`/u"
+      - "/Une RuntimeError : TranslatableMessage/u"
   form.collection-extra-entries-refused:
     finding: P1.2
     official_item: OIT-5xvjqa4203xe

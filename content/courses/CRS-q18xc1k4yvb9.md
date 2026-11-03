@@ -172,8 +172,9 @@ domain, et `translation:extract` ne la voit pas.
 
 Il ne s'affiche **que** traduit : en 8.0, `TranslatableMessage` n'a plus de
 `__toString()`. Exécuté contre 7.4.21 : `{{ message }}` y affichait la key
-brute ; en 8.0.15 il lève une `RuntimeError`, et seul `{{ message|trans }}`
-produit le texte.
+brute ; en 8.0.15, avec Twig 3.22.2, le rendu échoue sur une `Error` PHP non
+emballée — « could not be converted to string » —, et seul
+`{{ message|trans }}` produit le texte.
 
 ## Pièges d'examen
 

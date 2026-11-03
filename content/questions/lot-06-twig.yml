@@ -3257,7 +3257,7 @@ questions:
   question_archetype: CODE_OUTPUT
   assesses_outcomes:
   - OUT-txry0vy6q09r
-  version: 1
+  version: 2
   official_topic: Templating with Twig
   official_item: OIT-sd08j04k60m0
   domain: symfony
@@ -3286,13 +3286,13 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-10-15'
+  reviewed_at: '2026-11-03'
   tags:
   - translations
   - symfony-8
   choices:
   - id: CHO-kqk2n9ttabdt
-    text: 'It throws a RuntimeError'
+    text: 'It fails: a TranslatableMessage cannot be converted to a string'
     correct: true
   - id: CHO-6n69m3shc06p
     text: 'It prints welcome, the untranslated key'
@@ -3306,14 +3306,14 @@ questions:
     text: 'It prints an empty paragraph'
     correct: false
     explanation: 'Twig cannot convert the object to a string at all.'
-  explanation: 'Symfony 8.0 removed TranslatableMessage::__toString(), so Twig cannot print the object; {{ greeting|trans }} is required. Executed against 7.4.21, which printed the key, and 8.0.15, which throws.'
+  explanation: 'Symfony 8.0 removed TranslatableMessage::__toString(), so Twig cannot print the object; {{ greeting|trans }} is required. Executed against 7.4.21, which printed the key, and 8.0.15 with Twig 3.22.2, where a plain PHP Error (« could not be converted to string ») escapes the rendering unwrapped.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Translation/CHANGELOG.md
     readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Translation/CHANGELOG.md
     repository: symfony/symfony
     branch: '8.0'
     symbol_or_lines: '8.0: Remove TranslatableMessage::__toString()'
-    verified_at: '2026-10-15'
+    verified_at: '2026-11-03'
 - id: QST-8b6sd8kbc1qx
   question_archetype: BEHAVIOR_PREDICTION
   assesses_outcomes:

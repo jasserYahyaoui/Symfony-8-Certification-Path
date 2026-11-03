@@ -1,6 +1,6 @@
 {
     "name": "jasseryahyaoui/cert-behavior-checks",
-    "description": "Executes the central claims the course teaches against the exam versions (Symfony 8.0, PHP 8.4). Separate from the site generator, which runs Symfony 7.4.",
+    "description": "Executes the central claims the course teaches against the exam versions (Symfony 8.0, Twig 3.22, PHP 8.4). Separate from the site generator, which runs Symfony 7.4.",
     "type": "project",
     "license": "MIT",
     "require": {
@@ -42,7 +42,7 @@
         "symfony/var-dumper": "8.0.*",
         "symfony/var-exporter": "8.0.*",
         "symfony/yaml": "8.0.*",
-        "twig/twig": "^3.22"
+        "twig/twig": "3.22.*"
     },
     "config": {
         "sort-packages": true,
