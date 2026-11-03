@@ -53,38 +53,13 @@ Savoir ce que TwigBundle ajoute à Twig, où il cherche les templates, et quelle
 options de configuration comptent. La distinction component / bridge / bundle
 est traitée dans le lot Symfony Architecture.
 
-## Avant la règle : le problème à résoudre
+## L'essentiel
 
-Twig seul sait compiler et rendre un template. Il ne sait pas où vivent les
-templates d'une application Symfony, ni comment surcharger celui d'un bundle
-installé, ni quelles options dépendent de l'environment. C'est TwigBundle qui
-répond, depuis `config/packages/twig.yaml`.
+Twig seul compile et rend un template. TwigBundle le branche sur Symfony : il
+dit **où** chercher les templates, **comment** surcharger ceux d'un bundle, et
+quelles **options** de `config/packages/twig.yaml` changent le comportement.
 
-Trois questions : **quel package fait quoi**, **où Twig cherche un template**,
-et **quelles options changent le comportement**.
-
-## Le fil rouge : surcharger le profil d'AcmeBlogBundle
-
-Un bundle installé, `AcmeBlogBundle`, rend `@AcmeBlog/user/profile.html.twig`.
-L'application veut ajouter un bandeau sans toucher au bundle :
-
-```twig
-{# templates/bundles/AcmeBlogBundle/user/profile.html.twig #}
-{% extends '@!AcmeBlog/user/profile.html.twig' %}
-
-{% block body %}
-    <p class="banner">Bienvenue</p>
-    {{ parent() }}
-{% endblock %}
-```
-
-Rejoué avec TwigBundle 8.0.15 et Twig 3.22.2 : `@AcmeBlog/user/profile.html.twig`
-rend désormais le bandeau suivi du contenu d'origine ;
-`@!AcmeBlog/user/profile.html.twig` rend l'original seul.
-
-## Le cycle complet en un schéma
-
-Lu dans `TwigExtension` et relevé avec `debug:twig` :
+## Le schéma
 
 ```mermaid
 ---
@@ -103,130 +78,78 @@ flowchart TD
 
 La dernière flèche est un piège : la surcharge s'étend **elle-même**.
 
+## L'exemple
+
+```twig
+{# templates/bundles/AcmeBlogBundle/user/profile.html.twig #}
+{% extends '@!AcmeBlog/user/profile.html.twig' %}
+
+{% block body %}
+    <p class="banner">Bienvenue</p>
+    {{ parent() }}
+{% endblock %}
+```
+
+`@AcmeBlog/user/profile.html.twig` rend désormais le bandeau puis le contenu
+d'origine ; `@!AcmeBlog/…` rend l'original seul.
+
 ## Trois packages, trois roles
 
 | Package | Role |
 |---|---|
-| `twig/twig` | l'engine : la syntaxe, le compiler, les filters de base |
-| `symfony/twig-bridge` | les extensions Twig qui exposent les components Symfony — `path()`, `trans`, le rendu de form |
-| `symfony/twig-bundle` | l'intégration dans le framework : configuration, paths, services |
+| `twig/twig` | l'engine : syntaxe, compiler, filters de base |
+| `symfony/twig-bridge` | les extensions qui exposent les components : `path()`, `trans`, le rendu de form |
+| `symfony/twig-bundle` | l'intégration : configuration, paths, services |
 
-`composer require symfony/twig-bundle` installe les trois : le bundle exige
-`symfony/twig-bridge`, qui exige `twig/twig` (`^3.21|^4.0` en 8.0). C'est le
-bundle qui rend Twig configurable depuis `config/packages/twig.yaml`.
+`composer require symfony/twig-bundle` installe les trois : le bundle exige le
+bridge, qui exige `twig/twig`.
 
 ## Où vivent les templates
 
-Par défaut dans `templates/`, à la racine du projet — `twig.default_path` vaut
-`%kernel.project_dir%/templates`. Rendre `product/index.html.twig` lit donc
-`templates/product/index.html.twig`.
-
-`twig.paths` **ajoute** des directories. La key est le path, la valeur un
-namespace facultatif : un path sans namespace rejoint l'espace
-principal, un path nommé se référence en `@Nom/...`.
-
-Un bundle expose ses templates sous `@NomDuBundle/...` — pour `AcmeBlogBundle`,
-`@AcmeBlog/user/profile.html.twig`, le suffixe `Bundle` étant retiré.
-
-Rejoué, avec `paths: { '%kernel.project_dir%/extra': ~, '%kernel.project_dir%/extra/': Admin }` :
-`main.html.twig` est trouvé dans `extra/` sans préfixe, et `@Admin/ns.html.twig`
-par son namespace ; `templates/` reste servi.
+- Par défaut dans `templates/` : `twig.default_path` vaut
+  `%kernel.project_dir%/templates`.
+- `twig.paths` **ajoute** des directories ; la valeur est un namespace
+  facultatif. Sans namespace, le path rejoint l'espace principal ; avec, il se
+  référence en `@Nom/…`.
+- Un bundle expose ses templates sous `@NomDuBundle/…` **sans** le suffixe
+  `Bundle` : `@AcmeBlog/user/profile.html.twig`.
 
 ## Surcharger le template d'un bundle
 
-`TwigExtension` (8.0) enregistre, pour chaque bundle, deux emplacements dans cet
-ordre :
+Pour chaque bundle, deux emplacements, dans cet ordre — le premier gagne :
 
-1. `templates/bundles/AcmeBlogBundle/`, s'il existe — le nom complet, suffixe
-   compris ;
-2. le directory du bundle, `Resources/views/` ou `templates/`.
+1. `templates/bundles/AcmeBlogBundle/` — le nom complet, suffixe compris ;
+2. le directory du bundle.
 
-Le premier gagne : poser `templates/bundles/AcmeBlogBundle/user/profile.html.twig`
-remplace le template du bundle sans toucher à son code. Le directory d'origine
-reste accessible sous l'espace **`!AcmeBlog`**, ce qui permet à la surcharge
-d'étendre l'original : `{% extends '@!AcmeBlog/user/profile.html.twig' %}`.
-
-**Rejoué, l'oubli du point d'exclamation :** une surcharge qui étend
-`@AcmeBlog/…` au lieu de `@!AcmeBlog/…` se désigne elle-même. Twig ne lève
-aucune erreur explicite : le rendu tourne jusqu'à épuiser la mémoire — « Allowed
-memory size … exhausted », erreur fatale PHP.
+L'original reste accessible sous **`@!AcmeBlog`**, ce qui permet à la surcharge
+de l'étendre. Étendre `@AcmeBlog/…` depuis la surcharge la fait s'étendre
+elle-même : le rendu tourne jusqu'à épuiser la mémoire, sans message Twig.
 
 ## Les options qui changent le comportement
 
-| Option | Effet | Défaut (8.0) |
+| Option | Effet | Défaut |
 |---|---|---|
 | `default_path` | déplace le directory des templates | `templates/` |
 | `paths` | ajoute des directories, nommés ou non | aucun |
-| `globals` | déclare des variables disponibles dans **tous** les templates | aucune |
-| `form_themes` | choisit le theme de rendu des forms | `form_div_layout.html.twig` |
-| `strict_variables` | fait échouer l'accès à une variable inexistante au lieu de retourner `null` | `%kernel.debug%` |
-| `cache` | compile les templates en PHP dans le cache | activé |
+| `globals` | variables disponibles dans **tous** les templates | aucune |
+| `form_themes` | theme de rendu des forms | `form_div_layout.html.twig` |
+| `strict_variables` | variable inexistante : erreur au lieu de `null` | `%kernel.debug%` |
 
-`strict_variables` mérite d'être connue : elle décide si une faute de frappe
-dans un nom de variable passe inaperçue ou lève une `Twig\Error\RuntimeError`.
-Sa default value suit `kernel.debug` : **stricte en `dev`, permissive en
-`prod`**. Une erreur visible en développement peut donc rendre une string vide
-en production.
+`strict_variables` suit `kernel.debug` : **stricte en `dev`, permissive en
+`prod`**. `{{ typo }}` lève une `RuntimeError` en dev et rend une string vide en
+prod ; `typo|default('x')`, `typo is defined` et `user.name ?? 'anon'` passent
+partout.
 
-Rejoué, sans `strict_variables` configurée : avec `kernel.debug` vrai,
-`{{ typo }}` lève « Variable "typo" does not exist » ; avec `kernel.debug` faux,
-il rend une string vide. Dans les deux cas, `typo|default('fallback')`,
-`typo is defined` et `user.name ?? 'anon'` passent sans erreur : ce sont les
-formes prévues pour une variable facultative.
-
-Dans `globals`, une valeur qui commence par `@` désigne un **service** ;
-`@@` échappe le caractère et produit une string qui commence par `@`.
-Rejoué : `greeter: '@App\…\Greeter'` donne l'object, dont `{{ greeter.hello }}`
-appelle la method ; `raw_at: '@@not-a-service'` rend `@not-a-service`.
+Dans `globals`, `'@id'` désigne un **service** ; `'@@texte'` produit la string
+`@texte`.
 
 ## Les commands
 
-- `php bin/console debug:twig` — filters, functions, tests, globales et paths
-  de templates ; avec un nom de template en argument, le file qui le fournit ;
-  `--filter` restreint la liste ;
-- `php bin/console lint:twig` — vérifie la syntaxe sans rendre ;
-  `--show-deprecations` traite les deprecations comme des erreurs.
-
-Rejoué, `debug:twig @AcmeBlog/user/profile.html.twig` affiche trois sections :
-« Matched File » (`templates/bundles/AcmeBlogBundle/user/profile.html.twig`),
-« Overridden Files » (le file du bundle), et « Configured Paths », où
-`@AcmeBlog` liste le directory de surcharge **avant** celui du bundle.
-`lint:twig` sur un `{% if %}` sans condition sort avec le code **1** ; c'est ce
-code qu'une CI lit.
-
-## Concrètement dans ton application
-
-- Templates dans `templates/` ; un directory de plus : `twig.paths`, de
-  préférence nommé.
-- Changer un template de bundle : le copier sous `templates/bundles/NomBundle/`,
-  et étendre `@!Nom/…`.
-- Une variable facultative : `|default`, `is defined` ou `??`, jamais un pari
-  sur le mode `prod`.
-- Une globale qui dépend d'un service : `'@id_du_service'`.
-- `lint:twig` en CI, `debug:twig <nom>` pour savoir qui sert un template.
-
-## À comprendre
-
-- **Pourquoi trois packages ?** Twig vit sans Symfony ; le bridge relie Twig aux
-  components ; le bundle relie le tout au framework et à sa configuration.
-- **Pourquoi `@!` ?** La surcharge a pris le nom `@AcmeBlog` ; il faut un autre
-  nom pour atteindre ce qu'elle cache.
-- **Pourquoi `strict_variables` suit-elle `kernel.debug` ?** En développement,
-  une faute doit se voir ; en production, une page qui s'affiche vaut mieux
-  qu'une erreur 500 — d'où l'intérêt de ne pas en dépendre.
-
-## À mémoriser
-
-- **Engine**, **bridge**, **bundle** ; le bundle tire les deux autres et
-  configure.
-- **`default_path`** remplace, **`paths`** ajoute.
-- **`@AcmeBlog`** pour le namespace, **`templates/bundles/AcmeBlogBundle/`**
-  pour la surcharge, **`@!AcmeBlog`** pour l'original.
-- **`strict_variables`** = `%kernel.debug%`.
-- **`globals`** : `@` = service, `@@` = un `@` littéral.
-- **`debug:twig <nom>`** : Matched File et Overridden Files ; **`lint:twig`** :
-  exit 1 sur erreur.
-- Moyen mnémotechnique : **« la surcharge d'abord, le bang pour l'original »**.
+- `debug:twig` — filters, functions, tests, globales et paths ; avec un nom de
+  template, le file qui le sert : « Matched File », puis les « Overridden
+  Files » qu'il masque ; `--filter` restreint la liste.
+- `lint:twig` — vérifie la syntaxe sans rendre, et sort avec le code `1` en cas
+  d'erreur ; `--show-deprecations` traite les deprecations comme des erreurs.
 
 ## Pièges d'examen
 
@@ -244,25 +167,14 @@ l'autre.
 **Le directory par défaut se change, mais on peut aussi en ajouter.** Ce sont
 deux options différentes : l'une remplace, l'autre complète.
 
-## Application : trois scénarios
+## Application
 
-**Scénario 1 — La page qui ne finit jamais.** Après une surcharge de template
-de bundle, la page plante sur « Allowed memory size exhausted ». *Solution.* La
-surcharge étend `@AcmeBlog/…` : elle s'étend elle-même. Écrire `@!AcmeBlog/…`.
-
-**Scénario 2 — Le bandeau vide en production.** Un template affiche
-`{{ promo.title }}` ; en dev, une erreur quand il n'y a pas de promo, en prod une
-zone vide. *Solution.* `{{ promo.title ?? '' }}` ou un test `is defined` :
-le template ne dépend plus de `strict_variables`.
-
-**Scénario 3 — Quel file est servi ?** Un template de bundle ne change pas
-malgré une surcharge. *Solution.* `debug:twig @AcmeBlog/…` : si « Matched File »
-pointe encore vers le bundle, le directory de surcharge est mal nommé — souvent
-`templates/bundles/AcmeBlog/`, sans le suffixe.
+- La page plante sur « Allowed memory size exhausted » après une surcharge →
+  elle étend `@AcmeBlog/…` : écrire `@!AcmeBlog/…`.
+- Une surcharge n'est pas prise en compte → `debug:twig @AcmeBlog/…` ; le
+  directory s'appelle souvent `templates/bundles/AcmeBlog/`, sans le suffixe.
 
 ## QCM d'entraînement
-
-Cinq questions sur TwigBundle. Choisis avant d'ouvrir la correction.
 
 **Question 1.** Une surcharge,
 `templates/bundles/AcmeBlogBundle/user/profile.html.twig`, commence par
@@ -270,16 +182,14 @@ Cinq questions sur TwigBundle. Choisis avant d'ouvrir la correction.
 
 - **A.** Le template d'origine est étendu normalement
 - **B.** Une `LoaderError` : template introuvable
-- **C.** Le rendu tourne sans fin jusqu'à épuiser la mémoire
+- **C.** Le rendu épuise la mémoire, sans fin
 - **D.** Twig ignore la surcharge et rend l'original
 
 <details>
 <summary>Correction</summary>
 
-**Bonne réponse : C.** Rejoué avec Twig 3.22.2 : `@AcmeBlog` désigne d'abord la
-surcharge, qui s'étend donc elle-même ; « Allowed memory size … exhausted ».
-
-A décrit `@!AcmeBlog`. B et D sont faux.
+**Bonne réponse : C.** `@AcmeBlog` désigne d'abord la surcharge, qui s'étend
+donc elle-même. A décrit `@!AcmeBlog`.
 
 </details>
 
@@ -294,53 +204,28 @@ configurée. Que rend `{{ typo|default('fallback') }}` si `typo` n'existe pas ?
 <details>
 <summary>Correction</summary>
 
-**Bonne réponse : D.** Rejoué : le filter `default` accepte une variable
-inexistante, même en mode strict. Sans le filter, la même variable lève une
-`RuntimeError`.
-
-A vaut pour `{{ typo }}` seul. B vaut pour `{{ typo }}` en `prod`. C est faux.
+**Bonne réponse : D.** `default` accepte une variable inexistante, même en mode
+strict. A vaut pour `{{ typo }}` seul en dev, B pour `{{ typo }}` en prod.
 
 </details>
 
-**Question 3.** `twig.globals` contient `raw_at: '@@not-a-service'`. Que rend
-`{{ raw_at }}` ?
-
-- **A.** Une erreur : service introuvable
-- **B.** `@not-a-service`
-- **C.** `@@not-a-service`
-- **D.** Une string vide
-
-<details>
-<summary>Correction</summary>
-
-**Bonne réponse : B.** Rejoué : `@@` échappe l'arobase. Avec un seul `@`, la
-valeur désignerait un service.
-
-A suppose un seul `@`. C et D sont faux.
-
-</details>
-
-**Question 4.** `twig.paths` contient
-`'%kernel.project_dir%/extra/': Admin`. Comment rendre le file
-`extra/ns.html.twig` ?
+**Question 3.** `twig.paths` contient `'%kernel.project_dir%/extra/': Admin`.
+Comment rendre `extra/ns.html.twig` ?
 
 - **A.** `'@Admin/ns.html.twig'`
-- **B.** `'ns.html.twig'` : `paths` rejoint l'espace principal
+- **B.** `'ns.html.twig'`, `paths` rejoignant l'espace principal
 - **C.** `'Admin/ns.html.twig'`
 - **D.** `'@!Admin/ns.html.twig'`, obligatoire pour un path ajouté
 
 <details>
 <summary>Correction</summary>
 
-**Bonne réponse : A.** Rejoué. Un path nommé se référence par `@Nom/…` ; seul un
-path sans namespace rejoint l'espace principal.
-
-B vaut pour un path sans namespace. C oublie l'arobase. D est faux : Symfony ne
-crée l'espace `!` que pour les bundles.
+**Bonne réponse : A.** Un path nommé se référence par `@Nom/…`. B vaut pour un
+path sans namespace ; l'espace `!` n'existe que pour les bundles.
 
 </details>
 
-**Question 5.** `debug:twig @AcmeBlog/user/profile.html.twig` liste le file du
+**Question 4.** `debug:twig @AcmeBlog/user/profile.html.twig` liste le file du
 bundle sous « Overridden Files ». Qu'est-ce que cela signifie ?
 
 - **A.** Le file du bundle sera rendu
@@ -351,32 +236,28 @@ bundle sous « Overridden Files ». Qu'est-ce que cela signifie ?
 <details>
 <summary>Correction</summary>
 
-**Bonne réponse : C.** Rejoué : « Matched File » pointe vers
-`templates/bundles/AcmeBlogBundle/…`, et le file du bundle passe dans
-« Overridden Files ».
-
-A est l'inverse. B et D sont faux.
+**Bonne réponse : C.** « Matched File » pointe vers la surcharge ; le file du
+bundle passe dans « Overridden Files ».
 
 </details>
 
 ## Fiche express
 
-**Si tu dois retenir seulement 7 choses :**
+**Si tu dois retenir seulement 6 choses :**
 
 - **Engine, bridge, bundle** : le bundle tire les deux autres et configure.
 - **`default_path`** remplace `templates/` ; **`paths`** ajoute.
 - Surcharge : **`templates/bundles/AcmeBlogBundle/`** ; original : **`@!AcmeBlog`**.
-- Étendre **`@AcmeBlog`** depuis la surcharge : elle s'étend elle-même.
 - **`strict_variables`** = `%kernel.debug%` ; `default`, `is defined`, `??`
   passent toujours.
 - **`globals`** : `@` service, `@@` littéral.
 - **`debug:twig <nom>`** dit qui sert ; **`lint:twig`** sort en 1 sur erreur.
 
-**En une phrase, pour tout reconstruire :**
+Moyen mnémotechnique : **« la surcharge d'abord, le bang pour l'original »**.
 
 ```text
-twig/twig ← twig-bridge ← twig-bundle (configure) ; templates/ (default_path) + paths (@Nom) ;
-@AcmeBlog = templates/bundles/AcmeBlogBundle/ puis le bundle ; @!AcmeBlog = le bundle ; strict_variables = kernel.debug
+twig/twig ← twig-bridge ← twig-bundle (configure) ; templates/ + paths (@Nom) ;
+@AcmeBlog = surcharge puis bundle ; @!AcmeBlog = bundle ; strict_variables = kernel.debug
 ```
 
 ## Sources officielles

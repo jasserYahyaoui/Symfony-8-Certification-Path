@@ -59,35 +59,14 @@ outcome_sections:
 Savoir ce que Twig échappe par défaut, avec quelle strategy, et comment
 choisir la bonne selon l'endroit du document.
 
-## Avant la règle : le problème à résoudre
+## L'essentiel
 
-Un nom de user contient `<script>`. Affiché tel quel dans une page, il
-s'exécute chez chaque visiteur : c'est une faille XSS. Échapper la valeur la
-rend inoffensive — mais **comment** échapper dépend de l'endroit : du HTML, un
-attribute sans guillemets, une string JavaScript, une URL. Twig échappe
-d'office ; il faut savoir **quand**, **avec quelle strategy**, et **comment
-s'en écarter** sans ouvrir de faille.
+Une variable affichée sans escaping peut injecter du script : c'est une faille
+XSS. Twig échappe **d'office** ; la question est **avec quelle strategy** — elle
+dépend du nom du template et de l'endroit du document — et **comment s'en
+écarter** sans ouvrir de faille.
 
-Tous les faits de cette page ont été exécutés avec TwigBundle 8.0.15 et
-Twig 3.22.2, la valeur affichée étant `<b>"x" & y</b>`.
-
-## Le fil rouge : un profil et son script
-
-```twig
-{# templates/user/profile.html.twig #}
-<h1>{{ user.name }}</h1>
-<div data-role={{ user.role|e('html_attr') }}></div>
-<a href="/search?q={{ user.city|e('url') }}">Voisins</a>
-<script>const name = "{{ user.name|e('js') }}";</script>
-```
-
-Le nom est échappé en HTML sans rien demander ; l'attribute sans guillemets, le
-parameter d'URL et la string JavaScript demandent chacun leur strategy.
-
-## Le cycle complet en un schéma
-
-Ce qui décide de l'escaping d'un `{{ … }}`, lu dans la documentation de Twig
-3.22 et rejoué :
+## Le schéma
 
 ```mermaid
 ---
@@ -108,146 +87,69 @@ flowchart TD
   SAFE -->|"non"| ESC(["échappé"])
 ```
 
+## L'exemple
+
+```twig
+{# templates/user/profile.html.twig #}
+<h1>{{ user.name }}</h1>
+<div data-role={{ user.role|e('html_attr') }}></div>
+<a href="/search?q={{ user.city|e('url') }}">Voisins</a>
+<script>const name = "{{ user.name|e('js') }}";</script>
+```
+
+Le nom est échappé en HTML sans rien demander ; l'attribute sans guillemets, le
+parameter d'URL et la string JavaScript demandent chacun leur strategy.
+
 ## Le défaut : la strategy dépend du nom du template
 
-L'auto-escaping est **actif** dans une application Symfony. Mais sa
-strategy n'est pas fixe : TwigBundle (8.0) règle l'option `autoescape` de Twig
-sur `'name'`, et Twig choisit alors la strategy d'après l'**extension** du
-template, `.twig` retiré (`FileExtensionEscapingStrategy::guess()`, v3.22.0) :
+TwigBundle règle l'option `autoescape` sur `'name'` : la strategy dépend de
+l'**extension** du template, `.twig` retiré.
 
 | Template | Strategy |
 |---|---|
-| `page.html.twig`, et toute extension non listée | `html` |
+| `page.html.twig`, et toute extension non listée (`.xml`, `.md`…) | `html` |
 | `data.js.twig`, `data.json.twig` | `js` |
 | `style.css.twig` | `css` |
 | `email.txt.twig` | **aucun escaping** |
 
-Dans un template HTML, toute variable affichée par `{{ }}` est donc échappée sans
-rien demander. Un template `.txt.twig` — un email en texte brut, par exemple —
-affiche ses variables telles quelles.
-
-**Rejoué, extension par extension :** `page.html.twig`, `note.xml.twig`,
-`readme.md.twig` et un `plain.twig` sans extension donnent
-`&lt;b&gt;&quot;x&quot; &amp; y&lt;/b&gt;` ; `data.js.twig` et
-`data.json.twig`, `<b>…` ; `style.css.twig`, `\3C b\3E …` ;
-`email.txt.twig`, la valeur brute.
-
-L'escaping a lieu **à l'affichage**, pas à l'affectation :
-`{% set x = y %}` ne transforme rien.
-
-**Deux exceptions documentées.** Twig n'échappe pas les **expressions
-statiques** : `{{ "<strong>world</strong>" }}` s'affiche en gras. Et les
-functions qui retournent du template — les macros, `parent()` — retournent un
-contenu considéré comme sûr.
-
-Rejoué : la statique cesse de l'être dès qu'une variable s'y mêle.
-`{{ "<b>" ~ v }}` échappe **tout**, le `<b>` littéral compris.
+- L'escaping a lieu **à l'affichage**, pas à l'affectation : `{% set x = y %}`
+  ne transforme rien.
+- Les **expressions statiques** ne sont pas échappées : `{{ "<strong>x</strong>" }}`
+  s'affiche en gras. Dès qu'une variable s'y mêle, **tout** est échappé :
+  `{{ "<b>" ~ v }}` échappe aussi le `<b>`.
+- Les macros et `parent()` retournent un contenu considéré comme sûr.
 
 ## Les cinq strategies
-
-Le contexte du document décide, et le mauvais choix laisse une faille ouverte :
 
 | Strategy | Contexte visé |
 |---|---|
 | `html` | corps HTML, ou valeur d'attribute **entre guillemets** |
-| `js` | string JavaScript ou JSON, encodée par séquences d'escaping |
+| `js` | string JavaScript ou JSON |
 | `css` | tout ce qui est inséré dans du CSS |
 | `url` | un **sous-composant** d'URI ou un parameter, jamais une URI entière |
 | `html_attr` | nom d'attribute, ou valeur d'attribute **sans guillemets** |
 
-La distinction `html` / `html_attr` est celle qui se rate : dès que la valeur
-n'est pas entre guillemets — `data-x={{ v }}` — `html` ne suffit plus. La
-documentation recommande d'ailleurs de mettre la valeur entre guillemets et
-d'employer `html`, `html_attr` étant moins performant.
-
-Pour la strategy `html`, Twig utilise la function PHP `htmlspecialchars`. On
-peut enregistrer d'autres strategies avec `EscaperRuntime::setEscaper()`
-(Twig 3.10).
-
-Rejoué : `html_attr` encode aussi l'espace (`&#x20;`) et le slash (`&#x2F;`),
-ce qui empêche la valeur de sortir de l'attribute ; `url` sur une adresse
-complète donne `https%3A%2F%2Fex.com%2Fa%20b%3Fq%3D1`, sur un parameter seul
-`a%20b%26c`.
-
-## Choisir explicitement
+`html` utilise `htmlspecialchars`. On enregistre une strategy de plus avec
+`EscaperRuntime::setEscaper()` (Twig 3.10).
 
 ```html
 {{ user.name|e }}          {# équivaut à |e('html') #}
-{{ user.name|e('js') }}
 {{ user.name|escape('url') }}
 ```
 
-`e` est l'alias de `escape`.
+`e` est l'alias de `escape`. Twig évite le **double escaping** quand la strategy
+du filter, écrite en dur, est celle de l'auto-escaping ; `|escape(strategy)`
+avec une **variable** échappe deux fois.
 
-Twig évite le **double escaping** quand la strategy du filter est celle de
-l'auto-escaping — mais seulement si elle est écrite en dur.
-`|escape(strategy)`, avec une variable, est échappé deux fois ; la
-documentation conseille alors d'ajouter `|raw`.
-
-Rejoué : `{{ v|e('html') }}` donne `&lt;b&gt;…`, une fois ;
-`{{ v|escape(strategy) }}`, avec `strategy` valant `'html'`, donne
-`&amp;lt;b&amp;gt;…`, deux fois.
-
-**Deux filters à connaître.** `json_encode` n'est pas déclaré sûr : dans un
-template HTML, `{{ data|json_encode }}` sort `{&quot;a&quot;:…}`. `nl2br`, lui,
-échappe d'abord son entrée puis ajoute des `<br />` laissés intacts : lu dans
-`CoreExtension`, `pre_escape: html`, `is_safe: html`. Rejoué, `"<i>\nline"`
-devient `&lt;i&gt;<br />` suivi de `line`.
+Deux filters à connaître : `json_encode` n'est pas déclaré sûr, donc échappé en
+HTML (`&quot;`) ; `nl2br` échappe son entrée puis ajoute des `<br />` intacts.
 
 ## Désactiver, avec parcimonie
 
-`{{ trusted|raw }}` affiche sans échapper — **à condition que `raw` soit le
-dernier filter appliqué**. Le nom du filter est un avertissement : la valeur
-doit être sûre *par construction*, pas parce qu'elle semble sûre.
-
-Le tag `{% autoescape %}` change la strategy sur un block — sans argument,
-c'est `html` —, et `{% autoescape false %}` la coupe :
-
-```html
-{% autoescape 'js' %}
-    {{ value }}
-{% endautoescape %}
-```
-
-Rejoué : `{{ v|upper|raw }}` affiche `<B>"X" & Y</B>` brut ;
-`{{ v|raw|upper }}` affiche `&lt;B&gt;…`, échappé, parce que `upper` vient
-après.
-
-## Concrètement dans ton application
-
-- Laisser l'auto-escaping faire, et nommer les templates par leur format :
-  `.html.twig`, `.txt.twig`, `.js.twig`.
-- Mettre les attributes entre guillemets ; sinon, `|e('html_attr')`.
-- Une valeur dans une URL : `|e('url')` sur le parameter, jamais sur l'adresse.
-- Une donnée pour JavaScript : `|e('js')` dans une string, ou `|json_encode|raw`
-  seulement si la donnée vient du serveur et ne contient rien du user.
-- `|raw` en dernier, et seulement sur du contenu sûr par construction.
-- Un email texte : `.txt.twig`, rien n'est échappé — ce qui est voulu.
-
-## À comprendre
-
-- **Pourquoi l'extension décide-t-elle ?** Un `.txt.twig` n'est pas du HTML :
-  y écrire `&lt;` serait faux. Le nom du template est le seul indice fiable du
-  format de sortie.
-- **Pourquoi pas d'escaping pour une statique ?** Elle est écrite par le
-  développeur, pas fournie par un user ; seule une variable peut porter
-  une attaque.
-- **Pourquoi `raw` doit-il être le dernier ?** Un filter après lui produit une
-  nouvelle valeur, que Twig ne connaît pas comme sûre.
-
-## À mémoriser
-
-- Escaping **actif** ; strategy choisie par l'**extension** (`autoescape: 'name'`).
-- `.html` et inconnu → **html** ; `.js`, `.json` → **js** ; `.css` → **css** ;
-  `.txt` → **aucune**.
-- À l'**affichage**, pas à l'affectation ; les **statiques** ne sont pas
-  échappées.
-- Cinq strategies : **`html`**, **`js`**, **`css`**, **`url`**,
-  **`html_attr`**.
-- **`raw` en dernier**, sinon sans effet.
-- `escape(variable)` **double** l'escaping.
-- Moyen mnémotechnique : **« le nom choisit, l'affichage échappe, raw ferme la
-  marche »**.
+- `{{ trusted|raw }}` affiche sans échapper — **si `raw` est le dernier
+  filter** : `v|raw|upper` est de nouveau échappé.
+- `{% autoescape 'js' %}…{% endautoescape %}` change la strategy d'un block ;
+  sans argument, c'est `html` ; `{% autoescape false %}` la coupe.
 
 ## Pièges d'examen
 
@@ -266,29 +168,17 @@ ouverte sans rien signaler.
 **La strategy d'URL vise un sous-composant, pas une URI entière.** L'appliquer
 à une adresse complète la détruit.
 
-## Application : trois scénarios
+## Application
 
-**Scénario 1 — Le flux RSS échappé.** `feed.xml.twig` affiche un titre qui
-contient `&` : il sort `&amp;`. *Solution.* C'est voulu : `.xml` n'est pas dans
-la liste, il reçoit la strategy `html`, qui convient au XML.
-
-**Scénario 2 — Le JSON cassé dans le HTML.** Un template HTML affiche
-`{{ config|json_encode }}` dans un attribute et obtient des `&quot;`.
-*Solution.* C'est l'escaping HTML qui s'applique, et il est juste dans un
-attribute entre guillemets ; dans un `<script>`, préférer un template `.js.twig`
-ou `|e('js')` valeur par valeur.
-
-**Scénario 3 — Le titre en gras qui ne l'est plus.** `{{ "<b>" ~ title ~ "</b>" }}`
-affiche les tags. *Solution.* La statique cesse de l'être dès qu'une
-variable s'y mêle : écrire le HTML hors de l'expression,
-`<b>{{ title }}</b>`.
+- `{{ "<b>" ~ title ~ "</b>" }}` affiche les balises en texte → écrire le HTML
+  hors de l'expression : `<b>{{ title }}</b>`.
+- Un email `.txt.twig` affiche `<` brut → c'est voulu : un `.txt` n'est pas
+  échappé.
 
 ## QCM d'entraînement
 
-Cinq questions sur l'escaping. Choisis avant d'ouvrir la correction.
-
 **Question 1.** Dans une application Symfony, un template `feed.xml.twig`
-affiche `{{ v }}` avec `v = '<b>'`. Que sort-il ?
+affiche `{{ v }}`, où `v` vaut `<b>`. Que sort-il ?
 
 - **A.** `<b>`, l'extension `.xml` n'étant pas listée
 - **B.** `<b>`, comme en JavaScript
@@ -298,10 +188,7 @@ affiche `{{ v }}` avec `v = '<b>'`. Que sort-il ?
 <details>
 <summary>Correction</summary>
 
-**Bonne réponse : C.** Rejoué : une extension non listée reçoit la strategy
-`html`, comme `.html`, `.md` ou un template sans extension.
-
-A confond avec `.txt`. B décrit `.js` et `.json`. D est faux.
+**Bonne réponse : C.** Une extension non listée reçoit la strategy `html`.
 
 </details>
 
@@ -316,33 +203,12 @@ A confond avec `.txt`. B décrit `.js` et `.json`. D est faux.
 <details>
 <summary>Correction</summary>
 
-**Bonne réponse : B.** Rejoué : une concaténation avec une variable n'est plus
-une expression statique ; tout le résultat est échappé.
-
-A et C supposent que la statique garde son exemption. D est faux.
+**Bonne réponse : B.** Une concaténation avec une variable n'est plus statique :
+le résultat entier est échappé.
 
 </details>
 
-**Question 3.** `text` vaut `"<i>"` suivi d'un saut de ligne et de `line`.
-Que sort `{{ text|nl2br }}` dans un template HTML ?
-
-- **A.** `&lt;i&gt;<br />` puis `line`
-- **B.** `<i><br />` puis `line`
-- **C.** `&lt;i&gt;&lt;br /&gt;` puis `line`
-- **D.** `<i>` puis un saut de ligne et `line`
-
-<details>
-<summary>Correction</summary>
-
-**Bonne réponse : A.** Rejoué. Lu dans `CoreExtension` : `nl2br` déclare
-`pre_escape: html` — l'entrée est échappée — et `is_safe: html` — les `<br />`
-ajoutés ne le sont pas.
-
-B oublie le pre-escape. C échapperait les `<br />`. D ignore le filter.
-
-</details>
-
-**Question 4.** Dans `page.html.twig`, `data` vaut `{a: '<b>'}`. Que sort
+**Question 3.** Dans `page.html.twig`, `data` vaut `{a: '<b>'}`. Que sort
 `{{ data|json_encode }}` ?
 
 - **A.** `{"a":"<b>"}`
@@ -353,16 +219,13 @@ B oublie le pre-escape. C échapperait les `<br />`. D ignore le filter.
 <details>
 <summary>Correction</summary>
 
-**Bonne réponse : B.** Rejoué : `json_encode` n'est pas déclaré sûr, son output
-est échappée en HTML.
-
-A supposerait un filter sûr ou `|raw`. C décrit les options de `json_encode`
-de PHP, pas l'escaping. D est faux.
+**Bonne réponse : B.** `json_encode` n'est pas déclaré sûr : son output est
+échappé en HTML.
 
 </details>
 
-**Question 5.** Que vaut la strategy de `{% autoescape %}…{% endautoescape %}`,
-écrit sans argument ?
+**Question 4.** Que vaut la strategy de `{% autoescape %}…{% endautoescape %}`,
+sans argument, dans un template `.js.twig` ?
 
 - **A.** Celle de l'extension du template
 - **B.** `js`
@@ -372,32 +235,30 @@ de PHP, pas l'escaping. D est faux.
 <details>
 <summary>Correction</summary>
 
-**Bonne réponse : D.** La documentation du tag, et rejoué : sans argument, le
-block échappe en `html`.
-
-A est faux, même dans un `.js.twig`. C décrit `{% autoescape false %}`. B est
-faux.
+**Bonne réponse : D.** Sans argument, le tag vaut `html`, quelle que soit
+l'extension.
 
 </details>
 
 ## Fiche express
 
-**Si tu dois retenir seulement 7 choses :**
+**Si tu dois retenir seulement 6 choses :**
 
-- **`autoescape: 'name'`** : l'extension du template choisit la strategy.
+- Escaping **actif** ; strategy choisie par l'**extension** du template.
 - `.html` et inconnu → **html** ; `.js`, `.json` → **js** ; `.css` → **css** ;
   `.txt` → **aucune**.
-- L'escaping a lieu **à l'affichage**.
-- **Statique** non échappée — tant qu'aucune variable ne s'y mêle.
-- **`html_attr`** sans guillemets ; **`url`** pour un parameter.
-- **`raw` en dernier** ; `escape(variable)` double l'escaping.
-- **`json_encode`** est échappé ; **`nl2br`** échappe puis insère.
+- À l'**affichage** ; les **statiques** ne sont pas échappées, une
+  concaténation avec une variable l'est en entier.
+- Cinq strategies : **`html`**, **`js`**, **`css`**, **`url`**, **`html_attr`**.
+- **`raw` en dernier**, sinon sans effet.
+- `escape(variable)` **double** l'escaping.
 
-**En une phrase, pour tout reconstruire :**
+Moyen mnémotechnique : **« le nom choisit, l'affichage échappe, raw ferme la
+marche »**.
 
 ```text
-autoescape 'name' : html (html, xml, md, autre) | js (js, json) | css | rien (txt) ; à l'affichage ; statique exemptée sauf concaténée ;
-html_attr sans guillemets, url = paramètre ; raw dernier ; escape(var) double ; json_encode échappé, nl2br pré-échappe
+autoescape 'name' : html (défaut), js, css, txt = rien ; à l'affichage ; statique non échappée ;
+html / js / css / url (sous-composant) / html_attr (sans guillemets) ; raw en dernier
 ```
 
 ## Sources officielles
