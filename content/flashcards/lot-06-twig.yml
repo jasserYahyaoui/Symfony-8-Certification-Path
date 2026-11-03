@@ -2319,9 +2319,12 @@ flashcards:
     language: fr
     level: RECALL
     front: "Twig : que fait relative_path() ?"
-    back: "Il transforme une URL absolue en chemin relatif à la page courante : `../human.txt` depuis `/products/hover-board`."
+    back: "Il rend un path absolu relatif à la page courante : `relative_path('/human.txt')` donne `../human.txt` depuis `/products/hover-board`. Une URL complète, `http://…`, ressort inchangée."
     explanation: >-
-      Fourni, comme `absolute_url()`, par `HttpFoundationExtension` du Twig Bridge.
+      Fourni, comme `absolute_url()`, par `HttpFoundationExtension` du Twig Bridge. Rejoué avec
+      HttpFoundation 8.0.15 : `UrlHelper::getRelativePath()` rend tel quel tout argument qui contient
+      `://` ou commence par `//`, contrairement à l'exemple de la documentation de référence, qui annonce
+      `../human.txt` pour `relative_path('http://example.com/human.txt')`.
     memorization_justification: >-
       Function peu vue, facile à confondre avec le troisième argument de path().
     verification_status: VERIFIED
@@ -2338,6 +2341,12 @@ flashcards:
         branch: "8.0"
         symbol_or_lines: "absolute_url, relative_path"
         verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/UrlHelper.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/UrlHelper.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "UrlHelper::getRelativePath()"
+        verified_at: "2026-11-03"
 
   - id: FLC-px4eg1dagj7z
     official_item: OIT-yh6zx9shv9vs

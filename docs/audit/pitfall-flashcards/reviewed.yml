@@ -1815,6 +1815,11 @@ pitfalls:
   excerpt: '**`absolute_url()` prend un path, pas un route name.**'
   verdict: COVERED
   card: FLC-7ehtmajtpjr8
+- course: CRS-dpbpbgwjey5c
+  key: 8f6d98ae31d0
+  excerpt: '**`relative_path()` laisse une URL complète inchangée** : seul un path, `/human.txt`, devient'
+  verdict: COVERED
+  card: FLC-nj22h67r0w1s
 - course: CRS-e3j0d3a8ndrf
   key: c72c3690a634
   excerpt: '**`private` est le défaut de Symfony.** Une Response n''est pas mise en cache partagé tant '
