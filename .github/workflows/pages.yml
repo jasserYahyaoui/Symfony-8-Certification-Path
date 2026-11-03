@@ -5550,6 +5550,7 @@ jobs:
               'lot-10/voters-and-voting-strategies': 1,
               'lot-11/messages-and-handlers': 1,
               'lot-11/messenger-component': 1,
+              'lot-11/middleware': 1,
               'lot-11/retries-and-failures': 1,
               'lot-11/transports': 1,
               'lot-11/workers': 1,
