@@ -3101,7 +3101,7 @@ flashcards:
     official_item: OIT-tw3xaqbz8xjy
     language: fr
     level: TRAP
-    front: 'Symfony : asset(''https://cdn.example.com/app.js'') reçoit-il la version configurée ?'
+    front: 'Symfony : `asset(''https://cdn.example.com/app.js'')` reçoit-il la version configurée ?'
     back: 'Non : une URL absolue, `://` ou `//` en tête, est rendue inchangée, sans préfixe ni version.'
     explanation: '`Package::getUrl()` teste `isAbsoluteUrl()` avant d''appliquer la strategy de version.'
     memorization_justification: Le cache d'une ressource externe n'est pas cassé par la version de l'application.
