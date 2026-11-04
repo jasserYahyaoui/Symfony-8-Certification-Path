@@ -42,44 +42,15 @@ outcome_sections:
 quand il y a plusieurs handlers, et faire évoluer un message sans casser ceux
 qui attendent en file.
 
-## Avant la règle : le problème à résoudre
+## L'essentiel
 
-Un achat est validé : il faut une facture et une notification. Deux équipes,
-deux morceaux de code, un même event. Il faut un object qui **décrit ce qui
-s'est passé**, du code qui **y réagit**, et un câblage qui les relie sans table
-écrite à la main. Et comme le message peut attendre des heures dans une file, il
-doit survivre à un deployment.
+Un message est une class ordinaire qui porte des **identifiers**. Un handler
+porte `#[AsMessageHandler]`, et c'est le **type de son argument** qui le relie
+au message. Plusieurs handlers pour un même message sont tous appelés. Et un
+message en file a été sérialisé par l'ancien code : il doit survivre au
+deployment.
 
-Trois questions : **à quoi ressemble un message**, **qu'est-ce qui le relie à
-ses handlers**, et **comment le faire évoluer** sans casser la file.
-
-## Le fil rouge : l'achat validé
-
-```php
-final class OrderPlaced
-{
-    public function __construct(public readonly int $orderId) {}
-}
-
-#[AsMessageHandler]
-final class CreateInvoice
-{
-    public function __invoke(OrderPlaced $message): void { /* recharge l'achat, facture */ }
-}
-
-#[AsMessageHandler(priority: 10)]
-final class NotifyCustomer
-{
-    public function __invoke(OrderPlaced $message): void { /* recharge l'achat, notifie */ }
-}
-```
-
-Un `dispatch(new OrderPlaced(42))` appelle les deux, `NotifyCustomer` d'abord.
-Le message ne porte que `42` : chaque handler recharge l'achat.
-
-## Le cycle complet en un schéma
-
-Lu dans `HandlersLocator::getHandlers()` et rejoué avec Messenger 8.0 :
+## Le schéma
 
 ```mermaid
 ---
@@ -100,61 +71,64 @@ flowchart TD
   SEEN -->|"non"| CALL(["appelé : un HandledStamp"])
 ```
 
-Deux conséquences qui surprennent : **`priority` ne trie qu'à l'intérieur d'un
-même type**, et **`fromTransport` ne concerne que les messages reçus**.
+Deux conséquences : **`priority` ne trie qu'à l'intérieur d'un même type**, et
+**`fromTransport` ne concerne que les messages reçus**.
+
+## L'exemple
+
+```php
+final class OrderPlaced
+{
+    public function __construct(public readonly int $orderId) {}
+}
+
+#[AsMessageHandler]
+final class CreateInvoice
+{
+    public function __invoke(OrderPlaced $message): void { /* recharge l'achat, facture */ }
+}
+
+#[AsMessageHandler(priority: 10)]
+final class NotifyCustomer
+{
+    public function __invoke(OrderPlaced $message): void { /* recharge l'achat, notifie */ }
+}
+```
+
+`dispatch(new OrderPlaced(42))` appelle les deux, `NotifyCustomer` d'abord.
 
 ## Le message
 
-Une class ordinaire, sans interface ni class parente. La seule exigence est
-qu'elle soit **sérialisable**, parce qu'un transport asynchrone l'écrit puis la
-relit.
+Une class ordinaire, sans interface ni class parente, qui doit être
+**sérialisable** : un transport asynchrone l'écrit puis la relit. On y met un
+**identifier**, pas un object chargé — la copie sérialisée serait périmée à la
+lecture ; le handler recharge l'état courant.
 
-```php
-final class SendWelcomeEmail
-{
-    public function __construct(public readonly int $userId) {}
-}
-```
+Le serializer par défaut s'appuie sur `unserialize()`, qui **n'appelle pas le
+constructor**. Un message de la version 1 lu par la version 2, PHP 8.4 :
 
-D'où la règle qui en découle : on transporte un **identifier**, pas un object
-chargé. L'object sérialisé serait une copie figée, périmée à la lecture ; le
-handler recharge l'état courant à partir de l'identifier.
+| Changement de la class | Lecture de l'ancien message |
+|---|---|
+| property **promue** ajoutée au constructor, avec défaut | **`Error`** : « must not be accessed before initialization » |
+| property **déclarée** ajoutée, avec défaut | lue avec sa default value |
+| property retirée | décodé, avec la deprecation « Creation of dynamic property » |
+
+Pour un changement de sens : une **nouvelle class**, l'ancienne gardée le temps
+que les files se vident.
 
 ## Le handler
 
-```php
-use Symfony\Component\Messenger\Attribute\AsMessageHandler;
+- `#[AsMessageHandler]` est lu par l'autoconfiguration ; le **type de
+  l'argument** désigne le message. Aucune table à écrire.
+- L'attribute se pose aussi sur des **methods**, plusieurs par class ; le type
+  peut être une **union** (`Ping|Pong`) ou une **interface**.
+- Sans type, le build échoue : « must have a type-hint corresponding to the
+  message class it handles ».
+- Les options de l'attribute en 8.0 : `bus`, `fromTransport`, `handles`,
+  `method`, `priority`, `sign`.
 
-#[AsMessageHandler]
-final class SendWelcomeEmailHandler
-{
-    public function __invoke(SendWelcomeEmail $message): void
-    {
-        // ...
-    }
-}
-```
-
-Deux éléments décident du câblage : l'attribute `#[AsMessageHandler]`, lu par
-l'autoconfiguration, et le **type de l'argument**, qui désigne le message
-traité. Il n'y a pas de table de correspondance à écrire. Exécuté avec
-Messenger 8.0.15 :
-
-| Handler | Messages reçus |
-|---|---|
-| method `onUnion(Ping\|Pong $m)` avec `#[AsMessageHandler]` | `Ping` et `Pong` |
-| method `onNotice(Notice $m)`, `Notice` étant une interface | `Ping`, qui l'implémente |
-| `__invoke($m)` sans type | **échec au build** : « argument "$m" … must have a type-hint corresponding to the message class it handles » |
-
-L'attribute se pose donc aussi sur des **methods** — plusieurs par class —, le
-type peut être une **union** ou une **interface**, et l'absence de type est
-refusée dès la compilation. L'option `handles` de l'attribute nomme le message
-quand le type ne suffit pas ; `fromTransport` restreint un handler aux messages
-reçus d'un transport donné.
-
-**Rejoué : ce que `fromTransport` écarte, et ce qu'il laisse passer.** Un
-handler `#[AsMessageHandler(fromTransport: 'async')]` et un handler sans option,
-pour un message routé vers `async` et `other` :
+`fromTransport: 'async'` écarte un message **reçu** d'un autre transport, mais
+pas un message traité en synchrone :
 
 | Le message arrive… | Handler `fromTransport: 'async'` | Handler sans option |
 |---|---|---|
@@ -162,88 +136,18 @@ pour un message routé vers `async` et `other` :
 | lu par un worker sur `async` | appelé | appelé |
 | dispatché sans routage, en synchrone | **appelé** | appelé |
 
-Lu dans `HandlersLocator::shouldHandle()` : sans `ReceivedStamp`, tout handler
-est gardé. `fromTransport` ne rend pas un handler « asynchrone seulement ».
-
-Les options de l'attribute en 8.0 : `bus`, `fromTransport`, `handles`, `method`,
-`priority`, `sign`.
+Sans `ReceivedStamp`, tout handler est gardé : `fromTransport` ne rend pas un
+handler « asynchrone seulement ».
 
 ## Plusieurs handlers
 
-Un même message peut avoir **plusieurs** handlers ; tous sont appelés. C'est
-voulu : un `OrderPlaced` peut déclencher une facture et une notification, écrits
-indépendamment. L'option `priority` ordonne, sans exclure. Exécuté : sans
-priority, l'ordre d'enregistrement ; avec `priority: 10` sur le second, il passe
-**avant** le premier.
-
-**Mais seulement entre handlers du même type.** Rejoué : `Invoice` implémente
-`Billable` ; un handler typé `Invoice` sans priority, un handler typé
-`Billable` avec `priority: 100`. Ordre obtenu : le handler de la **class**
-d'abord, celui de l'interface ensuite. `HandlersLocator` parcourt les types
-avant les priorities.
-
-L'Envelope porte alors un `HandledStamp` **par handler** :
-
-```php
-$envelope->last(HandledStamp::class);   // le dernier
-$envelope->all(HandledStamp::class);    // tous
-```
-
-Récupérer une return value n'a donc de sens qu'avec un handler unique — et
-seulement en traitement synchrone.
-
-## Versionner un message
-
-Un message en attente dans une file a été sérialisé par l'ancien code et sera
-lu par le nouveau. Le serializer par défaut, `PhpSerializer`, s'appuie sur
-`unserialize()`, qui **n'appelle pas le constructor**. Exécuté : un message
-encodé avec une version, décodé avec la suivante, PHP 8.4 :
-
-| Changement de la class | Lecture de l'ancien message |
-|---|---|
-| property **promue** ajoutée au constructor, avec défaut | **`Error`** à l'accès : « must not be accessed before initialization » |
-| property **déclarée** ajoutée, avec défaut | lue avec sa default value |
-| property retirée | décodé, avec l'avertissement « Creation of dynamic property … is deprecated » |
-
-« Ajouter une property avec une default value est sûr » n'est donc vrai que
-pour une property **déclarée** : le défaut d'un parameter promu appartient au
-constructor, que la désérialisation ne voit pas. Pour un changement de sens, on
-introduit une **nouvelle class** et on garde l'ancienne le temps que les files
-se vident.
-
-Rejoué une nouvelle fois, encodé et décodé dans deux process distincts : les
-trois lignes se reproduisent à l'identique.
-
-## Concrètement dans ton application
-
-- Un message : `final`, des properties `readonly`, des identifiers.
-- Un handler par responsabilité, plutôt qu'un handler qui fait tout.
-- Plusieurs messages dans une class : `#[AsMessageHandler]` sur chaque method.
-- Un ordre entre handlers d'un même message : `priority`, sur le même type.
-- Un handler réservé à un transport : `fromTransport`, en sachant qu'il tourne
-  aussi en synchrone.
-- Une évolution : une property **déclarée** avec défaut, ou une nouvelle class.
-
-## À comprendre
-
-- **Pourquoi le type de l'argument ?** C'est la seule information que le code
-  donne déjà ; l'en déduire évite une table qui dériverait.
-- **Pourquoi plusieurs handlers ?** Un message décrit un fait ; plusieurs
-  parties de l'application peuvent avoir à y réagir, sans se connaître.
-- **Pourquoi la property promue casse-t-elle ?** Son défaut vit dans le
-  constructor ; `unserialize()` recrée l'object sans l'appeler.
-
-## À mémoriser
-
-- Message = **class ordinaire sérialisable**, avec des **identifiers**.
-- Handler = **`#[AsMessageHandler]`** + **type de l'argument** (union,
-  interface acceptées) ; sans type → **build cassé**.
-- **Plusieurs handlers** : tous appelés ; un `HandledStamp` chacun.
-- **`priority`** : ordonne, n'exclut pas, et seulement **dans un même type**.
-- **`fromTransport`** : ne concerne que les messages **reçus**.
-- Évolution : property **déclarée** avec défaut, oui ; **promue**, non.
-- Moyen mnémotechnique : **« le type relie, la priority range, la file se
-  souvient »**.
+- Tous sont appelés ; `priority` **ordonne**, sans exclure. Sans priority :
+  l'ordre d'enregistrement.
+- Mais seulement **dans un même type** : les types du message sont parcourus
+  dans l'ordre class, parents, interfaces, avant les priorities. Un handler
+  typé `Invoice` passe avant un handler typé `Billable` à `priority: 100`.
+- Un `HandledStamp` **par handler** : `last()` rend le dernier, `all()` tous.
+  Une return value n'a de sens qu'avec un handler unique, en synchrone.
 
 ## Pièges d'examen
 
@@ -261,29 +165,14 @@ défaut.
 **Ne pas transporter d'object chargé** : un identifier, et un rechargement dans
 le handler.
 
-## Application : trois scénarios
+## Application
 
-**Scénario 1 — La priority qui ne marche pas.** Un handler d'audit typé sur
-l'interface `Billable`, `priority: 100`, devait passer avant la facturation,
-typée sur `Invoice`. Il passe après. *Solution.* `priority` ne compare que des
-handlers du même type : typer l'audit sur `Invoice`, ou ne pas dépendre de
-l'ordre.
-
-**Scénario 2 — Le handler « asynchrone seulement ».** Un handler coûteux reçoit
-`fromTransport: 'async'` pour ne jamais tourner dans la Request. En test, sans
-routage, il tourne quand même. *Solution.* `fromTransport` ne concerne que les
-messages reçus ; c'est le **routage** qui décide de l'asynchrone.
-
-**Scénario 3 — Le deployment du lundi.** Une property `public string $channel =
-'email'` est ajouté au constructor de `SendWelcomeEmail` ; les messages déjà en
-file échouent. *Solution.* Le déclarer comme property, `public string $channel
-= 'email';`, hors du constructor : les anciens messages le lisent avec son
-défaut.
+- Un handler coûteux reçoit `fromTransport: 'async'` et tourne quand même en
+  test, sans routage → c'est le **routage** qui décide de l'asynchrone.
+- `public string $channel = 'email'` ajouté au constructor fait échouer les
+  messages en file → le déclarer comme property, hors du constructor.
 
 ## QCM d'entraînement
-
-Cinq questions sur les messages et les handlers. Choisis avant d'ouvrir la
-correction.
 
 **Question 1.** Un handler porte `#[AsMessageHandler(fromTransport: 'async')]`.
 Son message n'est routé nulle part et il est dispatché. Le handler tourne-t-il ?
@@ -296,10 +185,8 @@ Son message n'est routé nulle part et il est dispatché. Le handler tourne-t-il
 <details>
 <summary>Correction</summary>
 
-**Bonne réponse : B.** Rejoué. Lu dans `HandlersLocator::shouldHandle()` :
-sans `ReceivedStamp`, le filter `from_transport` n'est pas consulté.
-
-A est l'idée reçue. C et D supposent un filtre sur l'envoi.
+**Bonne réponse : B.** Sans `ReceivedStamp`, le filter `from_transport` n'est
+pas consulté ; il n'agit que sur un message lu par un worker.
 
 </details>
 
@@ -315,34 +202,12 @@ tournent-ils ?
 <details>
 <summary>Correction</summary>
 
-**Bonne réponse : C.** Rejoué. Lu dans `HandlersLocator::getHandlers()` : les
-types du message sont parcourus dans l'ordre class, parents, interfaces ; la
-priority ne range que les handlers d'un même type.
-
-A applique la priority entre types. B et D sont faux.
+**Bonne réponse : C.** Les types sont parcourus dans l'ordre class, parents,
+interfaces ; la priority ne range que les handlers d'un même type.
 
 </details>
 
-**Question 3.** Une class porte `#[AsMessageHandler]` sur une method
-`onUnion(Ping|Pong $m)` et sur une method `onNotice(Notice $m)`. `Ping`
-implémente `Notice`. Combien de fois est-elle appelée pour un `Ping` ?
-
-- **A.** Une : la première method trouvée
-- **B.** Aucune : une union n'est pas acceptée
-- **C.** Une exception : deux methods pour un même message
-- **D.** Deux : `onUnion()` puis `onNotice()`
-
-<details>
-<summary>Correction</summary>
-
-**Bonne réponse : D.** Rejoué avec Messenger 8.0 : `union:Ping`, puis
-`notice:Ping`. Chaque method attribuée est un handler distinct.
-
-A et C supposent un seul handler par class. B est faux.
-
-</details>
-
-**Question 4.** La version 2 d'un message ajoute `public string $source =
+**Question 3.** La version 2 d'un message ajoute `public string $source =
 'web';`, déclarée hors du constructor. Un message de la version 1 est lu. Que
 vaut `$message->source` ?
 
@@ -354,30 +219,24 @@ vaut `$message->source` ?
 <details>
 <summary>Correction</summary>
 
-**Bonne réponse : A.** Rejoué, encodé et décodé dans deux process : une
-property déclarée garde sa default value. B serait vrai pour une property
-promue.
-
-C et D sont faux.
+**Bonne réponse : A.** Une property déclarée garde sa default value à la
+désérialisation ; B serait vrai pour une property promue au constructor.
 
 </details>
 
-**Question 5.** La version 2 d'un message retire une property. Un message de
+**Question 4.** La version 2 d'un message retire une property. Un message de
 la version 1 est lu sous PHP 8.4. Que se passe-t-il ?
 
 - **A.** Une `Error` à la lecture
 - **B.** Le message est rejeté vers le failure transport
-- **C.** Décodé, avec une deprecation PHP
-- **D.** La property est ignorée en silence
+- **C.** La property est ignorée en silence
+- **D.** Décodé, avec une deprecation PHP
 
 <details>
 <summary>Correction</summary>
 
-**Bonne réponse : C.** Rejoué : « Creation of dynamic property … is
-deprecated ». `unserialize()` recrée la property disparue comme property
-dynamique, ce que PHP 8.2 et suivants déprécient.
-
-A, B et D sont faux.
+**Bonne réponse : D.** `unserialize()` recrée la property disparue comme
+property dynamique, ce que PHP déprécie depuis la version 8.2.
 
 </details>
 
@@ -395,7 +254,8 @@ A, B et D sont faux.
 - **`fromTransport`** ne concerne que les messages **reçus**.
 - Property **promue** ajoutée → les anciens messages cassent.
 
-**En une phrase, pour tout reconstruire :**
+Moyen mnémotechnique :
+**« le type relie, la priority range, la file se souvient »**.
 
 ```text
 message = class + identifiers ; handler = #[AsMessageHandler] + type (union, interface) ; types : class > parents > interfaces > * ;
@@ -408,3 +268,4 @@ priority dans un type ; fromTransport si ReceivedStamp ; unserialize sans constr
 - [Messenger 8.0, `AsMessageHandler`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/Attribute/AsMessageHandler.php)
 - [Messenger 8.0, `HandlersLocator`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/Handler/HandlersLocator.php)
 - [Messenger 8.0, `PhpSerializer`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/Transport/Serialization/PhpSerializer.php)
+
