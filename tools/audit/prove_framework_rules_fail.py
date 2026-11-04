@@ -303,7 +303,7 @@ CASES = [
     ),
     (
         'FMT-001 rejects a correction naming a letter that is not a choice',
-        [(PEDAGOGICAL_COURSE, '**Bonne réponse : D.** La version est obligatoire', '**Bonne réponse : E.** La version est obligatoire')],
+        [(PEDAGOGICAL_COURSE, '**Bonne réponse : A.** La règle normale est la prochaine mineure', '**Bonne réponse : E.** La règle normale est la prochaine mineure')],
         '[ERROR] FMT-001',
     ),
     (
@@ -314,8 +314,8 @@ CASES = [
     (
         'QCM-001 rejects a course quiz prompt copied from an exam bank',
         [(PEDAGOGICAL_COURSE,
-          '**Question 10.** Une deprecation peut-elle être introduite dans une version antérieure, déjà publiée et encore maintenue ?',
-          '**Question 10.** Which package must be installed for `trigger_deprecation()` to be available?')],
+          '**Question 4.** Une deprecation peut-elle être introduite dans une version\nantérieure, déjà publiée et encore maintenue ?',
+          '**Question 4.** Which package must be installed for `trigger_deprecation()` to be available?')],
         '[ERROR] QCM-001',
     ),
 ]
