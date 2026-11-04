@@ -1815,6 +1815,11 @@ pitfalls:
   excerpt: '**`absolute_url()` prend un path, pas un route name.**'
   verdict: COVERED
   card: FLC-7ehtmajtpjr8
+- course: CRS-dpbpbgwjey5c
+  key: 8f6d98ae31d0
+  excerpt: '**`relative_path()` laisse une URL complète inchangée** : seul un path, `/human.txt`, devient'
+  verdict: COVERED
+  card: FLC-nj22h67r0w1s
 - course: CRS-e3j0d3a8ndrf
   key: c72c3690a634
   excerpt: '**`private` est le défaut de Symfony.** Une Response n''est pas mise en cache partagé tant '
@@ -4000,8 +4005,8 @@ pitfalls:
   verdict: COVERED
   card: FLC-ynhbpp2dtxs4
 - course: CRS-yw6c5hq2mbax
-  key: 61b37f1f603f
-  excerpt: '**`controller()` seul n''affiche rien** : il construit une référence.'
+  key: 2e8a42777da5
+  excerpt: '**`controller()` seul n''exécute rien** : il construit une référence, et l''afficher sans `ren'
   verdict: COVERED
   card: FLC-7de3x0at9tq0
 - course: CRS-yw6c5hq2mbax
@@ -4020,8 +4025,8 @@ pitfalls:
   verdict: COVERED
   card: FLC-pw3wpt6wdcnp
 - course: CRS-zbnzvqkhjknh
-  key: 6ba11a94a74d
-  excerpt: '**La moitié des properties de loop n''existent pas sur un iterator** ; l''index et le test d'
+  key: 89574d26e83b
+  excerpt: '**La moitié des properties de loop n''existent pas sur un generator ni sur un iterator non `Co'
   verdict: COVERED
   card: FLC-qd532hzxdazs
 - course: CRS-zbnzvqkhjknh

@@ -3486,7 +3486,7 @@ questions:
     text: 'It returns the message unformatted'
     correct: false
     explanation: 'Only a missing parameter leaves a placeholder; a missing other branch is an error.'
-  explanation: 'ICU requires an other branch in every select and plural. Without it, MessageFormatter cannot be built (U_DEFAULT_KEYWORD_MISSING) and Symfony throws InvalidArgumentException, for every value, matched or not. Executed on Translation 8.0.15 with intl.'
+  explanation: 'ICU requires an other branch in every select and plural. Without it, MessageFormatter cannot be built (U_DEFAULT_KEYWORD_MISSING) and Symfony throws InvalidArgumentException, for every value, matched or not. Executed on Translation 8.0.14 with intl (ICU 74.2).'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Translation/Formatter/IntlFormatter.php
     readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Translation/Formatter/IntlFormatter.php

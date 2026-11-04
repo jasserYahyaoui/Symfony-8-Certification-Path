@@ -38,10 +38,13 @@ flashcards:
     language: fr
     level: TRAP
     front: "Twig : que produit {{ 'a' + 'b' }} ?"
-    back: "Une TypeError. Le + est l'addition ; la concaténation s'écrit ~."
+    back: "Une Twig\\Error\\RuntimeError, qui emballe la TypeError de PHP. Le + est l'addition ; la concaténation s'écrit ~."
     explanation: >-
       Twig compile + vers le + de PHP. Sur PHP 8.4, la version exigée par
-      Symfony 8.0, additionner deux strings non numériques lève une TypeError.
+      Symfony 8.0, additionner deux strings non numériques lève une TypeError
+      (« Unsupported operand types: string + string ») ; rejoué avec Twig 3.22.2,
+      le rendu la remonte dans une Twig\Error\RuntimeError, dont getPrevious()
+      est la TypeError — un catch (\TypeError) ne l'attrape pas.
     memorization_justification: >-
       L'habitude de PHP et de JavaScript pousse à écrire +, et l'erreur ne se
       voit qu'au rendu du template.
@@ -1252,9 +1255,11 @@ flashcards:
     language: fr
     level: UNDERSTANDING
     front: "Symfony : que produit {{ app.user }} dans une application sans le component Security ?"
-    back: "Une RuntimeException : The app.user variable is not available."
+    back: "Une Twig\\Error\\RuntimeError, qui emballe la RuntimeException d'AppVariable : The app.user variable is not available."
     explanation: >-
-      TwigBundle n'appelle setTokenStorage() que si le service existe ; sans lui, AppVariable lève une exception au lieu de rendre null.
+      TwigBundle n'appelle setTokenStorage() que si le service existe ; sans lui, AppVariable lève une RuntimeException au lieu de rendre null.
+      Rejoué avec Twig 3.22.2 : le rendu la remonte dans une Twig\Error\RuntimeError, qui n'est pas une \RuntimeException —
+      un catch (\RuntimeException) ne l'attrape pas.
     memorization_justification: >-
       On attend null, comme pour un visiteur anonyme.
     verification_status: VERIFIED
@@ -1390,7 +1395,7 @@ flashcards:
     language: fr
     level: TRAP
     front: "Piège : « app.user vaut null quand le component Security n'est pas installé »."
-    back: "Faux : app.user lève une RuntimeException ; null signifie qu'aucun user n'est authentifié."
+    back: "Faux : app.user lève une exception (la RuntimeException d'AppVariable, remontée par Twig en RuntimeError) ; null signifie qu'aucun user n'est authentifié."
     explanation: >-
       Seul app.flashes retombe sur un array vide quand son service manque.
     memorization_justification: >-
@@ -2314,9 +2319,12 @@ flashcards:
     language: fr
     level: RECALL
     front: "Twig : que fait relative_path() ?"
-    back: "Il transforme une URL absolue en chemin relatif à la page courante : `../human.txt` depuis `/products/hover-board`."
+    back: "Il rend un path absolu relatif à la page courante : `relative_path('/human.txt')` donne `../human.txt` depuis `/products/hover-board`. Une URL complète, `http://…`, ressort inchangée."
     explanation: >-
-      Fourni, comme `absolute_url()`, par `HttpFoundationExtension` du Twig Bridge.
+      Fourni, comme `absolute_url()`, par `HttpFoundationExtension` du Twig Bridge. Rejoué avec
+      HttpFoundation 8.0.15 : `UrlHelper::getRelativePath()` rend tel quel tout argument qui contient
+      `://` ou commence par `//`, contrairement à l'exemple de la documentation de référence, qui annonce
+      `../human.txt` pour `relative_path('http://example.com/human.txt')`.
     memorization_justification: >-
       Function peu vue, facile à confondre avec le troisième argument de path().
     verification_status: VERIFIED
@@ -2333,6 +2341,12 @@ flashcards:
         branch: "8.0"
         symbol_or_lines: "absolute_url, relative_path"
         verified_at: "2026-09-24"
+      - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/UrlHelper.php"
+        readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/UrlHelper.php"
+        repository: "symfony/symfony"
+        branch: "8.0"
+        symbol_or_lines: "UrlHelper::getRelativePath()"
+        verified_at: "2026-11-03"
 
   - id: FLC-px4eg1dagj7z
     official_item: OIT-yh6zx9shv9vs
@@ -2421,9 +2435,11 @@ flashcards:
     language: fr
     level: TRAP
     front: "Twig : que fait controller() à lui seul, sans render() ?"
-    back: "Il construit une `ControllerReference` (controller, attributes, query) et n'exécute rien."
+    back: "Il construit une `ControllerReference` (controller, attributes, query) et n'exécute rien. L'afficher seul, {{ controller(...) }}, fait échouer le rendu."
     explanation: >-
       `HttpKernelExtension::controller()` se contente de `new ControllerReference(...)` ; l'exécution appartient à `render()`.
+      Rejoué avec Symfony 8.0.15 et Twig 3.22.2 : la référence n'a pas de `__toString()`, et le rendu lève une
+      Error PHP, « Object of class ...ControllerReference could not be converted to string ».
     memorization_justification: >-
       Le nom suggère une exécution qui n'a pas lieu.
     verification_status: VERIFIED
@@ -2685,9 +2701,11 @@ flashcards:
     language: fr
     level: TRAP
     front: "Twig : que produit 'checkout.total'|trans('fr') ?"
-    back: "Une `TypeError` : sur une string, le deuxième argument doit être un array de parameters."
+    back: "Une `Twig\\Error\\RuntimeError`, qui emballe la `TypeError` du filter : sur une string, le deuxième argument doit être un array de parameters."
     explanation: >-
       Une string n'y est admise que si le message est un object traduisible ; elle est alors prise comme locale : `t('x')|trans('fr')`.
+      Rejoué avec Twig 3.22.2 et Translation 8.0 : `TranslationExtension::trans()` lève la `TypeError`, et le rendu la remonte
+      dans une `Twig\Error\RuntimeError` dont `getPrevious()` est la `TypeError`.
     memorization_justification: >-
       Même écriture, valide ou fatale selon le type du message.
     verification_status: VERIFIED
@@ -3083,7 +3101,7 @@ flashcards:
     official_item: OIT-tw3xaqbz8xjy
     language: fr
     level: TRAP
-    front: 'Symfony : asset(''https://cdn.example.com/app.js'') reçoit-il la version configurée ?'
+    front: 'Symfony : `asset(''https://cdn.example.com/app.js'')` reçoit-il la version configurée ?'
     back: 'Non : une URL absolue, `://` ou `//` en tête, est rendue inchangée, sans préfixe ni version.'
     explanation: '`Package::getUrl()` teste `isAbsoluteUrl()` avant d''appliquer la strategy de version.'
     memorization_justification: Le cache d'une ressource externe n'est pas cassé par la version de l'application.
@@ -3407,11 +3425,11 @@ flashcards:
     language: fr
     level: TRAP
     front: 'Symfony 8.0 : un template affiche {{ message }}, où message vient de t(''welcome''). Que se passe-t-il ?'
-    back: 'Une RuntimeError : TranslatableMessage n''a plus de __toString() en 8.0. Il faut {{ message|trans }}.'
-    explanation: 'Exécuté contre 7.4.21, qui affichait la key brute, et 8.0.15, qui lève.'
+    back: 'Le rendu échoue sur une Error PHP, « could not be converted to string » : TranslatableMessage n''a plus de __toString() en 8.0. Il faut {{ message|trans }}.'
+    explanation: 'Exécuté contre 7.4.21, qui affichait la key brute, et 8.0.15 avec Twig 3.22.2, qui lève une Error PHP non emballée : Template::display() convertit en string ce que le template produit hors du try/catch qui emballe les exceptions en RuntimeError. Twig 3.30, plus récent que la version examinée, l''emballe dans une RuntimeError.'
     memorization_justification: 'En 7.4 l''oubli de |trans passait inaperçu, la key s''affichait ; en 8.0 la page casse.'
     verification_status: VERIFIED
-    reviewed_at: '2026-10-15'
+    reviewed_at: '2026-11-03'
     official_sources:
     - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Translation/CHANGELOG.md
       readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Translation/CHANGELOG.md
@@ -3427,7 +3445,7 @@ flashcards:
     back: "`0 fichier` : en français, 0 et 1,5 sont dans la catégorie `one`. En anglais, 0 est `other`."
     explanation: >-
       Les catégories suivent les règles de la locale qui formate le message. Un select ou un plural sans branche
-      other lève une InvalidArgumentException à chaque trans(). Exécuté avec Translation 8.0.15 et intl.
+      other lève une InvalidArgumentException à chaque trans(). Exécuté avec Translation 8.0.14 et intl (ICU 74.2).
     memorization_justification: >-
       L'intuition anglaise (0 = pluriel) se trompe en français ; rien dans le message ne le signale.
     verification_status: VERIFIED

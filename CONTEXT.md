@@ -4,18 +4,33 @@
 
 ---
 
-## Rédaction pédagogique (ADR-0012) — état au 2026-10-31
+## Rédaction pédagogique (ADR-0012) — état au 2026-11-03
 
-**57 pages sur 163** au format pédagogique, toutes déployées (#438 à #454) ; le lot 10
-est terminé. Le
+**Format court, centré examen (propriétaire, 2026-11-03).** « Écrire de façon
+raisonnable, qui peut se réviser, présenter seulement ce qui est utile en
+examen » : environ 5 min de lecture, 800 à 1 000 mots de corps (politique
+« Short, exam-only » de `docs/policy/course-structure.md`). Le propriétaire a
+choisi de l'appliquer aussi aux pages déjà en ligne. **Lot 06** : les 14 pages
+sont au format court sur la branche (moyenne 1 030 mots, contre 2 066). Restent
+à raccourcir les **64 pages déployées** au format long (lots 03, 05, 07, 08, 09,
+10, 11, 13, 14 : moyenne 1 800 à 3 100 mots), puis les lots suivants s'écrivent
+directement au format court.
+
+Constats du lot 06, corrigés sur la branche (entrées CORRECTION au journal dans
+la PR qui suit la fusion) : F15 (propriétés `loop` sur un iterator `Countable`),
+F16 (`relative_path()` d'une URL complète, carte FLC-nj22h67r0w1s), F17
+(`TranslatableMessage` affiché seul : `Error` PHP sur Twig 3.22, question
+QST-zpp1r9fbs8vb en version 2), `controller()` seul, `dump()` sans DebugBundle en
+debug, quatre cartes « RuntimeError qui emballe », et le libellé
+« Translation 8.0.15 », version qui n'existe pas (8.0.14). `tools/behavior` est
+tenu à Twig 3.22.2 ; ses 129 faits passent.
+
+**64 pages sur 163** au format pédagogique, toutes déployées (#438 à #455) ; les lots
+10 et 11 sont terminés. Le
 2026-10-31, le conteneur de travail a été perdu : 39 brouillons jamais poussés
 ont disparu avec lui (fin du lot 10 : 7 ; lot 11 : 7 ; lot 06 : 14 ; lot 12 :
 9 ; lot 13 : 2). Ils sont à réécrire dans l'ordre du calendrier. Depuis, chaque
 brouillon est commité et poussé dès qu'il existe.
-
-À reprendre, avec leurs constats : F15 (propriétés `loop` sur un iterator,
-lot 06, *Loops and conditions*) et F16 (`relative_path()` sur une URL complète,
-lot 06, *URLs generation*, carte FLC-nj22h67r0w1s) restent à corriger.
 
 **PHP 8.4 rétabli (2026-10-31, décision du propriétaire).** Compilé depuis
 php-src `PHP-8.4.19` dans `/opt/php84`, PHP par défaut du conteneur ;
@@ -92,6 +107,7 @@ Branche de travail : `claude/symfony-8-certification-plan-phmkau`.
 | *Client object*, *Crawler object*, *Profiler object*, *Framework objects access*, *Client configuration*, *Introspection*, *Legacy deprecated code*, *Configuration*, *Error handling* et *Code debugging* au format pédagogique, reconstruits depuis l'historique de session après la perte du conteneur ; journal de #451 | #452 | `0c19183` | smoke 124666358094 **success, lu jusqu'au bout** (364 ok, 0 erreur ; agenda 589 sessions jusqu'au 2027-03-02, dix nouvelles lignes « pedagogical ») |
 | Journal de #452 (dix entrées EXTENSION, `derive.py 0c19183`), lignes de livraison de #452, CONTEXT : état après la perte du conteneur | #453 | `da80393` | smoke 124675104858 **success, lu jusqu'au bout** (364 ok, 0 erreur ; journal des corrections servi ; agenda 589 sessions jusqu'au 2027-03-02 ; aucun cours modifié) |
 | *Firewalls*, *Users*, *Password hashers*, *Roles*, *Access Control Rules*, *Authenticators* et *Voters* au format pédagogique (lot 10 terminé) ; `tools/behavior` tenu à Symfony 8.0 ; contrôle Mermaid de production étendu de 10 à 38 pages (`MermaidSmokeMapTest`) ; lignes de #453 | #454 | `0682b5e` | smoke 125796161744 **success, lu jusqu'au bout** (399 ok, 0 erreur ; 38 lignes « diagrams » ; sept nouvelles lignes « pedagogical » ; agenda 592 sessions jusqu'au 2027-03-02) |
+| *Messenger component*, *Transports*, *Messages and handlers*, *Workers*, *Retries and failures*, *Middleware* et *Events* au format pédagogique (lot 11 terminé) ; carte FLC-am3cn12fjgd3 corrigée (reset d'`in-memory://`) ; journal et lignes de #454 | #455 | `82cd322` | smoke 125823101886 **success, lu jusqu'au bout** (412 ok, 0 erreur ; 44 lignes « diagrams … accessible title » ; sept nouvelles lignes « pedagogical lot-11/… » ; agenda 595 sessions jusqu'au 2027-03-02) |
 
 **Pièges d'examen → flashcards (2026-10-24, livré : #432, `c48317d`).** Les 788
 paragraphes « Pièges d'examen » lus contre toutes les cartes de leur item :

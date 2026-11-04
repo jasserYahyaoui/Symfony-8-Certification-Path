@@ -6,7 +6,10 @@ declare(strict_types=1);
  * Deep audit 8.0, gap G6.
  *
  * TranslatableMessage lost __toString() in 8.0. Printed without |trans, the
- * object now makes Twig throw; 7.4 printed the raw message.
+ * object now makes rendering fail; 7.4 printed the raw message. On Twig 3.22,
+ * the version the syllabus examines, the failure is a plain PHP Error:
+ * Template::display() echoes what the template yields outside the try/catch
+ * that wraps exceptions in a Twig RuntimeError. Twig 3.30 wraps it.
  */
 
 use Symfony\Bridge\Twig\Extension\TranslationExtension;
@@ -32,7 +35,12 @@ return [
             $twig->render('raw', ['m' => $message]);
 
             return 'Twig printed a TranslatableMessage without |trans';
-        } catch (Twig\Error\RuntimeError) {
+        } catch (Twig\Error\Error $e) {
+            return 'Twig wrapped the failure in '.$e::class.'; the content teaches a plain PHP Error on Twig 3.22';
+        } catch (\Error $e) {
+            if (!str_contains($e->getMessage(), 'could not be converted to string')) {
+                return 'unexpected Error: '.$e->getMessage();
+            }
         }
 
         return 'bonjour' === $twig->render('trans', ['m' => $message]) ? null : 'the |trans filter did not translate the message';

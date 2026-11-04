@@ -357,13 +357,18 @@ facts:
     finding: deep-audit-8.0
     official_item: OIT-sd08j04k60m0
     statement: >-
-      TranslatableMessage has no __toString() in 8.0: Twig printing it without |trans throws a RuntimeError,
-      where 7.4 printed the raw key. {{ message|trans }} translates it.
+      TranslatableMessage has no __toString() in 8.0: printed without |trans, it makes the rendering fail,
+      where 7.4 printed the raw key. On Twig 3.22, the examined version, the failure is a plain PHP Error
+      (« could not be converted to string »), not a Twig RuntimeError: Template::display() echoes what the
+      template yields outside the try/catch that wraps exceptions. {{ message|trans }} translates it.
     sources:
       - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Translation/CHANGELOG.md
+      - https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/src/Template.php
     behavior_check: translation.translatable-not-stringable
     content: [CRS-q18xc1k4yvb9, FLC-p6q3ewt9qsj7, QST-zpp1r9fbs8vb]
-    forbidden: []
+    forbidden:
+      - "/en 8\\.0\\.15 il lève une `RuntimeError`/u"
+      - "/Une RuntimeError : TranslatableMessage/u"
   form.collection-extra-entries-refused:
     finding: P1.2
     official_item: OIT-5xvjqa4203xe
@@ -866,3 +871,31 @@ facts:
     forbidden:
       - '/`Callback` est une constraint de \*\*class\*\*/u'
       - '/\*\*`Callback` est une constraint de class\*\*/u'
+  twig.relative-path-leaves-full-url:
+    finding: ADR-0012
+    official_item: OIT-yh6zx9shv9vs
+    statement: >-
+      relative_path() returns a full URL unchanged: only a path becomes relative, /human.txt giving
+      ../human.txt from /products/hover-board. The reference documentation's example, which announces
+      ../human.txt for http://example.com/human.txt, does not match UrlHelper::getRelativePath() in 8.0.
+    sources:
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/UrlHelper.php
+      - https://raw.githubusercontent.com/symfony/symfony-docs/8.0/reference/twig_reference.rst
+    behavior_check: twig.relative-path-leaves-full-url
+    content: [CRS-dpbpbgwjey5c, FLC-nj22h67r0w1s]
+    forbidden:
+      - "/transforme une URL absolue en chemin relatif/u"
+      - "/relative_path\\('http:\\/\\/example\\.com\\/human\\.txt'\\)` rend le path relatif/u"
+  twig.loop-last-needs-countable:
+    finding: ADR-0012
+    official_item: OIT-84j0qwkbcgq6
+    statement: >-
+      loop.last, loop.length, loop.revindex and loop.revindex0 exist for an array or any Countable, an
+      ArrayIterator included; a generator or a non-Countable iterator lacks them (a RuntimeError under
+      strict_variables). loop.index and loop.first always exist.
+    sources:
+      - https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/src/Node/ForNode.php
+    behavior_check: twig.loop-last-needs-countable
+    content: [CRS-zbnzvqkhjknh, FLC-qd532hzxdazs]
+    forbidden:
+      - "/properties de loop n'existent pas sur un iterator\\*\\*/u"

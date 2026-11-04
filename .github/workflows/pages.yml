@@ -5185,7 +5185,21 @@ jobs:
                       'lot-11/workers|Consuming messages from transport|repartir neuf|Fiche express' \
                       'lot-11/retries-and-failures|Message id must be passed|réessayer, abandonner, mettre de côté|Fiche express' \
                       'lot-11/middleware|DispatchAfterCurrentBusStamp|passer la main, ou tout|Fiche express' \
-                      'lot-11/events|dispatched only once|réussir ou échouer, tourner|Fiche express'; do
+                      'lot-11/events|dispatched only once|réussir ou échouer, tourner|Fiche express' \
+                      'lot-06/twigbundle|Overridden Files|le bang pour|Fiche express' \
+                      'lot-06/twig-syntax-up-to-3-22-version|arrondit vers le bas|constante exacte, method sans|Fiche express' \
+                      'lot-06/auto-escaping|échappe son entrée|raw ferme la|Fiche express' \
+                      'lot-06/template-inheritance|Unable to find one of the following|rien hors des trous|Fiche express' \
+                      'lot-06/global-variables|masque la globale|Symfony dans app|Fiche express' \
+                      'lot-06/filters-and-functions|highest precedence|la parenthèse le|Fiche express' \
+                      'lot-06/template-includes|rien ne remonte|include insère, only isole|Fiche express' \
+                      'lot-06/loops-and-conditions|closed generator|Countable pour la fin|Fiche express' \
+                      'lot-06/urls-generation|api.example.com|path pour la page, url pour|Fiche express' \
+                      'lot-06/controller-rendering|renderer does not exist|prod avale|Fiche express' \
+                      'lot-06/translations-and-pluralization|Bonjour %Ada%|le tag fait confiance|Fiche express' \
+                      'lot-06/string-interpolation|SafeAnalysisNodeVisitor|simples pour copier|Fiche express' \
+                      'lot-06/assets-management|Did you mean one of these|un seul versionnage|Fiche express' \
+                      'lot-06/debugging-variables|ExtensionPass|tag dans la barre|Fiche express'; do
             page=${spec%%|*}
             out="/tmp/ped-${page//\//-}"
             code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
@@ -5532,6 +5546,20 @@ jobs:
           base = sys.argv[1]
           PAGES = {
               'lot-03/request-handling': 2,
+              'lot-06/assets-management': 1,
+              'lot-06/auto-escaping': 1,
+              'lot-06/controller-rendering': 1,
+              'lot-06/debugging-variables': 1,
+              'lot-06/filters-and-functions': 1,
+              'lot-06/global-variables': 1,
+              'lot-06/loops-and-conditions': 1,
+              'lot-06/string-interpolation': 1,
+              'lot-06/template-includes': 1,
+              'lot-06/template-inheritance': 1,
+              'lot-06/translations-and-pluralization': 1,
+              'lot-06/twig-syntax-up-to-3-22-version': 1,
+              'lot-06/twigbundle': 1,
+              'lot-06/urls-generation': 1,
               'lot-07/built-in-form-types': 1,
               'lot-07/csrf-protection': 1,
               'lot-07/data-transformers': 1,

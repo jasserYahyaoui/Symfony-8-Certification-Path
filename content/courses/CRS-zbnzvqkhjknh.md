@@ -5,7 +5,8 @@ title: "Loops and conditions"
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-26"
+reviewed_at: "2026-11-03"
+format: pedagogical
 official_sources:
   - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/for.rst"
     readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/for.rst"
@@ -13,44 +14,44 @@ official_sources:
     repository: "twigphp/Twig"
     branch: "v3.22.0"
     commit_sha: "5079583d7313b0f0866ca32108036afcc072127d"
-    verified_at: "2026-09-01"
+    verified_at: "2026-11-03"
   - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/if.rst"
     readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/if.rst"
     anchor: "if"
     repository: "twigphp/Twig"
     branch: "v3.22.0"
     commit_sha: "5079583d7313b0f0866ca32108036afcc072127d"
-    verified_at: "2026-09-01"
+    verified_at: "2026-11-03"
   - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/src/Node/ForNode.php"
     readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/src/Node/ForNode.php"
     repository: "twigphp/Twig"
     branch: "v3.22.0"
     symbol_or_lines: "ForNode::compile(), loop keys and scope"
-    verified_at: "2026-09-24"
+    verified_at: "2026-11-03"
   - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tags/set.rst"
     readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/set.rst"
     repository: "twigphp/Twig"
     branch: "v3.22.0"
     symbol_or_lines: "loops are scoped"
-    verified_at: "2026-09-24"
+    verified_at: "2026-11-03"
   - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/src/Extension/CoreExtension.php"
     readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/src/Extension/CoreExtension.php"
     repository: "twigphp/Twig"
     branch: "v3.22.0"
     symbol_or_lines: "CoreExtension::testEmpty(), getTests()"
-    verified_at: "2026-09-24"
+    verified_at: "2026-11-03"
   - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/doc/tests/empty.rst"
     readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/doc/tests/empty.rst"
     repository: "twigphp/Twig"
     branch: "v3.22.0"
     symbol_or_lines: "empty test"
-    verified_at: "2026-09-24"
+    verified_at: "2026-11-03"
   - url: "https://raw.githubusercontent.com/twigphp/Twig/v3.22.0/src/Node/IfNode.php"
     readable_url: "https://github.com/twigphp/Twig/blob/v3.22.0/src/Node/IfNode.php"
     repository: "twigphp/Twig"
     branch: "v3.22.0"
     symbol_or_lines: "IfNode::__construct(), TrueTest"
-    verified_at: "2026-09-24"
+    verified_at: "2026-11-03"
 outcome_sections:
   OUT-n2sny821kd8p: "La loop"
   OUT-16dbq9y7rz76: "La variable `loop`"
@@ -64,109 +65,122 @@ outcome_sections:
 Parcourir une séquence, connaître la variable `loop` et sa limite, le scope
 d'une loop, et écrire une condition sans se tromper sur ce qui est « vide ».
 
-## La loop
+## L'essentiel
 
-```html
-{% for user in users %}
-    <li>{{ user.username }}</li>
+Twig parcourt une séquence avec `for`, propose une clause `else` pour le cas
+vide et une variable `loop` qui connaît sa position — mais pas toujours sa
+taille. Pas de `break` ni de `continue` : on filtre la séquence avant. Et dans
+une condition, « faux » et « vide » sont deux questions différentes.
+
+## Le schéma
+
+```mermaid
+---
+title: Ce que Twig fait d'une loop for
+---
+flowchart TD
+  accTitle: Le déroulement d'une loop for dans Twig 3.22
+  accDescr: La séquence passe par ensureTraversable, qui remplace toute valeur non itérable, comme null ou une string, par un array vide. La variable loop reçoit toujours index, index0, first et parent ; length, revindex, revindex0 et last seulement si la séquence est un array ou un object Countable. Le body s'exécute pour chaque élément ; si aucune itération n'a eu lieu, la clause else s'exécute. Après endfor, les variables créées dans la loop disparaissent, la variable de loop retrouve sa valeur d'avant, et une variable déclarée avant la loop garde la dernière valeur reçue dedans.
+  SEQ["la séquence"] --> TRAV{"itérable ?"}
+  TRAV -->|"non : null, string, nombre"| EMPTY["traitée comme un array vide"]
+  TRAV -->|"oui"| CNT{"array ou Countable ?"}
+  CNT -->|"oui"| FULL["loop : index, first, last, length, revindex"]
+  CNT -->|"non : generator, iterator"| HALF["loop : index, index0, first, parent seulement"]
+  FULL --> BODY["body, pour chaque élément"]
+  HALF --> BODY
+  EMPTY --> ELSE
+  BODY --> ANY{"au moins une itération ?"}
+  ANY -->|"non"| ELSE(["clause else"])
+  ANY -->|"oui"| AFTER(["après endfor : variables créées dedans perdues, déclarées avant gardées"])
+  ELSE --> AFTER
+```
+## L'exemple
+
+```twig
+{% set total = 0 %}
+{% for member in team.members|filter(m => m.active) %}
+    {{ loop.index }}. {{ member.name }}{{ not loop.last ? ' —' }}
+    {% set total = total + member.points %}
 {% else %}
-    <li>Aucun utilisateur.</li>
+    Aucun membre actif.
 {% endfor %}
+Total : {{ total }}
 ```
 
-La clause `else` s'exécute quand **aucune itération n'a eu lieu** — la séquence
-était vide. Sans équivalent en PHP, elle évite un `if` englobant.
+## La loop
 
-`{% for key, user in users %}` donne la key et la valeur ; `{% for key in
-users|keys %}` les clés seules. L'opérateur `..` produit une suite —
-`{% for i in 0..10 %}` va de 0 à 10 inclus, `'a'..'z'` marche aussi — et la
-function `range()` accepte un pas différent de 1.
+- `{% for user in users %}…{% else %}…{% endfor %}` : `else` s'exécute quand
+  **aucune itération n'a eu lieu**. Une valeur non itérable — `null`, une
+  string — est traitée comme une séquence vide : `else` aussi.
+- `{% for key, user in users %}` donne la key et la valeur ; `users|keys` les
+  keys seules.
+- `0..10` va de 0 à 10 inclus, `'a'..'z'` marche aussi, `3..0` descend ;
+  `range(0, 10, 5)` change le pas.
 
 ## La variable `loop`
 
-Disponible dans le body de la loop :
-
 | Variable | Contenu |
 |---|---|
-| `loop.index` | itération courante, **à partir de 1** |
-| `loop.index0` | itération courante, à partir de 0 |
-| `loop.revindex` | itérations restantes, à partir de 1 |
-| `loop.revindex0` | itérations restantes, à partir de 0 |
-| `loop.first` | vrai à la première |
-| `loop.last` | vrai à la dernière |
+| `loop.index` / `loop.index0` | itération courante, **à partir de 1** / de 0 |
+| `loop.revindex` / `loop.revindex0` | itérations restantes, à partir de 1 / de 0 |
+| `loop.first` / `loop.last` | vrai à la première / à la dernière |
 | `loop.length` | taille de la séquence |
 | `loop.parent` | le contexte englobant |
 
-**La limite à connaître :** `loop.length`, `loop.revindex`, `loop.revindex0` et
-`loop.last` ne sont disponibles que pour un **array PHP** ou un object
-implémentant `Countable`. Le code compilé par `ForNode` ne les renseigne que
-dans ce cas : sur un generator ou un iterator ordinaire, ces keys n'existent
-pas — Twig ne peut pas connaître la taille sans consommer la séquence.
-
-`loop.index` et `loop.first`, eux, fonctionnent toujours.
+**La limite :** `length`, `revindex`, `revindex0` et `last` n'existent que pour
+un **array** ou un object **`Countable`** — un `ArrayIterator` les a. Sur un
+generator ou un iterator non `Countable`, ils manquent : `RuntimeError` avec
+`strict_variables`, `null` sans. `loop.index` et `loop.first` fonctionnent
+toujours.
 
 ## Le scope d'une loop
 
-Une loop a sa propre portée. Une variable **créée** par `{% set %}` dans le
-corps n'existe plus après `{% endfor %}` ; une variable **déclarée avant** la
-loop garde en revanche la dernière valeur qu'elle y a reçue. `ForNode` le
-compile ainsi : à la fin de la loop, seules les keys du contexte d'avant la loop sont
-conservées. Pour cumuler un total, on le déclare donc avant.
+- Une variable **créée** par `set` dans la loop n'existe plus après `endfor`.
+- Une variable **déclarée avant** garde la dernière valeur reçue dedans : c'est
+  ainsi qu'on cumule un total.
+- La variable de loop elle-même retrouve sa valeur d'avant : après
+  `{% set u = 'outer' %}{% for u in ['a', 'b'] %}{% endfor %}`, `u` vaut `outer`.
 
 ## Filtrer et découper
 
-Twig n'a pas de `break` ni de `continue`, et `ForTokenParser` n'accepte aucune
-condition sur le tag `for` lui-même. On restreint la séquence en amont :
+Pas de `break` ni de `continue`, et `ForTokenParser` refuse une condition sur le
+tag `for` lui-même. On restreint la séquence :
 
 ```html
 {% for user in users|filter(u => u.isActive) %}
 {% for user in users|slice(0, 10) %}
-{% for user in users|sort %}
 ```
 
-Un `if` à l'intérieur du body fonctionne aussi, mais `loop.index` compte alors
-les éléments sautés, et `loop.last` peut tomber sur un élément non affiché.
+Avec un `if` dans le body, `loop.index` compte les éléments sautés et
+`loop.last` peut tomber sur un élément non affiché ; avec `filter`, la
+numérotation suit ce qui est affiché.
 
 ## Les conditions
 
-```html
-{% if users is empty %}
-    …
-{% elseif users|length == 1 %}
-    …
-{% else %}
-    …
-{% endif %}
-```
-
-Les tests s'écrivent avec `is` et se nient par `is not`. `CoreExtension`
-(3.22) enregistre `constant`, `defined`, `divisible by`, `empty`, `even`,
-`iterable`, `mapping`, `null` (alias `none`), `odd`, `same as` et `sequence` —
-plus `true`, que le compiler pose lui-même sur chaque condition d'un `if`.
-Twig n'a pas d'operator `===` : la comparaison stricte s'écrit avec le
-**test** `same as`.
+`{% if %}`, `{% elseif %}`, `{% else %}`. Les tests s'écrivent avec `is` et se
+nient par `is not` : `constant`, `defined`, `divisible by`, `empty`, `even`,
+`iterable`, `mapping`, `null` (alias `none`), `odd`, `same as`, `sequence`.
+Pas d'operator `===` : la comparaison stricte est le **test** `same as`, et
+`===` ne compile pas.
 
 ## Vrai, faux, vide : trois questions différentes
 
-Une condition nue suit les règles de PHP. La documentation de `if` en donne les
-cas limites : la string vide, zéro, la string `'0'`, une séquence vide et `null`
-sont faux ; une string d'espaces, `NAN`, `INF` et **tout object** sont vrais.
-Une exception, lue dans `IfNode` et `TrueTest` : un object `Markup` — une string
-déjà marquée sûre — est jugé sur son texte.
+| Valeur | Dans un `if` | `is empty` |
+|---|---|---|
+| `''`, `[]`, `null` | faux | vide |
+| `0`, `'0'` | faux | **pas vide** |
+| `' '` | vrai | pas vide |
+| collection `Countable` vide | **vrai** (tout object est vrai) | vide |
 
-Le test `empty` n'est pas la négation de cette règle. `CoreExtension::testEmpty()`
-rend vrai pour `''`, `[]`, `null` et `false`, pour un `Countable` de taille
-zéro, pour un `Traversable` sans élément, et pour un object dont la conversion en
-string est vide. **`0` et `'0'` ne sont pas vides**, alors qu'ils sont faux dans
-un `if`. Et un object `Countable` vide — une collection, par exemple — est vrai
-dans un `if`, mais `empty`.
-
-`is defined`, enfin, porte sur l'existence de la variable, pas sur sa valeur.
+`is defined` porte sur l'existence, pas sur la valeur. Sur un generator,
+`is empty` le parcourt pour compter : la loop qui suit lève « Cannot traverse an
+already closed generator ».
 
 ## Pièges d'examen
 
-**La moitié des properties de loop n'existent pas sur un iterator** ; l'index
-et le test de première itération, si.
+**La moitié des properties de loop n'existent pas sur un generator ni sur un
+iterator non `Countable`** ; l'index et le test de première itération, si. Un
+`ArrayIterator`, qui est `Countable`, les a toutes.
 
 **L'index commence à 1.**
 
@@ -177,19 +191,106 @@ garde sa dernière valeur.
 
 **`0` est faux mais n'est pas vide ; une collection vide est vraie mais vide.**
 
-## Points clés
+## Application
 
-- `{% for %}` accepte une clause `else` pour la séquence vide ; `..` et
-  `range()` produisent des suites.
-- `loop.index` commence à **1** ; `length`, `revindex`, `revindex0` et `last`
-  exigent un array ou `Countable`.
-- Portée propre à la loop ; déclarer avant pour garder une valeur.
-- Pas de `break` ni de `continue` : `filter`, `slice`, `sort`.
-- Tests par `is` / `is not` ; `same as` pour `===`, absent comme operator.
-- Condition nue = règles de PHP ; `empty` = règles de `testEmpty()`.
+- Un séparateur `not loop.last` casse quand le repository renvoie un generator
+  → convertir en array, ou poser le séparateur avant l'élément avec
+  `not loop.first`.
+- Une liste numérotée affiche 1, 3, 4 → remplacer le `if` du body par
+  `|filter`.
+
+## QCM d'entraînement
+
+**Question 1.** Que rend ce template ?
+
+```twig
+{% set u = 'outer' %}{% for u in ['a', 'b'] %}{{ u }}{% endfor %}/{{ u }}
+```
+
+- **A.** `ab/b`
+- **B.** `ab/outer`
+- **C.** `ab/`
+- **D.** Une erreur : `u` est déjà définie
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** À `endfor`, la variable de loop est retirée et le
+contexte d'avant est recomposé ; `u` y valait `outer`.
+
+</details>
+
+**Question 2.** Avec `strict_variables`, une loop parcourt
+`new ArrayIterator(['a', 'b'])` et affiche `{{ loop.last ? 'L' : '-' }}`. Que
+rend-elle ?
+
+- **A.** `-L`
+- **B.** Une `RuntimeError` : la key `last` n'existe pas sur un iterator
+- **C.** `--`
+- **D.** `LL`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : A.** `ArrayIterator` est `Countable` ; B est ce qu'on obtient
+avec un generator.
+
+</details>
+
+**Question 3.** Que rend `{% for c in 'abc' %}[{{ c }}]{% else %}E{% endfor %}` ?
+
+- **A.** `[a][b][c]`
+- **B.** `[abc]`
+- **C.** Une `RuntimeError`
+- **D.** `E`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : D.** Une valeur non itérable devient une séquence vide : la
+clause `else` s'exécute.
+
+</details>
+
+**Question 4.** Que rend
+`{% for n in [1, 2, 3, 4]|filter(n => n is even) %}{{ loop.index }}:{{ n }} {% endfor %}` ?
+
+- **A.** `2:2 4:4`
+- **B.** `0:2 1:4`
+- **C.** `1:2 2:4`
+- **D.** `1:1 2:2 3:3 4:4`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : C.** La loop ne voit que la séquence filtrée. A est ce que
+donne un `if` dans le body.
+
+</details>
+
+## Fiche express
+
+**Si tu dois retenir seulement 8 choses :**
+
+- **`else`** de loop : séquence vide ou non itérable.
+- **`loop.index`** part de **1**.
+- **`last`, `length`, `revindex`, `revindex0`** : array ou **`Countable`**.
+- Generator : **`RuntimeError`** sous `strict_variables`, `null` sans.
+- Variable **créée dedans perdue**, **déclarée avant gardée**.
+- **Ni `break` ni `continue`** : `filter`, `slice`, `sort`.
+- **`same as`** remplace `===`, qui ne compile pas.
+- **`0` faux mais pas vide** ; collection vide **vraie mais vide**.
+
+Moyen mnémotechnique : **« else pour le vide, Countable pour la fin, avant
+pour garder »**.
+
+```text
+for…else (vide ou non itérable) ; loop.index dès 1 ; last/length/revindex = array ou Countable ;
+scope : créé perdu, déclaré avant gardé ; filter au lieu de break ; same as pour === ; if ≠ empty
+```
 
 ## Sources officielles
 
 - [Twig 3.22, tag `for`](https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/for.rst) et [`ForNode`](https://github.com/twigphp/Twig/blob/v3.22.0/src/Node/ForNode.php)
-- [Twig 3.22, tag `if`](https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/if.rst) et [tag `set`, portée des loops](https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/set.rst)
-- [Twig 3.22, tests](https://github.com/twigphp/Twig/blob/v3.22.0/doc/tests/index.rst), [`empty`](https://github.com/twigphp/Twig/blob/v3.22.0/doc/tests/empty.rst) et [`CoreExtension`](https://github.com/twigphp/Twig/blob/v3.22.0/src/Extension/CoreExtension.php)
+- [Twig 3.22, tag `if`](https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/if.rst), [`IfNode` et `TrueTest`](https://github.com/twigphp/Twig/blob/v3.22.0/src/Node/IfNode.php) et [tag `set`, portée des loops](https://github.com/twigphp/Twig/blob/v3.22.0/doc/tags/set.rst)
+- [Twig 3.22, tests](https://github.com/twigphp/Twig/blob/v3.22.0/doc/tests/index.rst), [`empty`](https://github.com/twigphp/Twig/blob/v3.22.0/doc/tests/empty.rst) et [`CoreExtension::testEmpty()`](https://github.com/twigphp/Twig/blob/v3.22.0/src/Extension/CoreExtension.php)

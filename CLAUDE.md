@@ -218,6 +218,17 @@ the revision plan; report the reading time a rewrite adds. The pilot is
 *Deprecations best practices*; follow it, and its policy section in
 `docs/policy/course-structure.md`.
 
+**…but it is short and exam-only (owner, 2026-11-03).** « Écrire de façon
+raisonnable, qui peut se réviser, présenter seulement ce qui est utile en
+examen. » Aim at about five minutes of reading, 800 to 1 000 body words (a DEEP
+item may run a little longer): objective, the essentials, one diagram, one
+example, the rules and exam facts, the pitfalls unchanged, two applications,
+four quiz questions, the Fiche express. Execute every fact as before, but state
+the result — no replay narration, no patch versions, no internal mechanics an
+exam does not ask. Internal class names a smoke needle requires belong in
+« Sources officielles », where they are genuinely the sources. See « Short,
+exam-only » in `docs/policy/course-structure.md`.
+
 **A course maps each outcome to the section teaching it (owner, 2026-10-14, rule `SEC-001`).**
 A mock's correction links a missed question to the `## ` heading named for its
 outcome in the course's `outcome_sections`. Renaming or removing a heading, or

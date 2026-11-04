@@ -58,6 +58,16 @@ foreach (Composer\InstalledVersions::getInstalledPackages() as $package) {
     }
 }
 
+// The syllabus examines « Twig syntax up to 3.22 version » (blocker B-5,
+// resolved): every Twig fact is scored against 3.22. A constraint such as
+// ^3.22 resolves to the newest 3.x, so Twig 3.30 was executed while the
+// courses cite v3.22.0.
+$offTwig = null;
+$twigVersion = (string) Composer\InstalledVersions::getPrettyVersion('twig/twig');
+if (!preg_match('/^v?3\.22\./', $twigVersion)) {
+    $offTwig = "twig/twig $twigVersion";
+}
+
 // The `correct` flags of every question a check in questions/ names. The
 // holdout file is never opened: no check may name a holdout question.
 $flags = [];
@@ -75,6 +85,9 @@ foreach (glob(dirname(__DIR__, 2).'/content/questions/*.yml') as $file) {
 $failed = 0;
 foreach ($offVersion as $package) {
     echo "FAIL symfony-8.0-only — $package is installed; pin it to 8.0.* in tools/behavior/composer.json\n";
+}
+if (null !== $offTwig) {
+    echo "FAIL twig-3.22-only — $offTwig is installed; pin it to 3.22.* in tools/behavior/composer.json\n";
 }
 foreach ($checks as $id => $check) {
     try {
@@ -103,4 +116,7 @@ printf("%d fact(s), %d failed\n", count($checks), $failed);
 if ($offVersion) {
     printf("%d Symfony component(s) outside 8.0: no fact above was executed against 8.0 alone\n", count($offVersion));
 }
-exit($failed > 0 || $offVersion ? 1 : 0);
+if (null !== $offTwig) {
+    printf("%s is outside 3.22: no Twig fact above was executed against the examined version\n", $offTwig);
+}
+exit($failed > 0 || $offVersion || null !== $offTwig ? 1 : 0);

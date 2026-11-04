@@ -1565,7 +1565,7 @@ flashcards:
     official_item: OIT-d51jbkfs21pt
     language: fr
     level: UNDERSTANDING
-    front: "Symfony : route /foo/ avec schemes: ['https'] ; Request GET http://example.com/foo. Combien de redirects ?"
+    front: "Symfony : route /foo/ avec schemes: ['https'] ; Request GET `http://example.com/foo`. Combien de redirects ?"
     back: "Une seule, directement vers https://example.com/foo/."
     explanation: >-
       Quand la forme sans barre ne correspond que dans un autre schéma, le matcher corrige la barre et le schéma dans la même redirect.
@@ -2006,7 +2006,7 @@ flashcards:
     official_item: OIT-21m4pmtymygn
     language: fr
     level: TRAP
-    front: "Piège : « path() vers une route d'un autre sous-domaine retourne https://m.example.com/ »."
+    front: "Piège : « path() vers une route d'un autre sous-domaine retourne `https://m.example.com/` »."
     back: "Faux : il retourne //m.example.com/. Seul url() donne une URL absolue avec schéma."
     explanation: >-
       path() demande ABSOLUTE_PATH ; le changement de host le fait passer à NETWORK_PATH, pas à ABSOLUTE_URL.
@@ -2817,7 +2817,7 @@ flashcards:
     official_item: OIT-8sr74a2wnb3r
     language: fr
     level: TRAP
-    front: "Piège : « router:match https://api.example.com/posts/1 teste le host et le schéma de l'URL »."
+    front: "Piège : « `router:match https://api.example.com/posts/1` teste le host et le schéma de l'URL »."
     back: "Faux : l'argument est un path info. Host et schéma passent par --host et --scheme."
     explanation: >-
       La command n'analyse pas une URL : elle apparie le path fourni dans le contexte du router.

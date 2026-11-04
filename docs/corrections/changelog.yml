@@ -2309,3 +2309,169 @@ entries:
         sections: ["Les quatre strategies", "Les deux cas limites", "Ce que le voter reçoit vraiment", "QCM d'entraînement", "Fiche express"]
     flashcards: []
     questions: []
+
+  - id: CVR-xpg0v54aghcj
+    date: '2026-11-03'
+    pull_request: 455
+    commit: '82cd322'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-hs1297vvhr89]
+    facts: []
+    title: "Messenger component : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur l'email de bienvenue. Faits exécutés sur Symfony 8.0 et
+      repris : `sync://` laisse `SentStamp` et `ReceivedStamp` ; `HandleTrait` sur un message routé est
+      « handled zero times » ; `Envelope::with()` rend une nouvelle Envelope, et seule celle que rend
+      `dispatch()` porte `SentStamp` ; les middlewares passent au dispatch, puis de nouveau à la réception.
+    courses:
+      - id: CRS-5gezsra1sp01
+        sections: ["Les six concepts de la documentation", "Dispatcher", "L'Envelope et les stamps", "QCM d'entraînement", "Fiche express"]
+    flashcards: []
+    questions: []
+
+  - id: CVR-f7y4w7y9zef9
+    date: '2026-11-03'
+    pull_request: 455
+    commit: '82cd322'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-ckr67pq9npyb]
+    facts: []
+    title: "Transports : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet. Faits exécutés et repris : `TransportNamesStamp` remplace le
+      routing ; une key `*` n'est qu'un repli, tandis que les règles d'un parent et d'un enfant
+      s'additionnent ; un `#[AsMessage]` qui nomme un transport inconnu échoue au dispatch, une key de
+      `routing` au build ; `in-memory://` ne sérialise qu'avec `?serialize=true`.
+    courses:
+      - id: CRS-se1jr6cxh2n7
+        sections: ["Router", "Non routé : traité tout de suite", "Déclarer", "QCM d'entraînement", "Fiche express"]
+    flashcards: []
+    questions: []
+
+  - id: CVR-bzt79h2s884p
+    date: '2026-11-03'
+    pull_request: 455
+    commit: '82cd322'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-9a8aa389vk48]
+    facts: []
+    title: "Messages and handlers : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur l'achat validé. Faits exécutés et repris : `fromTransport`
+      ne s'applique qu'aux messages reçus, un dispatch synchrone appelle encore le handler ; `priority`
+      ordonne les handlers d'un même type de message, un handler de la class à 0 passant avant un
+      handler de l'interface à 100 ; le versionnement d'un message rejoué entre deux process.
+    courses:
+      - id: CRS-ckdp50w2dmy4
+        sections: ["Le message", "Le handler", "Plusieurs handlers", "QCM d'entraînement", "Fiche express"]
+    flashcards: []
+    questions: []
+
+  - id: CVR-tg6xj1zvcf1n
+    date: '2026-11-03'
+    pull_request: 455
+    commit: '82cd322'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-dctf03ftx44f]
+    facts: []
+    title: "Workers : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur deux files et un superviseur. Faits exécutés et repris :
+      `--limit` compte aussi les messages en échec ; `--exclude-receivers` exige `--all` ;
+      `messenger:consume` sans receiver, en non interactif, ne lit rien et rend 0 ; le signal de
+      redémarrage n'arrête que les workers lancés avant lui.
+    courses:
+      - id: CRS-e5astysks0ty
+        sections: ["La command", "Un worker est un process long", "Le deployment", "QCM d'entraînement", "Fiche express"]
+    flashcards: []
+    questions: []
+
+  - id: CVR-8vhj50g503r8
+    date: '2026-11-03'
+    pull_request: 455
+    commit: '82cd322'
+    kind: CORRECTION
+    finding: ADR-0012
+    official_items: [OIT-dctf03ftx44f]
+    facts: []
+    title: "Workers : in-memory:// perd ce qui n'est pas encore lu, pas tout après le premier message"
+    was: >-
+      « Non : il implémente `ResetInterface` et est vidé après le premier message. » — avec l'explication
+      « Exécuté : seul le premier de trois messages a été consommé. » ; la page disait de même « il est
+      **vidé** après le premier message ».
+    now: >-
+      Rejoué avec Messenger 8.0 : sur un seul transport, `get()` rend tout le lot d'un coup et les trois
+      messages sont traités ; c'est le premier reset qui vide la file, et ce qui n'est pas encore lu est
+      perdu — avec `messenger:consume high low`, `high-1` passe, puis le reset vide `low`. La carte et la
+      page le disent désormais.
+    courses:
+      - id: CRS-e5astysks0ty
+        sections: ["L'état entre deux messages"]
+    flashcards: [FLC-am3cn12fjgd3]
+    questions: []
+
+  - id: CVR-1dz9fgcysepn
+    date: '2026-11-03'
+    pull_request: 455
+    commit: '82cd322'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-76x1t7z916f4]
+    facts: []
+    title: "Retries and failures : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet. Faits exécutés et repris : un échec synchrone arrive à l'appelant
+      emballé, et attraper l'exception du handler autour de `dispatch()` n'attrape rien ; un retry saute
+      les handlers déjà réussis ; le `retryDelay` de `RecoverableMessageHandlingException` l'emporte sur la
+      strategy ; une Unrecoverable parmi deux exceptions emballées réessaie quand même ; `failed:retry`
+      exige un id en non interactif. Le diagramme existant est conservé.
+    courses:
+      - id: CRS-hgkzgm1dh3my
+        sections: ["La strategy de retry", "Court-circuiter la strategy", "Le failure transport", "L'enchaînement complet", "QCM d'entraînement", "Fiche express"]
+    flashcards: []
+    questions: []
+
+  - id: CVR-z27c3tae18nh
+    date: '2026-11-03'
+    pull_request: 455
+    commit: '82cd322'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-amnpjdprky6z]
+    facts: []
+    title: "Middleware : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet. Faits exécutés et repris : la pile telle qu'elle est construite ;
+      un stamp ajouté par un middleware est sur l'envelope rendue ; `allow_no_senders: false` fait échouer
+      tout message non routé ; le raccourci `allow_no_handlers` ; `DispatchAfterCurrentBusStamp` diffère
+      un message jusqu'à la fin du handler courant, et l'abandonne s'il échoue.
+    courses:
+      - id: CRS-h9bfar3cxyet
+        sections: ["Ce qu'un middleware voit", "Deux passages en asynchrone", "Où se place un middleware maison", "QCM d'entraînement", "Fiche express"]
+    flashcards: []
+    questions: []
+
+  - id: CVR-f1pc63wstg98
+    date: '2026-11-03'
+    pull_request: 455
+    commit: '82cd322'
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items: [OIT-16at9vwzww43]
+    facts: []
+    title: "Events : cours au format pédagogique"
+    now: >-
+      La page devient un cours complet, sur l'alerte d'échec définitif. Faits exécutés et repris : la
+      séquence complète des events, journalisée ; un seul `MessageSentToTransportsEvent` pour deux
+      transports ; `WorkerMessageRetriedEvent` émis pendant le dispatch de `WorkerMessageFailedEvent` ;
+      `willRetry()` vrai puis faux avec `max_retries: 1` ; après `shouldHandle(false)`, l'event suivant
+      est `WorkerRunningEvent`.
+    courses:
+      - id: CRS-3pbkhqmw83b2
+        sections: ["Le catalogue", "Les deux qui comptent", "Event ou middleware", "QCM d'entraînement", "Fiche express"]
+    flashcards: []
+    questions: []
