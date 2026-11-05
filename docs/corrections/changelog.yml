@@ -1003,7 +1003,7 @@ entries:
       - id: CRS-g4sth72ww979
         sections: ["`auto` hache en bcrypt"]
       - id: CRS-h9bfar3cxyet
-        sections: ["À mémoriser"]
+        sections: ["Fiche express"]
       - id: CRS-k2xvr11x936e
         sections: ["Les trente, par section", "Les recommandations qui surprennent"]
       - id: CRS-mpwjc4g3vmj7
@@ -2475,3 +2475,568 @@ entries:
         sections: ["Le catalogue", "Les deux qui comptent", "Event ou middleware", "QCM d'entraînement", "Fiche express"]
     flashcards: []
     questions: []
+
+  - id: CVR-ghf0e7mzjce6
+    date: '2026-11-04'
+    pull_request: 456
+    commit: 1bf2a4a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-b9x8az2bx4t8
+    facts: []
+    title: 'TwigBundle : cours au format pédagogique, court'
+    now: 'La page devient un cours court, au format pédagogique. Twig seul compile et rend un template. TwigBundle le branche
+      sur Symfony : il dit **où** chercher les templates, **comment** surcharger ceux d''un bundle, et quelles **options** de
+      `config/packages/twig.yaml` changent le comportement.'
+    courses:
+    - id: CRS-2bj91rj9kvj0
+      sections:
+      - L'essentiel
+      - Le schéma
+      - L'exemple
+      - Trois packages, trois roles
+      - Où vivent les templates
+      - Surcharger le template d'un bundle
+      - Les options qui changent le comportement
+      - Les commands
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-2tn7wtjwagra
+    date: '2026-11-04'
+    pull_request: 456
+    commit: 1bf2a4a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-sqekx9pkbe5v
+    facts: []
+    title: 'Filters and functions : cours au format pédagogique, court'
+    now: La page devient un cours court, au format pédagogique. Un **filter** transforme une valeur existante, une **function**
+      en produit une, un **test** vérifie. Les filters s'enchaînent de gauche à droite et collent à l'opérande le plus proche.
+      Le cœur de Twig, ses packages « extra » et Symfony n'apportent pas les mêmes.
+    courses:
+    - id: CRS-306ppg4454wj
+      sections:
+      - L'essentiel
+      - Le schéma
+      - La différence
+      - Enchaîner
+      - Le cœur de Twig et les packages « extra »
+      - Ce que Symfony ajoute
+      - En ajouter
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-389kmk13fhdy
+    date: '2026-11-04'
+    pull_request: 456
+    commit: 1bf2a4a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-30gnb617ksex
+    facts: []
+    title: 'String interpolation : cours au format pédagogique, court'
+    now: La page devient un cours court, au format pédagogique. `#{expression}` insère une expression dans une string — entre
+      **guillemets doubles** seulement. Les barres obliques inverses sont traitées dans les deux sortes de guillemets, à l'inverse
+      de PHP. Et une string interpolée est échappée **en entier**.
+    courses:
+    - id: CRS-dfyab4kpcapw
+      sections:
+      - L'essentiel
+      - Le schéma
+      - La syntaxe
+      - La constraint
+      - Échapper
+      - Les séquences d'escaping, dans les deux guillemets
+      - L'escaping de la string entière
+      - L'alternative
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+      - Sources officielles
+    flashcards: []
+    questions: []
+  - id: CVR-v8c2b3qqmtvs
+    date: '2026-11-04'
+    pull_request: 456
+    commit: 1bf2a4a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-yh6zx9shv9vs
+    facts: []
+    title: 'URLs generation : cours au format pédagogique, court'
+    now: La page devient un cours court, au format pédagogique. Deux functions prennent un **route name** — `path()` pour un
+      path, `url()` pour une URL complète — et deux autres prennent un **path** — `absolute_url()` et `relative_path()`. Le
+      generator peut élargir la référence demandée, et une URL ne s'écrit jamais à la main.
+    courses:
+    - id: CRS-dpbpbgwjey5c
+      sections:
+      - L'essentiel
+      - Le schéma
+      - Deux functions
+      - Ce que le generator décide seul
+      - Deux functions voisines, sans route
+      - L'escaping
+      - Jamais d'URL écrite à la main
+      - Pièges d'examen
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+      - Sources officielles
+    flashcards: []
+    questions: []
+  - id: CVR-84rjxn1q5mer
+    date: '2026-11-04'
+    pull_request: 456
+    commit: 1bf2a4a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-g3p8wdtww344
+    facts: []
+    title: 'Template inheritance : cours au format pédagogique, court'
+    now: La page devient un cours court, au format pédagogique. Toutes les pages partagent un header, un menu, un pied de page.
+      Un **parent** les déclare une fois et laisse des **trous** — les blocks ; chaque page **enfant** l'étend et remplit les
+      trous qui l'intéressent. Le compiler refuse tout ce qui rendrait cette mécanique ambiguë.
+    courses:
+    - id: CRS-k3v3wrt0hmtx
+      sections:
+      - L'essentiel
+      - Le schéma
+      - Le mécanisme
+      - 'Hors d''un block : une erreur, pas un oubli silencieux'
+      - Les règles de l'inheritance
+      - Reprendre, réafficher, tester un block
+      - Réutilisation horizontale
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+      - Sources officielles
+    flashcards: []
+    questions: []
+  - id: CVR-fzfq3c70fe0m
+    date: '2026-11-04'
+    pull_request: 456
+    commit: 1bf2a4a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-sd08j04k60m0
+    facts: []
+    title: 'Translations and pluralization : cours au format pédagogique, court'
+    now: La page devient un cours court, au format pédagogique. Twig traduit avec un **filter**, `|trans`, un **tag**, `{% trans
+      %}`, et une **function**, `t()`, qui crée un message traduit plus tard. Ils diffèrent par l'ordre des arguments, l'escaping
+      et les emplacements. Le plural passe par ICU, dans un catalogue suffixé `+intl-icu`.
+    courses:
+    - id: CRS-q18xc1k4yvb9
+      sections:
+      - L'essentiel
+      - Le schéma
+      - Le filter
+      - Les emplacements
+      - Le tag
+      - Échappé ou non
+      - Le plural
+      - Plural et select, exécutés
+      - L'object traduisible
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+      - Sources officielles
+    flashcards: []
+    questions: []
+  - id: CVR-exyq3gae8kjr
+    date: '2026-11-04'
+    pull_request: 456
+    commit: 1bf2a4a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-dp7w7s85wxjg
+    facts: []
+    title: 'Global variables : cours au format pédagogique, court'
+    now: 'La page devient un cours court, au format pédagogique. Un template lit des variables qui viennent de deux endroits
+      : le **contexte** passé au rendu par le controller, et les **globales**, disponibles partout. Twig en fournit trois, Symfony
+      en ajoute une — `app` — et l''application peut déclarer les siennes. Le contexte gagne toujours.'
+    courses:
+    - id: CRS-r56yzzb4pye2
+      sections:
+      - L'essentiel
+      - Le schéma
+      - L'exemple
+      - Les trois globales de Twig lui-même
+      - La variable `app`
+      - Déclarer ses propres globales
+      - Le piège
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-7r5z608t0680
+    date: '2026-11-04'
+    pull_request: 456
+    commit: 1bf2a4a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-3r7rp470754w
+    facts: []
+    title: 'Debugging variables : cours au format pédagogique, court'
+    now: 'La page devient un cours court, au format pédagogique. `dump` existe en **function** et en **tag**, qui n''écrivent
+      pas au même endroit. Les deux viennent de DebugBundle, actif en `dev` et `test` : un `dump()` oublié en production fait
+      échouer la compilation. Deux commands inspectent les templates sans les rendre.'
+    courses:
+    - id: CRS-vx5kvfhs0p0s
+      sections:
+      - L'essentiel
+      - Le schéma
+      - Deux formes, deux destinations
+      - Hors du développement
+      - Les commands
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+      - Sources officielles
+    flashcards: []
+    questions: []
+  - id: CVR-ajq31xxkafr7
+    date: '2026-11-04'
+    pull_request: 456
+    commit: 1bf2a4a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-ns36thqnh2jk
+    facts: []
+    title: 'Auto escaping : cours au format pédagogique, court'
+    now: 'La page devient un cours court, au format pédagogique. Une variable affichée sans escaping peut injecter du script
+      : c''est une faille XSS. Twig échappe **d''office** ; la question est **avec quelle strategy** — elle dépend du nom du
+      template et de l''endroit du document — et **comment s''en écarter** sans ouvrir de faille.'
+    courses:
+    - id: CRS-w82wtddwhexg
+      sections:
+      - L'essentiel
+      - Le schéma
+      - L'exemple
+      - 'Le défaut : la strategy dépend du nom du template'
+      - Les cinq strategies
+      - Désactiver, avec parcimonie
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+      - Sources officielles
+    flashcards: []
+    questions: []
+  - id: CVR-kfrs58dsfbaf
+    date: '2026-11-04'
+    pull_request: 456
+    commit: 1bf2a4a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-ds2p5d4eg0pq
+    facts: []
+    title: 'Template includes : cours au format pédagogique, court'
+    now: La page devient un cours court, au format pédagogique. Un fragment — une carte d'article, un bandeau — s'insère dans
+      plusieurs pages. `include` l'insère tel quel, `embed` l'insère en redéfinissant certains de ses blocks. Par défaut, le
+      fragment voit **tout** le contexte de l'appelant ; `only` le limite à ce qu'on lui passe.
+    courses:
+    - id: CRS-w83y6pfa5edn
+      sections:
+      - L'essentiel
+      - Le schéma
+      - L'exemple
+      - Les deux écritures
+      - Le contexte
+      - Quel template, et s'il manque
+      - '`include` ou `embed`'
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+      - Sources officielles
+    flashcards: []
+    questions: []
+  - id: CVR-76hjpvpzbcq8
+    date: '2026-11-04'
+    pull_request: 456
+    commit: 1bf2a4a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-vhd83fn6w9wy
+    facts: []
+    title: 'Twig syntax up to 3.22 version : cours au format pédagogique, court'
+    now: 'La page devient un cours court, au format pédagogique. Trois choses à savoir : quel **délimiteur** fait quoi, dans
+      quel **ordre** Twig cherche `foo.bar`, et quels **operators** il comprend — proches de ceux de PHP, mais pas identiques.'
+    courses:
+    - id: CRS-x2f8reencvcs
+      sections:
+      - L'essentiel
+      - Le schéma
+      - L'exemple
+      - Les trois délimiteurs
+      - '`foo.bar` : l''ordre de résolution'
+      - Les operators
+      - Affectation et espaces
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-2bxppacqs09h
+    date: '2026-11-04'
+    pull_request: 456
+    commit: 1bf2a4a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-tw3xaqbz8xjy
+    facts: []
+    title: 'Assets management : cours au format pédagogique, court'
+    now: 'La page devient un cours court, au format pédagogique. `asset()` transforme un path relatif à `public/` en URL utilisable
+      : il ajoute le **préfixe de base** de l''application — si elle n''est pas servie à la racine — et la **version** configurée.
+      Un second argument choisit un **package**, avec sa propre base et sa propre version.'
+    courses:
+    - id: CRS-ym86ptkhfgap
+      sections:
+      - L'essentiel
+      - Le schéma
+      - La function
+      - La version
+      - Les packages
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+      - Sources officielles
+    flashcards: []
+    questions: []
+  - id: CVR-ddrjb1pcb1hk
+    date: '2026-11-04'
+    pull_request: 456
+    commit: 1bf2a4a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-c34hn4px3czj
+    facts: []
+    title: 'Controller rendering : cours au format pédagogique, court'
+    now: 'La page devient un cours court, au format pédagogique. `render()` exécute un controller depuis un template et insère
+      sa Response — utile pour un élément qui a ses propres données sur toutes les pages, comme une barre latérale. Chaque appel
+      est une **sub-Request** complète : ce n''est pas gratuit, et une erreur ne se comporte pas pareil en `dev` et en `prod`.
+      Pour une simple unité d''interface, la documentation 8.0 recommande plutôt les Twig Components.'
+    courses:
+    - id: CRS-yw6c5hq2mbax
+      sections:
+      - L'essentiel
+      - Le schéma
+      - Avec ou sans route
+      - Ce que cela déclenche
+      - Les strategies
+      - L'URL des fragments
+      - Quand le fragment échoue
+      - Pièges d'examen
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-1p79hm6x9y8d
+    date: '2026-11-04'
+    pull_request: 456
+    commit: 1bf2a4a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-84j0qwkbcgq6
+    facts: []
+    title: 'Loops and conditions : cours au format pédagogique, court'
+    now: 'La page devient un cours court, au format pédagogique. Twig parcourt une séquence avec `for`, propose une clause `else`
+      pour le cas vide et une variable `loop` qui connaît sa position — mais pas toujours sa taille. Pas de `break` ni de `continue`
+      : on filtre la séquence avant. Et dans une condition, « faux » et « vide » sont deux questions différentes.'
+    courses:
+    - id: CRS-zbnzvqkhjknh
+      sections:
+      - L'essentiel
+      - Le schéma
+      - L'exemple
+      - La loop
+      - La variable `loop`
+      - Le scope d'une loop
+      - Filtrer et découper
+      - Les conditions
+      - 'Vrai, faux, vide : trois questions différentes'
+      - Pièges d'examen
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+      - Sources officielles
+    flashcards: []
+    questions: []
+  - id: CVR-skx08q64n699
+    date: '2026-11-04'
+    pull_request: 456
+    commit: 1bf2a4a
+    kind: CORRECTION
+    finding: F15
+    official_items:
+    - OIT-84j0qwkbcgq6
+    facts:
+    - twig.loop-last-needs-countable
+    title: 'Loops : `loop.last` et `loop.length` existent sur un iterator `Countable`'
+    was: « La moitié des properties de loop n'existent pas sur un iterator » — et « sur un generator ou un iterator ordinaire,
+      ces keys n'existent [pas] », sans distinguer un iterator `Countable`.
+    now: '`last`, `length`, `revindex` et `revindex0` existent pour un array ou un object `Countable` — un `ArrayIterator` les
+      a. Seuls un generator ou un iterator non `Countable` en sont privés : `RuntimeError`. L''index et `loop.first` existent
+      toujours.'
+    courses:
+    - id: CRS-zbnzvqkhjknh
+      sections:
+      - La variable `loop`
+      - Pièges d'examen
+    flashcards: []
+    questions: []
+  - id: CVR-k1wd7xm0jygd
+    date: '2026-11-04'
+    pull_request: 456
+    commit: 1bf2a4a
+    kind: CORRECTION
+    finding: F16
+    official_items:
+    - OIT-yh6zx9shv9vs
+    facts:
+    - twig.relative-path-leaves-full-url
+    title: 'URLs : `relative_path()` rend inchangée une URL complète'
+    was: « Il transforme une URL absolue en chemin relatif à la page courante » — l'exemple de la documentation de référence,
+      `relative_path('http://example.com/human.txt')` → `../human.txt`.
+    now: '`relative_path()` rend relatif un **path** absolu : `relative_path(''/human.txt'')` donne `../human.txt` depuis `/products/hover-board`.
+      Une URL complète, `http://…` ou `//…`, ressort inchangée : `UrlHelper::getRelativePath()` la rend telle quelle en 8.0.'
+    courses:
+    - id: CRS-dpbpbgwjey5c
+      sections:
+      - Deux functions voisines, sans route
+      - Pièges d'examen
+    flashcards:
+    - FLC-nj22h67r0w1s
+    questions: []
+  - id: CVR-1xfznmw7njpb
+    date: '2026-11-04'
+    pull_request: 456
+    commit: 1bf2a4a
+    kind: CORRECTION
+    finding: F17
+    official_items:
+    - OIT-sd08j04k60m0
+    facts:
+    - translation.translatable-not-stringable
+    title: 'Translations : afficher un `TranslatableMessage` lève une `Error` PHP sur Twig 3.22'
+    was: '« en 8.0.15 il lève une `RuntimeError` » ; la carte « Une RuntimeError : TranslatableMessage n''a plus de __toString()
+      en 8.0 » ; et la bonne réponse de la question, « It throws a RuntimeError ».'
+    now: 'En 8.0, `TranslatableMessage` n''a plus de `__toString()`. Sur Twig 3.22, `{{ message }}` fait échouer le rendu par
+      une `Error` PHP, « could not be converted to string », non emballée : `Template::display()` convertit l''output hors du
+      try/catch qui emballe les exceptions. Il faut `{{ message|trans }}`.'
+    courses:
+    - id: CRS-q18xc1k4yvb9
+      sections:
+      - L'object traduisible
+    flashcards:
+    - FLC-p6q3ewt9qsj7
+    questions:
+    - QST-zpp1r9fbs8vb
+    reversioned:
+    - QST-zpp1r9fbs8vb
+  - id: CVR-qskx7bbp3441
+    date: '2026-11-04'
+    pull_request: 456
+    commit: 1bf2a4a
+    kind: CORRECTION
+    finding: deep-audit-8.0
+    official_items:
+    - OIT-vhd83fn6w9wy
+    - OIT-dp7w7s85wxjg
+    - OIT-sd08j04k60m0
+    facts: []
+    title: 'Twig : une exception levée au rendu arrive emballée dans une `RuntimeError`'
+    was: 'Quatre cartes et deux explications nommaient l''exception PHP elle-même : « Une TypeError », « Une RuntimeException
+      : The app.user variable is not available. »'
+    now: Une exception levée pendant le rendu — la `TypeError` d'un `+` entre deux strings, la `RuntimeException` d'`app.user`
+      sans token storage, la `TypeError` de `|trans` sur une string — remonte dans une `Twig\Error\RuntimeError`, dont `getPrevious()`
+      est l'exception d'origine. Un `catch (\TypeError)` ou `catch (\RuntimeException)` ne l'attrape pas.
+    courses: []
+    flashcards:
+    - FLC-zv7yngs0n7zm
+    - FLC-8sj847wvsbn2
+    - FLC-jre624h0r4fh
+    - FLC-e1kx846me0jb
+    questions:
+    - QST-fendqkqnnjqj
+    - QST-t2dpk8eb1x43
+  - id: CVR-2vpgxxk7pzpq
+    date: '2026-11-04'
+    pull_request: 456
+    commit: 1bf2a4a
+    kind: CORRECTION
+    finding: deep-audit-8.0
+    official_items:
+    - OIT-c34hn4px3czj
+    facts: []
+    title: 'Controller rendering : `{{ controller(…) }}` seul fait échouer le rendu'
+    was: '« **`controller()` seul n''affiche rien** : il construit une référence. »'
+    now: '`controller()` construit une `ControllerReference` et n''exécute rien ; affichée seule, elle fait échouer le rendu
+      — elle n''a pas de `__toString()` : « Object of class …ControllerReference could not be converted to string ». Elle s''utilise
+      dans `render()`.'
+    courses:
+    - id: CRS-yw6c5hq2mbax
+      sections:
+      - Avec ou sans route
+      - Pièges d'examen
+    flashcards:
+    - FLC-7de3x0at9tq0
+    questions: []
+  - id: CVR-05b0ex3x7rtn
+    date: '2026-11-04'
+    pull_request: 456
+    commit: 1bf2a4a
+    kind: CORRECTION
+    finding: deep-audit-8.0
+    official_items:
+    - OIT-3r7rp470754w
+    facts: []
+    title: 'Debugging variables : sans DebugBundle, `dump()` existe en debug'
+    was: '« Bundle absent : la function n''existe pas, et la compilation du template échoue » — vrai seulement hors debug.'
+    now: Sans DebugBundle, la function `dump()` n'existe pas seulement quand `kernel.debug` est faux. En debug, TwigBundle active
+      la `DebugExtension` de Twig (`ExtensionPass`), dont `dump()` affiche un `var_dump` ; le tag `{% dump %}`, lui, reste inconnu.
+    courses:
+    - id: CRS-vx5kvfhs0p0s
+      sections:
+      - Hors du développement
+    flashcards: []
+    questions: []
+  - id: CVR-b9r2vg3eqt1k
+    date: '2026-11-04'
+    pull_request: 456
+    commit: 1bf2a4a
+    kind: CORRECTION
+    finding: deep-audit-8.0
+    official_items:
+    - OIT-sd08j04k60m0
+    facts: []
+    title: 'Translations : les faits ICU ont été exécutés sur Translation 8.0.14'
+    was: « Exécuté avec Translation 8.0.15 », une version du component qui n'existe pas.
+    now: Les faits ICU (branche `other` obligatoire, catégories de plural selon la locale) ont été exécutés sur Translation
+      8.0.14, la dernière version 8.0 du component, avec intl et ICU 74.2.
+    courses: []
+    flashcards:
+    - FLC-j7bectmryksk
+    questions:
+    - QST-8b6sd8kbc1qx
+    - QST-tfve3bphv48m
+  

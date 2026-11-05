@@ -53,34 +53,14 @@ outcome_sections:
 Consommer une file, comprendre pourquoi un worker doit s'arrêter tout seul, et
 ce qu'il garde — ou non — d'un message au suivant.
 
-## Avant la règle : le problème à résoudre
+## L'essentiel
 
-Un message envoyé dans une file attend qu'un process vienne le chercher. Ce
-process ne répond à aucune Request : il tourne, lit, traite, recommence —
-pendant des heures. Trois difficultés en découlent : **dans quel ordre** il lit
-plusieurs files, **quand il s'arrête**, et **ce qu'il garde en mémoire** d'un
-message au suivant.
+Un worker est un **process long** : il lit ses files **dans l'ordre donné**, et
+s'arrête **de lui-même** sur une limite pour qu'un superviseur le relance.
+Après un deployment, `messenger:stop-workers` lui fait prendre le nouveau code.
+Entre deux messages, il garde ses services — sauf ceux qu'il **remet à zéro**.
 
-On suppose connus les transports et le routage.
-
-## Le fil rouge : deux files et un superviseur
-
-```bash
-# lancé par Supervisor ou systemd, relancé dès qu'il s'arrête
-php bin/console messenger:consume async_high async \
-    --limit=100 --memory-limit=128M --time-limit=3600
-
-# à chaque déploiement, après la mise en place du nouveau code
-php bin/console messenger:stop-workers
-```
-
-Le worker lit `async_high` d'abord, `async` quand la première est vide. Il
-s'arrête de lui-même après 100 messages, 128 Mo ou une heure ; le superviseur
-le relance. `messenger:stop-workers` lui fait prendre le nouveau code.
-
-## Le cycle complet en un schéma
-
-Lu dans `Worker::run()` et rejoué avec Messenger 8.0 :
+## Le schéma
 
 ```mermaid
 ---
@@ -102,53 +82,41 @@ flowchart TD
   IDLE --> TIME
 ```
 
-Tout ce qui arrête un worker passe donc par **un listener**, entre deux
-messages : aucune option ni command de Messenger n'interrompt un traitement en
-cours.
+Tout ce qui arrête un worker passe par **un listener**, entre deux messages :
+aucune option ni command n'interrompt un traitement en cours.
+
+## L'exemple
+
+```bash
+# lancé par Supervisor ou systemd, relancé dès qu'il s'arrête
+php bin/console messenger:consume async_high async \
+    --limit=100 --memory-limit=128M --time-limit=3600
+
+# à chaque deployment, après la mise en place du nouveau code
+php bin/console messenger:stop-workers
+```
 
 ## La command
 
-```bash
-php bin/console messenger:consume async
-php bin/console messenger:consume async -vv          # ce qui est traité
-php bin/console messenger:consume --all              # tous les récepteurs
-php bin/console messenger:consume async_high async   # priorité par l'ordre
-```
-
-Quand plusieurs transports sont passés, ils sont consultés **dans l'ordre
-donné** : après chaque message traité, le worker repart du premier ; il ne lit
-le second que si le premier est vide. Exécuté avec Messenger 8.0.15 : deux
-messages envoyés sur `low`, puis un sur `high`, et
-`messenger:consume high low --limit=3` traite `high-1`, puis `low-1`, puis
-`low-2`.
-
-Précisément, lu dans `Worker::run()` : le worker traite le **lot** qu'un
-transport rend à `get()` — un message pour la plupart des transports — puis
-« quit and start the loop again » depuis le premier.
-
-Les options de `messenger:consume` en 8.0 : `--limit`, `--failure-limit`,
-`--memory-limit`, `--time-limit`, `--sleep`, `--bus`, `--queues`, `--no-reset`,
-`--all`, `--exclude-receivers`, `--keepalive`.
-
-**Rejoué, ce que la command refuse — ou ne refuse pas** (la deuxième ligne est
-lue dans `interact()`) **:**
+- Plusieurs transports sont consultés **dans l'ordre donné** : après chaque
+  message, le worker repart du premier, et ne lit le second que si le premier
+  est vide. Deux messages sur `low`, puis un sur `high` :
+  `messenger:consume high low --limit=3` traite `high-1`, `low-1`, `low-2`.
+- Les options de `messenger:consume` en 8.0 : `--limit`, `--failure-limit`,
+  `--memory-limit`, `--time-limit`, `--sleep`, `--bus`, `--queues`,
+  `--no-reset`, `--all`, `--exclude-receivers`, `--keepalive`.
 
 | Appel | Résultat |
 |---|---|
-| `messenger:consume low --exclude-receivers=high` | **exit 1** : « The "--exclude-receivers" option can only be used with the "--all" option. » |
-| `messenger:consume` sans récepteur, en mode interactif | une question : quels récepteurs consommer ? |
-| `messenger:consume` sans récepteur, **non interactif** | **exit 0** : « Consuming messages from transport "" » — le worker tourne et ne lit rien |
-
-La dernière ligne est celle d'un superviseur mal configuré : `interact()` n'est
-pas appelé hors mode interactif, et l'erreur « Please pass at least one
-receiver » qu'il porte non plus.
+| `messenger:consume low --exclude-receivers=high` | **exit 1** : l'option exige `--all` |
+| sans récepteur, en mode interactif | une question : quels récepteurs consommer ? |
+| sans récepteur, **non interactif** | **exit 0** : « Consuming messages from transport "" » — le worker ne lit rien |
 
 ## Un worker est un process long
 
-Et c'est là qu'est la difficulté. Un process PHP qui tourne pendant des jours
-accumule de la mémoire et garde en cache des objects périmés. La solution n'est
-pas de corriger les fuites : c'est de **s'arrêter régulièrement**, et de laisser
-un superviseur relancer.
+Un process PHP qui tourne des jours accumule de la mémoire et des objects
+périmés. La solution prévue n'est pas de corriger les fuites : c'est de
+**s'arrêter régulièrement**.
 
 ```bash
 --limit=10          # après 10 messages
@@ -157,88 +125,32 @@ un superviseur relancer.
 --failure-limit=5   # après trop d'échecs
 ```
 
-Un superviseur — Supervisor, systemd — redémarre alors le process. L'arrêt est
-**gracieux** : le message en cours est terminé avant l'arrêt.
-
-**`--limit` compte les messages reçus, pas les réussis.** Rejoué : trois
-messages, le premier en échec, `--limit=2` — le worker traite l'échec et le
-deuxième, puis s'arrête. Lu dans `StopWorkerOnMessageLimitListener` : tout tour
-non idle compte.
+- L'arrêt est **gracieux** : le message en cours est terminé.
+- **`--limit` compte les messages reçus, pas les réussis** : trois messages,
+  le premier en échec, `--limit=2` — l'échec et le deuxième, puis l'arrêt.
 
 ## Le deployment
 
-Un worker démarré avant un deployment exécute **l'ancien code**. La command
-prévue pour cela :
-
-```bash
-php bin/console messenger:stop-workers
-```
-
-Elle ne tue rien : elle pose un signal que chaque worker lit **après le message
-en cours**, puis s'arrête proprement. Le superviseur le relance avec le nouveau
-code. Oublier cette étape est la cause classique d'un comportement mixte après
-mise en production.
-
-Lu dans `StopWorkerOnRestartSignalListener::shouldRestart()` : le signal est
-une date dans un cache, et seul un worker **démarré avant** elle s'arrête. Le
-worker relancé, plus récent que le signal, n'est pas visé.
+Un worker démarré avant un deployment exécute **l'ancien code**.
+`messenger:stop-workers` ne tue rien : elle pose un signal — une date dans un
+cache — que chaque worker lit **après le message en cours**. Seul un worker
+**démarré avant** cette date s'arrête ; celui que le superviseur relance n'est
+pas visé.
 
 ## L'état entre deux messages
 
-Le worker garde les **mêmes instances de services** d'un message à l'autre —
-mais entre deux messages, `ResetServicesListener` appelle le **réinitialiseur
-de services** : chaque service qui implémente `ResetInterface` (ou porte le tag
-`kernel.reset`) voit sa method `reset()` appelée. Exécuté, trois messages,
-deux services qui comptent ce qu'ils ont vu :
+Le worker garde les **mêmes instances de services**, mais entre deux messages
+`ResetServicesListener` appelle `reset()` sur chaque service qui implémente
+`ResetInterface` (ou porte le tag `kernel.reset`). Trois messages, deux
+services qui comptent ce qu'ils ont vu :
 
 | Worker | Service ordinaire | Service `ResetInterface` |
 |---|---|---|
-| par défaut | 1, 2, **3** — l'état s'accumule | 1, **1**, **1** — remis à zéro |
+| par défaut | 1, 2, **3** — l'état s'accumule | 1, **1**, **1** |
 | `--no-reset` | 1, 2, 3 | 1, 2, **3** |
 
-Un service qui garde de l'état sans implémenter `ResetInterface` contamine donc
-les messages suivants. C'est le pendant du point précédent : un worker n'est
-pas une Request.
-
-Effet de bord observé pendant ces exécutions : le transport `in-memory://`
-implémente lui-même `ResetInterface`, et le premier reset **vide sa file**.
-Rejoué : sur un seul transport, les trois messages passent, parce que
-`get()` les a tous rendus d'un coup ; avec `consume high low`, `high-1` passe,
-puis le reset vide `low`, et `low-1`, `low-2` sont perdus. Il sert aux tests,
-pas à un worker.
-
-## Concrètement dans ton application
-
-- Toujours au moins une limite : `--time-limit`, `--memory-limit` ou `--limit`.
-- Un superviseur qui relance, et des récepteurs **nommés** dans sa command.
-- `messenger:stop-workers` dans le script de deployment, après le nouveau
-  code.
-- Les files rapides en premier : `messenger:consume async_high async`.
-- Un service qui met en cache : `ResetInterface`, et un `reset()` qui vide.
-- `--no-reset` seulement en connaissance de cause.
-
-## À comprendre
-
-- **Pourquoi s'arrêter plutôt que corriger ?** Une fuite se cache partout : dans
-  une bibliothèque, un cache, un logger. Un process qui redémarre souvent n'a
-  pas le temps de la rendre visible.
-- **Pourquoi un arrêt demandé n'interrompt-il pas un message ?** Les listeners
-  qui arrêtent le worker tournent sur `WorkerRunningEvent`, entre deux
-  messages.
-- **Pourquoi un reset ?** Les services sont partagés pour la performance ; le
-  reset rend à chacun l'état d'un process neuf.
-
-## À mémoriser
-
-- **`messenger:consume high low`** : `low` seulement si `high` est vide.
-- Limites : **`--limit`**, **`--memory-limit`**, **`--time-limit`**,
-  **`--failure-limit`** ; un **superviseur** relance.
-- **`--limit`** compte aussi les échecs.
-- **`messenger:stop-workers`** : arrêt **après** le message en cours.
-- Entre deux messages : **`ResetInterface`** remis à zéro, sauf **`--no-reset`**.
-- **`--exclude-receivers`** exige **`--all`**.
-- Moyen mnémotechnique : **« lire dans l'ordre, s'arrêter entre deux,
-  repartir neuf »**.
+Le transport `in-memory://` est lui-même réinitialisable : le reset **vide sa
+file**. Il sert aux tests, pas à un worker.
 
 ## Pièges d'examen
 
@@ -256,24 +168,14 @@ courant.
 **Les limites ne sont pas un pansement** : elles sont la façon prévue d'exploiter
 un worker.
 
-## Application : trois scénarios
+## Application
 
-**Scénario 1 — Le worker qui ne fait rien.** Supervisor lance
-`messenger:consume --time-limit=3600`, sans nom de transport ; aucun message
-n'est traité, aucune erreur. *Solution.* Hors mode interactif, la command
-consomme une liste vide : nommer les récepteurs, ou passer `--all`.
-
-**Scénario 2 — La limite atteinte trop tôt.** `--limit=50` pendant une panne
-d'API : le worker s'arrête après 50 échecs. *Solution.* C'est voulu : `--limit`
-compte les messages reçus ; `--failure-limit` est l'option qui vise les échecs.
-
-**Scénario 3 — Le cache qui fuit d'un client à l'autre.** Un service garde les
-tarifs du client courant dans une property ; le client suivant les voit.
-*Solution.* `ResetInterface` sur le service, un `reset()` qui vide la property.
+- Supervisor lance `messenger:consume --time-limit=3600` sans transport, et
+  aucun message n'est traité, sans erreur → nommer les récepteurs, ou `--all`.
+- Un service garde les tarifs du client courant ; le client suivant les voit →
+  `ResetInterface` et un `reset()` qui vide la property.
 
 ## QCM d'entraînement
-
-Cinq questions sur les workers. Choisis avant d'ouvrir la correction.
 
 **Question 1.** Un superviseur lance `messenger:consume --time-limit=3600`, non
 interactif, sans nom de récepteur. Que se passe-t-il ?
@@ -286,11 +188,8 @@ interactif, sans nom de récepteur. Que se passe-t-il ?
 <details>
 <summary>Correction</summary>
 
-**Bonne réponse : D.** Rejoué : « Consuming messages from transport "" »,
-exit 0. Lu dans `ConsumeMessagesCommand` : l'exception est levée dans
-`interact()`, qui n'est pas appelé hors mode interactif.
-
-A est vrai en mode interactif seulement. B demande `--all`. C est faux.
+**Bonne réponse : D.** L'exception de A est levée dans `interact()`, que la
+command n'appelle pas hors mode interactif ; B demande `--all`.
 
 </details>
 
@@ -305,11 +204,8 @@ A est vrai en mode interactif seulement. B demande `--all`. C est faux.
 <details>
 <summary>Correction</summary>
 
-**Bonne réponse : B.** Rejoué. Lu dans `StopWorkerOnMessageLimitListener` :
-chaque message reçu compte, réussi ou non.
-
-A et D supposent qu'on ne compte que les réussites. C confond avec
-`--failure-limit=1`.
+**Bonne réponse : B.** Chaque message reçu compte, réussi ou non ; C confond
+avec `--failure-limit=1`.
 
 </details>
 
@@ -324,48 +220,23 @@ signal l'arrête-t-il ?
 <details>
 <summary>Correction</summary>
 
-**Bonne réponse : C.** Lu dans `StopWorkerOnRestartSignalListener` : le worker
-compare sa date de démarrage à celle du signal, gardée en cache.
-
-A et B arrêteraient le worker relancé en boucle. D est faux : le signal reste ;
-c'est la comparaison des dates qui protège le nouveau worker.
+**Bonne réponse : C.** Le worker compare sa date de démarrage à celle du
+signal, qui reste en cache ; c'est cette comparaison qui protège le nouveau.
 
 </details>
 
 **Question 4.** `messenger:consume async --exclude-receivers=failed`. Résultat ?
 
-- **A.** Le worker consomme `async`, `failed` est ignoré
-- **B.** Une erreur : l'option exige `--all`
+- **A.** Une erreur : l'option exige `--all`
+- **B.** Le worker consomme `async`, `failed` est ignoré
 - **C.** Le worker consomme tous les transports sauf `failed`
 - **D.** L'option est ignorée en silence
 
 <details>
 <summary>Correction</summary>
 
-**Bonne réponse : B.** Rejoué, exit 1 : « The "--exclude-receivers" option can
-only be used with the "--all" option. »
-
-C décrit `--all --exclude-receivers=failed`. A et D sont faux.
-
-</details>
-
-**Question 5.** Deux transports `in-memory://`, un message sur `high`, deux sur
-`low`. `messenger:consume high low`, réglages par défaut. Combien de messages
-sont traités ?
-
-- **A.** Trois, `high` d'abord
-- **B.** Trois, en alternance
-- **C.** Aucun : `in-memory://` ne se consomme pas
-- **D.** Un seul : `high-1`
-
-<details>
-<summary>Correction</summary>
-
-**Bonne réponse : D.** Rejoué : `high-1`, puis le reset des services vide
-`low`, que `in-memory://` expose comme service réinitialisable. Avec
-`--no-reset`, les trois passent.
-
-A est vrai avec `--no-reset`. B et C sont faux.
+**Bonne réponse : A.** La command s'arrête en exit 1 ; C décrit le bon usage,
+`--all --exclude-receivers=failed`.
 
 </details>
 
@@ -380,9 +251,10 @@ A est vrai avec `--no-reset`. B et C sont faux.
   seulement.
 - **`ResetInterface`** : remis à zéro entre deux messages, sauf `--no-reset`.
 - Sans récepteur, **non interactif** : un worker qui ne lit rien.
-- **`in-memory://`** est vidé par le reset : un transport de test.
+- **`--exclude-receivers`** exige **`--all`**.
 
-**En une phrase, pour tout reconstruire :**
+Moyen mnémotechnique :
+**« lire dans l'ordre, s'arrêter entre deux, repartir neuf »**.
 
 ```text
 consume a b (ordre = priority, repart du premier) ; arrêt entre deux messages par listeners : limit (tout message), memory, time, failure ;
@@ -397,3 +269,4 @@ stop-workers = date en cache, workers démarrés avant ; reset ResetInterface sa
 - [Messenger 8.0, `ConsumeMessagesCommand`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/Command/ConsumeMessagesCommand.php)
 - [Messenger 8.0, `StopWorkerOnRestartSignalListener`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/EventListener/StopWorkerOnRestartSignalListener.php)
 - [Messenger 8.0, `StopWorkerOnMessageLimitListener`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Messenger/EventListener/StopWorkerOnMessageLimitListener.php)
+
