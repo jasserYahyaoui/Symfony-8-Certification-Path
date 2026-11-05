@@ -216,7 +216,7 @@ enveloppe `{{ form_widget(form) }}` dans une `<div>`. Que devient le field
 
 - **A.** Un `<input type="text">`
 - **B.** Un `<input type="email">` dans la `<div>`
-- **C.** Une boucle infinie de rendu
+- **C.** Un rendu qui ne se termine jamais
 - **D.** Une `RuntimeError` : block inconnu
 
 <details>

@@ -224,7 +224,7 @@ l'emporte — à l'inverse de l'intuition.
 
 </details>
 
-**Question 3.** Sous quel espace de noms Twig trouve-t-on les templates
+**Question 3.** Sous quel namespace Twig trouve-t-on les templates
 d'`AcmeSocialBundle` ?
 
 - **A.** `@AcmeSocialBundle`

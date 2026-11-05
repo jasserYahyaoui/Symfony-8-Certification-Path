@@ -213,7 +213,7 @@ laisse à `null`. Que se passe-t-il ?
 
 - **A.** Acceptée : cinq octets en UTF-8
 - **B.** Acceptée : `Length` ignore les accents
-- **C.** Une exception : encodage inconnu
+- **C.** Une exception : encoding inconnu
 - **D.** Une violation : trois caractères
 
 <details>

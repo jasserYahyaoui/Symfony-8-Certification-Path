@@ -99,7 +99,7 @@ token de task sur other  → invalide
 
 ## Les options du form
 
-| Option | Rôle | Défaut |
+| Option | Role | Défaut |
 |---|---|---|
 | `csrf_protection` | active ou désactive la protection pour ce form | la configuration globale |
 | `csrf_field_name` | le nom du field caché | `_token` |

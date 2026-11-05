@@ -135,7 +135,7 @@ dependencies par son constructor.
 
 ## Les six methods
 
-| Method | Rôle | Défaut dans `AbstractType` |
+| Method | Role | Défaut dans `AbstractType` |
 |---|---|---|
 | `buildForm()` | ajoute les fields enfants | vide |
 | `configureOptions()` | déclare les options et leurs défauts | vide |

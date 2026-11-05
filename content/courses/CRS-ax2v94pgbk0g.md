@@ -176,7 +176,7 @@ une class ; une property sans type est ignorée, sans erreur.
 **Question 2.** Que fait `new Assert\Cascade(groups: ['A'])` ?
 
 - **A.** Il valide en cascade dans le group `A` seulement
-- **B.** Une `Error` : paramètre inconnu
+- **B.** Une `Error` : parameter inconnu
 - **C.** Il ignore l'option et valide dans `Default`
 - **D.** Une `MappingException` à la lecture des metadata
 

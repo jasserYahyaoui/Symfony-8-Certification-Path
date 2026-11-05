@@ -237,7 +237,7 @@ un trait d'aide, on écrit `__CLASS__.'::'.__FUNCTION__`.
 - Construit **au `get()`**, partagé avec le container.
 - Sans `?` : échec à la **compilation** ; avec `?` : `has()` faux.
 - **`#[AutowireLocator]`** : sans l'interface, depuis une liste ou un tag.
-- Héritage : **`array_merge(parent::…)`**.
+- Inheritance : **`array_merge(parent::…)`**.
 
 Moyen mnémotechnique : **« Déclarer, puis demander »** — rien n'est construit
 avant le `get()`.

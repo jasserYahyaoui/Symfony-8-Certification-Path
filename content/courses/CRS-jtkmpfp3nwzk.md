@@ -205,7 +205,7 @@ que si elle est activée ; le type disparaît de `debug:autowiring`.
 </details>
 
 **Question 4.** `debug:autowiring RedirectController` n'affiche rien, mais
-signale un service concret de plus. Quelle commande le montre ?
+signale un service concret de plus. Quelle command le montre ?
 
 - **A.** `debug:autowiring RedirectController --show-hidden`
 - **B.** `debug:autowiring RedirectController --verbose`
