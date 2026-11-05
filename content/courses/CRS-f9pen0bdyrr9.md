@@ -178,8 +178,8 @@ Tags `['a', 'b']`, `entry_type: TextType` :
 | `['a']` | `['a', null]` | `allow_delete` : `['a']` |
 | `['a', '']` | avec `allow_delete` : `['a', null]` | `delete_empty` en plus : `['a']` |
 
-**`by_reference`**, sur une collection object : avec `true` (le défaut), ni
-setter, ni adder, ni remover n'est appelé — l'instance change sur place ;
+**`by_reference`**, sur une collection object : avec `true` (le défaut),
+ni setter, ni adder, ni remover n'est appelé — l'instance change sur place ;
 avec `false`, `removeTag()` / `addTag()`, ou `setTags()` avec une nouvelle
 instance.
 
