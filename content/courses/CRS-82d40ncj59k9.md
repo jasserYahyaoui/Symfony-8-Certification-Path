@@ -81,8 +81,9 @@ natures différentes.
 
 ## Les adresses
 
-- Une string ou un object `Address` ; `Address::create('Fabien Potencier
-  <fabien@example.com>')` analyse la forme `Nom <adresse>`.
+- Une string ou un object `Address` ;
+  `Address::create('Fabien Potencier <fabien@example.com>')` analyse la forme
+  `Nom <adresse>`.
 - `to()`, `cc()`, `bcc()` remplacent ; `addTo()`, `addCc()`, `addBcc()`
   ajoutent.
 - L'UTF-8 est admis dans la partie locale, **sauf pour le sender** :
