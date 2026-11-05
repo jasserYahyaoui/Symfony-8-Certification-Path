@@ -196,7 +196,7 @@ entries:
       - id: CRS-cj36gys6vatx
         sections: ["L'ordre d'une chaîne de transformers"]
       - id: CRS-d235sja3h7y2
-        sections: ["Le builder n'écrit rien tout seul", "Pièges d'examen", "À mémoriser"]
+        sections: ["Le builder n'écrit rien tout seul", "Pièges d'examen", "Fiche express"]
       - id: CRS-d5ffd8b704zs
         sections: ["Le contrat", "Ce que fait `ArgumentResolver`", "Les resolvers ciblés", "Pièges d'examen"]
       - id: CRS-dpbpbgwjey5c
@@ -989,7 +989,7 @@ entries:
       - id: CRS-b2pn9zz55e4n
         sections: ["Comment s'abonner"]
       - id: CRS-b4g5s2asb9ye
-        sections: ["Ce qu'un tag fait : un marqueur, sans effet propre", "À mémoriser"]
+        sections: ["Ce qu'un tag fait : un marqueur, sans effet propre", "Fiche express"]
       - id: CRS-cb51hcng9dh5
         sections: ["La syntaxe classique, toujours valide"]
       - id: CRS-d235sja3h7y2
@@ -3039,4 +3039,907 @@ entries:
     questions:
     - QST-8b6sd8kbc1qx
     - QST-tfve3bphv48m
+  
+
+  - id: CVR-5v6cv2rsea8y
+    date: '2026-11-05'
+    pull_request: 457
+    commit: 7ef4457
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-t0qx5z264tyf
+    facts: []
+    title: 'Profiler object (WebProfiler bundle) : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      En test, le profiler est **activé** par la configuration mais **ne collecte rien**. `enableProfiler()` déclenche la collecte,
+      pour **la Request suivante** seulement. `getProfile()` rend alors un `Profile`, ou `false` / `null` quand il n''y a rien
+      à lire : il faut le tester.'
+    courses:
+    - id: CRS-0x4v9jaz4cnq
+      sections:
+      - L'essentiel
+      - Le schéma
+      - L'exemple
+      - Deux réglages, pas un
+      - Lire un collector
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-chb5t4z7ytej
+    date: '2026-11-05'
+    pull_request: 457
+    commit: 7ef4457
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-cwfr5t1ngj23
+    facts: []
+    title: 'Access Control Rules : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      `access_control` protège des **URL** par la configuration. Les règles sont lues dans l''ordre, **seule la première qui
+      correspond** s''applique, et ses exigences — `roles`, `allow_if` — passent ensemble par la strategy de décision.'
+    courses:
+    - id: CRS-2ec5yksjfm9s
+      sections:
+      - L'essentiel
+      - Le schéma
+      - L'exemple
+      - La règle
+      - Ce qui fait correspondre une règle
+      - Ce que la règle exige
+      - Ce que cela ne fait pas
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-2s4c8kbxv56a
+    date: '2026-11-05'
+    pull_request: 457
+    commit: 7ef4457
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-fw6db7ryrk4q
+    facts: []
+    title: 'Roles : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      Un role est une string qui **doit** commencer par `ROLE_`. La hiérarchie évite de recopier les roles sur chaque compte,
+      mais elle est appliquée par le **voter**, pas par le user. Et certains attributes ressemblent à des roles sans en être
+      : ils décrivent l''état de la connexion.'
+    courses:
+    - id: CRS-2s6e4qgkcqza
+      sections:
+      - L'essentiel
+      - Le schéma
+      - L'exemple
+      - La règle
+      - La hiérarchie
+      - Les attributes qui ne sont pas des roles
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-52gdc2s92nxr
+    date: '2026-11-05'
+    pull_request: 457
+    commit: 7ef4457
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-16at9vwzww43
+    facts: []
+    title: 'Events : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      Messenger émet des **events** à deux endroits seulement : à l''**envoi** vers un transport et dans le **worker**. Un message
+      traité en synchrone, non routé, n''en émet **aucun**. Un listener peut lire l''échec, savoir s''il sera rejoué — s''il
+      écoute au bon moment —, et même empêcher le traitement d''un message reçu.'
+    courses:
+    - id: CRS-3pbkhqmw83b2
+      sections:
+      - L'essentiel
+      - Le schéma
+      - L'exemple
+      - Event ou middleware
+      - Le catalogue
+      - Ce qu'un listener peut changer
+      - Les deux qui comptent
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-1q602fpn3hwb
+    date: '2026-11-05'
+    pull_request: 457
+    commit: 7ef4457
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-bswvewkkkj1q
+    facts: []
+    title: 'Client configuration : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      Le client de test se règle à deux niveaux : **`createClient()`** pour tout le test, le **5ᵉ argument** de `request()`
+      pour une seule Request. Un header s''y écrit sous son nom **CGI** — `HTTP_` + majuscules + soulignés. Et une valeur posée
+      en session n''est vue qu''après **`save()`**.'
+    courses:
+    - id: CRS-4x4ec26c9bfc
+      sections:
+      - L'essentiel
+      - Le schéma
+      - L'exemple
+      - Les deux arguments de `createClient()`
+      - La règle de nommage des headers
+      - Par Request plutôt que par client
+      - Préparer la session
+      - Les cookies
+      - Voir les exceptions
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-d6q68g67wm8d
+    date: '2026-11-05'
+    pull_request: 457
+    commit: 7ef4457
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-hs1297vvhr89
+    facts: []
+    title: 'Messenger component : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      Le controller **dispatche** un message ; le **routage** décide s''il est traité tout de suite ou envoyé vers un transport
+      pour un worker. Le code appelant ne change pas. Le message voyage dans une **Envelope** immuable, et ce qui s''est passé
+      se lit sur l''Envelope **retournée** par `dispatch()`.'
+    courses:
+    - id: CRS-5gezsra1sp01
+      sections:
+      - L'essentiel
+      - Le schéma
+      - L'exemple
+      - Les six concepts de la documentation
+      - Dispatcher
+      - L'Envelope et les stamps
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-z4zre7vzm5nk
+    date: '2026-11-05'
+    pull_request: 457
+    commit: 7ef4457
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-s3jh7wg5km19
+    facts: []
+    title: 'Authenticators, Passports and Badges : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      Trois objects se partagent l''authentication : l''**authenticator** décide s''il prend la Request et constitue un dossier,
+      le **passport** ; chaque **badge** du dossier porte une information ou déclenche une vérification. L''authenticator ne
+      valide rien lui-même : des listeners vérifient chaque badge.'
+    courses:
+    - id: CRS-6gc45etcssfb
+      sections:
+      - L'essentiel
+      - Le schéma
+      - L'exemple
+      - Les cinq methods de l'authenticator
+      - '`supports()` : trois retours possibles'
+      - Passport ou SelfValidatingPassport
+      - Les badges
+      - Diagnostiquer un badge
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-r3vakqa3qk9q
+    date: '2026-11-05'
+    pull_request: 457
+    commit: 7ef4457
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-8sr74a2wnb3r
+    facts: []
+    title: 'Router debugging : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      Deux commands de FrameworkBundle diagnostiquent le routage : **`debug:router`** liste les routes **dans l''ordre où Symfony
+      les essaie**, et **`router:match`** rejoue un appel pour dire laquelle répond. La **première** route qui correspond gagne
+      ; une route peut correspondre par son path et être écartée par sa method, son host ou son schéma.'
+    courses:
+    - id: CRS-8dgxs89hrah0
+      sections:
+      - L'essentiel
+      - Le schéma
+      - L'exemple
+      - '`debug:router` : la liste, dans l''ordre d''évaluation'
+      - Les options de `debug:router`
+      - '`router:match` : quelle route répondrait'
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-h054hkhqdj4b
+    date: '2026-11-05'
+    pull_request: 457
+    commit: 7ef4457
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-3qgn13f7zvqx
+    facts: []
+    title: 'Authorization : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      L''authorization répond à « avez-vous le **droit** ? », une fois l''identité connue. Une seule question, `isGranted(attribute,
+      sujet)`, passe par l''`AccessDecisionManager` : des **voters** votent, une **strategy** tranche, et un refus devient 401,
+      302 ou 403 selon que le user est connu.'
+    courses:
+    - id: CRS-8hwpzyk1hrq9
+      sections:
+      - L'essentiel
+      - Le schéma
+      - L'exemple
+      - La question posée
+      - Le path
+      - Deux familles d'attributes
+      - Le sujet
+      - Refuser
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-adxy1dwa1fzn
+    date: '2026-11-05'
+    pull_request: 457
+    commit: 7ef4457
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-942znmbjwvad
+    facts: []
+    title: 'Security Core, CSRF and PasswordHasher components : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      La security de Symfony n''est pas d''un seul tenant : le **hash**, les **tokens CSRF** et le **modèle** (users, tokens,
+      voters, roles) vivent dans trois packages distincts. Hacher un password ou protéger un form **n''exige pas** le système
+      complet — mais tous les packages ne s''installent pas seuls.'
+    courses:
+    - id: CRS-awb7sd999c5j
+      sections:
+      - L'essentiel
+      - Le schéma
+      - L'exemple
+      - Trois components, trois responsabilités
+      - Qui dépend de qui
+      - Pourquoi la séparation compte
+      - Ce qui vit dans `security-core`
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-5bz9txc96r7z
+    date: '2026-11-05'
+    pull_request: 457
+    commit: 7ef4457
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-tvc5rjv6qvse
+    facts: []
+    title: 'Configuration (including DotEnv and ExpressionLanguage components) : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      Un **parameter** est figé à la compilation du container ; une **variable d''environment** est lue à l''exécution. Les
+      files `.env` se chargent en cascade — le dernier chargé gagne —, mais une vraie variable du serveur passe avant eux. Et
+      ExpressionLanguage évalue ou compile une expression d''une ligne, écrite en configuration.'
+    courses:
+    - id: CRS-b7wpm5anh7c6
+      sections:
+      - L'essentiel
+      - Le schéma
+      - L'exemple
+      - Deux mécanismes, deux moments
+      - Les parameters
+      - La cascade `.env`
+      - Les processeurs d'environment
+      - ExpressionLanguage
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-wy198y251eh7
+    date: '2026-11-05'
+    pull_request: 457
+    commit: 7ef4457
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-9a8aa389vk48
+    facts: []
+    title: 'Messages and handlers : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      Un message est une class ordinaire qui porte des **identifiers**. Un handler porte `#[AsMessageHandler]`, et c''est le
+      **type de son argument** qui le relie au message. Plusieurs handlers pour un même message sont tous appelés. Et un message
+      en file a été sérialisé par l''ancien code : il doit survivre au deployment.'
+    courses:
+    - id: CRS-ckdp50w2dmy4
+      sections:
+      - L'essentiel
+      - Le schéma
+      - L'exemple
+      - Le message
+      - Le handler
+      - Plusieurs handlers
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-w5p539dw0x4t
+    date: '2026-11-05'
+    pull_request: 457
+    commit: 7ef4457
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-dctf03ftx44f
+    facts: []
+    title: 'Workers : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      Un worker est un **process long** : il lit ses files **dans l''ordre donné**, et s''arrête **de lui-même** sur une limite
+      pour qu''un superviseur le relance. Après un deployment, `messenger:stop-workers` lui fait prendre le nouveau code. Entre
+      deux messages, il garde ses services — sauf ceux qu''il **remet à zéro**.'
+    courses:
+    - id: CRS-e5astysks0ty
+      sections:
+      - L'essentiel
+      - Le schéma
+      - L'exemple
+      - La command
+      - Un worker est un process long
+      - Le deployment
+      - L'état entre deux messages
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-sjr9c60sqdh3
+    date: '2026-11-05'
+    pull_request: 457
+    commit: 7ef4457
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-45p7535dk4s2
+    facts: []
+    title: 'Providers : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      Un provider **charge** le user à partir de l''identifier saisi, puis le **relit** à chaque Request d''un firewall avec
+      état. Un user supprimé ou modifié est donc déconnecté au rechargement suivant, sans erreur 500.'
+    courses:
+    - id: CRS-enbbsykx22xe
+      sections:
+      - L'essentiel
+      - Le schéma
+      - L'exemple
+      - Le contrat
+      - Ce que l'exécution montre
+      - Les providers fournis
+      - Provider et firewall
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-w74fjnqrwhaa
+    date: '2026-11-05'
+    pull_request: 457
+    commit: 7ef4457
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-vj24gwq6r1r4
+    facts: []
+    title: 'Handling legacy deprecated code : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      Une deprecation Symfony est une notice `E_USER_DEPRECATED` **silencée** : rien n''échoue, rien ne s''affiche. Elle n''existe
+      que si un **handler d''erreurs** la recueille — la debug toolbar en dev, le journal partout. On la corrige sur la **dernière
+      mineure**, avant que la majeure ne supprime le code. Le PHPUnit Bridge est hors périmètre ; déclarer une deprecation relève
+      de *Deprecations best practices*.'
+    courses:
+    - id: CRS-fak8bf9014br
+      sections:
+      - L'essentiel
+      - Le schéma
+      - L'exemple
+      - 'Rappel : reconnaître une deprecation'
+      - Une notice, et elle est silencée
+      - Les voir
+      - Les corriger
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-7kexhk48t15s
+    date: '2026-11-05'
+    pull_request: 457
+    commit: 7ef4457
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-kv7mbksn7m8v
+    facts: []
+    title: 'Error handling : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      Toute erreur devient une **exception**, et une seule mécanique la traite. Son **status code** vient de la configuration,
+      d''un attribute ou d''une interface — sinon **500**, quel que soit le message. En `dev`, on voit la page d''exception
+      ; en `prod`, une page d''erreur qu''on personnalise au niveau le plus bas qui suffit.'
+    courses:
+    - id: CRS-fppjrr6r23tk
+      sections:
+      - L'essentiel
+      - Le schéma
+      - L'exemple
+      - Tout est une exception
+      - Deux affichages, selon l'environment
+      - Le status code
+      - Quatre niveaux d'intervention
+      - Surcharger un template
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-9vwy13dn0mtw
+    date: '2026-11-05'
+    pull_request: 457
+    commit: 7ef4457
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-ta627mbwfz7m
+    facts: []
+    title: 'Password hashers : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      On hache un password avec un hasher choisi **par class de user**. `auto` hache en bcrypt et sait encore lire les hashes
+      qui portent leur algorithme. Pour un ancien format qui ne le porte pas, `migrate_from` relit l''ancien hash et le rehache
+      à la connexion, sans que le user ne voie rien.'
+    courses:
+    - id: CRS-g4sth72ww979
+      sections:
+      - L'essentiel
+      - Le schéma
+      - L'exemple
+      - Hacher
+      - '`auto` hache en bcrypt'
+      - Quels anciens hashes restent lisibles
+      - Migrer
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-fsf2s7we6vje
+    date: '2026-11-05'
+    pull_request: 457
+    commit: 7ef4457
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-mtbcyaax2xsk
+    facts: []
+    title: 'Framework objects access : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      `KernelTestCase` démarre un **kernel neuf à chaque test**. `static::getContainer()` rend un **container de test** qui
+      atteint aussi les services **privés** — sauf ceux supprimés à la compilation. Il permet de poser une **doublure**, à condition
+      de le faire **avant** le premier `get()` du service qui en dépend.'
+    courses:
+    - id: CRS-g8v45328cg95
+      sections:
+      - L'essentiel
+      - Le schéma
+      - L'exemple
+      - Démarrer le kernel
+      - Le container de test
+      - Remplacer un service par une doublure
+      - Depuis un test d'application
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-zafeder1xfba
+    date: '2026-11-05'
+    pull_request: 457
+    commit: 7ef4457
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-amnpjdprky6z
+    facts: []
+    title: 'Middleware : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      Le bus n''appelle pas le handler directement : il fait traverser une **chaîne de middlewares**, chacun recevant l''**Envelope**
+      et décidant de passer la main. Un middleware maison se place **avant** l''envoi et le traitement ; il est traversé **deux
+      fois** pour un message asynchrone ; et s''il ne passe pas la main, tout s''arrête **sans erreur**.'
+    courses:
+    - id: CRS-h9bfar3cxyet
+      sections:
+      - L'essentiel
+      - Le schéma
+      - L'exemple
+      - Ce qu'un middleware voit
+      - Deux passages en asynchrone
+      - Où se place un middleware maison
+      - La pile par défaut
+      - '`DispatchAfterCurrentBusStamp`'
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-pqg5ec9p3zdf
+    date: '2026-11-05'
+    pull_request: 457
+    commit: 7ef4457
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-76x1t7z916f4
+    facts: []
+    title: 'Retries and failures : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      En **synchrone**, l''exception d''un handler remonte au `dispatch()`, emballée, sans retry. Dans un **worker**, elle déclenche
+      un retry à délai croissant ; deux exceptions spéciales court-circuitent cette strategy ; et un message épuisé part dans
+      le **failure transport** — ou est perdu s''il n''y en a pas.'
+    courses:
+    - id: CRS-hgkzgm1dh3my
+      sections:
+      - L'essentiel
+      - Le schéma
+      - L'exemple
+      - 'Synchrone : l''exception remonte, emballée'
+      - La strategy de retry
+      - Court-circuiter la strategy
+      - Le failure transport
+      - L'enchaînement complet
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-nk32wyghphw2
+    date: '2026-11-05'
+    pull_request: 457
+    commit: 7ef4457
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-bc3brs4a4mtt
+    facts: []
+    title: 'Client object : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      `static::createClient()` rend un `KernelBrowser` qui **simule** un navigateur en mémoire : pas de serveur, pas de JavaScript.
+      `request()` rend un **`Crawler`**. Le client **ne suit pas** les redirects par défaut. Et entre deux Requests, le kernel
+      **redémarre** : le token de sécurité en mémoire est perdu.'
+    courses:
+    - id: CRS-k5wg55q2mg0p
+      sections:
+      - L'essentiel
+      - Le schéma
+      - L'exemple
+      - Faire une Request
+      - Les redirects
+      - Plusieurs Requests dans un test
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-v1j0pqxz918q
+    date: '2026-11-05'
+    pull_request: 457
+    commit: 7ef4457
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-gkh08ztwdme1
+    facts: []
+    title: 'Users : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      En 8.0, `UserInterface` n''a que **deux methods**. Le password vit dans une interface séparée. À chaque Request, le user
+      rechargé est **comparé** à celui du token, et un compte suspendu se refuse dans un **user checker**, pas dans `getRoles()`.'
+    courses:
+    - id: CRS-n9ngfssrq1bt
+      sections:
+      - L'essentiel
+      - Le schéma
+      - L'exemple
+      - '`UserInterface`, en 8.0'
+      - '`getRoles()` : aucun minimum imposé'
+      - Le password est une interface séparée
+      - Comparer deux users
+      - Interdire un compte
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-hx0m41mgjjth
+    date: '2026-11-05'
+    pull_request: 457
+    commit: 7ef4457
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-z9c24d68et6w
+    facts: []
+    title: 'Authentication : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      L''authentication répond à « **qui** êtes-vous ? ». Un firewall transforme des credentials en **token**, rangé dans le
+      `TokenStorage` pour la Request courante. Sans user, il n''y a **pas de token**. Avec état, le token survit en session
+      ; sans état, chaque Request se réauthentifie.'
+    courses:
+    - id: CRS-rdzx4ka72saj
+      sections:
+      - L'essentiel
+      - Le schéma
+      - L'exemple
+      - La question posée
+      - Le trajet
+      - Pas de token sans user
+      - Avec ou sans état
+      - Ce que le controller voit
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-n3nzke5qsd4r
+    date: '2026-11-05'
+    pull_request: 457
+    commit: 7ef4457
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-ehf5zdnmdb1j
+    facts: []
+    title: 'Deprecations best practices : cours raccourci, au format court'
+    now: 'À la demande du propriétaire, la page est raccourcie (6 123 → 1 402 mots) : chaque règle est énoncée une fois, avec
+      un QCM de quatre questions et une Fiche express. Déprécier, c''est garder l''ancienne API **fonctionnelle** en annonçant
+      son remplacement. **Une mineure prévient, la majeure suivante supprime** ; entre les deux, l''application migre.'
+    courses:
+    - id: CRS-rkq1d437dw5d
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'Le fil rouge : `Request::get()`, de 7.4 à 8.0'
+      - 'Règle 1 : déprécier en mineure, supprimer en majeure'
+      - 'Règle 2 : deux signaux, deux publics'
+      - '`trigger_deprecation()` ligne par ligne'
+      - 'Règle 3 : la trace écrite, trois files dans une pull request'
+      - Le `CHANGELOG.md` a ses propres règles
+      - La suppression a sa propre trace
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-g1anc3zzswwq
+    date: '2026-11-05'
+    pull_request: 457
+    commit: 7ef4457
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-ckr67pq9npyb
+    facts: []
+    title: 'Transports : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      Un transport est un **DSN**. Le routage dit où part chaque message, par la configuration ou par `#[AsMessage]` — la configuration
+      gagne. Un message routé **nulle part** n''est pas perdu : il est traité **tout de suite**. Une faute dans `routing` casse
+      le build ; la même dans l''attribute ne casse qu''au dispatch.'
+    courses:
+    - id: CRS-se1jr6cxh2n7
+      sections:
+      - L'essentiel
+      - Le schéma
+      - L'exemple
+      - Déclarer
+      - Router
+      - 'Non routé : traité tout de suite'
+      - Ce qui est vérifié au démarrage
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-mwn7qv4awjmn
+    date: '2026-11-05'
+    pull_request: 457
+    commit: 7ef4457
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-xgrbftkj67ds
+    facts: []
+    title: 'Code debugging : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      `dump()` affiche une valeur **et la rend** ; `dd()` affiche puis **arrête**. Avec DebugBundle, le dump va dans la debug
+      toolbar, pas dans la Response. Un `dump()` oublié en production ne casse rien de façon visible : il **corrompt** la Response.
+      Et des commands disent ce que Symfony a **retenu** de sa configuration. Le profiler web relève d''un autre item.'
+    courses:
+    - id: CRS-wf523wdsg2xp
+      sections:
+      - L'essentiel
+      - Le schéma
+      - L'exemple
+      - '`dump()` plutôt que `var_dump()`'
+      - Un `dump()` oublié en production
+      - Interroger l'application
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-f61ekqk5gns1
+    date: '2026-11-05'
+    pull_request: 457
+    commit: 7ef4457
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-rwa6m06crs1h
+    facts: []
+    title: 'Firewalls : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      Un firewall découpe les URL en zones qui s''authentifient chacune à sa façon : outils de développement, API sans session,
+      site avec form. **Un seul** firewall traite une Request : le premier dont le matcher correspond.'
+    courses:
+    - id: CRS-x5frtpg07mmd
+      sections:
+      - L'essentiel
+      - Le schéma
+      - L'exemple
+      - Un seul firewall par Request
+      - Ce qu'un firewall porte
+      - '`lazy`'
+      - '`security: false`'
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-e6tfczgn3bws
+    date: '2026-11-05'
+    pull_request: 457
+    commit: 7ef4457
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-bzkq4e7wks9a
+    facts: []
+    title: 'Request and response objects introspection : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      Le client expose **deux couches** : `getRequest()` et `getResponse()` rendent les objects **HttpFoundation** que l''application
+      a vus ; `getInternalRequest()` et `getInternalResponse()` rendent ceux du **navigateur simulé**, BrowserKit. Avant toute
+      Request, ils lèvent une exception. Après un redirect non suivi, `getRequest()` est la Request qui a redirigé.'
+    courses:
+    - id: CRS-xkp7v8142jt1
+      sections:
+      - L'essentiel
+      - Le schéma
+      - L'exemple
+      - Les deux couches
+      - Les autres objects internes
+      - Avant la première Request
+      - Introspecter la Response
+      - Introspecter la Request
+      - Après un redirect
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-9nbdv4v3q7jn
+    date: '2026-11-05'
+    pull_request: 457
+    commit: 7ef4457
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-kqm5mxq4jnkj
+    facts: []
+    title: 'Voters and voting strategies : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      Un role dit ce qu''un user **est** ; un **voter** décide sur un **object** — « l''auteur peut modifier son article ».
+      Chaque voter accorde, refuse ou s''abstient, et une **strategy** agrège les votes : à votes identiques, elle change la
+      décision.'
+    courses:
+    - id: CRS-y3g0v9nmne3t
+      sections:
+      - L'essentiel
+      - Le schéma
+      - Les deux methods, en 8.0
+      - Trois valeurs, pas deux
+      - Les quatre strategies
+      - Les deux cas limites
+      - Ce que le voter reçoit vraiment
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-ycgbh4xszvd2
+    date: '2026-11-05'
+    pull_request: 457
+    commit: 7ef4457
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-xh63g15rz6n3
+    facts: []
+    title: 'Configuration : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      `security.yaml` réunit cinq sections qui répondent chacune à une question. Deux d''entre elles, `firewalls` et `access_control`,
+      appliquent la **première** entrée qui correspond — et une erreur d''ordre passe **sans un message**.'
+    courses:
+    - id: CRS-yvhg325ax38y
+      sections:
+      - L'essentiel
+      - Le schéma
+      - L'exemple
+      - Les deux règles d'ordre
+      - '`security: false` éteint tout'
+      - Plusieurs providers
+      - Ce que l'échec révèle
+      - Vérifier
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-h2yagx21pwrp
+    date: '2026-11-05'
+    pull_request: 457
+    commit: 7ef4457
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-se21g2xv6h4r
+    facts: []
+    title: 'Crawler object (CssSelector and DomCrawler components) : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      **DomCrawler** parcourt le document et en extrait des nodes ; **CssSelector** ne parcourt rien, il **traduit** un selector
+      CSS en XPath. Chaque method de parcours rend un **nouveau `Crawler`**. `text()` et `attr()` ne lisent que le **premier**
+      node. Pour soumettre un form, on part **du bouton**.'
+    courses:
+    - id: CRS-zg5jg6hqp2mj
+      sections:
+      - L'essentiel
+      - Le schéma
+      - L'exemple
+      - Deux components, un role chacun
+      - Parcourir
+      - Extraire
+      - Cliquer et soumettre
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
   
