@@ -3942,4 +3942,1244 @@ entries:
       - Fiche express
     flashcards: []
     questions: []
-  
+  - id: CVR-jwb9k2nfapw6
+    date: '2026-11-05'
+    pull_request: 458
+    commit: 8066d6a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-gkhcbtygef69
+    facts: []
+    title: 'Service locators : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      Une class qui dispatche vers dix handlers n''en utilise qu''un par appel. Un **service locator** est un petit container
+      limité aux services qu''elle **déclare**, qui ne construit chacun qu''au `get()`. Ce n''est pas le container de l''application
+      : ses dependencies restent lisibles et vérifiées à la compilation.'
+    courses:
+    - id: CRS-0a0d5bp6769e
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'Le fil rouge : un CommandBus'
+      - 'Le cas légitime : beaucoup de dependencies, une seule utilisée'
+      - 'Ce que cela n''est pas : le container'
+      - 'La forme courte : `#[AutowireLocator]`'
+      - 'Hériter : fusionner avec le parent'
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-r7yhb15ngpxs
+    date: '2026-11-05'
+    pull_request: 458
+    commit: 8066d6a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-65sswf0qhw6c
+    facts: []
+    title: 'Input and Output objects : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre
+      questions et une Fiche express. Une command lit par `InputInterface` et écrit par `OutputInterface`, jamais par `$argv`,
+      `echo` ou `STDOUT`. Ce découplage la rend testable : la même command tourne avec `$argv`, un array ou une string. Les
+      messages de diagnostic vont sur un second flux, **`STDERR`**.'
+    courses:
+    - id: CRS-0ab7kpexq9w9
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : une command d''export'
+      - '`InputInterface` — lire'
+      - '`OutputInterface` — écrire'
+      - L'output d'erreur
+      - Tester une command
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-b6y759j23fbp
+    date: '2026-11-05'
+    pull_request: 458
+    commit: 8066d6a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-dmkbj2x94rks
+    facts: []
+    title: 'CSRF protection : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      Protection activée, un form Symfony **pose** un field caché `_token`, le **rend** par `form_end()` et le **vérifie** à
+      la submission : sans token valide, le form est soumis mais invalide, sans une ligne de code. Les tokens **avec état**
+      vivent en session ; les tokens **sans état** se valident par les headers `Origin` et `Referer`.'
+    courses:
+    - id: CRS-0yhqc0b1q7hz
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : le form `task`'
+      - Ce qui est automatique
+      - Les options du form
+      - Un identifier par form
+      - Tokens avec ou sans état
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-r5nr50ygjxcp
+    date: '2026-11-05'
+    pull_request: 458
+    commit: 8066d6a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-h2n7d7dbr56p
+    facts: []
+    title: 'Factories : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      Avec l''option `factory`, le container ne fait pas `new` : il appelle un callable — une method statique, la method d''un
+      service (`@`), un service invocable, une function. Les `arguments` vont **à la factory**, et la valeur **retournée** devient
+      le service, sans contrôle de son type.'
+    courses:
+    - id: CRS-1bkg7pkf78c7
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'Le fil rouge : un NewsletterManager'
+      - 'Les écritures : choisir selon la nature du callable'
+      - '`[null, ''create'']` : la class du service elle-même'
+      - Les arguments vont à la factory
+      - 'Ce que le container retient : la valeur retournée'
+      - Une expression comme factory
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-jmy0xe3s051g
+    date: '2026-11-05'
+    pull_request: 458
+    commit: 8066d6a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-v6wxp78gk42c
+    facts: []
+    title: 'Built-in helpers : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre
+      questions et une Fiche express. Le component fournit déjà la saisie interactive, la progress bar, les tables. À l''examen,
+      il faut savoir **qu''ils existent**, à quel besoin chacun répond, et deux comportements : sans interaction, une question
+      rend sa **default value** sans rien demander ; `SymfonyStyle` est la porte d''entrée recommandée.'
+    courses:
+    - id: CRS-3p9jdkw1nd3g
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : confirmer avant d''importer'
+      - Le catalogue
+      - Les questions
+      - La progression
+      - Le helper Table
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-wmedek5e1dvz
+    date: '2026-11-05'
+    pull_request: 458
+    commit: 8066d6a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-9x3strrjdng7
+    facts: []
+    title: 'Built-in validation constraints : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      Le catalogue ne s''apprend pas : il se range en familles. Ce qui se joue à l''examen, ce sont les distinctions — `NotBlank`
+      contre `NotNull`, `null` contre la string vide, `All` contre `Collection` — et la configuration 8.0 en **named arguments**.'
+    courses:
+    - id: CRS-569y6hb7fwj5
+      sections:
+      - L'essentiel
+      - Le schéma
+      - Les familles
+      - Les distinctions qui décident
+      - null et la string vide
+      - Configurer une constraint en 8.0
+      - Les constraints de structure
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-0eynsnzrzna5
+    date: '2026-11-05'
+    pull_request: 458
+    commit: 8066d6a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-fhpttc4c5x0k
+    facts: []
+    title: 'Forms creation : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      Un form se décrit dans une **class de type** dès qu''il sert plus d''une fois. Chaque `add()` relie un field à une property
+      **par son nom** ; `data_class` dit quelle class le form manipule. Un field sans property est déclaré `mapped: false`,
+      ou relié ailleurs par `property_path`.'
+    courses:
+    - id: CRS-8msvfwe13mpb
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : un `TaskType`'
+      - Deux endroits pour le construire
+      - '`add()` et ses trois arguments'
+      - '`data_class`'
+      - La correspondance nom ↔ property
+      - Le field non mappé
+      - Ailleurs que sous son nom
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-hevp87nvczsd
+    date: '2026-11-05'
+    pull_request: 458
+    commit: 8066d6a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-ar4h3zfskjsp
+    facts: []
+    title: 'Configuration parameters : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      `%nom%` désigne un **parameter**, résolu à la **compilation** et écrit en dur dans le container. `%env(NOM)%` désigne
+      une **variable d''environment**, lue à l''**exécution**, quand le service est construit — toujours une string, sauf processeur.
+      Un pourcent littéral se double. Et `bind` ou `#[Autowire]` injectent un scalaire sans le répéter.'
+    courses:
+    - id: CRS-8zmj5ntgdhjv
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'Le fil rouge : un `Archiver`'
+      - 'Compilation ou exécution : `%nom%` contre `%env()%`'
+      - 'Le pourcent littéral : `%%`'
+      - 'Les processeurs : convertir et composer'
+      - '`bind` et `#[Autowire]` : injecter un scalaire'
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-jrhktfc11nme
+    date: '2026-11-05'
+    pull_request: 458
+    commit: 8066d6a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-dv5400dtksfg
+    facts: []
+    title: 'Verbosity levels : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre
+      questions et une Fiche express. Une seule command sert au quotidien et au diagnostic : chaque message porte un **seuil**
+      de verbosity, et le user choisit le niveau par une option. Six niveaux en 8.0, de `--silent`, qui tait même les erreurs,
+      à `-vvv`, qui montre tout.'
+    courses:
+    - id: CRS-96c85hjezj1r
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : une command qui échoue'
+      - Les six niveaux
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-bbakbxwyt8ny
+    date: '2026-11-05'
+    pull_request: 458
+    commit: 8066d6a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-hcdrp2y7kbct
+    facts: []
+    title: 'Custom callback validators : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      `Callback` fait appeler **ta** method par le validator : elle seule décide des violations. Deux choses tombent à l''examen
+      : la signature change selon que la method est d''instance ou **statique**, et la valeur retournée est **ignorée** — seule
+      une violation ajoutée compte.'
+    courses:
+    - id: CRS-96w05v20b8w1
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : un `Author`'
+      - Le principe
+      - Les deux signatures
+      - Les formes du `callback`
+      - Ce que le callback doit faire
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-jwg1m7kevb2e
+    date: '2026-11-05'
+    pull_request: 458
+    commit: 8066d6a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-d3yp0sq36xrx
+    facts: []
+    title: 'PHP object validation : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      Les constraints d''une class se déclarent en attributes, YAML, XML ou PHP. La validation **ne descend pas** toute seule
+      dans un object imbriqué : il faut `#[Assert\Valid]` ou `#[Assert\Cascade]`. Et les constraints d''un parent **s''ajoutent**
+      à celles de l''enfant, sans jamais être remplacées.'
+    courses:
+    - id: CRS-ax2v94pgbk0g
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'Le fil rouge : un auteur et son adresse'
+      - Les quatre formats de déclaration
+      - La validation ne descend pas toute seule
+      - L'inheritance fusionne, il ne remplace pas
+      - Contraindre une class qu'on ne peut pas modifier
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-0et5pq75b84x
+    date: '2026-11-05'
+    pull_request: 458
+    commit: 8066d6a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-v7zyhcm44m88
+    facts: []
+    title: 'Form events : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      `buildForm()` s''exécute une fois, sans connaître ni l''object ni la Request. Les **cinq form events** permettent d''intervenir
+      plus tard : deux à la mise en place de la donnée initiale, trois à la submission. À chaque event, il faut savoir **quelle
+      donnée** on reçoit et si l''on peut encore **ajouter un field**.'
+    courses:
+    - id: CRS-b2pn9zz55e4n
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : pays et région'
+      - Deux moments, cinq events
+      - Ce que porte chaque event
+      - Ce que dit le code sur le verrouillage
+      - Les forms imbriqués
+      - La table de décision
+      - Comment s'abonner
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-n3zz9g4g5vtf
+    date: '2026-11-05'
+    pull_request: 458
+    commit: 8066d6a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-83sac57rw0xn
+    facts: []
+    title: 'Tags : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      Un `NotificationChain` qui nomme chaque canal doit changer à chaque nouveau canal. Un **tag** marque les services pour
+      qu''un consommateur les reçoive tous sans les connaître. Le tag ne fait **rien** seul : il faut quelque chose qui le lise.
+      On les reçoit en itérable **lazy**, ordonnés par `priority`, indexés seulement si on le demande.'
+    courses:
+    - id: CRS-b4g5s2asb9ye
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'Le fil rouge : des handlers de notification'
+      - 'Ce qu''un tag fait : un marqueur, sans effet propre'
+      - 'Recevoir les services tagués : un iterable lazy'
+      - 'Ordonner et nommer : `priority` et `index`'
+      - Poser les tags sans configuration
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-wkamt7r5qxcs
+    date: '2026-11-05'
+    pull_request: 458
+    commit: 8066d6a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-gxew257vwhm8
+    facts: []
+    title: 'Forms rendering with Twig : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      Twig rend un form à trois grains : **tout** (`form()`), **ligne par ligne** (`form_row()`), ou **pièce par pièce** (`form_label()`,
+      `form_widget()`…). Quel que soit le grain, `form_end()` rend les fields oubliés — le token CSRF compris —, et un field
+      ne se rend qu''**une fois**.'
+    courses:
+    - id: CRS-b5nj93xzz10b
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : `task_form`'
+      - Les functions
+      - Trois niveaux de contrôle
+      - Le détail qui compte
+      - Action, method, attributes
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-pkc9tr2z66f4
+    date: '2026-11-05'
+    pull_request: 458
+    commit: 8066d6a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-481gmkgbksnr
+    facts: []
+    title: 'Console component : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre
+      questions et une Fiche express. Le component Console transforme une class PHP en command de terminal, et il est **autonome**.
+      Le contrat d''une command tient en deux points : elle **retourne un int**, qui devient l''exit code du process ; et elle
+      ne peut poser de questions que si l''entrée est **interactive** — ce qu''une option, pas l''absence de terminal, décide.'
+    courses:
+    - id: CRS-brn6frfqpxxj
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : une command d''import'
+      - Ce qu'il fait
+      - Le code de retour
+      - Le cycle d'exécution
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-yvxawqq00qzs
+    date: '2026-11-05'
+    pull_request: 458
+    commit: 8066d6a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-rwavvsx2d7nq
+    facts: []
+    title: 'Group sequence : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      Une **group sequence** valide des groups **par étapes** et s''arrête à la première étape qui produit une violation : le
+      contrôle coûteux ne tourne que si le simple a réussi. Trois effets de bord tombent à l''examen : `Default` devient la
+      séquence, demander un group la contourne, et un provider la rend dynamique.'
+    courses:
+    - id: CRS-bthv5xmh5wea
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : un `User` en deux étapes'
+      - Le mécanisme
+      - 'Le premier effet de bord : `Default` change de sens'
+      - 'Le deuxième : valider un group de la séquence la contourne'
+      - 'Le troisième : la séquence peut être dynamique'
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-jnb2nasgwncq
+    date: '2026-11-05'
+    pull_request: 458
+    commit: 8066d6a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-kbg00jqxxwhq
+    facts: []
+    title: 'Custom commands : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre
+      questions et une Fiche express. En 8.0, une command est **une class ordinaire** : `#[AsCommand(name: …)]` et une method
+      `__invoke()` qui retourne un int — elle n''étend rien. C''est un service, découvert par autoconfiguration. Étendre `Command`
+      et écrire `execute()` reste valide (*legacy syntax*), et sert encore pour `initialize()`.'
+    courses:
+    - id: CRS-cb51hcng9dh5
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : créer un user'
+      - 'La forme recommandée : la command invocable'
+      - Comment Symfony la trouve
+      - La syntaxe classique, toujours valide
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-1q68jzvb7zrw
+    date: '2026-11-05'
+    pull_request: 458
+    commit: 8066d6a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-58r9dadx916v
+    facts: []
+    title: 'Data transformers : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      Un data transformer convertit une valeur entre deux couches du form, **dans les deux sens** : `transform()` du modèle
+      vers la vue, `reverseTransform()` au retour de la submission. Il s''attache au modèle ou à la vue, et signale une saisie
+      impossible par `TransformationFailedException`, sans faire planter la page.'
+    courses:
+    - id: CRS-cj36gys6vatx
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : un numéro d''issue'
+      - L'interface
+      - Deux niveaux d'attachement
+      - L'ordre d'une chaîne de transformers
+      - Signaler un échec
+      - Valeurs vides
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-sknms5h8hkze
+    date: '2026-11-05'
+    pull_request: 458
+    commit: 8066d6a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-j6tqs8s8f54f
+    facts: []
+    title: 'Handling file upload : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      L''entité stocke le **nom** d''un file ; le form reçoit un **file** téléversé. Le field `FileType` est donc déclaré `mapped:
+      false`, porte ses propres constraints, et le controller lit le file sur le form avant de le déplacer et d''écrire le nom
+      sur l''entité.'
+    courses:
+    - id: CRS-cpvcczhj7bzx
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : la brochure'
+      - Le field
+      - Récupérer le file
+      - Ce que `FileType` écarte
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-15dj9ddp1rhb
+    date: '2026-11-05'
+    pull_request: 458
+    commit: 8066d6a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-0wnxbapegqhv
+    facts: []
+    title: 'Violations builder : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      Le contexte d''exécution signale une violation de deux façons : directement, ou par un **builder** qu''on configure —
+      field visé, code, parameters — puis qu''on **enregistre** par `addViolation()`. L''oubli de ce dernier appel est le piège
+      central : la règle échoue, et la validation passe.'
+    courses:
+    - id: CRS-d235sja3h7y2
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : une adresse déjà réservée'
+      - Les deux façons
+      - Le builder n'écrit rien tout seul
+      - Ce que l'on peut régler
+      - Les emplacements du message
+      - Une constraint sur mesure
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-9m3trktvdc4n
+    date: '2026-11-05'
+    pull_request: 458
+    commit: 8066d6a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-3y0b9gxyandm
+    facts: []
+    title: 'Compiler passes : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      Une passe modifie le container **pendant sa compilation** : elle manipule des **definitions**, jamais des objects. Elle
+      s''enregistre dans un bundle ou dans le kernel, à une **étape** et une **priority** — et l''étape décide de ce qu''elle
+      voit encore. Elle ne s''exécute qu''une fois, à la compilation.'
+    courses:
+    - id: CRS-d25bvr0097py
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'Le fil rouge : une chaîne de handlers'
+      - Ce qu'une passe est
+      - Où l'enregistrer
+      - Les cinq étapes
+      - Ce que l'étape rend visible
+      - Passe ou configuration
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-0faxtydq4xk0
+    date: '2026-11-05'
+    pull_request: 458
+    commit: 8066d6a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-qj4xfkhwdrx7
+    facts: []
+    title: 'Semantic configuration : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      Un bundle a deux moitiés : un **arbre** qui déclare et **valide** ses keys, une **extension** qui traduit la configuration
+      validée en services. Une key inconnue est une erreur. Le tout ne s''exécute qu''à la **compilation**. Et un bundle peut
+      configurer un autre bundle par **prepend**, l''application gardant le dernier mot.'
+    courses:
+    - id: CRS-exs5dvtqa1as
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'Le fil rouge : un `AcmeSocialBundle`'
+      - 'Les deux moitiés : l''arbre et l''extension'
+      - 'Une key inconnue est une erreur : ce que l''exécution montre'
+      - Requis ou par défaut, pas les deux
+      - 'La forme moderne : `AbstractBundle`, à la compilation'
+      - 'Configurer un autre bundle : le prepend'
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-zzgte3p5b28x
+    date: '2026-11-05'
+    pull_request: 458
+    commit: 8066d6a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-5xvjqa4203xe
+    facts: []
+    title: 'Form types (built-in and custom) : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      Un form **est** un type, comme chacun de ses fields. Pour réutiliser un type, trois voies : le **spécialiser** (`getParent()`
+      : on hérite et on change quelques options), le **composer** (`add()` : il devient un field, ses données s''imbriquent),
+      le **répéter** (`CollectionType`).'
+    courses:
+    - id: CRS-f9pen0bdyrr9
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : l''achat'
+      - Ce qu'est un type
+      - Les six methods
+      - '`getParent()` : spécialiser un type existant'
+      - Composer plutôt qu'étendre
+      - Une collection de types
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-nya8fmg5h9zm
+    date: '2026-11-05'
+    pull_request: 458
+    commit: 8066d6a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-adhs2ny9hc5f
+    facts: []
+    title: 'Service decoration : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      Un decorator **prend la place** d''un service sous **son identifier** : ses consommateurs le reçoivent sans changer une
+      ligne. L''original n''est pas perdu : il devient `.inner`. Empilés, les decorators s''appliquent de la plus haute priority
+      à la plus basse — la plus basse finit **à l''extérieur**.'
+    courses:
+    - id: CRS-fkebqqqke5y5
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'Le fil rouge : un `LoggingMailer`'
+      - 'Le mécanisme : prendre la place, garder l''identifier'
+      - '`.inner` : l''original n''est pas perdu'
+      - 'Empiler des decorators : l''ordre contre-intuitif'
+      - Si la cible n'existe pas
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-2jgdsyge4jrs
+    date: '2026-11-05'
+    pull_request: 458
+    commit: 8066d6a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-stze9x4aydp3
+    facts: []
+    title: 'Services registration (YAML and PHP attributes) : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      Une class de `src/` devient un service par trois mécanismes distincts : **découvrir** (`resource`), **câbler** (`autowire`),
+      **configurer** (`autoconfigure`). Une déclaration explicite complète la definition découverte — à condition d''être écrite
+      **dessous**. `_defaults` ne vaut que pour son block. Et des attributes décident depuis la class.'
+    courses:
+    - id: CRS-g8fteyd38nrt
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'Le fil rouge : un `Archiver` et son subscriber'
+      - 'Trois mécanismes : découvrir, câbler, configurer'
+      - 'Le cas explicite : des named arguments'
+      - Le scope de `_defaults`
+      - 'Déclarer depuis la class : les attributes'
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-pbzyjaqtktm4
+    date: '2026-11-05'
+    pull_request: 458
+    commit: 8066d6a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-92ctf3sy3ddk
+    facts: []
+    title: 'Dependency Injection component : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      Une class **reçoit** ses dependencies au lieu de les fabriquer ou de les demander au container. Elle les reçoit par l''une
+      des **quatre** formes d''injection, selon que la dependency est obligatoire ou facultative. Le component, autonome, décrit
+      les services, puis les **compile** : un container figé, d''où l''on ne fait qu''un `get()`, à l''entry point.'
+    courses:
+    - id: CRS-htvm3b1gas0d
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'Le fil rouge : un `NewsletterManager` et son `Mailer`'
+      - 'Injecter ou récupérer : la distinction de fond'
+      - Les quatre formes d'injection
+      - Le component seul, ligne par ligne
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-naemrfyac397
+    date: '2026-11-05'
+    pull_request: 458
+    commit: 8066d6a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-dy7108w6bf4z
+    facts: []
+    title: 'Built-in services : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      Les services que tu n''as jamais déclarés viennent des **bundles** installés — FrameworkBundle d''abord —, chacun avec
+      le **type** sous lequel il s''injecte. Pas de liste à apprendre : `debug:autowiring` dit quel type écrire. Un service
+      manque si son bundle est absent ou sa section désactivée.'
+    courses:
+    - id: CRS-jtkmpfp3nwzk
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'Le fil rouge : un `InvoiceMailer`'
+      - D'où viennent les services intégrés
+      - 'Trouver le bon type : `debug:autowiring`'
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-y2hzq3armwyg
+    date: '2026-11-05'
+    pull_request: 458
+    commit: 8066d6a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-gcs0jathkv9b
+    facts: []
+    title: 'Form type extensions : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      Une **form type extension** greffe un comportement sur un type existant — `TextType`, `FileType`, un type de bundle —
+      partout dans l''application, sans toucher un seul form. Un type crée un nouveau field ; une extension modifie ceux qui
+      existent. Elle suit l''**inheritance** des types : elle atteint leurs descendants, pas leurs frères.'
+    courses:
+    - id: CRS-k4ejsd624d1p
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : `help_icon`'
+      - Le principe
+      - La seule method obligatoire
+      - Qui est touché, et quand
+      - L'enregistrement
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-krameaf7pg3t
+    date: '2026-11-05'
+    pull_request: 458
+    commit: 8066d6a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-mgvdw7cfpwyz
+    facts: []
+    title: 'Forms handling : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      Une seule action affiche et traite le form : `handleRequest()` soumet le form **seulement** si la Request lui est destinée,
+      puis le garde `isSubmitted() && isValid()` décide entre le redirect et le rendu. Après une submission, l''object est **déjà
+      à jour**. `submit($data, false)` garde les fields absents, sans les dispenser des constraints de la class.'
+    courses:
+    - id: CRS-nfkzx2s1n3r3
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : une `Task`'
+      - Le pattern recommandé
+      - Quand `handleRequest()` soumet-il ?
+      - L'ordre des deux tests
+      - L'object est déjà à jour
+      - '`submit()`, pour le contrôle fin'
+      - '`clearMissing` et la validation'
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-mca150wxt9be
+    date: '2026-11-05'
+    pull_request: 458
+    commit: 8066d6a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-79f4n087b66c
+    facts: []
+    title: 'Service container : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      Le container garde des **definitions**, pas des objects : un service est construit au **premier usage**, puis partagé.
+      Il est **privé** par défaut — injectable, mais pas récupérable par `get()`. Un **alias** rend une interface injectable.
+      Et le container est **compilé** en une class PHP : sans debug, la configuration n''est pas relue.'
+    courses:
+    - id: CRS-p1694d5f7r8c
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'Le fil rouge : `PhpMailer`, `MailerInterface` et la `Newsletter`'
+      - 'Ce que le container contient : des definitions'
+      - 'Public ou privé : trois questions'
+      - 'L''alias : un second identifier'
+      - 'La compilation : pourquoi la configuration n''est pas relue'
+      - Inspecter le container
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-0wxdvhrqghfv
+    date: '2026-11-05'
+    pull_request: 458
+    commit: 8066d6a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-rj9web4whgmz
+    facts: []
+    title: 'Form options (OptionsResolver component) : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      `OptionsResolver` remplace un array d''options brut par une **déclaration** : quelles options existent, lesquelles sont
+      requises, leurs défauts, leurs types et valeurs permis. Une faute de frappe lève une exception au lieu de passer en silence.
+      C''est le mécanisme de `configureOptions()` dans un form type.'
+    courses:
+    - id: CRS-pchb259hnbh3
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : `PriceType`'
+      - Le problème résolu
+      - Les methods
+      - Options lazy
+      - Validation, puis normalization
+      - Options imbriquées
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-2qcrxbfxj5xq
+    date: '2026-11-05'
+    pull_request: 458
+    commit: 8066d6a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-nr9m883d15qq
+    facts: []
+    title: 'Options and arguments (using PHP attributes) : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre
+      questions et une Fiche express. Un **argument** est positionnel (`app:greet Alice`), une **option** est nommée (`--iterations=5`).
+      En 8.0, `#[Argument]` et `#[Option]` se posent sur les parameters de `__invoke()`, et le mode — requis, optionnel, array,
+      drapeau — se **déduit de la signature** : type et default value.'
+    courses:
+    - id: CRS-q2dxjhx6d35k
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : saluer'
+      - Déclarer
+      - Le mode d'une option
+      - L'équivalent classique
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-s7nbrzwrn65v
+    date: '2026-11-05'
+    pull_request: 458
+    commit: 8066d6a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-j2vjdxcer4ft
+    facts: []
+    title: 'Forms theming : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      Le rendu d''un form est fait de **blocks Twig** ; un theme en redéfinit quelques-uns. Pour chaque field, le rendu cherche
+      le block **du plus précis au plus vague** le long de sa lignée de types, et parcourt les themes **du dernier au premier**.
+      Tout se joue sur le bon nom de block, au bon endroit.'
+    courses:
+    - id: CRS-r3xywnpwrwh7
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : le form `user`'
+      - Les parties d'un field
+      - La chaîne de recherche
+      - Cibler un field, ou plusieurs fields
+      - Où appliquer un theme
+      - Trois exemples documentés qui échouent
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-t01rq9r3yyge
+    date: '2026-11-05'
+    pull_request: 458
+    commit: 8066d6a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-zgq6w4jqamvb
+    facts: []
+    title: 'Built-in commands : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre
+      questions et une Fiche express. Aucune liste à apprendre : `bin/console` sans argument exécute `list`, et `help` détaille
+      une command. À l''examen, il faut reconnaître les familles — `debug:*` inspecte, `cache:*` vide, `lint:*` valide —, savoir
+      abréger un nom, et se rappeler qu''une command vise `dev` par défaut.'
+    courses:
+    - id: CRS-rk0fkn1q5byc
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : vider le cache de production'
+      - Les familles
+      - L'abréviation
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-7x74gyeh52n6
+    date: '2026-11-05'
+    pull_request: 458
+    commit: 8066d6a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-1hdmw4gm819r
+    facts: []
+    title: 'Configuration : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre
+      questions et une Fiche express. L''identité d''une command — nom, description, aide, usages, alias, visibilité — se déclare
+      dans **`#[AsCommand]`**, dont seul `name` est obligatoire. La déclarer là permet à Symfony de la lire **sans construire
+      la class**. Le style classique la pose dans `configure()`, qui tourne **dans le constructor**.'
+    courses:
+    - id: CRS-sf3701ncg2va
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : créer un user'
+      - Tout dans l'attribute
+      - Les alias
+      - La method `configure()`
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-n0tqydtt1p0a
+    date: '2026-11-05'
+    pull_request: 458
+    commit: 8066d6a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-tsxxgp3ppj1n
+    facts: []
+    title: 'Form component : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      Un navigateur n''envoie que du texte ; une application manipule des objects. Le component Form convertit dans les deux
+      sens à travers **trois couches** : **model** (le format de l''application), **normalized** (un format pivot), **view**
+      (des strings). Il est autonome : utilisable sans FrameworkBundle.'
+    courses:
+    - id: CRS-txp6tjhjtfy8
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : l''échéance d''une tâche'
+      - Le problème résolu
+      - Les trois couches de données
+      - Les deux sens
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-nxzj92kbf8tq
+    date: '2026-11-05'
+    pull_request: 458
+    commit: 8066d6a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-kkhb3wd341ex
+    facts: []
+    title: 'Validation groups : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      Un **group** est un nom posé sur une constraint ; à la validation, on choisit les noms à appliquer. Sans group demandé,
+      **seul `Default`** s''applique. Et chaque class a deux groups que personne n''écrit : `Default` et **le nom de la class**
+      — identiques, sauf sur les objects imbriqués.'
+    courses:
+    - id: CRS-vskyr5zdwr2t
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : un `User` à deux usages'
+      - Les groups implicites
+      - Valider avec un group
+      - '`Default` contre le nom de la class'
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-7dzjf0am8qmb
+    date: '2026-11-05'
+    pull_request: 458
+    commit: 8066d6a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-wm3qdqemtap9
+    facts: []
+    title: 'Services autowiring : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      L''autowiring remplit un argument **par son type** : il cherche un service dont l''identifier est ce type. Une interface
+      n''est le nom d''aucun service : il faut un **alias**, créé seul tant qu''il n''existe qu''**une** implémentation. Au-delà,
+      on départage par un alias, un alias nommé ou `#[Target]`. Un scalaire, lui, ne se devine jamais.'
+    courses:
+    - id: CRS-w6yfxm6ad4zy
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'Le fil rouge : deux transformers'
+      - 'La règle, en une phrase : par le type'
+      - Pourquoi une interface a besoin d'un alias
+      - Trois façons de départager
+      - Ce que `#[Target]` attend
+      - Câbler ce qui n'est pas un service
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-jfr7dx4gdbqw
+    date: '2026-11-05'
+    pull_request: 458
+    commit: 8066d6a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-6wd8860brzfy
+    facts: []
+    title: 'Validator component : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      Le Validator confronte une valeur à des **constraints** et rend toujours une **liste de violations** — vide si tout va
+      bien, jamais un bool. Une donnée invalide ne lève rien ; une constraint mal configurée, si. Hors framework, `createValidator()`
+      **ne lit pas** les attributes.'
+    courses:
+    - id: CRS-way4aktj2d5m
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'Le fil rouge : un `User` et son adresse'
+      - Les trois manières de valider
+      - 'Ce qu''il retourne : une liste, jamais un bool'
+      - Donnée invalide ou configuration invalide
+      - Deux raccourcis de `Validation`
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-0fg9d83mc3ey
+    date: '2026-11-05'
+    pull_request: 458
+    commit: 8066d6a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-ttwpe00f32q9
+    facts: []
+    title: 'Validation scopes : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      Une constraint se pose à trois endroits : une **property** (la valeur stockée), un **accessor** (une valeur calculée par
+      une method `get`, `is` ou `has`) ou la **class** (l''object entier, seul endroit qui voit plusieurs properties à la fois).
+      La visibilité ne compte jamais.'
+    courses:
+    - id: CRS-wzmrks85zyh1
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : un `Author`'
+      - Les trois cibles
+      - La property
+      - L'accessor
+      - La class
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-wmvejgg21sg8
+    date: '2026-11-05'
+    pull_request: 458
+    commit: 8066d6a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-cqs3m73y3rpy
+    facts: []
+    title: 'Console events : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre
+      questions et une Fiche express. La Console dispatche des events autour de chaque command — **avant** (`COMMAND`), **en
+      cas d''erreur** (`ERROR`), **après** (`TERMINATE`), **à un signal** (`SIGNAL`) — mais seulement si l''`Application` a
+      un dispatcher. `TERMINATE` est toujours atteint, et l''exit code final est celui qu''il porte.'
+    courses:
+    - id: CRS-y0zc67f3e5zk
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : journaliser chaque command'
+      - Quatre constantes, cinq events
+      - L'ordre réel
+      - '`ERROR` — rattraper'
+      - '`SIGNAL` — pendant'
+      - L'alarme
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-epgq7jp0tptj
+    date: '2026-11-05'
+    pull_request: 458
+    commit: 8066d6a
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-p810t98zedem
+    facts: []
+    title: 'Built-in form types : cours raccourci, au format court'
+    now: 'La page est raccourcie au format court : chaque règle énoncée une fois, un QCM de quatre questions et une Fiche express.
+      Symfony fournit une quarantaine de types, rangés par **familles** dans la documentation. Mais c''est la **lignée** — `getParent()`
+      — qui décide du rendu et des extensions : les types numériques, rangés sous « texte », n''héritent pas de `TextType`,
+      et les boutons ne descendent pas de `FormType`.'
+    courses:
+    - id: CRS-zsgx3tvpy1kn
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : l''inscription'
+      - Le catalogue
+      - Limites de périmètre
+      - Une famille n'est pas une lignée
+      - La famille des choix
+      - '`RepeatedType`'
+      - Les boutons
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-ssp7gbsnk95g
+    date: '2026-11-05'
+    pull_request: 458
+    commit: 8066d6a
+    kind: CORRECTION
+    finding: ADR-0012
+    official_items:
+    - OIT-65sswf0qhw6c
+    facts: []
+    title: 'Input and Output objects : le libellé de `SymfonyStyle::ask()` reste dans `getDisplay()`'
+    was: « Avec `capture_stderr_separately`, ce qu'écrit `getErrorStyle()`, et le libellé d'une question, passent dans `getErrorOutput()`
+      au lieu de `getDisplay()`. » — sans distinguer qui pose la question.
+    now: Avec `capture_stderr_separately`, ce qu'écrit `getErrorStyle()` passe dans `getErrorOutput()`, comme le libellé d'une
+      question de `QuestionHelper` ; celui de `SymfonyStyle::ask()` reste dans `getDisplay()`. Exécuté avec Console 8.0.
+    courses:
+    - id: CRS-0ab7kpexq9w9
+      sections:
+      - Tester une command
+    flashcards: []
+    questions: []
