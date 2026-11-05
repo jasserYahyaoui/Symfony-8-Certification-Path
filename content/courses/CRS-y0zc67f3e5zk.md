@@ -6,6 +6,7 @@ content_level: STANDARD
 language: fr
 verification_status: VERIFIED
 reviewed_at: "2026-10-09"
+format: pedagogical
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/ConsoleEvents.php"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/ConsoleEvents.php"
@@ -70,29 +71,14 @@ outcome_sections:
 Intervenir autour de l'exécution d'une command sans la modifier : journaliser,
 mesurer, empêcher, rattraper une erreur.
 
-## Prérequis
+## L'essentiel
 
-Le cycle d'une command, et le dispatcher d'events.
+La Console dispatche des events autour de chaque command — **avant**
+(`COMMAND`), **en cas d'erreur** (`ERROR`), **après** (`TERMINATE`), **à un
+signal** (`SIGNAL`) — mais seulement si l'`Application` a un dispatcher.
+`TERMINATE` est toujours atteint, et l'exit code final est celui qu'il porte.
 
-## Quatre constantes, cinq events
-
-`ConsoleEvents` déclare **quatre** events — et une cinquième constante,
-`ALIASES`, qui associe chaque class d'event à son nom pour que l'on puisse
-s'abonner par la class. Un cinquième event, `ConsoleAlarmEvent`, n'a pas de
-constante (voir *L'alarme*) :
-
-| Constante | Valeur | Quand |
-|---|---|---|
-| `COMMAND` | `console.command` | avant l'exécution |
-| `SIGNAL` | `console.signal` | à la réception d'un signal POSIX |
-| `ERROR` | `console.error` | une exception ou une erreur est remontée |
-| `TERMINATE` | `console.terminate` | après l'exécution, quoi qu'il arrive |
-
-Ils ne sont dispatchés que si l'`Application` possède un dispatcher. Dans une
-application Symfony, FrameworkBundle le lui donne ; une `Application` construite
-à la main ne dispatche rien tant qu'on n'a pas appelé `setDispatcher()`.
-
-## L'ordre réel
+## Le schéma
 
 ```mermaid
 ---
@@ -115,98 +101,7 @@ flowchart TD
   OUT -->|"non"| CODE(["rend le code de l'event"])
 ```
 
-Le point que l'examen teste : **`TERMINATE` est toujours atteint**, y compris
-après une erreur. C'est donc le seul endroit fiable pour libérer une ressource
-ou mesurer une durée d'exécution.
-
-Exécuté avec Console 8.0.15, une `Application` munie d'un dispatcher :
-
-| Cas | Events | Code |
-|---|---|---|
-| succès | `COMMAND`, exécution, `TERMINATE:0` | 0 |
-| `disableCommand()` | `COMMAND`, **`TERMINATE:113`** — pas d'exécution | 113 |
-| exception | `COMMAND`, exécution, `ERROR`, `TERMINATE:1` | 1 |
-| exception, `setExitCode(0)` sur `ERROR` | … `ERROR`, `TERMINATE:0` | 0 |
-| succès, `setExitCode(1)` sur `TERMINATE` | … `TERMINATE:0` | **1** |
-| `__invoke(): void` | … `ERROR` (`TypeError`), `TERMINATE:1` | `TypeError` relancée |
-| exception, **sans** dispatcher | exécution seule | 1 |
-
-## `COMMAND` — avant
-
-`ConsoleCommandEvent` donne accès à la command, à l'entrée et à l'output avant
-qu'elles ne lui soient passées. On peut donc y ajouter une option, forcer une
-verbosity — ou empêcher l'exécution :
-
-```php
-$event->disableCommand();
-```
-
-La command n'est alors pas lancée, et le process sort avec le code
-`ConsoleCommandEvent::RETURN_CODE_DISABLED`, qui vaut **113**. Cette valeur
-particulière permet de distinguer « refusée » de « échouée » (1).
-
-## `ERROR` — rattraper
-
-`ConsoleErrorEvent` porte l'erreur et l'exit code :
-
-```php
-$event->getError();
-$event->setError(new \RuntimeException('message plus clair'));
-$event->setExitCode(0);
-```
-
-`setExitCode(0)` a un effet fort : l'`Application` considère alors qu'il n'y a
-plus d'erreur à propager, et l'exception est abandonnée. C'est le mécanisme qui
-permet de traiter une erreur attendue sans faire échouer le process.
-
-`ERROR` couvre tout `Throwable` — les erreurs PHP autant que les exceptions.
-Exécuté : une `TypeError` déclenche `ERROR` puis `TERMINATE`, et n'est relancée
-qu'ensuite ; c'est `Application::run()`, qui n'attrape pas les `Error` par
-défaut, qui la laisse remonter.
-
-## `TERMINATE` — après
-
-`ConsoleTerminateEvent` porte l'exit code et permet de le remplacer :
-
-```php
-$event->getExitCode();
-$event->setExitCode(1);
-```
-
-Le code final du process est celui que porte cet event **après** le
-dispatch, pas celui qu'a retourné la command. Un listener de `TERMINATE` peut
-donc transformer un succès en échec, et réciproquement.
-
-Il expose aussi `getInterruptingSignal()` : non nul quand la command a été
-interrompue par un signal.
-
-## `SIGNAL` — pendant
-
-Avec un dispatcher, l'`Application` intercepte `SIGINT`, `SIGQUIT`, `SIGTERM`,
-`SIGUSR1`, `SIGUSR2` et `SIGALRM`. Exécuté avec Console 8.0, une command qui
-reçoit `SIGINT` :
-
-| Situation | Résultat |
-|---|---|
-| aucun listener ne change le code | `SIGNAL`, `TERMINATE` (`getInterruptingSignal()` = 2), sortie en code **0** |
-| `abortExit()` sur `SIGNAL` | la command continue |
-| `setExitCode(3)` sur `SIGNAL` | sortie en code 3 |
-| `handleSignal()` d'une `SignalableCommandInterface` rend 5 | il reçoit le code courant (0) ; sortie en code 5 |
-| `handleSignal()` rend `false` | la command continue |
-| ni dispatcher ni command signalable | rien n'intercepte : PHP meurt du signal |
-
-L'ordre : `SIGNAL`, puis `handleSignal()`, puis `TERMINATE` et `exit()`.
-
-## L'alarme
-
-`Application::setAlarmInterval(10)` programme un `SIGALRM` toutes les 10 s.
-Chacun dispatche `SIGNAL`, puis `ConsoleAlarmEvent` sous son **nom de class**.
-Le code par défaut reste 0 : sans `abortExit()` dans un listener, la
-**première alarme termine la command** — exécuté. Il faut l'extension `pcntl`.
-
-## S'abonner
-
-Comme pour tout autre event :
+## L'exemple : journaliser chaque command
 
 ```php
 class CommandLogger implements EventSubscriberInterface
@@ -215,8 +110,71 @@ class CommandLogger implements EventSubscriberInterface
     {
         return [ConsoleEvents::TERMINATE => 'onTerminate'];
     }
+
+    public function onTerminate(ConsoleTerminateEvent $event): void
+    {
+        $this->logger->info($event->getCommand()?->getName().' → '.$event->getExitCode());
+    }
 }
 ```
+
+## Quatre constantes, cinq events
+
+| Constante | Valeur | Quand |
+|---|---|---|
+| `COMMAND` | `console.command` | avant l'exécution |
+| `SIGNAL` | `console.signal` | à la réception d'un signal POSIX |
+| `ERROR` | `console.error` | une exception ou une erreur est remontée |
+| `TERMINATE` | `console.terminate` | après l'exécution, quoi qu'il arrive |
+
+`ConsoleEvents` déclare aussi une cinquième constante, `ALIASES`, qui associe
+chaque class d'event à son nom. Un cinquième event, `ConsoleAlarmEvent`, n'a pas de constante.
+FrameworkBundle donne un dispatcher à l'`Application` ; construite à la main,
+elle ne dispatche rien sans `setDispatcher()`.
+
+## L'ordre réel
+
+| Cas | Events | Code |
+|---|---|---|
+| succès | `COMMAND`, exécution, `TERMINATE:0` | 0 |
+| `disableCommand()` sur `COMMAND` | `COMMAND`, **`TERMINATE:113`** — pas d'exécution | 113 |
+| exception | `COMMAND`, exécution, `ERROR`, `TERMINATE:1` | 1 |
+| exception, `setExitCode(0)` sur `ERROR` | … `ERROR`, `TERMINATE:0` | 0 |
+| succès, `setExitCode(1)` sur `TERMINATE` | … `TERMINATE:0` | **1** |
+| exception, **sans** dispatcher | exécution seule | 1 |
+
+- `ConsoleCommandEvent::RETURN_CODE_DISABLED` vaut **113** : « refusée », pas
+  « échouée ».
+- `TERMINATE` est le seul endroit fiable pour libérer une ressource ou mesurer
+  une durée.
+
+## `ERROR` — rattraper
+
+`ConsoleErrorEvent` : `getError()`, `setError()`, `setExitCode()`.
+`setExitCode(0)` fait abandonner l'erreur : l'exception n'est pas propagée.
+`ERROR` couvre tout `Throwable` : une `TypeError` déclenche `ERROR` puis
+`TERMINATE`, et n'est relancée qu'ensuite.
+
+## `SIGNAL` — pendant
+
+Avec un dispatcher, l'`Application` intercepte `SIGINT`, `SIGQUIT`,
+`SIGTERM`, `SIGUSR1`, `SIGUSR2` et `SIGALRM`. Ordre : `SIGNAL`, puis
+`handleSignal()` d'une `SignalableCommandInterface`, puis `TERMINATE` et
+`exit()`.
+
+| Situation | Résultat |
+|---|---|
+| aucun listener ne change le code | sortie en code **0**, `getInterruptingSignal()` = 2 |
+| `abortExit()` sur `SIGNAL`, ou `handleSignal()` rend `false` | la command continue |
+| `setExitCode(3)` sur `SIGNAL` | sortie en code 3 |
+| ni dispatcher ni command signalable | PHP meurt du signal |
+
+## L'alarme
+
+`Application::setAlarmInterval(10)` programme un `SIGALRM` toutes les 10 s,
+qui dispatche `SIGNAL` puis `ConsoleAlarmEvent` sous son nom de class. Sans
+`abortExit()` dans un listener, la **première alarme termine la command**.
+Il faut l'extension `pcntl`.
 
 ## Pièges d'examen
 
@@ -234,18 +192,99 @@ quand même dispatché.
 
 **Pas de dispatcher, pas d'events** : une `Application` autonome est muette.
 
-## Points clés
+## Application
 
-- `COMMAND`, `SIGNAL`, `ERROR`, `TERMINATE` — quatre events déclarés par
-  `ConsoleEvents`, plus la table `ALIASES` ; `ConsoleAlarmEvent` sans constante.
-- Un signal intercepté sort en code 0, sauf `abortExit()` ou `handleSignal()` à `false`.
-- Ordre : `COMMAND` → exécution → (`ERROR`) → `TERMINATE`, toujours.
-- `disableCommand()` empêche l'exécution et sort avec 113.
-- `ERROR` peut remplacer l'erreur ou l'annuler par `setExitCode(0)`.
-- L'exit code final est celui porté par `TERMINATE`.
+- Interdire une command en production → `disableCommand()` sur `COMMAND` ;
+  le script lit le code 113.
+- Une erreur attendue qui ne doit pas faire échouer un `cron` →
+  `setExitCode(0)` sur `ERROR`.
+
+## QCM d'entraînement
+
+**Question 1.** Un listener de `console.command` appelle `disableCommand()`.
+Quel est l'exit code, et `console.terminate` est-il dispatché ?
+
+- **A.** 0, sans `console.terminate`
+- **B.** 113, avec `console.terminate`
+- **C.** 1, et `console.terminate` est dispatché
+- **D.** 113, sans `console.terminate`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** La command n'est pas exécutée, le code vaut
+`RETURN_CODE_DISABLED`, et `TERMINATE` est atteint dans tous les cas.
+
+</details>
+
+**Question 2.** Une command lève une exception ; un listener de
+`console.error` appelle `setExitCode(0)`. Que se passe-t-il ?
+
+- **A.** L'exception est relancée, avec le code 0
+- **B.** L'exception est relancée, avec le code 1
+- **C.** `console.terminate` n'est pas dispatché
+- **D.** L'exception est abandonnée, code 0
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : D.** Le code 0 signifie qu'il n'y a plus d'erreur à
+propager ; `TERMINATE` est dispatché avec ce code.
+
+</details>
+
+**Question 3.** Une `Application` est construite à la main, sans
+`setDispatcher()`, avec un listener déclaré par ailleurs. Une command lève une
+exception. Quels events sont dispatchés ?
+
+- **A.** Aucun
+- **B.** `console.error` seulement
+- **C.** `console.command`, `console.error` et `console.terminate`
+- **D.** `console.terminate` seulement
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : A.** Sans dispatcher, l'`Application` exécute la command
+seule ; le process sort en 1, sans aucun event.
+
+</details>
+
+**Question 4.** Une `Application` munie d'un dispatcher exécute une command
+longue, qui reçoit `SIGINT`. Aucun listener ne change le code. Quel exit
+code ?
+
+- **A.** 130, la convention du shell
+- **B.** 2, le numéro du signal
+- **C.** 0
+- **D.** 1, comme une erreur
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : C.** Le signal intercepté dispatche `SIGNAL` puis
+`TERMINATE` ; le code par défaut reste 0, et `getInterruptingSignal()` vaut 2.
+
+</details>
+
+## Fiche express
+
+**Si tu dois retenir seulement 7 choses :**
+
+- **Quatre constantes** (`COMMAND`, `SIGNAL`, `ERROR`, `TERMINATE`), **cinq
+  events** avec `ConsoleAlarmEvent`.
+- **Pas de dispatcher, pas d'events.**
+- `TERMINATE` est **toujours** dispatché ; son code est le code final.
+- `disableCommand()` → **113**.
+- `setExitCode(0)` sur `ERROR` **avale** l'exception.
+- Un signal intercepté sort en **0**, sauf `abortExit()` ou un autre code.
+- `setAlarmInterval()` : la première alarme **termine**, sans `abortExit()`.
+
+Moyen mnémotechnique : **« Avant, erreur, après — et toujours après »**.
 
 ## Sources officielles
 
 - [`ConsoleEvents`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/ConsoleEvents.php)
 - [`Application::doRunCommand`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Application.php)
 - [Using Events](https://github.com/symfony/symfony-docs/blob/8.0/components/console/events.rst)
+

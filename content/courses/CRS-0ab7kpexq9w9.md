@@ -6,6 +6,7 @@ content_level: STANDARD
 language: fr
 verification_status: VERIFIED
 reviewed_at: "2026-10-26"
+format: pedagogical
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Input/InputInterface.php"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Input/InputInterface.php"
@@ -58,148 +59,89 @@ Lire l'entrée et écrire l'output par les deux abstractions du component, sans
 jamais toucher `$argv`, `echo` ni `STDOUT` directement. C'est ce découplage qui
 rend une command testable.
 
-## Prérequis
+## L'essentiel
 
-Les arguments et les options.
+Une command lit par `InputInterface` et écrit par `OutputInterface`, jamais
+par `$argv`, `echo` ou `STDOUT`. Ce découplage la rend testable : la même
+command tourne avec `$argv`, un array ou une string. Les messages de
+diagnostic vont sur un second flux, **`STDERR`**.
 
-## `InputInterface` — lire
+## Le schéma
 
-```php
-$input->getArgument('username');   // une valeur positionnelle
-$input->getOption('iterations');   // une valeur nommée
-$input->hasOption('dry-run');      // l'option est-elle définie ?
-$input->getArguments();            // toutes, en tableau
-$input->isInteractive();           // faux avec -n, -q ou --silent
+```text
+entrée   ArgvInput ($argv) │ ArrayInput (tests, appel interne) │ StringInput  ──► InputInterface
+         getArgument() / getOption() : valeurs ; hasOption() : DÉCLARÉE ? ; hasParameterOption() : ligne brute
+sortie   OutputInterface ── write() / writeln() ── formateur : <info> <comment> <question> <error>
+         ConsoleOutputInterface::getErrorOutput() ──► STDERR (diagnostic, hors des données redirigées)
+tests    CommandTester : la command seule, sans event │ ApplicationTester : par l'Application, avec events
 ```
 
-`setArgument()` et `setOption()` existent aussi : c'est ainsi qu'`interact()`
-complète une valeur manquante avant l'exécution.
-
-Deux distinctions à ne pas confondre :
-
-- `hasOption('x')` demande si l'option est **déclarée** dans la definition ;
-  `getOption('x')` rend sa valeur, éventuellement la default value.
-- `hasParameterOption('--x')` regarde la **ligne de command brute**, avant
-  toute analyse. C'est ce qu'il faut quand l'option n'est pas encore déclarée —
-  le cas de `--env` lu avant la construction du kernel.
-
-Exécuté avec Console 8.0.15, une option `--dry-run` déclarée :
-
-| Entrée | `hasOption('dry-run')` | `getOption('dry-run')` |
-|---|---|---|
-| `--dry-run` | `true` | `true` |
-| rien | **`true`** | `false` |
-
-Et `ArgvInput(['bin', '--env=prod'])` **sans definition** :
-`hasParameterOption('--env')` vaut `true`, `getParameterOption('--env')` vaut
-`'prod'`.
-
-`isInteractive()` ne teste pas le terminal : l'entrée n'est non interactive
-qu'avec `-n`, `-q` ou `--silent` (voir *Console component*).
-
-## Les implémentations
-
-| Class | Source des valeurs |
-|---|---|
-| `ArgvInput` | `$argv` — l'exécution réelle en terminal |
-| `ArrayInput` | un array PHP — les tests, et l'appel d'une command depuis une autre |
-| `StringInput` | une string analysée comme une ligne de command |
-
-Une command écrite contre `InputInterface` fonctionne avec les trois. C'est
-exactement ce que `CommandTester` exploite.
-
-## `OutputInterface` — écrire
+## L'exemple : une command d'export
 
 ```php
-$output->write('sans retour à la ligne');
-$output->writeln('avec retour à la ligne');
-$output->writeln(['plusieurs', 'lignes']);
-```
+public function __invoke(InputInterface $input, OutputInterface $output): int
+{
+    $dryRun = $input->getOption('dry-run');            // false si non passée
+    $output->writeln('id;nom');                        // les données : STDOUT
+    if ($output instanceof ConsoleOutputInterface) {
+        $output->getErrorOutput()->writeln('<info>42 lignes</info>');   // diagnostic : STDERR
+    }
 
-Trois modes de rendu contrôlent l'interprétation des tags :
-`OUTPUT_NORMAL` les interprète, `OUTPUT_RAW` les laisse tels quels,
-`OUTPUT_PLAIN` les interprète **puis** applique `strip_tags()` au résultat.
-Exécuté, `'<info>ok</info> <script>x</script>'` :
-
-| Mode | Sortie décorée | Sortie non décorée |
-|---|---|---|
-| `OUTPUT_NORMAL` | `ok` en vert, `<script>x</script>` intact | `ok <script>x</script>` |
-| `OUTPUT_PLAIN` | `ok` **toujours en vert**, puis `x` | `ok x` |
-| `OUTPUT_RAW` | `<info>ok</info>` tel quel | — |
-
-`OUTPUT_PLAIN` ne retire donc pas les couleurs d'un output décoré : il
-retire les tags qui restent après le formatage.
-
-## Les tags de style
-
-Le formateur en définit quatre par défaut :
-
-| Tag | Rendu |
-|---|---|
-| `<info>` | vert |
-| `<comment>` | jaune |
-| `<question>` | noir sur cyan |
-| `<error>` | blanc sur rouge |
-
-```php
-$output->writeln('<info>terminé</info>');
-```
-
-Une string venant du user ou d'une base doit passer par
-`OutputFormatter::escape()`. Exécuté : sans escaping, `<info>x</info>` venu
-du user s'affiche `x`, le tag interprété ; échappé, il s'affiche
-tel quel. Un tag inconnu — `<script>` — passe intact dans les deux cas.
-
-## L'output d'erreur
-
-`ConsoleOutput` implémente `ConsoleOutputInterface`, qui ajoute
-`getErrorOutput()`. Ce second flux écrit sur **`STDERR`** :
-
-```php
-if ($output instanceof ConsoleOutputInterface) {
-    $output->getErrorOutput()->writeln('<error>échec</error>');
+    return Command::SUCCESS;
 }
 ```
 
-L'intérêt est opérationnel : `php bin/console app:export > data.csv` ne doit pas
-mélanger les messages de diagnostic aux données redirigées.
+`php bin/console app:export > data.csv` ne mélange pas le diagnostic aux
+données.
 
-## `SymfonyStyle`, la façade
+## `InputInterface` — lire
 
-`SymfonyStyle` enveloppe l'entrée et l'output et fournit une présentation
-conforme aux conventions Symfony :
+| Appel | Ce qu'il rend |
+|---|---|
+| `getArgument('username')`, `getOption('iterations')` | la valeur, ou la default value |
+| `hasOption('dry-run')` | l'option est-elle **déclarée** ? — `true` même non passée |
+| `hasParameterOption('--env')`, `getParameterOption('--env')` | lus sur la **ligne brute**, sans definition |
+| `isInteractive()` | faux avec `-n`, `-q` ou `--silent` |
 
-```php
-$io = new SymfonyStyle($input, $output);
-$io->title('Import');
-$io->success('42 lignes importées');
-$io->error('fichier introuvable');
-$name = $io->ask('Nom ?');
-$io->table(['id', 'nom'], $rows);
-```
+`setArgument()` et `setOption()` permettent à `interact()` de compléter une
+valeur. Le nom attendu est le nom **kebab-case** déclaré : un
+`#[Argument] string $userName` se lit `getArgument('user-name')`.
 
-Elle expose aussi `getErrorStyle()`, qui rend la même API branchée sur `STDERR`.
+## `OutputInterface` — écrire
+
+- `write()`, `writeln()`, avec un array pour plusieurs lignes.
+- Quatre tags par défaut : `<info>` vert, `<comment>` jaune, `<question>`
+  noir sur cyan, `<error>` blanc sur rouge. Un tag inconnu, `<script>`, passe
+  intact.
+- Une string venue de l'extérieur passe par `OutputFormatter::escape()`.
+- Modes : `OUTPUT_NORMAL` interprète les tags, `OUTPUT_RAW` les laisse,
+  `OUTPUT_PLAIN` les interprète **puis** applique `strip_tags()` : sur un output
+  décoré, `<info>ok</info>` reste **toujours en vert**.
+- `SymfonyStyle` enveloppe le tout : `title()`, `success()`, `error()`,
+  `ask()`, `table()`, et `getErrorStyle()` pour `STDERR`.
+
+## L'output d'erreur
+
+`getErrorOutput()` appartient à `ConsoleOutputInterface`, pas à
+`OutputInterface` : un `BufferedOutput` ne l'a pas, d'où le test de type.
 
 ## Tester une command
 
-`CommandTester` appelle la command **seule** : même si l'`Application` a un
-dispatcher, aucun event console n'est émis. `ApplicationTester` passe par
-l'`Application` et les émet ; il demande `setAutoExit(false)`.
-
 ```php
 $tester = new CommandTester($application->find('app:greet'));
-$tester->setInputs(['Bob']);                 // réponses aux questions
-$tester->execute([]);                        // interactif par défaut
+$tester->setInputs(['Bob']);                                   // réponses aux questions
 $tester->execute([], ['interactive' => false]);
 $tester->execute([], ['capture_stderr_separately' => true]);
 ```
 
-L'ordre est `initialize()`, `interact()` — en mode interactif seulement —, la
-validation de l'entrée, puis `execute()`. `interact()` peut donc compléter un
-argument requis manquant ; non interactive, la même entrée lève « Not enough
-arguments ». Avec `capture_stderr_separately`, ce qu'écrit `getErrorStyle()`,
-et le libellé d'une question, passent dans `getErrorOutput()` au lieu de
-`getDisplay()`. Exécuté avec Console 8.0.15.
+- `CommandTester` appelle la command **seule** : aucun event console.
+  `ApplicationTester` passe par l'`Application`, avec `setAutoExit(false)`.
+- Ordre : `initialize()`, `interact()` (en interactif), validation de l'entrée,
+  `execute()` ; non interactive, un argument requis manquant lève « Not enough
+  arguments ».
+- Avec `capture_stderr_separately`, ce qu'écrit `getErrorStyle()` passe dans
+  `getErrorOutput()`, comme le libellé d'une question de `QuestionHelper` ; celui
+  de `SymfonyStyle::ask()` reste dans `getDisplay()`.
 
 ## Pièges d'examen
 
@@ -218,13 +160,96 @@ qui lit la ligne brute.
 **Le nom passé à `getArgument()` est le nom kebab-case** déclaré, pas celui du
 parameter PHP.
 
-## Points clés
+## Application
 
-- `InputInterface` : `getArgument`, `getOption`, `hasOption`, `isInteractive`.
-- `ArgvInput`, `ArrayInput`, `StringInput` — même contrat, sources différentes.
-- `OutputInterface` : `write`, `writeln`, verbosity, formateur.
-- Quatre tags par défaut ; échapper ce qui vient de l'extérieur.
-- `getErrorOutput()` pour `STDERR` ; `SymfonyStyle` pour tout le reste.
+- Un export redirigé dans un file, avec une ligne de progression → la
+  progression sur `getErrorOutput()`.
+- Un nom de user affiché en vert alors qu'il contient `<error>` →
+  `OutputFormatter::escape($name)`.
+
+## QCM d'entraînement
+
+**Question 1.** Un output **décoré** reçoit
+`writeln('<info>ok</info> <script>x</script>', OutputInterface::OUTPUT_PLAIN)`.
+Qu'affiche-t-il ?
+
+- **A.** `ok x`, sans couleur
+- **B.** `<info>ok</info> <script>x</script>` tel quel
+- **C.** `ok` en vert, puis `x`
+- **D.** `ok` en vert, puis `<script>x</script>`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : C.** `OUTPUT_PLAIN` interprète d'abord les tags, puis retire
+ceux qui restent : la couleur de `<info>` survit, `<script>` disparaît.
+
+</details>
+
+**Question 2.** Une command invocable déclare `#[Argument] string $userName`.
+Le code appelle `$input->getArgument('userName')`. Que se passe-t-il ?
+
+- **A.** Une `InvalidArgumentException`
+- **B.** La valeur passée, le nom PHP valant aussi
+- **C.** `null`, l'argument étant facultatif
+- **D.** La default value du parameter PHP
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : A.** L'argument est déclaré sous le nom kebab-case
+`user-name` : « The "userName" argument does not exist. ».
+
+</details>
+
+**Question 3.** Une command écrit `diag` par `$io->getErrorStyle()`. Le test
+appelle `execute([], ['capture_stderr_separately' => true])`. Où lire `diag` ?
+
+- **A.** Dans `getDisplay()`, avec le reste
+- **B.** Nulle part : `STDERR` n'est pas capturé en test
+- **C.** Dans `getStatusCode()`, comme message d'erreur
+- **D.** Dans `getErrorOutput()`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : D.** L'option sépare les deux flux : `getDisplay()` garde
+`STDOUT`, et `getErrorOutput()` reçoit ce qui part sur `STDERR`.
+
+</details>
+
+**Question 4.** En mode normal, une command écrit
+`'<info>ok</info> <script>x</script>'` sur un output décoré. Que devient
+`<script>x</script>` ?
+
+- **A.** Il est retiré, comme tout tag HTML
+- **B.** Il passe intact
+- **C.** Il est échappé en `&lt;script&gt;`
+- **D.** Une exception : tag de style inconnu
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** Le formateur n'interprète que les styles qu'il connaît ;
+un tag inconnu reste du texte, et seul `<info>` devient une couleur.
+
+</details>
+
+## Fiche express
+
+**Si tu dois retenir seulement 7 choses :**
+
+- Lire par **`InputInterface`**, écrire par **`OutputInterface`** ; jamais
+  `echo`.
+- `ArgvInput`, `ArrayInput`, `StringInput` : même contrat.
+- **`hasOption()`** : déclarée ? ; **`hasParameterOption()`** : ligne brute.
+- Arguments et options sous leur nom **kebab-case**.
+- Quatre tags ; **`escape()`** pour ce qui vient de l'extérieur.
+- **`getErrorOutput()`** (`ConsoleOutputInterface`) pour `STDERR`.
+- `CommandTester` : la command seule ; `ApplicationTester` : avec events.
+
+Moyen mnémotechnique : **« Lire l'entrée, écrire l'output, crier sur
+STDERR »**.
 
 ## Sources officielles
 
@@ -234,3 +259,4 @@ parameter PHP.
 - [`OutputFormatter`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Formatter/OutputFormatter.php)
 - [How to Style a Console Command](https://github.com/symfony/symfony-docs/blob/8.0/console/style.rst)
 - [`CommandTester`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Tester/CommandTester.php)
+

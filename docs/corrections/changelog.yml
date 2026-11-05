@@ -443,7 +443,7 @@ entries:
       sous son nom de class (il existe depuis 7.2).
     courses:
       - id: CRS-y0zc67f3e5zk
-        sections: ["Quatre constantes, cinq events", "Pièges d'examen", "Points clés"]
+        sections: ["Quatre constantes, cinq events", "Pièges d'examen", "Fiche express"]
     flashcards: [FLC-hk7rkbxfq90j]
     questions: []
 

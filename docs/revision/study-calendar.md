@@ -764,7 +764,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - NOUVEAU · **Templating with Twig : String interpolation** (MINIMAL) — 23 min · 880 mots · 3 questions, 3 questions de compréhension, 9 flashcards
 - NOUVEAU · **Templating with Twig : Assets management** (MINIMAL) — 24 min · 939 mots · 2 questions, 3 questions de compréhension, 10 flashcards
 - NOUVEAU · **Templating with Twig : Debugging variables** (MINIMAL) — 27 min · 959 mots · 3 questions, 4 questions de compréhension, 10 flashcards
-- NOUVEAU · **Console : Console component** (STANDARD) — 28 min · 737 mots · 4 questions, 8 questions de compréhension, 11 flashcards
+- NOUVEAU · **Console : Console component** (STANDARD) — 28 min · 988 mots · 4 questions, 8 questions de compréhension, 11 flashcards
 - Révision **J+1** (16 min) — Templating with Twig : Loops and conditions · Templating with Twig : URLs generation · Templating with Twig : Controller rendering
 - Révision **J+7** (13 min) — Messenger : Workers · Messenger : Retries and failures · Messenger : Middleware
 - Révision **J+14** (9 min) — Security : Security Core, CSRF and PasswordHasher components · Security : Authentication · Security : Authorization
@@ -774,10 +774,10 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Jeudi 26 novembre 2026
 
-- NOUVEAU (suite) · **Console : Console component** (STANDARD) — 7 min · 737 mots · 4 questions, 8 questions de compréhension, 11 flashcards
-- NOUVEAU · **Console : Built-in commands** (MINIMAL) — 28 min · 485 mots · 3 questions, 7 questions de compréhension, 11 flashcards
-- NOUVEAU · **Console : Custom commands** (STANDARD) — 33 min · 712 mots · 4 questions, 6 questions de compréhension, 12 flashcards
-- NOUVEAU · **Console : Configuration** (STANDARD) — 26 min · 693 mots · 4 questions, 7 questions de compréhension, 11 flashcards
+- NOUVEAU (suite) · **Console : Console component** (STANDARD) — 9 min · 988 mots · 4 questions, 8 questions de compréhension, 11 flashcards
+- NOUVEAU · **Console : Built-in commands** (MINIMAL) — 30 min · 754 mots · 3 questions, 7 questions de compréhension, 11 flashcards
+- NOUVEAU · **Console : Custom commands** (STANDARD) — 35 min · 901 mots · 4 questions, 6 questions de compréhension, 12 flashcards
+- NOUVEAU · **Console : Configuration** (STANDARD) — 20 min · 948 mots · 4 questions, 7 questions de compréhension, 11 flashcards
 - Révision **J+1** (18 min) — Templating with Twig : Translations and pluralization · Templating with Twig : String interpolation · Templating with Twig : Assets management · Templating with Twig : Debugging variables
 - Révision **J+3** (12 min) — Templating with Twig : Global variables · Templating with Twig : Filters and functions · Templating with Twig : Template includes
 - Révision **J+7** (8 min) — Messenger : Events · Templating with Twig : TwigBundle
@@ -789,9 +789,9 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Vendredi 27 novembre 2026
 
-- NOUVEAU (suite) · **Console : Configuration** (STANDARD) — 8 min · 693 mots · 4 questions, 7 questions de compréhension, 11 flashcards
-- NOUVEAU · **Console : Options and arguments (using PHP attributes)** (STANDARD) — 34 min · 830 mots · 4 questions, 7 questions de compréhension, 11 flashcards
-- NOUVEAU · **Console : Input and Output objects** (STANDARD) — 37 min · 839 mots · 5 questions, 6 questions de compréhension, 14 flashcards
+- NOUVEAU (suite) · **Console : Configuration** (STANDARD) — 16 min · 948 mots · 4 questions, 7 questions de compréhension, 11 flashcards
+- NOUVEAU · **Console : Options and arguments (using PHP attributes)** (STANDARD) — 36 min · 1030 mots · 4 questions, 7 questions de compréhension, 11 flashcards
+- NOUVEAU · **Console : Input and Output objects** (STANDARD) — 38 min · 987 mots · 5 questions, 6 questions de compréhension, 14 flashcards
 - Révision **J+1** (16 min) — Console : Console component · Console : Built-in commands · Console : Custom commands
 - Révision **J+3** (11 min) — Templating with Twig : Loops and conditions · Templating with Twig : URLs generation · Templating with Twig : Controller rendering
 - Révision **J+7** (13 min) — Templating with Twig : Twig syntax up to 3.22 version · Templating with Twig : Auto escaping · Templating with Twig : Template inheritance
@@ -799,7 +799,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - Révision **J+30** (8 min) — Dependency Injection : Built-in services · Dependency Injection : Configuration parameters · Dependency Injection : Services registration (YAML and PHP attributes)
 - Révision **J+45** (9 min) — Symfony Architecture : Official best practices · Symfony Architecture : Backward compatibility promise · Symfony Architecture : Deprecations best practices
 
-*Budget du jour : 144 / 160 min*
+*Budget du jour : 155 / 160 min*
 
 ### Samedi 28 novembre 2026
 
@@ -844,15 +844,15 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 
 ### Lundi 30 novembre 2026
 
-- NOUVEAU · **Console : Built-in helpers** (STANDARD) — 31 min · 711 mots · 4 questions, 6 questions de compréhension, 12 flashcards
-- NOUVEAU · **Console : Console events** (STANDARD) — 43 min · 873 mots · 8 questions, 7 questions de compréhension, 13 flashcards
-- NOUVEAU · **Console : Verbosity levels** (MINIMAL) — 26 min · 449 mots · 4 questions, 4 questions de compréhension, 11 flashcards
+- NOUVEAU · **Console : Built-in helpers** (STANDARD) — 33 min · 942 mots · 4 questions, 6 questions de compréhension, 12 flashcards
+- NOUVEAU · **Console : Console events** (STANDARD) — 44 min · 947 mots · 8 questions, 7 questions de compréhension, 13 flashcards
+- NOUVEAU · **Console : Verbosity levels** (MINIMAL) — 29 min · 796 mots · 4 questions, 4 questions de compréhension, 11 flashcards
 - Révision **J+3** (12 min) — Console : Configuration · Console : Options and arguments (using PHP attributes) · Console : Input and Output objects
 - Révision **J+7** (12 min) — Templating with Twig : Global variables · Templating with Twig : Filters and functions · Templating with Twig : Template includes
 - Révision **J+14** (11 min) — Security : Access Control Rules · Security : Authenticators, Passports and Badges · Security : Voters and voting strategies
 - Révision **J+60** (12 min) — PHP : PHP API up to PHP 8.4 version · PHP : Object Oriented Programming · PHP : Attributes · PHP : Interfaces
 
-*Budget du jour : 147 / 160 min*
+*Budget du jour : 153 / 160 min*
 
 
 ## Décembre 2026

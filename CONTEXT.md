@@ -11,14 +11,15 @@ raisonnable, qui peut se réviser, présenter seulement ce qui est utile en
 examen » : environ 5 min de lecture, 800 à 1 000 mots de corps (politique
 « Short, exam-only » de `docs/policy/course-structure.md`). Le propriétaire a
 choisi de l'appliquer aussi aux pages déjà en ligne. **Lot 06** : 14 pages au
-format court, déployées (#456). **Batch 15** (la PR qui
-suit #456) : 31 pages raccourcies, dont *Deprecations best practices* à la
+format court, déployées (#456). **Batch 15** (#457,
+déployé) : 31 pages raccourcies, dont *Deprecations best practices* à la
 demande du propriétaire (« très long, affirmations dupliquées » : 6 123 → 1 402
-mots, chaque règle énoncée une fois) et les lots 05, 10, 11, 13, 14. Restent à
-raccourcir les **33 pages longues des lots 07, 08 et 09** (brouillons prêts et
-contrôlés, à livrer dans la PR suivante), puis à **convertir les 85 pages non
-pédagogiques** (lots 01–05, 12, deux pages du lot 13, 15–26) au format court.
-Lot 12 : neuf conversions rédigées, faits exécutés avec Console 8.0.
+mots, chaque règle énoncée une fois) et les lots 05, 10, 11, 13, 14. Les 33
+pages longues des lots 07, 08 et 09 sont raccourcies dans le
+**batch 16** (la PR qui suit #457) avec les **9 pages du lot 12 converties**
+au format court (faits exécutés avec Console 8.0). Restent ensuite à
+**convertir 76 pages non pédagogiques** (lots 01–05, deux pages du lot 13,
+15–26).
 
 Constats du lot 06, corrigés sur la branche (entrées CORRECTION au journal dans
 la PR qui suit la fusion) : F15 (propriétés `loop` sur un iterator `Countable`),
