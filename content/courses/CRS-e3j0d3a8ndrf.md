@@ -6,6 +6,7 @@ content_level: STANDARD
 language: fr
 verification_status: VERIFIED
 reviewed_at: "2026-09-01"
+format: pedagogical
 official_sources:
   - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
     readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
@@ -42,79 +43,73 @@ lequel s'adresse à quel cache.
 > appartiennent à l'item *HTTP Caching (reverse proxies, expiration,
 > validation)* du sujet Miscellaneous.
 
-## Deux modèles
+## L'essentiel
 
-**Expiration** — le cache sait pendant combien de temps la Response reste
-fraîche, et n'interroge pas le serveur avant échéance.
+Une Response se met en cache selon deux modèles : l'**expiration** (le cache
+sait combien de temps elle reste fraîche) et la **validation** (il demande au
+serveur si sa copie vaut encore, et reçoit un `304`). Symfony part de
+`private` : rien n'entre dans un cache partagé sans `public`. Le reverse proxy
+de Symfony relève d'un autre item, *HTTP Caching*.
 
-**Validation** — le cache conserve la Response et demande au serveur, à chaque
-usage, si elle est toujours valable. Le serveur répond `304 Not Modified` sans
-corps si c'est le cas.
+## Le schéma
 
-L'expiration économise des Requests ; la validation économise de la bande
-passante.
-
-## Expiration
-
-```php
-$response->setPublic();             // Cache-Control: public
-$response->setMaxAge(3600);         // public, max-age=3600
-$response->setSharedMaxAge(86400);  // public, max-age=3600, s-maxage=86400
+```text
+expiration   max-age (tous les caches) · s-maxage (caches partagés, prime) · Expires (historique)
+validation   ETag ↔ If-None-Match · Last-Modified ↔ If-Modified-Since → 304 sans body
+défaut       rien demandé → no-cache, private · Last-Modified ou Expires → private, must-revalidate
+setMaxAge(n)        → max-age=n, private          setSharedMaxAge(n) → public, s-maxage=n
+no-cache = stocker mais revalider        no-store = ne rien garder        Vary = la key de cache
 ```
 
-Les directives **s'accumulent** : chaque appel ajoute la sienne. `setPublic()`
-est ici redondant, car `setSharedMaxAge()` l'appelle lui-même — ce que
-`setMaxAge()` ne fait pas. Seul, `setMaxAge(3600)` émet d'ailleurs
-`max-age=3600, private`, le `private` étant ajouté par défaut tant que ni
-`public` ni `s-maxage` n'est posé.
-
-**La documentation officielle recommande pourtant `setPublic()` + `setMaxAge()`**
-plutôt que `setSharedMaxAge()` : `s-maxage` interdit à un cache de servir une
-Response périmée en scénario `stale-if-error`. Le raccourci est exact, il n'est
-pas conseillé.
-
-- `private` (défaut Symfony) : seul le cache du navigateur peut stocker. La
-  valeur réellement émise par une Response à laquelle on n'a rien demandé est
-  `no-cache, private` — ou `private, must-revalidate` dès qu'elle porte un
-  `Last-Modified` ou un `Expires`.
-- `public` : les caches partagés — CDN, reverse proxy — peuvent stocker aussi.
-- `s-maxage` ne concerne que les caches partagés et **prime sur `max-age`**
-  pour eux.
-
-`Expires` est l'équivalent historique, en date absolue ; `Cache-Control` prime
-sur lui.
-
-## Validation
+## L'exemple : expiration et validation
 
 ```php
-$response->setEtag('a1b2c3');                          // identifiant de la représentation
-$response->setLastModified(new \DateTimeImmutable());  // date
+$response->setPublic();
+$response->setMaxAge(3600);                // public, max-age=3600
+$response->setEtag('a1b2c3');
+$response->setLastModified($article->getUpdatedAt());
 
 if ($response->isNotModified($request)) {
-    return $response;   // 304, corps vidé automatiquement
+    return $response;                      // 304, body vidé
 }
 ```
 
-Le client renvoie ensuite `If-None-Match` (contre l'ETag) ou
-`If-Modified-Since` (contre la date). Les deux ne sont **pas symétriques**, mais
-la condition est plus fine qu'il n'y paraît : la comparaison de dates est dans un
-`elseif` dont la branche `if` exige **deux** choses — un `If-None-Match` dans la
-Request **et** un ETag sur la Response. Si la Response ne porte pas d'ETag, la date
-est évaluée malgré `If-None-Match`, et peut produire un 304.
+## Deux modèles
 
-RFC 9110 §13.1.3 est plus stricte : le destinataire **doit** ignorer
-`If-Modified-Since` dès que `If-None-Match` est présent, sans condition sur la
-Response. Symfony s'en écarte ; c'est le code qui fait foi ici. `isNotModified()` compare et, en cas de
-correspondance, met le statut à 304 et vide le body.
+L'expiration économise des Requests : le cache ne contacte pas le serveur
+avant l'échéance. La validation économise de la bande passante : le serveur
+répond `304 Not Modified` sans body si la copie est encore bonne.
 
-**`isNotModified()` commence par une garde sur la method.** Son premier geste
-est `if (!$request->isMethodCacheable()) { return false; }` : sur une Request
-qui n'est ni `GET`, ni `HEAD`, ni `QUERY`, elle rend `false` **avant même de
-comparer quoi que ce soit**, ETag correspondant ou non. La validation n'a de
-sens que pour les methods cacheables.
+## Expiration
 
-Un ETag **faible** (`W/"a1b2c3"`) déclare une équivalence sémantique plutôt
-qu'octet à octet : `setEtag('a1b2c3', true)`.
+- Les directives **s'accumulent**. `setMaxAge(3600)` seul émet
+  `max-age=3600, private`, le `private`
+  étant ajouté par défaut tant que ni `public` ni `s-maxage` n'est posé ;
+  `setSharedMaxAge()` appelle lui-même `setPublic()`.
+- La documentation recommande pourtant `setPublic()` + `setMaxAge()` plutôt
+  que `setSharedMaxAge()` : `s-maxage` interdit de servir une Response périmée
+  en scénario `stale-if-error`.
+- `max-age` s'adresse à **tous** les caches ; `s-maxage` aux caches partagés,
+  pour qui il prime. `getMaxAge()` rend `s-maxage` quand les deux existent.
+- `Cache-Control` prime sur `Expires`.
+
+| Directive | Effet |
+|---|---|
+| `must-revalidate` | interdit de servir une Response périmée |
+| `stale-while-revalidate=N` | sert le périmé `N` secondes, le temps de revalider |
+| `immutable` | ne pas revalider avant l'échéance |
+
+Mnémonique : `s-` = *shared*, et il **prime** sans être exclusif.
+
+## Validation
+
+Le client renvoie `If-None-Match` (contre l'`ETag`) ou `If-Modified-Since`
+(contre la date). `isNotModified()` commence par une **garde de method** : hors
+`GET`, `HEAD` et `QUERY`, elle rend `false` sans rien comparer. Ensuite, la date
+n'est écartée que si la Request porte `If-None-Match` **et** la Response un
+`ETag` ; sans `ETag`, la date est évaluée et peut donner un `304` — là où RFC
+9110 §13.1.3 ignorerait `If-Modified-Since`. Un ETag faible :
+`setEtag('a1b2c3', true)`.
 
 ## Vary
 
@@ -122,17 +117,9 @@ qu'octet à octet : `setEtag('a1b2c3', true)`.
 $response->setVary(['Accept-Language', 'Accept-Encoding']);
 ```
 
-`Vary` déclare les headers de Request qui font varier la représentation. Sans
-lui, un cache partagé peut servir la version française à un client anglophone —
-c'est le bug de cache classique.
-
-## Trois directives voisines
-
-| Directive | Effet |
-|---|---|
-| `must-revalidate` | interdit de servir une Response périmée |
-| `stale-while-revalidate=N` | autorise au contraire le périmé pendant `N` secondes, le temps de revalider en arrière-plan |
-| `immutable` | la Response ne changera pas : ne pas revalider avant échéance |
+`Vary` déclare les headers de Request qui font varier la représentation : il
+entre dans la key de cache. Sans lui, un cache partagé sert la version
+française à un client anglophone.
 
 ## Pièges d'examen
 
@@ -157,18 +144,96 @@ avant la comparaison d'ETag : ce n'est pas « l'ETag ne correspond pas », c'est
 **`max-age` n'est pas « pour les caches privés ».** Un cache partagé l'utilise
 dès que `s-maxage` est absent ; c'est bien pourquoi `s-maxage` « prime » sur lui.
 
-## Points clés
+## Application
 
-- Expiration (`max-age`, `s-maxage`) vs validation (`ETag`, `Last-Modified`).
-- `private` par défaut ; `setPublic()` pour les caches partagés.
-- `isNotModified()` produit le `304` et vide le body — mais seulement si la
-  Request est cacheable ; sinon elle rend `false` d'emblée.
-- `setSharedMaxAge()` appelle `setPublic()` ; `setMaxAge()` non.
-- `Vary` est obligatoire dès qu'on négocie.
-- `no-cache` = revalider ; `no-store` = ne rien garder.
-- Mnémonique : `s-` = *shared*, et il **prime** sans être exclusif.
+- Une page publique identique pour tous, une heure → `setPublic()` puis
+  `setMaxAge(3600)`.
+- Un document lourd qui change rarement → `ETag` et `isNotModified()`.
 
-## Aller lire la source
+## QCM d'entraînement
+
+**Question 1.** Une Response neuve reçoit seulement `setMaxAge(3600)`. Quel
+header `Cache-Control` part ?
+
+- **A.** `public, max-age=3600`
+- **B.** `max-age=3600`, rien d'autre
+- **C.** `max-age=3600, private`
+- **D.** `max-age=3600, s-maxage=3600`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : C.** `setMaxAge()` n'appelle pas `setPublic()`, et Symfony
+ajoute `private` tant que ni `public` ni `s-maxage` n'est posé.
+
+</details>
+
+**Question 2.** Une Response porte `max-age=60` et `s-maxage=3600`. Que rend
+`$response->getMaxAge()` ?
+
+- **A.** `3600`
+- **B.** `60`, la directive générale
+- **C.** `null` : deux valeurs sont ambiguës
+- **D.** `60` en debug, `3600` en production
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : A.** La method teste `s-maxage` d'abord, puis seulement
+`max-age` : la valeur des caches partagés l'emporte.
+
+</details>
+
+**Question 3.** Une Request `GET` porte un `If-None-Match` qui ne correspond à
+rien, et un `If-Modified-Since` récent. La Response a un `Last-Modified` ancien
+et **aucun** `ETag`. Que rend `isNotModified()` ?
+
+- **A.** `false` : `If-None-Match` écarte la date
+- **B.** `true`, et la Response devient un `304`
+- **C.** `false` : sans `ETag`, rien n'est comparé
+- **D.** Une exception : les deux headers se contredisent
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** La date n'est écartée que si la Response porte un
+`ETag` ; ici elle est comparée, et la copie du client est jugée à jour.
+
+</details>
+
+**Question 4.** Un controller rend `new Response('ok')` sans toucher au cache.
+Quel `Cache-Control` part ?
+
+- **A.** Aucun header `Cache-Control`
+- **B.** `public, max-age=0`
+- **C.** `no-store`
+- **D.** `no-cache, private`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : D.** Faute de toute information de cache, Symfony impose la
+revalidation et réserve la Response au cache privé du navigateur.
+
+</details>
+
+## Fiche express
+
+**Si tu dois retenir seulement 7 choses :**
+
+- Expiration (**`max-age`**, **`s-maxage`**) contre validation (**`ETag`**,
+  `Last-Modified`).
+- Défaut : **`private`** ; rien demandé → `no-cache, private`.
+- `setSharedMaxAge()` rend **public** ; `setMaxAge()` non.
+- `s-maxage` **prime** pour les caches partagés ; `max-age` vaut pour tous.
+- `isNotModified()` : **`false` hors `GET`/`HEAD`/`QUERY`** ; sinon `304` et body
+  vidé.
+- `no-cache` = revalider ; **`no-store`** = ne rien garder.
+- Négocier impose **`Vary`**.
+
+Moyen mnémotechnique : **« Expirer épargne des Requests, valider des octets »**.
+
+## Sources officielles
 
 - [RFC 9110](https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html) — §8.8 *Validator Fields*, §12.5.5 *Vary*
 - [`Response`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Response.php) — `isNotModified()` l. 1118, `setSharedMaxAge()` l. 841,

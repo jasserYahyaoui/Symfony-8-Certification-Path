@@ -6,6 +6,7 @@ content_level: STANDARD
 language: fr
 verification_status: VERIFIED
 reviewed_at: "2026-10-26"
+format: pedagogical
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/components/event_dispatcher.rst"
@@ -35,117 +36,78 @@ Brancher du code sur un event sans modifier celui qui le déclenche. C'est le
 mécanisme qui rend Symfony extensible : le kernel ne connaît pas vos listeners, il
 publie des events.
 
-## Périmètre
+## L'essentiel
 
-Deux voisins possèdent leurs propres catalogues et ne sont pas redits ici : les
-**events du kernel HTTP** appartiennent à *Symfony Architecture*, les
-**events de la console** au sujet Console. Cette page porte sur le
-dispatcher lui-même, quel que soit l'event.
+Le dispatcher tient un registre de listeners par **nom d'event** et les
+notifie quand l'event est distribué : le code qui déclenche ne connaît pas
+ceux qui écoutent. La **priority la plus haute passe en premier** ; à égalité,
+l'ordre d'ajout décide. On s'inscrit par un listener, branché de l'extérieur,
+ou un subscriber, qui se déclare lui-même.
 
-L'object `Event` a son propre item officiel ; il est traité à part.
+## Le schéma
 
-## Prérequis
-
-Les services et l'autoconfiguration.
-
-## Le contrat
-
-Un event porte un **nom unique**. Le dispatcher tient un registre
-de listeners par nom, et quand l'event est distribué, il notifie tous ceux
-qui y sont inscrits.
-
-```php
-$dispatcher->addListener('acme.foo.action', [$listener, 'onFooAction'], 10);
+```text
+addListener('acme.foo.action', callable, 10)        nom · callable · priority (0 par défaut, négative permise)
+dispatch($event [, 'nom'])                          sans nom : la CLASS de l'event ; rend le même object
+ordre                                               priority haute d'abord ; égalité → ordre d'ajout
+listener reçoit                                     ($event, $eventName, $dispatcher)
+#[AsEventListener] sans method                      on + NomCamelisé (user.registered → onUserRegistered), sinon __invoke()
 ```
 
-`addListener()` prend jusqu'à **trois** arguments : le nom, un callable PHP, et
-une **priority** optionnelle.
-
-## La priority, et son départage
-
-La priority est un int **positif ou négatif**, `0` par défaut.
-
-**Plus le nombre est élevé, plus le listener est appelé tôt.** C'est le point que
-l'examen teste : l'intuition « priority 1 avant priority 10 » est fausse.
-
-À **priority égale**, les listeners s'exécutent dans **l'ordre où ils ont été
-ajoutés** au dispatcher. Exécuté (EventDispatcher 8.0) avec quatre listeners
-ajoutés dans l'ordre `0`, `0`, `10`, `-5` : `10`, puis les deux `0` dans leur
-ordre d'ajout, puis `-5`.
-
-## Listener ou subscriber
-
-Deux façons de s'inscrire, interchangeables.
-
-Le **listener** est branché de l'extérieur — configuration, ou attribute
-`#[AsEventListener]` :
+## L'exemple : réagir à un achat
 
 ```php
 #[AsEventListener]
-final class MyListener
+final class SendConfirmation
 {
-    public function __invoke(CustomEvent $event): void {}
+    public function __invoke(OrderPlacedEvent $event): void {}   // event déduit du type
+}
+
+final class OrderSubscriber implements EventSubscriberInterface
+{
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            KernelEvents::RESPONSE => [['onResponsePre', 10], ['onResponsePost', -10]],
+            OrderPlacedEvent::class => 'onPlacedOrder',
+        ];
+    }
 }
 ```
 
-L'attribute se répète pour configurer plusieurs methods. Sa property `method`
-est **optionnelle** : par défaut, c'est `on` suivi du nom de l'event en
-capitale initiale — un listener de `foo` appellera `onFoo()`.
+## La priority, et son départage
 
-Lu dans `RegisterListenersPass` (8.0) et exécuté :
+- Un int **positif ou négatif**, `0` par défaut ; **plus il est élevé, plus le
+  listener est appelé tôt**.
+- À priority égale, l'**ordre d'ajout** : ajoutés `0`, `0`, `10`, `-5`, ils
+  tournent `10`, les deux `0` dans leur ordre, puis `-5`.
+
+## Listener ou subscriber
+
+| | Listener | Subscriber |
+|---|---|---|
+| inscription | de l'extérieur : configuration ou `#[AsEventListener]` | lui-même : `getSubscribedEvents()`, statique |
+| atout (documentation) | **plus souple** : un bundle l'active selon sa configuration | **plus réutilisable** : la connaissance des events vit dans la class |
+
+Résolution de la method d'un listener (`RegisterListenersPass`, 8.0) :
 
 | Cas | Method appelée |
 |---|---|
-| `event: 'acme.foo_bar'`, `onAcmeFooBar()` présente | `onAcmeFooBar()` — points et soulignés retirés |
-| `event: 'acme.other'`, pas de `onAcmeOther()` | `__invoke()`, en repli |
-| `#[AsEventListener]` sans `event`, `__invoke(CustomEvent $e)` | `__invoke()`, sur `CustomEvent::class` déduit du type |
+| `event: 'acme.foo_bar'`, `onAcmeFooBar()` présente | `onAcmeFooBar()` |
+| `event: 'acme.other'`, sans `onAcmeOther()` | `__invoke()`, en repli |
+| pas d'`event`, `__invoke(CustomEvent $e)` | `__invoke()`, event déduit du type |
+| ni l'une ni l'autre | la compilation du container échoue |
 
-Sans method correspondante ni `__invoke()`, la compilation du container
-échoue — lu dans le même file : *None of the … or "__invoke" methods exist*.
-
-Le **subscriber** se déclare lui-même, par `EventSubscriberInterface` et son unique
-method statique `getSubscribedEvents()` :
-
-```php
-public static function getSubscribedEvents(): array
-{
-    return [
-        KernelEvents::RESPONSE => [
-            ['onKernelResponsePre', 10],
-            ['onKernelResponsePost', -10],
-        ],
-        OrderPlacedEvent::class => 'onPlacedOrder',
-    ];
-}
-```
-
-Un subscriber peut donc inscrire **plusieurs methods sur un même event**, avec
-des priorities distinctes.
-
-Le choix relève surtout du goût, mais la documentation donne un avantage à
-chacun : **le subscriber se réutilise plus facilement**, parce que la connaissance des
-events vit dans la class et non dans une definition de service — c'est
-pourquoi Symfony l'utilise en interne. **Le listener est plus souple**, parce
-qu'un bundle peut l'activer ou non selon une valeur de configuration.
+`#[AsEventListener]` se répète pour configurer plusieurs methods ; un
+subscriber peut inscrire **plusieurs methods sur un même event**.
 
 ## Distribuer
 
-```php
-$dispatcher->dispatch($event);
-$dispatcher->dispatch($event, 'foo.event');
-```
-
-`dispatch()` prend l'object event et, **optionnellement**, un nom. Si le nom
-est omis, **c'est la class de l'object qui sert de nom** — d'où l'écriture
-courante `OrderPlacedEvent::class` comme key d'abonnement. Il **rend l'object
-event** lui-même — exécuté : le même object, modifié par les listeners.
-
-## Ce que reçoit le listener
-
-Le dispatcher passe toujours **trois** choses : l'event distribué, le **nom**
-de l'event, et une **référence à lui-même**. C'est ce qui permet à un
-listener de distribuer d'autres events, de les chaîner, ou de charger
-paresseusement d'autres listeners.
+`dispatch($event)` ou `dispatch($event, 'foo.event')`. Sans nom, **la class de
+l'object sert de nom**, d'où `OrderPlacedEvent::class` comme key
+d'abonnement. `dispatch()` rend l'object event lui-même, modifié par les
+listeners. Chaque listener reçoit l'event, son nom et le dispatcher, ce qui
+lui permet d'en distribuer d'autres.
 
 ## Pièges d'examen
 
@@ -160,18 +122,95 @@ nom de l'event, et `__invoke()` sert de repli.
 
 **Un subscriber peut inscrire plusieurs methods sur un même event.**
 
-## Points clés
+## Application
 
-- Un nom, des listeners, un dispatcher qui notifie.
-- `addListener(nom, appelable, priorité)` ; priority haute d'abord, ordre
-  d'ajout à égalité.
-- Listener externe (`#[AsEventListener]`) contre subscriber autodéclaré
-  (`getSubscribedEvents()`).
-- Subscriber plus réutilisable, listener plus souple à activer.
-- `dispatch($event)` sans nom : la class fait office de nom.
+- Un listener qu'un bundle n'active que si une option le demande → un
+  listener, enregistré selon la configuration.
+- Deux traitements avant et après les autres sur `kernel.response` → un
+  subscriber, avec les priorities `10` et `-10`.
+
+## QCM d'entraînement
+
+**Question 1.** Un listener est tagué pour l'event `user.registered`, sans
+method. Quelle method le dispatcher appelle-t-il en premier ?
+
+- **A.** `onUserRegistered()`
+- **B.** `__invoke()`, toujours
+- **C.** `handle()`
+- **D.** `onEvent()`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : A.** Le défaut est `on` suivi du nom de l'event camélisé,
+points et soulignés retirés ; `__invoke()` ne sert que de repli.
+
+</details>
+
+**Question 2.** `#[AsEventListener]` est posé sans `event` sur une class dont
+la seule method est `__invoke(CustomEvent $e)`. Sur quel event écoute-t-elle ?
+
+- **A.** Aucun : l'event est obligatoire
+- **B.** `kernel.request`, par défaut
+- **C.** Une erreur à la compilation du container
+- **D.** `CustomEvent::class`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : D.** Le nom de l'event est la class de l'object distribué ;
+le type de l'argument d'`__invoke()` le donne.
+
+</details>
+
+**Question 3.** Quelle raison la documentation donne-t-elle à Symfony pour
+utiliser des subscribers en interne ?
+
+- **A.** Ils sont appelés plus tôt que les listeners
+- **B.** Ils sont plus réutilisables
+- **C.** Eux seuls acceptent une priority
+- **D.** Ils évitent l'autoconfiguration
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** Ils déclarent eux-mêmes leurs events : la liste vit
+dans la class, pas dans une definition de service, et se réutilise avec elle.
+
+</details>
+
+**Question 4.** Listeners ajoutés dans l'ordre : `x` (0), `y` (-5), `z` (10),
+`w` (0). Dans quel ordre tournent-ils ?
+
+- **A.** `z`, `x`, `w`, `y`
+- **B.** `y`, `x`, `w`, `z` : priority basse d'abord
+- **C.** `x`, `y`, `z`, `w` : ordre d'ajout seul
+- **D.** `z`, `w`, `x`, `y` : dernier ajouté d'abord
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : A.** La priority la plus haute d'abord ; `x` et `w`, à
+égalité, gardent leur ordre d'ajout ; `-5` passe en dernier.
+
+</details>
+
+## Fiche express
+
+**Si tu dois retenir seulement 6 choses :**
+
+- **Priority haute d'abord** ; négative permise ; égalité → ordre d'ajout.
+- `addListener(nom, callable, priority)`.
+- `dispatch($event)` sans nom : **la class** ; rend le même object.
+- Listener **souple**, subscriber **réutilisable**.
+- Method par défaut : **`on` + nom camélisé**, puis `__invoke()`.
+- Le listener reçoit **event, nom, dispatcher**.
+
+Moyen mnémotechnique : **« Le plus haut parle en premier »**.
 
 ## Sources officielles
 
 - [The EventDispatcher Component](https://github.com/symfony/symfony-docs/blob/8.0/components/event_dispatcher.rst)
 - [Events and Event Listeners](https://github.com/symfony/symfony-docs/blob/8.0/event_dispatcher.rst)
 - [`RegisterListenersPass`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/EventDispatcher/DependencyInjection/RegisterListenersPass.php)
+

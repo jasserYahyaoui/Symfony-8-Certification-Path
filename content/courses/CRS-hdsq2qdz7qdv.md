@@ -6,6 +6,7 @@ content_level: STANDARD
 language: fr
 verification_status: VERIFIED
 reviewed_at: "2026-10-26"
+format: pedagogical
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Response.php"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Response.php"
@@ -32,106 +33,81 @@ outcome_sections:
 Construire la bonne sous-classe de `Response` et distinguer ses methods de
 test — dont deux sont dangereusement proches.
 
-## La class de base
+## L'essentiel
 
-```php
-$response = new Response('<h1>Bonjour</h1>', Response::HTTP_OK, ['content-type' => 'text/html']);
-$response->headers->set('X-Custom', 'value');
+Un controller **rend** une `Response` — ou une sous-classe spécialisée — et
+ne l'envoie pas : c'est le runner du component Runtime qui l'émet, une fois.
+L'examen vise surtout les methods de test, dont deux sont dangereusement
+proches : `isRedirection()` (la class 3xx) et `isRedirect()` (une liste qui
+inclut 201 et exclut 304).
+
+## Le schéma
+
+```text
+controller → return new Response(...)     (HTTP/1.0 tant que prepare() n'est pas passé)
+runner     → $response->send(false) → fastcgi_finish_request() (hors debug) → terminate()
+isRedirection()   300 ≤ code < 400
+isRedirect()      201, 301, 302, 303, 307, 308   ← 201 dedans, 300 et 304 dehors
+isSuccessful() 2xx ⊃ isOk() 200      isClientError() 4xx ⊃ isNotFound() 404
 ```
 
-`$response->headers` est un `ResponseHeaderBag`, qui gère aussi les cookies.
+## L'exemple : la bonne sous-classe
 
-Une `Response` fraîchement construite porte **`HTTP/1.0`** : c'est
-`prepare(Request $request)` qui la promeut en 1.1 le cas échéant, vide le body
-sur un `HEAD` ou un statut sans corps, et complète le `Content-Type`. Le kernel
-l'appelle pour vous ; une Response fabriquée hors du cycle, non.
+```php
+return new JsonResponse(['id' => 42], Response::HTTP_CREATED);
+return new RedirectResponse('/orders/42');           // 302 par défaut
+return JsonResponse::fromJsonString($alreadyEncoded);
+return new BinaryFileResponse('/var/exports/report.pdf');
+```
 
-## Les sous-classes
+## La class de base
+
+`$response->headers` est un `ResponseHeaderBag`, qui porte aussi les cookies.
+Une `Response` neuve est en **`HTTP/1.0`** : `prepare($request)` la promeut en
+1.1, vide le body sur un `HEAD` ou un statut sans corps et complète le
+`Content-Type`. Le kernel l'appelle ; une Response fabriquée hors du cycle, non.
 
 | Class | Usage |
 |---|---|
-| `JsonResponse` | Encode un array en JSON et pose le `Content-Type` |
-| `RedirectResponse` | Pose `Location` et un statut 302 par défaut |
-| `BinaryFileResponse` | Sert un file, avec support des Requests de plage |
-| `StreamedResponse` | Corps produit par un callable, sans le charger en mémoire |
+| `JsonResponse` | encode en JSON, pose le `Content-Type` ; `fromJsonString()` n'encode pas deux fois |
+| `RedirectResponse` | pose `Location`, statut 302 par défaut |
+| `BinaryFileResponse` | sert un file, Requests de plage comprises |
+| `StreamedResponse` | body produit par un callable, sans tout charger |
 | `StreamedJsonResponse` | JSON diffusé à partir d'un itérable |
 
-`JsonResponse::fromJsonString()` prend du JSON déjà encodé, sans le
-ré-encoder — utile lorsque la serialization a déjà eu lieu.
+`JsonResponse` n'écrit pas le JSON de `json_encode()` : elle ajoute quatre
+options d'escaping HTML. Comparer les données décodées, jamais la string.
 
 ## `isRedirect()` contre `isRedirection()`
 
-C'est le piège de cet item, et il est vérifiable dans le code source.
-
-```php
-public function isRedirection(): bool
-{
-    return $this->statusCode >= 300 && $this->statusCode < 400;
-}
-
-public function isRedirect(?string $location = null): bool
-{
-    return \in_array($this->statusCode, [201, 301, 302, 303, 307, 308], true)
-        && (null === $location ?: $location == $this->headers->get('Location'));
-}
-```
-
 - `isRedirection()` est la **class 3xx**, littéralement.
-- `isRedirect()` est la liste des statuts qui portent réellement un header
-  `Location`. Elle **inclut 201 Created** — qui est 2xx — et **exclut 300 et
-  304**, qui sont 3xx.
+- `isRedirect()` est la liste des statuts qui portent un `Location` : elle
+  **inclut 201** et **exclut 300 et 304**. Avec une URL en argument, elle
+  vérifie aussi `Location` — pratique en functional test.
 
-Autrement dit, les deux methods ne sont ni équivalentes ni imbriquées. Un
-`304 Not Modified` est un redirect au sens de `isRedirection()` mais pas au
-sens de `isRedirect()`.
-
-`isRedirect()` accepte en outre une URL, et vérifie alors que `Location`
-correspond — pratique dans les functional tests.
+Les deux ne sont ni équivalentes ni imbriquées : un `304` est 3xx sans être un
+redirect. La même liste valide le statut de `RedirectResponse` :
+`new RedirectResponse($url, 304)` lève une `InvalidArgumentException`,
+`new RedirectResponse($url, 201)` est accepté.
 
 ## Autres methods de test
 
-```php
-$response->isSuccessful();   // 2xx
-$response->isClientError();  // 4xx
-$response->isServerError();  // 5xx
-$response->isOk();           // exactement 200
-$response->isNotFound();     // exactement 404
-```
+`isSuccessful()` teste la class 2xx, `isOk()` **200 exactement** ;
+`isClientError()` la class 4xx, `isNotFound()` **404 exactement** ;
+`isServerError()` la class 5xx.
 
 ## L'émission : `send()`, et qui l'appelle
 
-```php
-public function send(bool $flush = true): static
-{
-    $this->sendHeaders();
-    $this->sendContent();
+`send()` = `sendHeaders()` + `sendContent()`, puis clôture des buffers — sauf
+avec `$flush = false`. Le controller rend, le runner émet :
+`HttpKernelRunner::run()` appelle `send(false)`, exécute lui-même
+`fastcgi_finish_request()` hors debug, **puis** `terminate()`. D'où la promesse
+de `kernel.terminate` : ses listeners tournent après que le client est relâché.
 
-    if (!$flush) {
-        return $this;                 // on s'arrête ici
-    }
-    // sinon fastcgi_finish_request(), litespeed_finish_request(),
-    // ou closeOutputBuffers(0, true) + flush() selon le SAPI
-}
-```
-
-`send()` n'est pas une method de controller. Le controller **rend** une
-`Response` ; elle est émise une seule fois, plus haut, par le runner du
-component Runtime derrière `public/index.php`.
-
-`sendHeaders()` envoie le statut et les headers, `sendContent()` fait un `echo`
-du body. Deux détails valent d'être connus :
-
-- **Si les headers sont déjà partis**, `sendHeaders()` ne recommence pas : il
-  tente seulement de réémettre la ligne de statut, hors des SAPI `cli`,
-  `phpdbg` et `embed`. Ce `header()` tardif échoue : exécuté sous `php -S`, un
-  `echo` avant `send()` produit un **`E_WARNING`** *Cannot modify header
-  information*, et un 404 arrive au client en **200**. Pas d'exception, mais
-  un avertissement, et un statut perdu.
-- **`$flush = false`** saute la clôture des buffers — et c'est justement ce que
-  Symfony passe. `HttpKernelRunner::run()` appelle `send(false)`, exécute
-  lui-même `fastcgi_finish_request()` (sauf en mode debug), **puis** appelle
-  `terminate()`. C'est de là que vient la promesse de `kernel.terminate` :
-  ses listeners tournent après que le client a été relâché.
+Si les headers sont déjà partis, `sendHeaders()` tente seulement de réémettre
+la ligne de statut. Exécuté sous `php -S`, un `echo` avant `send()` donne un
+`E_WARNING` *Cannot modify header information*, et un 404 arrive en 200 : pas
+d'exception, mais un avertissement, et un statut perdu.
 
 ## Pièges d'examen
 
@@ -153,31 +129,93 @@ second toute la class 2xx.
 `new RedirectResponse($url, 304)` **échoue**, alors que
 `new RedirectResponse($url, 201)` est **accepté**.
 
-## Tips d'examen
+## Application
 
-**Le controller rend, le runner émet.** `send()` n'apparaît jamais dans un
-controller, et quand il est appelé c'est avec `false`.
+- Un endpoint qui crée une ressource → `new JsonResponse($data, 201)` ; un test
+  qui doit survivre au passage de 200 à 201 → `isSuccessful()`.
+- Un envoi d'email après la Response → un listener de `kernel.terminate`.
 
-**`isOk()` est plus strict que `isSuccessful()`** — 200 pile contre toute la
-class 2xx. Même rapport entre `isNotFound()` et `isClientError()`.
+## QCM d'entraînement
 
-**La liste de `isRedirect()` sert deux fois** : pour tester une Response, et
-pour valider le statut d'un `RedirectResponse` à la construction. Retenir la
-liste, c'est retenir les deux comportements.
+**Question 1.** Quelle version de protocole porte `new Response('x')` avant
+tout appel à `prepare()` ?
 
-**`JsonResponse` n'écrit pas le JSON de `json_encode()`** : elle ajoute quatre
-options d'escaping HTML. Comparer les données décodées, jamais la string.
+- **A.** `HTTP/1.1`, la version courante
+- **B.** Celle de la Request en cours
+- **C.** `HTTP/1.0`
+- **D.** `HTTP/2`, si le serveur le gère
 
-## Points clés
+<details>
+<summary>Correction</summary>
 
-- Sous-classes spécialisées plutôt que des headers posés à la main.
-- `isRedirection()` = 3xx ; `isRedirect()` = liste explicite incluant 201 et
-  excluant 300 et 304.
-- `isOk()` ≠ `isSuccessful()`.
-- `send()` = `sendHeaders()` + `sendContent()`, puis clôture des buffers sauf si
-  `$flush` est `false` — ce que le runner passe avant d'appeler `terminate()`.
+**Bonne réponse : C.** Le constructor pose `1.0` ; c'est `prepare()` qui passe
+en `1.1` quand la Request le permet, et le kernel l'appelle pour vous.
 
-## Aller lire la source
+</details>
+
+**Question 2.** Que contient le body de `new JsonResponse()`, appelée sans
+argument ?
+
+- **A.** `{}`
+- **B.** `null`
+- **C.** `[]`
+- **D.** Une string vide
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : A.** Le constructor remplace `null` par un `ArrayObject`
+vide, qui s'encode en object JSON vide plutôt qu'en array.
+
+</details>
+
+**Question 3.** Dans un functional test, que rend `getContent()` sur une
+`StreamedResponse` ?
+
+- **A.** Le body déjà produit par le callable
+- **B.** `false`
+- **C.** Une string vide, avant l'envoi
+- **D.** Une `LogicException`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** Le body n'existe pas tant que le callable n'a pas tourné
+pendant l'envoi : la class renvoie `false` au lieu d'un contenu.
+
+</details>
+
+**Question 4.** Que contient le body de `new RedirectResponse('/login')` ?
+
+- **A.** Rien : un redirect n'a pas de body
+- **B.** L'URL seule, en texte brut
+- **C.** Un JSON `{"location": "/login"}`
+- **D.** Une page HTML à `meta refresh`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : D.** La class écrit une petite page HTML qui redirige aussi
+par `meta http-equiv="refresh"`, pour un client qui ignorerait `Location`.
+
+</details>
+
+## Fiche express
+
+**Si tu dois retenir seulement 7 choses :**
+
+- Le controller **rend**, le runner **émet** — avec `send(false)`.
+- `isRedirection()` = **3xx** ; `isRedirect()` = **201, 301, 302, 303, 307,
+  308**.
+- `RedirectResponse` : **302** par défaut ; refuse 304, accepte 201.
+- `isOk()` = 200 pile ; **`isSuccessful()`** = 2xx.
+- Response neuve en **`HTTP/1.0`** ; `prepare()` corrige.
+- `JsonResponse` échappe le HTML ; `fromJsonString()` n'encode pas.
+- Headers déjà partis : **`E_WARNING`**, statut perdu.
+
+Moyen mnémotechnique : **« 201 dedans, 304 dehors »**.
+
+## Sources officielles
 
 - [`Response`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Response.php) — `isRedirect()` l. 1254, `isRedirection()` l. 1194,
   `isOk()` l. 1224, `isSuccessful()` l. 1184, `sendHeaders()` l. 316,

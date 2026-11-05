@@ -6,6 +6,7 @@ content_level: STANDARD
 language: fr
 verification_status: VERIFIED
 reviewed_at: "2026-10-03"
+format: pedagogical
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/mime.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/components/mime.rst"
@@ -29,18 +30,26 @@ outcome_sections:
 
 Composer un message électronique et savoir quelle structure MIME il produit.
 
-## Périmètre
+## L'essentiel
 
-Ce component **fabrique** le message ; il ne l'envoie pas. Le transport,
-l'envoi et les events appartiennent à l'item *Mailer*. L'envoi asynchrone
-appartient au component Messenger (lot 11) et n'est pas réexpliqué ici.
+Le component Mime **fabrique** un message électronique ; il ne l'envoie pas.
+L'API `Email`, chaînable, couvre les besoins courants ; `Message`, bas niveau,
+se réserve aux cas rares. À l'examen : la structure MIME produite, les
+adresses, et `MimeTypes`, dont la devinette lit le contenu du file.
 
-## Deux API pour un même message
+## Le schéma
 
-Le component offre deux niveaux :
+```text
+multipart/mixed                    contenus de natures différentes (pièce jointe)
+├── multipart/related              un tout : le HTML et ses images intégrées
+│   ├── multipart/alternative      deux versions du MÊME contenu ; la préférée EN DERNIER
+│   │   ├── text/plain
+│   │   └── text/html
+│   └── image/png
+└── application/pdf
+```
 
-- `Email` — l'API haut niveau, chaînable, qui couvre les besoins courants ;
-- `Message` — l'API bas niveau, pour contrôler chaque partie à la main.
+## L'exemple : une notification
 
 ```php
 use Symfony\Component\Mime\Email;
@@ -48,91 +57,49 @@ use Symfony\Component\Mime\Email;
 $email = new Email()
     ->from('fabien@symfony.com')
     ->to('foo@example.com')
-    ->cc('bar@example.com')
-    ->bcc('baz@example.com')
-    ->replyTo('fabien@symfony.com')
+    ->addCc('bar@example.com')
     ->priority(Email::PRIORITY_HIGH)
     ->subject('Important Notification')
     ->text('Lorem ipsum...')
-    ->html('<h1>Lorem ipsum</h1> <p>...</p>');
+    ->html('<h1>Lorem ipsum</h1>')
+    ->attachFromPath('/path/report.pdf');
 ```
 
-La documentation déconseille explicitement l'API bas niveau pour un besoin
-ordinaire : elle ajoute de la complexité sans gain réel.
+## Deux API pour un même message
+
+`Email` est l'API haut niveau ; `Message` contrôle chaque partie à la main,
+et la documentation la déconseille pour un besoin ordinaire. `Email` et
+`Message` se sérialisent ; `new RawMessage(unserialize($data))` reconstruit un
+message envoyable.
 
 ## L'arborescence MIME
 
-Un message qui porte du texte, du HTML, une image intégrée et un file joint
-se structure ainsi — c'est l'arbre qui fonctionne sur le plus de clients :
-
-```text
-multipart/mixed
-├── multipart/related
-│   ├── multipart/alternative
-│   │   ├── text/plain
-│   │   └── text/html
-│   └── image/png
-└── application/pdf
-```
-
-Chaque container a un rôle distinct :
-
-- `multipart/alternative` — plusieurs versions **du même contenu**. La forme
-  préférée se place **en dernier**.
-- `multipart/related` — des parties qui forment **un tout**, typiquement des
-  images affichées dans le body.
-- `multipart/mixed` — des contenus **de natures différentes**, typiquement une
-  attachment.
+L'arbre ci-dessus est exactement celui qu'`Email` produit pour texte, HTML,
+image intégrée et PDF joint. `alternative` réunit des versions du même
+contenu, `related` des parties qui forment un tout, `mixed` des contenus de
+natures différentes.
 
 ## Les adresses
 
-`from()`, `to()` et les autres acceptent une string ou un object `Address`.
-`Address::create('Fabien Potencier <fabien@example.com>')` analyse la forme
-`Nom <adresse>`. `addTo()`, `addCc()` et `addBcc()` **ajoutent** là où `to()`
-remplace.
-
-Les caractères UTF-8 sont admis dans la partie locale — **sauf pour l'adresse
-de sender**, afin d'éviter les problèmes de retour en cas de rebond.
-Exécuté : `Envelope` lève une `InvalidArgumentException` pour un sender
-`jösé@…`, accepte le même destinataire.
-
-L'arbre MIME présenté plus haut est exactement celui qu'`Email` produit pour
-texte, HTML, image intégrée et PDF joint — exécuté.
-
-## Sérialiser un message
-
-`Email` et `Message` sont de simples objects de données : `serialize()` les
-accepte. On reconstruit ensuite le message avec `RawMessage` :
-
-```php
-$message = new RawMessage(unserialize($serializedEmail));
-```
+- Une string ou un object `Address` ; `Address::create('Fabien Potencier
+  <fabien@example.com>')` analyse la forme `Nom <adresse>`.
+- `to()`, `cc()`, `bcc()` remplacent ; `addTo()`, `addCc()`, `addBcc()`
+  ajoutent.
+- L'UTF-8 est admis dans la partie locale, **sauf pour le sender** :
+  `Envelope` refuse `jösé@…` comme sender, l'accepte comme destinataire.
 
 ## Les types MIME
 
-`MimeTypes` traduit dans les deux sens :
+| Appel | Code 8.0, exécuté |
+|---|---|
+| `getExtensions('image/jpeg')` | `jpg`, `jpeg`, `jpe`, `jfif` |
+| `getMimeTypes('js')` | `text/javascript` d'abord |
 
-```php
-$mimeTypes->getExtensions('image/jpeg');
-$mimeTypes->getMimeTypes('js');
-```
-
-Les arrays rendus sont **ordonnés par priority** : le premier élément est le
-préféré. La documentation 8.0 illustre cet ordre par des valeurs que le code ne
-rend plus. Exécuté sur Mime 8.0.15 :
-
-| Appel | Documentation 8.0 | Code 8.0, exécuté |
-|---|---|---|
-| `getExtensions('image/jpeg')` | `jpeg`, `jpg`, `jpe` | `jpg`, `jpeg`, `jpe`, `jfif` |
-| `getMimeTypes('js')` | `application/javascript` d'abord | `text/javascript` d'abord |
-
-Le code l'emporte : l'extension préférée de `image/jpeg` est `jpg`.
-
-`guessMimeType()` **ne regarde pas le nom du file** : il inspecte le
-contenu — exécuté, un PNG nommé `.txt` est reconnu `image/png`. L'opération
-est coûteuse ; l'extension PHP `fileinfo` l'accélère. Un
-devineur maison implémente `MimeTypeGuesserInterface` et porte le tag
-`mime.mime_type_guesser`.
+Les arrays sont classés **par priority**, le premier étant le préféré — la
+documentation 8.0 en montre un ordre que le code ne rend plus.
+`guessMimeType()` **lit le contenu**, pas le nom : un PNG nommé `.txt` est
+`image/png`. L'extension PHP `fileinfo` l'accélère ; un devineur maison
+implémente `MimeTypeGuesserInterface`, tag `mime.mime_type_guesser`.
 
 ## Pièges d'examen
 
@@ -145,19 +112,94 @@ devineur maison implémente `MimeTypeGuesserInterface` et porte le tag
 
 **L'UTF-8 dans la partie locale est refusé pour le sender seul.**
 
-## Points clés
+## Application
 
-- `Email` haut niveau, `Message` bas niveau ; le second se réserve aux besoins
-  rares.
-- `alternative` = mêmes contenus, `related` = un tout, `mixed` = natures
-  différentes.
-- `Address::create()` analyse `Nom <adresse>` ; `addTo()` ajoute, `to()`
-  remplace.
-- `RawMessage` reconstruit un message sérialisé.
-- `MimeTypes` rend des arrays ordonnés par préférence ; la devinette lit le
-  contenu.
+- Un email lisible partout, en texte et en HTML → `text()` et `html()` :
+  `Email` construit le `multipart/alternative`.
+- Un message mis en queue → `serialize()`, puis `RawMessage` au
+  retour.
+
+## QCM d'entraînement
+
+**Question 1.** Que rend en premier `$mimeTypes->getMimeTypes('js')` sur
+Mime 8.0 ?
+
+- **A.** `application/javascript`, comme dans la documentation
+- **B.** `text/javascript`
+- **C.** `application/x-javascript`
+- **D.** Un array classé par ordre alphabétique
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** Les types sont classés par priority, le préféré en
+premier ; l'exemple de la documentation 8.0 ne correspond plus au code.
+
+</details>
+
+**Question 2.** Quelle extension PHP rend `guessMimeType()` plus rapide ?
+
+- **A.** `intl`
+- **B.** `mbstring`, pour les noms
+- **C.** `fileinfo`
+- **D.** `iconv`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : C.** La devinette inspecte le contenu du file, ce qui
+coûte ; l'extension `fileinfo` fournit cette inspection plus vite.
+
+</details>
+
+**Question 3.** `jösé@example.com` est ajouté comme **destinataire** d'un
+message dont le sender est en ASCII. Que fait `Envelope` ?
+
+- **A.** Il refuse l'adresse : l'UTF-8 est interdit
+- **B.** Il l'accepte
+- **C.** Il la convertit en punycode
+- **D.** Il retire les accents
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** La partie locale UTF-8 n'est refusée que pour le
+sender, à cause des rebonds ; un destinataire peut la porter.
+
+</details>
+
+**Question 4.** Une `Email` porte `text()` et `html()`, sans attachment ni
+image. Quel container réunit les deux versions ?
+
+- **A.** `multipart/mixed`, natures mêlées
+- **B.** `multipart/related`
+- **C.** `multipart/digest`, un recueil
+- **D.** `multipart/alternative`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : D.** Deux rendus du même contenu forment une alternative ;
+le client affiche le dernier qu'il sait lire, d'où le HTML en dernier.
+
+</details>
+
+## Fiche express
+
+**Si tu dois retenir seulement 6 choses :**
+
+- Mime **fabrique**, Mailer **envoie**.
+- **`Email`** haut niveau ; `Message` pour les besoins rares.
+- `alternative` = même contenu, préféré **en dernier** ; `related` = un tout ;
+  `mixed` = natures différentes.
+- `to()` remplace, **`addTo()`** ajoute ; UTF-8 refusé pour le **sender**.
+- `MimeTypes` : arrays **par priority** ; `jpg` et `text/javascript` d'abord.
+- `guessMimeType()` lit le **contenu** ; `fileinfo` accélère.
+
+Moyen mnémotechnique : **« Même contenu, un tout, des natures »**.
 
 ## Sources officielles
 
 - [`components/mime.rst`, branche 8.0](https://github.com/symfony/symfony-docs/blob/8.0/components/mime.rst)
 - [`MimeTypes`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Mime/MimeTypes.php)
+

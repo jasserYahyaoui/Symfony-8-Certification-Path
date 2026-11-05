@@ -6,6 +6,7 @@ content_level: DEEP
 language: fr
 verification_status: VERIFIED
 reviewed_at: "2026-09-16"
+format: pedagogical
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
@@ -41,143 +42,86 @@ outcome_sections:
 Choisir le bon sac de la `Request` et connaître la constraint que `InputBag`
 impose — c'est là que se situe le piège.
 
-## D'où vient l'object
+## L'essentiel
 
-```php
-$request = Request::createFromGlobals();   // depuis $_GET, $_POST, $_COOKIE, $_FILES, $_SERVER
-$request = Request::create('/search?q=php', 'GET');   // fabriquée de toutes pièces
+La `Request` range chaque source de données dans un **sac** typé ; on nomme
+toujours le sac, car `Request::get()` n'existe plus en 8.0. Trois sacs sont des
+`InputBag`, qui **refusent un array** dans `get()`. Deux données viennent du
+client et se falsifient : l'adresse IP et le `Host` — chacune a sa propre liste
+de confiance, vide par défaut.
+
+## Le schéma
+
+```text
+createFromGlobals()  superglobales → Request (front controller)   │  create()  Request fabriquée (tests)
+InputBag     $query ($_GET) · $request (body POST !) · $cookies    get() exige un scalaire, all() un array
+ParameterBag $attributes (_route, _controller, {slug})             accepte tout : vient de l'application
+autres       $headers HeaderBag · $server ServerBag · $files FileBag
+getClientIp()  X-Forwarded-For + REMOTE_ADDR − proxys de confiance, renversé → le 1er restant
+getHost()      X-Forwarded-Host (proxy de confiance) · Host · SERVER_NAME → setTrustedHosts([regex])
 ```
 
-`createFromGlobals()` est ce que fait le *front controller* : il emballe les
-superglobales dans un object. `create()` fabrique une Request sans elles — tests
-et sub-Requests. Dans un controller on n'appelle ni l'une ni l'autre : on
-type-hinte `Request`.
+## L'exemple : lire une recherche
+
+```php
+// /search?q=php&tags[]=php&tags[]=http
+$request->query->get('q');       // 'php'
+$request->query->all('tags');    // ['php', 'http']
+$request->query->get('tags');    // BadRequestException : valeur non scalaire
+$request->attributes->get('_route');
+```
 
 ## Les sacs
-
-`Request` expose sept properties publiques typées, chacune un sac spécialisé :
 
 | Property | Type | Contenu |
 |---|---|---|
 | `$query` | `InputBag` | Parameters d'URL (`$_GET`) |
 | `$request` | `InputBag` | Corps de form (`$_POST`) |
 | `$cookies` | `InputBag` | Cookies |
-| `$attributes` | `ParameterBag` | Données internes à l'application (route, `_route`, `_controller`) |
-| `$headers` | `HeaderBag` | Headers |
-| `$server` | `ServerBag` | `$_SERVER` |
-| `$files` | `FileBag` | Files téléversés |
+| `$attributes` | `ParameterBag` | Données de l'application (route, `_route`, `_controller`) |
+| `$headers`, `$server`, `$files` | `HeaderBag`, `ServerBag`, `FileBag` | Headers, `$_SERVER`, files téléversés |
 
-Le nom `$request` désigne le **corps POST**, pas la Request entière : c'est une
-source de confusion classique.
-
-**`Request::get()` n'existe plus en 8.0.** Le raccourci qui cherchait dans
-`attributes`, puis `query`, puis `request` est supprimé : on nomme le sac.
+Le nom `$request` désigne le **corps POST**, pas la Request entière.
+`getPayload()` lit le body JSON ou form-data et rend, lui aussi, un `InputBag`.
 
 ## InputBag n'accepte que des scalaires
 
-C'est la différence de fond avec `ParameterBag`.
-
-```php
-// URL : /search?tags[]=php&tags[]=http
-$request->query->get('tags');   // BadRequestException : valeur non scalaire
-$request->query->all('tags');   // ['php', 'http'] — correct
-```
-
-`InputBag::get()` lève une `BadRequestException` si la valeur n'est pas un
-scalaire. La raison est défensive : un array reçu là où un scalaire est
-attendu doit échouer bruyamment plutôt que de se propager. Pour une valeur
-multiple, `all()` est l'accessor prévu.
-
-`$attributes` est un `ParameterBag` sans cette restriction, parce que son
+`InputBag::get()` lève une `BadRequestException` sur une valeur non scalaire :
+un array reçu là où un scalaire est attendu doit échouer bruyamment. `all($key)`
+en est le miroir : il refuse ce qui n'est pas un array, et rend `[]` pour une
+key absente. `$attributes`, un `ParameterBag`, n'a pas cette restriction : son
 contenu vient de l'application, pas du client.
 
-## Corps brut et method
-
-```php
-$request->getContent();          // corps brut, utile pour du JSON
-$request->getPayload();          // InputBag depuis JSON ou form-data
-$request->isMethod('POST');      // comparaison insensible à la casse
-$request->getMethod();           // méthode effective, override compris
-$request->getRealMethod();       // ce que le serveur a reçu, sans override
-```
-
-**`getMethod()` peut ne pas être la method reçue.** Sur un `POST`, Symfony lit
-le header `X-HTTP-Method-Override` **sans qu'on ait rien à activer** ; seul
-`_method` exige `enableHttpMethodParameterOverride()`. `getRealMethod()` donne la
-method brute. **Symfony 8.0 restreint le mécanisme** : un override vers `GET`,
-`HEAD`, `CONNECT` ou `TRACE` est désormais ignoré, et
-`setAllowedHttpMethodOverride()` permet de limiter la liste, voire de tout
-interdire.
-
-`getPayload()` retourne un **`InputBag`** : la constraint scalaire ci-dessus s'y
-applique donc aussi, quel que soit le format d'entrée.
+Sur un `POST`, `getMethod()` lit `X-HTTP-Method-Override` **sans rien activer** ;
+seul `_method` exige `enableHttpMethodParameterOverride()`. En 8.0, un override
+vers `GET`, `HEAD`, `CONNECT` ou `TRACE` est ignoré ; `getRealMethod()` donne la
+method reçue.
 
 ## Client et proxys
 
-```php
-$request->getClientIp();
-```
-
-Derrière un reverse proxy, cette valeur n'est fiable **que si** les proxys de
-confiance sont déclarés (`Request::setTrustedProxies()` ou la configuration
-`trusted_proxies` du framework). Sans cela, Symfony ignore délibérément
-`X-Forwarded-For`, car un client peut le falsifier.
-
-**Quelle adresse est renvoyée, une fois les proxys déclarés.** `X-Forwarded-For`
-est une liste : chaque proxy traversé ajoute la sienne à droite. Symfony complète
-la chaîne d'adresses avec `REMOTE_ADDR`, **retire toute adresse appartenant à un proxy de
-confiance**, puis **renverse** ce qui reste. `getClientIp()` renvoie le premier
-élément du résultat, c'est-à-dire l'adresse non fiable **la plus proche du
-serveur**.
+Sans proxys de confiance (`setTrustedProxies()` ou `trusted_proxies`),
+`getClientIp()` ignore `X-Forwarded-For` et rend l'adresse du proxy. Une fois
+déclarés, Symfony complète la chaîne d'adresses avec `REMOTE_ADDR`,
+retire toute adresse appartenant à un proxy de confiance, **renverse** le reste
+et rend le premier élément : l'adresse non fiable **la plus proche du serveur**.
 
 ```php
-// tous les intermédiaires sont déclarés de confiance : le cas visé
-// X-Forwarded-For: 203.0.113.7, 10.0.0.1, 10.0.0.2   (10.0.0.* de confiance)
-$request->getClientIp();    // '203.0.113.7' — il ne reste qu'une adresse
-
-// un intermédiaire n'est PAS déclaré : le résultat change
-// X-Forwarded-For: 1.2.3.4, 5.6.7.8                  (aucun des deux de confiance)
+// X-Forwarded-For: 1.2.3.4, 5.6.7.8   (aucun des deux de confiance)
 $request->getClientIp();    // '5.6.7.8', et non '1.2.3.4'
 ```
 
-Le client d'origine n'est donc renvoyé **que si toute la chaîne
-d'intermédiaires est déclarée de confiance**. Dès qu'un saut non déclaré
-subsiste, c'est lui qu'on obtient — et c'est le comportement sûr, puisque tout
-ce qui se trouve à sa gauche est écrit par un maillon auquel on ne fait pas
-confiance.
-
-`getClientIps()` renvoie la liste complète, « la plus fiable d'abord » selon son
-propre docblock, et conseille de lui préférer `getClientIp()`.
+Le client d'origine n'est renvoyé que si toute la chaîne de proxies est déclarée
+de confiance.
 
 ## Le host, et la seconde liste de confiance
 
-`X-Forwarded-For` n'est pas le seul header que le client contrôle. `Host` l'est
-aussi, et `getHost()` le lit — d'abord `X-Forwarded-Host` si la Request vient
-d'un proxy de confiance, sinon le header `Host`, sinon `SERVER_NAME`, sinon
-`SERVER_ADDR`. Le port est retiré et la valeur passée en minuscules.
-
-Un `Host` falsifié empoisonne tout ce qui est construit à partir de lui : une
-URL absolue dans un email de réinitialisation de password, une key de
-cache. La parade est une **seconde** liste, distincte des proxys :
-
-```php
-Request::setTrustedHosts(['^(.+\.)?example\.com$']);
-```
-
-`getHost()` lève alors une `SuspiciousOperationException` sur un host hors
-liste — et aussi sur un host syntaxiquement invalide, avant même la liste.
-
-**Ce sont des expressions régulières, et elles ne sont pas ancrées pour vous.**
-Chaque pattern est enveloppé en `{motif}i` : insensible à la casse, et surtout
-**non ancré**. `setTrustedHosts(['example.com'])` accepte donc
-`example.com.attaquant.test`, puisque le pattern y est trouvé en sous-chaîne — et
-le point non échappé accepte en prime `exampleXcom`. Un pattern de confiance
-s'écrit avec `^`, `$` et des points échappés, faute de quoi la liste donne
-l'apparence d'une protection sans en être une.
-
-**Une liste vide ne vérifie rien.** Le contrôle ne s'exécute que
-`if (count(self::$trustedHostPatterns) > 0)` : par défaut, n'importe quel `Host`
-est accepté. L'absence de configuration n'est pas un mode strict.
+Un `Host` falsifié empoisonne une URL absolue d'email ou une key de cache.
+`Request::setTrustedHosts(['^(.+\.)?example\.com$'])` fait lever une
+`SuspiciousOperationException` à `getHost()` sur un host hors liste. Les
+patterns sont des regex **non ancrées** (`{motif}i`) : `['example.com']`
+accepte `example.com.attaquant.test`. Et une liste vide ne vérifie rien.
+Deux listes, deux dangers : `trusted_proxies` garde `X-Forwarded-For`,
+`trusted_hosts` garde `Host`.
 
 ## Pièges d'examen
 
@@ -197,28 +141,93 @@ client contrôle.
 **`Request::create()` n'est pas `createFromGlobals()`.** La première fabrique
 une Request arbitraire — tests, sub-Requests ; la seconde lit les superglobales.
 
-## Tips d'examen
+## Application
 
-**`get()` refuse un array, `all($clé)` refuse ce qui n'en est pas un** : deux
-`BadRequestException` symétriques. Une key absente, elle, rend `[]`.
+- Un filter multiple `?tags[]=a&tags[]=b` → `$request->query->all('tags')`.
+- Une application derrière un load balancer → déclarer ses adresses en
+  `trusted_proxies`, et ancrer chaque pattern de `trusted_hosts`.
 
-**Deux listes, deux dangers** : `trusted_proxies` garde `X-Forwarded-For`,
-`trusted_hosts` garde `Host`. Vides par défaut toutes les deux.
+## QCM d'entraînement
 
-**Un host pattern est une expression régulière non ancrée** : sans `^` ni `$`,
-la sous-chaîne suffit.
+**Question 1.** Un `POST` porte `X-HTTP-Method-Override: PUT`, et rien n'a été
+activé. Que rend `getMethod()` ?
 
-## Points clés
+- **A.** `POST` : l'override doit être activé
+- **B.** `PUT`
+- **C.** `POST`, et `getRealMethod()` rend `PUT`
+- **D.** Une `SuspiciousOperationException`
 
-- Sept sacs typés ; `$request` = corps POST, `$attributes` = données internes.
-- `InputBag::get()` exige un scalaire et lève sinon ; `all()` pour un array.
-- `getPayload()` lit JSON comme form-data, et retourne un `InputBag`.
-- `getClientIp()` n'est fiable qu'avec des trusted proxies déclarés, et renvoie
-  l'adresse non fiable la plus proche du serveur : le client d'origine seulement
-  si toute la chaîne de proxies est de confiance.
-- `createFromGlobals()` lit les superglobales ; `create()` fabrique une Request.
+<details>
+<summary>Correction</summary>
 
-## Aller lire la source
+**Bonne réponse : B.** Le header est lu sur tout `POST` sans configuration ;
+seul le parameter `_method` demande une activation. `getRealMethod()` rend
+`POST`.
+
+</details>
+
+**Question 2.** Que fait `$request->query->get('page', ['défaut'])` ?
+
+- **A.** Une `InvalidArgumentException`
+- **B.** Une `BadRequestException`, comme sur un array reçu
+- **C.** Elle rend `['défaut']` si `page` manque
+- **D.** Elle rend le premier élément du défaut
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : A.** Le défaut d'un `InputBag` doit lui aussi être scalaire ;
+l'erreur vient du code appelant, pas du client, d'où une autre exception.
+
+</details>
+
+**Question 3.** Un controller Symfony 8.0 appelle `$request->get('id')`. Que
+se passe-t-il ?
+
+- **A.** La valeur est cherchée dans `attributes`, puis `query`
+- **B.** `null` : aucun sac n'est nommé
+- **C.** Une `Error` : la method n'existe plus
+- **D.** Une deprecation, puis la valeur
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : C.** Le raccourci qui fouillait plusieurs sacs a été
+supprimé ; il faut nommer le sac, par exemple `$request->attributes->get('id')`.
+
+</details>
+
+**Question 4.** Le body JSON d'une Request est `"42"`. Que fait
+`getPayload()` ?
+
+- **A.** Un `InputBag` qui contient `42`
+- **B.** Une `JsonException`
+- **C.** Un `InputBag` vide
+- **D.** Une `BadRequestException` : 42 est un scalaire
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** Le JSON est valide mais ne décode pas en array ; la
+method exige un document qui donne des parameters nommés.
+
+</details>
+
+## Fiche express
+
+**Si tu dois retenir seulement 7 choses :**
+
+- Nommer le sac : **`Request::get()` n'existe plus** en 8.0.
+- `$request` = **body POST** ; `$attributes` = données de l'application.
+- `InputBag::get()` refuse un array, **`all()`** refuse un scalaire.
+- `getPayload()` : JSON ou form-data, rendu en **`InputBag`**.
+- `X-HTTP-Method-Override` lu **sans activation** ; vers `GET` ignoré en 8.0.
+- `getClientIp()` : l'adresse non fiable la plus proche du serveur — le client d'origine seulement si toute la chaîne de proxies est de confiance.
+- Trusted hosts : regex **non ancrées**, liste vide = aucun contrôle.
+
+Moyen mnémotechnique : **« Nommer le sac, ancrer le host, déclarer le proxy »**.
+
+## Sources officielles
 
 - [Component HttpFoundation](https://github.com/symfony/symfony-docs/blob/8.0/components/http_foundation.rst) — *Accessing Request Data*,
   `createFromGlobals()`, `create()`

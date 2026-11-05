@@ -6,6 +6,7 @@ content_level: STANDARD
 language: fr
 verification_status: VERIFIED
 reviewed_at: "2026-10-26"
+format: pedagogical
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/components/event_dispatcher.rst"
@@ -35,22 +36,23 @@ Comprendre ce qui circule entre le code qui déclenche et le code qui écoute :
 l'object event. C'est lui qui porte la donnée, et lui seul qui peut
 interrompre la propagation.
 
-## Périmètre
+## L'essentiel
 
-Le **dispatcher** — inscription, priorities, listeners contre subscribers — a son
-propre item officiel et n'est pas redit ici. Cette page porte sur l'object.
+L'object event circule entre le code qui déclenche et les listeners. La class
+de base, `Event`, est **volontairement pauvre** : elle sait seulement arrêter
+la propagation. Pour transporter une donnée, on écrit une sous-classe, ou l'on
+prend `GenericEvent` — un sujet et des arguments, au prix du typage.
 
-## Prérequis
+## Le schéma
 
-Le dispatcher d'events.
+```text
+Event (Contracts)      stopPropagation() · isPropagationStopped() — rien d'autre
+sous-classe            OrderPlacedEvent : getOrder() (et setX() si les listeners remplacent)
+GenericEvent           sujet + arguments ; ArrayAccess et IteratorAggregate sur les ARGUMENTS
+propagation            10 → 5 (stopPropagation) ✗ 0 ✗ -5 ; ce qui a tourné reste fait
+```
 
-## Une class de base délibérément pauvre
-
-`Symfony\Contracts\EventDispatcher\Event` est **volontairement minimale**. Elle
-n'offre guère qu'un mécanisme d'arrêt de propagation, précisément pour laisser
-créer par inheritance des objects spécifiques à chaque API.
-
-Quand un event doit transporter de la donnée, on écrit une sous-classe :
+## L'exemple : un achat validé
 
 ```php
 final class OrderPlacedEvent extends Event
@@ -62,65 +64,42 @@ final class OrderPlacedEvent extends Event
         return $this->order;
     }
 }
+
+$event = $dispatcher->dispatch(new OrderPlacedEvent($order));
+if ($event->isPropagationStopped()) {
+    // un listener a coupé la suite
+}
 ```
 
-Chaque listener accède alors à l'`Order` par `getOrder()`. C'est le pattern
-qu'emploie le framework lui-même : `ResponseEvent`, par exemple, expose de quoi
-lire **et remplacer** la Response.
+## Une class de base délibérément pauvre
+
+`Symfony\Contracts\EventDispatcher\Event` n'offre guère que l'arrêt de
+propagation, pour laisser chaque API définir son object. Le framework fait de
+même : `ResponseEvent` expose de quoi **lire et remplacer** la Response
+(`getResponse()`, `setResponse()`).
 
 ## Arrêter la propagation
 
-```php
-public function onPlacedOrder(OrderPlacedEvent $event): void
-{
-    $event->stopPropagation();
-}
-```
-
-Les listeners de cet event **qui n'ont pas encore été appelés** ne le seront
-pas. Ceux déjà exécutés ne sont évidemment pas défaits. Exécuté avec des
-listeners de priorities `10`, `5` (qui arrête), `0` et `-5` : seuls `10` et `5`
-tournent.
-
-Deux conséquences pratiques :
-
-- l'arrêt dépend entièrement de **l'ordre d'appel**, donc des priorities ;
-- côté déclencheur, `isPropagationStopped()` rend un bool permettant de
-  savoir, après le `dispatch()`, si la propagation a été interrompue.
-
-```php
-$dispatcher->dispatch($event, 'foo.event');
-
-if ($event->isPropagationStopped()) {
-    // ...
-}
-```
+- `$event->stopPropagation()` : les listeners **pas encore appelés** ne le
+  seront pas ; ceux qui ont tourné ne sont pas défaits.
+- Listeners de priorities `10`, `5` (qui arrête), `0`, `-5` : seuls `10` et `5`
+  tournent. L'effet dépend donc de l'ordre, c'est-à-dire des priorities.
+- Côté déclencheur, `isPropagationStopped()` se lit après le `dispatch()`.
 
 ## `GenericEvent`, quand une sous-classe ne se justifie pas
-
-Pour qui veut un seul object event dans toute l'application,
-`Symfony\Component\EventDispatcher\GenericEvent` suit le pattern observateur
-classique : il encapsule un **sujet**, plus des **arguments** optionnels.
 
 ```php
 $event = new GenericEvent($subject, ['key' => 'value']);
 $dispatcher->dispatch($event, 'foo');
-
 $event->getSubject();
-$event->getArgument('key');
+$event->getArgument('key');      // ou $event['key']
 $event->hasArgument('key');
 ```
 
-Il ajoute `getSubject()`, `setArgument()`, `setArguments()`, `getArgument()`,
-`getArguments()` et `hasArgument()` à la class de base, et implémente
-**`ArrayAccess`** sur ses arguments — d'où un accès par crochets — ainsi
-qu'**`IteratorAggregate`** : un `foreach` parcourt ses arguments. Exécuté :
-`$event['k']` rend `v`, et l'itération rend la key `k`.
-
-Le compromis est clair : `GenericEvent` évite d'écrire une class, au prix d'une
-donnée non typée à laquelle on accède par key. Une sous-classe dédiée donne un
-contrat explicite, et c'est ce que fait le framework partout où l'event
-compte.
+`setArgument()`, `setArguments()`, `getArguments()` complètent l'ensemble.
+`ArrayAccess` et `IteratorAggregate` portent sur les **arguments**, pas sur le
+sujet. Le compromis : pas de class à écrire, mais une donnée non typée lue par
+key.
 
 ## Pièges d'examen
 
@@ -137,15 +116,93 @@ suivants d'être appelés.
 **`GenericEvent` implémente `ArrayAccess`** sur ses arguments, pas sur son sujet —
 et `IteratorAggregate`, sur les mêmes arguments.
 
-## Points clés
+## Application
 
-- `Event` est minimale par conception : arrêt de propagation, rien de plus.
-- Transporter de la donnée = écrire une sous-classe exposant des accessors.
-- `stopPropagation()` coupe la suite ; `isPropagationStopped()` le révèle.
-- `GenericEvent` : un sujet, des arguments, `ArrayAccess`.
+- Des listeners qui doivent remplacer l'`Invoice` transportée → une
+  sous-classe avec `getInvoice()` et `setInvoice()`.
+- Un listener prioritaire qui décide seul → `stopPropagation()`, et une
+  priority plus haute que les autres.
+
+## QCM d'entraînement
+
+**Question 1.** `$event = new GenericEvent($user, ['k' => 'v'])`. Que donne
+`$event['subject']` ?
+
+- **A.** `$user`, le sujet
+- **B.** `null` : la key n'existe pas
+- **C.** Une exception
+- **D.** Le tableau des arguments
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : C.** L'accès par crochets lit les arguments, pas le sujet :
+une `InvalidArgumentException`, « Argument "subject" not found. ». Le sujet se lit par `getSubject()`.
+
+</details>
+
+**Question 2.** Même event. Que rend `$event->hasArgument('missing')` ?
+
+- **A.** `false`
+- **B.** Une exception : argument inconnu
+- **C.** `null`
+- **D.** `true` : tout argument est optionnel
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : A.** `hasArgument()` teste la présence sans lever ; c'est
+`getArgument()`, ou l'accès par crochets, qui lève sur une key absente.
+
+</details>
+
+**Question 3.** Le **dernier** listener appelé, à priority `-5`, appelle
+`stopPropagation()`. Quel effet ?
+
+- **A.** Les listeners déjà appelés sont annulés
+- **B.** Une exception : trop tard pour arrêter
+- **C.** Le dispatcher relance les listeners à l'envers
+- **D.** Aucun listener n'est sauté
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : D.** Il ne reste personne à sauter ; le drapeau, lui, est
+posé : `isPropagationStopped()` vaut `true` après le `dispatch()`.
+
+</details>
+
+**Question 4.** Un listener de `kernel.response` doit remplacer la Response
+entière. Que lui fournit `ResponseEvent` ?
+
+- **A.** Rien : la Response est en lecture seule
+- **B.** `setResponse()`
+- **C.** `stopPropagation()` suivi d'un nouveau `dispatch()`
+- **D.** `getRequest()->setResponse()`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** L'event du framework expose de quoi lire et remplacer
+sa donnée : c'est le role d'une sous-classe dédiée, que la base n'a pas.
+
+</details>
+
+## Fiche express
+
+**Si tu dois retenir seulement 5 choses :**
+
+- `Event` : **arrêt de propagation**, rien d'autre.
+- Donnée à transporter : **sous-classe** avec accessors.
+- `stopPropagation()` saute la suite, **n'annule rien**.
+- `isPropagationStopped()` **après** le `dispatch()`.
+- `GenericEvent` : sujet + arguments ; **`ArrayAccess` sur les arguments**.
+
+Moyen mnémotechnique : **« Porter, arrêter, ou tout mettre dans un sac »**.
 
 ## Sources officielles
 
 - [The EventDispatcher Component](https://github.com/symfony/symfony-docs/blob/8.0/components/event_dispatcher.rst)
 - [The Generic Event Object](https://github.com/symfony/symfony-docs/blob/8.0/components/event_dispatcher/generic_event.rst)
 - [`GenericEvent`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/EventDispatcher/GenericEvent.php)
+

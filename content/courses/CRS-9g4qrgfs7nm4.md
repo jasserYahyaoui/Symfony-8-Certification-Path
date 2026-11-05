@@ -6,6 +6,7 @@ content_level: MINIMAL
 language: fr
 verification_status: VERIFIED
 reviewed_at: "2026-10-26"
+format: pedagogical
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/standards.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/standards.rst"
@@ -31,6 +32,32 @@ outcome_sections:
 Reconnaître les conventions de nommage officielles de Symfony. La convention de
 nommage propre aux controllers est traitée dans le lot Controllers.
 
+## L'essentiel
+
+Les standards de Symfony fixent la **casse** de chaque élément, quelques
+**préfixes et suffixes**, deux préfixes d'attributes, et douze noms de
+methods pour une collection. Rien n'est à déduire : tout se retient, et
+l'examen vise les exceptions — un cas d'enum, l'`Abstract` en préfixe,
+`getXXXs()` pour `all()`.
+
+## Le schéma
+
+```text
+camelCase              variables, functions, methods, arguments      hasSession()
+snake_case             config, routes, variables et templates Twig  framework.csrf_protection
+SCREAMING_SNAKE_CASE   constantes                                    InputArgument::IS_ARRAY
+UpperCamelCase         classes, interfaces, traits, enums, cas d'enum, files PHP
+Abstract…  (préfixe, sauf *TestCase)   …Interface  …Trait  …Exception   (suffixes)
+#[As…] configure un service      #[Map…] remplit un argument de controller
+```
+
+## L'exemple : une collection principale
+
+```php
+$jar->all();            // relation principale : un CookieJar a des Cookie
+$jar->getOptions();     // relation secondaire : getXXXs(), pas allOptions()
+```
+
 ## La casse
 
 | Élément | Casse | Exemple |
@@ -39,41 +66,28 @@ nommage propre aux controllers est traitée dans le lot Controllers.
 | parameters de configuration, route names, variables Twig | `snake_case` | `framework.csrf_protection` |
 | constantes | `SCREAMING_SNAKE_CASE` | `InputArgument::IS_ARRAY` |
 | cas d'enum | `UpperCamelCase` | `InputArgumentMode::IsArray` |
-| classes, interfaces, traits, enums | `UpperCamelCase` | `ConsoleLogger` |
-| files PHP | `UpperCamelCase` | `EnvVarProcessor.php` |
+| classes, interfaces, traits, enums, files PHP | `UpperCamelCase` | `EnvVarProcessor.php` |
 | templates Twig et ressources web | `snake_case` | `section_layout.html.twig` |
+
+Dans les PHPDoc et les transtypages : `bool`, `int`, `float` — jamais `boolean`,
+`integer`, `double` ou `real`.
 
 ## Préfixes et suffixes
 
-- Préfixe `Abstract` pour les abstract classes — sauf les `*TestCase` de
-  PHPUnit.
-- Suffixe `Interface` pour les interfaces.
-- Suffixe `Trait` pour les traits.
-- Suffixe `Exception` pour les exceptions.
-- **Aucun** suffixe dédié pour les classes ordinaires et les enums : pas
-  de `...Class`, pas de `...Enum`.
-
-Les attributes PHP suivent deux préfixes selon leur role :
-
-- `As...` quand l'attribute configure un **service** : `#[AsCommand]`,
-  `#[AsEventListener]` ;
-- `Map...` quand il concerne un **argument de controller** : `#[MapEntity]`,
-  `#[MapCurrentUser]`.
+- `Abstract` en **préfixe** pour les abstract classes — sauf les `*TestCase`
+  de PHPUnit.
+- `Interface`, `Trait`, `Exception` en **suffixe** ; aucun suffixe pour une
+  class ordinaire ou une enum.
+- `As...` quand l'attribute configure un **service** (`#[AsCommand]`) ;
+  `Map...` quand il remplit un **argument de controller** (`#[MapEntity]`).
 
 ## Nommer une method de collection
 
-Un second document, `conventions.rst`, normalise **douze** noms de methods
-quand un object a une relation « principale » avec des choses apparentées :
-
-`get()` · `set()` · `has()` · `all()` · `replace()` · `remove()` · `clear()` ·
-`isEmpty()` · `add()` · `register()` · `count()` · `keys()`
-
-La convention ne s'applique **que** si la relation principale est évidente. Un
-`CookieJar` a beaucoup de `Cookie` — elle s'applique. Un `Input` de console a
-des arguments *et* des options, sans relation principale — elle ne s'applique
-pas.
-
-Sinon, on suffixe par le nom de la chose. Quatre lignes ne se déduisent pas :
+`conventions.rst` normalise douze noms quand un object a une relation
+**principale** : `get()`, `set()`, `has()`, `all()`, `replace()`, `remove()`,
+`clear()`, `isEmpty()`, `add()`, `register()`, `count()`, `keys()`. Un
+`CookieJar` a beaucoup de `Cookie` : la convention s'applique ; un `Input` de
+console a des arguments *et* des options : elle ne s'applique pas.
 
 | Relation principale | Autre relation |
 |---|---|
@@ -82,13 +96,8 @@ Sinon, on suffixe par le nom de la chose. Quatre lignes ne se déduisent pas :
 | `keys()` | **aucune** |
 | *aucune* | **`replaceXXX()`** |
 
-Et `setXXX()` n'est pas `replaceXXX()` : le premier peut **ajouter** un élément,
-le second ne le peut pas et doit **lever une exception** sur une key inconnue.
-
-## Types
-
-Dans les PHPDoc et les transtypages : `bool`, `int`, `float` — jamais `boolean`,
-`integer`, `double` ou `real`.
+`setXXX()` peut **ajouter** un élément ; `replaceXXX()` ne le peut pas et doit
+lever une exception sur une key inconnue.
 
 ## Pièges d'examen
 
@@ -109,19 +118,93 @@ service (`#[AsCommand]`), `Map...` concerne un argument de controller
 `setXXXs()`. Les deux lignes les moins régulières de la table.
 
 **`setXXX()` et `replaceXXX()` diffèrent par un droit.** Seul le premier peut
-ajouter ; le second doit lever une exception sur une clé inconnue.
+ajouter ; le second doit lever une exception sur une key inconnue.
 
-## Points clés
+## Application
 
-- `camelCase` pour le code, `snake_case` pour la configuration et les templates.
-- `Abstract` en préfixe ; `Interface`, `Trait`, `Exception` en suffixe.
-- `As...` = service ; `Map...` = argument de controller.
-- Cas d'enum en `UpperCamelCase`, constantes en `SCREAMING_SNAKE_CASE`.
-- Douze noms normalisés pour une relation principale ; sinon suffixe `XXX`,
-  avec `getXXXs()` pour `all()` et `setXXXs()` pour `replace()`.
+- Un attribute qui déclare un subscriber → `#[As...]`.
+- Une class `Order` qui expose toutes ses lignes, relation secondaire →
+  `getLines()`.
+
+## QCM d'entraînement
+
+**Question 1.** Quelle est la forme suffixée de `keys()` pour une relation
+secondaire ?
+
+- **A.** `keysXXX()`
+- **B.** `getXXXKeys()`, sur le modèle de `getXXXs()`
+- **C.** Il n'y en a pas
+- **D.** `XXXKeys()`, sans préfixe
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : C.** La table de `conventions.rst` ne donne aucune variante
+à `keys()` hors de la relation principale ; c'est une case vide à retenir.
+
+</details>
+
+**Question 2.** Quel type écrire dans un PHPDoc selon les standards ?
+
+- **A.** `boolean`, la forme longue
+- **B.** `bool`
+- **C.** `Boolean`, comme une class
+- **D.** Indifféremment `bool` ou `boolean`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** Les standards imposent les formes courtes — `bool`,
+`int`, `float` — et écartent `boolean`, `integer`, `double` et `real`.
+
+</details>
+
+**Question 3.** Quelles abstract classes échappent au préfixe `Abstract` ?
+
+- **A.** Les `*TestCase` de PHPUnit
+- **B.** Aucune : la règle est absolue
+- **C.** Celles qui implémentent une interface
+- **D.** Les classes de base des bundles tiers
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : A.** La règle prévoit cette seule exception, pour garder le
+nom attendu par PHPUnit ; toutes les autres abstract classes sont préfixées.
+
+</details>
+
+**Question 4.** `replaceItem('inconnu', $v)` reçoit une key absente de la
+collection. Que doit faire la method ?
+
+- **A.** Ajouter l'élément, comme `setItem()`
+- **B.** Ne rien faire, en silence
+- **C.** Rendre `false`
+- **D.** Lever une exception
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : D.** `replaceXXX()` ne peut pas ajouter d'élément : une key
+inconnue doit lever, là où `setXXX()` aurait ajouté.
+
+</details>
+
+## Fiche express
+
+**Si tu dois retenir seulement 6 choses :**
+
+- **`camelCase`** le code, **`snake_case`** config, routes et templates.
+- Cas d'enum en **`UpperCamelCase`**, constantes en `SCREAMING_SNAKE_CASE`.
+- **`Abstract`** en préfixe ; `Interface`, `Trait`, `Exception` en suffixe.
+- **`As...`** = service ; **`Map...`** = argument de controller.
+- `all()` → **`getXXXs()`**, `replace()` → **`setXXXs()`**, `keys()` → rien.
 - `replaceXXX()` ne peut pas ajouter ; `setXXX()` le peut.
+
+Moyen mnémotechnique : **« Abstract devant, le reste derrière »**.
 
 ## Sources officielles
 
 - [Coding Standards, section « Naming Conventions »](https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/standards.rst)
 - [Conventions, section « Naming a Method »](https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/conventions.rst)
+

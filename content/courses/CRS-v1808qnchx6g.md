@@ -6,6 +6,7 @@ content_level: STANDARD
 language: fr
 verification_status: VERIFIED
 reviewed_at: "2026-10-26"
+format: pedagogical
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/translation.rst"
@@ -42,139 +43,83 @@ outcome_sections:
 Traduire un message selon la locale du user, et savoir exactement quel
 file Symfony va lire — c'est là que se jouent les surprises.
 
-## Périmètre
+## L'essentiel
 
-L'énoncé officiel le précise : **les utilitaires d'accès aux données ICU du
-component Intl ne sont pas inclus**. Cette page ne traite donc pas des classes
-qui listent pays, langues ou devises.
+`trans()` cherche une key dans un catalogue choisi par le **nom du file** —
+domain, locale, loader — et rend la key telle quelle si rien ne répond. Deux
+syntaxes de placeholder coexistent : `%name%` en format classique, `{name}`
+avec ICU MessageFormat, activé par le suffixe `+intl-icu`. Une key absente
+suit une cascade de repli.
 
-Elle traite en revanche **ICU MessageFormat**, qui appartient à la translation et
-non à ces utilitaires.
+## Le schéma
 
-## Prérequis
-
-La détection de la locale à partir de la Request, et la locale de route.
-
-## Deux mots à ne pas confondre
-
-**Internationalisation** (*i18n*) : sortir de l'application les strings et tout
-ce qui dépend de la locale, pour les placer dans une couche traduisible.
-**Localisation** : fournir les valeurs pour une locale donnée.
-
-La **locale** est la langue et le pays. La forme recommandée est le code langue
-ISO 639-1, un souligné, le code pays ISO 3166-1 alpha-2 : `fr_FR`.
-
-## Traduire
-
-```php
-$translator->trans('Hello World');
-$translator->trans('say_hello', ['%name%' => 'Fabien']);
-$translator->trans('Hello World', domain: 'app');
+```text
+fichier      domaine.locale.chargeur        messages.fr_FR.yaml · admin.en.xlf · messages+intl-icu.en.yaml
+lecture      translations/ du projet, puis des bundles ; redéfinition key par key
+trans()      key trouvée → traduite ; nulle part → la key, telle quelle, sans erreur
+repli es_AR  es_AR → es_419 (locale parente) → es → fallbacks (sinon default_locale)
+twig         |trans échappe ; {% trans %} n'échappe rien et exige %var%
 ```
 
-Les messages se rangent en **domains** ; le domain par défaut est `messages`.
+## L'exemple : saluer
 
-Le point important sur `trans()` : **si le message n'est pas dans le catalogue,
-la string d'origine est retournée**. Aucune erreur, aucun message vide. Une
-translation manquante est donc silencieuse — le symptôme est une key affichée
-telle quelle.
+```yaml
+# translations/messages+intl-icu.en.yaml
+say_hello: 'Hello {name}!'
+num_of_apples: >-
+    {apples, plural, =0 {There are no apples} =1 {There is one apple} other {There are # apples!}}
+```
+
+```php
+$translator->trans('say_hello', ['name' => 'Fabien']);   // Hello Fabien!
+$translator->trans('Hello World', domain: 'app');        // le domain app
+```
 
 ## Le nom du file n'est pas décoratif
 
-Chaque file suit le pattern **`domaine.locale.chargeur`** :
-
-```text
-messages.fr_FR.yaml
-admin.en.xlf
-```
-
-- **domain** — le group de messages ;
-- **locale** — `en`, `en_GB`… ;
-- **loader** — l'extension choisit le parser : `yaml`, `xlf`, `php`, `csv`,
-  `json`, `ini`, `po`, `mo`…
-
-La documentation recommande YAML pour un projet simple et XLIFF lorsque des
-professionnels de la langue ou des outils spécialisés interviennent.
-
-Symfony lit d'abord le directory **`translations/` du projet**, puis celui des
-bundles. La priority du projet est ce qui permet de **redéfinir** la translation
-d'un bundle — et la redéfinition se fait **key par key** : seules les keys
-surchargées ont besoin d'être présentes dans le file prioritaire.
-
-Un **nouveau** catalogue exige un `cache:clear` pour être découvert.
+- **domain** (`messages` par défaut), **locale** (`en`, `en_GB`), **loader**
+  choisi par l'extension : `yaml`, `xlf`, `php`, `csv`, `json`, `ini`, `po`,
+  `mo`.
+- YAML pour un projet simple, XLIFF quand des translators et leurs outils
+  interviennent.
+- `translations/` du projet passe avant celui des bundles, **key par key**.
+- Un nouveau catalogue exige un `cache:clear`.
+- *i18n* sort les strings dans une couche traduisible ; la localisation
+  fournit les valeurs d'une locale. Forme recommandée : `fr_FR`.
+- Hors périmètre : les utilitaires d'accès aux données ICU du component Intl.
 
 ## Plusieurs catalogues pour une key
 
-Exécuté avec Translation 8.0.15 :
-
-- une key présente dans `messages` et dans `messages+intl-icu` : la version
-  **ICU** gagne ;
-- deux resources d'un même domain et d'une même locale : la **dernière**
-  chargée gagne, key par key ; les autres keys restent ;
-- une key trouvée dans une locale de repli est formatée avec les règles de
+- Une key dans `messages` et dans `messages+intl-icu` : la version **ICU**
+  gagne.
+- Deux resources d'un même domain et d'une même locale : la **dernière**
+  chargée gagne, key par key ; les autres keys restent.
+- Une key trouvée dans une locale de repli est formatée avec les règles de
   **cette** locale.
 
 ## Les deux syntaxes de placeholder
-
-C'est la distinction la plus testable de l'item.
 
 | | Format classique | ICU MessageFormat |
 |---|---|---|
 | File | `messages.en.yaml` | `messages+intl-icu.en.yaml` |
 | Écriture | `Hello %name%!` | `Hello {name}!` |
 
-Le suffixe **`+intl-icu`** dans le nom du domain est ce qui déclenche le
-traitement par `MessageFormatter`. Sans lui, le remplacement est un `strtr`
-littéral des keys passées. Exécuté sur `Hello {name}!`, sans `+intl-icu` :
-`['name' => 'Ann']` donne `Hello {Ann}!` ; `['{name}' => 'Ann']` donne
-`Hello Ann!`.
+Sans `+intl-icu`, le remplacement est un `strtr` littéral :
+`['name' => 'Ann']` sur `Hello {name}!` donne `Hello {Ann}!`. Dans un plural
+ICU, `#` reprend le nombre, `=0` vise une valeur **exacte**, `one`, `few`,
+`many`, `other` sont des **catégories** propres à chaque langue : l'anglais
+n'a que `one` et `other`, le russe en a quatre.
 
-ICU apporte ce que le format classique ne sait pas faire — le plural :
-
-```text
-num_of_apples: >-
-    {apples, plural,
-        =0    {There are no apples}
-        =1    {There is one apple}
-        other {There are # apples!}
-    }
-```
-
-`#` reprend le nombre. `=0` cible une valeur **exacte** ; `one`, `few`, `many`,
-`other` sont des **catégories linguistiques** qui diffèrent selon la langue :
-l'anglais n'a que `one` et `other`, le russe en a quatre.
-
-## Dans un template
-
-```twig
-{{ message|trans }}
-{{ message|trans({'%name%': 'Fabien'}, 'app') }}
-{% trans %}Hello %name%{% endtrans %}
-{% trans_default_domain 'app' %}
-```
-
-Le filter traduit une **expression** ; le tag, un **block statique**. La
-notation `%var%` est **obligatoire** avec le tag. Les messages traduits sont
-échappés par défaut ; `|raw` après `|trans` lève l'escaping. **Le tag,
-lui, n'échappe rien** — parameters compris. Exécuté avec `<i>x</i>` en
-parameter : `&lt;i&gt;` par le filter, `<i>x</i>` brut par le tag.
-
-`trans_default_domain` ne vaut que pour le template courant, jamais pour les
-templates inclus.
+Dans Twig : `{{ message|trans }}` traduit une expression et échappe le
+résultat ; `{% trans %}Hello %name%{% endtrans %}` traduit un block statique,
+et le tag n'échappe rien — parameters compris. `{% trans_default_domain 'app' %}`
+ne vaut que pour le template courant.
 
 ## La cascade de repli
 
-Locale `es_AR`, key absente. Symfony essaie, dans cet ordre :
-
-1. `es_AR` — la locale demandée ;
-2. **la locale parente**, définie automatiquement pour certaines locales
-   seulement — ici `es_419`, espagnol d'Amérique latine ;
-3. `es` — la langue seule ;
-4. l'option **`fallbacks`**, qui vaut `default_locale` si elle n'est pas
-   configurée.
-
-L'étape 2 est celle qu'on oublie : le repli n'est pas un simple « pays puis
-langue ».
+Locale `es_AR`, key absente : `es_AR`, puis la **locale parente**, `es_419`
+— définie pour certaines locales seulement —, puis `es`, puis l'option
+**`fallbacks`**, qui vaut `default_locale` si elle n'est pas configurée.
 
 ## Pièges d'examen
 
@@ -195,16 +140,97 @@ par key.
 
 **Le tag `{% trans %}` n'échappe pas** ; le filter, si.
 
-## Points clés
+## Application
 
-- `domaine.locale.chargeur` : le nom du file décide de tout.
-- Projet prioritaire sur bundles, redéfinition key par key.
-- `%name%` classique contre `{name}` ICU, ce dernier via `+intl-icu`.
-- ICU apporte le plural, avec catégories propres à chaque langue.
-- Repli : locale, locale parente, langue, `fallbacks`.
+- Corriger deux libellés d'un bundle → les deux keys seules, dans
+  `translations/` du projet.
+- « 1 apple, 2 apples » → un catalogue `+intl-icu` et un plural ICU.
+
+## QCM d'entraînement
+
+**Question 1.** Deux resources du domain `messages`, locale `fr`, sont
+chargées l'une après l'autre ; seule la key `title` existe dans les deux.
+Que donne `trans()` ?
+
+- **A.** La seconde resource remplace la première en entier
+- **B.** Une erreur : key définie deux fois
+- **C.** La première chargée gagne pour `title`
+- **D.** La dernière chargée, pour `title` seulement
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : D.** Les catalogues d'un même domain et d'une même locale
+se fusionnent key par key, la dernière resource chargée l'emportant ; les
+autres keys restent.
+
+</details>
+
+**Question 2.** Autoescape actif, le template écrit
+`{{ 'hi'|trans({'%who%': '<i>x</i>'}) }}`, avec `hi: 'Hi %who%'`. Que
+devient le parameter ?
+
+- **A.** `<i>x</i>`, rendu en italique
+- **B.** Échappé : `&lt;i&gt;x&lt;/i&gt;`
+- **C.** Retiré : le filter supprime les tags
+- **D.** Une exception : parameter HTML refusé
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** Le filter échappe le message traduit, parameters
+compris ; seul le tag `{% trans %}` les rend tels quels.
+
+</details>
+
+**Question 3.** Combien de catégories de plural ICU l'anglais utilise-t-il ?
+
+- **A.** Deux : `one` et `other`
+- **B.** Quatre, comme le russe
+- **C.** Une seule, `other`
+- **D.** Six : `zero`, `one`, `two`, `few`, `many`, `other`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : A.** Les catégories sont propres à chaque langue ; `=0` ou
+`=1`, eux, visent une valeur exacte, quelle que soit la langue.
+
+</details>
+
+**Question 4.** Locale `fr`. Quel catalogue lit
+`$translator->trans('Hello World', domain: 'app')` ?
+
+- **A.** `messages.fr.yaml`, le domain par défaut
+- **B.** `app.yaml`, sans locale
+- **C.** `app.fr.yaml`
+- **D.** `messages+app.fr.yaml`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : C.** Le domain désigne le premier segment du nom de file ;
+la locale, le second ; l'extension choisit le loader.
+
+</details>
+
+## Fiche express
+
+**Si tu dois retenir seulement 7 choses :**
+
+- **`domaine.locale.chargeur`** ; domain par défaut : `messages`.
+- Key introuvable : **rendue telle quelle**, sans erreur.
+- Projet avant bundles, **key par key** ; nouveau catalogue : `cache:clear`.
+- **`%name%`** classique, **`{name}`** ICU, par **`+intl-icu`**.
+- Plural ICU : `=0` exact, `one` / `other` selon la langue.
+- Repli : locale, **locale parente**, langue, `fallbacks`.
+- `|trans` échappe, `{% trans %}` non ; `trans_default_domain` reste local.
+
+Moyen mnémotechnique : **« Domain, locale, loader — puis on remonte »**.
 
 ## Sources officielles
 
 - [Translations](https://github.com/symfony/symfony-docs/blob/8.0/translation.rst)
 - [ICU MessageFormat](https://github.com/symfony/symfony-docs/blob/8.0/reference/formats/message_format.rst)
 - [`Translator`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Translation/Translator.php)
+

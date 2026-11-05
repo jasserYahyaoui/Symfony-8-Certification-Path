@@ -6,6 +6,7 @@ content_level: STANDARD
 language: fr
 verification_status: VERIFIED
 reviewed_at: "2026-10-02"
+format: pedagogical
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/deployment.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/deployment.rst"
@@ -34,101 +35,72 @@ outcome_sections:
 Connaître les étapes qu'un deployment Symfony comporte toujours, et les
 commands exactes qui les réalisent.
 
-## Prérequis
+## L'essentiel
 
-Les environments, et la configuration par variables d'environment.
+La documentation ne prescrit aucun outil de deployment, mais quatre étapes
+qu'il comporte toujours : transférer le code, installer les dependencies,
+migrer les données, vider le cache. Deux commands sont à connaître
+exactement, et les variables d'environment de production peuvent être
+compilées dans un `.env.local.php`.
 
-## Les quatre étapes du tronc commun
+## Le schéma
 
-La documentation ne prescrit pas un outil ; elle énumère ce qu'un deployment
-comporte, quelle que soit la method :
+```text
+1. transférer le code        FTP, repository, PaaS, script : aucun outil prescrit
+2. dependencies               composer install --no-dev --optimize-autoloader
+3. migrations                 mise à jour de la structure des données
+4. cache                      APP_ENV=prod APP_DEBUG=0 php bin/console cache:clear (et préchauffer)
+variables   vraies variables, ou .env.prod.local ; composer dump-env prod → .env.local.php (prioritaire)
+projet      kernel.project_dir = directory du composer.json principal
+```
 
-1. **transférer le code** sur le serveur de production ;
-2. **installer les dependencies**, par Composer, avant ou après le transfert ;
-3. **exécuter les migrations** ou toute mise à jour de structure de données ;
-4. **vider le cache**, et éventuellement le préchauffer.
-
-Le reste — étiqueter une version, préparer une zone temporaire, lancer les
-tests, vider un cache externe — est cité comme fréquent, non comme obligatoire.
-
-## Les deux commands à connaître exactement
+## L'exemple : un script de deployment
 
 ```bash
 composer install --no-dev --optimize-autoloader
-```
-
-Deux drapeaux, deux effets distincts :
-
-- **`--no-dev`** n'installe pas les packages de développement ;
-- **`--optimize-autoloader`** construit une *class map*, ce qui améliore
-  nettement les performances de l'autochargeur.
-
-```bash
+composer dump-env prod
+# … les migrations de la base de données
 APP_ENV=prod APP_DEBUG=0 php bin/console cache:clear
 ```
 
-Les variables sont posées **sur la command** : le cache dépend de
-l'environment, et vider celui de `dev` ne sert à rien en production.
+## Les quatre étapes du tronc commun
 
-Même logique pour `composer install` : si cette étape échoue sur une erreur
-*class not found*, la documentation indique d'exporter `APP_ENV=prod` avant de
-la relancer, pour que les scripts `post-install-cmd` s'exécutent en `prod`.
+1. **Transférer le code** sur le serveur de production.
+2. **Installer les dependencies**, par Composer, avant ou après le transfert.
+3. **Exécuter les migrations**, ou toute mise à jour de structure de données.
+4. **Vider le cache**, et éventuellement le préchauffer.
 
-### `--no-dev` et un `dump()` oublié
+Étiqueter une version, préparer une zone temporaire, lancer les tests, vider
+un cache externe : cités comme fréquents, non comme obligatoires.
 
-On lit souvent que `--no-dev` rend fatal un `dump()` oublié, la function
-n'étant plus installée. **C'est faux dans une application Symfony 8.0.** Lu dans
-les `composer.json` de la branche 8.0 : FrameworkBundle exige
-`symfony/error-handler`, qui exige `symfony/var-dumper` en dependency ordinaire.
-Le component reste donc installé avec `--no-dev` : `dump()` existe en
-production, et écrit son HTML dans la Response au lieu de lever une erreur. Le
-détail exécuté est sur la page *Code debugging*.
+## Les deux commands à connaître exactement
+
+- `composer install --no-dev --optimize-autoloader` : **`--no-dev`**
+  n'installe pas les packages de développement ; **`--optimize-autoloader`**
+  construit une *class map*, pour les performances de l'autochargeur.
+- `APP_ENV=prod APP_DEBUG=0 php bin/console cache:clear` : le cache dépend de
+  l'environment ; vider celui de `dev` ne sert à rien en production.
+- Si `composer install` échoue sur *class not found*, exporter `APP_ENV=prod`
+  avant de le relancer, pour que les scripts `post-install-cmd` tournent en
+  `prod`.
+- `--no-dev` ne retire pas `dump()` d'une application FrameworkBundle :
+  VarDumper arrive par ErrorHandler, en dependency ordinaire.
 
 ## Les variables d'environment en production
 
-Deux options, et la documentation ne départage pas :
-
-- de **vraies** variables d'environment, posées par le serveur web,
-  l'hébergeur ou la ligne de command ;
-- un file **`.env.prod.local`** contenant les valeurs de production.
-
-Pour éviter de relire les files `.env` à chaque Request :
-
-```bash
-composer dump-env prod
-```
-
-Cela produit un `.env.local.php` optimisé qui **prend le pas** sur les autres
-files de configuration. `composer dump-env prod --empty` génère la même
-structure sans valeurs, pour une installation qui ne veut dépendre que de
-l'environment réel. Sans Composer sur le serveur, la command Symfony
-`dotenv:dump` fait la même chose.
-
-## Vérifier les prérequis
-
-Sur un poste de développement, la CLI Symfony les vérifie. Sur un serveur où on
-ne veut pas l'installer :
-
-```bash
-composer require symfony/requirements-checker
-```
-
-## Le directory du projet
-
-`kernel.project_dir` est calculé comme **le directory contenant le
-`composer.json` principal**. Un deployment qui n'embarque pas ce file doit
-donc redéfinir `Kernel::getProjectDir()` — sans quoi les paths de
-l'application sont faux.
-
-Lu dans `Kernel::getProjectDir()` (8.0) : la method part du directory du
-file de la class kernel et remonte jusqu'au premier `composer.json`. Si elle
-n'en trouve aucun, elle **ne lève pas d'erreur** : elle rend le directory du
-kernel. Exécuté, kernel dans `app/src/` :
-
-| `composer.json` présent | `getProjectDir()` |
-|---|---|
-| dans `app/` | `app` |
-| nulle part | `app/src` — silencieusement faux |
+- De **vraies** variables, posées par le serveur web, l'hébergeur ou la ligne
+  de command, ou un file **`.env.prod.local`** : la documentation ne
+  départage pas.
+- `composer dump-env prod` produit un `.env.local.php` qui **prend le pas** sur
+  les autres files ; `--empty` génère la même structure sans valeurs. Sans
+  Composer sur le serveur, la command `dotenv:dump` fait la même chose.
+- Sur un serveur sans la CLI Symfony, `symfony/requirements-checker` vérifie
+  les prérequis.
+- `kernel.project_dir` est le directory du `composer.json` principal ;
+  `Kernel::getProjectDir()` remonte depuis le kernel et, sans en trouver,
+  rend le directory du kernel, sans erreur : kernel dans `app/src/`, aucun
+  `composer.json`, le résultat est `app/src` — silencieusement faux. Un
+  deployment sans `composer.json` redéfinit donc cette method.
 
 ## Pièges d'examen
 
@@ -149,17 +121,96 @@ VarDumper arrive par ErrorHandler.
 **Aucun outil n'est prescrit** : FTP, repository versionné, PaaS ou script de
 deployment sont tous cités.
 
-## Points clés
+## Application
 
-- Quatre étapes : code, dependencies, migrations, cache.
-- `composer install --no-dev --optimize-autoloader`.
-- `APP_ENV=prod APP_DEBUG=0 php bin/console cache:clear`.
-- Variables réelles ou `.env.prod.local` ; `composer dump-env prod` pour
-  optimiser.
-- `kernel.project_dir` = directory du `composer.json` principal.
+- Une image de production sans `composer.json` → redéfinir
+  `Kernel::getProjectDir()`.
+- Des variables relues à chaque Request → `composer dump-env prod`.
+
+## QCM d'entraînement
+
+**Question 1.** Le serveur de production n'a pas Composer. Quelle command
+produit tout de même le `.env.local.php` optimisé ?
+
+- **A.** `php bin/console cache:warmup --env=prod`
+- **B.** `php bin/console dotenv:dump`
+- **C.** `php bin/console secrets:set --local`
+- **D.** Aucune : il faut Composer
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** La command Symfony `dotenv:dump` fait ce que fait
+`composer dump-env` quand Composer n'est pas installé sur le serveur.
+
+</details>
+
+**Question 2.** Une image Docker de production embarque `src/` et `public/`,
+sans `composer.json`. Les paths de l'application sont faux, sans erreur.
+Que faut-il faire ?
+
+- **A.** Définir `APP_PROJECT_DIR` dans `.env.prod.local`
+- **B.** Lancer `cache:clear` avec `APP_DEBUG=0`
+- **C.** Ajouter `--optimize-autoloader` à l'installation
+- **D.** Redéfinir `Kernel::getProjectDir()`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : D.** Le directory du projet est déduit du `composer.json`
+principal ; sans lui, il faut le donner en redéfinissant la method.
+
+</details>
+
+**Question 3.** Une nouvelle version ajoute une colonne à une table. Quelle
+étape du tronc commun du deployment s'en charge ?
+
+- **A.** Exécuter les migrations
+- **B.** Installer les dependencies
+- **C.** Vider le cache
+- **D.** Préchauffer le cache
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : A.** La documentation range la mise à jour de la structure
+de données parmi les quatre étapes, sous la forme des migrations.
+
+</details>
+
+**Question 4.** L'équipe lance la suite de tests avant chaque deployment. Que
+dit la documentation de cette étape ?
+
+- **A.** Elle est obligatoire, avant le transfert du code
+- **B.** Elle remplace la vérification des prérequis
+- **C.** Elle est fréquente, mais pas obligatoire
+- **D.** Elle doit tourner sur le serveur de production
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : C.** Seules quatre étapes sont toujours là ; lancer les
+tests est cité parmi les pratiques fréquentes, comme étiqueter une version.
+
+</details>
+
+## Fiche express
+
+**Si tu dois retenir seulement 6 choses :**
+
+- Quatre étapes : **code, dependencies, migrations, cache**.
+- **`composer install --no-dev --optimize-autoloader`**.
+- **`APP_ENV=prod APP_DEBUG=0 php bin/console cache:clear`**.
+- Variables réelles ou `.env.prod.local` ; **`composer dump-env prod`**, ou
+  `dotenv:dump` sans Composer.
+- **`kernel.project_dir`** = directory du `composer.json` principal.
+- Aucun outil prescrit.
+
+Moyen mnémotechnique : **« Code, vendors, schéma, cache »**.
 
 ## Sources officielles
 
 - [How to Deploy a Symfony Application](https://github.com/symfony/symfony-docs/blob/8.0/deployment.rst)
 - [`Kernel::getProjectDir()`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Kernel.php)
 - [`composer.json` d'ErrorHandler, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/ErrorHandler/composer.json)
+
