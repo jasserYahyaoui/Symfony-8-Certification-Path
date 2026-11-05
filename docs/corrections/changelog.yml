@@ -45,7 +45,7 @@ entries:
       array, une string JSON une string.
     courses:
       - id: CRS-3z96cp2s1dka
-        sections: ["Deux étapes, deux responsabilités", "Pièges d'examen", "Points clés"]
+        sections: ["Deux étapes, deux responsabilités", "Pièges d'examen", "Fiche express"]
     flashcards: [FLC-50daktpqmkv9]
     questions: [QST-xeygxgdd5586, QST-et0jfkbyacjy, QST-76tz3feab409, QST-kg5astsr8fz8]
     reversioned: [QST-xeygxgdd5586, QST-et0jfkbyacjy]
@@ -70,7 +70,7 @@ entries:
       namespace, qui les préfixe ; même namespace et même directory, ils se partagent une key.
     courses:
       - id: CRS-p6yhxmpxrzbs
-        sections: ["Quatre mots", "L'API qui surprend", "La ruée sur le cache", "Pièges d'examen", "Points clés"]
+        sections: ["Quatre mots", "L'API qui surprend", "La ruée sur le cache", "Pièges d'examen", "Fiche express"]
     flashcards: [FLC-5ph49r9vszd1]
     questions: [QST-ch9mc2vedk60, QST-w6g2sgj7apm1, QST-7kszpvjs383j, QST-1rc72pvqjry1, QST-4312r4ah4gn2]
     reversioned: [QST-ch9mc2vedk60, QST-w6g2sgj7apm1, QST-1rc72pvqjry1, QST-4312r4ah4gn2]
@@ -188,7 +188,7 @@ entries:
       les listeners suivants : stopper la propagation.
     courses:
       - id: CRS-222wq64mqxye
-        sections: ["Client et proxys", "Pièges d'examen", "Points clés"]
+        sections: ["Client et proxys", "Pièges d'examen", "Fiche express"]
       - id: CRS-2ec5yksjfm9s
         sections: ["Ce qui fait correspondre une règle", "Pièges d'examen"]
       - id: CRS-7zy5ndjgnpk1
@@ -273,7 +273,7 @@ entries:
       - id: CRS-cpvcczhj7bzx
         sections: ["Ce que `FileType` écarte"]
       - id: CRS-erfvgqsx1z2p
-        sections: ["Tips d'examen"]
+        sections: ["L'essentiel"]
       - id: CRS-evzcj63fgdb7
         sections: ["Par le parameter `_locale`", "Par des paths localisés"]
       - id: CRS-f92d09x14ggx
@@ -656,7 +656,7 @@ entries:
       method non sûre.
     courses:
       - id: CRS-1k0ce9dvdr99
-        sections: ["Ce que le cache ne fera pas", "Pièges d'examen", "Points clés"]
+        sections: ["Ce que le cache ne fera pas", "Pièges d'examen", "Fiche express"]
     flashcards: []
     questions: []
 
@@ -995,7 +995,7 @@ entries:
       - id: CRS-d235sja3h7y2
         sections: ["Ce que l'on peut régler"]
       - id: CRS-dab7evz3fe29
-        sections: ["Tips d'examen", "Points clés"]
+        sections: ["Le facteur de qualité, exactement", "Proactive contre réactive", "Fiche express"]
       - id: CRS-e5astysks0ty
         sections: ["Un worker est un process long"]
       - id: CRS-fhb1cbhnyaxx
