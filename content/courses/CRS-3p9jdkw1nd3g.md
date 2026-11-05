@@ -6,6 +6,7 @@ content_level: STANDARD
 language: fr
 verification_status: VERIFIED
 reviewed_at: "2026-10-26"
+format: pedagogical
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/console/helpers/map.rst.inc"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/components/console/helpers/map.rst.inc"
@@ -38,33 +39,53 @@ outcome_sections:
 
 Savoir quels outils le component fournit déjà, pour ne pas réécrire une progress bar ni une saisie interactive à la main.
 
-## Prérequis
+## L'essentiel
 
-Les objects d'entrée et de sortie.
+Le component fournit déjà la saisie interactive, la progress bar, les
+tables. À l'examen, il faut savoir **qu'ils existent**, à quel besoin chacun
+répond, et deux comportements : sans interaction, une question rend sa
+**default value** sans rien demander ; `SymfonyStyle` est la porte d'entrée
+recommandée.
+
+## Le schéma
+
+```text
+besoin                        helper                     via SymfonyStyle
+demander                      QuestionHelper             ask(), confirm(), choice()
+compter une tâche connue      ProgressBar                progressStart/Advance/Finish(), progressIterate()
+attendre sans compter         ProgressIndicator          —
+afficher des données          Table, Tree                table()
+entrée non interactive (-n)   question NON posée → default value (ou null)
+```
+
+## L'exemple : confirmer avant d'importer
+
+```php
+$io = new SymfonyStyle($input, $output);
+if (!$io->confirm('Importer 42 lignes ?', false)) {
+    return Command::SUCCESS;
+}
+$io->progressStart(42);
+foreach ($rows as $row) {
+    // …
+    $io->progressAdvance();
+}
+$io->progressFinish();
+$io->table(['ID', 'Nom'], $summary);
+```
 
 ## Le catalogue
 
-La documentation 8.0 en recense neuf :
+La documentation 8.0 en recense neuf : `QuestionHelper`, `ProgressBar`,
+`ProgressIndicator`, `Table`, `Tree`, `FormatterHelper` (blocks colorés),
+`ProcessHelper` (lancer un process en affichant son déroulé),
+`DebugFormatterHelper` et `Cursor`. Aucun n'est à connaître dans le détail.
 
-| Helper | Ce qu'il fait |
-|---|---|
-| `QuestionHelper` | poser une question au user |
-| `ProgressBar` | une progress bar sur une tâche de longueur connue |
-| `ProgressIndicator` | un indicateur d'activité quand la longueur est inconnue |
-| `Table` | afficher des données en table |
-| `Tree` | afficher une arborescence |
-| `FormatterHelper` | blocks et sections colorés |
-| `ProcessHelper` | lancer un process externe en affichant son déroulé |
-| `DebugFormatterHelper` | mettre en forme l'output de ce process |
-| `Cursor` | déplacer le curseur dans le terminal |
-
-Aucun n'est à connaître dans le détail. Ce qui compte à l'examen est de savoir
-**qu'il existe** et à quelle famille de besoin il répond.
+- Une command qui étend `Command` y accède par `$this->getHelper('question')`.
+- Une command invocable n'a pas `getHelper()` : `new QuestionHelper()`, ou
+  `SymfonyStyle` — la règle : `SymfonyStyle` d'abord.
 
 ## Les questions
-
-`QuestionHelper::ask()` prend l'entrée, l'output et un object question. Trois
-types de questions existent :
 
 ```php
 new Question('Nom du projet ?', 'defaut');
@@ -72,42 +93,26 @@ new ConfirmationQuestion('Continuer ?', false);
 new ChoiceQuestion('Environnement ?', ['dev', 'prod'], 0);
 ```
 
-`ConfirmationQuestion` accepte toute saisie commençant par `y` — donc `yeti`
-répond « oui ». Son second argument est la valeur rendue quand le user ne
-saisit rien ; en son absence, la valeur rendue par défaut est `true`.
-
-Le point structurant : une question n'a de sens que si l'entrée est
-**interactive**. Avec `--no-interaction`, la default value est retenue sans
-rien demander. C'est pourquoi la documentation place les questions dans
-`interact()`, et pourquoi une valeur obtenue ainsi doit toujours avoir un repli.
-
-Exécuté avec Console 8.0.15 :
-
 | Situation | Résultat |
 |---|---|
-| `ConfirmationQuestion('?', false)`, saisie `yeti` ou `Yes` | `true` |
-| `ConfirmationQuestion('?')`, saisie vide | `true` |
+| `ConfirmationQuestion('?', false)`, saisie `yeti` ou `Yes` | `true` : toute saisie commençant par `y` |
+| `ConfirmationQuestion('?')`, saisie vide | `true` : le défaut omis vaut `true` |
 | non interactive, `ChoiceQuestion(…, ['dev', 'prod'], 0)` | `'dev'` — la valeur, pas l'index |
 | non interactive, `Question('?')` sans défaut | `null` |
-| interactive, `Question('?')` sans défaut, fin de l'entrée | `MissingInputException` : « Aborted. » |
+| interactive, sans défaut, fin de l'entrée | `MissingInputException` : « Aborted. » |
 
-La dernière ligne est le cas d'un `cron` lancé sans `-n` : la question est
-posée, l'entrée standard est vide, et la command s'arrête.
+La dernière ligne est le `cron` lancé sans `-n` : la question est posée sur
+une entrée vide, et la command s'arrête. D'où les questions dans `interact()`,
+et un repli pour toute valeur obtenue ainsi.
 
 ## La progression
 
-```php
-$bar = new ProgressBar($output, 100);
-$bar->start();
-$bar->advance();
-$bar->finish();
-```
-
-Le total est **facultatif**. Sans lui, la barre s'affiche en mode
-*throbber* — un compteur sans pourcentage ; exécuté : `0 [>---…]` au lieu de
-`0/3 [>---…]   0%`. `setMaxSteps()` fixe ou corrige le total en cours de
-route. `ProgressIndicator`, lui, n'a pas de compteur du tout : il anime une
-attente — une Response réseau — sans unité de progression.
+- `ProgressBar($output, 100)` : `start()`, `advance()`, `finish()`. Le total
+  est **facultatif** : sans lui, la barre passe en mode *throbber*, un compteur
+  sans pourcentage (`0 [>---…]` au lieu de `0/3 [>---…]   0%`) ; `setMaxSteps()` le corrige en
+  route.
+- `ProgressIndicator` n'a pas de compteur : il anime une attente — une
+  Response réseau — sans unité de progression.
 
 ## Le helper Table
 
@@ -118,36 +123,7 @@ attente — une Response réseau — sans unité de progression.
     ->render();
 ```
 
-## `SymfonyStyle` plutôt que les helpers
-
-En pratique, `SymfonyStyle` est la porte d'entrée recommandée : elle enveloppe
-les helpers derrière une API courte et une présentation homogène.
-
-```php
-$io = new SymfonyStyle($input, $output);
-
-$io->confirm('Continuer ?');
-$io->choice('Environnement ?', ['dev', 'prod']);
-$io->table(['ID', 'Nom'], $rows);
-$io->progressStart(100);
-$io->progressAdvance();
-$io->progressFinish();
-```
-
-`progressIterate()` fait même le tour complet sur un itérable. La règle de
-décision est simple : `SymfonyStyle` d'abord, le helper directement seulement
-pour ce qu'elle n'expose pas.
-
-## Y accéder sans `SymfonyStyle`
-
-Une command qui étend `Command` dispose du `HelperSet` :
-
-```php
-$helper = $this->getHelper('question');
-```
-
-Une command invocable, qui n'étend rien, n'a pas cette method : elle instancie
-le helper (`new QuestionHelper()`) ou passe par `SymfonyStyle`.
+`$io->table(['ID', 'Nom'], $rows)` fait la même chose par `SymfonyStyle`.
 
 ## Pièges d'examen
 
@@ -165,13 +141,94 @@ pourcentage. `ProgressIndicator` sert quand il n'y a rien à compter.
 **`getHelper()` vient de `Command`** — indisponible dans une command invocable
 qui ne l'étend pas.
 
-## Points clés
+## Application
 
-- Neuf helpers documentés ; les connaître par leur usage, pas par leur API.
-- Questions : `Question`, `ConfirmationQuestion`, `ChoiceQuestion`.
-- `ProgressBar` compte, avec ou sans total ; `ProgressIndicator` anime une
-  attente.
-- `SymfonyStyle` est la façade recommandée sur l'ensemble.
+- Une command lancée par `cron` qui pose une question → `-n`, et une default
+  value à chaque question.
+- Un traitement de 10 000 lignes → `$io->progressIterate($rows)`.
+
+## QCM d'entraînement
+
+**Question 1.** `new ConfirmationQuestion('Supprimer ?', false)` ; le user
+tape `yeti`. Que rend la question ?
+
+- **A.** `false`, la default value
+- **B.** `true`
+- **C.** `false` : seuls `y` et `yes` valent oui
+- **D.** Une nouvelle demande : saisie invalide
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** Toute saisie qui commence par `y` vaut oui ; le second
+argument ne sert que quand le user ne saisit rien.
+
+</details>
+
+**Question 2.** Lancée avec `-n`, une command pose
+`new ChoiceQuestion('Environnement ?', ['dev', 'prod'], 0)`. Que rend la
+question ?
+
+- **A.** `0`, l'index par défaut
+- **B.** `null`, faute de saisie
+- **C.** `'dev'`
+- **D.** Une `MissingInputException`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : C.** Sans interaction, la question n'est pas posée et rend
+la default value, sous la forme de la valeur du choix, pas de son index.
+
+</details>
+
+**Question 3.** Sous `cron`, sans `-n`, une command pose `new Question('Nom ?')`
+sans default value, et l'entrée standard est vide. Que se passe-t-il ?
+
+- **A.** La question rend `null`
+- **B.** La question rend une string vide
+- **C.** La command attend indéfiniment une saisie
+- **D.** Une `MissingInputException`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : D.** L'entrée reste interactive sans `-n` : la question est
+posée sur une entrée vide, et la command s'arrête sur « Aborted. ».
+
+</details>
+
+**Question 4.** Une `ProgressBar` est créée sans total, puis démarrée. Que
+s'affiche-t-il ?
+
+- **A.** Un compteur sans pourcentage
+- **B.** Une exception : le total est requis
+- **C.** Une barre à 0 %, sur un total de 100
+- **D.** Rien tant que `setMaxSteps()` n'est pas appelé
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : A.** Sans total, la barre ne peut pas calculer de
+pourcentage : elle compte les étapes, et `setMaxSteps()` peut fixer le total.
+
+</details>
+
+## Fiche express
+
+**Si tu dois retenir seulement 6 choses :**
+
+- Neuf helpers, à connaître **par leur usage**.
+- Trois questions : `Question`, **`ConfirmationQuestion`** (défaut `true`,
+  tout `y…` = oui), **`ChoiceQuestion`** (rend la valeur).
+- Non interactive : **default value**, ou `null`, sans rien demander.
+- Interactive sans défaut sur une entrée vide : **`MissingInputException`**.
+- `ProgressBar` : total **facultatif** ; `ProgressIndicator` : rien à compter.
+- **`SymfonyStyle`** d'abord ; `getHelper()` seulement si la class étend
+  `Command`.
+
+Moyen mnémotechnique : **« Demander, compter, afficher — SymfonyStyle
+d'abord »**.
 
 ## Sources officielles
 
@@ -180,3 +237,4 @@ qui ne l'étend pas.
 - [Progress Bar](https://github.com/symfony/symfony-docs/blob/8.0/components/console/helpers/progressbar.rst)
 - [`QuestionHelper`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Helper/QuestionHelper.php)
 - [`SymfonyStyle`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Style/SymfonyStyle.php)
+

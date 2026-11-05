@@ -11,14 +11,15 @@ raisonnable, qui peut se réviser, présenter seulement ce qui est utile en
 examen » : environ 5 min de lecture, 800 à 1 000 mots de corps (politique
 « Short, exam-only » de `docs/policy/course-structure.md`). Le propriétaire a
 choisi de l'appliquer aussi aux pages déjà en ligne. **Lot 06** : 14 pages au
-format court, déployées (#456). **Batch 15** (la PR qui
-suit #456) : 31 pages raccourcies, dont *Deprecations best practices* à la
+format court, déployées (#456). **Batch 15** (#457,
+déployé) : 31 pages raccourcies, dont *Deprecations best practices* à la
 demande du propriétaire (« très long, affirmations dupliquées » : 6 123 → 1 402
-mots, chaque règle énoncée une fois) et les lots 05, 10, 11, 13, 14. Restent à
-raccourcir les **33 pages longues des lots 07, 08 et 09** (brouillons prêts et
-contrôlés, à livrer dans la PR suivante), puis à **convertir les 85 pages non
-pédagogiques** (lots 01–05, 12, deux pages du lot 13, 15–26) au format court.
-Lot 12 : neuf conversions rédigées, faits exécutés avec Console 8.0.
+mots, chaque règle énoncée une fois) et les lots 05, 10, 11, 13, 14. Les 33
+pages longues des lots 07, 08 et 09 sont raccourcies dans le
+**batch 16** (la PR qui suit #457) avec les **9 pages du lot 12 converties**
+au format court (faits exécutés avec Console 8.0). Restent ensuite à
+**convertir 76 pages non pédagogiques** (lots 01–05, deux pages du lot 13,
+15–26).
 
 Constats du lot 06, corrigés sur la branche (entrées CORRECTION au journal dans
 la PR qui suit la fusion) : F15 (propriétés `loop` sur un iterator `Countable`),
@@ -113,6 +114,7 @@ Branche de travail : `claude/symfony-8-certification-plan-phmkau`.
 | *Firewalls*, *Users*, *Password hashers*, *Roles*, *Access Control Rules*, *Authenticators* et *Voters* au format pédagogique (lot 10 terminé) ; `tools/behavior` tenu à Symfony 8.0 ; contrôle Mermaid de production étendu de 10 à 38 pages (`MermaidSmokeMapTest`) ; lignes de #453 | #454 | `0682b5e` | smoke 125796161744 **success, lu jusqu'au bout** (399 ok, 0 erreur ; 38 lignes « diagrams » ; sept nouvelles lignes « pedagogical » ; agenda 592 sessions jusqu'au 2027-03-02) |
 | *Messenger component*, *Transports*, *Messages and handlers*, *Workers*, *Retries and failures*, *Middleware* et *Events* au format pédagogique (lot 11 terminé) ; carte FLC-am3cn12fjgd3 corrigée (reset d'`in-memory://`) ; journal et lignes de #454 | #455 | `82cd322` | smoke 125823101886 **success, lu jusqu'au bout** (412 ok, 0 erreur ; 44 lignes « diagrams … accessible title » ; sept nouvelles lignes « pedagogical lot-11/… » ; agenda 595 sessions jusqu'au 2027-03-02) |
 | Lot 06 (Twig, quatorze pages) au format pédagogique court ; `tools/behavior` tenu à Twig 3.22.2 ; corrections F15 à F17, `controller()` seul, `dump()` sans DebugBundle, quatre cartes « RuntimeError qui emballe », libellé « Translation 8.0.15 » ; quatre recto de cartes à URL mis en code (axe nested-interactive) ; journal de #455 | #456 | `1bf2a4a` | smoke 126609252747 **success, lu jusqu'au bout** (440 ok, 0 erreur ; 58 lignes « diagrams … accessible title » ; quatorze nouvelles lignes « pedagogical lot-06/… » ; agenda 600 sessions jusqu'au 2027-03-02) |
+| *Deprecations best practices* (demande du propriétaire : 6 123 → 1 402 mots, chaque règle énoncée une fois) et trente autres pages déployées des lots 05, 10, 11, 13 et 14 au format court ; preuve des règles réancrée sur la page pilote (FMT-001, QCM-001) ; journal et lignes de #456 | #457 | `7ef4457` | smoke 127111499377 **success, lu jusqu'au bout** (440 ok, 0 erreur ; journal des corrections servi ; agenda 587 sessions jusqu'au 2027-03-02) |
 
 **Pièges d'examen → flashcards (2026-10-24, livré : #432, `c48317d`).** Les 788
 paragraphes « Pièges d'examen » lus contre toutes les cartes de leur item :

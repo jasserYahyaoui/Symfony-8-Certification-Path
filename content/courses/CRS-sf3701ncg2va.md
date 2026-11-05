@@ -6,6 +6,7 @@ content_level: STANDARD
 language: fr
 verification_status: VERIFIED
 reviewed_at: "2026-10-26"
+format: pedagogical
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Attribute/AsCommand.php"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Attribute/AsCommand.php"
@@ -44,22 +45,24 @@ outcome_sections:
 Déclarer l'identité d'une command — nom, description, aide, alias, visibilité —
 et savoir quand cette déclaration est lue.
 
-## Prérequis
+## L'essentiel
 
-L'écriture d'une command personnalisée.
+L'identité d'une command — nom, description, aide, usages, alias, visibilité
+— se déclare dans **`#[AsCommand]`**, dont seul `name` est obligatoire. La
+déclarer là permet à Symfony de la lire **sans construire la class**. Le style
+classique la pose dans `configure()`, qui tourne **dans le constructor**.
 
-## Tout dans l'attribute
+## Le schéma
 
-`#[AsCommand]` porte six parameters :
+```text
+#[AsCommand(name: 'app:create-user|app:add-user', description: …, help: …, usages: […], hidden: …)]
+name     premier segment = le nom ; les suivants = des alias ; premier segment VIDE = cachée
+lecture  description dans l'attribute → `list` ne construit pas la class
+         description dans configure() → `list` construit la class
+configure()  appelée à la FIN du constructor de Command → properties AVANT parent::__construct()
+```
 
-| Parameter | Role |
-|---|---|
-| `name` | le nom tapé après `bin/console` — **seul parameter obligatoire** |
-| `description` | la ligne affichée par `list` |
-| `help` | le texte long affiché par `--help` |
-| `usages` | des exemples d'utilisation, sans répéter le nom de la command |
-| `aliases` | d'autres noms qui lancent la même command |
-| `hidden` | retire la command de `list` sans l'empêcher de tourner |
+## L'exemple : créer un user
 
 ```php
 #[AsCommand(
@@ -67,76 +70,61 @@ L'écriture d'une command personnalisée.
     description: 'Creates a new user.',
     help: 'This command allows you to create a user...',
     usages: ['bob', 'alice --as-admin'],
+    aliases: ['app:add-user'],
 )]
+class CreateUserCommand
+{
+    public function __invoke(): int
+    {
+        return Command::SUCCESS;
+    }
+}
 ```
 
-## Les alias
+## Tout dans l'attribute
 
-Ils s'écrivent aussi **dans le nom**, séparés par une barre verticale. Le
-**premier** est le nom réel, les suivants sont des alias :
+| Parameter | Role |
+|---|---|
+| `name` | le nom tapé après `bin/console` — **seul obligatoire** |
+| `description` | la ligne affichée par `list` |
+| `help` | le texte long de `--help` |
+| `usages` | des exemples, sans répéter le nom |
+| `aliases` | d'autres noms pour la même command |
+| `hidden` | retire la command de `list`, sans l'empêcher de tourner |
+
+- Une description dans l'attribute est lue **sans instancier** la class : la
+  command n'est pas construite par `list` ; posée par `setDescription()`, si.
+- La documentation montre `usages` dans l'attribute, mais FrameworkBundle 8.0
+  ne transmet que `name`, `description` et `help` au tag `console.command` :
+  une command invocable y perd ses usages (`getUsages()` vaut `[]`).
+
+## Les alias
 
 ```php
 #[AsCommand(name: 'app:create-user|app:add-user|app:new-user')]
 ```
 
-C'est la même chose que le parameter `aliases` : le constructor de l'attribute
-fusionne les deux dans une seule string séparée par `|`.
-
-Un **premier segment vide** cache la command : `name: '|app:secret'` équivaut
-à `hidden: true`. Lu dans le constructor de `Command` (8.0), puis exécuté :
-`app:secret` absente de `list`, et exécutable (code 0).
-
-## Pourquoi la description compte
-
-Renseigner la description **dans l'attribute** plutôt que par `setDescription()`
-permet à Symfony de la lire **sans instancier la class**. `bin/console list`
-n'a alors pas à construire chaque command de l'application pour afficher la
-liste. Exécuté sur FrameworkBundle 8.0.15, deux commands dont le
-constructor se signale :
-
-| Description posée… | Class construite par `list` |
-|---|---|
-| dans `#[AsCommand(description: …)]` | **non** |
-| dans `configure()`, par `setDescription()` | **oui** |
-
-## Les usages : la documentation et le code divergent
-
-La documentation 8.0 montre `usages` dans `#[AsCommand]`. Le code de
-FrameworkBundle 8.0 ne transmet que `name`, `description` et `help` au tag
-`console.command`. Exécuté :
-
-| Command | `getUsages()` |
-|---|---|
-| invocable, dans une application FrameworkBundle | `[]` — usages perdus |
-| invocable, `Application` autonome | `["app:usage bob", …]` |
-| sous-classe de `Command`, FrameworkBundle | `["app:usage-sub carol"]` |
-
-Le code l'emporte : dans une application Symfony, une command invocable qui
-veut des usages ne peut pas compter sur l'attribute seul. Le nom de la command
-est préfixé automatiquement à chaque usage qui ne le porte pas
-(`Command::addUsage()`).
+Le **premier** segment est le nom, les suivants des alias — la même chose que
+`aliases`, que l'attribute fusionne avec `|`. Un **premier segment vide**
+cache la command : `name: '|app:secret'` équivaut à `hidden: true`, et la
+command reste exécutable.
 
 ## La method `configure()`
-
-Elle appartient au style classique — une class qui étend `Command` :
 
 ```php
 protected function configure(): void
 {
     $this
         ->setDescription('Creates a new user.')
-        ->setHelp('This command allows you to create a user...')
         ->addArgument('username', InputArgument::REQUIRED, 'How the user should be named?')
     ;
 }
 ```
 
-Le point que l'examen teste est **le moment de son appel** : `configure()` est
-appelée **à la fin du constructor** de `Command`, pas au lancement de la
-command — exécuté : `ctor-start`, `configure`, `ctor-end`. D'où la conséquence contre-intuitive : si la command définit son
-propre constructor, il faut affecter ses properties **avant** l'appel à
-`parent::__construct()`, sinon elles ne sont pas encore là quand `configure()`
-s'exécute :
+Elle appartient au style classique, et elle est appelée **à la fin du
+constructor** de `Command`, pas au lancement. Une command qui définit son
+propre constructor affecte donc ses properties **avant**
+`parent::__construct()` :
 
 ```php
 public function __construct(bool $requirePassword = false)
@@ -164,13 +152,95 @@ premier segment **vide** cache la command.
 **Des `usages` dans l'attribute d'une command invocable sont ignorés** dans une
 application FrameworkBundle 8.0.
 
-## Points clés
+## Application
 
-- `#[AsCommand]` : `name`, `description`, `help`, `usages`, `aliases`, `hidden`.
-- La description dans l'attribute est lue sans instancier la class ; dans
-  `configure()`, elle force la construction.
-- Les alias s'écrivent dans le nom avec `|`, ou par `aliases`.
-- `configure()` (style classique) est appelée à la fin du constructor.
+- Une command lente à construire, listée par `bin/console list` → sa
+  description dans `#[AsCommand]`.
+- Un ancien nom à garder pour les scripts existants → un alias,
+  `name: 'app:new|app:old'`.
+
+## QCM d'entraînement
+
+**Question 1.** `#[AsCommand(name: 'app:create-user|app:add-user|app:new-user')]`.
+Quel est le nom réel de la command ?
+
+- **A.** `app:create-user|app:add-user|app:new-user`, tel quel
+- **B.** `app:new-user`, le dernier segment
+- **C.** `app:create-user`
+- **D.** Aucun : le nom ne peut pas contenir `|`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : C.** Le premier segment est le nom ; `app:add-user` et
+`app:new-user` deviennent des alias de la même command.
+
+</details>
+
+**Question 2.** Une command porte `#[AsCommand(name: '|app:secret')]`. Que
+donne `bin/console app:secret` ?
+
+- **A.** Elle s'exécute, hors de `list`
+- **B.** « Command "app:secret" is not defined. »
+- **C.** Une erreur de nom invalide
+- **D.** Elle s'exécute et figure dans `list`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : A.** Un premier segment vide équivaut à `hidden: true` :
+la command disparaît de `list` mais reste exécutable.
+
+</details>
+
+**Question 3.** Une sous-classe de `Command` déclare `private bool $requirePassword`,
+appelle `parent::__construct()`, **puis** affecte la property, que
+`configure()` lit. Que se passe-t-il à la construction ?
+
+- **A.** `configure()` attend que la property soit affectée
+- **B.** Une `Error` : property lue avant son initialisation
+- **C.** `configure()` lit `false`, la default value d'un bool
+- **D.** Rien : `configure()` ne tourne qu'au lancement
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** `configure()` tourne à la fin du constructor parent,
+avant l'affectation : la property typée n'est pas encore initialisée.
+
+</details>
+
+**Question 4.** Dans une application FrameworkBundle, une command pose sa
+description dans `#[AsCommand(description: …)]`. Que fait
+`bin/console list` ?
+
+- **A.** Il construit la command pour lire sa description
+- **B.** Il n'affiche pas la description
+- **C.** Il lit la description sans construire la class
+- **D.** Il exige aussi `setDescription()`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : C.** La description de l'attribute est lue à la
+compilation ; posée dans `configure()`, elle forcerait la construction.
+
+</details>
+
+## Fiche express
+
+**Si tu dois retenir seulement 6 choses :**
+
+- `#[AsCommand]` : **`name`** seul obligatoire ; `description`, `help`,
+  `usages`, `aliases`, `hidden`.
+- `'a|b|c'` : **`a`** est le nom, `b` et `c` des alias.
+- Premier segment **vide** : command cachée, mais exécutable.
+- Description dans l'attribute : **pas de construction** pour `list`.
+- `usages` d'une command invocable : **perdus** dans FrameworkBundle 8.0.
+- `configure()` à la **fin du constructor** : properties d'abord.
+
+Moyen mnémotechnique : **« Déclarer dans l'attribute, configurer dans le
+constructor »**.
 
 ## Sources officielles
 
@@ -178,3 +248,4 @@ application FrameworkBundle 8.0.
 - [Console Commands](https://github.com/symfony/symfony-docs/blob/8.0/console.rst)
 - [`AddConsoleCommandPass`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/DependencyInjection/AddConsoleCommandPass.php)
 - [FrameworkBundle 8.0, `FrameworkExtension`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php)
+

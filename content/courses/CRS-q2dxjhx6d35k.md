@@ -6,6 +6,7 @@ content_level: STANDARD
 language: fr
 verification_status: VERIFIED
 reviewed_at: "2026-10-26"
+format: pedagogical
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Console/Attribute/Option.php"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Attribute/Option.php"
@@ -45,19 +46,26 @@ Déclarer l'entrée d'une command par attributes. Le mode — requis, optionnel,
 array, drapeau — n'est plus écrit : il est **déduit de la signature**. Savoir
 lire cette déduction est l'essentiel de l'item.
 
-## Prérequis
+## L'essentiel
 
-L'écriture d'une command invocable.
+Un **argument** est positionnel (`app:greet Alice`), une **option** est
+nommée (`--iterations=5`). En 8.0, `#[Argument]` et `#[Option]` se posent sur
+les parameters de `__invoke()`, et le mode — requis, optionnel, array,
+drapeau — se **déduit de la signature** : type et default value.
 
-## La différence de fond
+## Le schéma
 
-Un **argument** est positionnel : `app:greet Alice`. Une **option** est nommée
-et précédée de tirets : `--iterations=5`, `-i 5`. C'est la distinction qui
-gouverne tout le reste.
+```text
+#[Argument] string $name            → REQUIRED (pas de défaut, non nullable)
+#[Argument] string $name = ''       → OPTIONAL            array $names = [] → IS_ARRAY
+#[Option] bool $yell = false        → VALUE_NONE           --yell
+#[Option] bool $yell = true         → + VALUE_NEGATABLE    --no-yell
+#[Option] string $format = 'json'   → VALUE_REQUIRED       --format=csv
+#[Option] bool|string $out = false  → VALUE_OPTIONAL       --out  ou  --out=f.txt
+#[Option] string $format            → LogicException : une option DOIT avoir un défaut
+```
 
-## Déclarer
-
-Les deux attributes se posent sur les **parameters de `__invoke()`** :
+## L'exemple : saluer
 
 ```php
 #[AsCommand(name: 'app:greet')]
@@ -69,34 +77,24 @@ class GreetCommand
         #[Option] int $iterations = 1,
         #[Option] bool $yell = false,
     ): int {
-        // ...
+        // app:greet Alice Martin --iterations=3 --yell
+        return Command::SUCCESS;
     }
 }
 ```
 
-Chaque attribute accepte `description`, `name` et `suggestedValues` ; `#[Option]`
-accepte en plus `shortcut`.
+## Déclarer
 
-Le `name` est facultatif : par défaut c'est **le nom du parameter en
-kebab-case** — `$lastName` devient `last-name`, `$maxRetries` devient
-`max-retries`. C'est aussi la key de `$input->getArgument('last-name')`.
-
-## Le mode d'un argument
-
-Il se déduit du type et de la default value :
-
-| Signature | Mode |
-|---|---|
-| `string $name` | **requis** |
-| `string $name = ''` ou `?string $name = null` | optionnel |
-| `array $names = []` | array |
-
-La règle tient en une phrase : **sans default value et non nullable, c'est
-requis**.
+- Chaque attribute accepte `description`, `name` et `suggestedValues` ;
+  `#[Option]` accepte en plus `shortcut`.
+- Le `name` par défaut est le nom du parameter en **kebab-case** : `$lastName`
+  devient `last-name`, la key de `$input->getArgument('last-name')`.
+- Un argument sans default value et non nullable est **requis**.
+- Types admis : `string`, `bool`, `int`, `float`, `array` et les enums typées
+  (`BackedEnum`), dont les cas alimentent l'autocomplétion ; une valeur
+  inconnue est refusée en listant les valeurs valides.
 
 ## Le mode d'une option
-
-Même principe, mais avec une constraint supplémentaire et davantage de modes :
 
 | Signature | Mode | Usage |
 |---|---|---|
@@ -106,37 +104,13 @@ Même principe, mais avec une constraint supplémentaire et davantage de modes :
 | `array $roles = []` | `VALUE_REQUIRED` + `VALUE_IS_ARRAY` | `--roles=ADMIN --roles=USER` |
 | `string\|bool $output = false` | `VALUE_OPTIONAL` | `--output` ou `--output=f.txt` |
 
-La constraint : **une option doit déclarer une default value**. Sans elle,
-la command lève une `LogicException` dès son ajout à l'application — exécuté :
-« must declare a default value » —, pas une erreur à l'exécution, une erreur
-de definition. La logique est cohérente : une option est
-par nature facultative, elle a donc toujours une valeur en l'absence de saisie.
-
-Le cas des types union mérite attention : seuls `bool|string`, `bool|int` et
-`bool|float` sont acceptés, et leur default value **doit être `false`**.
-`--output` seul rend alors `true`, `--output=f.txt` rend la string.
-
-Exécuté avec Console 8.0.15 :
-
-| Déclaration | Résultat |
-|---|---|
-| `int\|string $x = 1` | `LogicException` : seuls `bool\|string`, `bool\|int`, `bool\|float` |
-| `bool\|string $x = 'x'` | `LogicException` : « must have a default value of false » |
-| `bool $loud = true`, sans option | `true` ; avec `--no-loud`, `false` |
-| `Fmt $fmt`, `--fmt=xml` | « The value "xml" is not valid for the "fmt" option », code 1 |
-
-## Les types admis
-
-`string`, `bool`, `int`, `float`, `array` — et les **enums typées**
-(`BackedEnum`). Tout autre type lève une `LogicException`. Avec une enum,
-la string saisie est convertie en cas de l'enum, et les cas alimentent
-l'autocomplétion ; une valeur inconnue produit une erreur listant les valeurs
-valides.
+- **Une option doit déclarer une default value** : sans elle, une
+  `LogicException` dès l'ajout à l'application — « must declare a default
+  value ». Une option n'est jamais requise.
+- Types union : seuls `bool|string`, `bool|int` et `bool|float`, avec la default
+  value `false` (sinon « must have a default value of false ») ; `--output` seul rend `true`, `--output=f.txt` la string.
 
 ## L'équivalent classique
-
-Le style qui étend `Command` déclare la même chose dans `configure()`, avec les
-constantes explicites :
 
 ```php
 $this
@@ -145,13 +119,9 @@ $this
 ;
 ```
 
-`InputArgument` : `REQUIRED`, `OPTIONAL`, `IS_ARRAY`.
-`InputOption` : `VALUE_NONE`, `VALUE_REQUIRED`, `VALUE_OPTIONAL`,
-`VALUE_IS_ARRAY`, `VALUE_NEGATABLE`.
-
-Les attributes ne font rien d'autre que produire ces objects : `#[Argument]`
-fabrique un `InputArgument`, `#[Option]` un `InputOption`. Connaître les
-constantes reste donc utile pour lire la déduction.
+`InputArgument` : `REQUIRED`, `OPTIONAL`, `IS_ARRAY`. `InputOption` :
+`VALUE_NONE`, `VALUE_REQUIRED`, `VALUE_OPTIONAL`, `VALUE_IS_ARRAY`,
+`VALUE_NEGATABLE`. Les attributes ne font que produire ces objects.
 
 ## Pièges d'examen
 
@@ -174,17 +144,97 @@ absorbant toutes les valeurs positionnelles restantes. Exécuté :
 message trompeur : « Cannot add a required argument "b" after an array
 argument "a". »
 
-## Points clés
+## Application
 
-- `#[Argument]` et `#[Option]` se posent sur les parameters de `__invoke()`.
-- Le mode est déduit du type et de la default value, jamais écrit.
-- Une option **doit** avoir une default value ; un argument sans défaut est
-  requis.
-- Types admis : `string`, `bool`, `int`, `float`, `array`, `BackedEnum`.
-- Les attributes produisent des `InputArgument` et `InputOption` ordinaires.
+- Un drapeau actif par défaut, désactivable → `#[Option] bool $cache = true`,
+  et `--no-cache`.
+- Une option de format facultative → `#[Option] string $format = 'json'`.
+
+## QCM d'entraînement
+
+**Question 1.** Une command déclare `#[Option] string $format`, sans default
+value. Que se passe-t-il ?
+
+- **A.** Une option requise : `--format` devient obligatoire
+- **B.** Une `LogicException` dès l'ajout de la command
+- **C.** `$format` vaut une string vide quand l'option manque
+- **D.** Une erreur seulement quand l'option n'est pas passée
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** Une option doit déclarer une default value ; l'erreur
+est une erreur de definition, levée avant toute exécution.
+
+</details>
+
+**Question 2.** `#[Option] bool $loud = true`. La command est lancée avec
+`--no-loud`. Que vaut `$loud` ?
+
+- **A.** `false`
+- **B.** `true` : `--no-loud` n'existe pas
+- **C.** Une erreur : option inconnue
+- **D.** `null`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : A.** Un bool de défaut `true` rend l'option négative
+disponible : `VALUE_NONE` et `VALUE_NEGATABLE`, donc `--no-loud`.
+
+</details>
+
+**Question 3.** `#[Option] bool|string $output = false`. La command est lancée
+avec `--output`, sans valeur. Que vaut `$output` ?
+
+- **A.** `false`, la default value
+- **B.** Une string vide
+- **C.** `true`
+- **D.** Une erreur : valeur manquante
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : C.** Ce type union donne `VALUE_OPTIONAL` : l'option seule
+vaut `true`, et `--output=f.txt` rend la string.
+
+</details>
+
+**Question 4.** Une command de copie veut des files, puis un dossier de
+destination facultatif : `#[Argument] array $files = []`, suivi de
+`#[Argument] string $dest = ''`. Que donne son ajout à l'application ?
+
+- **A.** `$files` reçoit toutes les valeurs, `$dest` reste vide
+- **B.** `$dest` reçoit la dernière valeur, `$files` les autres
+- **C.** Les deux arguments sont acceptés, dans cet ordre
+- **D.** Une `LogicException`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : D.** Rien ne peut suivre un argument array, qui absorbe
+toutes les valeurs restantes : « Cannot add a required argument "dest" after
+an array argument "files". », même pour `$dest` optionnel.
+
+</details>
+
+## Fiche express
+
+**Si tu dois retenir seulement 6 choses :**
+
+- Argument **positionnel**, option **nommée**.
+- Mode **déduit** du type et de la default value.
+- Argument sans défaut, non nullable : **requis**.
+- Option : **default value obligatoire** ; jamais requise.
+- `bool $x = true` → **`--no-x`** ; `bool|string $x = false` → valeur
+  optionnelle.
+- Nom par défaut en **kebab-case** ; `shortcut` pour les options seulement.
+
+Moyen mnémotechnique : **« La signature décide »**.
 
 ## Sources officielles
 
 - [Console Input](https://github.com/symfony/symfony-docs/blob/8.0/console/input.rst)
 - [`Attribute\Option`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Attribute/Option.php)
 - [`Attribute\Argument`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Console/Attribute/Argument.php)
+

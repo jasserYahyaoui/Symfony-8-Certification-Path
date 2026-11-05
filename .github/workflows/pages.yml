@@ -5199,7 +5199,16 @@ jobs:
                       'lot-06/translations-and-pluralization|Bonjour %Ada%|le tag fait confiance|Fiche express' \
                       'lot-06/string-interpolation|SafeAnalysisNodeVisitor|simples pour copier|Fiche express' \
                       'lot-06/assets-management|Did you mean one of these|un seul versionnage|Fiche express' \
-                      'lot-06/debugging-variables|ExtensionPass|tag dans la barre|Fiche express'; do
+                      'lot-06/debugging-variables|ExtensionPass|tag dans la barre|Fiche express' \
+                      'lot-12/console-component|Un argument négatif absurde|Un int en sortie, une option pour se taire|Fiche express' \
+                      'lot-12/input-and-output-objects|Ce découplage la rend testable|diagnostic vont sur un second flux|Fiche express' \
+                      'lot-12/built-in-helpers|le défaut omis vaut|Demander, compter, afficher|Fiche express' \
+                      'lot-12/verbosity-levels|qui tait même les erreurs|Un seuil, pas un filter|Fiche express' \
+                      'lot-12/custom-commands|En 8.0, une command est|et sert encore pour|Fiche express' \
+                      'lot-12/options-and-arguments-using-php-attributes|type et default value|La signature décide|Fiche express' \
+                      'lot-12/built-in-commands|savoir abréger un nom|Lister, inspecter, vider, valider|Fiche express' \
+                      'lot-12/configuration|sans construire la class|Un ancien nom à garder|Fiche express' \
+                      'lot-12/console-events|elle ne dispatche rien sans|Avant, erreur, après|Fiche express'; do
             page=${spec%%|*}
             out="/tmp/ped-${page//\//-}"
             code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
