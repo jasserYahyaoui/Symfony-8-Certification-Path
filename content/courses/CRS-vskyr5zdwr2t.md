@@ -33,22 +33,26 @@ outcome_sections:
 N'appliquer qu'une partie des constraints d'une class, et connaître les deux
 groups que Symfony crée sans qu'on les déclare.
 
-## Avant la règle : le problème à résoudre
+## L'essentiel
 
-La même class `User` sert à deux moments :
+Un **group** est un nom posé sur une constraint ; à la validation, on choisit
+les noms à appliquer. Sans group demandé, **seul `Default`** s'applique. Et
+chaque class a deux groups que personne n'écrit : `Default` et **le nom de la
+class** — identiques, sauf sur les objects imbriqués.
 
-- à l'**inscription**, le password est obligatoire et doit faire au moins
-  sept caractères ;
-- à la **modification du profil**, le user change sa ville ; le password n'est pas dans le form.
+## Le schéma
 
-Si toutes les constraints s'appliquaient toujours, la modification du profil
-échouerait sur un password que personne n'a saisi. Il faut pouvoir dire :
-« ici, ne vérifie que **ces** règles-là ».
+```text
+DÉCLARATION  sans group ou groups: ['Default'] → ["Default", "User"]
+             groups: ['User']                  → ["User"] seulement
+             groups: ['registration']          → ["registration"]
+VALIDATION   validate($user)                         → Default
+             validate($user, null, ['registration']) → registration seul
+CASCADE      le group demandé est transmis à l'object imbriqué :
+             Default y descend ; User n'y trouve rien ; registration y descend
+```
 
-Un **group** est un nom attaché à une constraint ; à la validation, on
-choisit les noms à appliquer.
-
-## Le fil rouge : un `User` à deux usages
+## L'exemple : un `User` à deux usages
 
 ```php
 class User
@@ -65,89 +69,43 @@ class User
 }
 ```
 
-`city` n'a pas de group explicite ; `email` et `password` sont étiquetés
-`registration`.
-
-## Le cycle complet en un schéma
-
-```text
-DÉCLARATION   constraint sans group      → groups ["Default", "User"]
-              constraint groups: ['Default'] → ["Default", "User"]
-              constraint groups: ['User']    → ["User"] seulement
-              constraint groups: ['registration'] → ["registration"]
-     │
-     ▼
-VALIDATION    validate($user)                      → group Default
-              validate($user, null, ['registration']) → registration seul
-              validate($user, null, ['Default', 'registration']) → les deux
-     │
-     ▼
-CASCADE (#[Assert\Valid])
-              Default      → l'object imbriqué est validé dans Default
-              User         → l'object imbriqué est validé dans « User » (souvent rien)
-              registration → l'object imbriqué est validé dans registration
-```
+À l'inscription, le password compte ; à la modification du profil, seule la
+ville est vérifiée.
 
 ## Les groups implicites
-
-C'est ce qui se rate. Cette class définit **trois** groups, dont deux que
-personne n'a écrits :
 
 | Group | Contenu |
 |---|---|
 | `Default` | les constraints sans group explicite — ici `city` |
-| `User` | **le nom de la class** ; les constraints de `User` dans `Default` |
-| `registration` | les constraints explicitement étiquetées — ici `email` et `password` |
+| `User` | **le nom de la class** : les constraints de `User` qui sont dans `Default` |
+| `registration` | les constraints étiquetées — `email` et `password` |
 
-Exécuté avec `symfony/validator` 8.0.15 : `new Assert\NotBlank()` porte
-d'abord `["Default"]` ; une fois rattachée à la class `User`
-(`addImplicitGroupName('User')`), elle porte `["Default", "User"]`. Déclarée
-`groups: ['Default']`, elle reçoit aussi `["Default", "User"]`.
+- `new Assert\NotBlank()` porte `["Default"]` ; rattachée à la class
+  (`addImplicitGroupName('User')`), elle porte `["Default", "User"]`.
+- Un group ne se déclare nulle part : il existe dès qu'une constraint le nomme.
 
-**Un group ne se déclare nulle part** : il existe dès qu'une constraint le
-nomme.
-
-### Un écart entre la documentation et le code
-
-`groups.rst` (8.0) range dans `Default` les constraints « sans group, ou
-configurées avec le nom de la class ou la string `Default` ». Pour le nom de la
-class, le code dit autre chose. Exécuté : une constraint déclarée
-`groups: ['User']` a pour seuls groups `["User"]`, et **ne s'exécute pas**
-quand on valide `Default` ; elle s'exécute avec le group `User`. La relation ne
-vaut que dans un sens : ce qui est dans `Default` est dans `User`, pas
+**Un écart entre la documentation et le code.** `groups.rst` range dans
+`Default` les constraints configurées avec le nom de la class. Exécuté : une
+constraint `groups: ['User']` a pour seuls groups `["User"]` et ne s'exécute
+**pas** en validant `Default`. Ce qui est dans `Default` est dans `User`, pas
 l'inverse.
 
 ## Valider avec un group
 
 ```php
-$validator->validate($user);                             // Default
-$validator->validate($user, null, ['registration']);     // registration seul
-$validator->validate($user, null, ['Default', 'registration']);
+$validator->validate($user);                                   // Default
+$validator->validate($user, null, ['registration']);           // registration seul
+$validator->validate($user, null, ['Default', 'registration']); // les deux
 ```
 
-Sans argument, **seul `Default` s'applique** — pas « toutes les constraints ».
-Une constraint rangée dans un group personnalisé est donc invisible par défaut.
-Le troisième argument accepte aussi une string seule (exécuté :
-`validate($user, null, 'Default')` équivaut à `['Default']`).
-
-Exécuté sur une class `User` avec une `Address` en cascade :
-
-| Appel | Violations |
-|---|---|
-| `validate($user)` | `city`, `address.zip` |
-| `validate($user, null, ['registration'])` | `email`, `address.street` |
-| `validate($user, null, ['Default', 'registration'])` | `email`, `city`, `address.zip`, `address.street` |
-
-Un nom de group inconnu ne lève rien : il ne sélectionne simplement aucune
-constraint.
-
-Dans un form, la même chose s'écrit avec l'option `validation_groups` du
-type ; la documentation 8.0 renvoie à `form/validation_groups`.
+- Sans argument : `Default`, pas « toutes les constraints ».
+- Le troisième argument accepte aussi une string : `'Default'`.
+- Un group inconnu ne lève rien : il ne sélectionne aucune constraint.
+- Dans un form : l'option `validation_groups`.
 
 ## `Default` contre le nom de la class
 
-Les deux sont identiques… sauf sur les objects **imbriqués**. Exécuté avec un
-`User` dont la property `address` porte `#[Assert\Valid]` :
+`User::$address` porte `#[Assert\Valid]` :
 
 | Group demandé | Violations |
 |---|---|
@@ -155,57 +113,18 @@ Les deux sont identiques… sauf sur les objects **imbriqués**. Exécuté avec 
 | `User` | `city`, sans `address.zip` |
 | `registration` | `email`, `address.street` |
 
-Valider dans `Default` descend dans les constraints `Default` de l'`Address` ;
-valider dans `User` ne le fait pas, car le group transmis à l'`Address` reste
-`User`. Un group nommé, lui, traverse la cascade : `address.street`, étiquetée
-`registration`, est atteinte.
+Le group demandé est transmis à l'`Address` : `Default` y a un sens, `User`
+non, un group nommé la traverse.
 
-### Et avec l'inheritance
-
-La documentation 8.0 l'ajoute, et l'exécution le confirme avec
-`User extends BaseUser`, chacun portant un `NotBlank` sans group :
+Avec l'inheritance, `User extends BaseUser` :
 
 | Group demandé | Violations |
 |---|---|
 | `Default` ou `User` | celles de `User` **et** de `BaseUser` |
 | `BaseUser` | celles de `BaseUser` seulement |
 
-La troisième différence apparaît avec une group sequence ; elle est traitée
-dans l'item *Group sequence*.
-
-## Concrètement dans ton application
-
-- Un form d'inscription : `validation_groups: ['Default',
-  'registration']`, pour garder les règles communes.
-- Un form de profil : rien, ou `['Default']`.
-- Une règle qui ne doit servir qu'à un moment précis : un group nommé, jamais le
-  nom de la class.
-- Une validation qui « ne voit plus rien » : vérifie le nom du group passé, une
-  faute ne lève pas d'erreur.
-
-## À comprendre
-
-- **Pourquoi `Default` seul par défaut ?** Parce que les groups nommés sont,
-  par construction, des règles **de situation** : les appliquer toujours
-  annulerait leur intérêt.
-- **Pourquoi un group « nom de la class » ?** Pour désigner « les règles par
-  défaut de **cette** class » sans entraîner celles des objects imbriqués.
-- **Pourquoi la cascade diffère-t-elle ?** Parce que le group demandé est
-  transmis tel quel à l'object imbriqué : `Default` y a un sens, `User` presque
-  jamais.
-
-## À mémoriser
-
-- Une constraint sans group : `Default` + nom de la class.
-- Trois groups pour le fil rouge : `Default`, `User`, `registration`.
-- `validate($o)` = `Default` seulement ; le troisième argument accepte un
-  array ou une string.
-- `groups: ['User']` : **pas** dans `Default` (contrairement à ce que laisse
-  croire la documentation).
-- Cascade : `Default` descend, `User` non, un group nommé oui.
-- Inheritance : le group de la sous-classe inclut le parent ; le group du parent,
-  seulement le parent.
-- Moyen mnémotechnique : **« Default par défaut, le reste sur demande »**.
+La troisième différence, avec une group sequence, est traitée dans l'item
+*Group sequence*.
 
 ## Pièges d'examen
 
@@ -221,130 +140,76 @@ quoi qu'en dise la documentation.
 **Un group ne se déclare nulle part** : il existe dès qu'une constraint le
 nomme.
 
-## Application : trois scénarios
+## Application
 
-**Scénario 1 — L'inscription.** Le password doit être vérifié à
-l'inscription, et la ville toujours. *Solution.* `password` dans
-`registration`, `city` sans group, et `validate($user, null, ['Default',
-'registration'])` — ou `validation_groups` dans le form.
-
-**Scénario 2 — La règle invisible.** Un `#[Assert\Email(groups: ['registration'])]`
-ne signale jamais rien. *Solution.* L'appel `validate($user)` ne demande que
-`Default` : ajoute `registration` au troisième argument.
-
-**Scénario 3 — L'adresse oubliée.** On valide `User` avec le group `User`, et
-le code postal vide de l'adresse cascadée passe. *Solution.* Valider `Default` :
-le group `User` est transmis tel quel à l'`Address`, où aucune constraint ne le
-porte.
+- Un form d'inscription qui garde les règles communes →
+  `validation_groups: ['Default', 'registration']`.
+- Un form de profil → rien, ou `['Default']`.
 
 ## QCM d'entraînement
 
-Six questions sur les groups. Choisis ta lettre avant d'ouvrir la correction.
+**Question 1.** Dans la class `Invoice`, une constraint est déclarée
+`groups: ['Invoice']`. Que fait `validate($invoice)` avec elle ?
 
-**Question 1.** Une class `Order` porte une constraint sans group sur `$total` et une constraint `groups: ['checkout']` sur `$card`. Combien de groups existent ?
-
-- **A.** Un seul, `checkout` : `Default` n'existe que si on le déclare
-- **B.** Deux : `Default` et `checkout`
-- **C.** Trois : `Default`, `Order` et `checkout`
-- **D.** Quatre, en comptant le group vide
+- **A.** Il l'exécute : le nom de la class équivaut à `Default`
+- **B.** Il l'exécute deux fois, une par group implicite
+- **C.** Il lève une exception : le nom de la class est réservé
+- **D.** Il ne l'exécute pas
 
 <details>
 <summary>Correction</summary>
 
-**Bonne réponse : C.** Le nom de la class est un group implicite, qui contient
-les constraints `Default` de cette class.
-
-B est le piège : il oublie le group du nom de la class. A et D inventent des
-règles.
+**Bonne réponse : D.** Ses seuls groups sont `["Invoice"]` ; elle ne s'exécute
+que si l'on demande ce group, quoi qu'en dise la documentation.
 
 </details>
 
-**Question 2.** `validate($order)` est appelé sans groups. Quelles constraints s'exécutent ?
+**Question 2.** `Seller extends Account`, chacune avec un `NotBlank` sans
+group. Que valide `validate($seller, null, ['Account'])` ?
 
-- **A.** Toutes celles de la class, quels que soient leurs groups
-- **B.** Celles du group `Default` seulement
-- **C.** Celles du group `Order` et des groups nommés
-- **D.** Aucune : il faut toujours passer au moins un group
+- **A.** Les constraints de `Seller` et d'`Account`
+- **B.** Rien : `Account` n'est pas la class de l'object
+- **C.** Les constraints d'`Account` seulement
+- **D.** Une exception : un group doit être celui de la class
 
 <details>
 <summary>Correction</summary>
 
-**Bonne réponse : B.** Sans argument, seul `Default` s'applique ; la constraint
-`checkout` reste muette.
-
-A est l'intuition fausse. C et D inventent des règles.
+**Bonne réponse : C.** Le group du parent ne couvre que le parent ; c'est le
+group de la sous-classe qui couvre aussi le parent.
 
 </details>
 
-**Question 3.** Dans la class `Order`, une constraint est déclarée `groups: ['Order']`. Elle s'exécute avec…
+**Question 3.** `Order::$billing` porte `#[Assert\Valid]`, et `Billing::$vat`
+un `NotBlank(groups: ['checkout'])`, vide. Quel appel signale `billing.vat` ?
 
-- **A.** le group `Order`, mais pas avec `Default`
-- **B.** le group `Default`, car le nom de la class équivaut à `Default`
-- **C.** n'importe quel group, puisqu'elle porte le nom de la class
-- **D.** aucun group : un group ne peut pas porter le nom de la class
+- **A.** `validate($order, null, ['checkout'])`
+- **B.** `validate($order)`
+- **C.** `validate($order, null, ['Order'])`
+- **D.** Aucun : `Valid` ne transmet que `Default`
 
 <details>
 <summary>Correction</summary>
 
-**Bonne réponse : A.** Exécuté : ses seuls groups sont `["Order"]`. Ce qui est
-dans `Default` est dans `Order`, pas l'inverse.
-
-B est le piège : c'est ce que laisse croire la documentation. C et D inventent
-des règles.
+**Bonne réponse : A.** Le group demandé est transmis tel quel à l'object
+imbriqué : `checkout` y atteint la constraint étiquetée.
 
 </details>
 
-**Question 4.** `Order::$customer` porte `#[Assert\Valid]`, et `Customer::$email` un `NotBlank` sans group, vide. Quel appel signale `customer.email` ?
+**Question 4.** Le form d'inscription utilise
+`validation_groups: ['registration']`, et la ville trop courte n'est plus
+signalée. Que faut-il ?
 
-- **A.** `validate($order, null, ['Order'])`
-- **B.** `validate($order, null, ['checkout'])`
-- **C.** Aucun : la cascade ignore les groups
-- **D.** `validate($order, null, ['Default'])`
-
-<details>
-<summary>Correction</summary>
-
-**Bonne réponse : D.** `Default` est transmis à `Customer`, dont le `NotBlank`
-est dans `Default` (exécuté sur `address.zip`).
-
-A est le piège : le group `Order` est transmis tel quel, et `Customer` n'a rien
-dans ce group. B ne sélectionne que les constraints `checkout`. C est faux : le
-group est transmis.
-
-</details>
-
-**Question 5.** `Admin extends BaseUser`. Chacune porte un `NotBlank` sans group. Que valide `validate($admin, null, ['BaseUser'])` ?
-
-- **A.** Les constraints d'`Admin` et de `BaseUser`
-- **B.** Les constraints de `BaseUser` seulement
-- **C.** Rien : `BaseUser` n'est pas la class de l'object
-- **D.** Les constraints d'`Admin` seulement
+- **A.** Ajouter `groups: ['registration']` sur chaque constraint de la class
+- **B.** `['Default', 'registration']`
+- **C.** Remplacer `registration` par le nom de la class
+- **D.** Retirer l'option : tous les groups seront alors validés
 
 <details>
 <summary>Correction</summary>
 
-**Bonne réponse : B.** Le group du parent ne contient que ses constraints par
-défaut (documentation 8.0, exécuté). Avec `Admin` ou `Default`, les deux
-classes sont validées.
-
-A décrit le group `Admin`. C et D inventent des règles.
-
-</details>
-
-**Question 6.** Un appel `validate($user, null, ['registraton'])`, avec une faute de frappe, rend une liste vide pour un object invalide. Pourquoi ?
-
-- **A.** Le Validator corrige le nom et ne trouve rien à signaler
-- **B.** Le group inconnu fait basculer sur `Default`, ici valide
-- **C.** Une exception est levée, puis interceptée par le Validator
-- **D.** Aucune constraint ne porte ce group : rien n'est vérifié
-
-<details>
-<summary>Correction</summary>
-
-**Bonne réponse : D.** Un group existe dès qu'une constraint le nomme ; un nom
-que personne n'utilise ne sélectionne rien, sans erreur.
-
-A, B et C inventent des comportements.
+**Bonne réponse : B.** `Default` porte les règles communes ; sans lui, seules
+les constraints étiquetées `registration` sont vérifiées.
 
 </details>
 
@@ -352,24 +217,19 @@ A, B et C inventent des comportements.
 
 **Si tu dois retenir seulement 6 choses :**
 
-- Une constraint sans group est dans `Default` **et** dans le group du nom de
-  la class.
+- Sans group : `Default` **et** le group du nom de la class.
 - `validate($o)` n'applique **que `Default`**.
 - `groups: ['User']` n'est **pas** dans `Default`.
 - Cascade : `Default` descend dans l'object imbriqué, le nom de la class non,
   un group nommé oui.
 - Inheritance : le group de la sous-classe couvre le parent ; celui du parent,
   le parent seul.
-- Un group inconnu ou mal écrit ne lève rien : il ne sélectionne rien.
+- Un group inconnu ne lève rien : il ne sélectionne rien.
 
-**En une phrase, pour tout reconstruire :**
-
-```text
-ÉTIQUETER (sans group = Default + Classe) → DEMANDER (rien = Default)
-  → TRANSMETTRE le même group aux objects imbriqués
-```
+Moyen mnémotechnique : **« Default par défaut, le reste sur demande »**.
 
 ## Sources officielles
 
 - [Validation Groups](https://github.com/symfony/symfony-docs/blob/8.0/validation/groups.rst)
 - [Validator 8.0, `Constraint::addImplicitGroupName()`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Validator/Constraint.php)
+

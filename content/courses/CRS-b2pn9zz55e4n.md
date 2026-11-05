@@ -49,35 +49,15 @@ Modifier un form pendant son cycle de vie : ajouter un field selon la
 donnée, assainir une valeur brute, réagir après la submission. C'est le
 mécanisme qui rend un form dynamique.
 
-## Avant la règle : le problème à résoudre
+## L'essentiel
 
-Un form d'adresse a deux listes : le **pays**, puis la **région**. La
-liste des régions dépend du pays — celui de l'adresse existante quand on
-l'édite, celui que le user vient de choisir quand il envoie le
-form.
+`buildForm()` s'exécute une fois, sans connaître ni l'object ni la Request.
+Les **cinq form events** permettent d'intervenir plus tard : deux à la mise en
+place de la donnée initiale, trois à la submission. À chaque event, il faut
+savoir **quelle donnée** on reçoit et si l'on peut encore **ajouter un
+field**.
 
-`buildForm()` ne suffit pas : il s'exécute **une fois**, avant de connaître ni
-la donnée de l'object ni ce que la Request contient. Il faut pouvoir
-intervenir **plus tard**, à des moments précis — et savoir, à chacun, quelle
-donnée on a sous la main et ce qu'on a encore le droit de changer.
-
-## Le fil rouge : pays et région
-
-```php
-$builder->add('country', ChoiceType::class, ['choices' => $countries]);
-
-$builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
-    $address = $event->getData();                    // l'object initial
-    $this->addRegion($event->getForm(), $address?->country);
-});
-
-$builder->get('country')->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
-    $country = $event->getForm()->getData();         // le pays soumis
-    $this->addRegion($event->getForm()->getParent(), $country);  // au parent
-});
-```
-
-## Le cycle complet en un schéma
+## Le schéma
 
 ```mermaid
 ---
@@ -105,164 +85,96 @@ sequenceDiagram
   P->>P: POST_SUBMIT (validation)
 ```
 
+## L'exemple : pays et région
+
+```php
+$builder->add('country', ChoiceType::class, ['choices' => $countries]);
+
+$builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+    $address = $event->getData();                                 // l'object initial
+    $this->addRegion($event->getForm(), $address?->country);
+});
+
+$builder->get('country')->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
+    $country = $event->getForm()->getData();                      // le pays soumis
+    $this->addRegion($event->getForm()->getParent(), $country);   // au parent
+});
+```
+
 ## Deux moments, cinq events
 
-Le cycle se divise en deux phases : la **mise en place** de la donnée initiale,
-et la **submission**.
-
-### Mise en place
-
-1. **`PRE_SET_DATA`** — la donnée du **modèle**, avant toute transformation. Les
-   fields ne sont pas encore tous construits : **c'est ici qu'on en ajoute ou
-   qu'on en retire** en fonction de la donnée initiale.
-2. **`POST_SET_DATA`** — les trois représentations existent. Bon endroit pour
-   décider en connaissant l'état complet, par exemple « l'object est-il neuf ou
-   existant ? ». On peut encore y ajouter ou retirer des fields, même si la
-   documentation préfère `PRE_SET_DATA`.
-
-### Submission
-
-3. **`PRE_SUBMIT`** — la donnée **brute de la Request**, non transformée :
-   strings et arrays, plus les objects `UploadedFile` d'un field de file.
-   C'est le moment pour assainir une valeur, ou pour ajouter des fields d'après
-   ce que le user a envoyé.
-4. **`SUBMIT`** — la donnée **normalisée**. On peut encore changer les valeurs,
-   mais les enfants ont **déjà été soumis** : la documentation dit qu'on ne peut
-   plus ajouter ni retirer de field.
-5. **`POST_SUBMIT`** — `$event->getData()` rend la donnée de **vue** ; la
-   model data se lit par `$event->getForm()->getData()`. La structure de
-   *ce* form est figée. **La validation s'exécute par un listener sur cet
-   event**.
+| Event | Phase | Usage |
+|---|---|---|
+| `PRE_SET_DATA` | mise en place | modifier la donnée initiale, ajouter ou retirer des fields selon elle |
+| `POST_SET_DATA` | mise en place | décider en connaissant l'état complet (object neuf ou existant ?) |
+| `PRE_SUBMIT` | submission | assainir la donnée brute, ajouter des fields selon ce qui est envoyé |
+| `SUBMIT` | submission | modifier la norm data ; les enfants sont déjà soumis |
+| `POST_SUBMIT` | submission | réagir après coup ; **la validation s'exécute ici** |
 
 ## Ce que porte chaque event
 
-Exécuté sur un field texte muni d'un model transformer entre l'int
-`5` et la string `'n:5'`, puis soumis avec `'n:7'` :
+Un field texte avec un model transformer entre l'int `5` et la string
+`'n:5'`, soumis avec `'n:7'` :
 
 | Event | `$event->getData()` | `$event->getForm()->getData()` |
 |---|---|---|
-| `PRE_SET_DATA` | `5` | interdit : `RuntimeException` |
-| `POST_SET_DATA` | `5` | `5` |
-| `PRE_SUBMIT` | `'n:7'` | `5` |
-| `SUBMIT` | `'n:7'` | `5` |
-| `POST_SUBMIT` | `'n:7'` | `7` |
+| `PRE_SET_DATA` | `5` (modèle) | interdit : `RuntimeException` |
+| `POST_SET_DATA` | `5` (modèle) | `5` |
+| `PRE_SUBMIT` | `'n:7'` (brut : strings, arrays, `UploadedFile`) | `5` |
+| `SUBMIT` | `'n:7'` (norm data) | `5` |
+| `POST_SUBMIT` | `'n:7'` (**view data**) | `7` |
 
-Dans un listener `PRE_SET_DATA`, appeler `getData()` sur le form lève
-une `RuntimeException` : « A cycle was detected. Listeners to the PRE_SET_DATA
-event must not call getData() if the form data has not already been set. » On
-lit la donnée sur l'event.
+Dans `PRE_SET_DATA`, `$form->getData()` lève « A cycle was detected. Listeners
+to the PRE_SET_DATA event must not call getData() if the form data has not
+already been set. » : lire `$event->getData()`.
 
 ## Ce que dit le code sur le verrouillage
 
-`Form::add()` et `Form::remove()` ne testent qu'une chose : le form est-il
-marqué soumis ? Or `Form::submit()` pose ce marqueur **après** l'event
-`SUBMIT` et **avant** `POST_SUBMIT`. Exécuté avec `symfony/form` 8.0.15, un
-listener du form racine qui ajoute un field `extra`, la Request envoyant
+`Form::add()` ne teste qu'une chose : le form est-il marqué soumis ?
+`Form::submit()` pose ce marqueur **après** `SUBMIT` et **avant**
+`POST_SUBMIT`. Un listener du form racine ajoute `extra`, la Request envoyant
 `extra = 'sent'` :
 
 | Event | `add()` | Le field ajouté |
 |---|---|---|
 | `PRE_SET_DATA`, `POST_SET_DATA`, `PRE_SUBMIT` | accepté | soumis, donnée `'sent'` |
-| `SUBMIT` | accepté, **sans erreur** | **jamais soumis**, garde sa donnée initiale |
-| `POST_SUBMIT` | `AlreadySubmittedException` | — |
-
-Le blocage à `SUBMIT` est donc fonctionnel, pas une exception : un field ajouté
-là est silencieusement ignoré par la submission. L'exception n'arrive qu'à
-`POST_SUBMIT`, avec « You cannot add children to a submitted form. ».
+| `SUBMIT` | accepté, **sans erreur** | **jamais soumis** |
+| `POST_SUBMIT` | `AlreadySubmittedException` : « You cannot add children to a submitted form. » | — |
 
 ## Les forms imbriqués
-
-Un field dépendant d'un autre ne peut pas s'ajouter depuis son propre
-`POST_SUBMIT` au form lui-même : sa structure est figée. On l'ajoute au
-**form parent**, depuis l'event de l'enfant. C'est ce qui rend le pattern
-des listes dépendantes contre-intuitif à écrire.
-
-L'ordre de propagation explique pourquoi cela fonctionne. Exécuté :
 
 ```text
 mise en place : P.PRE_SET_DATA  C.PRE_SET_DATA  C.POST_SET_DATA  P.POST_SET_DATA
 submission    : P.PRE_SUBMIT  C.PRE_SUBMIT  C.SUBMIT  C.POST_SUBMIT  P.SUBMIT  P.POST_SUBMIT
 ```
 
-Au `POST_SUBMIT` de l'enfant, le parent n'a pas encore atteint son `SUBMIT` :
-un field ajouté au parent à ce moment est soumis, avec la valeur de la Request
-(exécuté : `dep` soumis, donnée `'z'`).
-
-La validation, elle, ne part que du form **racine** : `ValidationListener`
-écoute le `POST_SUBMIT` de chaque form, mais n'agit que si
-`isRoot()` est vrai, et valide alors tout l'arbre. Exécuté : dans le
-`POST_SUBMIT` d'un enfant, aucune erreur de validation n'existe encore ; dans
-un listener `POST_SUBMIT` de la racine, de même priority mais enregistré après,
-l'erreur `NotBlank` est déjà là.
+- L'enfant est soumis **en entier** avant le `SUBMIT` du parent : un field
+  dépendant s'ajoute **au parent**, depuis le `POST_SUBMIT` de l'enfant, et il
+  est soumis avec la valeur de la Request.
+- La validation ne part que du **form racine** : `ValidationListener` écoute
+  le `POST_SUBMIT` de chaque form mais n'agit que si `isRoot()`. Dans le
+  `POST_SUBMIT` d'un enfant, aucune erreur de validation n'existe encore.
 
 ## La table de décision
 
 | Besoin | Event |
 |---|---|
-| modifier la donnée initiale | `PRE_SET_DATA` |
-| adapter la structure à la donnée initiale | `PRE_SET_DATA`, ou `POST_SET_DATA` |
+| modifier la donnée initiale ; adapter la structure à elle | `PRE_SET_DATA` (ou `POST_SET_DATA`) |
 | assainir la donnée brute soumise | `PRE_SUBMIT` |
 | ajouter des fields d'après la valeur soumise | `PRE_SUBMIT` sur le **parent**, ou `POST_SUBMIT` sur l'**enfant** |
 | modifier la norm data | `SUBMIT` |
 | réagir après coup, journaliser | `POST_SUBMIT` |
 
-La question qui tranche entre `PRE_SET_DATA` et `PRE_SUBMIT` est celle que pose
-la documentation : réagit-on à la donnée **initiale**, qui vient de l'object, ou à
-la donnée **soumise**, qui vient de la Request ?
+La question qui tranche : réagit-on à la donnée **initiale** (l'object) ou à la
+donnée **soumise** (la Request) ?
 
 ## Comment s'abonner
 
-Sur le builder, pour un cas local :
-
-```php
-$builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
-    $form = $event->getForm();
-    $data = $event->getData();
-});
-```
-
-Ou par une class implémentant `EventSubscriberInterface`, réutilisable et
-injectable.
-
-Les listeners se déclarent pendant `buildForm()` : une fois le form
-construit, son dispatcher est un `ImmutableEventDispatcher`. Exécuté :
-`addListener()` lève une `BadMethodCallException`, « Unmodifiable event
-dispatchers must not be modified. ».
-
-## Concrètement dans ton application
-
-- Un field affiché seulement pour un object existant : `PRE_SET_DATA`, d'après
-  `$event->getData()`.
-- Un field texte à nettoyer (espaces, majuscules) avant toute conversion :
-  `PRE_SUBMIT`.
-- Deux listes dépendantes : `PRE_SET_DATA` pour l'édition, `POST_SUBMIT` sur
-  le field « parent » qui ajoute au form parent pour la submission.
-- Une trace après une submission réussie : `POST_SUBMIT` sur la racine,
-  enregistré après la validation.
-
-## À comprendre
-
-- **Pourquoi cinq events ?** Un par étape où la donnée change de forme :
-  modèle avant et après la mise en place, brute, normalisée, puis tout
-  transformée.
-- **Pourquoi `SUBMIT` ignore-t-il un field ajouté ?** Parce que les enfants
-  ont déjà été soumis à ce moment : le nouveau field arrive trop tard pour sa
-  propre submission.
-- **Pourquoi ajouter au parent ?** Parce que le parent, lui, n'a pas fini sa
-  submission quand l'enfant termine la sienne.
-
-## À mémoriser
-
-- Ordre : `PRE_SET_DATA`, `POST_SET_DATA`, `PRE_SUBMIT`, `SUBMIT`,
-  `POST_SUBMIT`.
-- Données : modèle, modèle, Request, normalisée, vue.
-- `PRE_SET_DATA` : `$event->getData()`, jamais `$form->getData()`.
-- Structure modifiable jusqu'à `PRE_SUBMIT` ; `SUBMIT` : ignoré ;
-  `POST_SUBMIT` : exception.
-- L'enfant est soumis en entier avant le `SUBMIT` du parent.
-- Validation : `POST_SUBMIT` de la racine.
-- Moyen mnémotechnique : **« Poser, compléter, recevoir, normaliser,
-  conclure »**.
+`$builder->addEventListener(FormEvents::PRE_SET_DATA, $callable)` pour un cas
+local, ou une class `EventSubscriberInterface`, réutilisable. Les listeners se
+déclarent pendant `buildForm()` : ensuite, le dispatcher est un
+`ImmutableEventDispatcher`, et `addListener()` lève une
+`BadMethodCallException`.
 
 ## Pièges d'examen
 
@@ -276,128 +188,79 @@ dispatchers must not be modified. ».
 - La validation s'exécute sur le `POST_SUBMIT` de la **racine**, pas avant.
 - Un field dépendant s'ajoute au **parent**.
 
-## Application : trois scénarios
+## Application
 
-**Scénario 1 — Le field « région » fantôme.** Un listener `SUBMIT` ajoute le
-field `region`, sans erreur, mais sa valeur n'est jamais enregistrée.
-*Solution.* À `SUBMIT`, les enfants sont déjà soumis : ajouter le field plus
-tôt, par un `POST_SUBMIT` sur `country` qui l'ajoute au parent.
-
-**Scénario 2 — La récursion détectée.** Un listener `PRE_SET_DATA` appelle
-`$event->getForm()->getData()` et lève « A cycle was detected ».
-*Solution.* Lire `$event->getData()`.
-
-**Scénario 3 — Le journal sans erreurs.** Un listener `POST_SUBMIT` posé sur
-un field enfant veut journaliser les erreurs de validation, et n'en voit
-jamais. *Solution.* La validation part du `POST_SUBMIT` de la racine : écouter
-la racine, avec un listener enregistré après celui de la validation.
+- Une liste « région » qui dépend du pays → `PRE_SET_DATA` pour l'object
+  existant, `POST_SUBMIT` sur `country` qui ajoute au parent.
+- Supprimer les espaces d'un code postal avant toute transformation →
+  `PRE_SUBMIT`.
 
 ## QCM d'entraînement
 
-Six questions sur les events de form. Choisis avant d'ouvrir la correction.
+**Question 1.** Un listener sur le `POST_SUBMIT` du form racine appelle
+`$event->getForm()->add('extra', TextType::class)`. Que se passe-t-il ?
 
-**Question 1.** Un listener sur l'event `SUBMIT` du form racine appelle `$event->getForm()->add('extra', TextType::class)`, et la Request contient `extra`. Que se passe-t-il ?
-
-- **A.** Une `AlreadySubmittedException`
-- **B.** Le field est ajouté et soumis avec la valeur envoyée
-- **C.** Le field est ajouté sans erreur, mais il n'est jamais soumis
-- **D.** Le field est ignoré : `add()` ne fait rien après `PRE_SUBMIT`
+- **A.** Le field est ajouté et soumis avec la Request
+- **B.** Le field est ajouté, mais jamais soumis
+- **C.** Une `AlreadySubmittedException`
+- **D.** Le field est ajouté au form parent
 
 <details>
 <summary>Correction</summary>
 
-**Bonne réponse : C.** Exécuté : `add()` est accepté, mais le field garde sa
-donnée initiale.
-
-A est le comportement à `POST_SUBMIT`. B est celui de `PRE_SUBMIT`. D : le
-field existe bien après l'appel.
+**Bonne réponse : C.** Le form est déjà marqué soumis : « You cannot add
+children to a submitted form. ». B décrit l'ajout à `SUBMIT`.
 
 </details>
 
-**Question 2.** Un field a un model transformer entre l'int `5` et la string `'n:5'`. On soumet `'n:7'`. Que vaut `$event->getData()` dans un listener `POST_SUBMIT` de ce field ?
+**Question 2.** Un field a un model transformer entre l'int `5` et la string
+`'n:5'`. On soumet `'n:7'`. Que vaut `$event->getData()` dans un listener
+`POST_SUBMIT` de ce field ?
 
 - **A.** `7`, la model data
-- **B.** `'n:7'`, la view data
+- **B.** `5`, la donnée initiale
 - **C.** `null` : la donnée est déjà écrite dans l'object
-- **D.** `5`, la donnée initiale
+- **D.** `'n:7'`, la view data
 
 <details>
 <summary>Correction</summary>
 
-**Bonne réponse : B.** `POST_SUBMIT` porte la view data ; `7` se lit par
-`$event->getForm()->getData()` (exécuté).
-
-A est le piège. C et D sont faux.
+**Bonne réponse : D.** `POST_SUBMIT` porte la view data ; la model data, `7`,
+se lit par `$event->getForm()->getData()`.
 
 </details>
 
-**Question 3.** Un form parent `p` a un enfant `c`. Dans quel ordre les events de submission sont-ils déclenchés ?
+**Question 3.** Un form parent `p` a un enfant `c`. Dans quel ordre les events
+de submission sont-ils déclenchés ?
 
-- **A.** `p.PRE_SUBMIT`, `c.PRE_SUBMIT`, `c.SUBMIT`, `c.POST_SUBMIT`, `p.SUBMIT`, `p.POST_SUBMIT`
-- **B.** `p.PRE_SUBMIT`, `p.SUBMIT`, `p.POST_SUBMIT`, puis les trois de `c`
+- **A.** `p.PRE_SUBMIT`, `p.SUBMIT`, `p.POST_SUBMIT`, puis les trois de `c`
+- **B.** `p.PRE_SUBMIT`, `c.PRE_SUBMIT`, `c.SUBMIT`, `c.POST_SUBMIT`, `p.SUBMIT`, `p.POST_SUBMIT`
 - **C.** `c.PRE_SUBMIT`, `c.SUBMIT`, `c.POST_SUBMIT`, puis les trois de `p`
 - **D.** `p.PRE_SUBMIT`, `c.PRE_SUBMIT`, `p.SUBMIT`, `c.SUBMIT`, `p.POST_SUBMIT`, puis `c.POST_SUBMIT`
 
 <details>
 <summary>Correction</summary>
 
-**Bonne réponse : A.** Exécuté : l'enfant est soumis en entier entre le
-`PRE_SUBMIT` et le `SUBMIT` du parent.
-
-B, C et D inventent un autre entrelacement.
+**Bonne réponse : B.** L'enfant est soumis en entier entre le `PRE_SUBMIT` et
+le `SUBMIT` du parent.
 
 </details>
 
-**Question 4.** Un listener `PRE_SET_DATA` appelle `$event->getForm()->getData()` pour lire l'object initial. Que se passe-t-il ?
-
-- **A.** Il rend l'object initial, non transformé
-- **B.** Il rend `null`
-- **C.** Il rend la view data
-- **D.** Une `RuntimeException`
-
-<details>
-<summary>Correction</summary>
-
-**Bonne réponse : D.** Exécuté : « A cycle was detected… ». La donnée se lit
-par `$event->getData()`.
-
-A est le piège : c'est vrai à partir de `POST_SET_DATA`. B et C sont faux.
-
-</details>
-
-**Question 5.** Un listener `POST_SUBMIT` est posé sur un field **enfant** soumis vide, qui porte un `NotBlank`. Combien d'erreurs de validation le form racine porte-t-il à ce moment ?
-
-- **A.** Une : la validation de l'enfant est déjà faite
-- **B.** Aucune encore
-- **C.** Une, mais sur le form racine seulement
-- **D.** Une exception : la validation est en cours
-
-<details>
-<summary>Correction</summary>
-
-**Bonne réponse : B.** La validation part du `POST_SUBMIT` de la racine :
-`ValidationListener` n'agit que sur elle (exécuté :
-0 erreur côté enfant, 1 côté racine après).
-
-A est le piège. C et D sont faux.
-
-</details>
-
-**Question 6.** Après `getForm()`, un développeur appelle `$form->getConfig()->getEventDispatcher()->addListener(...)`. Que se passe-t-il ?
+**Question 4.** Après `getForm()`, un développeur appelle
+`$form->getConfig()->getEventDispatcher()->addListener(...)`. Que se
+passe-t-il ?
 
 - **A.** Le listener est ajouté pour la prochaine submission
-- **B.** Le listener est ajouté, mais seulement aux enfants
-- **C.** Une `BadMethodCallException`
+- **B.** Une `BadMethodCallException`
+- **C.** Le listener est ajouté, mais seulement aux enfants
 - **D.** Rien : l'appel est ignoré sans erreur
 
 <details>
 <summary>Correction</summary>
 
-**Bonne réponse : C.** Le dispatcher est immuable ; exécuté : « Unmodifiable
-event dispatchers must not be modified. ». Les listeners se déclarent dans
+**Bonne réponse : B.** Le dispatcher est immuable : « Unmodifiable event
+dispatchers must not be modified. ». Les listeners se déclarent dans
 `buildForm()`.
-
-A, B et D supposent un dispatcher modifiable.
 
 </details>
 
@@ -417,15 +280,12 @@ A, B et D supposent un dispatcher modifiable.
 - Validation : **`POST_SUBMIT` de la racine** ; dispatcher immuable après
   `buildForm()`.
 
-**En une phrase, pour tout reconstruire :**
-
-```text
-PRE_SET_DATA(modèle) → POST_SET_DATA(modèle) || PRE_SUBMIT(Request) → [enfants] → SUBMIT(norm)
-  → POST_SUBMIT(vue ; validation sur la racine) ; add() : ok | ignoré à SUBMIT | exception à POST_SUBMIT
-```
+Moyen mnémotechnique : **« Poser, compléter, recevoir, normaliser,
+conclure »**.
 
 ## Sources officielles
 
 - [Form Events](https://github.com/symfony/symfony-docs/blob/8.0/form/events.rst)
 - [Form 8.0, `Form`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Form.php) : `submit()`, `add()`, `remove()`, `getData()`
 - [Form 8.0, `ValidationListener`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Form/Extension/Validator/EventListener/ValidationListener.php)
+
