@@ -5275,7 +5275,16 @@ jobs:
                       'lot-05/routing-component-and-frameworkbundle|matcher qui sait rediriger|sans autre component Symfony|Fiche express' \
                       'lot-05/restrict-url-parameters|de vérifier le requirement|Un slug accentué en majuscule initiale|Fiche express' \
                       'lot-05/set-default-values-to-url-parameters|si le path a le parameter|vaut la page 1|Fiche express' \
-                      'lot-05/urls-generation|Le troisième argument choisit la forme|Un lien dans un email|Fiche express'; do
+                      'lot-05/urls-generation|Le troisième argument choisit la forme|Un lien dans un email|Fiche express' \
+                      'lot-01/php-api-up-to-php-8-4-version|Deux confusions reviennent|sa syntaxe est au programme|Fiche express' \
+                      'lot-01/object-oriented-programming|est liée à la|static regarde qui appelle|Fiche express' \
+                      'lot-01/attributes|Un attribute est une class marquée|sur une class ordinaire|Fiche express' \
+                      'lot-01/interfaces|Une interface déclare des methods implicitement|sans dicter le stockage|Fiche express' \
+                      'lot-01/anonymous-functions-and-closures|Un tri en une ligne|accepte aussi strings et arrays|Fiche express' \
+                      'lot-01/enums|donne à chaque cas une|en plus pour les adossées|Fiche express' \
+                      'lot-01/exception-and-error-handling|pour les conditions applicatives|Une division par zéro possible|Fiche express' \
+                      'lot-01/traits|sans créer de type ni|Method abstraite du trait|Fiche express' \
+                      'lot-01/abstract-classes|et impose à ses filles des|une seule abstract class par|Fiche express'; do
             page=${spec%%|*}
             out="/tmp/ped-${page//\//-}"
             code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
