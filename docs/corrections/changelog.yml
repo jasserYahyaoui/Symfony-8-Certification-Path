@@ -6188,3 +6188,891 @@ entries:
       - Fiche express
     flashcards: []
     questions: []
+  - id: CVR-xkkc01rrdtzy
+    date: '2026-11-06'
+    pull_request: 460
+    commit: e050eb2
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-d416348gfhde
+    facts: []
+    title: 'Components and Bridges : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre questions et une Fiche express. Trois mots, trois roles. Un **component** est une bibliothèque autonome, utilisable hors du framework. Un **bridge** relie un component à une bibliothèque tierce. Un **bundle** branche le tout dans le framework et le rend configurable. Le `composer.json` du mono-dépôt `symfony/symfony` déclare ce découpage — et le bridge PHPUnit en est l''exception.'
+    courses:
+    - id: CRS-1bxqx6ks853z
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : Twig sous trois noms'
+      - Le triangle
+      - Le bundle
+      - '`replace` et `provide`, deux keys distinctes'
+      - Le bridge PhpUnit, qui dément la definition
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-ncafnf49k7cx
+    date: '2026-11-06'
+    pull_request: 460
+    commit: e050eb2
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-vk57zg2wpep7
+    facts: []
+    title: 'Backward compatibility promise : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre questions et une Fiche express. La promesse suit le *semantic versioning* : seule une version **majeure** peut casser la compatibilité ; une mineure ajoute et déprécie. Mais elle n''est pas globale : elle dépend de la **manière** dont on utilise le code — utiliser, implémenter, étendre — et trois zones en sont exclues. Le piège le plus visé : les named arguments.'
+    courses:
+    - id: CRS-21ec5kwrcmkm
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : un argument ajouté en mineure'
+      - Utiliser, étendre, implémenter
+      - Les traits, et leur asymétrie avec les classes
+      - 'Ajouter un argument : toujours en dernier'
+      - Les trois exclusions
+      - Le piège des named arguments
+      - final et @final
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-5jaxeze6gfd4
+    date: '2026-11-06'
+    pull_request: 460
+    commit: e050eb2
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-21m4pmtymygn
+    facts: []
+    title: 'Domain name matching : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre questions et une Fiche express. L''option `host` fait dépendre une route du nom de host ; sans elle, tout host correspond. Le host prend des parameters, avec `defaults` et `requirements` ordinaires — mais une default value de host ne rend **rien facultatif** : elle ne sert qu''à la génération. La comparaison ignore la casse, et `path()` vers un autre host produit `//hôte/…`.'
+    courses:
+    - id: CRS-2b1wzm3rwdrn
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : un site mobile'
+      - L'option `host`
+      - Le host accepte des parameters
+      - Une default value de host ne rend rien facultatif
+      - Générer vers un autre host
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-3wwnbwmy438d
+    date: '2026-11-06'
+    pull_request: 460
+    commit: e050eb2
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-rd9b27fkb72r
+    facts: []
+    title: 'Event dispatcher and kernel events : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre questions et une Fiche express. Le component EventDispatcher appelle, pour un event, ses listeners par **priority décroissante**. Listener et subscriber ne diffèrent que par qui déclare l''abonnement. `stopPropagation()` n''arrête que les listeners restants du **même** event, et seulement sur un event arrêtable. Le kernel dispatche huit events, chacun avec son pouvoir propre.'
+    courses:
+    - id: CRS-2hpcy2rscq7m
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : un subscriber'
+      - Listener ou subscriber
+      - Priority
+      - Propagation
+      - Le catalogue du kernel
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-3e2g23zb5sv4
+    date: '2026-11-06'
+    pull_request: 460
+    commit: e050eb2
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-ceaw3ewfsw85
+    facts: []
+    title: 'Routing component and FrameworkBundle : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre questions et une Fiche express. Le **component** Routing fait correspondre une Request à des **variables** — `_controller` n''en est qu''une — et ne dépend d''aucun autre component Symfony. Apparier et générer sont deux classes distinctes. **FrameworkBundle** câble le tout : router compilé, matcher qui sait rediriger, loader des attributes, et `RouterListener` — une class de **HttpKernel**, pas du bundle.'
+    courses:
+    - id: CRS-2nwv1v57j7ef
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : ce que l''appariement dépose'
+      - Le component
+      - Trois morceaux, trois origines
+      - Ce que FrameworkBundle ajoute encore
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-yt919n4syrgk
+    date: '2026-11-06'
+    pull_request: 460
+    commit: e050eb2
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-tb3bnd6b0f01
+    facts: []
+    title: 'File upload : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre questions et une Fiche express. Un file téléversé arrive en `UploadedFile`, par le sac `files` ou par `#[MapUploadedFile]`. Il vit dans un file temporaire que PHP **supprime** en fin de Request : seul `move()` le conserve. Et tout ce que le client **annonce** — nom, extension, path, type MIME — est une entrée, pas un fait : le nom stocké se génère, l''extension se devine du contenu.'
+    courses:
+    - id: CRS-5pns7nw7612s
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : un nom sûr'
+      - Le récupérer
+      - Le déplacer
+      - Ce qui vient du client n'est pas fiable
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-9n1kj7xmps20
+    date: '2026-11-06'
+    pull_request: 460
+    commit: e050eb2
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-pk5s7cnhk776
+    facts: []
+    title: 'Release management and roadmap schedule : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre questions et une Fiche express. Symfony publie selon le **temps**, pas selon le contenu : un correctif environ chaque mois, une mineure tous les **six mois** (mai et novembre), une majeure tous les **deux ans** (novembre des années impaires). La dernière mineure d''une branche, X.4, est la LTS. Tout le reste est une affaire de chiffres qui vont par paires.'
+    courses:
+    - id: CRS-6m32av3nr9eh
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : la branche 7'
+      - Le modèle temporel
+      - Les six mois d'une version
+      - LTS et durées de maintenance
+      - Le développement en double
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-fqc3py6370ak
+    date: '2026-11-06'
+    pull_request: 460
+    commit: e050eb2
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-bwfqarnn6s2f
+    facts: []
+    title: 'HTTP redirects : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre questions et une Fiche express. Un controller redirige par `redirectToRoute()` (vers une route) ou `redirect()` (vers une URL). Les deux rendent une `RedirectResponse` : le navigateur repart, l''URL affichée change. Le statut est **302** par défaut, seuls six codes sont admis, et `redirect()` ne vérifie jamais sa destination.'
+    courses:
+    - id: CRS-7zy5ndjgnpk1
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : Post / Redirect / Get'
+      - Les deux methods
+      - Le statut
+      - Parameters utiles
+      - Le danger de `redirect()`
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-vn6ajeq6vvn3
+    date: '2026-11-06'
+    pull_request: 460
+    commit: e050eb2
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-ycc2c8tnv68h
+    facts: []
+    title: 'Naming conventions : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre questions et une Fiche express. Presque rien n''est imposé à un controller : le suffixe `Controller`, la class de base, l''absence de suffixe `Action` sont des conventions. **Une seule obligation** : un route name unique. Quand on l''omet, Symfony le génère en deux couches — le component, puis FrameworkBundle qui le raccourcit — et c''est ce nom généré que l''examen fait calculer.'
+    courses:
+    - id: CRS-9fz4erg0wmbq
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : une route sans nom'
+      - Rien n'est imposé, presque
+      - Le format `_controller`
+      - Le route name, et qui le génère
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-xyps903h1nnq
+    date: '2026-11-06'
+    pull_request: 460
+    commit: e050eb2
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-e41m74xaqhy7
+    facts: []
+    title: 'The session : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre questions et une Fiche express. La session s''obtient par la Request, par un argument typé `SessionInterface` ou, dans un service, par `RequestStack`. Elle démarre **paresseusement** : pas parce que la configuration l''active, mais au premier accès — lire, écrire **ou tester**. `migrate()` change l''identifier en gardant les données ; `invalidate()` vide le stockage, puis appelle `migrate(true)`.'
+    courses:
+    - id: CRS-a51fqgqynr2d
+      sections:
+      - L'essentiel
+      - Le schéma
+      - L'exemple
+      - L'obtenir
+      - Le démarrage est lazy
+      - L'API
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-kc64zv1f1vpb
+    date: '2026-11-06'
+    pull_request: 460
+    commit: e050eb2
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-2emwghgkkrdy
+    facts: []
+    title: 'The response : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre questions et une Fiche express. Un controller retourne une `Response` ; sinon, `kernel.view` doit convertir la valeur. Les raccourcis d''`AbstractController` se distinguent par leur return type : `render()` rend une **Response**, `renderView()` une **string**, `file()` une `BinaryFileResponse` qui **télécharge** par défaut. Le piège central est le **422** automatique, qui exige trois conditions à la fois.'
+    courses:
+    - id: CRS-a669jpap5zf2
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : un form, deux issues'
+      - La règle
+      - Rendre un template
+      - JSON
+      - Servir un file
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-gfeawge2twk2
+    date: '2026-11-06'
+    pull_request: 460
+    commit: e050eb2
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-65bev6t7wbna
+    facts: []
+    title: 'The flash messages : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre questions et une Fiche express. Un flash message est un message de **session** utilisé une seule fois : il disparaît dès qu''il est lu. C''est l''outil du *Post / Redirect / Get* : traiter, poser un message, rediriger, l''afficher. Tout tient dans la différence entre ce qui **consomme** et ce qui **regarde** — et entre `add()`, qui empile, et `set()`, qui écrase.'
+    courses:
+    - id: CRS-ak7sdgcdjb7e
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : après un enregistrement'
+      - Ce que c'est
+      - Poser
+      - Lire, et le piège
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-frgqw71dwfty
+    date: '2026-11-06'
+    pull_request: 460
+    commit: e050eb2
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-8hs6e05vq91g
+    facts: []
+    title: 'Argument value resolvers : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre questions et une Fiche express. Le kernel ne remplit pas lui-même les arguments d''un controller : il essaie une **chaîne de resolvers**, triés par priority, et le **premier** qui fournit une valeur gagne ; si aucun ne sait, une `RuntimeException` part. Deux resolvers, dits **ciblés**, ne tournent que si un attribute les désigne : ce sont les `#[Map…]`, qui échouent en 404 sur l''URL, en 422 sur le body.'
+    courses:
+    - id: CRS-d5ffd8b704zs
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : un resolver maison'
+      - Le contrat
+      - Ce que fait `ArgumentResolver`
+      - L'ordre
+      - Le catalogue
+      - Les resolvers ciblés
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-xhqtan38km1g
+    date: '2026-11-06'
+    pull_request: 460
+    commit: e050eb2
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-6cr9b8ea8g32
+    facts: []
+    title: 'The request : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre questions et une Fiche express. Un controller obtient la Request en **typant un argument** ; un service, lui, reçoit `RequestStack`. Les parameters de route arrivent par `$request->attributes`, puis par le **nom** de l''argument. Pour le body, `getPayload()` est la method à connaître — et elle n''est pas symétrique : le form l''emporte sur le JSON.'
+    courses:
+    - id: CRS-ea3twt9jcan2
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : une route à parameter'
+      - L'obtenir
+      - Les parameters de route
+      - Body et query string
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-tp7xy9e26vtc
+    date: '2026-11-06'
+    pull_request: 460
+    commit: e050eb2
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-xxcpx1qssp93
+    facts: []
+    title: 'User''s locale guessing : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre questions et une Fiche express. La locale de la Request vient de l''URL : un parameter `_locale` dans le path, ou une route localisée, que `LocaleListener` applique sur `kernel.request` à la priority **16**. Quand l''URL ne dit rien, il consulte `Accept-Language` — seulement si on l''a activé — puis retombe sur `framework.default_locale`. Appeler `setLocale()` depuis un controller arrive **trop tard**.'
+    courses:
+    - id: CRS-evzcj63fgdb7
+      sections:
+      - L'essentiel
+      - Le schéma
+      - L'exemple
+      - Par le parameter `_locale`
+      - Par des paths localisés
+      - Quand l'URL ne dit rien
+      - Le piège de l'instant
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-6pw0xg8tsmkv
+    date: '2026-11-06'
+    pull_request: 460
+    commit: e050eb2
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-e2zrm9qkpx7j
+    facts: []
+    title: 'Conditional request matching : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre questions et une Fiche express. L''option `condition` prend une expression **ExpressionLanguage**, compilée une fois en PHP dans le cache du router, puis exécutée à chaque Request qui atteint la route. Elle voit `context`, `request` et `params`, et appelle `env()` ou `service()`. Fausse, elle **efface** la route : ni 405, ni redirect. Et elle est **ignorée à la génération** d''URL.'
+    courses:
+    - id: CRS-f92d09x14ggx
+      sections:
+      - L'essentiel
+      - Le schéma
+      - L'exemple
+      - L'option `condition`
+      - Les variables disponibles
+      - Une condition fausse efface la route
+      - La limite, et elle est importante
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-58m274xvtgtm
+    date: '2026-11-06'
+    pull_request: 460
+    commit: e050eb2
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-efzq92vdtayj
+    facts: []
+    title: 'Framework overloading : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre questions et une Fiche express. Il n''existe pas de mécanisme unique pour surcharger un bundle tiers : chaque sous-système a le sien, et l''examen vérifie qu''on a la liste. Deux exceptions dominent : la **validation**, qui ne se surcharge pas, et le **routage**, qui ne s''importe jamais tout seul. Et le controller a deux cas.'
+    courses:
+    - id: CRS-f9s8mpaydnbx
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : étendre le template que l''on surcharge'
+      - Vue d'ensemble
+      - Les templates
+      - Le controller a deux cas
+      - Les translations ne dépendent pas des bundles
+      - La validation ne se surcharge pas
+      - Pièges d'examen
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-vyjfwjq50x7c
+    date: '2026-11-06'
+    pull_request: 460
+    commit: e050eb2
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-znm2tr61aw9p
+    facts: []
+    title: 'Internal redirects : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre questions et une Fiche express. `forward()` n''est pas un redirect : le kernel exécute une **sub-Request** dans le même cycle PHP et rend la Response du controller cible. Une seule Request HTTP, l''URL ne bouge pas. Tout le reste se lit dans un appel à `duplicate()` : les attributes sont **remplacés**, la query string est **perdue**, le body POST et la session sont **gardés**.'
+    courses:
+    - id: CRS-fd24qxy0x1s6
+      sections:
+      - L'essentiel
+      - Le schéma
+      - L'exemple
+      - Ce que fait `forward()`
+      - Le contraste
+      - Ce que la sub-Request garde et perd
+      - Les arguments passent par leur nom
+      - L'effet de bord à connaître
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-br2dtjprhzvt
+    date: '2026-11-06'
+    pull_request: 460
+    commit: e050eb2
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-5g82spham3vm
+    facts: []
+    title: 'HTTP methods matching : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre questions et une Fiche express. Sans option `methods`, une route accepte **tous** les verbes ; avec `methods: [''GET'']`, elle accepte aussi `HEAD`. Un form HTML ne sait envoyer que `GET` et `POST` : pour simuler `PUT` ou `DELETE`, un field caché `_method`, lu seulement si `framework.http_method_override` vaut `true` — `false` par défaut. Le header d''override, lui, ne dépend pas de cette option.'
+    courses:
+    - id: CRS-h3q0qxnq8eq0
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : deux routes, un path'
+      - L'option `methods`
+      - La limite des forms HTML
+      - Ce que fait `Request::getMethod()` (8.0)
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-34m127xffdek
+    date: '2026-11-06'
+    pull_request: 460
+    commit: e050eb2
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-gqpj4rbt0hc7
+    facts: []
+    title: 'The base AbstractController class : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre questions et une Fiche express. `AbstractController`, de **FrameworkBundle**, est une class de base **optionnelle** : un controller est n''importe quel callable. Elle apporte des raccourcis, tous **`protected`**, et reçoit non pas le container mais un **locator** de onze services, tous facultatifs. Sans un service, le raccourci qui en dépend échoue à l''appel, pas à la compilation.'
+    courses:
+    - id: CRS-h8s87edcx8ae
+      sections:
+      - L'essentiel
+      - Le schéma
+      - L'exemple
+      - Elle est optionnelle
+      - Les raccourcis sont `protected`
+      - Un subscriber à des services, pas un container
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-t3jywbxfqwwb
+    date: '2026-11-06'
+    pull_request: 460
+    commit: e050eb2
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-hzbednd04fd4
+    facts: []
+    title: 'Official best practices : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre questions et une Fiche express. Le document *Symfony Best Practices* énonce **trente** recommandations en **dix** sections, pour une application web classique : ce ne sont pas des règles du framework, rien ne casse si on les ignore. L''examen vise celles que l''intuition contredit — la constant plutôt que le parameter, l''URL en dur, pas de bundle applicatif, les boutons dans le template.'
+    courses:
+    - id: CRS-k2xvr11x936e
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : une valeur qui ne change presque jamais'
+      - 'Configuration : la règle des trois niveaux'
+      - Les recommandations qui surprennent
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-90tccejvkqm6
+    date: '2026-11-06'
+    pull_request: 460
+    commit: e050eb2
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-xc4zfr70jjas
+    facts: []
+    title: 'Exception handling : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre questions et une Fiche express. Une exception non rattrapée devient l''event `kernel.exception`. Un listener peut fournir une Response ou remplacer l''exception ; sinon `ErrorListener` construit la page d''erreur par une sub-Request. Le statut final suit une règle en trois temps, que l''examen interroge par des Responses `200` ou `204` qui ne sortent **pas** avec leur statut.'
+    courses:
+    - id: CRS-kd67y4vnd0mm
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : une exception qui porte son statut'
+      - Le mécanisme
+      - La page d'erreur est une vraie sub-Request
+      - Le choix du status code
+      - HttpExceptionInterface
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-ry97ejr5h2kk
+    date: '2026-11-06'
+    pull_request: 460
+    commit: e050eb2
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-egy2wn3z7gb7
+    facts: []
+    title: 'Configuration (YAML and PHP attributes) : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre questions et une Fiche express. Une route se déclare en attribute `#[Route]` ou en YAML : les deux formes sont équivalentes, mais **pas leurs options**. `priority` n''existe qu''en attribute ; une key YAML inconnue fait **échouer** le chargement. Et la règle qui pilote tout : les routes sont essayées **dans l''ordre**, et la **première** qui correspond gagne — jamais la plus spécifique.'
+    courses:
+    - id: CRS-kqq96z5y9r2f
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : les deux formes'
+      - Les deux formes
+      - Le namespace de l'attribute
+      - 'Le piège : l''ordre d''évaluation'
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-ssjzkj4gbjje
+    date: '2026-11-06'
+    pull_request: 460
+    commit: e050eb2
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-7sewqvmw6468
+    facts: []
+    title: 'Request handling : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre questions et une Fiche express. Une Request entre, une Response sort : tout le cycle tient dans `HttpKernelInterface::handle()`. Le kernel ne fait qu''orchestrer des events ; le travail — router, résoudre, convertir — est fait par des listeners. Trois points tombent à l''examen : `kernel.view` est **conditionnel**, un court-circuit ne saute pas la fin du cycle, et `kernel.finish_request` a lieu même quand une exception remonte — à une condition.'
+    courses:
+    - id: CRS-mpwjc4g3vmj7
+      sections:
+      - L'essentiel
+      - Le cycle en schéma
+      - 'L''exemple : une page de maintenance qui court-circuite'
+      - Le contrat
+      - Le trajet
+      - La pile de Requests, poussée et dépilée par `handle()`
+      - La branche que le trajet nominal ne montre pas
+      - Trois façons d'échouer, trois exceptions
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-8yjwcwygba96
+    date: '2026-11-06'
+    pull_request: 460
+    commit: e050eb2
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-4pgc74ctc3vc
+    facts: []
+    title: 'Special internal routing attributes : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre questions et une Fiche express. Cinq parameters préfixés d''un souligné sont réservés : `_controller`, `_format`, `_locale`, `_fragment`, `_query`. `#[Route]` pose les trois premiers par des arguments courts — `locale`, `format`, `stateless` — mais n''a **pas** d''argument `query`, malgré l''exemple officiel. `_query` n''agit qu''à la génération, et `_fragment` est le seul que la documentation exclut des imports.'
+    courses:
+    - id: CRS-nhebf7arqvn4
+      sections:
+      - L'essentiel
+      - Le schéma
+      - L'exemple
+      - Les cinq parameters réservés
+      - Les formes courtes
+      - '`_query` n''agit qu''à la génération'
+      - 'La limite documentée : `_fragment` et les imports'
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-f7a9fh436s0m
+    date: '2026-11-06'
+    pull_request: 460
+    commit: e050eb2
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-emymfwgesh99
+    facts: []
+    title: 'Generate 404 pages : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre questions et une Fiche express. `createNotFoundException()` **construit** une `NotFoundHttpException` : sans `throw`, rien ne se passe. Le statut d''une exception se décide en trois lignes — celui d''une exception HTTP, **400** pour une `RequestExceptionInterface`, sinon 500. La page se personnalise par des templates Twig, qui reçoivent une `FlattenException`, et ne s''affichent ni en debug ni avec la security.'
+    courses:
+    - id: CRS-p57qsnnfpd2a
+      sections:
+      - L'essentiel
+      - Le schéma
+      - L'exemple
+      - Produire le 404
+      - Quel statut pour quelle exception
+      - Personnaliser la page
+      - Deux pièges
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-scddjcqgsjb3
+    date: '2026-11-06'
+    pull_request: 460
+    commit: e050eb2
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-81b2c0jmv2j3
+    facts: []
+    title: 'URLs generation : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre questions et une Fiche express. Une URL se génère toujours depuis une route : `generateUrl()` dans un controller, `generate()` d''`UrlGeneratorInterface` dans un service, `path()` et `url()` en Twig. Le troisième argument choisit la forme — **path absolu par défaut**. Un parameter absent de la route part en **query string**, sans erreur ; un object y est converti, contrairement à ce que dit la documentation.'
+    courses:
+    - id: CRS-sx61as7r7p0d
+      sections:
+      - L'essentiel
+      - Le schéma
+      - L'exemple
+      - Où et comment
+      - Les quatre types de référence
+      - Les parameters en trop
+      - Route absente
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-1e8qjw8rqnp5
+    date: '2026-11-06'
+    pull_request: 460
+    commit: e050eb2
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-d51jbkfs21pt
+    facts: []
+    title: 'Trigger redirects : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre questions et une Fiche express. Le routage redirige de lui-même dans deux cas : la **barre oblique finale** et le **schéma** exigé par `schemes`. Toujours en **301**, toujours **seulement en `GET` et `HEAD`** — un `POST` sur la mauvaise forme reçoit un 404. Ce n''est pas le component seul qui redirige, mais le matcher de FrameworkBundle, qui route la Request vers `RedirectController`.'
+    courses:
+    - id: CRS-tgbv3wp66rcc
+      sections:
+      - L'essentiel
+      - En un coup d'œil
+      - L'exemple
+      - Qui redirige, et comment
+      - La barre oblique finale
+      - Le schéma
+      - Depuis une route
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-7kq5jcj3az0n
+    date: '2026-11-06'
+    pull_request: 460
+    commit: e050eb2
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-pfrzrr0qcmh3
+    facts: []
+    title: 'The cookies : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre questions et une Fiche express. Un cookie se **lit** sur la Request — c''est ce que le client a envoyé — et s''**écrit** sur la Response, dans le header `Set-Cookie`. Un controller qui veut poser un cookie doit donc tenir la Response. Deux methods aux noms voisins font le contraire l''une de l''autre : `removeCookie()` annule un envoi, `clearCookie()` efface chez le client.'
+    courses:
+    - id: CRS-thmkagkjcvh3
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : poser un cookie de préférence'
+      - Deux objects, deux sens
+      - Conséquence pratique
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-xpca9n1evnzd
+    date: '2026-11-06'
+    pull_request: 460
+    commit: e050eb2
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-qr7gnht5s847
+    facts: []
+    title: 'HttpKernel component and FrameworkBundle : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre questions et une Fiche express. Le **component** HttpKernel est autonome : le contrat `handle()`, la class `Kernel`, les events, les resolvers, les exceptions HTTP. **FrameworkBundle** ne réécrit rien : il **câble** — listeners enregistrés, resolvers en services, arbre `framework:`, commands, `AbstractController`, `MicroKernelTrait`. Une question tranche : cela marche-t-il sans service container ? Oui → component.'
+    courses:
+    - id: CRS-tygmreqkkds3
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : le kernel d''une application'
+      - Ce que le component fournit
+      - Trois interfaces, et ce que chacune apporte
+      - Ce que FrameworkBundle ajoute
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-qtgkfvv4c7zk
+    date: '2026-11-06'
+    pull_request: 460
+    commit: e050eb2
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-ff0kghjbzvpm
+    facts: []
+    title: 'Set default values to URL parameters : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre questions et une Fiche express. Un parameter de path est obligatoire tant qu''il n''a pas de default value. En attributes, cette valeur est **l''argument du controller**. Deux règles en découlent : tout ce qui suit un parameter facultatif doit l''être aussi, et une default value en fin de path disparaît de l''URL générée — sauf avec `{!page}`, qui rend aussi le parameter obligatoire à l''appariement.'
+    courses:
+    - id: CRS-vkgr06y3x72g
+      sections:
+      - L'essentiel
+      - Le schéma
+      - L'exemple
+      - La règle de base
+      - Tout ce qui suit un parameter facultatif doit l'être
+      - Le point d'exclamation
+      - Défaut et requirement
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-p37g925p9wjh
+    date: '2026-11-06'
+    pull_request: 460
+    commit: e050eb2
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-1cj08dhtp9hj
+    facts: []
+    title: 'Restrict URL parameters : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre questions et une Fiche express. Un requirement est une **expression régulière PHP** que la valeur d''un parameter doit vérifier pour que la route corresponde. Il départage `/blog/{page}` et `/blog/{slug}` sans dépendre de l''ordre de déclaration. Il s''écrit en option, inline ou par l''enum `Requirement`, et il vaut **aussi à la génération** : par défaut, une valeur non conforme y lève une exception.'
+    courses:
+    - id: CRS-wg3j0t5pm7w1
+      sections:
+      - L'essentiel
+      - Le schéma
+      - L'exemple
+      - Le problème qu'elle résout
+      - Trois façons de l'écrire
+      - Ce qui est autorisé
+      - Deux pièges
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-y7yq9phcywe5
+    date: '2026-11-06'
+    pull_request: 460
+    commit: e050eb2
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-e93sa9rd4kd9
+    facts: []
+    title: 'Built-in internal controllers : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre questions et une Fiche express. Une route peut viser un controller **fourni par FrameworkBundle**, réglé par ses seuls `defaults` : `TemplateController` rend un template, `RedirectController` redirige. L''examen interroge ce que le code tranche : cache public, 307/308, cible vide, mode `path` contre mode `route`.'
+    courses:
+    - id: CRS-zmg0wrxvqqdq
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : deux routes sans code'
+      - Le principe
+      - '`TemplateController`'
+      - '`RedirectController`'
+      - '`ErrorController`'
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-mete49s7vtmx
+    date: '2026-11-06'
+    pull_request: 460
+    commit: e050eb2
+    kind: CORRECTION
+    finding: ADR-0012
+    official_items:
+    - OIT-e93sa9rd4kd9
+    facts: []
+    title: 'Built-in internal controllers : le message de `RedirectController`, et `maxAge: 0` qui rend la page publique'
+    was: '« lèvent une `RuntimeException` (« Ambiguous redirect settings ») » et « `maxAge: 0` ne pose **rien** ».'
+    now: '`route` et `path` ensemble lèvent une `RuntimeException` dont le message commence par `Ambiguous redirection settings`. Avec `TemplateController`, `maxAge: 0` ne pose aucun `max-age`, mais la Response devient publique quand même (`Cache-Control: public`). Exécuté avec FrameworkBundle 8.0.'
+    courses:
+    - id: CRS-zmg0wrxvqqdq
+      sections:
+      - '`TemplateController`'
+      - '`RedirectController`'
+    flashcards: []
+    questions: []
+  - id: CVR-wjxm4jj0qyb8
+    date: '2026-11-06'
+    pull_request: 460
+    commit: e050eb2
+    kind: CORRECTION
+    finding: ADR-0012
+    official_items:
+    - OIT-efzq92vdtayj
+    facts: []
+    title: 'Framework overloading : la route de même path est la solution de repli'
+    was: « la route de même path est la Response de repli » — l'outil terminologique avait remplacé le nom commun « réponse » par l'object HTTP.
+    now: Le document renvoie d'abord à la décoration ; la route de même path est la solution de repli, pour un controller qui n'est pas un service.
+    courses:
+    - id: CRS-f9s8mpaydnbx
+      sections:
+      - Pièges d'examen
+    flashcards: []
+    questions: []
