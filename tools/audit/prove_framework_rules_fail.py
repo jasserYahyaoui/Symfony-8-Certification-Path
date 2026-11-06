@@ -27,7 +27,9 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 # used to bump the log entry no longer need to.
 
 LOT07_QUESTION = 'content/questions/lot-07-forms.yml'
-LOT01_COURSE = 'content/courses/CRS-0jtjh77tabt1.md'   # OIT-webdvbgbrfth, STANDARD, 314 body words
+LOT01_COURSE = 'content/courses/CRS-0jtjh77tabt1.md'   # OIT-webdvbgbrfth, STANDARD, pedagogical since 2026-11-06
+_LOT01_TEXT = (ROOT / LOT01_COURSE).read_text(encoding='utf-8')
+LOT01_PEDAGOGY = _LOT01_TEXT[_LOT01_TEXT.index('\n## Application\n'):_LOT01_TEXT.index('\n## Sources officielles\n')]
 
 # CRS-003 needs a course whose BODY carries a rendered link to turn back into a
 # raw one; the course above has citations but no body link at all.
@@ -149,7 +151,10 @@ CASES = [
     ),
     (
         'REV-001 rejects a course grown past the budget for its level',
-        [(LOT01_COURSE, None, '\n' + ('mot ' * 700).strip() + '\n')],
+        # The course is pedagogical, which REV-001 skips (ADR-0012): the flag
+        # goes too, so the defect lands on a course the budget governs.
+        [(LOT01_COURSE, '\nformat: pedagogical\n', '\n'),
+         (LOT01_COURSE, None, '\n' + ('mot ' * 700).strip() + '\n')],
         '[ERROR] REV-001',
     ),
     # CRS-002 guards the OTHER copy of the content level. The matrix holds the
@@ -225,20 +230,21 @@ CASES = [
     ),
     # OBJ-001 (ADR-0011). The « Objectif » is outside the budget, so the rule
     # keeping it a short statement of the goal is what stops teaching from
-    # moving there. Each case breaks the real lot-01 course.
+    # moving there. Each case breaks the real lot-01 course, whose objective
+    # is followed by « L'essentiel » since the pedagogical rewrite.
     (
         'OBJ-001 rejects an objective grown past sixty words',
-        [(LOT01_COURSE, '\n## Règles\n', ' ' + ('mot ' * 60).strip() + '\n\n## Règles\n')],
+        [(LOT01_COURSE, "\n## L'essentiel\n", ' ' + ('mot ' * 60).strip() + "\n\n## L'essentiel\n")],
         '[ERROR] OBJ-001',
     ),
     (
         'OBJ-001 rejects code moved into the objective',
-        [(LOT01_COURSE, '\n## Règles\n', '\n```php\n$a = 1;\n```\n\n## Règles\n')],
+        [(LOT01_COURSE, "\n## L'essentiel\n", "\n```php\n$a = 1;\n```\n\n## L'essentiel\n")],
         '[ERROR] OBJ-001',
     ),
     (
         'OBJ-001 rejects a second objective, which would leave the budget too',
-        [(LOT01_COURSE, '\n## Points clés\n', '\n## Objectif\n\nUn second objectif.\n\n## Points clés\n')],
+        [(LOT01_COURSE, '\n## Fiche express\n', '\n## Objectif\n\nUn second objectif.\n\n## Fiche express\n')],
         '[ERROR] OBJ-001',
     ),
     # SEC-001 (owner, 2026-10-14). A wrong answer in a mock links to the course
@@ -311,7 +317,10 @@ CASES = [
     ),
     (
         'FMT-001 rejects the flag on a page that does not live up to it',
-        [(LOT01_COURSE, 'verification_status: VERIFIED\n', 'verification_status: VERIFIED\nformat: pedagogical\n')],
+        # Every course carries the flag since 2026-11-06, so the page that
+        # claims it without its content is made by taking back what the
+        # rewrite added: applications, quiz and digest go, the flag stays.
+        [(LOT01_COURSE, LOT01_PEDAGOGY, '\n')],
         '[ERROR] FMT-001',
     ),
     (

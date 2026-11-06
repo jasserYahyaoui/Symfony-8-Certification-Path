@@ -76,9 +76,11 @@ CASES = [
      "    branch: '8.0'", '    branch: 8.0',
      'CONTAM-10'),
 
-    # AUD-04. A course grown past four times the corpus median.
+    # AUD-04. A course grown past four times the corpus median. The course is
+    # pedagogical, which VOL-1 leaves out (ADR-0012), so the same edit removes
+    # the flag: the defect lands on a course VOL-1 judges.
     (AUD04, (), 'content/courses/CRS-0a0d5bp6769e.md',
-     APPEND, '\n\n' + ('padding ' * 2000),
+     None, None,  # filled in below: flag removed, body padded past the threshold
      'VOL-1'),
     # The same long prose line present in two courses.
     (AUD04, (), 'content/courses/CRS-0a0d5bp6769e.md',
@@ -245,6 +247,13 @@ def _collectable_line(text):
 
 
 _LONG_LINE = _collectable_line(_DONOR)
+
+# VOL-1's payload: one substitution drops the flag and pads the body, so a
+# single edit makes the course both judged and an outlier. 6 000 words is
+# past four times the corpus median (about 1 000 body words, 2026-11-06).
+_VOL1 = (ROOT / 'content/courses/CRS-0a0d5bp6769e.md').read_text(encoding='utf-8')
+_VOL1_TAIL = _VOL1[_VOL1.index('\nformat: pedagogical\n'):]
+_VOL1_NEW = _VOL1_TAIL.replace('\nformat: pedagogical\n', '\n', 1) + '\n\n' + ('padding ' * 6000)
 
 # VOL-3's payload is a real course body, so the similarity is genuine rather
 # than an artefact of repeated filler.
@@ -419,6 +428,7 @@ CASES = [
       else _QB2_OLD if e == 'QB-2'
       else _QB5_OLD if e == 'QB-5'
       else _ENG6_OLD if e == 'ENG-6'
+      else _VOL1_TAIL if e == 'VOL-1'
       else o),
      _HOLD2_NEW if e == 'HOLD-2'
      else _QB2_NEW if e == 'QB-2'
@@ -432,6 +442,7 @@ CASES = [
      else _ENG4 if e == 'ENG-4'
      else _ENG5 if e == 'ENG-5'
      else _ENG6_NEW if e == 'ENG-6'
+     else _VOL1_NEW if e == 'VOL-1'
      else ('\n\nUne prose de contexte : ' + _HOLD5_ANSWER + '\n') if e == 'HOLD-5'
      else ('\n\n' + _LONG_LINE + '\n') if e == 'VOL-2'
      else _TWIN_BODY if e == 'VOL-3'

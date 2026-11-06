@@ -77,7 +77,14 @@ bump('pedagogical course body words', sum(n for f, n in words if f in pedagogica
 # An outlier is judged against this corpus, not an external rule: a course
 # more than four times the median is an outlier by construction.
 legacy = sorted(n for f, n in words if f not in pedagogical)
-OUTLIER = legacy[len(legacy) // 2] * 4
+# Since 2026-11-06 every course is pedagogical. Judged against a median of
+# fewer than three courses, a course can never reach four times it (alone, it
+# is its own median), so a course added outside the format would pass unseen.
+# Below three, the whole corpus's median stands in, and VOL-1 keeps its reach.
+basis = legacy if len(legacy) >= 3 else sizes
+OUTLIER = basis[len(basis) // 2] * 4
+bump('VOL-1 courses judged (outside the pedagogical format)', len(legacy))
+bump('VOL-1 threshold, body words', OUTLIER)
 for fname, n in words:
     if fname in pedagogical:
         continue

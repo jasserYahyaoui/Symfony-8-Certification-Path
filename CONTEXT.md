@@ -18,11 +18,20 @@ mots, chaque règle énoncée une fois) et les lots 05, 10, 11, 13, 14. **Batch 
 pages longues des lots 07, 08 et 09 raccourcies, et les **9 pages du lot 12 converties**
 au format court (faits exécutés avec Console 8.0). **Batch 17** (#459, déployé) :
 **34 pages converties** — lot 02 (10), six pages du lot 03, lots 13 (2) et
-15 à 26 (16). **Batch 18** (la PR qui suit #459) : **33 pages converties** — lots
-03 (8), 04 (14) et 05 (11). Restent **9 pages non pédagogiques**, celles du lot 01,
-rédigées dans le scratchpad ; *Abstract classes* est la fixture de
-`prove_framework_rules_fail.py` (REV-001, OBJ-001, SEC-001) : la convertir exige
-de recibler ces cas dans la même PR, comme pour *Request handling* au batch 18.
+15 à 26 (16). **Batch 18** (#460, déployé) : **33 pages converties** — lots
+03 (8), 04 (14) et 05 (11). **Batch 19** (la PR qui suit #460) : les **9 pages du
+lot 01**. Avec lui, **les 163 pages sont au format pédagogique court**. Les cas
+de `prove_framework_rules_fail.py` qui visaient une page non pédagogique
+(REV-001, OBJ-001, FMT-001 « flag sans contenu ») retirent désormais le drapeau
+ou le contenu dans leur propre mutation : la règle est la même, la preuve tire.
+VOL-1 (aud04) jugeait les pages hors format contre leur seule médiane : avec 0
+page de ce type, l'audit plantait, et sous 3 pages il ne pouvait jamais tirer ;
+il prend désormais la médiane du corpus sous 3 pages, et le cas VOL-1 de
+`prove_audits_fail.py` (muet depuis que sa fixture est pédagogique) retire le
+drapeau dans sa mutation — prouvé. **Problème connu, antérieur :** ce même
+script, hors CI, échoue aussi sur VOL-3, ENG-2, ENG-4, TECH-1 et L1-1 (ancres
+disparues depuis #404 et la refonte du lot 01, entrées inchangées par ces
+batches) ; à reprendre dans une PR dédiée.
 
 Constats du lot 06, corrigés sur la branche (entrées CORRECTION au journal dans
 la PR qui suit la fusion) : F15 (propriétés `loop` sur un iterator `Countable`),
@@ -120,6 +129,7 @@ Branche de travail : `claude/symfony-8-certification-plan-phmkau`.
 | *Deprecations best practices* (demande du propriétaire : 6 123 → 1 402 mots, chaque règle énoncée une fois) et trente autres pages déployées des lots 05, 10, 11, 13 et 14 au format court ; preuve des règles réancrée sur la page pilote (FMT-001, QCM-001) ; journal et lignes de #456 | #457 | `7ef4457` | smoke 127111499377 **success, lu jusqu'au bout** (440 ok, 0 erreur ; journal des corrections servi ; agenda 587 sessions jusqu'au 2027-03-02) |
 | Lots 07, 08 et 09 raccourcis (33 pages, 80 272 → 35 411 mots de corps) et lot 12 (Console, neuf pages) converti au format court ; needle by_reference du smoke tenu sur une ligne source ; journal (31 entrées) et lignes de #457 | #458 | `8066d6a` | smoke 127468948329 **success, lu jusqu'au bout** (449 ok, 0 erreur ; 87 lignes « pedagogical lot-… », dont les neuf du lot 12 ; 58 lignes « diagrams … accessible title » ; agenda 566 sessions jusqu'au 2027-03-02) |
 | Lot 02, six pages du lot 03, lots 13 et 15 à 26 convertis au format court (34 pages) ; journal de #458 (43 entrées) et ses lignes | #459 | `08f9a6b` | déploiement 42233674545 : tentative 1, job Deploy en timeout (Pages bloqué en `syncing_files`, build vert, smoke sauté) ; une relance des jobs échoués a réussi. Smoke 127956466515 **success, lu jusqu'au bout** (483 ok, 0 erreur ; 121 lignes « pedagogical lot-… » ; 58 lignes « diagrams … accessible title » ; agenda 570 sessions jusqu'au 2027-03-02) |
+| Lots 03, 04 et 05 convertis au format court (33 pages) ; fixture de la preuve tenue sur un cours soumis au budget ; journal de #459 (34 entrées) et ses lignes | #460 | `e050eb2` | déploiement 42246891029, première tentative. Smoke 127993996619 **success, lu jusqu'au bout** (516 ok, 0 erreur ; 154 lignes « pedagogical lot-… » ; 58 lignes « diagrams … accessible title » ; contrôle NUL/TOC de *BC promise* sur `#s-pieges-d-examen` ; agenda 574 sessions jusqu'au 2027-03-02) |
 
 **Pièges d'examen → flashcards (2026-10-24, livré : #432, `c48317d`).** Les 788
 paragraphes « Pièges d'examen » lus contre toutes les cartes de leur item :

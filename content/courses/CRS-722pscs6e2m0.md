@@ -6,6 +6,7 @@ content_level: STANDARD
 language: fr
 verification_status: VERIFIED
 reviewed_at: "2026-10-09"
+format: pedagogical
 official_sources:
   - url: "https://raw.githubusercontent.com/php/php-src/PHP-8.4/UPGRADING"
     readable_url: "https://github.com/php/php-src/blob/PHP-8.4/UPGRADING"
@@ -92,16 +93,26 @@ outcome_sections:
 Situer une fonctionnalité du langage dans la bonne version de PHP, et
 reconnaître ce que 8.4 apporte — Symfony 8.0 exigeant PHP 8.4 au minimum.
 
-## Pourquoi la version compte ici
+## L'essentiel
 
-Symfony 8.0 déclare `"php": ">=8.4"`. Une question peut donc légitimement
-porter sur une syntaxe 8.4, et une Response qui « marcherait en 8.1 » n'est pas
-pour autant correcte.
+Symfony 8.0 exige PHP 8.4 : une question peut porter sur une syntaxe 8.4. Il
+faut savoir **dater** une fonctionnalité — 8.0 à 8.4 — et connaître les
+résultats que PHP renvoie réellement sur les arrays, les comparaisons et le
+JSON. Deux confusions reviennent : `readonly` contre `private(set)`, et
+`array_merge()` contre `+`.
 
-## Ce que 8.4 ajoute au cœur du langage
+## Le schéma
 
-**Property hooks** — un accessor défini sur la property elle-même, sans
-getter ni setter séparés :
+```text
+8.0  named arguments · promotion · match · union types · ?-> · static en return type · str_contains()
+8.1  enums · readonly · never · foo(...) · final const · array_is_list()
+8.2  readonly class · DNF types · properties dynamiques dépréciées
+8.3  constantes de class typées · #[\Override] · json_validate()
+8.4  property hooks · private(set) · lazy objects · #[\Deprecated] · new Foo()->m()
+     array_find() · array_find_key() · array_any() · array_all() · mb_trim() · mb_ucfirst()
+```
+
+## L'exemple : un property hook
 
 ```php
 class Person
@@ -116,46 +127,31 @@ class Person
 }
 ```
 
-Aucun des deux hooks ne lit ni n'écrit `$this->fullName` : la property est
-**virtuelle**, rien n'est stocké. Attention à la forme courte `set => expr` :
-selon la documentation PHP, la valeur de l'expression est écrite **dans la
-property elle-même**. Exécuté en PHP 8.4 avec `set => $this->first = …` :
-`fullName` devient une property adossée, qui stocke le prénom.
+## Ce que 8.4 ajoute au cœur du langage
 
-**Visibilité asymétrique** — lecture et écriture peuvent avoir des scopes
-différentes :
+**Property hooks.** Un accessor défini sur la property elle-même. Ci-dessus,
+aucun hook ne lit ni n'écrit `$this->fullName` : la property est **virtuelle**.
+Avec la forme courte `set => expr`, la valeur de l'expression est écrite dans
+la property : exécuté avec `set => $this->first = …`, `fullName` devient une property adossée, qui stocke le prénom. Le hook `get` s'exécute à chaque lecture.
 
-```php
-class Book
-{
-    public function __construct(
-        public private(set) string $title,      // lisible partout, écrivable par la classe
-        public protected(set) string $author,   // écrivable par la hiérarchie
-    ) {}
-}
-```
+**Visibilité asymétrique.** `public private(set) string $title` : lisible
+partout, écrivable par la class ; `protected(set)` ouvre l'écriture à la
+hiérarchie.
 
-**Objects lazy** (`lazy objects`), initialisés au premier accès réel.
-
-**`#[\Deprecated]`** — un attribute natif pour marquer une function, method ou
-constante obsolète.
-
-**`new` déréférençable** — `new Foo()->method()` est désormais valide sans
-parenthèses englobantes.
+**Et aussi** : les objects lazy, initialisés au premier accès ; l'attribute
+natif `#[\Deprecated]` ; `new Foo()->method()` sans parenthèses englobantes,
+une erreur de syntaxe en 8.3.
 
 ## Rappel des versions antérieures
 
 | Version | Apports les plus examinables |
 |---|---|
 | 8.0 | Named arguments, promotion de constructor, `match`, types union, `?->`, `static` en return type |
-| 8.1 | Enums, `readonly`, `never`, syntaxe de callable de première class `foo(...)`, constantes de class `final` |
+| 8.1 | Enums, `readonly`, `never`, callable de première class `foo(...)`, constantes de class `final` |
 | 8.2 | `readonly` sur la class entière, types DNF, properties dynamiques dépréciées |
 | 8.3 | Constantes de class typées, `#[\Override]`, `json_validate()` |
-| 8.4 | Property hooks, visibilité asymétrique, objects lazy, `#[\Deprecated]`, `new` déréférençable |
 
 ## Arrays, comparaisons et JSON : ce que renvoie PHP
-
-Chaque ligne a été exécutée en PHP 8.4.
 
 | Expression | Résultat |
 |---|---|
@@ -163,20 +159,15 @@ Chaque ligne a été exécutée en PHP 8.4.
 | `['a'] + ['b']` | `['a']` — la key `0` existe déjà à gauche |
 | `array_merge(['k' => 1], ['k' => 2])` | `['k' => 2]` — la dernière string key gagne |
 | `['k' => 1] + ['k' => 2]` | `['k' => 1]` — `+` garde la gauche |
-| `array_filter([1, 0, 2, null, '0', 'a'])` | `[0 => 1, 2 => 2, 5 => 'a']` — keys conservées, plus une list |
-| `array_map($f, ['k' => 1])` | key `k` conservée |
-| `array_map($f, $a, $b)` | keys réindexées dès deux arrays |
-| `sort($list)` | `true` ; le tri se fait en place |
+| `array_filter([1, 0, 2, null, '0', 'a'])` | `[0 => 1, 2 => 2, 5 => 'a']` — keys conservées |
+| `array_map($f, ['k' => 1])` | key `k` conservée ; réindexée dès deux arrays |
 
-**PHP 8 compare un nombre et une string non numérique comme deux strings.**
-`0 == 'a'` vaut `false` (il valait `true` avant 8.0), de même que `0 == ''`.
-Deux strings numériques restent comparées comme des nombres : `'1' == '01'` et
-`'10' == '1e1'` valent `true`. `in_array()` compare avec `==` sauf si son
-troisième argument vaut `true`.
-
-**`json_decode()`** renvoie un `stdClass` pour un object JSON, un array
-associatif seulement avec `true` en second argument, et `null` sur un JSON
-invalide — sauf avec `JSON_THROW_ON_ERROR`, qui lève une `JsonException`.
+**PHP 8 compare un nombre et une string non numérique comme deux strings** :
+`0 == 'a'` et `0 == ''` valent `false`. Deux strings numériques restent
+comparées comme des nombres : `'1' == '01'` vaut `true`. `in_array()` compare
+avec `==` sauf si son troisième argument vaut `true`. **`json_decode()`** rend
+un `stdClass` pour un object JSON, un array avec `true` en second argument, et
+`null` sur un JSON invalide — sauf avec `JSON_THROW_ON_ERROR`.
 
 ## Functions ajoutées, par version
 
@@ -187,9 +178,8 @@ invalide — sauf avec `JSON_THROW_ON_ERROR`, qui lève une `JsonException`.
 | 8.3 | `json_validate()` |
 | 8.4 | `array_find()`, `array_find_key()`, `array_any()`, `array_all()`, `mb_trim()`, `mb_ucfirst()` |
 
-`array_find()` renvoie la première **valeur** acceptée, ou `null` ;
-`array_find_key()` renvoie sa key. Le callback reçoit la valeur puis la key.
-Sur un array vide, `array_all()` vaut `true` et `array_any()` `false`.
+`array_find()` rend la première **valeur** acceptée, ou `null` ;
+`array_find_key()` rend sa key. Le callback reçoit la valeur puis la key.
 
 ## Pièges d'examen
 
@@ -205,16 +195,92 @@ hook `get` s'exécute à chaque lecture.
 **`#[\Override]` est 8.3, pas 8.4.** Il vérifie qu'une method surcharge bien
 quelque chose ; sinon, erreur de compilation.
 
-## Points clés
+## Application
 
-- Symfony 8.0 impose PHP 8.4 : la syntaxe 8.4 est dans le périmètre.
-- 8.4 = property hooks, visibilité asymétrique, objects lazy, `#[\Deprecated]`.
-- `readonly` (une seule écriture) ≠ `private(set)` (écritures limitées à la class).
-- `array_merge` renumérote et laisse gagner la droite ; `+` garde la gauche.
-- `array_filter` conserve les keys ; `0 == 'a'` vaut `false` depuis PHP 8.
+- Trouver le premier élément qui satisfait un test → `array_find()`, en 8.4.
+- Fusionner des options par défaut sans écraser celles de l'appelant →
+  `$options + $defaults`.
+
+## QCM d'entraînement
+
+**Question 1.** Que valent `array_all([], $f)` puis `array_any([], $f)` ?
+
+- **A.** `true` et `false`
+- **B.** `false` et `false`
+- **C.** `false` et `true`
+- **D.** `true` et `true`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : A.** Sur un array vide, aucune valeur ne contredit le test,
+donc `array_all()` vaut `true`, et aucune ne le satisfait, donc `array_any()` vaut `false`.
+
+</details>
+
+**Question 2.** Que rend `array_map(fn ($x) => $x * 2, ['k' => 1])` ?
+
+- **A.** `[0 => 2]`
+- **B.** `['k' => 2]`
+- **C.** `['k' => 1]`, inchangé
+- **D.** `[2]`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** Avec un seul array, les keys sont conservées ; c'est à
+partir de deux arrays que le résultat est réindexé.
+
+</details>
+
+**Question 3.** Sans option, que rend `json_decode('{bad')` ?
+
+- **A.** `false`
+- **B.** Une `JsonException`
+- **C.** `null`
+- **D.** Un `stdClass` vide
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : C.** Un JSON invalide donne `null` en silence ; il faut le
+drapeau `JSON_THROW_ON_ERROR` pour obtenir une exception.
+
+</details>
+
+**Question 4.** Depuis quelle version `new Foo()->bar()` est-il valide sans
+parenthèses autour de `new Foo()` ?
+
+- **A.** PHP 8.0
+- **B.** PHP 8.2
+- **C.** Jamais : il faut `(new Foo())`
+- **D.** PHP 8.4
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : D.** PHP 8.3 refuse encore cette écriture par une erreur de
+syntaxe ; c'est PHP 8.4 qui l'accepte, le minimum de Symfony 8.0.
+
+</details>
+
+## Fiche express
+
+**Si tu dois retenir seulement 7 choses :**
+
+- Symfony 8.0 → **PHP 8.4** : sa syntaxe est au programme.
+- 8.4 : **hooks**, **`private(set)`**, lazy objects, **`#[\Deprecated]`**, `new X()->m()`.
+- `#[\Override]` et `json_validate()` : **8.3** ; enums et `readonly` : **8.1**.
+- `readonly` : **une** écriture ; `private(set)` : écritures illimitées, dans la class.
+- `array_merge()` : la **droite** gagne ; `+` : la **gauche**.
+- `array_filter()` garde les keys ; `0 == 'a'` vaut **`false`**.
+- `array_find()` rend une valeur ; `array_find_key()` une key.
+
+Moyen mnémotechnique : **« merge écoute la droite, plus garde la gauche »**.
 
 ## Sources officielles
 
 - `php-src` branche `PHP-8.4`, file `UPGRADING`, section *New Features > Core*
 - Manuel PHP — *Visibility*, *Property hooks*
 - Manuel PHP — *array_merge*, *Array operators*, *array_filter*, *array_map*, *Comparison operators*, *json_decode*, *array_find*
+

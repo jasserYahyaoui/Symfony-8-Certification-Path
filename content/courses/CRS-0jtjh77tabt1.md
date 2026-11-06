@@ -6,6 +6,7 @@ content_level: STANDARD
 language: fr
 verification_status: VERIFIED
 reviewed_at: "2026-10-26"
+format: pedagogical
 official_sources:
   - url: "https://raw.githubusercontent.com/php/doc-en/master/language/oop5/abstract.xml"
     readable_url: "https://github.com/php/doc-en/blob/master/language/oop5/abstract.xml"
@@ -35,7 +36,26 @@ outcome_sections:
 Écrire une abstract class correcte et savoir quand la préférer à une
 interface.
 
-## Règles
+## L'essentiel
+
+Une abstract class ne s'instancie pas ; elle fournit du **comportement
+partagé** — constructor, état, methods concrètes — et impose à ses filles des
+methods abstraites, jamais `private`. Depuis PHP 8.4, elle peut aussi exiger
+une **property**, par un hook sans corps. Face à une interface, la règle tient
+en une ligne : l'interface décrit un contrat, l'abstract class partage du code.
+
+## Le schéma
+
+```text
+abstract class       non instanciable · une seule par class (extends) · constructor, état, methods concrètes
+method abstraite     sans corps · public ou protected (jamais private dans une class) · static admis
+fille concrète       implémente tout · visibilité égale ou plus large · signature compatible
+property abstraite   8.4 : abstract public string $label { get; } — au moins un hook sans corps
+                     pas de hook → erreur · private → erreur · la fille peut élargir, pas restreindre
+abstract + final     incompatibles
+```
+
+## L'exemple
 
 ```php
 abstract class Repository
@@ -51,32 +71,25 @@ abstract class Repository
 }
 ```
 
-- Une abstract class **ne peut pas être instanciée**.
+## Règles
+
+- Une abstract class **ne peut pas être instanciée** : « Cannot instantiate
+  abstract class ».
 - Une method abstraite n'a **pas de corps** et peut être `public` ou
   `protected`, jamais `private` dans une class ; un trait, lui, admet
-  `abstract private` depuis PHP 8.0 — exécuté.
-- Une class contenant au moins une method — ou une property — abstraite
+  `abstract private` depuis PHP 8.0. Elle peut être `static`.
+- Une class qui contient au moins une method — ou une property — abstraite
   **doit** être déclarée `abstract`.
-- La class fille doit implémenter toutes les methods abstraites, sauf à être
-  elle-même abstraite, avec une visibilité **égale ou plus permissive** et une signature compatible.
-- Une abstract class peut avoir un constructor, des properties et des
-  methods concrètes.
+- La class fille implémente toutes les methods abstraites, sauf à être
+  elle-même abstraite, avec une visibilité **égale ou plus permissive** et une
+  signature compatible : une method `protected` peut devenir `public`.
 
 ## Les properties abstraites — depuis PHP 8.4
-
-Une abstract class peut exiger une **property** comme elle exige une method.
-La property abstraite déclare un hook **sans corps** — `get;`, `set;` ou les
-deux — qui dit ce que la class fille doit permettre :
 
 ```php
 abstract class Shape
 {
     abstract public string $label { get; }   // exigence : lisible en public
-
-    public function describe(): string
-    {
-        return 'Forme : '.$this->label;
-    }
 }
 
 final class Circle extends Shape
@@ -85,24 +98,16 @@ final class Circle extends Shape
 }
 ```
 
-Une property ordinaire, `readonly` ou hookée satisfait `{ get; }`. Les règles,
-chacune exécutée avec PHP 8.4.19 :
+Une property ordinaire, `readonly` ou hookée satisfait `{ get; }`. Les règles :
 
-- **Pas de hook, pas d'`abstract`** : `abstract public string $label;` lève
-  « Only hooked properties may be declared abstract ».
-- **Au moins un hook sans corps.** L'autre peut en avoir un, qui sert
-  d'implémentation par défaut ; deux corps lèvent « Abstract property
-  Shape::$label must specify at least one abstract hook ».
-- **`public` ou `protected`, jamais `private`** : « Property hook cannot be both
-  abstract and private ».
-- **Elle compte comme une method abstraite.** Une fille qui ne la fournit pas
-  lève « Class Circle contains 1 abstract method and must therefore be
-  declared abstract or implement the remaining methods (Shape::$label::get) ».
-- **La fille peut élargir, pas restreindre** : `protected` devient `public` sans
-  erreur ; `protected` pour un `get` public lève « Access level to
-  Circle::$label must be public (as in class Shape) ». Un `set` exige une
-  écriture publique : une property `readonly`, implicitement `protected(set)`,
-  ne le satisfait pas.
+- **Pas de hook, pas d'`abstract`** : PHP refuse avec « Only hooked properties may be declared abstract ».
+- **Au moins un hook sans corps** ; l'autre peut porter un body par défaut.
+- **`public` ou `protected`, jamais `private`.**
+- **Elle compte comme une method abstraite** : une fille concrète qui ne la
+  fournit pas est refusée.
+- **La fille peut élargir, pas restreindre** : `protected` devient `public`,
+  mais un `get` public ne devient pas `protected`. Un `set` exige une écriture
+  publique, qu'une property `readonly` ne fournit pas.
 
 ## Interface ou abstract class ?
 
@@ -111,13 +116,13 @@ chacune exécutée avec PHP 8.4.19 :
 | Corps de method | Non | Oui |
 | Properties d'état | Non | Oui |
 | Constructor | Signature seulement, déconseillée | Oui |
-| Visibilité d'une method abstraite | Publique uniquement | `public` ou `protected` ; une method concrète peut être `private` |
-| Property exigée (PHP 8.4) | `public`, hooks sans corps | `public` ou `protected` ; un des hooks peut avoir un body |
+| Visibilité d'une method abstraite | Publique uniquement | `public` ou `protected` |
+| Property exigée (PHP 8.4) | `public`, hooks sans corps | `public` ou `protected` ; un hook peut avoir un body |
 | Nombre par class | Plusieurs | **Une seule** |
 
-La règle pratique : une interface décrit **ce qu'un object sait faire** ; une
-abstract class fournit **du comportement partagé**. Un besoin de constructor
-ou d'état commun tranche pour l'abstract class.
+Une interface décrit **ce qu'un object sait faire** ; une abstract class
+fournit **du comportement partagé**. Un besoin de constructor ou d'état commun
+tranche pour l'abstract class.
 
 ## Pièges d'examen
 
@@ -134,14 +139,92 @@ l'autre l'interdit.
 `abstract public string $label;` ne compile pas : il faut `{ get; }`,
 `{ set; }` ou les deux, dont au moins un sans corps.
 
-## Points clés
+## Application
 
-- Non instanciable ; method abstraite sans corps, jamais `private`.
-- PHP 8.4 : une property abstraite déclare un hook sans corps ; `public` ou
-  `protected`, jamais `private`.
-- Une seule abstract class héritée, plusieurs interfaces implémentées.
-- Interface = contrat ; abstract class = comportement partagé.
+- Des repositories qui partagent la connexion et `findAll()` → une abstract
+  class avec `table()` abstraite.
+- Deux classes sans lien à accepter comme un même type → une interface.
+
+## QCM d'entraînement
+
+**Question 1.** Que produit `new Repository($connection)`, `Repository` étant
+abstraite ?
+
+- **A.** Un object sans methods abstraites
+- **B.** `null`
+- **C.** Une `Error`
+- **D.** Un warning, puis l'object
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : C.** PHP refuse d'instancier une abstract class et lève une
+`Error` ; seule une fille concrète peut être construite.
+
+</details>
+
+**Question 2.** La parente déclare `abstract protected function run(): void`,
+et la fille l'implémente en `public`. Que se passe-t-il ?
+
+- **A.** C'est accepté
+- **B.** Une erreur fatale : la visibilité doit rester identique
+- **C.** La method reste `protected`
+- **D.** Un warning de compatibilité
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : A.** Une implémentation peut élargir la visibilité promise ;
+c'est la restreindre, vers `private`, qui serait refusé.
+
+</details>
+
+**Question 3.** Une abstract class déclare une method `create()` à la fois
+`abstract`, `public` et `static`. Est-ce valide ?
+
+- **A.** Non : une method statique ne peut pas être abstraite
+- **B.** Oui
+- **C.** Seulement dans une interface
+- **D.** Seulement sans return type
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** Une method statique peut être abstraite dans une
+abstract class ; chaque fille concrète fournit alors sa propre fabrique.
+
+</details>
+
+**Question 4.** `Shape` exige `abstract public string $label { get; }`, et
+`Circle` déclare `protected string $label`. Résultat ?
+
+- **A.** Accepté : `protected` suffit à la fille
+- **B.** Accepté, la lecture restant publique
+- **C.** La property devient `readonly`
+- **D.** Une erreur fatale
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : D.** La fille ne peut pas restreindre l'accès exigé : la
+lecture promise est publique, et PHP l'exige publique dans `Circle`.
+
+</details>
+
+## Fiche express
+
+**Si tu dois retenir seulement 6 choses :**
+
+- **Non instanciable** ; une seule abstract class par `extends`.
+- Method abstraite : **sans corps**, `public` ou `protected`, **jamais `private`**.
+- Fille concrète : tout implémenter, visibilité **égale ou plus large**.
+- 8.4 : property abstraite = **hook sans corps** ; jamais `private`.
+- `abstract` + `final` : **incompatibles**.
+- Interface = **contrat** ; abstract class = **comportement partagé**.
+
+Moyen mnémotechnique : **« L'interface promet, l'abstract class aide »**.
 
 ## Sources officielles
 
 - Manuel PHP — *Class Abstraction*
+
