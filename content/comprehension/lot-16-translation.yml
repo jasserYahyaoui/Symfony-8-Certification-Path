@@ -967,7 +967,7 @@ questions:
     text: 'An exception: the locale and the message differ'
     correct: false
     explanation: 'A fallback message is legal and is formatted normally.'
-  explanation: 'Translator::trans() walks the fallback catalogues until one defines the key, and keeps that catalogue''s locale for formatting. The English message is therefore formatted with English rules, where 0 is other. Executed on Translation 8.0.15 with intl.'
+  explanation: 'Translator::trans() walks the fallback catalogues until one defines the key, and keeps that catalogue''s locale for formatting. The English message is therefore formatted with English rules, where 0 is other. Executed on Translation 8.0.14 with intl.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Translation/Translator.php
     readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Translation/Translator.php

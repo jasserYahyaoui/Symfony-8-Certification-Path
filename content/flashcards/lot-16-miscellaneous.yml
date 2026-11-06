@@ -194,15 +194,22 @@ flashcards:
   language: fr
   level: UNDERSTANDING
   front: Une key existe dans messages.en.yaml et dans messages+intl-icu.en.yaml. Laquelle trans() lit-il ?
-  back: Celle de messages+intl-icu. Entre deux resources d'un même domain, la dernière chargée gagne, key par key.
-  explanation: MessageCatalogue::get() lit d'abord le domain +intl-icu, puis le domain simple. Une key trouvée dans une
-    locale de repli est formatée avec les règles de cette locale. Exécuté avec Translation 8.0.15.
-  memorization_justification: Deux files pour une même key ne se signalent pas ; on garde à tort le format classique.
+  back: Celle de messages.en.yaml, chargé en dernier. Les files d'un dossier se chargent par ordre de nom, « + » avant « . », et la dernière chargée gagne, key par key.
+  explanation: MessageCatalogue::add() retire la key de l'autre domain de la paire messages / messages+intl-icu ; la
+    dernière resource chargée gagne donc, comme entre deux resources d'un même domain. FrameworkBundle trie par nom les
+    files de translations/. Exécuté avec FrameworkBundle 8.0.15 et Translation 8.0.14.
+  memorization_justification: Deux files pour une même key ne se signalent pas ; on croit à tort que le format ICU l'emporte.
   verification_status: VERIFIED
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Translation/MessageCatalogue.php
     readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Translation/MessageCatalogue.php
     repository: symfony/symfony
-    symbol_or_lines: get() — the +intl-icu domain is read first
+    symbol_or_lines: add() — a key added to one domain is removed from the other domain of the messages / messages+intl-icu pair
     branch: '8.0'
-    verified_at: '2026-10-16'
+    verified_at: '2026-11-06'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php
+    repository: symfony/symfony
+    symbol_or_lines: registerTranslatorConfiguration() — Finder::create()->files()->in($dir)->sortByName()
+    branch: '8.0'
+    verified_at: '2026-11-06'

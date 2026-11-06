@@ -4076,11 +4076,14 @@ jobs:
             || missing="$missing l16in:no-unescaped-tag"
           grep -aqF -- 'parameters compris' /tmp/l16r-internationalization-and-localization-note-intl-component-utilities-to-access-icu-data-are-not-included \
             || missing="$missing l16in:no-unescaped-parameters"
+          # F18 (2026-11-06): messages and messages+intl-icu count as one domain, the last loaded wins.
+          grep -aqF -- 'comptent comme' /tmp/l16r-internationalization-and-localization-note-intl-component-utilities-to-access-icu-data-are-not-included \
+            || missing="$missing l16in:no-one-domain-pair"
           if [ -n "$missing" ]; then
             echo "::error::Lot 16 refinement missing from the internationalization page:$missing"
             fail=1
           else
-            echo "ok  lot-16  the internationalization page carries its four flashcard levels, the literal strtr, the unescaped tag and its parameters"
+            echo "ok  lot-16  the internationalization page carries its four flashcard levels, the literal strtr, the unescaped tag and its parameters, and the one-domain pair (F18)"
           fi
           # Lot 17 refinement, page 1 (HTTP Caching): the four flashcard levels,
           # the QUERY method among cacheable ones, the camelCase attribute

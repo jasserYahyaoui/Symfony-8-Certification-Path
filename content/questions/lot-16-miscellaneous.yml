@@ -176,7 +176,7 @@ questions:
   question_archetype: BEHAVIOR_PREDICTION
   assesses_outcomes:
   - OUT-hvyd73ew3ryq
-  version: 1
+  version: 2
   official_topic: Miscellaneous
   official_item: OIT-3dd7821h069b
   domain: symfony
@@ -198,31 +198,37 @@ questions:
   verification_status: VERIFIED
   reviewers:
   - tech-lead
-  reviewed_at: '2026-10-16'
+  reviewed_at: '2026-11-06'
   tags:
   - translation
   - icu
   choices:
   - id: CHO-gpk84xxseytd
     text: 'The one from messages+intl-icu.en.yaml'
-    correct: true
+    correct: false
+    explanation: 'That file sorts first, since + comes before a dot, so the plain file loaded after it takes the key over.'
   - id: CHO-zect01p24yw5
     text: 'The one from messages.en.yaml'
-    correct: false
-    explanation: 'The plain domain is read only when the +intl-icu one does not define the key.'
+    correct: true
   - id: CHO-g2ewrjfqwxy4
-    text: 'Whichever file was loaded last'
+    text: 'It depends on the fallback locales'
     correct: false
-    explanation: 'Load order decides between two resources of the same domain, not between messages and messages+intl-icu.'
+    explanation: 'Both files are for en; fallback locales are searched only when en defines nothing.'
   - id: CHO-tmammacv6jam
     text: 'Neither: a key defined twice throws'
     correct: false
-    explanation: 'A key in both domains is legal; one of them is chosen.'
-  explanation: 'For the domain messages, MessageCatalogue::get() reads messages+intl-icu first and falls back to messages, so the ICU version wins and is formatted by MessageFormatter. Executed on Translation 8.0.15.'
+    explanation: 'A key in both files is legal; the file loaded last keeps it.'
+  explanation: 'FrameworkBundle loads the files of translations/ sorted by name, and + sorts before a dot: messages+intl-icu.en.yaml is loaded first, messages.en.yaml last. MessageCatalogue::add() removes a key from the other domain of the messages / messages+intl-icu pair, so the last loaded wins, as between two resources of one domain: the plain message. Executed on FrameworkBundle 8.0.15 and Translation 8.0.14.'
   official_sources:
   - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Translation/MessageCatalogue.php
     readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Translation/MessageCatalogue.php
     repository: symfony/symfony
     branch: '8.0'
-    symbol_or_lines: 'get(): the +intl-icu domain is read first'
-    verified_at: '2026-10-16'
+    symbol_or_lines: 'add(): a key added to one domain is removed from the other domain of the messages / messages+intl-icu pair'
+    verified_at: '2026-11-06'
+  - url: https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php
+    readable_url: https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php
+    repository: symfony/symfony
+    branch: '8.0'
+    symbol_or_lines: 'registerTranslatorConfiguration(): Finder::create()->files()->in($dir)->sortByName()'
+    verified_at: '2026-11-06'

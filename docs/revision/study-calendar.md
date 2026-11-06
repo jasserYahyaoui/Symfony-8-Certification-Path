@@ -951,7 +951,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 ### Mardi 8 décembre 2026
 
 - NOUVEAU · **Miscellaneous : Web Profiler, Web Debug Toolbar and Data collectors** (STANDARD) — 50 min · 1081 mots · 6 questions, 16 questions de compréhension, 13 flashcards
-- NOUVEAU · **Miscellaneous : Internationalization and localization (Note: Intl component utilities to access ICU data are not included)** (STANDARD) — 49 min · 1018 mots · 4 questions, 18 questions de compréhension, 12 flashcards
+- NOUVEAU · **Miscellaneous : Internationalization and localization (Note: Intl component utilities to access ICU data are not included)** (STANDARD) — 49 min · 1047 mots · 4 questions, 18 questions de compréhension, 12 flashcards
 - Révision **J+1** (24 min) — Miscellaneous : Configuration (including DotEnv and ExpressionLanguage components) · Miscellaneous : Error handling · Miscellaneous : Code debugging · Miscellaneous : Deployment best practices
 - Révision **J+7** (11 min) — Console : Console events · Console : Verbosity levels · Automated Tests : Unit tests with PHPUnit
 - Révision **J+14** (8 min) — Templating with Twig : Template includes · Templating with Twig : Loops and conditions · Templating with Twig : URLs generation

@@ -11,6 +11,11 @@ declare(strict_types=1);
  * line carrying it (tools/audit/deep80/mutate.py).
  */
 
+use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
+use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Translation\Exception\InvalidArgumentException;
 use Symfony\Component\Translation\Loader\ArrayLoader;
 use Symfony\Component\Translation\Translator;
@@ -90,23 +95,78 @@ return [
         return $want === $got ? null : 'got '.json_encode($got);
     },
 
-    // Several catalogues: the +intl-icu domain wins over the plain one for a key in both; a later resource for the same
-    // domain and locale wins key by key; a message found in a fallback locale is formatted with that locale's rules.
+    // Several catalogues: a later resource for the same domain and locale wins key by key, and messages and
+    // messages+intl-icu count as one domain for that — MessageCatalogue::add() removes the key from the other one, so
+    // whichever is loaded last wins, in both orders. FrameworkBundle loads a directory's files sorted by name, and '+'
+    // sorts before '.': messages+intl-icu.en.yaml is loaded first, so in an application the plain message wins. A
+    // message found in a fallback locale is formatted with that locale's rules. (Until 2026-11-06 this check added
+    // the plain resource first only, and so pinned « the ICU version wins », which one load order happens to give.)
     'translation.several-catalogues' => static function () use ($translator): ?string {
         $t = $translator('fr', [
             [['k' => 'plain %x%'], 'en', 'messages'],
             [['k' => 'icu {x}'], 'en', 'messages+intl-icu'],
+            [['j' => 'icu {x}'], 'en', 'messages+intl-icu'],
+            [['j' => 'plain %x%'], 'en', 'messages'],
             [['a' => 'first', 'b' => 'only first'], 'en', 'admin'],
             [['a' => 'second'], 'en', 'admin'],
             [['files' => '{n, plural, one {# file} other {# files}}'], 'en', 'messages+intl-icu'],
         ]);
         $t->setFallbackLocales(['en']);
+
+        // The application case: both files in translations/, read by FrameworkBundle's own translator.
+        $dir = sys_get_temp_dir().'/cert-translation-'.bin2hex(random_bytes(6));
+        mkdir($dir.'/translations', 0777, true);
+        file_put_contents($dir.'/translations/messages.en.yaml', "k: 'plain %x%'\n");
+        file_put_contents($dir.'/translations/messages+intl-icu.en.yaml', "k: 'icu {x}'\n");
+        $kernel = new class($dir) extends Kernel {
+            use MicroKernelTrait;
+
+            public function __construct(private string $dir)
+            {
+                parent::__construct('test', true);
+            }
+
+            public function registerBundles(): iterable
+            {
+                return [new FrameworkBundle()];
+            }
+
+            public function getCacheDir(): string
+            {
+                return $this->dir.'/cache';
+            }
+
+            public function getLogDir(): string
+            {
+                return $this->dir.'/log';
+            }
+
+            public function getProjectDir(): string
+            {
+                return $this->dir;
+            }
+
+            protected function configureContainer(ContainerConfigurator $container): void
+            {
+                $container->extension('framework', ['test' => true, 'secret' => 's', 'translator' => ['default_path' => '%kernel.project_dir%/translations']]);
+            }
+        };
+        try {
+            $kernel->boot();
+            $application = $kernel->getContainer()->get('translator')->trans('k', ['%x%' => 'v'], null, 'en');
+        } finally {
+            $kernel->shutdown();
+            (new Filesystem())->remove($dir);
+        }
+
         $got = [
-            $t->trans('k', ['x' => 'v'], null, 'en'),
+            $t->trans('k', ['%x%' => 'v'], null, 'en'),
+            $t->trans('j', ['%x%' => 'v'], null, 'en'),
+            $application,
             $t->trans('a', [], 'admin', 'en'), $t->trans('b', [], 'admin', 'en'),
             $t->trans('files', ['n' => 0]),
         ];
-        $want = ['icu v', 'second', 'only first', '0 files'];
+        $want = ['icu v', 'plain v', 'plain v', 'second', 'only first', '0 files'];
 
         return $want === $got ? null : 'got '.json_encode($got);
     },

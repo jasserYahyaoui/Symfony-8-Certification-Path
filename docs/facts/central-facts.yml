@@ -721,11 +721,15 @@ facts:
     finding: P2.7
     official_item: OIT-3dd7821h069b
     statement: >-
-      For a key in both messages and messages+intl-icu the ICU version wins; between two resources of one domain and
-      locale the last loaded wins key by key; a message found in a fallback locale is formatted with that locale's rules.
+      Between two resources of one domain and locale the last loaded wins key by key, and messages and
+      messages+intl-icu count as one domain for that (MessageCatalogue::add() removes the key from the other); FrameworkBundle
+      loads a directory's files sorted by name and '+' sorts before '.', so with messages.en.yaml and
+      messages+intl-icu.en.yaml the plain message wins; a message found in a fallback locale is formatted with that
+      locale's rules.
     sources:
       - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Translation/MessageCatalogue.php
       - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Translation/Translator.php
+      - https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php
     behavior_check: translation.several-catalogues
     content: [CRS-v1808qnchx6g, FLC-xy5sg8rfzbff, QST-50q8da3a6j72, QST-c2ajcg5w4bqk]
     forbidden: []

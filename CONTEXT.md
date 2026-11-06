@@ -37,6 +37,19 @@ ANCHOR-7, TECH-1 et L1-1 (ancres réécrites avec leurs fichiers). Indentation,
 effectifs et ancres sont désormais lus dans les fichiers ; aucune règle d'audit
 modifiée. PROOF OK, 44 cas, fichiers restaurés à l'identique (SHA-256).
 
+**F18 (2026-11-06, PR qui suit #462).** `messages` et `messages+intl-icu` : le
+cours du lot 16, la carte FLC-xy5sg8rfzbff, la question QST-50q8da3a6j72 et le
+fait central affirmaient que la version ICU gagne toujours. Exécuté sur
+FrameworkBundle 8.0.15 / Translation 8.0.14 : la dernière ressource chargée
+gagne (`MessageCatalogue::add()` retire la key de l'autre domain), et les files
+d'un dossier se chargent par nom, `+` avant `.` — dans une application, c'est
+`messages.en.yaml` qui l'emporte. Le contrôle `translation.several-catalogues`
+ne chargeait que dans l'ordre favorable ; il couvre désormais les deux ordres
+et un vrai kernel, et une mutation de la ligne `unset` le prouve. Question en
+version 2. Les trois libellés « Translation 8.0.15 » passent à 8.0.14, la
+version installée. Entrée CORRECTION au journal dans la PR suivante. Holdout
+non inspecté (règle).
+
 Constats du lot 06, corrigés sur la branche (entrées CORRECTION au journal dans
 la PR qui suit la fusion) : F15 (propriétés `loop` sur un iterator `Countable`),
 F16 (`relative_path()` d'une URL complète, carte FLC-nj22h67r0w1s), F17
@@ -135,6 +148,7 @@ Branche de travail : `claude/symfony-8-certification-plan-phmkau`.
 | Lot 02, six pages du lot 03, lots 13 et 15 à 26 convertis au format court (34 pages) ; journal de #458 (43 entrées) et ses lignes | #459 | `08f9a6b` | déploiement 42233674545 : tentative 1, job Deploy en timeout (Pages bloqué en `syncing_files`, build vert, smoke sauté) ; une relance des jobs échoués a réussi. Smoke 127956466515 **success, lu jusqu'au bout** (483 ok, 0 erreur ; 121 lignes « pedagogical lot-… » ; 58 lignes « diagrams … accessible title » ; agenda 570 sessions jusqu'au 2027-03-02) |
 | Lots 03, 04 et 05 convertis au format court (33 pages) ; fixture de la preuve tenue sur un cours soumis au budget ; journal de #459 (34 entrées) et ses lignes | #460 | `e050eb2` | déploiement 42246891029, première tentative. Smoke 127993996619 **success, lu jusqu'au bout** (516 ok, 0 erreur ; 154 lignes « pedagogical lot-… » ; 58 lignes « diagrams … accessible title » ; contrôle NUL/TOC de *BC promise* sur `#s-pieges-d-examen` ; agenda 574 sessions jusqu'au 2027-03-02) |
 | Lot 01 converti au format court (9 pages) : les 163 pages le sont ; cas lot 01 de `prove_framework_rules_fail.py` et VOL-1 d'AUD-04 suivis ; journal de #460 (35 entrées) et ses lignes | #461 | `2076ef7` | déploiement 42268324033 : tentative 1, job Deploy en échec (Pages resté en `deployment_queued`, « Deployment failed, try again later » ; build vert, smoke sauté) ; une relance des jobs échoués a réussi. Smoke 128072318244 **success, lu jusqu'au bout** (525 ok, 0 erreur ; 163 lignes « pedagogical lot-… » ; 58 lignes « diagrams … accessible title » ; contrôle NUL/TOC ; agenda 570 sessions jusqu'au 2027-03-02) |
+| Journal de #461 (9 entrées) et ses lignes ; `prove_audits_fail.py` : huit cas muets réparés (PROOF OK, 44 cas) | #462 | `2ff31bb` | déploiement 42284265603, première tentative. Smoke 128122249689 **success, lu jusqu'au bout** (525 ok, 0 erreur ; 163 lignes « pedagogical lot-… » ; 58 lignes « diagrams … accessible title » ; journal des corrections servi ; agenda 570 sessions jusqu'au 2027-03-02) |
 
 **Pièges d'examen → flashcards (2026-10-24, livré : #432, `c48317d`).** Les 788
 paragraphes « Pièges d'examen » lus contre toutes les cartes de leur item :
