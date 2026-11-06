@@ -7212,7 +7212,7 @@ entries:
     - OIT-vt0p9cacpkpd
     facts: []
     title: 'Interfaces : cours au format pédagogique court'
-    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre questions et une Fiche express. Une interface déclare des methods implicitement **publiques et abstraites**, des constantes et, depuis PHP 8.4, des **properties** en `get`, `set` ou les deux. Deux réflexes anciens sont faux sur PHP 8.4 : une constant d''interface **se surcharge** depuis 8.1, sauf `final` ; et une property `readonly` ne satisfait **pas** une property d''interface `set`.'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre questions et une Fiche express. Une interface déclare des methods implicitement **publiques et abstraites**, des constants et, depuis PHP 8.4, des **properties** en `get`, `set` ou les deux. Deux réflexes anciens sont faux sur PHP 8.4 : une constant d''interface **se surcharge** depuis 8.1, sauf `final` ; et une property `readonly` ne satisfait **pas** une property d''interface `set`.'
     courses:
     - id: CRS-e4y7gtn5k4f0
       sections:
