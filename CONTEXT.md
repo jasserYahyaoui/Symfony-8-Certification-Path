@@ -24,6 +24,14 @@ lot 01**. Avec lui, **les 163 pages sont au format pédagogique court**. Les cas
 de `prove_framework_rules_fail.py` qui visaient une page non pédagogique
 (REV-001, OBJ-001, FMT-001 « flag sans contenu ») retirent désormais le drapeau
 ou le contenu dans leur propre mutation : la règle est la même, la preuve tire.
+VOL-1 (aud04) jugeait les pages hors format contre leur seule médiane : avec 0
+page de ce type, l'audit plantait, et sous 3 pages il ne pouvait jamais tirer ;
+il prend désormais la médiane du corpus sous 3 pages, et le cas VOL-1 de
+`prove_audits_fail.py` (muet depuis que sa fixture est pédagogique) retire le
+drapeau dans sa mutation — prouvé. **Problème connu, antérieur :** ce même
+script, hors CI, échoue aussi sur VOL-3, ENG-2, ENG-4, TECH-1 et L1-1 (ancres
+disparues depuis #404 et la refonte du lot 01, entrées inchangées par ces
+batches) ; à reprendre dans une PR dédiée.
 
 Constats du lot 06, corrigés sur la branche (entrées CORRECTION au journal dans
 la PR qui suit la fusion) : F15 (propriétés `loop` sur un iterator `Countable`),
