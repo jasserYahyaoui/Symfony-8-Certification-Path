@@ -2149,7 +2149,7 @@ pitfalls:
   verdict: COVERED
   card: FLC-tqn1hds5k79p
 - course: CRS-f9s8mpaydnbx
-  key: 87eb63fc178a
+  key: c37399f2c325
   excerpt: '**Un contrôleur-service ne se surcharge pas par une route.** Le document renvoie d''abord à'
   verdict: COVERED
   card: FLC-06jf9jywescz

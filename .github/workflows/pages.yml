@@ -5242,7 +5242,40 @@ jobs:
                       'lot-03/httpfoundation-component|le framework dépend de lui|est le seul à lever|Fiche express' \
                       'lot-03/framework-interoperability-and-psrs|La source qui fait|Une bibliothèque qui attend un|Fiche express' \
                       'lot-03/symfony-flex|il change ce que font|recense les recipes et se committe|Fiche express' \
-                      'lot-03/code-organization|Chaque directory se déplace|dans cet environment seulement|Fiche express'; do
+                      'lot-03/code-organization|Chaque directory se déplace|dans cet environment seulement|Fiche express' \
+                      'lot-03/backward-compatibility-promise|une mineure ajoute et déprécie|défaut qui préserve le comportement|Fiche express' \
+                      'lot-03/components-and-bridges|est une bibliothèque autonome|bundle pour la configuration|Fiche express' \
+                      'lot-03/release-management-and-roadmap-schedule|Symfony publie selon le|une LTS tous les|Fiche express' \
+                      'lot-03/official-best-practices|la constant plutôt que le parameter|aucune règle du framework|Fiche express' \
+                      'lot-03/exception-handling|Le statut final suit une règle|200 ou 204 voulu|Fiche express' \
+                      'lot-03/framework-overloading|Et le controller a deux cas|jamais on ne remplace|Fiche express' \
+                      'lot-03/event-dispatcher-and-kernel-events|Le component EventDispatcher appelle|pas ce qui change|Fiche express' \
+                      'lot-03/request-handling|tout le cycle tient dans|a lieu même quand une|Fiche express' \
+                      'lot-04/the-request|Un controller obtient la Request en|JSON invalide ou pas un array|Fiche express' \
+                      'lot-04/the-cookies|Deux methods aux noms voisins font|de PHP contourne la Response|Fiche express' \
+                      'lot-04/the-flash-messages|utilisé une seule fois|Afficher les flashs dans le header|Fiche express' \
+                      'lot-04/naming-conventions|Symfony le génère en deux|sans découpe du CamelCase|Fiche express' \
+                      'lot-04/http-redirects|Un controller redirige par|Un déplacement définitif de page|Fiche express' \
+                      'lot-04/built-in-internal-controllers|Une route peut viser un controller|7 garde la method|Fiche express' \
+                      'lot-04/the-response|Un controller retourne une|se distinguent par leur return|Fiche express' \
+                      'lot-04/internal-redirects|le kernel exécute une|Arguments de la cible|Fiche express' \
+                      'lot-04/generate-404-pages|rien ne se passe|Un produit absent|Fiche express' \
+                      'lot-04/file-upload|Un file téléversé arrive en|Et tout ce que le client|Fiche express' \
+                      'lot-04/the-session|par un argument typé|cookie seulement si session|Fiche express' \
+                      'lot-04/the-base-abstractcontroller-class|est une class de base|Un unit test veut appeler|Fiche express' \
+                      'lot-04/httpkernel-component-and-frameworkbundle|cela marche-t-il sans service container|Le component sait faire|Fiche express' \
+                      'lot-04/argument-value-resolvers|si aucun ne sait|Premier resolver qui fournit|Fiche express' \
+                      'lot-05/http-methods-matching|Interdire toute simulation|Le header passe avant le field|Fiche express' \
+                      'lot-05/domain-name-matching|Le host prend des parameters|valeur appariée en minuscules|Fiche express' \
+                      'lot-05/conditional-request-matching|ignorée à la génération|Une règle métier complexe|Fiche express' \
+                      'lot-05/special-internal-routing-attributes|pose les trois premiers|route localisée garde sa locale|Fiche express' \
+                      'lot-05/trigger-redirects|le component seul qui redirige|générée si le schéma change|Fiche express' \
+                      'lot-05/user-s-locale-guessing|ou une route localisée|Proposer la langue du navigateur|Fiche express' \
+                      'lot-05/configuration-yaml-and-php-attributes|Une route se déclare en attribute|les deux formes sont|Fiche express' \
+                      'lot-05/routing-component-and-frameworkbundle|matcher qui sait rediriger|sans autre component Symfony|Fiche express' \
+                      'lot-05/restrict-url-parameters|de vérifier le requirement|Un slug accentué en majuscule initiale|Fiche express' \
+                      'lot-05/set-default-values-to-url-parameters|si le path a le parameter|vaut la page 1|Fiche express' \
+                      'lot-05/urls-generation|Le troisième argument choisit la forme|Un lien dans un email|Fiche express'; do
             page=${spec%%|*}
             out="/tmp/ped-${page//\//-}"
             code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \
@@ -5523,9 +5556,11 @@ jobs:
             echo "::error::NUL bytes are back in lot-03/backward-compatibility-promise"
             fail=1
           # Since 2026-10-14 a course heading carries an explicit id
-          # (CourseUrl::sectionAnchor), so the key points are #s-points-cles.
-          elif ! grep -aqF -- 'href="#s-points-cles"' /tmp/nul-bcp || ! grep -aqF -- 'id="s-points-cles"' /tmp/nul-bcp; then
-            echo "::error::The table-of-contents link to the key points of lot-03/backward-compatibility-promise is broken"
+          # (CourseUrl::sectionAnchor). The page lost « Points clés » with the
+          # short format (2026-11-06); « Pièges d'examen » is the accented heading
+          # it keeps, so the link checked is #s-pieges-d-examen.
+          elif ! grep -aqF -- 'href="#s-pieges-d-examen"' /tmp/nul-bcp || ! grep -aqF -- 'id="s-pieges-d-examen"' /tmp/nul-bcp; then
+            echo "::error::The table-of-contents link to the exam pitfalls of lot-03/backward-compatibility-promise is broken"
             fail=1
           else
             echo "ok  build  no NUL byte in a sampled page, and its table-of-contents link resolves"
