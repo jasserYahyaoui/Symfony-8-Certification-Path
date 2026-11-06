@@ -30,7 +30,7 @@ faut le mettre — voir [`exam-readiness.md`](exam-readiness.md).
 - NOUVEAU · **PHP : PHP API up to PHP 8.4 version** (STANDARD) — 41 min · 1117 mots · 5 questions, 11 questions de compréhension, 6 flashcards
 - NOUVEAU · **PHP : Object Oriented Programming** (STANDARD) — 31 min · 900 mots · 5 questions, 6 questions de compréhension, 3 flashcards
 - NOUVEAU · **PHP : Attributes** (STANDARD) — 29 min · 776 mots · 4 questions, 5 questions de compréhension, 4 flashcards
-- NOUVEAU · **PHP : Interfaces** (STANDARD) — 30 min · 983 mots · 5 questions, 5 questions de compréhension, 3 flashcards
+- NOUVEAU · **PHP : Interfaces** (STANDARD) — 30 min · 986 mots · 5 questions, 5 questions de compréhension, 3 flashcards
 
 *Budget du jour : 131 / 160 min*
 
