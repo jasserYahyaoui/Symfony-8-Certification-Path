@@ -5,7 +5,7 @@ title: "Internationalization and localization (Note: Intl component utilities to
 content_level: STANDARD
 language: fr
 verification_status: VERIFIED
-reviewed_at: "2026-10-26"
+reviewed_at: "2026-11-06"
 format: pedagogical
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/translation.rst"
@@ -23,8 +23,14 @@ official_sources:
     readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Translation/MessageCatalogue.php"
     repository: "symfony/symfony"
     branch: "8.0"
-    symbol_or_lines: "get() : domain +intl-icu lu en premier"
-    verified_at: "2026-10-16"
+    symbol_or_lines: "add() : une key ajoutée à un domain est retirée de l'autre domain de la paire messages / messages+intl-icu"
+    verified_at: "2026-11-06"
+  - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php"
+    readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php"
+    repository: "symfony/symfony"
+    branch: "8.0"
+    symbol_or_lines: "registerTranslatorConfiguration() : Finder::create()->files()->in($dir)->sortByName()"
+    verified_at: "2026-11-06"
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Translation/Translator.php"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Translation/Translator.php"
     repository: "symfony/symfony"
@@ -90,10 +96,12 @@ $translator->trans('Hello World', domain: 'app');        // le domain app
 
 ## Plusieurs catalogues pour une key
 
-- Une key dans `messages` et dans `messages+intl-icu` : la version **ICU**
-  gagne.
 - Deux resources d'un même domain et d'une même locale : la **dernière**
   chargée gagne, key par key ; les autres keys restent.
+- `messages` et `messages+intl-icu` comptent comme **un seul** domain : là
+  aussi, la dernière chargée gagne. Les files d'un dossier se chargent par
+  ordre de nom, et `+` passe avant `.` : avec `messages.en.yaml` et
+  `messages+intl-icu.en.yaml`, c'est la version **classique** qui l'emporte.
 - Une key trouvée dans une locale de repli est formatée avec les règles de
   **cette** locale.
 
