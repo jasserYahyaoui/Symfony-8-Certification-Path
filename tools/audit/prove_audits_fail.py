@@ -53,11 +53,10 @@ CASES = [
      'https://symfony.com/doc/current/service_container',
      'CONTAM-4'),
     (AUD03, ('--offline',), 'content/courses/CRS-0a0d5bp6769e.md',
-     '    symbol_or_lines: "ServiceSubscriberInterface, getSubscribedServices, AutowireLocator"\n',
-     '',
+     None, '',  # filled in below: the course's first citation anchor, removed
      'ANCHOR-4'),
     (AUD03, ('--offline',), 'content/courses/CRS-0a0d5bp6769e.md',
-     '    verified_at: "2026-09-01"\n', '    verified_at: "2099-01-01"\n',
+     None, '    verified_at: "2099-01-01"\n',  # filled in below: its first verified_at
      'ANCHOR-7'),
     (AUD03, (), 'content/courses/CRS-0a0d5bp6769e.md',
      'service_subscribers_locators.rst', 'service_subscribers_locators_NOPE.rst',
@@ -88,7 +87,7 @@ CASES = [
      'VOL-2'),
     # One course's whole body copied over another's.
     (AUD04, (), 'content/courses/CRS-2s6e4qgkcqza.md',
-     APPEND, None,  # filled in below from a real sibling course
+     None, None,  # filled in below: this body replaced by a real sibling's
      'VOL-3'),
     # Two flashcards asking the same question.
     (AUD04, (), 'content/flashcards/lot-10-security.yml',
@@ -169,7 +168,7 @@ CASES = [
     # failure this audit exists to catch, and the one a green gate hides.
     # Drop an application route from the production smoke test.
     (AUD08, (), '.github/workflows/pages.yml',
-     '"mock-5" "progression"', '"mock-5"', 'TECH-1'),
+     '"mock-5" "examens" "progression"', '"mock-5" "examens"', 'TECH-1'),
     # Drop a generated syllabus page from the smoke test.
     (AUD08, (), '.github/workflows/pages.yml',
      '"docs/syllabus/glossary"', '"docs/syllabus/coverage"', 'TECH-2'),
@@ -201,9 +200,9 @@ CASES = [
     # Take the exam-mode evidence away from the item the refinement fixed.
     (AUDL1, (), 'content/questions/lot-01-php.yml',
      "  pool: VALIDATION\n  verification_status: VERIFIED\n  reviewers:\n  - tech-lead\n"
-     "  reviewed_at: '2026-09-08'\n  tags:\n  - interfaces\n  - php84\n",
+     "  reviewed_at: '2026-10-09'\n  tags:\n  - interfaces\n  - php84\n",
      "  pool: LEARNING\n  verification_status: VERIFIED\n  reviewers:\n  - tech-lead\n"
-     "  reviewed_at: '2026-09-08'\n  tags:\n  - interfaces\n  - php84\n",
+     "  reviewed_at: '2026-10-09'\n  tags:\n  - interfaces\n  - php84\n",
      'L1-1'),
     # Break the question that verifies a trap the courses teach.
     (AUDL1, (), 'content/questions/lot-01-php.yml',
@@ -255,10 +254,23 @@ _VOL1 = (ROOT / 'content/courses/CRS-0a0d5bp6769e.md').read_text(encoding='utf-8
 _VOL1_TAIL = _VOL1[_VOL1.index('\nformat: pedagogical\n'):]
 _VOL1_NEW = _VOL1_TAIL.replace('\nformat: pedagogical\n', '\n', 1) + '\n\n' + ('padding ' * 6000)
 
+# ANCHOR-4 and ANCHOR-7 act on the same course's first citation, read from the
+# file: the literal anchors they used to carry were rewritten with the course
+# (#446, #458) and both cases stopped finding their fixture.
+_ANCHOR4_OLD = re.search(r'^    symbol_or_lines: .*\n', _VOL1, re.M).group(0)
+_ANCHOR7_OLD = re.search(r'^    verified_at: .*\n', _VOL1, re.M).group(0)
+
 # VOL-3's payload is a real course body, so the similarity is genuine rather
 # than an artefact of repeated filler.
 _TWIN = (ROOT / 'content/courses/CRS-awb7sd999c5j.md').read_text(encoding='utf-8')
 _TWIN_BODY = _TWIN.split('---', 2)[2] if _TWIN.count('---') >= 2 else _TWIN
+# The body is substituted, not appended: appended, the target doubles in length
+# and the audit's length gate (shorter / longer < 0.60) skips the pair before
+# comparing it — which is how this case went silent once both courses reached
+# about 1 000 words (2026-11-06). Substituted, the copy is what the comment
+# above the case says it is.
+_ROLES = (ROOT / 'content/courses/CRS-2s6e4qgkcqza.md').read_text(encoding='utf-8')
+_ROLES_BODY = _ROLES.split('---', 2)[2]
 
 # VOL-4's payload duplicates the front of an existing card in the same deck.
 import yaml as _yaml  # noqa: E402
@@ -339,37 +351,61 @@ _QB4 = _q('QST-failproof0004', _ITEM0, [('CHO-failproof0041', 'key', True),
 _QB8 = _q('QST-failproof0008', _ITEM0, [(_EXISTING_CHOICE_ID, 'reused id', True),
                                         ('CHO-failproof0082', 'b', False),
                                         ('CHO-failproof0083', 'c', False)])
-# ENG-1 needs §5's advanced-question ratio pushed under 50%: 210 French `hard`
-# questions against the corpus's 205 real ones, which is the smallest block
-# that can move a 99.5% ratio below the line.
-_ENG1 = ''.join(
+# ENG-1, ENG-2 and ENG-4 append to the validation pool, whose list items are
+# indented under `questions:` since #407. A fixture written at column 0 made the
+# file unparseable: the audit crashed, exited non-zero, and reported none of the
+# three checks. The indentation is read from the file, so a later re-dump
+# cannot silence the cases again.
+_VP_TEXT = (ROOT / 'content/questions/validation-pool.yml').read_text(encoding='utf-8')
+_VP_INDENT = re.search(r'^( *)- id: ', _VP_TEXT, re.M).group(1)
+
+
+def _in_vp(fixture):
+    return '\n'.join(_VP_INDENT + l if l else l for l in fixture.split('\n'))
+
+
+# Counted from the corpus, not frozen: a fixed block stopped firing once the
+# bank grew past it (2026-11-06: 298 English questions of 299 `hard`, 141
+# English VALIDATION questions).
+_ALL_QUESTIONS = [
+    q
+    for f in sorted((ROOT / 'content/questions').glob('*.yml'))
+    for q in (_yaml.safe_load(f.read_text(encoding='utf-8')) or {}).get('questions') or []
+]
+_EN = [q for q in _ALL_QUESTIONS if q.get('language') == 'en']
+_EN_HARD = sum(1 for q in _EN if q.get('difficulty') == 'hard')
+_EN_VALIDATION = sum(1 for q in _EN if q.get('pool') == 'VALIDATION')
+
+# ENG-1 needs §5's advanced-question ratio pushed under 50%: more French `hard`
+# questions than the corpus has English ones.
+_ENG1 = _in_vp(''.join(
     _q(f'QST-failproofE{i:04d}', _ITEM0,
        [(f'CHO-fpE{i:04d}a', 'a', True), (f'CHO-fpE{i:04d}b', 'b', False),
         (f'CHO-fpE{i:04d}c', 'c', False)])
     .replace('  language: en', '  language: fr')
     .replace('  difficulty: medium', '  difficulty: hard')
-    for i in range(210)
-)
+    for i in range(_EN_HARD + 5)
+))
 
-# ENG-2: 140 French VALIDATION questions against the corpus's 135 English
-# ones, which takes the pool below "primarily English".
-_ENG2 = ''.join(
+# ENG-2: more French VALIDATION questions than the corpus has English ones,
+# which takes the pool below "primarily English".
+_ENG2 = _in_vp(''.join(
     _q(f'QST-failproofV{i:04d}', _ITEM0,
        [(f'CHO-fpV{i:04d}a', 'a', True), (f'CHO-fpV{i:04d}b', 'b', False),
         (f'CHO-fpV{i:04d}c', 'c', False)])
     .replace('  language: en', '  language: fr')
     .replace('  pool: LEARNING', '  pool: VALIDATION')
-    for i in range(140)
-)
+    for i in range(_EN_VALIDATION + 5)
+))
 
 # ENG-4: a single French VALIDATION question. The ratio stays far above 50%,
 # so ENG-2 does not fire and ENG-4 is isolated — §5 permits French for
 # beginner practice, never in a bank its thresholds bind.
-_ENG4 = (_q('QST-failproofF0001', _ITEM0,
-            [('CHO-fpF0001a', 'a', True), ('CHO-fpF0001b', 'b', False),
-             ('CHO-fpF0001c', 'c', False)])
-         .replace('  language: en', '  language: fr')
-         .replace('  pool: LEARNING', '  pool: VALIDATION'))
+_ENG4 = _in_vp(_q('QST-failproofF0001', _ITEM0,
+                  [('CHO-fpF0001a', 'a', True), ('CHO-fpF0001b', 'b', False),
+                   ('CHO-fpF0001c', 'c', False)])
+               .replace('  language: en', '  language: fr')
+               .replace('  pool: LEARNING', '  pool: VALIDATION'))
 
 # ENG-5: a stem far too long to read inside a 20-second budget.
 _ENG5 = _q('QST-failproofE9999', _ITEM0,
@@ -429,6 +465,9 @@ CASES = [
       else _QB5_OLD if e == 'QB-5'
       else _ENG6_OLD if e == 'ENG-6'
       else _VOL1_TAIL if e == 'VOL-1'
+      else _ROLES_BODY if e == 'VOL-3'
+      else _ANCHOR4_OLD if e == 'ANCHOR-4'
+      else _ANCHOR7_OLD if e == 'ANCHOR-7'
       else o),
      _HOLD2_NEW if e == 'HOLD-2'
      else _QB2_NEW if e == 'QB-2'

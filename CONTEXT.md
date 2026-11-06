@@ -28,10 +28,14 @@ VOL-1 (aud04) jugeait les pages hors format contre leur seule médiane : avec 0
 page de ce type, l'audit plantait, et sous 3 pages il ne pouvait jamais tirer ;
 il prend désormais la médiane du corpus sous 3 pages, et le cas VOL-1 de
 `prove_audits_fail.py` (muet depuis que sa fixture est pédagogique) retire le
-drapeau dans sa mutation — prouvé. **Problème connu, antérieur :** ce même
-script, hors CI, échoue aussi sur VOL-3, ENG-2, ENG-4, TECH-1 et L1-1 (ancres
-disparues depuis #404 et la refonte du lot 01, entrées inchangées par ces
-batches) ; à reprendre dans une PR dédiée.
+drapeau dans sa mutation — prouvé. **Réparé ensuite (PR qui suit #461) :** ce
+même script, hors CI, échouait aussi sur huit cas antérieurs à ces batches —
+ENG-1, ENG-2 et ENG-4 (fixture non indentée : le YAML du pool de validation ne
+se lisait plus, et des effectifs figés, dépassés par le corpus), VOL-3 (le
+corps ajouté doublait la page, que le filtre de longueur écartait), ANCHOR-4,
+ANCHOR-7, TECH-1 et L1-1 (ancres réécrites avec leurs fichiers). Indentation,
+effectifs et ancres sont désormais lus dans les fichiers ; aucune règle d'audit
+modifiée. PROOF OK, 44 cas, fichiers restaurés à l'identique (SHA-256).
 
 Constats du lot 06, corrigés sur la branche (entrées CORRECTION au journal dans
 la PR qui suit la fusion) : F15 (propriétés `loop` sur un iterator `Countable`),
