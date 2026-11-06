@@ -6,6 +6,7 @@ content_level: STANDARD
 language: fr
 verification_status: VERIFIED
 reviewed_at: "2026-10-09"
+format: pedagogical
 official_sources:
   - url: "https://raw.githubusercontent.com/php/doc-en/master/language/predefined/throwable.xml"
     readable_url: "https://github.com/php/doc-en/blob/master/language/predefined/throwable.xml"
@@ -25,7 +26,15 @@ outcome_sections:
 Naviguer la hiérarchie `Throwable` et rattraper le bon type — sans rattraper
 trop.
 
-## La hiérarchie
+## L'essentiel
+
+`Throwable` est la racine, avec deux branches **sœurs** : `Error`, pour les
+problèmes de l'engine, et `Exception`, pour les conditions applicatives. Donc
+`catch (Exception)` laisse passer une `Error` ; seul `Throwable` attrape tout.
+Une class ne peut pas implémenter `Throwable` directement. Le premier `catch`
+compatible gagne, et `finally` s'exécute même après un `return`.
+
+## Le schéma
 
 ```text
 Throwable  (interface, étend Stringable)
@@ -40,60 +49,50 @@ Throwable  (interface, étend Stringable)
     └── ErrorException
 ```
 
-Depuis PHP 7, la plupart des erreurs fatales sont devenues des `Error`, donc
-**rattrapables** — mais elles ne descendent pas d'`Exception`.
-
-## La conséquence pratique
+## L'exemple
 
 ```php
 try {
-    $result = 1 % 0;
+    $result = intdiv(1, 0);
 } catch (Exception $e) {
-    // JAMAIS atteint : DivisionByZeroError est un Error, pas une Exception
-}
-
-try {
-    $result = 1 % 0;
-} catch (DivisionByZeroError $e) {   // correct
-    // ...
-} catch (Throwable $e) {             // filet le plus large
-    // ...
+    // JAMAIS atteint : DivisionByZeroError est une Error, pas une Exception
+} catch (DivisionByZeroError $e) {
+    // atteint
+} finally {
+    // exécuté dans tous les cas, sauf exit()
 }
 ```
 
+## La hiérarchie
+
+Depuis PHP 7, la plupart des erreurs fatales sont devenues des `Error`, donc
+**rattrapables** — mais elles ne descendent pas d'`Exception`.
+`ErrorException`, malgré son nom, est une `Exception`.
+
+## La conséquence pratique
+
 `catch (Exception $e)` ne rattrape **pas** les `Error`. Pour tout attraper, il
-faut `Throwable`.
+faut `Throwable`. Et l'ordre compte : le premier block compatible gagne, donc
+un `catch (Throwable)` placé en tête rend les suivants inatteignables.
 
 ## Écrire ses propres exceptions
 
 ```php
-final class PaymentDeclined extends \RuntimeException
-{
-}
-```
-
-**Une class PHP ne peut pas implémenter `Throwable` directement.** L'engine
-l'interdit : il faut étendre `Exception` ou `Error`. Une interface de marquage
-propre à l'application, elle, reste possible :
-
-```php
-interface DomainFailure {}
+interface DomainFailure extends \Throwable {}
 final class PaymentDeclined extends \RuntimeException implements DomainFailure {}
 ```
 
+**Une class ne peut pas implémenter `Throwable` directement** : il faut étendre
+`Exception` ou `Error`. Une interface de marquage, elle, peut étendre
+`Throwable`, et `catch (DomainFailure $e)` rattrape alors toutes les
+exceptions qui l'implémentent, quelle que soit leur branche SPL.
+
 ## Multi-catch et finally
 
-```php
-try {
-    // ...
-} catch (TypeError | ValueError $e) {   // types unis
-    // ...
-} catch (\Throwable) {                  // capture sans variable (8.0+)
-    // ...
-} finally {
-    // exécuté après le try et les catch, y compris après un return
-}
-```
+`catch (TypeError | ValueError $e)` unit des types ; depuis PHP 8.0,
+`catch (\Throwable)` s'écrit sans variable. Le block `finally` est
+exécuté après le try et les catch, y compris après un `return` — et un `return`
+dans le `finally` écrase celui du `try`. Il ne s'exécute pas après `exit()`.
 
 ## Pièges d'examen
 
@@ -107,15 +106,91 @@ exécuté, le script s'arrête sans passer par le `finally`.
 **L'ordre des `catch` compte** : le premier block compatible gagne. Placer
 `catch (Throwable)` en premier rend les suivants inatteignables.
 
-## Points clés
+## Application
 
-- `Throwable` est l'interface racine ; `Error` et `Exception` sont deux
-  branches sœurs.
-- `catch (Exception)` laisse passer les `Error`.
-- Une class ne peut pas implémenter `Throwable` directement.
-- `finally` s'exécute après le `try` et les `catch`, sauf `exit()` ; l'ordre
-  des `catch` est significatif.
+- Une division par zéro possible → `catch (DivisionByZeroError)`, pas
+  `catch (Exception)`.
+- Une famille d'erreurs de librairie → interface de marquage qui étend
+  `\Throwable`.
+
+## QCM d'entraînement
+
+**Question 1.** Quelle est la class parente directe d'`ArgumentCountError` ?
+
+- **A.** `TypeError`
+- **B.** `Error`
+- **C.** `Exception`
+- **D.** `ValueError`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : A.** Un mauvais nombre d'arguments est un cas particulier
+d'erreur de type ; la class descend donc de `TypeError`, elle-même une `Error`.
+
+</details>
+
+**Question 2.** Le code exécute `intdiv(1, 0)` dans un `try` suivi de
+`catch (TypeError | ValueError $e)`. Que se passe-t-il ?
+
+- **A.** Rattrapée par le multi-catch
+- **B.** Non rattrapée : `DivisionByZeroError`
+- **C.** Rattrapée comme `ValueError`
+- **D.** Un warning, puis le script continue normalement
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** L'erreur levée descend d'`ArithmeticError`, branche
+distincte des deux types listés : elle traverse ce block.
+
+</details>
+
+**Question 3.** `ErrorException` est-elle une `Error` ?
+
+- **A.** Oui, d'où son nom
+- **B.** Elle hérite des deux branches à la fois
+- **C.** Non : elle étend `Exception`
+- **D.** Ni l'un ni l'autre
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : C.** Malgré son nom, elle se trouve dans la branche
+applicative ; `catch (Exception $e)` la rattrape donc.
+
+</details>
+
+**Question 4.** Le block `catch (\Throwable)`, sans variable, est-il valide en
+PHP 8.4 ?
+
+- **A.** Non : la variable est obligatoire
+- **B.** Seulement pour `Throwable`
+- **C.** Seulement avec `finally`
+- **D.** Oui, depuis PHP 8.0
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : D.** Depuis PHP 8.0, la variable du `catch` est facultative,
+quel que soit le type attrapé, quand le code n'utilise pas l'exception.
+
+</details>
+
+## Fiche express
+
+**Si tu dois retenir seulement 6 choses :**
+
+- `Throwable` → **`Error`** et **`Exception`**, deux branches sœurs.
+- `catch (Exception)` laisse passer les **`Error`** ; `Throwable` attrape tout.
+- `ErrorException` est une **`Exception`**.
+- Pas d'`implements Throwable` sur une class ; une **interface** peut l'étendre.
+- Premier `catch` compatible **gagne**.
+- `finally` : après `return`, **pas** après `exit()` ; son `return` gagne.
+
+Moyen mnémotechnique : **« Exception pour l'appli, Error pour l'engine »**.
 
 ## Sources officielles
 
 - Manuel PHP — *Throwable*, *Predefined Exceptions*
+

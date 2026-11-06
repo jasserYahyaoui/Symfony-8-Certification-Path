@@ -6,6 +6,7 @@ content_level: STANDARD
 language: fr
 verification_status: VERIFIED
 reviewed_at: "2026-10-09"
+format: pedagogical
 official_sources:
   - url: "https://raw.githubusercontent.com/php/doc-en/master/language/functions.xml"
     readable_url: "https://github.com/php/doc-en/blob/master/language/functions.xml"
@@ -30,9 +31,26 @@ outcome_sections:
 Choisir entre `function () use (...)` et `fn () =>`, et savoir ce que chacune
 capture.
 
-## Function anonyme classique
+## L'essentiel
 
-La capture est **explicite** : rien n'entre dans le scope sans `use`.
+Deux syntaxes, deux captures. `function () use ($x)` capture **explicitement**,
+par valeur au moment de la **definition** — sauf `&$x`. `fn () => …` capture
+**automatiquement**, toujours par valeur, et ne contient qu'une expression.
+Dans une class, une closure est liée à `$this`, sauf si elle est `static`.
+
+## Le schéma
+
+```text
+function () use ($x) { … }   capture explicite · copie à la définition · use (&$x) = par référence
+fn () => expr                capture automatique · par valeur, jamais par référence · une seule expression
+dans une class               $this lié automatiquement · static fn / static function → aucun $this
+Closure::bind / bindTo       relier à un autre object · closure static + object → warning, null
+                             closure static + scope seul (object null) → possible
+strlen(...)                  callable de première class → Closure ($this lié pour $this->m(...))
+callable                     Closure, mais aussi 'strlen' ou [$obj, 'method']
+```
+
+## L'exemple
 
 ```php
 $factor = 3;
@@ -40,59 +58,36 @@ $factor = 3;
 $triple = function (int $n) use ($factor): int {
     return $n * $factor;      // $factor copié à la DÉFINITION
 };
+$arrow = fn (int $n): int => $n * $factor;   // capturé automatiquement, par valeur
 
 $factor = 10;
 $triple(5);                   // 15, pas 50
 ```
 
-Avec `use (&$factor)`, la variable est capturée par référence et la valeur
-finale serait utilisée.
+## Function anonyme classique
+
+La capture est **explicite** : rien n'entre dans le scope sans `use`, et la
+valeur est copiée à la definition. Avec `use (&$factor)`, la variable est
+capturée par référence, et c'est la valeur au moment de l'appel qui compte.
 
 ## Function fléchée
 
-La capture est **automatique et par valeur**. Il n'y a pas de `use`, et la
-capture par référence est impossible.
-
-```php
-$factor = 3;
-$triple = fn (int $n): int => $n * $factor;   // $factor capturé automatiquement
-```
-
-Une function fléchée n'a **qu'une seule expression**, dont la valeur est
-renvoyée : pas d'accolades, pas de `return`, pas d'instructions multiples.
+La capture est **automatique et par valeur** : pas de `use`, et aucune capture
+par référence possible — modifier une variable capturée ne touche pas
+l'originale. Une function fléchée n'a **qu'une seule expression**, dont la
+valeur est renvoyée : pas d'accolades, pas de `return`.
 
 ## Binding de `$this`
 
-Une closure définie dans une class est **automatiquement liée** à l'instance,
-donc `$this` y est disponible. Le mot-clé `static` empêche ce binding :
-
-```php
-class Cart
-{
-    public function total(): callable
-    {
-        return fn () => $this->items;          // $this disponible
-    }
-
-    public function pure(): callable
-    {
-        return static fn () => 42;             // $this indisponible
-    }
-}
-```
-
-`Closure::bind()` et `Closure::bindTo()` permettent de relier une closure à un
-autre object — sauf une closure `static`, qui ne peut porter aucun object : PHP
+Une closure définie dans une class est **automatiquement liée** à l'instance :
+`$this` y est disponible. Le mot-clé `static` empêche ce binding —
+`static fn () => 42`. `Closure::bind()` et `bindTo()` relient une closure à un
+autre object, sauf une closure `static`, qui ne peut porter aucun object : PHP
 émet « Cannot bind an instance to a static closure » et rend `null`. Changer
-seulement son scope de class, object à `null`, reste possible — exécuté.
+seulement son scope de class, object à `null`, reste possible.
 
-## Callable de première class
-
-```php
-$fn = strlen(...);              // Closure vers la fonction
-$fn = $this->render(...);       // Closure vers la méthode, $this lié
-$fn = Article::create(...);     // Closure vers la méthode statique
-```
+Les callables de première class produisent une `Closure` : `strlen(...)`,
+`$this->render(...)`, `Article::create(...)`.
 
 ## Pièges d'examen
 
@@ -108,13 +103,88 @@ syntaxe `fn () use (&$x)`.
 **Une closure est un object.** `$closure instanceof \Closure` est vrai, et le
 type `callable` accepte aussi des strings et des arrays `[$obj, 'method']`.
 
-## Points clés
+## Application
 
-- `function () use ($x)` : capture explicite, par valeur sauf `&$x`.
-- `fn () => expr` : capture automatique par valeur, une seule expression.
-- `$this` lié automatiquement dans une class, sauf closure `static`.
-- `foo(...)` produit une `Closure`.
+- Un callback qui doit modifier un compteur extérieur → `function () use (&$count)`.
+- Un tri en une ligne → `usort($items, fn ($a, $b) => $a <=> $b)`.
+
+## QCM d'entraînement
+
+**Question 1.** `$n = 0; $inc = fn () => $n++;` puis deux appels à `$inc()`.
+Que vaut `$n` ?
+
+- **A.** 2
+- **B.** 0
+- **C.** Une `Error`
+- **D.** Un warning, puis 2
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** La function fléchée travaille sur une copie de `$n` ;
+l'incrément ne remonte jamais vers la variable du scope parent.
+
+</details>
+
+**Question 2.** Que rend `Closure::bind(static fn () => 1, new Foo())` ?
+
+- **A.** `null`, avec un warning
+- **B.** La closure, désormais liée à `Foo`
+- **C.** Une `Error`
+- **D.** La closure inchangée
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : A.** Une closure `static` ne peut porter aucun object : PHP
+signale qu'il ne peut pas lier l'instance, et renvoie `null`.
+
+</details>
+
+**Question 3.** Que produit l'expression `strlen(...)` ?
+
+- **A.** La string `'strlen'`
+- **B.** Un `int`
+- **C.** Une `Closure`
+- **D.** Un array callable
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : C.** La syntaxe de callable de première class crée un object
+`Closure` vers la function, appelable ensuite comme `$fn('abc')`.
+
+</details>
+
+**Question 4.** Que fait PHP de `$f = fn () => { return 1; };` ?
+
+- **A.** Il l'accepte
+- **B.** Il l'accepte s'il n'y a qu'une instruction
+- **C.** La closure rend `null`
+- **D.** Une erreur de syntaxe
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : D.** Une function fléchée attend une expression après `=>` ;
+un block entre accolades n'en est pas une, et le parser refuse le file.
+
+</details>
+
+## Fiche express
+
+**Si tu dois retenir seulement 6 choses :**
+
+- `use ($x)` : capture **explicite**, copie à la **definition**.
+- `use (&$x)` : par **référence**, valeur à l'appel.
+- `fn () =>` : capture **automatique**, par **valeur**, **une** expression.
+- Dans une class : **`$this`** lié, sauf closure **`static`**.
+- `bind` d'une closure `static` à un object → **`null`** + warning.
+- `strlen(...)` → **`Closure`** ; `callable` accepte aussi strings et arrays.
+
+Moyen mnémotechnique : **« use se fige, fn copie, & partage »**.
 
 ## Sources officielles
 
 - Manuel PHP — *Anonymous functions*, *Arrow functions*
+
