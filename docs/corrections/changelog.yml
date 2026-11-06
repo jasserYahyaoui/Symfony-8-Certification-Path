@@ -7076,3 +7076,230 @@ entries:
       - Pièges d'examen
     flashcards: []
     questions: []
+  - id: CVR-vejmsdmfrkwv
+    date: '2026-11-06'
+    pull_request: 461
+    commit: 2076ef7
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-webdvbgbrfth
+    facts: []
+    title: 'Abstract classes : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre questions et une Fiche express. Une abstract class ne s''instancie pas ; elle fournit du **comportement partagé** — constructor, état, methods concrètes — et impose à ses filles des methods abstraites, jamais `private`. Depuis PHP 8.4, elle peut aussi exiger une **property**, par un hook sans corps. Face à une interface, la règle tient en une ligne : l''interface décrit un contrat, l''abstract class partage du code.'
+    courses:
+    - id: CRS-0jtjh77tabt1
+      sections:
+      - L'essentiel
+      - Le schéma
+      - L'exemple
+      - Règles
+      - Les properties abstraites — depuis PHP 8.4
+      - Interface ou abstract class ?
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-d2w0f38zmx92
+    date: '2026-11-06'
+    pull_request: 461
+    commit: 2076ef7
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-ywrx9x3hg9z8
+    facts: []
+    title: 'Object Oriented Programming : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre questions et une Fiche express. Quatre mécanismes object reviennent à l''examen. La **visibilité** est liée à la class, pas à l''instance, et PHP 8.4 sépare lecture et écriture (`private(set)`). La **promotion** déclare et affecte en une ligne. `readonly` interdit la réaffectation, pas la mutation. Et surtout : `self` est figé à la class où le code est écrit, `static` suit la class appelée.'
+    courses:
+    - id: CRS-3424z948caan
+      sections:
+      - L'essentiel
+      - Le schéma
+      - L'exemple
+      - Visibilité
+      - '`readonly`'
+      - '`self` contre `static`'
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-4qd37qhfw76r
+    date: '2026-11-06'
+    pull_request: 461
+    commit: 2076ef7
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-hqz5c2qse24w
+    facts: []
+    title: 'Enums : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre questions et une Fiche express. Une enum **pure** n''a que des cas ; une enum **adossée** donne à chaque cas une valeur `int` ou `string`. Toutes ont `cases()` et `->name` ; les adossées ajoutent `->value`, `from()` — qui **lève** — et `tryFrom()` — qui rend **`null`**. Une enum porte methods, constantes et interfaces, mais **aucun état** : ni property d''instance, ni constructor, ni `new`, ni inheritance.'
+    courses:
+    - id: CRS-3sggmeyd01x6
+      sections:
+      - L'essentiel
+      - Le schéma
+      - L'exemple
+      - Pure ou adossée
+      - L'API
+      - Ce qu'une enum peut faire
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-3rftbceczpgh
+    date: '2026-11-06'
+    pull_request: 461
+    commit: 2076ef7
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-46ry8d7dypmb
+    facts: []
+    title: 'PHP API up to PHP 8.4 version : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre questions et une Fiche express. Symfony 8.0 exige PHP 8.4 : une question peut porter sur une syntaxe 8.4. Il faut savoir **dater** une fonctionnalité — 8.0 à 8.4 — et connaître les résultats que PHP renvoie réellement sur les arrays, les comparaisons et le JSON. Deux confusions reviennent : `readonly` contre `private(set)`, et `array_merge()` contre `+`.'
+    courses:
+    - id: CRS-722pscs6e2m0
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : un property hook'
+      - Ce que 8.4 ajoute au cœur du langage
+      - Rappel des versions antérieures
+      - 'Arrays, comparaisons et JSON : ce que renvoie PHP'
+      - Functions ajoutées, par version
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-7hexkwxrpaej
+    date: '2026-11-06'
+    pull_request: 461
+    commit: 2076ef7
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-n0zfkcr189af
+    facts: []
+    title: 'Traits : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre questions et une Fiche express. Un trait copie des membres dans une class, sans créer de type ni d''inheritance. Sa précédence est contre-intuitive : la **class** gagne sur le trait, qui gagne sur la **class parente**. Deux traits qui fournissent la même method provoquent une **erreur fatale** tant que `insteadof` n''a pas tranché ; `as` ne fait qu''ajouter un nom ou changer une visibilité.'
+    courses:
+    - id: CRS-bshgpd44ykba
+      sections:
+      - L'essentiel
+      - Le schéma
+      - L'exemple
+      - Ce qu'un trait apporte
+      - L'ordre de précédence
+      - Résolution de conflit
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-q8vqbjt91a8t
+    date: '2026-11-06'
+    pull_request: 461
+    commit: 2076ef7
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-vt0p9cacpkpd
+    facts: []
+    title: 'Interfaces : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre questions et une Fiche express. Une interface déclare des methods implicitement **publiques et abstraites**, des constants et, depuis PHP 8.4, des **properties** en `get`, `set` ou les deux. Deux réflexes anciens sont faux sur PHP 8.4 : une constant d''interface **se surcharge** depuis 8.1, sauf `final` ; et une property `readonly` ne satisfait **pas** une property d''interface `set`.'
+    courses:
+    - id: CRS-e4y7gtn5k4f0
+      sections:
+      - L'essentiel
+      - Le schéma
+      - L'exemple
+      - Ce qu'une interface contient
+      - Les constants sont surchargeables — depuis PHP 8.1
+      - Les properties d'interface — depuis PHP 8.4
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-wxxfvmf6vpxs
+    date: '2026-11-06'
+    pull_request: 461
+    commit: 2076ef7
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-fhb3vz7xbt5h
+    facts: []
+    title: 'Anonymous functions and closures : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre questions et une Fiche express. Deux syntaxes, deux captures. `function () use ($x)` capture **explicitement**, par valeur au moment de la **definition** — sauf `&$x`. `fn () => …` capture **automatiquement**, toujours par valeur, et ne contient qu''une expression. Dans une class, une closure est liée à `$this`, sauf si elle est `static`.'
+    courses:
+    - id: CRS-e7m4xbcxegyc
+      sections:
+      - L'essentiel
+      - Le schéma
+      - L'exemple
+      - Function anonyme classique
+      - Function fléchée
+      - Binding de `$this`
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-h1nhyzepnw1g
+    date: '2026-11-06'
+    pull_request: 461
+    commit: 2076ef7
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-1kjqdnryaw0h
+    facts: []
+    title: 'Attributes : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre questions et une Fiche express. Un attribute est une class marquée `#[Attribute]`, avec ses cibles et éventuellement `IS_REPEATABLE`. On le pose avec des arguments qui sont des **expressions constantes**. Et il ne fait **rien tout seul** : il faut le lire par réflexion. `getAttributes()` rend des `ReflectionAttribute` ; c''est `newInstance()` qui construit l''object — et qui lève les erreurs.'
+    courses:
+    - id: CRS-tqcp2kn9r3b5
+      sections:
+      - L'essentiel
+      - Le schéma
+      - L'exemple
+      - Déclarer
+      - Poser
+      - Lire
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-rq2gr5hpee9f
+    date: '2026-11-06'
+    pull_request: 461
+    commit: 2076ef7
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-bvnvx2b6yt2y
+    facts: []
+    title: 'Exception and error handling : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre questions et une Fiche express. `Throwable` est la racine, avec deux branches **sœurs** : `Error`, pour les problèmes de l''engine, et `Exception`, pour les conditions applicatives. Donc `catch (Exception)` laisse passer une `Error` ; seul `Throwable` attrape tout. Une class ne peut pas implémenter `Throwable` directement. Le premier `catch` compatible gagne, et `finally` s''exécute même après un `return`.'
+    courses:
+    - id: CRS-yc9fry0vz4gh
+      sections:
+      - L'essentiel
+      - Le schéma
+      - L'exemple
+      - La hiérarchie
+      - La conséquence pratique
+      - Écrire ses propres exceptions
+      - Multi-catch et finally
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
