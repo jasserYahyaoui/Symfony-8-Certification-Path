@@ -1,6 +1,6 @@
 # CONTEXT.md — Session continuity (Master Plan §23)
 
-**Last updated:** 2026-10-28 (remédiation : P0, P1, P2.3–P2.7, P3.1–P3.3 livrés ; troisième passe livrée (#434–#436) ; extension properties abstraites (#437, #438) ; **cours pédagogiques (ADR-0012) : toutes les pages, dans l'ordre du calendrier ; examen reculé au 2 mars 2027 (propriétaire, 2026-10-28)** ; F4, F9 bloqués)
+**Last updated:** 2026-11-06 (163/163 pages au format court, déployées ; F18 corrigé et déployé (#463), journalisé (#464) ; preuve hors CI `prove_audits_fail.py` réparée, PROOF OK 44 cas (#462) ; rien d'ouvert sur la branche hormis les lignes de #464. Précédent : 2026-10-28 — remédiation : P0, P1, P2.3–P2.7, P3.1–P3.3 livrés ; troisième passe livrée (#434–#436) ; extension properties abstraites (#437, #438) ; **cours pédagogiques (ADR-0012) : toutes les pages, dans l'ordre du calendrier ; examen reculé au 2 mars 2027 (propriétaire, 2026-10-28)** ; F4, F9 bloqués)
 
 ---
 
@@ -48,7 +48,7 @@ ne chargeait que dans l'ordre favorable ; il couvre désormais les deux ordres
 et un vrai kernel, et une mutation de la ligne `unset` le prouve. Question en
 version 2. Les trois libellés « Translation 8.0.15 » passent à 8.0.14, la
 version installée. Livré par #463 (`0bbfb35`, déployé) ; entrée CORRECTION
-CVR-1gbjr1ak8qfs au journal dans la PR qui suit. Holdout non inspecté (règle).
+CVR-1gbjr1ak8qfs au journal par #464 (`470cf47`, déployé). Holdout non inspecté (règle).
 
 Constats du lot 06, corrigés sur la branche (entrées CORRECTION au journal dans
 la PR qui suit la fusion) : F15 (propriétés `loop` sur un iterator `Countable`),
@@ -150,6 +150,7 @@ Branche de travail : `claude/symfony-8-certification-plan-phmkau`.
 | Lot 01 converti au format court (9 pages) : les 163 pages le sont ; cas lot 01 de `prove_framework_rules_fail.py` et VOL-1 d'AUD-04 suivis ; journal de #460 (35 entrées) et ses lignes | #461 | `2076ef7` | déploiement 42268324033 : tentative 1, job Deploy en échec (Pages resté en `deployment_queued`, « Deployment failed, try again later » ; build vert, smoke sauté) ; une relance des jobs échoués a réussi. Smoke 128072318244 **success, lu jusqu'au bout** (525 ok, 0 erreur ; 163 lignes « pedagogical lot-… » ; 58 lignes « diagrams … accessible title » ; contrôle NUL/TOC ; agenda 570 sessions jusqu'au 2027-03-02) |
 | Journal de #461 (9 entrées) et ses lignes ; `prove_audits_fail.py` : huit cas muets réparés (PROOF OK, 44 cas) | #462 | `2ff31bb` | déploiement 42284265603, première tentative. Smoke 128122249689 **success, lu jusqu'au bout** (525 ok, 0 erreur ; 163 lignes « pedagogical lot-… » ; 58 lignes « diagrams … accessible title » ; journal des corrections servi ; agenda 570 sessions jusqu'au 2027-03-02) |
 | F18 : `messages` et `messages+intl-icu`, la dernière resource chargée gagne (version classique dans une application) ; contrôle `translation.several-catalogues` renforcé et prouvé par mutation ; libellés Translation 8.0.14 ; lignes de #462 | #463 | `0bbfb35` | déploiement 42291019215, première tentative. Smoke 128145729823 **success, lu jusqu'au bout** (525 ok, 0 erreur ; ligne lot-16 « the one-domain pair (F18) » ; 163 lignes « pedagogical lot-… » ; journal des corrections servi ; agenda 570 sessions jusqu'au 2027-03-02) |
+| Journal : entrée CORRECTION F18 (CVR-1gbjr1ak8qfs) ; lignes de #463 | #464 | `470cf47` | déploiement 42300825054, première tentative. Smoke 128179295834 **success, lu jusqu'au bout** (525 ok, 0 erreur ; journal des corrections servi ; ligne lot-16 F18 ; agenda 570 sessions jusqu'au 2027-03-02) |
 
 **Pièges d'examen → flashcards (2026-10-24, livré : #432, `c48317d`).** Les 788
 paragraphes « Pièges d'examen » lus contre toutes les cartes de leur item :
