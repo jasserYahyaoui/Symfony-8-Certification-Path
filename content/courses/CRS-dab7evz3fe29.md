@@ -6,6 +6,7 @@ content_level: STANDARD
 language: fr
 verification_status: VERIFIED
 reviewed_at: "2026-10-26"
+format: pedagogical
 official_sources:
   - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
     readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
@@ -30,44 +31,55 @@ outcome_sections:
 Choisir la représentation d'une ressource à partir des headers `Accept*`, et
 signaler ce choix correctement.
 
-## Le principe
+## L'essentiel
 
-Une ressource a plusieurs **représentations** — JSON ou HTML, français ou
-anglais, compressée ou non. Le client décrit ses préférences ; le serveur
-choisit. C'est la *négociation proactive*, celle que l'examen vise.
+Une ressource a plusieurs **représentations** ; le client décrit ses
+préférences dans les headers `Accept*`, le serveur choisit et l'annonce. Chaque
+préférence porte un poids `q`, à `1` par défaut. Côté Symfony, deux accessors
+ne négocient pas ce qu'on croit : `getAcceptableContentTypes()` trie sans
+spécificité, `getPreferredFormat()` lit `_format` avant `Accept`.
 
-## Les headers de Request
+## Le schéma
 
-| Header | Dimension négociée |
-|---|---|
-| `Accept` | Type de média |
-| `Accept-Language` | Langue |
-| `Accept-Encoding` | Compression |
-| `Accept-Charset` | Jeu de caractères — **déprécié par la RFC elle-même** |
-
-```http
-Accept: text/html,application/xhtml+xml,application/json;q=0.9,*/*;q=0.8
+```text
+Request   Accept (type) · Accept-Language · Accept-Encoding · Accept-Charset (déprécié)
+q         absent = 1 · 0 = refus · 0.001 = le plus faible · 3 décimales au plus
+spécificité   choisit le pattern qui fixe le q d'UN type : text/html > text/* > */*
+Response  Content-Type · Content-Language · Vary: Accept, Accept-Language   │ rien ne convient → 406
+proactive (server-driven) : le serveur choisit   │   réactive (agent-driven) : le client choisit (300)
 ```
 
-Chaque valeur porte un facteur de qualité `q` entre `0` et `1`, valant `1.0`
-par défaut. La spécificité ne départage pas deux types : elle décide **quel
-pattern fixe le `q` d'un type donné**. Pour `text/html`, c'est `text/html` avant
-`text/*`, lui-même avant `*/*` — quelles que soient les qualités écrites.
-
-## Côté Symfony
+## L'exemple : lire les préférences
 
 ```php
+// Accept: text/html,application/xhtml+xml,application/json;q=0.9,*/*;q=0.8
 $request->getAcceptableContentTypes();
 // ['text/html', 'application/xhtml+xml', 'application/json', '*/*']
-// déjà triés par préférence décroissante
 
-$request->getPreferredFormat();     // 'html', 'json'…
-$request->getRequestFormat();       // format demandé, 'html' par défaut
+$request->getPreferredFormat();     // 'html' — sauf si _format est posé
 ```
 
-## Les headers de Response
+## Le facteur de qualité, exactement
 
-Le serveur annonce son choix et déclare ce dont il a dépendu :
+- Sans `q`, le poids vaut **`1`** — pas « moins que le précédent ». Seul `q`
+  ordonne.
+- L'échelle va de `0` à `1` : **`0` signifie *not acceptable***, `0.001` est la
+  préférence la plus faible. `Accept: */*;q=0.8, image/png;q=0` veut dire
+  « tout sauf du PNG ».
+- La grammaire n'admet que **trois décimales** : `q=0.3333` est mal formé. Le
+  nom du parameter `q` est insensible à la casse.
+- La spécificité ne départage pas deux types : elle désigne **quel pattern fixe
+  le `q` d'un type donné** — pour `text/html`, `text/html` avant `text/*`, avant
+  `*/*`.
+- Pour `Accept-Language`, l'ordre d'écriture à qualité égale
+  « cannot be relied upon ». Dans `Accept-Encoding`, `identity` veut dire
+  « pas de codage ».
+
+`getAcceptableContentTypes()` trie sur la qualité décroissante, puis sur
+**l'ordre d'écriture du client** — ni sur la spécificité, ni en retirant les
+`q=0`.
+
+## Les headers de Response
 
 ```http
 Content-Type: application/json
@@ -75,58 +87,22 @@ Content-Language: fr
 Vary: Accept, Accept-Language
 ```
 
-`Vary` n'est pas facultatif dès qu'on négocie : sans lui, un cache partagé
-servira la première représentation obtenue à tous les clients suivants.
-
-Si aucune représentation ne convient, la réponse correcte est
-`406 Not Acceptable` — mais servir une représentation par défaut reste
-généralement préférable en pratique.
-
-`getAcceptableContentTypes()` trie sur la qualité décroissante puis sur
-**l'ordre d'écriture du client** — pas sur la spécificité, et sans retirer les
-items `q=0`. La règle de spécificité ci-dessus est celle de la RFC ; elle ne
-s'applique pas à cet accessor.
-
-`getPreferredFormat()` ne commence pas par négocier : il consulte d'abord
-`getRequestFormat()`, donc l'attribute `_format` de la route ou un
-`setRequestFormat()` explicite. `Accept` n'est consulté qu'à défaut — un
-`_format=xml` l'emporte sur un `Accept: application/json`.
+`Vary` n'est pas facultatif dès qu'on négocie : sans lui, un cache partagé sert
+la première représentation obtenue à tous. `Vary: *` est légal — un cache doit
+alors revalider — mais **un proxy n'a pas le droit d'en générer**. Si rien ne
+convient, `406 Not Acceptable` est conforme, même si servir une représentation
+par défaut est souvent préférable.
 
 ## Proactive contre réactive
 
-RFC 9110 définit **deux** négociations, et l'examen ne vise que la première.
+- **Proactive** (§12.1), *server-driven* : un algorithme côté serveur choisit,
+  d'après les `Accept*` **et** des caractéristiques implicites — adresse réseau,
+  morceaux de `User-Agent`. C'est celle que l'examen vise.
+- **Réactive** (§12.2), *agent-driven* : le serveur renvoie une liste
+  d'alternatives, par exemple avec `300 Multiple Choices`, et le client choisit.
 
-- **Proactive** (§12.1), dite aussi *server-driven* : le client envoie ses
-  préférences, un algorithme côté serveur choisit. La sélection s'appuie sur les
-  headers `Accept*` **et** sur des caractéristiques implicites que le texte
-  nomme — l'adresse réseau du client, des morceaux de `User-Agent`.
-- **Réactive** (§12.2), dite aussi *agent-driven* : le serveur renvoie une
-  **liste d'alternatives**, et le client choisit puis redemande. Le code `300
-  Multiple Choices` sert cela.
-
-La conséquence pratique tient en une phrase : en négociation proactive, le
-serveur décide seul et doit dire sur quoi il s'est fondé — d'où `Vary`.
-
-## Le facteur de qualité, exactement
-
-§12.4.2 fixe quatre choses qu'on croit savoir :
-
-- le nom du parameter `q` est **insensible à la casse** ;
-- l'échelle va de `0` à `1`, où **`0.001` est la préférence la plus faible** et
-  `0` signifie *not acceptable* ;
-- la grammaire n'autorise que **trois décimales** — `q=0.3333` est mal formé ;
-- en l'absence de `q`, le poids vaut `1`.
-
-Pour `Accept-Language`, la RFC ajoute un avertissement utile : certains
-destinataires traitent l'ordre d'écriture comme une priority décroissante entre
-valeurs de même qualité, « however, this behavior cannot be relied upon ».
-
-## `Vary: *`
-
-La valeur `*` est légale et signifie que d'autres aspects de la Request ont pu
-compter, « possibly including aspects outside the message syntax ». Un cache ne
-peut alors rien réutiliser sans revalider. Un **proxy**, lui, n'a pas le droit
-d'en générer : « A proxy MUST NOT generate `*` in a Vary field value ».
+Le mot *driven* du synonyme donne l'indice : *server-driven* contre
+*agent-driven*.
 
 ## Pièges d'examen
 
@@ -142,32 +118,94 @@ localement, où il n'y a pas de cache partagé.
 **`Accept` est une préférence, pas une constraint.** Un serveur peut répondre
 autre chose ; il l'annonce par `Content-Type`.
 
-## Tips d'examen
+## Application
 
-**Lire le header, pas la position.** Sans `q`, c'est `1.0` — pas « moins que le
-précédent ». Seul `q` ordonne.
+- Une API JSON qui reçoit `Accept: text/html` → `406`, ou du JSON annoncé par
+  `Content-Type`.
+- Un `_format` de route qui doit l'emporter sur `Accept` → `getPreferredFormat()`
+  le fait déjà.
 
-**`q=0` est un refus, pas une préférence faible.** La préférence faible, c'est
-`q=0.001`.
+## QCM d'entraînement
 
-**Proactive = le serveur choisit ; réactive = le client choisit** dans une liste.
-Le mot *driven* du synonyme donne l'indice : *server-driven* contre
-*agent-driven*.
+**Question 1.** Lequel de ces éléments d'un header `Accept` est **mal formé**
+selon RFC 9110 ?
 
-**Côté Symfony, deux accessors ne négocient pas ce qu'on croit.**
-`getAcceptableContentTypes()` trie sur la qualité puis sur l'ordre d'écriture —
-ni sur la spécificité, ni en retirant les `q=0`. `getPreferredFormat()` consulte
-`_format` **avant** `Accept`.
+- **A.** `text/html;q=0.001`
+- **B.** `text/html;Q=1.000`
+- **C.** `text/html;q=0`
+- **D.** `text/*;q=0.3333`
 
-## Points clés
+<details>
+<summary>Correction</summary>
 
-- Une ressource, plusieurs représentations ; le client préfère, le serveur choisit.
-- `q` par défaut `1.0` ; `q=0` refuse ; la spécificité choisit le pattern qui
-  fixe le `q` d'un type, elle n'ordonne pas deux types entre eux.
-- `getAcceptableContentTypes()` renvoie une liste déjà triée.
-- Négocier impose `Vary` ; `406` si rien ne convient.
+**Bonne réponse : D.** La grammaire de `qvalue` n'admet pas plus de trois
+décimales ; le nom `q` est insensible à la casse, et `0.001` reste valide.
 
-## Aller lire la source
+</details>
+
+**Question 2.** Que signifie `identity` dans un header `Accept-Encoding` ?
+
+- **A.** Aucun codage de contenu
+- **B.** Le même codage que la Request
+- **C.** N'importe quel codage, comme `*`
+- **D.** Un codage choisi par le proxy
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : A.** La RFC fait de `identity` un synonyme de « no
+encoding », pour dire qu'aucun codage n'est préféré.
+
+</details>
+
+**Question 3.** Le serveur renvoie une liste de représentations disponibles,
+et c'est le client qui choisit avant de redemander. Quelle négociation ?
+
+- **A.** Proactive, dite *server-driven*
+- **B.** Réactive, dite *agent-driven*
+- **C.** Transparente, gérée par le cache
+- **D.** Aucune : la RFC impose un `406`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** Dans la négociation réactive, la sélection revient au
+user agent, qui choisit dans la liste — par exemple après un `300`.
+
+</details>
+
+**Question 4.** Qui n'a **pas** le droit de générer `Vary: *` ?
+
+- **A.** Le serveur d'origine
+- **B.** Un controller Symfony
+- **C.** Un proxy
+- **D.** Personne : `*` est interdit
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : C.** La valeur `*` est légale pour le serveur d'origine ; la
+RFC interdit seulement à un proxy de l'écrire dans un `Vary`.
+
+</details>
+
+## Fiche express
+
+**Si tu dois retenir seulement 7 choses :**
+
+- Une ressource, plusieurs **représentations** ; le client préfère, le serveur
+  choisit.
+- `q` par défaut **`1`** ; **`q=0` refuse** ; `0.001` le plus faible ; 3
+  décimales.
+- La spécificité choisit le pattern qui fixe le `q` d'un type, elle n'ordonne pas deux types entre eux.
+- `getAcceptableContentTypes()` : qualité, puis **ordre d'écriture**.
+- `getPreferredFormat()` : **`_format` avant `Accept`**.
+- Négocier impose **`Vary`** ; `406` si rien ne convient.
+- Proactive = *server-driven* ; réactive = *agent-driven*.
+
+Moyen mnémotechnique : **« Le client préfère, le serveur choisit, Vary le dit »**.
+
+## Sources officielles
 
 - [RFC 9110 §12 — *Content Negotiation*](https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html#content.negotiation)
 - [`Request`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php) — `getAcceptableContentTypes()` (branche 8.0, `6f841c0`)

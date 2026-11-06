@@ -6,6 +6,7 @@ content_level: MINIMAL
 language: fr
 verification_status: VERIFIED
 reviewed_at: "2026-09-01"
+format: pedagogical
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/LICENSE"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/LICENSE"
@@ -30,49 +31,51 @@ outcome_sections:
 
 Savoir sous quelle licence Symfony est publié et ce que cette licence autorise.
 
+## L'essentiel
+
+Symfony est publié sous licence **MIT**, au nom de **Fabien Potencier**. C'est
+une licence permissive : tout usage est permis, commercial et propriétaire
+compris, à une seule condition — reproduire l'avis de copyright et le texte de
+la licence. Rien n'oblige à publier son propre code.
+
+## Le schéma
+
+```text
+LICENSE (racine de symfony/symfony)          composer.json : "license": "MIT"
+1. attribution   Copyright (c) 2004-present Fabien Potencier   ← une personne
+2. concession    use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+3. condition     les DEUX avis (copyright + licence) dans toute copie ou « substantial portion »
+4. AS IS         aucune garantie      5. aucune responsabilité des auteurs
+```
+
+## L'exemple : un produit propriétaire
+
+Une société vend une application fermée bâtie sur Symfony. Elle garde son
+code privé, le vend, peut même sous-licencier les parties de Symfony qu'elle
+redistribue — et joint à sa distribution l'avis de copyright et le texte MIT.
+
 ## La licence
 
-Symfony est publié sous licence **MIT**. La key `license` du `composer.json` du
-repository `symfony/symfony` porte la valeur `MIT`, et le file `LICENSE` à la
-racine en donne le texte, avec pour titulaire du copyright **Fabien Potencier**.
+La key `license` du `composer.json` de `symfony/symfony` vaut `MIT`, et le file
+`LICENSE` à la racine en donne le texte : `Copyright (c) 2004-present Fabien
+Potencier` — une personne physique, ni une société ni SensioLabs.
 
 ## Ce qu'elle autorise
 
-La MIT est une licence permissive. Elle accorde le droit d'utiliser, copier,
-modifier, fusionner, publier, distribuer, sous-licencier et vendre le logiciel,
-y compris dans un produit propriétaire et commercial.
-
-Elle impose une seule obligation : **reproduire l'avis de copyright et le texte
-de la licence** dans toute copie ou portion substantielle du logiciel. Le
-logiciel est fourni « en l'état », sans garantie.
-
-Ce n'est donc pas une licence *copyleft* : rien n'oblige à publier sous MIT le
-code qui utilise Symfony.
+La concession est accordée « free of charge, to any person obtaining a copy »
+et porte sur huit verbes : *use, copy, modify, merge, publish, distribute,
+sublicense, and/or sell*. « Sublicense » compte pour un éditeur : on peut
+redistribuer sous **une autre licence**.
 
 ## Le texte, clause par clause
 
-Le file `LICENSE` tient en trois paragraphes, et chacun a un rôle distinct.
-
-**L'attribution.** `Copyright (c) 2004-present Fabien Potencier` — une personne
-physique, pas une société ni la SensioLabs.
-
-**La concession.** Le droit est accordé « free of charge, to any person
-obtaining a copy », et il porte sur huit verbes : *use, copy, modify, merge,
-publish, distribute, sublicense, and/or sell*. « Sublicense » est celui qui
-compte pour un éditeur : on peut redistribuer sous **une autre licence**.
-
-**La condition, au singulier.** « The above copyright notice and this permission
-notice shall be included in all copies or **substantial portions** of the
-Software. » L'obligation porte sur les deux avis — copyright **et** licence — et
-non sur le seul nom de Symfony.
-
-**Les deux clauses finales**, souvent lues comme une seule : le logiciel est
-fourni *AS IS*, sans garantie (dont la qualité marchande et l'adéquation à un
-usage particulier), **et** les auteurs ne peuvent être tenus responsables
-d'aucun dommage. Absence de garantie et absence de responsabilité sont deux
-protections distinctes.
-
-## MIT contre copyleft
+- **La condition est au singulier** : les deux avis — copyright **et**
+  licence — dans « all copies or **substantial portions** of the Software ».
+  Copier un file significatif suffit à la déclencher ; elle ne porte pas sur le
+  seul nom de Symfony.
+- **Les deux clauses finales** sont distinctes : le logiciel est fourni *AS IS*,
+  sans garantie, **et** les auteurs ne peuvent être tenus responsables d'aucun
+  dommage.
 
 | | MIT | Copyleft (GPL et apparentées) |
 |---|---|---|
@@ -80,16 +83,6 @@ protections distinctes.
 | Publier son propre code | non exigé | exigé pour les œuvres dérivées |
 | Sous-licencier | autorisé | interdit |
 | Obligation | reproduire les deux avis | reproduire **et** partager à l'identique |
-
-## Tips d'examen
-
-**Une seule obligation, et elle est documentaire.** Reproduire l'avis de
-copyright et le texte de la licence. Rien sur le code, rien sur la publication.
-
-**« Substantial portions »**, pas « le logiciel entier » : copier un file
-significatif suffit à déclencher l'obligation.
-
-**Le titulaire est une personne.** Fabien Potencier, depuis 2004.
 
 ## Pièges d'examen
 
@@ -101,12 +94,89 @@ propriétaire et commercial compris.
 l'avis de copyright et le texte de la licence dans toute copie substantielle du
 logiciel — rien de plus.
 
-## Points clés
+## Application
 
-- Symfony est sous licence **MIT**, titulaire du copyright Fabien Potencier.
-- Usage commercial et propriétaire autorisés, sans obligation de réciprocité.
-- Seule constraint : conserver l'avis de copyright et le texte de la licence.
+- Une distribution qui embarque des files de Symfony → y joindre l'avis de
+  copyright et le texte de la licence.
+- Un audit de dependencies → lire la key `license` du `composer.json`.
+
+## QCM d'entraînement
+
+**Question 1.** Quel verbe de la concession MIT permet de redistribuer le
+logiciel sous une autre licence ?
+
+- **A.** *publish*, qui couvre toute diffusion
+- **B.** *modify*, qui transforme le texte
+- **C.** *sublicense*
+- **D.** *merge*, qui l'intègre à un autre code
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : C.** *Sublicense* autorise à accorder à son tour des droits,
+sous ses propres termes ; c'est lui qui rend possible un produit propriétaire.
+
+</details>
+
+**Question 2.** L'obligation de la MIT vaut-elle seulement quand on
+redistribue Symfony **entier** ?
+
+- **A.** Oui : seule une copie complète est visée
+- **B.** Non : une portion substantielle suffit
+- **C.** Oui, sauf usage commercial
+- **D.** Non : elle vaut même sans redistribution
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** Le texte vise « all copies or substantial portions » :
+reprendre un file significatif de Symfony suffit à imposer les deux avis.
+
+</details>
+
+**Question 3.** Que disent les deux dernières clauses de la licence ?
+
+- **A.** La même chose, répétée pour insister
+- **B.** Qu'il faut citer Symfony dans l'interface
+- **C.** Que le code dérivé doit rester sous MIT
+- **D.** Ni garantie, ni responsabilité
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : D.** *AS IS* écarte toute garantie ; la clause suivante
+exclut, à part, la responsabilité des auteurs pour tout dommage.
+
+</details>
+
+**Question 4.** Où lire la licence de Symfony sans ouvrir le file `LICENSE` ?
+
+- **A.** Dans la key `license` du `composer.json`
+- **B.** Dans `config/bundles.php`, par bundle
+- **C.** Dans le header de chaque file PHP
+- **D.** Nulle part ailleurs : `LICENSE` seul fait foi
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : A.** Le `composer.json` de `symfony/symfony` déclare `MIT`
+dans sa key `license`, celle que lisent les outils d'audit de dependencies.
+
+</details>
+
+## Fiche express
+
+**Si tu dois retenir seulement 5 choses :**
+
+- **MIT**, titulaire **Fabien Potencier**, depuis 2004.
+- Usage commercial et propriétaire **autorisés**, sans réciprocité.
+- Une seule obligation : **les deux avis**, copyright et licence.
+- « **Substantial portions** » suffit à la déclencher.
+- Aucune garantie, **et** aucune responsabilité : deux clauses.
+
+Moyen mnémotechnique : **« Tout permis, sauf d'oublier l'avis »**.
 
 ## Sources officielles
 
 - [File LICENSE de symfony/symfony (branche 8.0)](https://github.com/symfony/symfony/blob/8.0/LICENSE)
+

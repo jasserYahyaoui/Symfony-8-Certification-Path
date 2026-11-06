@@ -6,6 +6,7 @@ content_level: MINIMAL
 language: fr
 verification_status: VERIFIED
 reviewed_at: "2026-10-26"
+format: pedagogical
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Request.php"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php"
@@ -28,18 +29,25 @@ Lire la préférence linguistique du client depuis la Request HTTP.
 > route appartient à l'item *User's locale guessing* (Routing), et la translation
 > à *Internationalization and localization*.
 
-## Le header
+## L'essentiel
 
-Le client envoie ses préférences, pondérées par un facteur de qualité :
+Le client annonce ses langues dans `Accept-Language`, pondérées par `q`.
+Symfony en donne deux lectures : `getLanguages()`, la liste **normalisée** et
+triée, et `getPreferredLanguage($supported)`, qui **négocie** contre les
+locales de l'application. Le choix du locale par la route et la translation
+sont traités ailleurs (*User's locale guessing*, *Internationalization*).
 
-```http
-Accept-Language: fr-FR,fr;q=0.9,en;q=0.8,*;q=0.5
+## Le schéma
+
+```text
+Accept-Language: fr-FR,fr;q=0.9,en;q=0.8,*;q=0.5        q absent = 1.0 ; q=0 = refusé (pour la RFC)
+getLanguages()                → ['fr_FR', 'fr', 'en', '*']   tri par q, forme fr_FR, doublons retirés
+getPreferredLanguage()        → 'fr_FR'                      la 1re du client : aucune négociation
+getPreferredLanguage(['en'])  → 'en'                         1er supporté qui COMMENCE par une combinaison ;
+                                                              rien ne correspond → le 1er de la liste, jamais null
 ```
 
-Sans `q`, la default value est `1.0`. Les valeurs vont de `0` à `1`, et
-`q=0` signifie explicitement **refusé**.
-
-## Côté Symfony
+## L'exemple : choisir parmi les locales supportés
 
 ```php
 $request->getLanguages();
@@ -49,69 +57,42 @@ $request->getPreferredLanguage(['en', 'de']);
 // 'en' — le meilleur choix PARMI ceux que l'application propose
 ```
 
-`getLanguages()` normalise la casse et le séparateur : `fr-FR` devient
-`fr_FR`, la forme attendue par Symfony.
+## Le header
 
-Quand aucune langue demandée ne correspond, `getPreferredLanguage()` ne renvoie
-pas `null` : il renvoie **le premier locale de la liste fournie**, traité comme
-langue par défaut.
+```http
+Accept-Language: fr-FR,fr;q=0.9,en;q=0.8,*;q=0.5
+```
+
+Sans `q`, la default value est `1.0` ; les valeurs vont de `0` à `1`, et `q=0`
+signifie **refusé**. C'est une préférence, pas une instruction : un serveur qui
+fait varier sa Response selon ce header ajoute `Vary: Accept-Language`, sinon
+le cache partagé sert à tous la langue du premier visiteur.
 
 ## Comment Symfony normalise un tag de langue
 
-`getLanguages()` ne se contente pas de remplacer `-` par `_`. Chaque valeur
-passe par une décomposition en **trois components** — langue, écriture, région —
-puis par une recomposition :
+Chaque valeur est décomposée en **langue** (2 ou 3 lettres, ou `i-` suivi
+d'au moins cinq lettres, préfixe retiré), **écriture** (4 lettres, capitale
+initiale) et **région** (2 lettres, majuscules), puis recomposée avec `_` :
+`fr-FR` → `fr_FR`, `zh-hans` → `zh_Hans`, `fr-latn-fr` → `fr_Latn_FR`.
 
-```php
-// fr-FR      -> fr_FR
-// zh-hans    -> zh_Hans     (l'écriture prend une capitale initiale)
-// fr-latn-fr -> fr_Latn_FR  (la région passe en majuscules)
-```
-
-La grammaire reconnue est `2 ou 3 lettres` pour la langue — ou `i-` suivi
-d'au moins cinq lettres, préfixe retiré —, puis **4 lettres** optionnelles pour
-l'écriture, puis **2 lettres** optionnelles pour la région. **Ce qui suit est
-supprimé** : exécuté, `de-DE-1996` donne `de_DE`, `es-419` donne `es`,
-`zh-Hant-TW-x-private` donne `zh_Hant_TW`, `i-cherokee` donne `cherokee`.
-Une valeur dont le début n'entre pas dans ce moule — `x-klingon`, ou le `*`
-d'un `Accept-Language` — n'est pas rejetée : elle ressort en minuscules,
-inchangée. La liste est enfin dédoublonnée, donc `fr-FR,fr-fr;q=0.8` ne
-produit qu'une entrée.
+Ce qui suit est supprimé : `de-DE-1996` donne `de_DE`, `es-419` donne `es`.
+Une valeur hors de ce moule — `x-klingon`, `*` — ressort en minuscules,
+inchangée. La liste est dédoublonnée, et mémorisée au premier appel.
+Le séparateur trahit la source : `fr-FR` vient du réseau, `fr_FR` de Symfony.
 
 ## Comment `getPreferredLanguage()` choisit
 
-Avec une liste de locales supportées, la method ne compare pas des strings
-égales : elle construit pour chaque langue demandée **toutes ses combinaisons**,
-de la plus précise à la plus générale, et retient le premier locale supporté qui
-**commence par** l'une d'elles.
-
-Pour `fr_Latn_FR`, les combinaisons sont, dans cet ordre :
+Pour chaque langue demandée, la method construit **toutes ses combinaisons**,
+de la plus précise à la plus générale, et retient le premier locale supporté
+qui **commence par** l'une d'elles :
 
 ```text
 fr_Latn_FR  ->  fr_Latn  ->  fr_FR  ->  fr
 ```
 
-Deux conséquences que l'examen peut viser :
-
-- un client demandant `fr` obtient `fr_CA` si c'est le premier locale supporté
-  de la liste — **l'ordre de votre liste départage**, pas une proximité
-  linguistique ;
-- la comparaison est un **préfixe**, pas une égalité : `fr` sélectionne le
-  premier supporté commençant par `fr`.
-
-## Tips d'examen
-
-**Trois sorties, un seul nom de method.** `getPreferredLanguage()` rend la
-première langue *du client* sans argument ; avec une liste, le premier locale
-*correspondant* ; et si rien ne correspond, **le premier de la liste**. Jamais
-`null` dès qu'on lui passe une liste.
-
-**Le séparateur trahit la source.** `fr-FR` vient du réseau, `fr_FR` de
-Symfony : voir un tiret dans du code applicatif signale une valeur non
-normalisée.
-
-**Négocier la langue impose `Vary: Accept-Language`.** Sans lui, le premier
-visiteur fixe la langue servie à tous les suivants par le cache partagé.
+C'est un **préfixe**, pas une égalité, et **l'ordre de votre liste départage** :
+un client qui demande `fr` obtient `fr_CA` avec `['fr_CA', 'fr_FR']`, `fr_FR`
+avec l'ordre inverse.
 
 ## Pièges d'examen
 
@@ -130,14 +111,92 @@ légitimement répondre dans une autre langue ; il l'indique alors par
 `Content-Language`, et doit ajouter `Vary: Accept-Language` s'il fait varier la
 Response selon ce header.
 
-## Points clés
+## Application
 
-- `Accept-Language` porte des locales pondérées par `q` (défaut `1.0`).
-- `getLanguages()` renvoie la liste triée, normalisée en `fr_FR`.
-- `getPreferredLanguage($supported)` négocie ; sans argument, non.
-- Varier selon la langue impose `Vary: Accept-Language`.
+- Une application en `en` et `fr` → `getPreferredLanguage(['en', 'fr'])`, avec
+  `en` en premier comme langue par défaut.
+- Une page dont la langue dépend du client → `Vary: Accept-Language`.
 
-## Aller lire la source
+## QCM d'entraînement
+
+**Question 1.** La Request porte `Accept-Language: es-419`. Que rend
+`getLanguages()` ?
+
+- **A.** `['es_419']`
+- **B.** `['es']`
+- **C.** `['es-419']`, inchangé
+- **D.** `[]` : la région numérique est rejetée
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** La grammaire n'admet qu'une région de deux lettres ;
+ce qui suit la langue sans y entrer est supprimé, et seule `es` reste.
+
+</details>
+
+**Question 2.** Le client demande `fr`. Que rend
+`getPreferredLanguage(['fr_CA', 'fr_FR'])` ?
+
+- **A.** `fr_CA`
+- **B.** `fr_FR`, la région la plus proche
+- **C.** `fr`, la valeur demandée
+- **D.** `null` : aucune égalité exacte
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : A.** La comparaison est un préfixe, et le premier locale de
+la liste qui commence par `fr` l'emporte : l'ordre de la liste décide.
+
+</details>
+
+**Question 3.** `Accept-Language: ja, en;q=0.5`. L'application, qui ne parle
+pas japonais, appelle `getPreferredLanguage()` sans argument. Résultat ?
+
+- **A.** `en`, la seule langue servie
+- **B.** `null`
+- **C.** Une exception : la liste est requise
+- **D.** `ja`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : D.** Sans liste, rien n'est négocié : la method rend la
+première langue du client, que l'application sache la servir ou non.
+
+</details>
+
+**Question 4.** Le code appelle `getLanguages()`, modifie ensuite le header
+`Accept-Language`, puis rappelle `getLanguages()`. Que rend le second appel ?
+
+- **A.** La nouvelle liste, relue dans le header
+- **B.** La liste du premier appel
+- **C.** Une liste vide : le cache est invalidé
+- **D.** Les deux listes, fusionnées et triées
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** La liste est calculée une fois puis mémorisée dans la
+Request ; changer le header ensuite ne la recalcule pas.
+
+</details>
+
+## Fiche express
+
+**Si tu dois retenir seulement 6 choses :**
+
+- `q` absent = **1.0** ; `q=0` refuse — mais Symfony **ne l'écarte pas**.
+- `getLanguages()` : triée, normalisée en **`fr_FR`**, dédoublonnée.
+- Langue, écriture, région ; **le reste est supprimé** (`es-419` → `es`).
+- `getPreferredLanguage()` **sans liste** ne négocie rien.
+- Avec une liste : **préfixe** et **ordre de la liste** ; jamais `null`.
+- Négocier la langue impose **`Vary: Accept-Language`**.
+
+Moyen mnémotechnique : **« Tiret du réseau, souligné de Symfony »**.
+
+## Sources officielles
 
 - [`Request`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Request.php) — `getLanguages()`, `getPreferredLanguage()`
   (branche 8.0, `6f841c0`)

@@ -1177,7 +1177,7 @@ pitfalls:
   verdict: COVERED
   card: FLC-3tts21dfmvcj
 - course: CRS-9g4qrgfs7nm4
-  key: 9716a2d283c8
+  key: eb099bf07f29
   excerpt: '**`setXXX()` et `replaceXXX()` diffèrent par un droit.** Seul le premier peut ajouter ; le'
   verdict: COVERED
   card: FLC-wbxabshyxyh7

@@ -6,6 +6,7 @@ content_level: STANDARD
 language: fr
 verification_status: VERIFIED
 reviewed_at: "2026-10-26"
+format: pedagogical
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/filesystem.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/components/filesystem.rst"
@@ -43,126 +44,80 @@ Manipuler files et directories avec un comportement uniforme entre systèmes,
 et surtout : **des erreurs qui lèvent une exception** au lieu de rendre `false`
 silencieusement comme les functions natives de PHP.
 
-## Prérequis
+## L'essentiel
 
-Les exceptions PHP.
+Le component Filesystem manipule files et directories avec un comportement
+uniforme, et surtout **des erreurs qui lèvent une exception** au lieu de
+rendre `false` en silence. Deux classes : `Filesystem` agit sur le disque,
+`Path` calcule des strings de path sans y toucher.
 
-## Deux classes, deux roles
+## Le schéma
 
-| Class | Ce qu'elle fait |
-|---|---|
-| `Filesystem` | agit sur le disque — créer, copier, supprimer |
-| `Path` | manipule des **strings** de path, sans toucher au disque |
+```text
+Filesystem   mkdir (récursif, existant ignoré, umask) · copy · remove (array, fichiers + dossiers + liens)
+             rename(…, true) pour écraser · symlink · mirror
+écrire       dumpFile : atomique, crée les dossiers │ appendToFile : ajoute, lock optionnel
+lire         readFile : IOException au lieu de false (fichier absent, dossier)
+erreurs      IOExceptionInterface::getPath() — null pour readFile() sur un dossier
+Path         canonicalize · join · makeRelative … sans toucher au disque ; "\" et "C:" seulement sous Windows
+```
 
-La distinction est utile : `Path::normalize()` ne vérifie pas qu'un path
-existe, elle en réécrit la forme.
-
-## Les opérations à connaître
+## L'exemple : publier un rapport
 
 ```php
 $filesystem = new Filesystem();
-
-$filesystem->mkdir('/tmp/photos', 0700);
-$filesystem->exists('/tmp/photos');
-$filesystem->copy('source.txt', 'cible.txt');
-$filesystem->remove(['lien', '/un/repertoire', 'activity.log']);
-$filesystem->rename('/tmp/a.ogg', '/stock/b.ogg', true);
-$filesystem->symlink('/source', '/destination');
-$filesystem->mirror('/source', '/cible');
-```
-
-Trois comportements méritent d'être retenus :
-
-- **`mkdir()` crée récursivement**, avec le mode `0777` par défaut sur les
-  systèmes POSIX — et **ignore un directory déjà existant** plutôt que
-  d'échouer. Le mode réel subit le `umask` courant ;
-- **`remove()` supprime files, directories et liens** indifféremment ;
-- **`mkdir()` et `remove()` acceptent un array** ou tout `Traversable`.
-
-`rename()` échoue si la cible existe, sauf troisième argument à `true`.
-
-Exécuté sur Filesystem 8.0.15, `umask` à `022` :
-
-| Appel | Résultat |
-|---|---|
-| `mkdir('a/b/c')` | trois niveaux créés, mode `0755` (0777 moins le `umask`) |
-| `mkdir()` sur l'existant | aucune exception |
-| `rename()` sur une cible existante | `IOException` |
-| même appel avec `true` | la cible est remplacée |
-| `dumpFile('x/y/f.txt', …)` | `x/y` créé au passage |
-
-`symlink()` accepte un troisième argument qui **duplique le directory** au lieu
-de créer le lien — sous Windows seulement : le code le nomme `$copyOnWindows`.
-La documentation dit « si le filesystem ne gère pas les liens » ;
-exécuté sous Linux avec `true`, c'est bien un lien qui est créé.
-
-## Écrire et lire
-
-Trois methods, trois garanties différentes :
-
-```php
-$filesystem->dumpFile('file.txt', 'Hello World');
-$filesystem->appendToFile('logs.txt', 'ligne', true);
-$contents = $filesystem->readFile('/chemin/file.txt');
-```
-
-**`dumpFile()` est atomique.** Elle écrit un file temporaire puis le déplace :
-un lecteur simultané voit **soit l'ancien file complet, soit le nouveau
-complet**, jamais un file à moitié écrit. Elle crée aussi le file et son
-directory au besoin.
-
-**`appendToFile()`** ajoute à la fin, crée file et directory s'ils manquent,
-et accepte un troisième argument pour **verrouiller** pendant l'écriture.
-
-**`readFile()` lève une exception** là où `file_get_contents()` rendrait
-`false` — quand le path n'est pas lisible, et quand on lui passe un
-directory. Exécuté sur un file absent et sur un directory : `IOException`
-dans les deux cas.
-
-## Les paths, sans toucher au disque
-
-`Path` couvre la canonicalisation, la jointure, la conversion
-absolu/relatif et la recherche de base commune. `Filesystem` expose de son côté
-`isAbsolutePath()` et `makePathRelative()`, qui prend **deux paths absolus**
-et rend le path relatif du second vers le premier.
-
-## Les erreurs
-
-Tout échec lève une exception implémentant `ExceptionInterface` ou
-`IOExceptionInterface`. Cette dernière expose **`getPath()`**, qui dit sur quel
-path l'opération a échoué.
-
-```php
 try {
-    $filesystem->mkdir($dir);
+    $filesystem->mkdir('/var/reports', 0700);
+    $filesystem->dumpFile('/var/reports/today.html', $html);   // un lecteur voit l'ancien ou le nouveau, entier
+    $filesystem->appendToFile('/var/log/reports.log', "ok\n", true);
 } catch (IOExceptionInterface $e) {
-    echo "Échec sur ".$e->getPath();
+    echo 'Échec sur '.$e->getPath();
 }
 ```
 
-C'est le gain réel du component : une erreur ne peut pas passer inaperçue.
+## Les opérations à connaître
 
-Une réserve, lue dans `Filesystem::readFile()` (8.0) et exécutée : sur un
-**directory**, l'`IOException` est construite **sans path** — `getPath()`
-rend `null`, le path ne figure que dans le message. Pour un file illisible,
-le code passe le path à l'exception, et `getPath()` le rend.
+| Appel | Résultat (umask 022) |
+|---|---|
+| `mkdir('a/b/c')` | trois niveaux, mode `0755` (0777 moins le `umask`) |
+| `mkdir()` sur l'existant | aucune exception |
+| `rename()` sur une cible existante | `IOException` ; avec `true`, la cible est remplacée |
+| `remove(['lien', '/un/dossier', 'f.log'])` | files, directories et liens |
+
+`mkdir()` et `remove()` acceptent un array ou tout `Traversable`.
+`symlink()` a un troisième argument qui duplique le directory au lieu de
+créer le lien — sous Windows seulement : le code le nomme `$copyOnWindows`.
+Exécuté sous Linux avec `true`, c'est bien un lien qui est créé.
+
+## Écrire et lire
+
+- **`dumpFile()` est atomique** : file temporaire, puis déplacement. Elle
+  crée le file et son directory au besoin.
+- **`appendToFile()`** ajoute à la fin, crée file et directory s'ils manquent,
+  et accepte un troisième argument pour **verrouiller** l'écriture.
+- **`readFile()` lève une `IOException`** là où `file_get_contents()` rendrait
+  `false` : file absent, ou directory.
+
+## Les erreurs
+
+Tout échec lève une exception `ExceptionInterface` ou `IOExceptionInterface`,
+dont **`getPath()`** dit sur quel path l'opération a échoué. Exception
+exécutée : `readFile()` sur un directory construit l'exception sans path —
+`getPath()` rend `null`, le path n'est que dans le message.
 
 ## Un environment de test portable
 
-Exécuté sous Linux avec Filesystem 8.0.15 :
-
-| Appel | Résultat |
+| Appel (Linux) | Résultat |
 |---|---|
 | `Path::canonicalize('/var/www/../log/./x')` | `/var/log/x` |
 | `Path::join('a', '/b', 'c/')` | `a/b/c` |
 | `Path::canonicalize('a\\b/../c')` | `c` : sous Unix, `\` est un caractère de nom |
-| `isAbsolutePath('c:\\Windows')` | `false` |
-| `tempnam($dir, 'test_', '.txt')` | un file vide, au nom unique |
+| `isAbsolutePath('c:\\Windows')` | `false` : `C:` n'est une racine que sous Windows |
+| `makePathRelative('/var/lib/symfony/src/Symfony/', '/var/lib/symfony/src/Symfony/Component')` | `../` |
+| `tempnam($dir, 'test_', '.txt')` | un file vide au nom unique, `test_….txt` |
 
-Le code ne lit `\` et `C:` comme séparateur et racine que si
-`DIRECTORY_SEPARATOR` vaut `\` : la documentation montre `true` pour
-`c:\Windows`, ce que rend Windows — lu dans `Path::isAbsolute()`. Un test portable écrit donc ses paths avec
-`/`, travaille sous `sys_get_temp_dir()` et nettoie par `remove()`.
+Un test portable écrit ses paths avec `/`, travaille sous
+`sys_get_temp_dir()` et nettoie par `remove()`.
 
 ## Pièges d'examen
 
@@ -180,15 +135,92 @@ pour `readFile()` sur un directory, où il rend `null`.
 
 **`Path` ne touche pas au disque.**
 
-## Points clés
+## Application
 
-- `Filesystem` agit, `Path` calcule des strings.
-- `mkdir()` récursive, mode 0777 par défaut, existant ignoré, `umask` appliqué.
-- `dumpFile()` atomique ; `appendToFile()` avec lock optionnel ;
-  `readFile()` lève au lieu de rendre `false`.
-- Échec = exception `IOExceptionInterface`, avec `getPath()`.
+- Un file de configuration lu par d'autres process pendant qu'on l'écrit
+  → `dumpFile()`.
+- Un journal écrit par plusieurs workers → `appendToFile($f, $l, true)`.
+
+## QCM d'entraînement
+
+**Question 1.** Que rend `Path::join('a', '/b', 'c/')` ?
+
+- **A.** `/b/c`, le path absolu l'emporte
+- **B.** `a//b/c/`
+- **C.** `a/b/c`
+- **D.** Une exception : un segment est absolu
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : C.** `join()` assemble les segments et normalise les
+séparateurs, sans toucher au disque ni traiter `/b` comme une racine.
+
+</details>
+
+**Question 2.** `appendToFile('logs/2026/app.log', 'ligne')` est appelé, et
+`logs/` n'existe pas. Que se passe-t-il ?
+
+- **A.** Une `IOException` : le directory manque
+- **B.** Les directories et le file sont créés
+- **C.** Rien : la ligne est perdue
+- **D.** Le file est créé à la racine du projet
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** `appendToFile()`, comme `dumpFile()`, crée le file et
+ses directories manquants avant d'écrire.
+
+</details>
+
+**Question 3.** Que rend
+`makePathRelative('/var/lib/symfony/src/Symfony/', '/var/lib/symfony/src/Symfony/Component')` ?
+
+- **A.** `Component/`
+- **B.** `/var/lib/symfony/src/Symfony/`
+- **C.** `./`
+- **D.** `../`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : D.** La method rend le path relatif du second argument
+vers le premier : depuis `Component`, on remonte d'un niveau.
+
+</details>
+
+**Question 4.** Un test appelle `$fs->tempnam($dir, 'test_', '.txt')`. Que
+crée-t-il ?
+
+- **A.** Un file vide, au nom unique
+- **B.** Un directory temporaire
+- **C.** Rien : la method rend seulement un nom
+- **D.** Un file `test_.txt`, écrasé à chaque appel
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : A.** Le file existe aussitôt, vide, avec le préfixe et le
+suffixe demandés : deux appels ne se marchent pas dessus.
+
+</details>
+
+## Fiche express
+
+**Si tu dois retenir seulement 6 choses :**
+
+- `Filesystem` **agit**, `Path` **calcule** sans toucher au disque.
+- `mkdir()` **récursive**, existant ignoré, `umask` appliqué.
+- `dumpFile()` **atomique** ; `appendToFile()` avec **lock** optionnel.
+- `readFile()` **lève** au lieu de rendre `false`.
+- `IOExceptionInterface::getPath()` — `null` pour un directory lu.
+- `rename(…, true)` pour écraser ; `remove()` prend un array.
+
+Moyen mnémotechnique : **« Agir sur le disque, calculer sur les strings »**.
 
 ## Sources officielles
 
 - [The Filesystem Component](https://github.com/symfony/symfony-docs/blob/8.0/components/filesystem.rst)
 - [`Filesystem`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Filesystem/Filesystem.php)
+

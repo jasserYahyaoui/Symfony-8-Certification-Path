@@ -5208,7 +5208,41 @@ jobs:
                       'lot-12/options-and-arguments-using-php-attributes|type et default value|La signature décide|Fiche express' \
                       'lot-12/built-in-commands|savoir abréger un nom|Lister, inspecter, vider, valider|Fiche express' \
                       'lot-12/configuration|sans construire la class|Un ancien nom à garder|Fiche express' \
-                      'lot-12/console-events|elle ne dispatche rien sans|Avant, erreur, après|Fiche express'; do
+                      'lot-12/console-events|elle ne dispatche rien sans|Avant, erreur, après|Fiche express' \
+                      'lot-13/functional-tests-with-phpunit|qui ajoute un client à|Request, clic, assertion, encore|Fiche express' \
+                      'lot-13/unit-tests-with-phpunit|place tient en un package|Vérifier que deux services réels coopèrent|Fiche express' \
+                      'lot-15/deployment-best-practices|Deux commands sont à connaître|Une image de production sans|Fiche express' \
+                      'lot-15/web-profiler-web-debug-toolbar-and-data-collectors|la stocke sous un token|hors redirect et XHR|Fiche express' \
+                      'lot-16/internationalization-and-localization-note-intl-component-utilities-to-access-icu-data-are-not-included|syntaxes de placeholder coexistent|les deux keys seules|Fiche express' \
+                      'lot-17/http-caching-reverse-proxies-expiration-validation-note-esi-edge-side-includes-is-not-included|Par-dessus le protocole HTTP|un reverse proxy en PHP|Fiche express' \
+                      'lot-18/cache|Le reste de la page|un namespace par pool|Fiche express' \
+                      'lot-19/clock|Le component Clock existe pour|accepte une clock PSR-20|Fiche express' \
+                      'lot-20/event|elle sait seulement arrêter|ou tout mettre dans un sac|Fiche express' \
+                      'lot-20/eventdispatcher|qui se déclare lui-même|Le plus haut parle en premier|Fiche express' \
+                      'lot-21/filesystem|pour un directory lu|Un journal écrit par plusieurs workers|Fiche express' \
+                      'lot-21/finder|cherche files et directories par|Trier pour un ordre stable|Fiche express' \
+                      'lot-22/mailer|Mailer envoie un message par un|Premier transport par défaut|Fiche express' \
+                      'lot-22/mime|se réserve aux cas rares|pour les besoins rares|Fiche express' \
+                      'lot-23/process|la forme de la command|escaping à votre charge|Fiche express' \
+                      'lot-24/propertyaccess|un path absent rend|si la key manque|Fiche express' \
+                      'lot-25/runtime|Un compteur de visites à incrémenter|dans le kernel ou un listener|Fiche express' \
+                      'lot-26/serializer|Une serialization se fait en|pas par un normalizer nu|Fiche express' \
+                      'lot-02/status-codes|il donne la class|un code inconnu vaut son|Fiche express' \
+                      'lot-02/http-specification-rfc-9110|chaque version de transport ont leur propre RFC|la trame va dans 9112|Fiche express' \
+                      'lot-02/language-detection|Le client annonce ses langues dans|le reste est supprimé|Fiche express' \
+                      'lot-02/http-methods|Trois properties indépendantes classent une method|Toute method sûre est idempotente|Fiche express' \
+                      'lot-02/cookies|pose déjà des défauts sûrs|avec les mêmes path et domain|Fiche express' \
+                      'lot-02/caching|serveur si sa copie vaut encore|Expirer épargne des Requests|Fiche express' \
+                      'lot-02/content-negotiation|le client décrit ses|Une API JSON qui reçoit|Fiche express' \
+                      'lot-02/http-response|ou une sous-classe spécialisée|Un endpoint qui crée une ressource|Fiche express' \
+                      'lot-02/http-request|Trois sacs sont des|Une application derrière un load balancer|Fiche express' \
+                      'lot-02/symfony-httpclient-component|rend la main tout de suite|ne lève pas sur un statut|Fiche express' \
+                      'lot-03/license|tout usage est permis|Un audit de dependencies|Fiche express' \
+                      'lot-03/naming-conventions|Les standards de Symfony fixent la|Un attribute qui déclare un subscriber|Fiche express' \
+                      'lot-03/httpfoundation-component|le framework dépend de lui|est le seul à lever|Fiche express' \
+                      'lot-03/framework-interoperability-and-psrs|La source qui fait|Une bibliothèque qui attend un|Fiche express' \
+                      'lot-03/symfony-flex|il change ce que font|recense les recipes et se committe|Fiche express' \
+                      'lot-03/code-organization|Chaque directory se déplace|dans cet environment seulement|Fiche express'; do
             page=${spec%%|*}
             out="/tmp/ped-${page//\//-}"
             code=$(curl -sL --retry 5 --retry-delay 5 --retry-all-errors \

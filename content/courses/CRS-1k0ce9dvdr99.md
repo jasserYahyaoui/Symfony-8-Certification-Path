@@ -6,6 +6,7 @@ content_level: STANDARD
 language: fr
 verification_status: VERIFIED
 reviewed_at: "2026-10-24"
+format: pedagogical
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_cache.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/http_cache.rst"
@@ -51,138 +52,15 @@ Savoir ce que Symfony apporte **par-dessus** le protocole : un reverse proxy
 écrit en PHP, un attribute déclaratif, et une trace pour comprendre pourquoi une
 Response a été servie du cache ou non.
 
-## Périmètre
+## L'essentiel
 
-**ESI (Edge Side Includes) est hors du périmètre de l'examen** ; cette page ne
-le traite pas.
+Par-dessus le protocole HTTP, Symfony apporte un **reverse proxy écrit en
+PHP**, activé par une option ; un attribute **`#[Cache]`** qui déclare la
+politique d'une action ; et une trace, **`X-Symfony-Cache`**, qui dit pourquoi
+une Response vient du cache ou non. Le cache ne vaut que pour les safe
+methods, et sa key est l'URI. ESI est hors périmètre.
 
-La **sémantique des headers** — `max-age`, `s-maxage`, `public`, `private`,
-`Vary` — appartient à l'item *Caching* du sujet HTTP : cette page la suppose
-acquise, et montre comment Symfony pose et honore ces headers.
-
-## Prérequis
-
-*Caching* (HTTP) : expiration, validation, et les directives de `Cache-Control`.
-
-## Le reverse proxy de Symfony
-
-Un *gateway cache* est un cache partagé placé devant l'application. Symfony en
-fournit un, **écrit en PHP**, activé par une option :
-
-```yaml
-when@prod:
-    framework:
-        http_cache: true
-```
-
-Le kernel se comporte alors immédiatement en reverse proxy : il stocke les
-Responses de l'application et les ressert au client.
-
-Deux points que la documentation souligne :
-
-- il **n'est pas** un reverse proxy complet comme Varnish, et n'atteindra pas
-  la vitesse d'un proxy écrit en C ;
-- mais tous les reverse proxies étant équivalents dans leur principe, passer
-  au suivant se fait sans changer l'application. C'est l'argument réel :
-  l'application parle HTTP, pas « Symfony ».
-
-Il est activé sous `when@prod` parce qu'un cache devant l'application masque les
-changements pendant le développement.
-
-## Lire ce que le cache a fait
-
-En mode debug, Symfony ajoute un header **`X-Symfony-Cache`** à la Response. En
-dehors, l'option `trace_level` le contrôle :
-
-| Valeur | Effet |
-|---|---|
-| `none` | aucune trace |
-| `short` | la main Request seulement, en une forme concise |
-| `full` | le détail |
-
-`short` est conçue pour être enregistrée dans les journaux du serveur — dans
-Apache, `%{X-Symfony-Cache}o` — afin de mesurer l'efficacité du cache route par
-route. Le nom du header se change par `trace_header`.
-
-Exécuté (HttpKernel 8.0.15), deux `GET` sur une route `public, max-age=60` : en debug,
-`miss, store` puis `fresh` ; sans debug, la seconde Response vient aussi du
-cache, mais **sans** header — `trace_level` vaut `none` par défaut hors debug.
-
-## Déclarer plutôt que construire
-
-L'attribute `#[Cache]`, de `Symfony\Component\HttpKernel\Attribute\Cache`, pose
-la politique sur l'action :
-
-```php
-use Symfony\Component\HttpKernel\Attribute\Cache;
-
-#[Cache(public: true, maxage: 3600, mustRevalidate: true)]
-public function index(): Response
-{
-    return $this->render('blog/index.html.twig');
-}
-```
-
-La règle de priority est explicite dans la documentation et vaut d'être
-retenue : **les headers posés dans le controller l'emportent sur ceux
-configurés par l'attribute.** L'attribute fixe une politique par défaut ; le code
-peut la contredire. Exécuté : `#[Cache(maxage: 60)]` et `setMaxAge(10)` dans
-l'action donnent `max-age=10`.
-
-## Poser plusieurs réglages d'un coup
-
-```php
-$response->setCache([
-    'public'          => true,
-    'max_age'         => 600,
-    's_maxage'        => 600,
-    'must_revalidate' => false,
-    'immutable'       => true,
-    'last_modified'   => new \DateTime(),
-    'etag'            => 'abcdef',
-]);
-```
-
-Les mêmes réglages existent sur l'attribute `#[Cache]`, mais en camelCase :
-`maxage`, `smaxage`, `mustRevalidate`, `lastModified`.
-
-Deux methods complètent l'ensemble :
-
-```php
-$response->expire();          // marque la réponse périmée
-$response->setNotModified();  // force un 304 sans contenu
-```
-
-## Ce que le cache ne fera pas
-
-**La key de cache est l'URI de la Request** — sauf variation déclarée ; pour la
-method `QUERY`, l'URI plus le body (`Store`, 8.0). Une entrée `public` sert
-tout le monde : exécuté, Bob reçoit la page d'Alice. Sinon, une Request
-portant `Cookie` ou `Authorization` rend la Response `private`, jamais
-stockée.
-
-**Le cache HTTP ne vaut que pour les safe methods.** Trois conséquences que la
-documentation énonce :
-
-- ne pas tenter de mettre en cache `PUT` ou `DELETE` — ces methods modifient
-  l'état, les cacher empêcherait la modification d'atteindre l'application ;
-- `POST` est généralement considérée non cachable ; elle peut l'être avec une
-  information de fraîcheur explicite, mais l'implémentation est peu répandue et
-  la documentation conseille de l'éviter ;
-- ne **jamais** modifier l'état sur un `GET` ou un `HEAD` : si la Response est
-  cachée, les Requests suivantes n'atteindront pas le serveur.
-
-La documentation ne cite que `GET` et `HEAD` ; en 8.0,
-`Request::isMethodCacheable()` retient aussi `QUERY`.
-Exécuté : deux `QUERY` de même corps, `fresh` ; un autre corps, `miss` ; un
-`POST` à `max-age=60`, `pass, invalidate` à chaque fois.
-
-**L'invalidation à la demande ne fait pas partie de la spécification HTTP.**
-Elle est utile, Symfony la rend possible, mais elle sort du protocole — c'est
-pourquoi le modèle d'expiration seul oblige à attendre l'échéance pour voir un
-contenu modifié.
-
-## Schéma
+## Le schéma
 
 ```mermaid
 ---
@@ -213,6 +91,62 @@ flowchart TD
   VAL -->|"non"| INVALID["invalid, puis store si cachable"]
 ```
 
+## L'exemple : une page publique d'une heure
+
+```yaml
+when@prod:
+    framework:
+        http_cache: true
+```
+
+```php
+use Symfony\Component\HttpKernel\Attribute\Cache;
+
+#[Cache(public: true, maxage: 3600, mustRevalidate: true)]
+public function index(): Response
+{
+    return $this->render('blog/index.html.twig');
+}
+```
+
+## Le reverse proxy de Symfony
+
+- `framework.http_cache: true` suffit : le kernel stocke les Responses et les
+  ressert. Sous `when@prod`, parce qu'un cache masquerait les changements
+  pendant le développement.
+- Ce n'est pas Varnish, ni aussi rapide qu'un proxy écrit en C ; mais
+  l'application ne parle que HTTP, et passer à un autre proxy ne la change pas.
+- En debug, le header **`X-Symfony-Cache`** trace chaque décision (`miss,
+  store` puis `fresh`) ; hors debug, `trace_level` vaut `none`. `short`, conçu
+  pour les journaux du serveur, ne trace que la main Request ; `full`, tout ;
+  `trace_header` renomme le header.
+
+## Déclarer plutôt que construire
+
+- `#[Cache]` pose une politique par défaut ; **les headers posés dans le
+  controller l'emportent** : `#[Cache(maxage: 60)]` et `setMaxAge(10)` donnent
+  `max-age=10`.
+- L'attribute écrit ses options en camelCase (`maxage`, `smaxage`,
+  `mustRevalidate`, `lastModified`) ; `$response->setCache([...])` les mêmes
+  en snake_case (`max_age`, `s_maxage`, `must_revalidate`, `etag`).
+- `$response->expire()` marque la Response périmée ;
+  `$response->setNotModified()` en fait un 304 sans contenu.
+
+## Ce que le cache ne fera pas
+
+- **La key de cache est l'URI**, query string normalisée : `?b=2&a=1` et
+  `?a=1&b=2` partagent leur entrée. Pour `QUERY`, le body entre aussi dans la
+  key.
+- Une entrée `public` sert tout le monde : exécuté, Bob reçoit la page d'Alice.
+  Sinon, une Request avec `Cookie` ou `Authorization` rend la Response
+  `private`, jamais stockée.
+- **Safe methods seulement** : jamais `PUT` ou `DELETE` ; ne jamais modifier
+  l'état sur un `GET` ou un `HEAD`. En 8.0, `Request::isMethodCacheable()`
+  retient aussi `QUERY`. Exécuté, un `POST` à `max-age=60` donne
+  `pass, invalidate` à chaque fois.
+- **L'invalidation à la demande n'est pas dans la spécification HTTP** : avec
+  l'expiration seule, il faut attendre l'échéance.
+
 ## Pièges d'examen
 
 **`framework.http_cache: true` suffit** à activer le proxy ; aucune class à
@@ -230,14 +164,93 @@ n'impose que celle qui suit une method non sûre réussie.
 
 **`X-Symfony-Cache` n'apparaît qu'en debug** ou si `trace_level` le demande.
 
-## Points clés
+## Application
 
-- `framework.http_cache: true` active un reverse proxy écrit en PHP,
-  remplaçable par Varnish sans toucher à l'application.
-- `X-Symfony-Cache` et `trace_level` expliquent un succès ou un échec de cache.
-- `#[Cache]` déclare la politique ; le controller prime sur elle.
-- `setCache()` en un appel, `expire()` et `setNotModified()` en complément.
-- URI comme key, safe methods seulement, invalidation à la demande hors protocole.
+- Mesurer l'efficacité du cache route par route → `trace_level: short`, et le
+  header dans le journal d'Apache.
+- Une action qui doit rester une heure en cache sauf exception → `#[Cache]`,
+  et `setMaxAge()` dans le code pour l'exception.
+
+## QCM d'entraînement
+
+**Question 1.** Un développeur écrit `#[Cache(max_age: 600)]` sur une action.
+Que se passe-t-il ?
+
+- **A.** `max-age=600`, comme avec `setCache()`
+- **B.** Une `Error` : parameter nommé inconnu
+- **C.** L'option est ignorée sans erreur
+- **D.** `s-maxage=600`, par défaut partagé
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** L'attribute écrit `maxage` en camelCase ; le snake_case
+`max_age` est celui des options de `setCache()`.
+
+</details>
+
+**Question 2.** Une page `public, max-age=60` est demandée en
+`/search?b=2&a=1`, puis en `/search?a=1&b=2`. Que trace la seconde Request ?
+
+- **A.** `miss, store` : l'URI diffère
+- **B.** `pass` : une query string n'est jamais cachée
+- **C.** `fresh`
+- **D.** `stale, invalid` : l'entrée est remplacée
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : C.** L'URI sert de key après normalization de la query
+string, triée : les deux Requests partagent la même entrée.
+
+</details>
+
+**Question 3.** Les opérations veulent que le header de trace s'appelle
+`X-Cache` au lieu de `X-Symfony-Cache`. Quelle option ?
+
+- **A.** `trace_header`
+- **B.** `trace_level: header`
+- **C.** `cache_header_name`
+- **D.** Aucune : le nom est figé
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : A.** `trace_level` choisit le détail de la trace, et
+`trace_header` le nom du header qui la porte.
+
+</details>
+
+**Question 4.** Pourquoi la documentation active-t-elle `http_cache` sous
+`when@prod` ?
+
+- **A.** Le proxy PHP ne fonctionne pas en debug
+- **B.** Pour voir ses changements en dev
+- **C.** `when@dev` ne peut pas contenir `framework`
+- **D.** Les tests exigent qu'il soit désactivé
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** En développement, on veut voir chaque modification ;
+un cache resservirait l'ancienne Response jusqu'à son échéance.
+
+</details>
+
+## Fiche express
+
+**Si tu dois retenir seulement 7 choses :**
+
+- **`framework.http_cache: true`** : un reverse proxy en PHP, remplaçable.
+- **`X-Symfony-Cache`** en debug ; sinon `trace_level` (`none`, `short`,
+  `full`), `trace_header`.
+- `#[Cache]` déclare ; **le controller l'emporte**.
+- Attribute en camelCase, `setCache()` en snake_case.
+- Key : **l'URI**, query normalisée ; body compris pour `QUERY`.
+- **Safe methods** seulement ; `Cookie` ou `Authorization` → `private`.
+- Invalidation à la demande : **hors HTTP**.
+
+Moyen mnémotechnique : **« Activer, déclarer, tracer »**.
 
 ## Sources officielles
 
@@ -245,3 +258,4 @@ n'impose que celle qui suit une method non sûre réussie.
 - [HTTP Cache Validation](https://github.com/symfony/symfony-docs/blob/8.0/http_cache/validation.rst)
 - [HTTP Cache Expiration](https://github.com/symfony/symfony-docs/blob/8.0/http_cache/expiration.rst)
 - [`HttpCache\Store`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/HttpCache/Store.php)
+

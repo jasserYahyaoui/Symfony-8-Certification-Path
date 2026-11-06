@@ -6,6 +6,7 @@ content_level: MINIMAL
 language: fr
 verification_status: VERIFIED
 reviewed_at: "2026-10-07"
+format: pedagogical
 official_sources:
   - url: "https://raw.githubusercontent.com/httpwg/httpwg.github.io/master/specs/rfc9110.html"
     readable_url: "https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html"
@@ -30,6 +31,33 @@ outcome_sections:
 
 Reconnaître la class d'un status code et les codes qui tombent à l'examen.
 
+## L'essentiel
+
+Un status code se lit d'abord par son **premier chiffre** : il donne la class,
+et donc à qui revient la faute. L'examen interroge ensuite quelques paires
+qu'on confond : `401` et `403`, les quatre redirects et `303`, `415` et `406`,
+`204` et `200`.
+
+## Le schéma
+
+```text
+1xx information   2xx succès   3xx redirect   4xx faute du CLIENT   5xx faute du SERVEUR
+redirects         permanent    temporaire
+  method gardée   308          307             303 : GET ailleurs, quelle que soit la method
+  method libre    301          302  (un POST peut devenir GET « pour des raisons historiques »)
+401 qui ? (authentication) · 403 quoi ? (authorization) · 415 le body reçu · 406 la représentation demandée
+code inconnu      traité comme le x00 de sa class : 499 → 400
+```
+
+## L'exemple : des constants plutôt que des nombres
+
+```php
+use Symfony\Component\HttpFoundation\Response;
+
+return new Response('', Response::HTTP_NO_CONTENT);           // 204
+return new Response('', Response::HTTP_PERMANENTLY_REDIRECT); // 308 — pas HTTP_PERMANENT_REDIRECT
+```
+
 ## Les cinq classes
 
 RFC 9110 §15 définit cinq classes, identifiées par le premier chiffre :
@@ -42,28 +70,22 @@ RFC 9110 §15 définit cinq classes, identifiées par le premier chiffre :
 | `4xx` | Erreur **client** — la Request est fautive | `404 Not Found` |
 | `5xx` | Erreur **serveur** — le serveur a échoué sur une Request valide | `500 Internal Server Error` |
 
+Un client qui reçoit un code inconnu le traite comme le `x00` de sa class :
+un `499` est une erreur client générique. Les codes valides vont de 100 à 599 ;
+`setStatusCode(600)` lève une `InvalidArgumentException`.
+
 ## Les codes qui comptent
 
-```php
-Response::HTTP_OK;                    // 200
-Response::HTTP_CREATED;               // 201
-Response::HTTP_NO_CONTENT;            // 204
-Response::HTTP_MOVED_PERMANENTLY;     // 301
-Response::HTTP_FOUND;                 // 302
-Response::HTTP_SEE_OTHER;             // 303
-Response::HTTP_NOT_MODIFIED;          // 304
-Response::HTTP_TEMPORARY_REDIRECT;    // 307
-Response::HTTP_PERMANENTLY_REDIRECT;  // 308 — et non HTTP_PERMANENT_REDIRECT
-Response::HTTP_BAD_REQUEST;           // 400
-Response::HTTP_UNAUTHORIZED;          // 401
-Response::HTTP_FORBIDDEN;             // 403
-Response::HTTP_NOT_FOUND;             // 404
-Response::HTTP_METHOD_NOT_ALLOWED;    // 405
-Response::HTTP_NOT_ACCEPTABLE;        // 406
-Response::HTTP_UNSUPPORTED_MEDIA_TYPE; // 415
-Response::HTTP_UNPROCESSABLE_ENTITY;  // 422
-Response::HTTP_INTERNAL_SERVER_ERROR; // 500
-```
+| Code | Constant | À retenir |
+|---|---|---|
+| `201`, `204` | `HTTP_CREATED`, `HTTP_NO_CONTENT` | `204` interdit tout body |
+| `301`, `302`, `303`, `304` | `HTTP_MOVED_PERMANENTLY`, `HTTP_FOUND`, `HTTP_SEE_OTHER`, `HTTP_NOT_MODIFIED` | |
+| `307`, `308` | `HTTP_TEMPORARY_REDIRECT`, `HTTP_PERMANENTLY_REDIRECT` | method et body gardés |
+| `401`, `403`, `404` | `HTTP_UNAUTHORIZED`, `HTTP_FORBIDDEN`, `HTTP_NOT_FOUND` | `401` exige `WWW-Authenticate` |
+| `405`, `406`, `415`, `422` | `HTTP_METHOD_NOT_ALLOWED`, `HTTP_NOT_ACCEPTABLE`, `HTTP_UNSUPPORTED_MEDIA_TYPE`, `HTTP_UNPROCESSABLE_ENTITY` | `405` exige `Allow` |
+
+`404` est *heuristically cacheable* (§15.1), comme `405`, `410`, `414` et `501` :
+se méfier des « jamais ».
 
 ## Pièges d'examen
 
@@ -98,32 +120,94 @@ type de média non supporté elle préconise `Accept`.
 
 **4xx vs 5xx.** Le premier chiffre attribue la faute : au client ou au serveur.
 
-## Tips d'examen
+## Application
 
-**401 pose « qui ? », 403 pose « quoi ? »** — identité contre permission.
+- Un form POST qui doit finir sur une page de confirmation → `303`.
+- Une API qui reçoit du XML alors qu'elle ne lit que du JSON → `415`, avec
+  `Accept` dans la Response.
 
-**307 et 308 sont les redirects qui ne touchent à rien** : même method, même
-corps. `303` fait l'inverse, et il le dit : *See Other*, donc `GET` ailleurs.
-Pour 302, la RFC écrit `MAY` : le comportement n'est pas garanti, il est
-indéterminé — c'est pourquoi 307 existe.
+## QCM d'entraînement
 
-**Un code inconnu se traite comme le `x00` de sa class.** Un 499 reçu est une
-erreur client générique, jamais une exception : « treat an unrecognized status
-code as being equivalent to the x00 status code of that class » (§15).
+**Question 1.** Que fait `$response->setStatusCode(600)` sur HttpFoundation
+8.0 ?
 
-**Se méfier des « jamais ».** 404 est *heuristically cacheable* d'après §15.1,
-au même titre que 405, 410, 414 et 501.
+- **A.** Il accepte le code, sans texte de statut
+- **B.** Il le ramène à `500`, le `x00` de la class
+- **C.** Une `InvalidArgumentException`
+- **D.** Il le ramène à `599`, la borne haute
 
-## Points clés
+<details>
+<summary>Correction</summary>
 
-- Le premier chiffre donne la class ; c'est le seul élément à mémoriser.
-- `401` = authentication, `403` = authorization.
+**Bonne réponse : C.** Les codes valides vont de 100 à 599 ; hors de cette
+plage, la Response refuse le code au lieu de le corriger en silence.
+
+</details>
+
+**Question 2.** Quelle constant de `Response` vaut `308` ?
+
+- **A.** `HTTP_PERMANENT_REDIRECT`
+- **B.** `HTTP_PERMANENTLY_REDIRECT`
+- **C.** `HTTP_MOVED_PERMANENTLY`
+- **D.** `HTTP_PERMANENT_REDIRECTION`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** Le nom ne reprend pas l'intitulé de la RFC, et
+`HTTP_MOVED_PERMANENTLY` vaut `301` ; `HTTP_PERMANENT_REDIRECT` n'existe pas.
+
+</details>
+
+**Question 3.** Une ressource n'accepte que `GET` et reçoit un `DELETE`. Quel
+header la RFC impose-t-elle dans la Response `405` ?
+
+- **A.** `Allow`, avec les methods acceptées
+- **B.** `WWW-Authenticate`, avec un challenge
+- **C.** `Accept`, avec les types acceptés
+- **D.** Aucun : le header est facultatif
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : A.** Le serveur doit lister les methods que la ressource
+accepte ; `WWW-Authenticate` est, lui, exigé avec un `401`.
+
+</details>
+
+**Question 4.** Une Response `404`, sans aucun header de cache, peut-elle être
+réutilisée par un cache ?
+
+- **A.** Non : une erreur n'est jamais mise en cache
+- **B.** Seulement si elle porte `Expires`
+- **C.** Oui : `404` est *heuristically cacheable*
+- **D.** Seulement par le navigateur, jamais par un proxy
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : C.** La RFC range `404` parmi les codes qu'un cache peut
+réutiliser avec une expiration heuristique, comme `405`, `410` et `501`.
+
+</details>
+
+## Fiche express
+
+**Si tu dois retenir seulement 6 choses :**
+
+- Le **premier chiffre** donne la class ; un code inconnu vaut son `x00`.
+- `401` = **authentication**, `403` = **authorization**.
 - `307`/`308` préservent la method ; `301`/`302` ne la garantissent pas ;
   `303` impose un `GET`.
 - `415` = le body reçu, `406` = la représentation demandée.
-- Les constants `Response::HTTP_*` évitent les codes magiques.
+- `204` interdit un body ; `405` exige `Allow`, `401` `WWW-Authenticate`.
+- `Response::HTTP_*` évite les codes magiques — `308` est
+  `HTTP_PERMANENTLY_REDIRECT`.
 
-## Aller lire la source
+Moyen mnémotechnique : **401 pose « qui ? », 403 pose « quoi ? »** — identité
+contre permission.
+
+## Sources officielles
 
 - [RFC 9110 §15 — *Status Codes*](https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html#status.codes)
 - [RFC 9110 §15.5.16 — *415 Unsupported Media Type*](https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html#status.415)

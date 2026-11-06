@@ -6,6 +6,7 @@ content_level: STANDARD
 language: fr
 verification_status: VERIFIED
 reviewed_at: "2026-10-09"
+format: pedagogical
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/runtime.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/components/runtime.rst"
@@ -43,16 +44,30 @@ Comprendre ce qui s'exécute entre le chargement de l'autoload et la remise
 d'une Request au kernel, et pourquoi le file d'entrée **retourne** au lieu
 d'exécuter.
 
-## Périmètre
+## L'essentiel
 
-Le cycle de la Request HTTP — du front controller jusqu'à l'envoi de la
-Response — appartient au lot 03, et l'organisation des directories du projet
-au lot 03 également. Les entry points de console appartiennent au lot 12.
-Cet item couvre l'abstraction d'amorçage elle-même.
+Le component Runtime sort l'amorçage du file d'entrée : `public/index.php`
+**retourne une function**, et c'est le runtime qui l'appelle, résout ses
+arguments et exécute ce qu'elle rend — un kernel HTTP ou une application de
+console. Deux conséquences à l'examen : le script d'entrée **s'exécute deux
+fois**, et les arguments de la function sont reconnus par leur **type et leur
+nom**.
 
-## Le file d'entrée ne lance rien
+## Le schéma
+
+```text
+index.php  (1re exécution)  require_once autoload_runtime.php
+   autoload_runtime.php     require $_SERVER['SCRIPT_FILENAME']   → index.php, 2e exécution : rend la closure
+                            new $_SERVER['APP_RUNTIME']           → SymfonyRuntime par défaut
+                            getResolver($app)->resolve()          → arguments, par type ET nom
+                            $app(...$args)                        → kernel ou Application
+                            exit(getRunner($app)->run())          → la 1re exécution s'arrête ici
+```
+
+## L'exemple : le front controller
 
 ```php
+// public/index.php
 require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
 
 return function (array $context): Kernel {
@@ -60,87 +75,62 @@ return function (array $context): Kernel {
 };
 ```
 
-Le file **retourne une function**. Il ne construit pas la Response, ne
-l'envoie pas, et n'appelle rien.
+## Le file d'entrée ne lance rien
 
-`vendor/autoload_runtime.php` est produit automatiquement par le **plugin
-Composer** du component. Avec `--no-plugins`, il n'est pas créé — exécuté :
-file supprimé, `composer dump-autoload --no-plugins` ne le recrée pas.
-
-Ce que le script retourne est contrôlé. Exécuté sur Runtime 8.0.14 :
+Le script ne construit ni n'envoie la Response : il rend une function.
+`vendor/autoload_runtime.php` est écrit par le **plugin Composer** du
+component ; avec `--no-plugins`, il n'existe pas.
 
 | Le script rend | Résultat |
 |---|---|
 | `42` au lieu d'une function | `TypeError` : *callable object expected* |
 | une function qui rend une string | `TypeError` : *object expected* |
-| une function qui rend une `Response` | la Response est affichée |
+| une function qui rend une `Response` | la Response est envoyée |
+
+C'est **la nature de l'object rendu** qui choisit HTTP ou console : un même
+mécanisme sert `public/index.php` et `bin/console`.
 
 ## Les cinq étapes
 
-La documentation 8.0 les énumère ainsi :
-
-1. un `RuntimeInterface` est instancié ;
-2. le script d'entrée est **inclus par le runtime**, donc **il s'exécute une
-   seconde fois** ;
-3. la function retournée est remise au runtime, qui **résout ses arguments** ;
-4. la function est appelée pour obtenir l'application ;
-5. le runtime exécute l'application.
-
-Le code inverse les deux premières : `autoload_runtime.php` inclut d'abord le
-script, puis instancie le runtime. Exécuté avec un runtime qui journalise son
-constructor : *script returns closure*, puis *runtime constructed*, puis
-*closure called*, puis *app run*. Le code l'emporte.
-
-**La seconde exécution est le piège.** Exécuté, avec une écriture dans un
-journal avant et après le `require_once` :
+La documentation 8.0 les énumère : runtime instancié, script d'entrée
+**inclus à nouveau**, arguments de la function résolus, function appelée,
+application exécutée. Le code 8.0 inverse les deux premières ; un runtime qui
+journalise son constructor donne *script returns closure*, puis
+*runtime constructed*. Le code l'emporte.
 
 | Ligne du script | Exécutions |
 |---|---|
 | **au-dessus** du `require_once` | **deux** |
 | au-dessous | une seule |
 
-La première exécution s'arrête dans `autoload_runtime.php`, qui finit par
-`exit` ; la seconde trouve le file déjà chargé et continue. Un effet de bord
-placé avant le `require_once` — écrire un file, incrémenter un compteur — se
-produit donc deux fois. La documentation demande qu'il n'y en ait aucun.
-
-**Charger `vendor/autoload.php` avant** désactive tout : le premier
-`require_once` de `autoload_runtime.php` rend alors `true`, et le file
-s'interrompt. Exécuté : le script va jusqu'au bout, l'application ne tourne
-pas, exit code `0`, aucun message.
+La première exécution s'achève par l'`exit` d'`autoload_runtime.php` ; la
+seconde trouve le file déjà chargé et continue. D'où la règle : **aucun effet
+de bord** dans ce script. Charger `vendor/autoload.php` **avant** désactive
+tout : le script va au bout, l'application ne tourne pas, exit code `0`,
+aucun message.
 
 ## Les arguments sont résolus par type *et* par nom
 
-`array $context` vaut `$_SERVER` + `$_ENV`, selon la documentation. Lu dans
-`GenericRuntime::getArgument()` (8.0) : `$_ENV` n'est ajouté que si `$_SERVER`
-ne porte pas `PATH`. Pour les arguments communs aux deux runtimes — `array
-$context`, `array $argv`, `array $request` — **le type et le nom de la variable
-comptent tous les deux** : exécuté, `array $ctx` lève une
-`InvalidArgumentException` qui énumère ces trois noms.
+| Argument | Reçoit |
+|---|---|
+| `array $context` | `$_SERVER` + `$_ENV` selon la documentation ; le code n'ajoute `$_ENV` que sans `PATH` dans `$_SERVER` |
+| `array $argv` | les arguments de la ligne de command |
+| `array $request` | `query`, `body`, `files`, `session` |
 
-`SymfonyRuntime` accepte en plus une Request créée depuis les superglobales,
-ainsi que les interfaces d'entrée et de sortie de console.
-
-## Un même file, deux natures d'application
-
-C'est **ce que la function retourne** qui décide :
-
-- un kernel HTTP → le runtime exécute une application HTTP ;
-- une application de console → le runtime exécute une application en ligne de
-  command.
+`array $ctx` lève une `InvalidArgumentException` qui énumère ces trois noms.
+`SymfonyRuntime` accepte en plus une `Request` créée depuis les superglobales
+et les objects d'entrée et de sortie de console.
 
 ## Choisir le runtime
 
-`SymfonyRuntime` est le défaut et convient à un serveur en PHP-FPM.
-`GenericRuntime` s'appuie sur les superglobales de PHP.
+`SymfonyRuntime` est le défaut ; `GenericRuntime` s'appuie sur les
+superglobales. `SymfonyRuntime` charge les files `.env` : sans `.env`, il lève
+une `PathException` ; avec `disable_dotenv`, il démarre en `dev`, debug à `1`.
 
-`SymfonyRuntime` charge les files `.env`. Exécuté : sans `.env`, il lève une
-`PathException` ; avec l'option `disable_dotenv`, il démarre, `APP_ENV` à `dev`
-et `APP_DEBUG` à `1` par défaut.
-
-Le choix se fait par la variable d'environment `APP_RUNTIME` ou par
-`extra.runtime.class` dans `composer.json`. Les options passent par
-`APP_RUNTIME_OPTIONS` ou par `extra.runtime`.
+| Pour choisir | Pour les options |
+|---|---|
+| `APP_RUNTIME` | `APP_RUNTIME_OPTIONS`, en JSON |
+| `extra.runtime.class` dans `composer.json` | `extra.runtime` |
 
 ## Pièges d'examen
 
@@ -157,17 +147,95 @@ erreur.
 
 **`--no-plugins` empêche la création de `autoload_runtime.php`.**
 
-## Points clés
+## Application
 
-- L'amorçage est abstrait pour rendre le file d'entrée générique.
-- Cinq étapes ; le script est inclus à nouveau, avant même l'instanciation du
-  runtime dans le code.
-- `array $context` = `$_SERVER` + `$_ENV` selon la documentation ; le code
-  n'ajoute `$_ENV` que si `$_SERVER` ne porte pas `PATH`.
-- La nature de l'object retourné choisit HTTP ou console.
-- `APP_RUNTIME` ou `extra.runtime.class` sélectionne le runtime.
+- Un compteur de visites à incrémenter → dans le kernel ou un listener,
+  jamais au-dessus du `require_once` du front controller.
+- Une image Docker sans file `.env` → `APP_RUNTIME_OPTIONS='{"disable_dotenv":true}'`.
+
+## QCM d'entraînement
+
+**Question 1.** La closure de `public/index.php` rend `'ok'`, une string.
+Que se passe-t-il ?
+
+- **A.** `ok` est envoyé comme corps de Response
+- **B.** Une `TypeError` : un object est attendu
+- **C.** La string sert d'exit code
+- **D.** Le kernel par défaut est construit à la place
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** Debug actif ou non, la valeur rendue doit être un
+object, kernel ou application ; une string lève une `TypeError` avant tout envoi.
+
+</details>
+
+**Question 2.** Une closure déclare `array $request`. Que reçoit-elle ?
+
+- **A.** L'object `Request` courant
+- **B.** Les headers HTTP, indexés par nom
+- **C.** Un array `query`, `body`, `files`, `session`
+- **D.** Une `InvalidArgumentException` : seul `$context` est permis
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : C.** Ce nom réservé regroupe les superglobales `$_GET`,
+`$_POST`, `$_FILES` et `$_SESSION` ; l'object `Request` exige le type `Request`.
+
+</details>
+
+**Question 3.** `SymfonyRuntime` démarre avec `disable_dotenv`, et aucune
+variable `APP_ENV` n'est définie. Quel environment obtient-on ?
+
+- **A.** `prod`, le plus sûr
+- **B.** Aucun : une `PathException`
+- **C.** `test`
+- **D.** `dev`, debug à `1`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : D.** L'option évite seulement la lecture des files `.env` ;
+les default values du runtime prennent alors la place des variables
+absentes.
+
+</details>
+
+**Question 4.** Pourquoi une ligne placée **sous** le `require_once` du
+runtime ne s'exécute-t-elle qu'une fois ?
+
+- **A.** La 1re exécution se termine par un `exit`
+- **B.** OPcache met en cache la seconde exécution du script
+- **C.** Le runtime retire du script les lignes qui suivent
+- **D.** `require_once` bloque toute autre exécution du script
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : A.** La première exécution s'arrête dans le file requis,
+avant la suite ; seule la seconde, où le file est déjà chargé, l'atteint.
+
+</details>
+
+## Fiche express
+
+**Si tu dois retenir seulement 6 choses :**
+
+- `index.php` **rend une closure** ; le runtime l'appelle et exécute le
+  résultat.
+- Le script tourne **deux fois** au-dessus du `require_once` : aucun effet de
+  bord.
+- `autoload.php` chargé avant : **rien ne tourne**, sans erreur.
+- `$context`, `$argv`, `$request` : **type et nom**.
+- `--no-plugins` : pas d'`autoload_runtime.php`.
+- `APP_RUNTIME` ou `extra.runtime.class` ; options en `APP_RUNTIME_OPTIONS`.
+
+Moyen mnémotechnique : **« Rendre, pas lancer »**.
 
 ## Sources officielles
 
 - [`components/runtime.rst`, branche 8.0](https://github.com/symfony/symfony-docs/blob/8.0/components/runtime.rst)
 - [`autoload_runtime.template`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Runtime/Internal/autoload_runtime.template)
+

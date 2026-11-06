@@ -6,6 +6,7 @@ content_level: STANDARD
 language: fr
 verification_status: VERIFIED
 reviewed_at: "2026-10-26"
+format: pedagogical
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/http_client.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/http_client.rst"
@@ -79,148 +80,102 @@ outcome_sections:
 Émettre une Request sortante avec `HttpClientInterface` et comprendre **quand**
 elle s'exécute réellement — c'est tout l'enjeu de cet item.
 
-## L'interface
+## L'essentiel
 
-```php
-public function request(string $method, string $url, array $options = []): ResponseInterface;
-public function stream(ResponseInterface|iterable $responses, ?float $timeout = null): ResponseStreamInterface;
-public function withOptions(array $options): static;
+`HttpClientInterface::request()` **rend la main tout de suite** : la Request
+n'est attendue qu'au premier accès à la Response. On lance donc toutes les
+Requests, puis on les lit. Lire, c'est aussi décider des erreurs : un statut
+3xx-5xx lève à la lecture — ou à la destruction si personne ne l'a lu.
+
+## Le schéma
+
+```text
+request()          ne bloque pas
+getStatusCode()    bloque, ne lève PAS sur un statut (seulement transport)
+getHeaders() / getContent() / toArray()   bloquent, lèvent sur 3xx-5xx sauf ($throw = false)
+jamais lu          le destructor lève sur 3xx-5xx — désarmé par getStatusCode(), getHeaders(false), cancel()
+ExceptionInterface ├─ Transport (rien n'est arrivé) └─ Timeout
+                   ├─ Http (getResponse()) ─ Client 4xx · Server 5xx · Redirection 3xx
+                   └─ Decoding (toArray sur un body non JSON)
 ```
 
-Trois methods, injectées par autowiring via `HttpClientInterface`.
-
-## Le point central : les Responses sont lazy
-
-**Le client est asynchrone par défaut.** `request()` rend la main avant que la
-Response soit arrivée ; rien n'est attendu tant qu'on ne la consulte pas :
-
-```php
-$response = $client->request('GET', 'https://example.com/api');  // ne bloque pas
-
-$status  = $response->getStatusCode();  // bloque ici
-$content = $response->getContent();     // ou ici
-$data    = $response->toArray();        // ou ici
-```
-
-D'où le parallélisme : lancer les Requests d'abord, les lire ensuite.
+## L'exemple : des Requests en parallèle
 
 ```php
 $responses = [];
 foreach ($urls as $url) {
-    $responses[] = $client->request('GET', $url);   // toutes lancées en parallèle
+    $responses[] = $client->request('GET', $url);   // toutes lancées
 }
 
 foreach ($client->stream($responses) as $response => $chunk) {
     if ($chunk->isLast()) {
-        // cette réponse est complète
+        // cette Response est complète
     }
 }
 ```
 
-Lire chaque Response dans la loop qui l'émet rend l'ensemble séquentiel, sans
-erreur visible.
+## L'interface
+
+Trois methods, injectées par autowiring via `HttpClientInterface` :
+`request($method, $url, $options)`, `stream($responses, $timeout)` et
+`withOptions($options)`, qui rend une **nouvelle** instance du client.
+
+## Le point central : les Responses sont lazy
+
+Le client est asynchrone par défaut : `getStatusCode()`, `getContent()` ou
+`toArray()` bloquent, pas `request()`. Lire chaque Response dans la loop qui
+l'émet rend l'ensemble séquentiel, sans erreur visible.
 
 ## La Response
 
-```php
-$response->getStatusCode();
-$response->getHeaders();      // lève sur 3xx/4xx/5xx, sauf getHeaders(false)
-$response->getContent();      // idem
-$response->toArray();         // décode le JSON ; lève si ce n'en est pas
-$response->getInfo('debug');
-$response->cancel();
-```
+`getHeaders()`, `getContent()` et `toArray()` **lèvent** sur un statut
+3xx-5xx, sauf avec `$throw = false`. `getStatusCode()` ne déclare qu'une
+`TransportExceptionInterface` : c'est l'appel qui inspecte un 404 sans rien
+attraper. `toArray()` décode et peut lever une `DecodingExceptionInterface`,
+même avec `false`.
 
-`getHeaders()`, `getContent()` et `toArray()` **lèvent** sur un statut 3xx-5xx,
-sauf avec `$throw = false`. **`getStatusCode()` ne lève pas** sur un statut :
-son contrat ne déclare qu'une `TransportExceptionInterface`. C'est l'appel qui
-inspecte un 404 sans rien attraper.
+| Option | Sens |
+|---|---|
+| `json` | encode et pose `Content-Type: application/json` ; exclusif avec `body` |
+| `timeout` | délai **d'inactivité**, pas la durée totale |
+| `max_duration` | durée totale ; `0` = illimitée (défaut) |
+| `max_redirects` | `20` par défaut ; `0` = aucun redirect suivi |
+
+Deux zéros, deux sens : `max_duration = 0` illimite, `max_redirects = 0`
+interdit. En test, `MockHttpClient` et `MockResponse` remplacent le réseau.
 
 ## La hiérarchie d'exceptions
 
-Tout descend d'une seule interface, et la branche dit **où** la chose a échoué :
-
-```text
-ExceptionInterface
-├── TransportExceptionInterface      le réseau — rien n'est arrivé
-│   └── TimeoutExceptionInterface    délai d'inactivité dépassé
-├── HttpExceptionInterface           une réponse est arrivée, son statut fâche
-│   ├── ClientExceptionInterface     4xx
-│   ├── ServerExceptionInterface     5xx
-│   └── RedirectionExceptionInterface 3xx, une fois `max_redirects` atteint
-└── DecodingExceptionInterface       le corps ne se décode pas
-```
-
-La ligne de partage est `HttpExceptionInterface` : elle seule expose
-`getResponse()`, parce qu'elle seule a une Response à montrer. Un échec de
-transport n'en a aucune.
-
-Attraper `HttpExceptionInterface` couvre 3xx, 4xx et 5xx d'un coup ;
-`TransportExceptionInterface` couvre le délai dépassé, dont
-`TimeoutExceptionInterface` hérite.
-
-## Options utiles
-
-```php
-$client->request('POST', $url, [
-    'json' => ['name' => 'value'],      // encode et pose le Content-Type
-    'headers' => ['Authorization' => 'Bearer '.$token],
-    'query' => ['page' => 2],
-    'timeout' => 5,
-]);
-```
-
-`json` et `body` sont exclusifs. Un **client scopé** applique des options aux
-URL d'un pattern.
-
-## Tests
-
-`MockHttpClient` remplace le transport sans réseau :
-
-```php
-$client = new MockHttpClient(new MockResponse('{"ok":true}'));
-```
-
-`timeout` est le délai **d'inactivité**, pas la durée totale, qui s'écrit
-`max_duration` (`0`, illimité, par défaut). Le client suit les redirects
-jusqu'à `max_redirects`, qui vaut `20`.
+Seule `HttpExceptionInterface` expose `getResponse()`, parce qu'elle seule a
+une Response à montrer. `TimeoutExceptionInterface` hérite de
+`TransportExceptionInterface`. `RedirectionExceptionInterface` ne lève qu'une
+fois `max_redirects` atteint.
 
 ## Une Response jamais lue lève quand même
 
-Si rien n'a lu le statut, le **destructor** de la Response lève sur un 3xx-5xx. Une Request non assignée — `$client->request('POST',
-$url);` — devient donc synchrone et lève sur un 500. `getStatusCode()`,
-`getHeaders(false)` ou `cancel()` désactivent ce filet ; `getInfo('http_code')`
-ne le désactive pas — exécuté.
+Si rien n'a lu le statut, le **destructor** lève sur un 3xx-5xx : un
+`$client->request('POST', $url);` non assigné devient synchrone et lève sur
+un 500. `getInfo('http_code')` ne désarme pas ce filet.
 
 ## Rejouer les échecs : RetryableHttpClient
 
 | Échec | Rejoué |
 |---|---|
 | 423, 425, 429, 502, 503 | pour toute method |
-| 500, 504, 507, 510, erreur de transport | pour les methods idempotentes seulement (`GET`, `PUT`, `DELETE`…) |
+| 500, 504, 507, 510, erreur de transport | methods idempotentes seulement |
 | autre statut, dont 404 | jamais |
 
-Un échec de résolution DNS est rejoué pour toute method. Trois retries
-par défaut (`max_retries`), donc quatre Requests au plus ; délai de 1 s doublé
-à chaque essai, jitter de 10 % ; un header `Retry-After` remplace ce délai.
-Les retries épuisés, la dernière Response est rendue telle quelle : un 503 dont
-`getContent()` lève une `ServerException`. Dans une application : l'option
-`retry_failed`.
+Trois retries par défaut, donc quatre Requests au plus ; délai de 1 s doublé
+à chaque essai, `Retry-After` prioritaire. Épuisés, la dernière Response est
+rendue telle quelle. Dans une application : l'option `retry_failed`.
 
 ## Un stream dont une Response échoue
 
-Dans `stream()`, l'échec d'une Response est levé par les methods de **son
-chunk** (`isFirst()`, `isLast()`, `getContent()`). Non attrapée, la
-`TransportExceptionInterface` termine la loop pour toutes les Responses : le
-`try`/`catch` va **dans** la loop. `getError()` lit le message sans
-traiter l'erreur, et la loop lève quand même.
-
-Le statut se lit au premier chunk : sans `getStatusCode()` à `isFirst()`, un
-404 fait lever une `ClientException` au stream dès qu'il reprend.
-
-Un `timeout` passé à `stream()` produit un chunk dont `isTimeout()` vaut
-`true`, et ce stream s'arrête ; `isLast()` sur ce chunk lève une
-`TimeoutException`. Un nouveau `stream()` reprend la Response.
+L'échec d'une Response est levé par les methods de **son chunk** ; non
+attrapée, la `TransportExceptionInterface` termine la loop pour toutes : le
+`try`/`catch` va **dans** la loop. Le statut se lit au premier chunk
+(`isFirst()`), sinon un 404 lève au stream. Un `timeout` passé à `stream()`
+donne un chunk dont `isTimeout()` vaut `true`.
 
 ## Pièges d'examen
 
@@ -229,21 +184,90 @@ Un `timeout` passé à `stream()` produit un chunk dont `isTimeout()` vaut
 
 **Un POST en 500 n'est pas rejoué**, un POST en 503 l'est.
 
-## Tips d'examen
+## Application
 
-**`$throw = false` ne désactive que le statut.** `toArray(false)` lève encore
-sur un body indécodable, et une panne réseau lève toujours.
+- Interroger dix APIs indépendantes → dix `request()`, puis `stream()`.
+- Lire le body JSON d'une erreur 404 → `getContent()` avec `$throw` à `false`.
 
-**Deux zéros, deux sens.** `max_duration = 0` veut dire illimité ;
-`max_redirects = 0` veut dire aucun redirect suivi.
+## QCM d'entraînement
 
-## Points clés
+**Question 1.** Une Response en 500 n'a été consultée que par
+`getInfo('http_code')`, puis elle est détruite. Que se passe-t-il ?
 
-- `request()` est asynchrone ; émettre toutes les Requests, puis lire.
-- Un statut jamais lu lève à la destruction de la Response.
-- Dans `stream()`, attraper l'erreur dans la loop ; lire le statut au premier chunk.
+- **A.** Rien : le code a été lu
+- **B.** Une `ServerException` levée par le destructor
+- **C.** Un simple avertissement dans les logs
+- **D.** Une `TransportException` : la connexion est coupée
 
-## Aller lire la source
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** Lire une info ne vaut pas lecture du statut : seuls
+`getStatusCode()`, `getHeaders(false)` ou `cancel()` désarment le destructor.
+
+</details>
+
+**Question 2.** Une Request ne doit jamais durer plus de 10 secondes au
+total, Response comprise. Quelle option ?
+
+- **A.** `'timeout' => 10`
+- **B.** `'max_redirects' => 10`
+- **C.** `'max_duration' => 10`
+- **D.** `'buffer' => 10`, en secondes
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : C.** `timeout` mesure l'inactivité, pas la durée totale ;
+la durée de la Request et de la Response ensemble est `max_duration`.
+
+</details>
+
+**Question 3.** Que rend `$client->withOptions(['headers' => ['X-A' => '1']])` ?
+
+- **A.** Une nouvelle instance du client
+- **B.** Le même client, modifié sur place
+- **C.** Rien : la method configure le client
+- **D.** Une Response, envoyée aussitôt
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : A.** Le contrat la décrit comme une nouvelle instance aux
+options par défaut changées ; le client d'origine reste intact.
+
+</details>
+
+**Question 4.** Combien de redirects le client suit-il par défaut ?
+
+- **A.** Aucun, il faut les activer
+- **B.** Cinq, la limite des navigateurs
+- **C.** Un nombre illimité
+- **D.** Vingt
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : D.** L'option `max_redirects` vaut `20` ; `0` veut dire
+qu'aucun redirect n'est suivi, et non « sans limite ».
+
+</details>
+
+## Fiche express
+
+**Si tu dois retenir seulement 7 choses :**
+
+- `request()` **ne bloque pas** ; lancer tout, puis lire.
+- **`getStatusCode()`** ne lève pas sur un statut ; les autres, si.
+- Jamais lu : le **destructor** lève ; `getInfo()` ne désarme pas.
+- `getResponse()` **seulement** sur `HttpExceptionInterface`.
+- `timeout` = inactivité ; **`max_duration`** = total ; 20 redirects.
+- Retry : 503 pour tous, **500 pour les idempotentes** ; 404 jamais.
+- `stream()` : `try`/`catch` **dans** la loop, statut au premier chunk.
+
+Moyen mnémotechnique : **« Lancer tout, lire après, attraper dedans »**.
+
+## Sources officielles
 
 - [Component HttpClient](https://github.com/symfony/symfony-docs/blob/8.0/http_client.rst) — *Processing Responses*, Requests asynchrones
 - [`HttpClientInterface`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/HttpClient/HttpClientInterface.php) — `request()`, `stream()`,

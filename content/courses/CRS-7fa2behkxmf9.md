@@ -6,6 +6,7 @@ content_level: STANDARD
 language: fr
 verification_status: VERIFIED
 reviewed_at: "2026-10-26"
+format: pedagogical
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/Cookie.php"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Cookie.php"
@@ -32,48 +33,47 @@ outcome_sections:
 Poser un cookie avec les bons attributes de sécurité et savoir ce que chacun
 protège.
 
-## Lire et écrire
+## L'essentiel
 
-La lecture passe par la Request, l'écriture par la Response :
+Un cookie se lit dans la Request et s'écrit dans la Response. L'object
+`Cookie` est **immuable**, et `Cookie::create()` pose déjà des défauts sûrs :
+`HttpOnly`, `SameSite=Lax`, `Secure` décidé d'après la Request. Chaque
+attribute protège d'un risque précis — et les navigateurs appliquent des
+règles que Symfony ne vérifie pas.
+
+## Le schéma
+
+```text
+lire     $request->cookies->get('theme')
+écrire   $response->headers->setCookie(Cookie::create('theme')->withValue('dark'))   ← garder le retour
+effacer  $response->headers->clearCookie('theme', $path, $domain)    ← mêmes path et domain
+défauts create()       path '/' · httpOnly true · sameSite lax · secure null (= HTTPS courant) · expire 0
+défauts fromString()   secure false · httponly false · samesite null
+HttpOnly → XSS (lecture)   SameSite → CSRF (envoi)   Secure → HTTPS   Domain → ÉLARGIT
+```
+
+## L'exemple : un cookie de préférence
 
 ```php
-$value = $request->cookies->get('theme');
-
 $response->headers->setCookie(
     Cookie::create('theme')
         ->withValue('dark')
         ->withExpires(new \DateTimeImmutable('+1 year'))
-        ->withPath('/')
         ->withSecure(true)
-        ->withHttpOnly(true)
         ->withSameSite(Cookie::SAMESITE_LAX)
 );
-
-$response->headers->clearCookie('theme');
 ```
 
-`Cookie` est **immuable** : chaque `with*()` renvoie une nouvelle instance.
-Ignorer la return value est sans effet.
+## Lire et écrire
 
-### Ce que `Cookie::create()` pose sans qu'on le demande
-
-La factory a déjà des défauts, et ce sont eux qui sont interrogés :
-
-| Parameter | Défaut | Conséquence |
-|---|---|---|
-| `$path` | `'/'` | portée sur tout le site |
-| `$httpOnly` | `true` | **invisible à JavaScript par défaut** |
-| `$sameSite` | `Cookie::SAMESITE_LAX` | protection CSRF de base déjà active |
-| `$secure` | `null` | **auto-activé si la Request courante est déjà en HTTPS** |
-| `$expire` | `0` | cookie de session |
-
-```php
-Cookie::create('theme');   // path '/', httpOnly true, sameSite lax, secure auto
-```
-
-`$secure = null` ne vaut donc pas « non sécurisé » : c'est « décide d'après la
-Request ». Le forcer à `true` sur un site servi en HTTP empêcherait le cookie
-d'être posé.
+- `Cookie` est immuable : chaque `with*()` rend une **nouvelle** instance ;
+  ignorer la return value est sans effet.
+- `$secure = null` ne veut pas dire « non sécurisé » : le cookie devient
+  `Secure` si la Request courante est en HTTPS.
+- `withExpires(0)` — ou toute date négative — donne un **cookie de session**,
+  qui disparaît à la fermeture du navigateur.
+- `clearCookie()` envoie le cookie expiré qui efface ; `removeCookie()` retire
+  seulement le `Set-Cookie` de la Response.
 
 ## Les attributes de sécurité
 
@@ -85,46 +85,31 @@ d'être posé.
 | `Path` | Restreint l'envoi à un path et ses sous-répertoires |
 | `Domain` | **Élargit** aux sous-domaines ; l'omettre limite à l'origine |
 
+`withPartitioned()` cloisonne un cookie tiers par site intégrateur (CHIPS) ;
+l'attribute est sérialisé en dernier, après `samesite`.
+
 ## Les trois valeurs de SameSite
 
-- **`strict`** — jamais envoyé lors d'une navigation venant d'un autre site.
-  Le plus sûr, mais le user venu d'un lien externe apparaît
-  déconnecté.
+- **`strict`** — jamais envoyé lors d'une navigation venant d'un autre site ;
+  le user venu d'un lien externe apparaît déconnecté.
 - **`lax`** — envoyé lors des navigations de premier niveau en safe method,
-  pas sur les Requests intersites en `POST`. C'est le compromis usuel.
-- **`none`** — toujours envoyé. **Exige `Secure`** : sans lui, les navigateurs
-  rejettent le cookie.
+  pas sur un `POST` intersite. Le compromis usuel, et le défaut de `create()`.
+- **`none`** — toujours envoyé. **Exige `Secure`**, sinon le navigateur rejette
+  le cookie.
 
-## `Partitioned` — le cookie tiers cloisonné (CHIPS)
-
-```php
-Cookie::create('widget')->withSecure(true)->withSameSite(Cookie::SAMESITE_NONE)
-    ->withPartitioned(true);        // ajoute « ; partitioned »
-```
-
-`withPartitioned()` vaut `true` sans argument ; `create()` le laisse à `false`,
-et l'attribute est sérialisé en dernier, **après** `samesite`.
-
-Un cookie tiers partitionné est rangé dans un pot séparé par site intégrateur :
-le widget reconnaît son visiteur sur `a.test` sans que ce soit le même cookie
-que sur `b.test`. Le suivi intersites tombe, l'usage légitime reste.
+`withSameSite('Strict')` est accepté : la valeur passe en minuscules ; une
+valeur inconnue lève une `InvalidArgumentException`.
 
 ## Les préfixes `__Secure-` et `__Host-`
-
-Des règles **de nommage** appliquées par le navigateur, qu'aucune API ne pose :
 
 | Préfixe | Ce que le navigateur exige, sinon il rejette |
 |---|---|
 | `__Secure-` | l'attribute `Secure` |
 | `__Host-` | `Secure`, `Path=/`, et **aucun** `Domain` |
 
-**Le serveur l'écrit exactement ; le navigateur le reconnaît sans la casse.**
-`__host-sid` est donc préfixé, et rejeté sans `Secure` — sans quoi un
-`__SeCuRe-SID` posé par un tiers passerait pour un cookie ordinaire.
-
-**Symfony 8.0 ne vérifie rien de tout cela.** Ni `Cookie` ni `ResponseHeaderBag`
-ne connaissent ces strings : `Cookie::create('__Host-session')` sans `Secure`
-part sans une plainte, et le navigateur le jette en silence.
+Le navigateur reconnaît le préfixe sans tenir compte de la casse. **Symfony
+8.0 ne vérifie rien** : `Cookie::create('__Host-session')` sans `Secure` part
+sans une plainte, et le navigateur le jette en silence.
 
 ## Pièges d'examen
 
@@ -154,21 +139,97 @@ cookie expiré qui efface.
 `sameSite` vaut `lax` sans rien demander ; l'erreur d'examen consiste à croire
 qu'un cookie créé sans arguments est nu.
 
-## Points clés
+## Application
 
-- Lecture par `$request->cookies`, écriture par `$response->headers->setCookie()`.
-- `Cookie` est immuable : chaîner les `with*()` et utiliser le retour.
-- `HttpOnly` contre XSS, `SameSite` contre CSRF, `Secure` pour HTTPS ;
-  `Domain` élargit aux sous-domaines au lieu de restreindre.
-- Défauts de `Cookie::create()` : `path '/'`, `httpOnly true`, `sameSite lax`,
-  `secure` auto-activé en HTTPS, `expire 0` — mais `fromString()` a les siens,
-  bien moins sûrs.
-- `removeCookie()` retire de la Response ; `clearCookie()` efface chez le client.
-- `withPartitioned()` cloisonne un cookie tiers ; les préfixes `__Host-` et
-  `__Secure-` sont tenus par le navigateur, jamais par Symfony.
-- `SameSite=none` impose `Secure` ; suppression = mêmes `path` et `domain`.
+- Un cookie de session d'authentication → `HttpOnly`, `Secure`,
+  `SameSite=Lax`, et un nom en `__Host-`.
+- Un widget intégré sur d'autres sites → `SameSite=None`, `Secure` et
+  `withPartitioned()`.
 
-## Aller lire la source
+## QCM d'entraînement
+
+**Question 1.** Que donne `Cookie::create('x')->withValue('v')->withExpires(-1)` ?
+
+- **A.** Un cookie déjà expiré, qui efface `x`
+- **B.** Une `InvalidArgumentException` : date négative
+- **C.** Un cookie qui expire dans une seconde
+- **D.** Un cookie de session
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : D.** Une échéance négative est ramenée à `0`, qui signifie
+« pas d'expiration » : le cookie vit jusqu'à la fermeture du navigateur.
+
+</details>
+
+**Question 2.** Un cookie est relu depuis un header brut par
+`Cookie::fromString('a=b')`. Est-il `HttpOnly` ?
+
+- **A.** Oui, comme avec `create()`
+- **B.** Non
+- **C.** Oui, si la Request est en HTTPS
+- **D.** Cela dépend de `framework.session`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** `fromString()` a ses propres défauts, `secure` et
+`httponly` à faux, `samesite` à `null` : relire un header ne produit pas un
+cookie sûr.
+
+</details>
+
+**Question 3.** Le code appelle `withSameSite('Strict')`, avec une majuscule.
+Résultat ?
+
+- **A.** Une `InvalidArgumentException`
+- **B.** La valeur est ignorée, `lax` reste
+- **C.** Acceptée, comme `strict`
+- **D.** Acceptée telle quelle, `Strict`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : C.** La valeur est passée en minuscules avant d'être
+contrôlée ; seule une valeur hors de `strict`, `lax` et `none` est refusée.
+
+</details>
+
+**Question 4.** Un cookie est posé par `shop.example.com` **sans** attribute
+`Domain`. Où le navigateur le renvoie-t-il ?
+
+- **A.** Au seul serveur d'origine
+- **B.** À tous les sous-domaines d'`example.com`
+- **C.** À tout site, faute de restriction
+- **D.** Nulle part : `Domain` est obligatoire
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : A.** L'absence de `Domain` limite le cookie à l'origine ;
+c'est le poser qui élargit l'envoi aux sous-domaines.
+
+</details>
+
+## Fiche express
+
+**Si tu dois retenir seulement 7 choses :**
+
+- Lire par **`$request->cookies`**, écrire par **`setCookie()`** ; `Cookie` est
+  immuable.
+- `create()` : `path '/'`, **`httpOnly`**, **`lax`**, `secure` auto, session.
+- `fromString()` : **rien de sûr** par défaut.
+- `HttpOnly` contre XSS, **`SameSite` contre CSRF**, `Secure` pour HTTPS.
+- `Domain` **élargit** ; son absence restreint à l'origine.
+- `SameSite=none` exige **`Secure`** ; `__Host-` exige aussi `Path=/` sans
+  `Domain`.
+- `clearCookie()` **avec les mêmes path et domain** ; `removeCookie()` n'efface
+  rien chez le client.
+
+Moyen mnémotechnique : **« HttpOnly cache, SameSite retient, Secure chiffre »**.
+
+## Sources officielles
 
 - [`Cookie`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Cookie.php) — `create()` et ses défauts l. 75, constantes `SAMESITE_*`,
   `withPartitioned()` l. 262, serialization de `partitioned` l. 313 (branche 8.0, `6f841c0`)

@@ -6,6 +6,7 @@ content_level: STANDARD
 language: fr
 verification_status: VERIFIED
 reviewed_at: "2026-10-26"
+format: pedagogical
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/finder.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/components/finder.rst"
@@ -37,134 +38,82 @@ outcome_sections:
 Trouver des files et des directories par critères chaînés, et connaître le
 piège qui fait échouer une réutilisation d'object.
 
-## Prérequis
+## L'essentiel
 
-Les iterators PHP, et `SplFileInfo`.
+Le `Finder` cherche files et directories par **critères chaînés**, `in()`
+étant le seul obligatoire. Il rend les deux par défaut, récursivement, dans
+l'ordre du filesystem. Le piège central : l'object est **à état** — un second
+`name()` s'ajoute au premier ; pour réutiliser une configuration, on clone.
 
-## L'usage de base
+## Le schéma
 
-```php
-$finder = new Finder();
-$finder->files()->in(__DIR__)->name('*.php');
-
-if ($finder->hasResults()) {
-    foreach ($finder as $file) {
-        $file->getRealPath();
-        $file->getRelativePathname();
-    }
-}
+```text
+new Finder()->files()->in(__DIR__)->name('*.php')        in() obligatoire ; files()/directories() restreignent
+défaut       fichiers ET dossiers · récursif (depth() borne) · VCS ignorés · liens non suivis
+à état       name('a*') puis name('b*') sur le même object → a* OU b*  ⇒  clone $finder
+résultats    SplFileInfo enrichi (getRelativePathname()) · iterator_to_array($finder, false) après plusieurs in()
+ordre        celui du filesystem ; sortByName(true) naturel ; sortByType() dossiers d'abord ; reverseSorting()
 ```
 
-Chaque `$file` est un `Symfony\Component\Finder\SplFileInfo`, qui **étend** celui
-de PHP pour ajouter les methods de path relatif — d'où `getRelativePathname()`,
-absent de la class native.
-
-Toutes les methods de critère se chaînent : elles forment une interface fluide.
-
-## L'object est à état — le piège central
-
-La documentation le signale par un avertissement, et c'est le point le plus
-testable de l'item :
-
-> Le `Finder` est **stateful**. Tout appel de method modifie **toutes** ses
-> instances.
-
-Concrètement, un second `->name()` sur le même object **s'ajoute** au premier au
-lieu de le remplacer. Pour plusieurs recherches partageant une configuration
-commune, il faut donc **cloner** :
+## L'exemple : deux recherches sur une base commune
 
 ```php
 $finder = new Finder();
 $finder->files()->in('./templates');
 
-foreach ((clone $finder)->name('partial_*') as $file) { }
-foreach ((clone $finder)->name('plugin_*') as $file) { }
+foreach ((clone $finder)->name('partial_*') as $file) {
+    $file->getRelativePathname();
+}
+foreach ((clone $finder)->name('plugin_*') as $file) {
+    // sans clone : partial_* ET plugin_*
+}
 ```
 
-Sans le clonage, la seconde loop chercherait `partial_*` **et** `plugin_*`.
-Exécuté sur Finder 8.0.14 : un file après le premier `name()`, deux après le
-second, sur le même object.
+## L'usage de base
 
-## Où chercher
+Chaque résultat est un `Symfony\Component\Finder\SplFileInfo`, qui étend celui
+de PHP pour ajouter `getRelativePath()` et `getRelativePathname()`. Toutes les
+methods de critère se chaînent.
 
-`in()` est **le seul critère obligatoire**.
+## L'object est à état — le piège central
 
-```php
-$finder->in([__DIR__, '/ailleurs']);
-$finder->in('src/Symfony/*/*/Resources');
-$finder->in(__DIR__)->exclude('ruby');
-$finder->ignoreUnreadableDirs()->in(__DIR__);
-```
+> Le `Finder` est **stateful**. Tout appel de method modifie toutes ses
+> instances.
 
-Le joker `*` est accepté, chaque pattern devant résoudre vers au moins un
-directory. Les directories passés à `exclude()` sont **relatifs** à ceux donnés
-à `in()`.
-
-Le Finder reposant sur les iterators PHP, `in()` accepte aussi une URL avec un
-protocole supporté — `ftp://`, `zlib://`.
+Un second `name()` **s'ajoute** : un file après le premier, deux après le
+second, sur le même object. `clone` donne une copie indépendante.
 
 ## Quoi chercher
 
-```php
-$finder->files();        // fichiers seuls
-$finder->directories();  // répertoires seuls
-```
-
-**Par défaut, le Finder rend les deux.** `files()` et `directories()` restreignent.
-Exécuté : 5 résultats sans filter, 4 avec `files()`, 1 avec `directories()`.
-Sans `in()` ni `append()`, l'itération lève une `LogicException`.
-
-Les liens symboliques ne sont pas suivis par défaut ; `followLinks()` les suit.
-
-## Les files de gestion de version
-
-Les métadonnées des VCS — Git, Mercurial — sont **ignorées par défaut** ;
-`ignoreVCS(false)` les réintègre.
-
-`ignoreVCSIgnored(true)` applique en plus les règles des files `.gitignore`
-rencontrés. Un détail que la documentation prend soin de préciser : **Symfony
-part du directory de recherche**, là où Git part de la racine du repository. Pour un
-comportement identique à Git, il faut donc lancer la recherche depuis cette
-racine.
-
-## Restreindre et trier
-
-```php
-$finder->depth('== 0');            // enfants directs seulement
-$finder->depth(['> 2', '< 5']);    // ou par chaînage
-
-$finder->sortByName();             // true pour l'ordre naturel
-$finder->sortByType();             // répertoires d'abord, puis fichiers
-```
-
-Le parcours est **récursif par défaut** ; `depth()` le borne.
+- `in()` : un ou plusieurs directories, joker `*` permis — chaque pattern
+  doit résoudre vers un directory, sinon `DirectoryNotFoundException` ;
+  `exclude()` prend des paths **relatifs** à ceux d'`in()` ; une URL
+  `ftp://` ou `zlib://` est acceptée.
+- **Par défaut, files et directories** ; `files()` ou `directories()`
+  restreignent. Sans `in()` ni `append()`, l'itération lève une
+  `LogicException`.
+- Récursif par défaut ; `depth('== 0')`, `depth(['> 2', '< 5'])` bornent.
+- Métadonnées VCS ignorées par défaut (`ignoreVCS(false)`) ;
+  `ignoreVCSIgnored(true)` applique les `.gitignore` en partant du directory
+  de recherche. Liens symboliques suivis seulement avec `followLinks()`.
 
 ## Récupérer les résultats
 
-`Finder` implémente `IteratorAggregate` : au-delà du `foreach`,
-`iterator_to_array()` et `iterator_count()` fonctionnent.
-
-Une précaution quand `in()` a été appelé **plusieurs fois** : un iterator
-distinct est créé par emplacement, et les keys peuvent se répéter. Il faut alors
-passer **`false`** en second argument d'`iterator_to_array()`, sans quoi des
-résultats s'écrasent.
-
-La key est le path du file. Exécuté : deux `a.txt` dans deux directories
-distincts donnent deux keys, sans collision ; deux `in()` qui se recouvrent
-(`f1` et `f1/sub`) atteignent le même file deux fois — `iterator_count()`
-rend 5, `iterator_to_array()` 4, avec `false` 5.
+`Finder` implémente `IteratorAggregate` : `foreach`, `iterator_to_array()`,
+`iterator_count()`, `hasResults()`. La key est le path du file : deux `a.txt`
+de directories distincts donnent deux keys, sans collision. Deux `in()` qui
+se recouvrent atteignent le même file deux fois — `iterator_count()` rend 5,
+`iterator_to_array()` 4, avec `false` en second argument 5.
 
 ## Un ordre déterministe
 
-Sans tri, le Finder rend les files dans l'ordre du filesystem. Exécuté
-sous Linux sur `f1` à `f12` créés dans l'ordre : `f4, f12, f9, f10, f1…` — ni
-alphabétique, ni de création. Un test qui compare une liste doit donc trier :
-
-| Appel | Ordre exécuté |
+| Appel | Ordre |
 |---|---|
-| `sortByName()` | `f1, f10, f2, f3` — comparaison de strings |
-| `sortByName(true)` | `f1, f2, f3, f10` — ordre naturel |
-| `->reverseSorting()` | l'ordre inverse |
+| aucun tri | celui du filesystem : ni alphabétique, ni de création |
+| `sortByName()` | `f1, f10, f2` — comparaison de strings |
+| `sortByName(true)` | `f1, f2, f10` — ordre naturel |
+| `sortByType()` | directories d'abord, puis files |
+| `->reverseSorting()` | l'ordre inverse du tri |
 
 ## Pièges d'examen
 
@@ -176,16 +125,96 @@ alphabétique, ni de création. Un test qui compare une liste doit donc trier :
 
 **Plusieurs `in()` : `iterator_to_array($finder, false)`.**
 
-## Points clés
+## Application
 
-- `files()->in()->name()`, interface fluide, `SplFileInfo` enrichi.
-- Object à état : cloner pour plusieurs recherches.
-- `in()` obligatoire ; `exclude()` relatif à `in()`.
-- VCS ignorés par défaut ; `.gitignore` via `ignoreVCSIgnored()`.
-- Récursif par défaut, borné par `depth()`.
-- `iterator_to_array($finder, false)` après plusieurs `in()`.
+- Deux recherches sur les mêmes dossiers, avec des noms différents → une base
+  commune, et `clone` pour chaque recherche.
+- Un test qui compare une liste de files → `sortByName(true)`.
+
+## QCM d'entraînement
+
+**Question 1.** `(new Finder())->in('src/*/Resources')` est itéré, et aucun
+directory ne correspond au joker. Que se passe-t-il ?
+
+- **A.** Aucun résultat, sans erreur
+- **B.** Une `DirectoryNotFoundException`
+- **C.** Le joker est ignoré, `src/` est parcouru
+- **D.** Une `LogicException` : `in()` manque
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** Chaque pattern passé à `in()` doit résoudre vers au
+moins un directory ; sinon le Finder refuse de chercher.
+
+</details>
+
+**Question 2.** Un directory contient `zdir/`, `adir/`, `b.txt` et `m.txt`.
+Dans quel ordre `depth(0)->sortByType()` les rend-il ?
+
+- **A.** `adir`, `zdir`, `b.txt`, `m.txt`
+- **B.** `b.txt`, `m.txt`, `adir`, `zdir`
+- **C.** `adir`, `b.txt`, `m.txt`, `zdir`
+- **D.** L'ordre du filesystem : `sortByType()` ne trie pas les noms
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : A.** `sortByType()` place les directories d'abord, puis les
+files, chacun dans l'ordre de son nom.
+
+</details>
+
+**Question 3.** Même directory : `depth(0)->sortByName()->reverseSorting()`.
+Quel est le premier résultat ?
+
+- **A.** `adir`
+- **B.** `b.txt`
+- **C.** Une exception : deux tris
+- **D.** `zdir`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : D.** `reverseSorting()` inverse le tri demandé : le nom le
+plus grand passe en premier.
+
+</details>
+
+**Question 4.** `g/` contient seulement `link`, un lien symbolique vers un
+directory qui contient un file. Combien de files rend
+`files()->in('g')` ?
+
+- **A.** 1 : le file du directory lié
+- **B.** 0
+- **C.** 2 : le lien et le file
+- **D.** Une exception : lien détecté
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** Les liens symboliques ne sont pas suivis par défaut ;
+avec `followLinks()`, le file serait trouvé.
+
+</details>
+
+## Fiche express
+
+**Si tu dois retenir seulement 6 choses :**
+
+- **`in()`** obligatoire ; joker sans correspondance → exception.
+- Par défaut **files et directories**, récursif, VCS ignorés, liens non
+  suivis.
+- Object **à état** : `clone` pour réutiliser.
+- `exclude()` **relatif** à `in()`.
+- Plusieurs `in()` : **`iterator_to_array($finder, false)`**.
+- Trier pour un ordre stable : `sortByName(true)`, `sortByType()`,
+  `reverseSorting()`.
+
+Moyen mnémotechnique : **« Où, quoi, dans quel ordre — et cloner »**.
 
 ## Sources officielles
 
 - [The Finder Component](https://github.com/symfony/symfony-docs/blob/8.0/components/finder.rst)
 - [`Finder`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Finder/Finder.php)
+

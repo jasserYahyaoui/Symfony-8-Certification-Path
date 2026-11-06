@@ -14,12 +14,12 @@ choisi de l'appliquer aussi aux pages déjà en ligne. **Lot 06** : 14 pages au
 format court, déployées (#456). **Batch 15** (#457,
 déployé) : 31 pages raccourcies, dont *Deprecations best practices* à la
 demande du propriétaire (« très long, affirmations dupliquées » : 6 123 → 1 402
-mots, chaque règle énoncée une fois) et les lots 05, 10, 11, 13, 14. Les 33
-pages longues des lots 07, 08 et 09 sont raccourcies dans le
-**batch 16** (la PR qui suit #457) avec les **9 pages du lot 12 converties**
-au format court (faits exécutés avec Console 8.0). Restent ensuite à
-**convertir 76 pages non pédagogiques** (lots 01–05, deux pages du lot 13,
-15–26).
+mots, chaque règle énoncée une fois) et les lots 05, 10, 11, 13, 14. **Batch 16** (#458, déployé) : les 33
+pages longues des lots 07, 08 et 09 raccourcies, et les **9 pages du lot 12 converties**
+au format court (faits exécutés avec Console 8.0). **Batch 17** (la PR qui suit #458) :
+**34 pages converties** — lot 02 (10), six pages du lot 03, lots 13 (2) et
+15 à 26 (16). Restent **42 pages non pédagogiques** : lots 01 (9), 03 (8), 04 (14)
+et 05 (11).
 
 Constats du lot 06, corrigés sur la branche (entrées CORRECTION au journal dans
 la PR qui suit la fusion) : F15 (propriétés `loop` sur un iterator `Countable`),
@@ -115,6 +115,7 @@ Branche de travail : `claude/symfony-8-certification-plan-phmkau`.
 | *Messenger component*, *Transports*, *Messages and handlers*, *Workers*, *Retries and failures*, *Middleware* et *Events* au format pédagogique (lot 11 terminé) ; carte FLC-am3cn12fjgd3 corrigée (reset d'`in-memory://`) ; journal et lignes de #454 | #455 | `82cd322` | smoke 125823101886 **success, lu jusqu'au bout** (412 ok, 0 erreur ; 44 lignes « diagrams … accessible title » ; sept nouvelles lignes « pedagogical lot-11/… » ; agenda 595 sessions jusqu'au 2027-03-02) |
 | Lot 06 (Twig, quatorze pages) au format pédagogique court ; `tools/behavior` tenu à Twig 3.22.2 ; corrections F15 à F17, `controller()` seul, `dump()` sans DebugBundle, quatre cartes « RuntimeError qui emballe », libellé « Translation 8.0.15 » ; quatre recto de cartes à URL mis en code (axe nested-interactive) ; journal de #455 | #456 | `1bf2a4a` | smoke 126609252747 **success, lu jusqu'au bout** (440 ok, 0 erreur ; 58 lignes « diagrams … accessible title » ; quatorze nouvelles lignes « pedagogical lot-06/… » ; agenda 600 sessions jusqu'au 2027-03-02) |
 | *Deprecations best practices* (demande du propriétaire : 6 123 → 1 402 mots, chaque règle énoncée une fois) et trente autres pages déployées des lots 05, 10, 11, 13 et 14 au format court ; preuve des règles réancrée sur la page pilote (FMT-001, QCM-001) ; journal et lignes de #456 | #457 | `7ef4457` | smoke 127111499377 **success, lu jusqu'au bout** (440 ok, 0 erreur ; journal des corrections servi ; agenda 587 sessions jusqu'au 2027-03-02) |
+| Lots 07, 08 et 09 raccourcis (33 pages, 80 272 → 35 411 mots de corps) et lot 12 (Console, neuf pages) converti au format court ; needle by_reference du smoke tenu sur une ligne source ; journal (31 entrées) et lignes de #457 | #458 | `8066d6a` | smoke 127468948329 **success, lu jusqu'au bout** (449 ok, 0 erreur ; 87 lignes « pedagogical lot-… », dont les neuf du lot 12 ; 58 lignes « diagrams … accessible title » ; agenda 566 sessions jusqu'au 2027-03-02) |
 
 **Pièges d'examen → flashcards (2026-10-24, livré : #432, `c48317d`).** Les 788
 paragraphes « Pièges d'examen » lus contre toutes les cartes de leur item :

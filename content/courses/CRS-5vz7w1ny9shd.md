@@ -6,6 +6,7 @@ content_level: STANDARD
 language: fr
 verification_status: VERIFIED
 reviewed_at: "2026-10-26"
+format: pedagogical
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/property_access.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/components/property_access.rst"
@@ -31,95 +32,69 @@ outcome_sections:
 Lire et écrire une valeur désignée par un **path**, et prévoir ce qui se
 passe quand ce path n'existe pas.
 
-## Périmètre
+## L'essentiel
 
-Les conventions d'accessors par lesquelles un nom de field se résout sur un
-object sont enseignées avec les **forms** (lot 07), qui les utilisent pour
-lier un field à une property ; elles ne sont pas reprises ici.
+PropertyAccess lit et écrit une valeur désignée par un **path** : les
+**crochets** visent un index d'array, le **point** une property d'object.
+Le piège central : un path absent rend `null` sur un array, mais **lève** sur
+un object — deux défauts opposés, renversables par l'accessor builder.
 
-Le path de property porté par une violation de constraint appartient au
-**Validator** (lot 08) : c'est un libellé décrivant *où* la violation est
-survenue, pas un path exécuté par ce component.
+## Le schéma
 
-## Deux notations, deux cibles
-
-C'est la distinction fondatrice du component :
-
-```php
-$propertyAccessor->getValue($person, '[first_name]');  // un tableau
-$propertyAccessor->getValue($person, 'firstName');     // un objet
+```text
+'[first_name]'              index d'array          absent → null (par défaut)
+'firstName'                 property d'object      absente → NoSuchPropertyException
+'children[0].firstName'     les deux, mélangés
+'person?.firstname'         ? arrête sur un maillon null (pas sur une property absente)
+isReadable / isWritable     un bool au lieu d'une exception — isReadable() appelle le getter
+__get / __set               actifs par défaut      __call : enableMagicCall()
 ```
 
-- Les **crochets** désignent un index d'array.
-- Le **point** désigne une property d'object.
-
-Les deux se combinent librement dans un même path :
+## L'exemple : une personne et ses enfants
 
 ```php
+$propertyAccessor = PropertyAccess::createPropertyAccessor();
+
+$propertyAccessor->getValue($person, 'firstName');
 $propertyAccessor->setValue($person, 'children[0].firstName', 'Wouter');
 // équivaut à $person->getChildren()[0]->firstName = 'Wouter'
-```
 
-Se tromper de notation n'est pas toléré. Exécuté sur PropertyAccess 8.0.8 :
-
-| Path | Cible | Résultat |
-|---|---|---|
-| `a` | array | `NoSuchPropertyException`, qui suggère d'écrire `[a]` |
-| `[x]` | `stdClass` | `NoSuchIndexException` : l'object n'implémente pas `ArrayAccess` |
-
-Écrire dans un array le modifie **par référence** : `setValue($a, '[y]', 2)`
-ajoute la key à `$a` lui-même.
-
-## Le path absent : deux comportements opposés
-
-C'est le piège central de l'item, et il ne se déduit pas.
-
-| Cible | Path absent | Par défaut |
-|---|---|---|
-| index d'array | `[age]` inexistant | rend **`null`** |
-| property d'object | `birthday` inexistante | **lève** `NoSuchPropertyException` |
-
-Un array pardonne, un object non. Les deux comportements se renversent par le
-accessor builder, `PropertyAccess::createPropertyAccessorBuilder()` :
-
-- `enableExceptionOnInvalidIndex()` fait lever l'array, par une
-  `NoSuchIndexException` ;
-- `disableExceptionOnInvalidPropertyPath()` fait rendre `null` à l'object.
-
-Ce n'est pas la seule voie : `new PropertyAccessor()` prend les mêmes réglages
-en drapeaux — `THROW_ON_INVALID_INDEX`, `THROW_ON_INVALID_PROPERTY_PATH`,
-`MAGIC_CALL` —, et une application les fixe sous `framework.property_access`.
-Exécuté : avec le seul drapeau `THROW_ON_INVALID_INDEX`, l'index absent lève
-une `NoSuchIndexException` et la property absente rend `null`.
-
-## Le maillon `null`
-
-Une property intermédiaire qui vaut `null` est un troisième cas, distinct du
-path absent. Exécuté, `$person` à `null` sur un `Comment` :
-
-| Path | Résultat |
-|---|---|
-| `person.firstname` | `UnexpectedTypeException` |
-| `person?.firstname` | `null`, évaluation arrêtée |
-
-L'operator `?` ne couvre **que** le `null` : si `person` est un object sans
-`firstname`, `person?.firstname` lève toujours `NoSuchPropertyException`.
-
-## Demander avant d'appeler
-
-`isReadable()` et `isWritable()` répondent par un bool, sans lever, là où
-`getValue()` et `setValue()` lèveraient :
-
-```php
-if ($propertyAccessor->isWritable($person, 'firstName')) {
+if ($propertyAccessor->isWritable($person, 'children[0].firstName')) {
     // ...
 }
 ```
 
-**Elles ne sont pas sans effet.** La documentation dit qu'`isReadable()` évite
-d'appeler `getValue()` ; elle ne dit pas qu'elle évite le getter. Lu dans
-`PropertyAccessor::isReadable()` (8.0) et exécuté avec des accessors qui
-journalisent leurs appels :
+## Deux notations, deux cibles
+
+| Path | Cible | Résultat |
+|---|---|---|
+| `a` | array | `NoSuchPropertyException`, qui suggère `[a]` |
+| `[x]` | `stdClass` | `NoSuchIndexException` : pas d'`ArrayAccess` |
+
+Écrire dans un array le modifie **par référence** : `setValue($a, '[y]', 2)`
+ajoute la key à `$a`. Les conventions d'accessors d'un object sont celles des
+forms (lot 07).
+
+## Le path absent : deux comportements opposés
+
+| Cible | Path absent | Pour renverser |
+|---|---|---|
+| index d'array | rend `null` | `enableExceptionOnInvalidIndex()` → `NoSuchIndexException` |
+| property d'object | lève `NoSuchPropertyException` | `disableExceptionOnInvalidPropertyPath()` → `null` |
+
+Le builder n'est pas la seule voie : `new PropertyAccessor()` prend les
+mêmes réglages en drapeaux — `THROW_ON_INVALID_INDEX`,
+`THROW_ON_INVALID_PROPERTY_PATH`, `MAGIC_CALL` —, et une application les fixe
+sous `framework.property_access`. Exécuté avec le seul drapeau
+`THROW_ON_INVALID_INDEX` : l'index absent lève, la property absente rend `null`.
+
+Un maillon `null` est un troisième cas : `person.firstname` lève une
+`UnexpectedTypeException`, `person?.firstname` rend `null`.
+
+## Demander avant d'appeler
+
+`isReadable()` et `isWritable()` rendent un bool là où `getValue()` et
+`setValue()` lèveraient. Elles ne sont pas sans effet :
 
 | Appel | Methods de l'object appelées |
 |---|---|
@@ -127,35 +102,18 @@ journalisent leurs appels :
 | `isWritable($person, 'firstName')` | aucune |
 | `isWritable($person, 'children[0].firstName')` | `getChildren()` |
 
-`isReadable()` **lit** le path entier ; `isWritable()` lit tout sauf le
-dernier maillon, qu'elle examine sans appeler le setter. Un getter coûteux ou à
-effet de bord s'exécute donc.
+`isReadable()` lit le path entier ; `isWritable()` lit tout sauf le dernier
+maillon, qu'elle examine sans appeler le setter.
 
 ## Les methods magiques
 
-Autre asymétrie : `__get()` est utilisée **par défaut**, tandis que `__call()`
-doit être **activée** explicitement par l'accessor builder,
-`enableMagicCall()`. `__set()` est, lui aussi, actif par défaut.
+`__get()` et `__set()` sont utilisées par défaut ; `__call()` doit être
+activée, `enableMagicCall()` : sans elle, une lecture qui ne passe que par
+`__call()` lève `NoSuchPropertyException`.
 
-Exécuté : sans `enableMagicCall()`, une lecture qui ne passerait que par
-`__call()` lève `NoSuchPropertyException` ; avec, elle aboutit.
-
-## Les collections
-
-Pour une property de collection, l'écriture passe par les methods d'ajout et
-de retrait. Quand celles-ci ne portent pas les préfixes attendus, un extractor
-par réflexion configuré avec les préfixes réellement employés est fourni à
-l'accessor.
-
-Exécuté, sur un object qui possède aussi `setChildren()` :
-
-| Ancienne liste → nouvelle | Methods appelées |
-|---|---|
-| `['a']` → `['b']` | `getChildren()`, `removeChild()`, `addChild()` |
-| `['a']` → `['a', 'b']` | `getChildren()`, `addChild()` |
-
-Le couple ajout/retrait **l'emporte sur le setter**, et seuls les éléments qui
-changent sont touchés.
+Pour une collection, le couple ajout/retrait l'emporte sur le setter, et seuls
+les éléments qui changent sont touchés : `['a']` → `['a', 'b']` appelle
+`getChildren()` puis `addChild()`.
 
 ## Pièges d'examen
 
@@ -170,16 +128,96 @@ Les deux défauts sont opposés.
 
 **`?` arrête sur `null`**, pas sur une property absente.
 
-## Points clés
+## Application
 
-- `[index]` pour un array, `.propriété` pour un object, mélangeables.
-- Défauts opposés sur path absent, renversables par l'accessor builder.
-- `isReadable()` / `isWritable()` rendent un bool au lieu de lever ;
-  `isReadable()` exécute le getter.
-- `?` rend `null` sur un maillon `null`.
-- `__get()` par défaut, `__call()` sur activation.
+- Lire un field facultatif dans un array de configuration → `[cle]`, qui
+  rend `null` si la key manque.
+- Lire une donnée exposée seulement par `__call()` → l'accessor builder et
+  `enableMagicCall()`.
+
+## QCM d'entraînement
+
+**Question 1.** `isWritable($person, 'children[0].firstName')` est appelé ;
+les accessors journalisent leurs appels. Lequel s'exécute ?
+
+- **A.** `getChildren()`
+- **B.** Aucun : `isWritable()` n'appelle rien
+- **C.** `setFirstName()` sur l'enfant
+- **D.** `getChildren()` puis le setter de l'enfant
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : A.** `isWritable()` lit les maillons qui précèdent le
+dernier pour l'atteindre ; le dernier est seulement inspecté.
+
+</details>
+
+**Question 2.** `$a = ['x' => 1];` puis `$propertyAccessor->setValue($a, '[y]', 2);`.
+Que vaut `$a` ensuite ?
+
+- **A.** `['x' => 1]` : la copie est modifiée, pas `$a`
+- **B.** `['y' => 2]` : l'array est remplacé
+- **C.** `['x' => 1, 'y' => 2]`
+- **D.** Une `NoSuchIndexException` : `y` n'existe pas
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : C.** L'array est passé par référence et modifié sur place ;
+écrire un index absent l'ajoute, sans exception, aux keys existantes.
+
+</details>
+
+**Question 3.** Dans une application Symfony, où règle-t-on les drapeaux de
+l'accessor, comme la levée sur index absent ?
+
+- **A.** `framework.serializer`
+- **B.** `framework.property_access`
+- **C.** Un compiler pass maison, seul moyen
+- **D.** Dans chaque appel à `getValue()`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** La configuration du framework expose ces réglages ;
+hors framework, le builder ou les drapeaux du constructor font de même.
+
+</details>
+
+**Question 4.** Une class n'expose `getSecret()` que par `__call()`. Que
+rend `getValue($obj, 'secret')` avec un accessor construit par
+`createPropertyAccessorBuilder()->enableMagicCall()` ?
+
+- **A.** `null` : la property n'existe pas
+- **B.** Une `NoSuchPropertyException`, comme par défaut
+- **C.** Une `LogicException` : `__call()` est interdit
+- **D.** La valeur rendue par `__call()`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : D.** Une fois activé, `__call()` sert de getter ; sans
+cette activation, la lecture lève, alors que `__get()` marche d'office.
+
+</details>
+
+## Fiche express
+
+**Si tu dois retenir seulement 6 choses :**
+
+- **`[index]`** pour un array, **`.property`** pour un object.
+- Absent : array → **`null`**, object → **exception** ; le builder renverse.
+- `?` arrête sur un maillon **`null`** seulement.
+- `isReadable()` / `isWritable()` : un bool ;
+  **`isReadable()` appelle le getter**.
+- `__get()` / `__set()` par défaut ; **`__call()`** sur activation.
+- Collection : ajout/retrait **avant** le setter.
+
+Moyen mnémotechnique : **« Crochet pour l'array, point pour l'object »**.
 
 ## Sources officielles
 
 - [`components/property_access.rst`, branche 8.0](https://github.com/symfony/symfony-docs/blob/8.0/components/property_access.rst)
 - [`PropertyAccessor`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/PropertyAccess/PropertyAccessor.php)
+

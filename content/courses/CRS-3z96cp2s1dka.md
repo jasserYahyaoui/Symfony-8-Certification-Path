@@ -6,6 +6,7 @@ content_level: DEEP
 language: fr
 verification_status: VERIFIED
 reviewed_at: "2026-10-14"
+format: pedagogical
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/serializer.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/serializer.rst"
@@ -44,56 +45,56 @@ outcome_sections:
 Savoir en quoi se décompose une serialization, et prévoir ce qui figure ou non
 dans le résultat.
 
-## Périmètre
+## L'essentiel
 
-Le syllabus exclut les **bridges vers des services tiers** : les formats fournis
-par des projets extérieurs ne sont pas au programme.
+Une serialization se fait en **deux étapes** : un **normalizer** change la
+valeur PHP en représentation normalisée, un **encoder** change celle-ci en
+format. Le normalizer décide de tout ce qui compte à l'examen — quelles
+properties sortent, sous quel nom, avec quelle valeur ; l'encoder ne sait que
+produire et lire un format. Les bridges vers des services tiers sont hors
+programme.
 
-L'accès aux valeurs par path appartient au lot 24 (PropertyAccess) ; il est
-ici seulement l'outil sur lequel s'appuie la normalization d'objects. La
-serialization des messages transportés appartient au lot 11 (Messenger).
+## Le schéma
+
+```text
+serialize()     valeur ─normalizer──▶ représentation normalisée ──encoder──▶ JSON / XML / CSV / YAML
+deserialize()   valeur ◀denormalizer── représentation normalisée ◀─decoder── format
+                 │ liste triée : le PREMIER qui accepte la valeur agit       un seul encoder : celui du format
+                 │ ObjectNormalizer : properties publiques + get/has/is/can
+                 │ #[Ignore] partout · groups au cas par cas · #[SerializedName] renomme
+                 │ contexte = 3e argument, pour UN appel
+```
+
+## L'exemple : une vue publique
+
+```php
+$json = $serializer->serialize($person, 'json', ['groups' => 'public-view']);
+
+$order = $serializer->deserialize('{"qty":7}', Order::class, 'json', [
+    AbstractNormalizer::OBJECT_TO_POPULATE => $existingOrder,
+]);
+```
 
 ## Deux étapes, deux responsabilités
 
-| Étape | Role |
-|---|---|
-| **Normalizers** | valeur PHP ⇄ **représentation normalisée** |
-| **Encoders** | représentation normalisée ⇄ **format** |
+La représentation normalisée **n'est pas toujours un array** :
 
-Un normalizer décide *quelles properties* sont retenues, *quelle valeur* elles
-portent et *quel nom* elles prennent. Un encoder ne sait qu'une chose :
-produire et lire un format.
-
-**La représentation normalisée n'est pas toujours un array.**
-`NormalizerInterface::normalize()` déclare `array|string|int|float|bool|\ArrayObject|null`.
-Exécuté sur Serializer 8.0.15 :
-
-| Valeur normalisée | Résultat | JSON |
+| Valeur | Normalizer | JSON |
 |---|---|---|
-| object ordinaire, par `ObjectNormalizer` | array | `{"name":"Ada"}` |
-| `DateTimeImmutable`, par `DateTimeNormalizer` | **string** RFC 3339 | `"2026-01-02T03:04:05+00:00"` |
-| enum *backed* `'H'`, par `BackedEnumNormalizer` | **string** `'H'` | `"H"` |
-| l'int `42` | `42`, sans normalizer | `42` |
-
-À la lecture, le decoder rend ce que porte le format : `"H"` reste une string,
-que le denormalizer change en `Suit::Hearts`.
+| object ordinaire | `ObjectNormalizer` → array | `{"name":"Ada"}` |
+| `DateTimeImmutable` | `DateTimeNormalizer` → **string** RFC 3339 | `"2026-01-02T03:04:05+00:00"` |
+| enum *backed* `'H'` | `BackedEnumNormalizer` → **string** | `"H"` |
+| l'int `42` | aucun | `42` |
 
 Le service par défaut compose une **liste triée de normalizers** et **un seul
-encoder**, celui du format demandé.
-
-`ObjectNormalizer` est le principal : il travaille par réflexion et s'appuie sur
-le component d'accès aux properties.
-
-Encoders fournis par défaut : **JSON, XML, CSV, YAML**. Exécuté, l'array
+encoder** par opération. Encoders fournis : **JSON, XML, CSV, YAML** —
 `['k' => 'v']` donne `{"k":"v"}`, `<response><k>v</k></response>`, `k` puis `v`
-sur deux lignes, et `{ k: v }`. Un format sans encoder lève une
+sur deux lignes, `{ k: v }`. Un format sans encoder lève une
 `UnsupportedFormatException`.
 
 ## Ce qui est pris par défaut
 
-`ObjectNormalizer` lit l'object par le component d'accès aux properties : les
-properties **publiques**, et les methods dont le nom commence par `get`, `has`,
-`is` ou `can`, préfixe retiré. Exécuté sur Serializer 8.0.15 :
+`ObjectNormalizer` lit l'object par l'accès aux properties :
 
 | Membre | Dans l'output |
 |---|---|
@@ -103,20 +104,12 @@ properties **publiques**, et les methods dont le nom commence par `get`, `has`,
 | property protégée ou privée sans accessor | **non** |
 | `fetchThing()` | non : préfixe inconnu |
 
-`#[Ignore]` exclut définitivement une property ou une method.
+`#[Ignore]` exclut une property ou une method **partout**.
 
 ## Choisir selon le contexte
 
-Là où `#[Ignore]` exclut partout, les **groups** excluent *ici* et gardent
-*ailleurs* :
-
-```php
-$json = $serializer->serialize($person, 'json', ['groups' => 'public-view']);
-```
-
-Une property sans group déclaré **ne sort pas** quand un group est demandé.
-Exécuté, avec `name` et `fullName` dans `public-view`, `age` dans `admin-view`,
-`email` sans group :
+Les **groups** excluent *ici* et gardent *ailleurs*. Avec `name` et `fullName`
+dans `public-view`, `age` dans `admin-view`, `email` sans group :
 
 | Contexte | Sortie |
 |---|---|
@@ -125,88 +118,64 @@ Exécuté, avec `name` et `fullName` dans `public-view`, `age` dans `admin-view`
 | `'groups' => '*'` | les quatre |
 | `'groups' => ['Default']` | **rien** |
 
-Il n'y a pas de group `Default` implicite, contrairement au Validator : `*`
-est la seule valeur qui reprend les properties sans group.
+Pas de group `Default` implicite, contrairement au Validator : `*` seul reprend
+les properties sans group.
 
-Groups et `#[Ignore]` sont des **métadonnées** : le service `serializer` du
-framework les lit, mais un `ObjectNormalizer` construit sans fabrique de
-métadonnées les ignore. Exécuté : `groups` à `public-view` rend alors toutes les
-properties, y compris celle marquée `#[Ignore]`.
-
-## Renommer
-
-`#[SerializedName]` change le nom d'un attribute dans le format produit, sans
-toucher à la property PHP.
-
-Il agit par le convertisseur de noms `MetadataAwareNameConverter`. Le service
-`serializer` du framework le branche ; un `Serializer` construit à la main
-**sans** lui ignore l'attribute. Exécuté : `fullName` sans convertisseur,
-`full_name` avec.
+Groups, `#[Ignore]` et `#[SerializedName]` (qui renomme dans le format seul)
+sont des **métadonnées**. Le service `serializer` du framework les lit ; un
+`ObjectNormalizer` construit sans fabrique de métadonnées les ignore — groups
+demandés, toutes les properties sortent, y compris celle marquée `#[Ignore]`.
+De même, sans `MetadataAwareNameConverter`, `fullName` n'est pas renommé.
 
 ## Quel normalizer agit ?
 
-Le `Serializer` interroge ses normalizers **dans l'ordre** et confie la valeur
-au **premier** dont `supportsNormalization()` répond vrai. `getSupportedTypes()`
-déclare les types visés, pour éviter les appels inutiles.
-
-Exécuté avec un `MoneyNormalizer` qui rend `"12.50 EUR"` :
+Le `Serializer` confie la valeur au **premier** normalizer dont
+`supportsNormalization()` répond vrai ; `getSupportedTypes()` évite les appels
+inutiles.
 
 | Ordre | `price` dans le JSON |
 |---|---|
 | `[MoneyNormalizer, ObjectNormalizer]` | `"12.50 EUR"` |
 | `[ObjectNormalizer, MoneyNormalizer]` | `{"cents":1250,"currency":"EUR"}` |
 
-`ObjectNormalizer` accepte presque tout object : placé devant, il avale aussi les
-dates. Le framework l'enregistre avec la priority **−1000**, si bien qu'un
+Le framework enregistre `ObjectNormalizer` à la priority **−1000** : un
 normalizer de l'application, autoconfiguré, passe avant lui.
 
 ## Dénormaliser
 
-Le contrôle des types vient d'un **extractor de types**, que le service du
-framework reçoit. Exécuté sur une property `int $qty` :
+Le decoder rend ce que porte le format (`"H"` reste une string) ; le
+denormalizer en fait `Suit::Hearts`. Le contrôle des types vient d'un
+**extractor de types**, que le service du framework reçoit :
 
-| JSON | Sans extractor | Avec extractor |
+| JSON vers `int $qty` | Sans extractor | Avec extractor |
 |---|---|---|
 | `{"qty":"7"}` | `7` : PHP convertit | `NotNormalizableValueException` |
 | `{"qty":"x"}` | `NotNormalizableValueException` | idem |
 
 `COLLECT_DENORMALIZATION_ERRORS` rassemble les erreurs dans une
-`PartialDenormalizationException` au lieu de s'arrêter à la première.
-`#[MapRequestPayload]` dénormalise avec cette option : les erreurs collectées y
-deviennent des violations, comme celles d'une constraint.
-
-`OBJECT_TO_POPULATE` remplit un object existant : exécuté, `{"qty":7}` change
-`qty` et laisse `note` intact, et c'est bien le même object qui est rendu.
+`PartialDenormalizationException` ; `#[MapRequestPayload]` l'active et en fait
+des violations. `OBJECT_TO_POPULATE` remplit **le même** object : `{"qty":7}`
+change `qty` et laisse `note` intact.
 
 ## Le contexte
 
 Le troisième argument règle **un** appel : `skip_null_values` retire les
-properties nulles, `datetime_format` change le format des dates — exécuté,
-`Y-m-d` rend `"2026-01-02"`.
+properties nulles, `datetime_format` à `Y-m-d` rend `"2026-01-02"`.
 
 ## Les références circulaires
 
-Deux objects qui se pointent l'un l'autre feraient boucler la normalization. Le
-component lève une `CircularReferenceException`.
-
-**Le seuil est réglable** par la key `circular_reference_limit` du contexte :
-c'est le nombre de fois qu'un même object est sérialisé avant d'être considéré
-comme circulaire. **Sa default value est `1`.**
-
-Un callback peut remplacer l'exception — utile pour rendre un
-identifier plutôt que l'object entier.
-
-Exécuté, `Org` et `Mem` qui se pointent :
+Deux objects qui se pointent lèvent une `CircularReferenceException`.
+`circular_reference_limit` — combien de fois un object est sérialisé avant
+d'être jugé circulaire — vaut **`1`** par défaut.
 
 | Contexte | Résultat |
 |---|---|
-| par défaut | `CircularReferenceException` (*configured limit: 1*) |
-| `circular_reference_limit` à `2` | toujours l'exception, plus tard |
+| par défaut | `CircularReferenceException` |
+| limite à `2` | l'exception, plus tard |
 | `circular_reference_handler` qui rend `'ref'` | `{"members":[{"org":"ref","name":"m"}]}` |
 | un même object dans deux properties sœurs | aucune exception |
 
-Le compteur suit **la branche en cours**, pas le document entier : un object
-répété côte à côte n'est pas circulaire.
+Le compteur suit **la branche en cours**, pas le document entier.
 
 ## Pièges d'examen
 
@@ -227,16 +196,96 @@ supprime pas l'exception d'un vrai cycle.
 **`groups` à `Default` ne rend rien** : seul `*` reprend les properties sans
 group.
 
-## Points clés
+## Application
 
-- Normalizer = valeur ⇄ représentation normalisée (array pour un object,
-  string pour une date ou une enum) ; encoder = représentation ⇄ format.
-- `#[Ignore]` exclut partout, les groups excluent au cas par cas.
-- `#[SerializedName]` renomme dans le format seul.
-- Ordre des normalizers ; types contrôlés par l'extractor ; contexte par appel.
-- Référence circulaire : exception, seuil `1`, rappel possible.
+- Une API publique et une API d'administration sur la même entité → deux
+  groups, `public-view` et `admin-view`.
+- Un PATCH qui ne change qu'un field → `OBJECT_TO_POPULATE`.
+
+## QCM d'entraînement
+
+**Question 1.** Que produit `$serializer->serialize(Suit::Hearts, 'json')`
+pour une enum *backed* de valeur `'H'` ?
+
+- **A.** `{"name":"Hearts","value":"H"}`
+- **B.** `"Hearts"`, le nom du case
+- **C.** `"H"`
+- **D.** Une `UnsupportedFormatException`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : C.** `BackedEnumNormalizer` rend la valeur du case, une
+string ; l'étape du milieu n'est donc pas un array, et le JSON est `"H"`.
+
+</details>
+
+**Question 2.** Un `Serializer` construit à la main, sans extractor de types,
+dénormalise `{"qty":"x"}` vers une property `int $qty`. Résultat ?
+
+- **A.** `qty` vaut `0`
+- **B.** Une `NotNormalizableValueException`
+- **C.** `qty` vaut `null`, l'erreur est ignorée
+- **D.** `qty` vaut `"x"` : le type n'est pas contrôlé
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** Sans extractor, PHP tente la conversion : `"7"`
+deviendrait `7`, mais `"x"` n'a aucune valeur entière et l'appel lève.
+
+</details>
+
+**Question 3.** Que donne l'encoder CSV pour l'array `['k' => 'v']` ?
+
+- **A.** `k,v` sur une seule ligne
+- **B.** `v` seul, les keys sont perdues
+- **C.** `k` puis `v`, sur deux lignes
+- **D.** `"k";"v"`, entre guillemets
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : C.** La première ligne porte les headers, tirés des keys ;
+la suivante porte les valeurs, une ligne par enregistrement.
+
+</details>
+
+**Question 4.** Un `Serializer` reçoit `[MoneyNormalizer, ObjectNormalizer]`.
+`MoneyNormalizer` rend `"12.50 EUR"`. Que vaut `price` dans le JSON ?
+
+- **A.** `"12.50 EUR"`
+- **B.** `{"cents":1250,"currency":"EUR"}`
+- **C.** Les deux, fusionnés dans un object
+- **D.** Une exception : deux normalizers acceptent
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : A.** Le premier normalizer qui accepte la valeur l'emporte ;
+dans l'ordre inverse, `ObjectNormalizer` aurait rendu l'object de ses
+properties.
+
+</details>
+
+## Fiche express
+
+**Si tu dois retenir seulement 8 choses :**
+
+- **Normalizer** (valeur ⇄ représentation) puis **encoder** (⇄ format).
+- Représentation : array pour un object, **string** pour une date ou une enum.
+- Plusieurs normalizers, **un** encoder ; le **premier** qui accepte agit.
+- `ObjectNormalizer` : public + `get`/`has`/`is`/`can`.
+- `#[Ignore]` partout ; **groups** au cas par cas ; `Default` ne rend rien,
+  `*` tout.
+- Métadonnées lues par le service du framework, pas par un normalizer nu.
+- `"7"` vers `int` : refusé **seulement** avec l'extractor de types.
+- Cycle : exception, limite **`1`**, handler pour rendre un identifier.
+
+Moyen mnémotechnique : **« Normaliser décide, encoder écrit »**.
 
 ## Sources officielles
 
 - [`serializer.rst`, branche 8.0](https://github.com/symfony/symfony-docs/blob/8.0/serializer.rst)
 - [`AbstractNormalizer`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Serializer/Normalizer/AbstractNormalizer.php)
+

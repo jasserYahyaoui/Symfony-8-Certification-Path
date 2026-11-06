@@ -6,6 +6,7 @@ content_level: STANDARD
 language: fr
 verification_status: VERIFIED
 reviewed_at: "2026-10-02"
+format: pedagogical
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/profiler.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/profiler.rst"
@@ -64,9 +65,42 @@ outcome_sections:
 Comprendre qui collecte quoi, où c'est stocké, et par quels entry points on y
 accède — y compris quand la barre n'apparaît pas.
 
-## Prérequis
+## L'essentiel
 
-Le cycle du kernel HTTP et ses events ; le debug du code.
+Trois pièces : les **data collectors** ramassent l'information, le
+**profiler** la stocke sous un token, la **debug toolbar** en affiche un
+résumé. La barre n'est qu'une vue : elle manque souvent (JSON, redirect),
+le profil existe toujours. Le tout s'installe en dependency de développement,
+jamais en production.
+
+## Le schéma
+
+```text
+pendant la Request    un service mesure ; le collector garde ses données
+kernel.response       collect() — une seule fois — ; barre injectée avant </body> si HTML
+kernel.terminate      lateCollect() ; profil sérialisé et stocké sous un token
+accès                 barre │ X-Debug-Token / X-Debug-Token-Link │ /_profiler │ $profiler->loadProfile($token)
+stockage              purge des profils de plus de 2 jours, une écriture sur dix
+```
+
+## L'exemple : un collector de hits
+
+```php
+class HitCollector extends AbstractDataCollector implements LateDataCollectorInterface
+{
+    public function __construct(private HitCounter $counter) {}
+
+    public function collect(Request $request, Response $response, ?\Throwable $exception = null): void
+    {
+        $this->data['hits'] = $this->counter->count();      // ramasse, ne mesure pas
+    }
+
+    public function lateCollect(): void
+    {
+        $this->data['late_hits'] = $this->counter->count(); // après la Response
+    }
+}
+```
 
 ## Trois pièces, trois roles
 
@@ -76,114 +110,37 @@ Le cycle du kernel HTTP et ses events ; le debug du code.
 | **Profiler** | stocke ces données sous un **token**, et les ressert |
 | **Debug toolbar** | affiche un résumé en bas de la page |
 
-La barre est une **vue** sur le profiler, pas une source. Retirer la barre ne
-supprime pas les données.
-
-## Jamais en production
-
-La documentation est catégorique : **ne jamais activer le profiler en
-production** — cela ouvrirait des vulnérabilités majeures. Il s'installe en
-dependency de développement :
-
-```bash
-composer require --dev symfony/profiler-pack
-```
+`composer require --dev symfony/profiler-pack`. La documentation est
+catégorique : ne jamais l'activer en production, ce serait ouvrir des
+vulnérabilités majeures. Un controller qui reçoit le service `profiler` le
+type `?Profiler` : il n'existe pas en production.
 
 ## La barre n'apparaît pas toujours
-
-Elle n'est injectée que dans les Responses **HTML**. Pour une Response JSON — le
-cas d'une API — rien ne s'affiche, et c'est normal. Exécuté sur
-WebProfilerBundle 8.0.15, profiler actif :
 
 | Response | Barre injectée | `X-Debug-Token-Link` |
 |---|---|---|
 | HTML avec `</body>` | oui | présent |
-| JSON | non | présent |
-| redirect 302 | non | présent |
+| JSON, redirect 302, HTML demandé en XHR | non | présent |
 | HTML sans tag `</body>` | non | présent |
-| HTML demandé en XHR | non | présent |
 
-L'injection se fait juste avant `</body>` : sans ce tag, il n'y a pas
-d'endroit où l'insérer. **Le profil, lui, existe dans tous les cas.**
-
-L'accès passe alors par deux headers de Response :
-
-| Header | Contenu |
-|---|---|
-| `X-Debug-Token` | le token du profil |
-| `X-Debug-Token-Link` | l'URL directe du profil |
-
-L'URL `/_profiler` liste tous les profils. C'est la solution à « je n'ai pas de
-barre, comment je vois le profil ? ».
-
-## Le stockage n'est pas permanent
-
-Pour limiter la place occupée, les profils sont supprimés
-**probabilistiquement après 2 jours**. On ne s'appuie donc pas sur un profil
-ancien.
-
-Lu dans `FileProfilerStorage` (8.0) : à chaque écriture d'un nouveau profil, une
-chance sur dix (`random_int(1, 10)`) déclenche la purge des profils de plus de
-`2 * 86400` secondes. Un profil ancien peut donc survivre tant que peu de
-Requests sont profilées.
-
-## Y accéder par le code
-
-```php
-$profile = $profiler->loadProfileFromResponse($response);
-
-$token   = $response->headers->get('X-Debug-Token');
-$profile = $profiler->loadProfile($token);
-
-$tokens  = $profiler->find('', '/admin/', 10, '', '', '');
-```
-
-Le service `profiler` s'autocâble sur le type `Profiler`. En production il
-n'existe pas : un controller qui le reçoit doit accepter `?Profiler` et tester
-la valeur nulle avant d'appeler `enable()` ou `disable()`.
+`X-Debug-Token` porte le token, `X-Debug-Token-Link` l'URL du profil, et
+`/_profiler` liste tous les profils. Les profils sont supprimés
+probabilistiquement après **2 jours** : une écriture sur dix, la purge
+(`FileProfilerStorage`) retire les profils de plus de `2 * 86400` secondes.
 
 ## Les collectors
 
-Ce sont des services. La liste réellement active se lit :
-
-```bash
-php bin/console debug:container --tag=data_collector
-```
-
-Un collector implémente `DataCollectorInterface`, ou étend
-`AbstractDataCollector`, qui fournit la property `$this->data`.
-
-Trois methods, et une constraint de moment pour chacune :
-
-| Method | Role |
-|---|---|
-| `collect()` | **appelée une seule fois**, sur `kernel.response` |
-| `reset()` | vide l'état entre deux Requests |
-| `getName()` | l'identifier, unique dans l'application |
-
-Deux points que l'examen peut viser :
-
-**`collect()` ne rassemble pas, elle ramasse.** Elle est appelée une fois ; le
-travail de mesure doit avoir été fait par un service pendant la Request. Écrire
-la collecte dans `collect()` ne marche pas.
-
-**Les données sont sérialisées.** Un object non sérialisable — une connexion, une
-ressource — ne peut pas être stocké tel quel.
-
-Pour une donnée qui n'existe qu'après la Response, on implémente
-`LateDataCollectorInterface` et sa method `lateCollect()`, appelée juste avant
-la serialization, pendant **`kernel.terminate`**.
-
-Lu dans `ProfilerListener` (8.0) : `onKernelResponse()` déclenche les
-`collect()`, `onKernelTerminate()` les `lateCollect()` puis l'écriture du profil.
-
-Avec `autoconfigure`, le collector est pris en compte sans configuration ;
-sinon il faut poser le tag `data_collector`.
+- Un service qui implémente `DataCollectorInterface` — `collect()`, `reset()`,
+  `getName()` — ou étend `AbstractDataCollector`, qui fournit `$this->data`.
+- `collect()` est appelée **une seule fois**, sur `kernel.response` : elle
+  ramasse ce qu'un service a mesuré. `lateCollect()`
+  (`LateDataCollectorInterface`) tourne sur **`kernel.terminate`** :
+  `ProfilerListener::onKernelTerminate()` l'appelle, puis écrit le profil.
+- Les données sont **sérialisées** : une connexion, une closure ne passent pas.
+- `php bin/console debug:container --tag=data_collector` liste les collectors ;
+  avec `autoconfigure`, rien à déclarer, sinon le tag `data_collector`.
 
 ## Un collector de bout en bout
-
-Exécuté avec HttpKernel et FrameworkBundle 8.0.15, un collector qui étend
-`AbstractDataCollector` et implémente `LateDataCollectorInterface` :
 
 | Étape | Résultat |
 |---|---|
@@ -194,9 +151,9 @@ Exécuté avec HttpKernel et FrameworkBundle 8.0.15, un collector qui étend
 | une `Closure` dans `$this->data` | `saveProfile()` lève « Serialization of 'Closure' is not allowed » |
 | `reset()` | vide `$this->data` |
 
-Tagué à la main, le `data_collector` porte un `id` égal à `getName()`. Dans un
-functional test, `$client->getProfile()->getCollector('app.hit')` relit le
-collector — après `enableProfiler()` si `collect` vaut `false`.
+Tagué à la main, le `data_collector` porte un `id` égal à `getName()`. En
+test, `$client->getProfile()->getCollector('app.hit')`, après
+`enableProfiler()` si `collect` vaut `false`.
 
 ## Pièges d'examen
 
@@ -211,14 +168,93 @@ fois sur dix, à l'écriture d'un profil.
 
 **`getName()` est la key d'accès** — par défaut le FQCN, avec `AbstractDataCollector`.
 
-## Points clés
+## Application
 
-- Collectors → profiler → barre : trois roles distincts, la barre n'est
-  qu'une vue.
-- Dependency `--dev` ; jamais en production.
-- Sans HTML, passer par `X-Debug-Token-Link` ou `/_profiler`.
-- `collect()` ramasse sur `kernel.response`, `lateCollect()` sur
-  `kernel.terminate`, les données sont sérialisées.
+- Une API JSON dont on veut le profil → le header `X-Debug-Token-Link`, ou
+  `/_profiler`.
+- Mesurer la durée des appels à un service distant → un service qui mesure,
+  un collector qui ramasse.
+
+## QCM d'entraînement
+
+**Question 1.** Une page HTML complète, avec `</body>`, est chargée par un
+appel `fetch()` en XHR, profiler actif. Que porte la Response ?
+
+- **A.** La barre, injectée avant `</body>`
+- **B.** Ni barre ni header : le profil n'est pas créé
+- **C.** Pas de barre, mais `X-Debug-Token-Link`
+- **D.** La barre, et une seconde barre pour l'appel XHR
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : C.** Une Response demandée en XHR ne reçoit pas la barre ;
+le profil existe pourtant, et son lien voyage dans le header.
+
+</details>
+
+**Question 2.** Pour diagnostiquer un incident, un développeur veut activer le
+profiler sur le serveur de production. Que dit la documentation ?
+
+- **A.** C'est possible le temps du diagnostic, avec `APP_DEBUG=1`
+- **B.** C'est possible si `/_profiler` est protégé par un firewall
+- **C.** C'est recommandé : la barre y est masquée par défaut
+- **D.** Jamais : cela ouvrirait des vulnérabilités majeures
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : D.** Le profiler est une dependency de développement ; la
+documentation interdit de l'activer en production, sans exception.
+
+</details>
+
+**Question 3.** `HitCollector` étend `AbstractDataCollector` sans redéfinir
+`getName()` ni `getTemplate()`. Que rendent ces deux methods ?
+
+- **A.** Le FQCN de la class, puis `null`
+- **B.** `hit`, puis le template par défaut du profiler
+- **C.** `hit_collector`, puis `null`
+- **D.** Une exception : `getName()` est abstraite
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : A.** `AbstractDataCollector` nomme le collector par sa class
+complète et ne fournit aucun template : c'est cette key que lit `getCollector()`.
+
+</details>
+
+**Question 4.** Sans `autoconfigure`, un collector est tagué
+`data_collector` à la main. Quel attribute ce tag porte-t-il ?
+
+- **A.** `priority`, obligatoire
+- **B.** `id`, égal à `getName()`
+- **C.** `alias`, égal au nom du service
+- **D.** Aucun : le tag seul suffit
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** L'`id` du tag doit correspondre au nom que rend le
+collector, sous lequel le profil le range et le rend.
+
+</details>
+
+## Fiche express
+
+**Si tu dois retenir seulement 6 choses :**
+
+- **Collectors** ramassent, **profiler** stocke, **barre** affiche.
+- **`--dev`**, jamais en production ; `?Profiler` dans un controller.
+- Barre : HTML avec `</body>`, hors redirect et XHR ; sinon
+  **`X-Debug-Token-Link`** ou `/_profiler`.
+- `collect()` sur **`kernel.response`**, une fois ; `lateCollect()` sur
+  **`kernel.terminate`**.
+- Données **sérialisées** ; purge après **2 jours**, une fois sur dix.
+- Nom par défaut : le **FQCN** ; tag `data_collector` avec `id`.
+
+Moyen mnémotechnique : **« Ramasser, stocker, montrer »**.
 
 ## Sources officielles
 
@@ -226,3 +262,4 @@ fois sur dix, à l'écriture d'un profil.
 - [`ProfilerListener`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/EventListener/ProfilerListener.php)
 - [`FileProfilerStorage`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Profiler/FileProfilerStorage.php)
 - [`WebDebugToolbarListener`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/WebProfilerBundle/EventListener/WebDebugToolbarListener.php)
+
