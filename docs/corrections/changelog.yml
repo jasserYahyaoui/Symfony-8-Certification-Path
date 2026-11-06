@@ -7303,3 +7303,27 @@ entries:
       - Fiche express
     flashcards: []
     questions: []
+  - id: CVR-1gbjr1ak8qfs
+    date: '2026-11-06'
+    pull_request: 463
+    commit: 0bbfb35
+    kind: CORRECTION
+    finding: F18
+    official_items:
+    - OIT-3dd7821h069b
+    facts:
+    - translation.several-catalogues
+    title: 'Internationalization : entre `messages` et `messages+intl-icu`, la dernière resource chargée gagne'
+    was: '« Une key dans `messages` et dans `messages+intl-icu` : la version **ICU** gagne. » — et la flashcard « Laquelle trans() lit-il ? — Celle de messages+intl-icu. »'
+    now: '`messages` et `messages+intl-icu` comptent comme un seul domain : `MessageCatalogue::add()` retire la key de l''autre, donc la dernière resource chargée gagne, key par key. Les files d''un dossier se chargent par ordre de nom, et `+` passe avant `.` : avec `messages.en.yaml` et `messages+intl-icu.en.yaml`, c''est la version classique qui l''emporte. Exécuté avec FrameworkBundle 8.0.15 et Translation 8.0.14 ; les mentions « Translation 8.0.15 » deviennent 8.0.14, la version installée.'
+    courses:
+    - id: CRS-v1808qnchx6g
+      sections:
+      - Plusieurs catalogues pour une key
+    flashcards:
+    - FLC-xy5sg8rfzbff
+    questions:
+    - QST-50q8da3a6j72
+    - QST-c2ajcg5w4bqk
+    reversioned:
+    - QST-50q8da3a6j72
