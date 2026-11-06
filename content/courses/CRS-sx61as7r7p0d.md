@@ -6,6 +6,7 @@ content_level: STANDARD
 language: fr
 verification_status: VERIFIED
 reviewed_at: "2026-09-01"
+format: pedagogical
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/Routing/Generator/UrlGeneratorInterface.php"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Generator/UrlGeneratorInterface.php"
@@ -45,6 +46,36 @@ outcome_sections:
 Générer une URL depuis une route, et maîtriser ce qui arrive aux parameters qui
 ne font pas partie de la route.
 
+## L'essentiel
+
+Une URL se génère toujours depuis une route : `generateUrl()` dans un
+controller, `generate()` d'`UrlGeneratorInterface` dans un service, `path()` et
+`url()` en Twig. Le troisième argument choisit la forme — **path absolu par
+défaut**. Un parameter absent de la route part en **query string**, sans
+erreur ; un object y est converti, contrairement à ce que dit la documentation.
+
+## Le schéma
+
+```text
+controller   $this->generateUrl('blog', ['page' => 2])     service  UrlGeneratorInterface::generate()
+Twig         path() = ABSOLUTE_PATH · url() = ABSOLUTE_URL
+types        ABSOLUTE_URL 0 https://example.com/blog/2 · ABSOLUTE_PATH 1 /blog/2 (défaut)
+             RELATIVE_PATH 2 ../blog/2 · NETWORK_PATH 3 //example.com/blog/2
+en trop      → query string · égal au défaut de même nom → retiré · _query (array) prioritaire
+object       properties publiques → array · sinon Stringable → string · référence circulaire → exception
+route absente → RouteNotFoundException (ne pas appeler getRouteCollection())
+```
+
+## L'exemple
+
+```php
+$this->generateUrl('blog', ['page' => 2, 'category' => 'Symfony']);
+// la route blog ne définit que page → /blog/2?category=Symfony
+
+$this->generateUrl('blog', ['page' => 2], UrlGeneratorInterface::ABSOLUTE_URL);
+// lien pour un email → https://example.com/blog/2
+```
+
 ## Où et comment
 
 | Contexte | Appel |
@@ -53,64 +84,38 @@ ne font pas partie de la route.
 | service | injecter `UrlGeneratorInterface`, appeler `generate()` |
 | template Twig | `path('nom', {...})` et `url('nom', {...})` |
 
-Le principe est le même partout : on ne construit **jamais** une URL à la main.
-Changer le path d'une route met alors à jour tous les liens.
+On ne construit **jamais** une URL à la main : changer le path d'une route met
+alors à jour tous les liens.
 
 ## Les quatre types de référence
 
-Le troisième argument de `generate()` — et de `generateUrl()` — choisit la forme
-de l'URL. Les constants sont sur `UrlGeneratorInterface` :
-
-| Constante | Valeur | Résultat |
-|---|---|---|
-| `ABSOLUTE_URL` | `0` | `https://example.com/blog/2` |
-| `ABSOLUTE_PATH` | `1` | `/blog/2` — **la default value** |
-| `RELATIVE_PATH` | `2` | `../blog/2`, relatif au path courant |
-| `NETWORK_PATH` | `3` | `//example.com/blog/2`, qui reprend le schéma courant |
-
-La constant qui vaut `0` n'est **pas** le défaut : c'est l'URL absolue.
-
-En Twig, `path()` correspond au path absolu et `url()` à l'URL absolue.
+Les constants sont sur `UrlGeneratorInterface` : `ABSOLUTE_URL` vaut `0`,
+`ABSOLUTE_PATH` vaut `1` et c'est **le défaut**, `RELATIVE_PATH` vaut `2`,
+`NETWORK_PATH` vaut `3`. La constant qui vaut `0` n'est donc pas le défaut.
+`NETWORK_PATH` reprend le schéma courant ; `RELATIVE_PATH` est relatif au path
+courant.
 
 ## Les parameters en trop
 
-Un parameter passé au generator mais **absent de la definition de la route**
-n'est pas ignoré : il est ajouté en **query string**.
-
-```php
-$this->generateUrl('blog', ['page' => 2, 'category' => 'Symfony']);
-// la route blog ne définit que page → /blog/2?category=Symfony
-```
-
-Deux nuances du code :
-
-- un parameter en trop **égal à la default value** de même nom est
-  **retiré** : il n'apparaît pas dans la query string ;
-- la key réservée `_query` fournit un array de parameters de Request, qui
-  **l'emportent** sur les parameters en trop de même nom. Une valeur qui n'est pas
-  un array lève une `InvalidParameterException`.
+Un parameter absent de la definition de la route part en **query string**.
+Deux nuances : un parameter en trop **égal à la default value** de même nom
+est retiré ; la key réservée `_query` fournit un array de parameters qui
+**l'emportent** sur les parameters en trop de même nom — une valeur qui n'est
+pas un array lève une `InvalidParameterException`.
 
 ### Les objects en parameter supplémentaire
 
-La documentation avertit : un object — un Uuid par exemple — ne serait **pas**
-converti quand il sert de parameter supplémentaire, et il faudrait écrire
-`(string) $entity->getUuid()`. Le code de la branche 8.0 fait autrement. Pour
-chaque object des parameters en trop, `doGenerate()` :
-
-1. prend ses **properties publiques**, s'il en a, et en fait un array ;
-2. sinon, s'il est `Stringable`, le **convertit en chaîne** ;
-3. lève une `InvalidParameterException` sur une référence circulaire.
-
-`AbstractUid` n'a qu'une property `protected` et implémente `Stringable` : un
-Uuid est donc bien converti. La conversion explicite reste sans danger, mais
-elle n'est plus nécessaire — et un object à properties publiques devient un
-array, pas sa représentation textuelle.
+La documentation dit qu'un object — un Uuid — n'est pas converti, et conseille
+`(string) $entity->getUuid()`. Le code 8.0 le convertit : `doGenerate()` prend
+ses **properties publiques** en array s'il en a, sinon le convertit en chaîne
+s'il est `Stringable`, et lève sur une référence circulaire. `AbstractUid` n'a
+qu'une property `protected` et implémente `Stringable` : un Uuid est converti.
 
 ## Route absente
 
-Ne pas appeler `getRouteCollection()` pour vérifier qu'une route existe : cela
-régénère le cache de routage et ralentit l'application. Il faut tenter la
-génération et rattraper `RouteNotFoundException`.
+Ne pas appeler `getRouteCollection()` pour tester l'existence d'une route : cela
+régénère le cache de routage. Tenter la génération et rattraper
+`RouteNotFoundException`.
 
 ## Pièges d'examen
 
@@ -127,18 +132,93 @@ pas. La documentation dit encore le contraire.
 **Le type de référence par défaut est le path absolu, pas l'URL absolue.**
 Générer un lien pour un email demande de le dire explicitement.
 
-## Points clés
+## Application
 
-- `generateUrl()`, `generate()`, `path()`, `url()` — jamais d'URL écrite à la
-  main.
-- Quatre types de référence ; `ABSOLUTE_PATH` par défaut.
-- Un parameter hors route devient une query string.
-- Object en trop : properties publiques en array, sinon `Stringable` en chaîne.
-- `_query` : un array, prioritaire sur les parameters en trop.
-- Tester l'existence d'une route par `RouteNotFoundException`.
+- Un lien dans un email → `ABSOLUTE_URL`, ou `url()` en Twig.
+- Un lien affiché seulement si la route existe → `try` sur `generate()`.
+
+## QCM d'entraînement
+
+**Question 1.** Quelle valeur entière porte `UrlGeneratorInterface::ABSOLUTE_URL` ?
+
+- **A.** `0`
+- **B.** `1`, la default value
+- **C.** `2`
+- **D.** `3`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : A.** L'URL absolue vaut `0` ; le défaut des methods de
+génération est le path absolu, qui vaut `1`.
+
+</details>
+
+**Question 2.** Le code appelle `generate('blog', ['_query' => 'page=2'])`. Que
+se passe-t-il ?
+
+- **A.** `/blog?page=2`
+- **B.** Une `InvalidParameterException`
+- **C.** `/blog?_query=page%3D2`
+- **D.** `/blog`, la key réservée étant simplement ignorée
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** La key réservée attend un array de parameters ; une
+string n'est pas acceptée, et le generator le signale par une exception.
+
+</details>
+
+**Question 3.** Un object sans property publique, dont `__toString()` rend
+`abc`, est passé en parameter supplémentaire `ref`. Que produit la génération
+de `/blog` ?
+
+- **A.** `/blog?ref=abc`
+- **B.** Une `InvalidParameterException`
+- **C.** `/blog?ref=`, sans valeur
+- **D.** `/blog` : l'object est ignoré
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : A.** Sans property publique à reprendre en array, le
+generator convertit en chaîne un object `Stringable`, selon le code 8.0.
+
+</details>
+
+**Question 4.** La Request courante est `/en/blog/1`. Que produit la génération
+de la route `/en/about` en `RELATIVE_PATH` ?
+
+- **A.** `/en/about`
+- **B.** `about`
+- **C.** `../about`
+- **D.** `../../en/about`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : C.** Le path relatif remonte d'un niveau depuis le
+directory courant `/en/blog/`, puis descend vers `about`.
+
+</details>
+
+## Fiche express
+
+**Si tu dois retenir seulement 6 choses :**
+
+- Jamais d'URL à la main : `generateUrl()`, `generate()`, **`path()`**, **`url()`**.
+- Défaut : **`ABSOLUTE_PATH` (1)** ; `ABSOLUTE_URL` vaut **0**.
+- Parameter hors route → **query string**, sans erreur.
+- Égal au défaut → **retiré** ; `_query` : un **array**, prioritaire.
+- Object en trop : properties publiques → **array**, sinon **`Stringable`** → string.
+- Route absente : rattraper **`RouteNotFoundException`**.
+
+Moyen mnémotechnique : **« Zéro, c'est tout : l'URL complète »**.
 
 ## Sources officielles
 
 - [UrlGeneratorInterface, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Generator/UrlGeneratorInterface.php)
 - [Routing, section « Generating URLs »](https://github.com/symfony/symfony-docs/blob/8.0/routing.rst)
 - [`UrlGenerator::doGenerate()`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Generator/UrlGenerator.php)
+

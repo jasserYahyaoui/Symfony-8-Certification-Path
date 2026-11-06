@@ -6,6 +6,7 @@ content_level: STANDARD
 language: fr
 verification_status: VERIFIED
 reviewed_at: "2026-09-01"
+format: pedagogical
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/routing.rst"
@@ -74,36 +75,28 @@ outcome_sections:
 Connaître les parameters que Symfony réserve, leur effet réel dans le code 8.0,
 et les formes courtes qui les posent — celles qui existent vraiment.
 
-## Les cinq parameters réservés
+## L'essentiel
 
-Outre les parameters de l'application, une route peut porter ceux-ci, tous
-préfixés d'un souligné. La documentation en liste cinq :
+Cinq parameters préfixés d'un souligné sont réservés : `_controller`,
+`_format`, `_locale`, `_fragment`, `_query`. `#[Route]` pose les trois premiers
+par des arguments courts — `locale`, `format`, `stateless` — mais n'a **pas**
+d'argument `query`, malgré l'exemple officiel. `_query` n'agit qu'à la
+génération, et `_fragment` est le seul que la documentation exclut des imports.
 
-| Parameter | Effet | Qui le lit (8.0) |
-|---|---|---|
-| `_controller` | désigne le controller exécuté quand la route correspond | le resolver de controller |
-| `_format` | fixe le *request format* de la Request | `Request::getRequestFormat()` |
-| `_locale` | fixe la locale de la Request | `LocaleListener` |
-| `_fragment` | ajoute l'identifier de fragment — la partie après `#` | `UrlGenerator` |
-| `_query` | ajoute des parameters de query string à l'URL générée | `UrlGenerator` |
+## Le schéma
 
-`_format` mérite un mot : la valeur appariée devient le format de la Request.
-Au moment de `Response::prepare()`, si la Response **n'a pas encore** de header
-`Content-Type`, Symfony en pose un d'après ce format — `json` donne
-`application/json`. Un controller qui fixe lui-même le header l'emporte. C'est
-ce qui permet à `/search.json` et `/search.xml` de partager une route.
+```text
+_controller   controller exécuté                     → resolver de controller
+_format       format de la Request                   → Response::prepare() pose Content-Type s'il manque
+_locale       locale de la Request                   → LocaleListener
+_fragment     #ancre de l'URL générée                → default de la route, remplacée par celle de generate()
+_query        query string de l'URL générée          → lue SEULEMENT dans les parameters de generate()
+#[Route]      locale: → _locale · format: → _format · stateless: → _stateless · utf8: → option utf8
+              query: → Error « Unknown named parameter » ; en YAML, key query → InvalidArgumentException
+import        defaults recopiés sur chaque route ; une route localisée garde son _locale
+```
 
-## Les formes courtes
-
-Le constructor de `#[Route]` (8.0) accepte des named arguments sans souligné,
-qu'il recopie :
-
-| Argument | Devient |
-|---|---|
-| `locale: 'en'` | la default value `_locale` |
-| `format: 'html'` | la default value `_format` |
-| `stateless: true` | la default value `_stateless` |
-| `utf8: true` | l'**option** `utf8`, pas une default value |
+## L'exemple
 
 ```php
 #[Route(
@@ -114,41 +107,48 @@ qu'il recopie :
 )]
 ```
 
-Les deux écritures désignent la même chose : le named argument pose simplement
-la default value du parameter réservé correspondant. En YAML, les keys
-`locale`, `format` et `stateless` jouent le même role.
+## Les cinq parameters réservés
 
-**Écart avec la documentation.** Son exemple ajoute `query: ['page' => 1]`, à
-l'attribute comme en YAML. Le code 8.0 n'a pas d'argument `query` dans le
-constructor de `#[Route]` : PHP rejette un named argument inconnu, par une
-`Error` « Unknown named parameter » (test `unknown_named_param.phpt` de
-php-src). Et `query` ne figure pas dans la liste des keys acceptées par le
-loader YAML, qui lève une `InvalidArgumentException` pour key non supportée.
+| Parameter | Effet | Qui le lit (8.0) |
+|---|---|---|
+| `_controller` | le controller exécuté quand la route correspond | le resolver de controller |
+| `_format` | le *request format* de la Request | `Request::getRequestFormat()` |
+| `_locale` | la locale de la Request | `LocaleListener` |
+| `_fragment` | la partie après `#` de l'URL générée | `UrlGenerator` |
+| `_query` | des parameters de query string dans l'URL générée | `UrlGenerator` |
+
+À `Response::prepare()`, si la Response **n'a pas** de header `Content-Type`,
+Symfony en pose un d'après le format : `json` donne `application/json`. Un
+controller qui fixe le header l'emporte. Ainsi `/search.json` et `/search.xml`
+partagent une route.
+
+## Les formes courtes
+
+Le constructor de `#[Route]` recopie `locale`, `format` et `stateless` en
+default values `_locale`, `_format` et `_stateless` ; `utf8: true` devient
+l'**option** `utf8`. En YAML, les keys `locale`, `format` et `stateless` font de
+même.
+
+**Écart avec la documentation.** Son exemple ajoute `query: ['page' => 1]`. En
+8.0, `#[Route]` n'a pas cet argument : PHP lève une `Error` « Unknown named
+parameter ». Le loader YAML ne connaît pas non plus la key `query` et lève une
+`InvalidArgumentException`.
 
 ## `_query` n'agit qu'à la génération
 
 `UrlGenerator::doGenerate()` lit `_query` **uniquement** dans les parameters
-passés à `generate()` — donc à `path()` ou `url()` en Twig. Une valeur `_query`
-posée dans les default values de la route n'apparaît pas dans l'URL
-générée : le code ne la lit pas. La documentation la présente pourtant comme
-utilisable dans une route ou un import.
-
-`_fragment`, lui, est lu aux deux endroits : la default value de la route
-d'abord, remplacée par un parameter `_fragment` passé à la génération.
+passés à `generate()` — donc à `path()` ou `url()`. Posée en default value de
+la route, elle n'apparaît pas dans l'URL. `_fragment`, lui, est lu aux deux
+endroits : la default value d'abord, remplacée par un `_fragment` passé à la
+génération.
 
 ## La limite documentée : `_fragment` et les imports
 
-La documentation dit que ces parameters s'emploient aussi bien dans une route
-individuelle que dans un **import** de routes — à une exception près :
-`_fragment`, qui ne s'utilise que dans une route.
-
-Le code 8.0 ne fait pas respecter cette règle : les `defaults` d'un import sont
-recopiés sur chaque route par `RouteCollection::addDefaults()`, sans contrôle
-de nom. Retenez la règle documentée, c'est elle qu'une question citera.
-
-Une autre subtilité, cette fois dans le code : `Route::addDefaults()` **ignore**
-un `_locale` hérité d'un import pour une route localisée — celle-ci garde sa
-propre locale.
+Selon la documentation, ces parameters s'emploient dans une route comme dans un
+**import**, sauf `_fragment`, réservé à une route. Le code 8.0 ne contrôle rien :
+`RouteCollection::addDefaults()` recopie tous les `defaults` d'un import. Retenez
+la règle documentée. Autre détail du code : une route localisée **ignore** un
+`_locale` hérité d'un import et garde sa propre locale.
 
 ## Pièges d'examen
 
@@ -165,17 +165,90 @@ pose l'identifier de fragment. Rien dans le code ne le rejette.
 **Le format de Request ne décide du `Content-Type` qu'en l'absence de header.**
 C'est ce qui permet à deux extensions d'URL de partager une seule route.
 
-## Points clés
+## Application
 
-- Cinq parameters réservés documentés : `_controller`, `_format`, `_locale`,
-  `_fragment`, `_query`.
-- `_format` fixe le format de Request ; `Response::prepare()` en déduit le
-  `Content-Type` s'il manque.
-- Formes courtes de `#[Route]` en 8.0 : `locale`, `format`, `stateless` ;
-  `utf8` pose une option.
-- `_query` : seulement dans les parameters de génération.
-- Tous utilisables dans un import, **sauf** `_fragment` selon la
-  documentation.
+- Produire `/articles?page=2#top` en Twig →
+  `path('articles', {_query: {page: 2}, _fragment: 'top'})`.
+- Une route API sans session → `stateless: true`.
+
+## QCM d'entraînement
+
+**Question 1.** La route `/articles` déclare la default value
+`_query: {page: 1}`, et rien d'autre. Que produit `generate('articles')` ?
+
+- **A.** `/articles`
+- **B.** `/articles?page=1`
+- **C.** Une exception : key réservée
+- **D.** `/articles/1`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : A.** Le generator ne lit `_query` que dans les parameters
+qu'on lui passe ; une default value de route n'est jamais consultée.
+
+</details>
+
+**Question 2.** Une route a la default value `_fragment: 'top'`, et la
+génération reçoit aussi `_fragment: 'c'`. Quelle ancre figure dans l'URL ?
+
+- **A.** La default value de la route
+- **B.** Celle de la génération
+- **C.** Les deux, concaténées
+- **D.** Aucune : conflit
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** Le generator part de la default value, puis la remplace
+par le `_fragment` passé à `generate()` : l'URL finit par `#c`.
+
+</details>
+
+**Question 3.** Une route YAML recopie l'exemple officiel avec la key
+`query: { page: 1 }`. Que se passe-t-il au chargement ?
+
+- **A.** La key est ignorée
+- **B.** Une default value `_query` est posée
+- **C.** Une `InvalidArgumentException`
+- **D.** La query string devient obligatoire au match
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : C.** Le loader YAML refuse toute key absente de sa liste de
+keys acceptées, et `query` n'y figure pas en 8.0.
+
+</details>
+
+**Question 4.** Un import pose `locale: 'fr'` sur un group qui contient la route
+localisée `about`, déclinée en `en` et `de`. Quelle locale garde `about.en` ?
+
+- **A.** `fr`, celle de l'import
+- **B.** `null`
+- **C.** Une exception : conflit de locales
+- **D.** `en`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : D.** `Route::addDefaults()` ignore le `_locale` hérité quand
+la route est localisée : chaque variante garde sa propre locale.
+
+</details>
+
+## Fiche express
+
+**Si tu dois retenir seulement 6 choses :**
+
+- Réservés : **`_controller`**, **`_format`**, **`_locale`**, **`_fragment`**, **`_query`**.
+- `_format` → `Content-Type` **seulement s'il manque**.
+- `#[Route]` : `locale`, `format`, **`stateless`** ; `utf8` est une **option**.
+- **Pas** d'argument `query` en 8.0 (Error) ; en YAML, exception.
+- `_query` : **génération** seulement ; `_fragment` : défaut puis génération.
+- Imports : tout sauf **`_fragment`** (documentation) ; route localisée garde sa locale.
+
+Moyen mnémotechnique : **« Query se demande, il ne se déclare pas »**.
 
 ## Sources officielles
 
@@ -186,3 +259,4 @@ C'est ce qui permet à deux extensions d'URL de partager une seule route.
 - [`Route::addDefaults()`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Route.php) et [`RouteCollection::addDefaults()`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/RouteCollection.php)
 - [`Response::prepare()`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Response.php) et [`LocaleListener`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/EventListener/LocaleListener.php)
 - [php-src, `unknown_named_param.phpt`](https://github.com/php/php-src/blob/PHP-8.4/Zend/tests/named_params/unknown_named_param.phpt)
+

@@ -6,6 +6,7 @@ content_level: STANDARD
 language: fr
 verification_status: VERIFIED
 reviewed_at: "2026-09-01"
+format: pedagogical
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php"
@@ -35,81 +36,85 @@ Produire la Response depuis un controller, et choisir le bon raccourci. Le
 catalogue des sous-classes de `Response` et les methods de test de statut
 appartiennent au lot HTTP.
 
+## L'essentiel
+
+Un controller retourne une `Response` ; sinon, `kernel.view` doit convertir la
+valeur. Les raccourcis d'`AbstractController` se distinguent par leur return
+type : `render()` rend une **Response**, `renderView()` une **string**,
+`file()` une `BinaryFileResponse` qui **télécharge** par défaut. Le piège
+central est le **422** automatique, qui exige trois conditions à la fois.
+
+## Le schéma
+
+```text
+retour du controller   Response → envoyée · autre valeur → kernel.view (sans listener : échec)
+render() · renderBlock()           → Response (3e argument : une Response à remplir)
+renderView() · renderBlockView()   → string        stream() → StreamedResponse
+sans Twig                          → LogicException qui nomme la method appelée
+form en parameter                  → createView() appliqué automatiquement
+422 si    statut encore 200  ET  parameter FormInterface  ET  form soumis ET invalide
+json()    Serializer s'il existe, contexte fusionné · sinon json_encode ; null → "null"
+file()    attachment par défaut · DISPOSITION_INLINE pour afficher · nom : 2e argument, sinon disque
+```
+
+## L'exemple : un form, deux issues
+
+```php
+public function new(Request $request): Response
+{
+    $form = $this->createForm(PostType::class)->handleRequest($request);
+    if ($form->isSubmitted() && $form->isValid()) {
+        // … enregistrement
+        return $this->redirectToRoute('post_index');
+    }
+
+    // 200 au premier affichage, 422 si soumis et invalide
+    return $this->render('post/new.html.twig', ['form' => $form]);
+}
+```
+
 ## La règle
 
 Un controller doit retourner un object `Response`. S'il retourne autre chose,
-l'event `kernel.view` est dispatché pour convertir la valeur — sans listener
-capable de le faire, la Request échoue. Retourner une `Response` est donc le
-path normal, et tout le reste une convention à installer.
+l'event `kernel.view` est dispatché pour convertir la valeur ; sans listener
+capable de le faire, la Request échoue.
 
 ## Rendre un template
 
-Deux methods, une différence de return type qui se retient mal :
-
 | Method | Retourne |
 |---|---|
-| `render()` | un object `Response` |
-| `renderView()` | une **string** |
+| `render()`, `renderBlock()` | un object `Response` |
+| `renderView()`, `renderBlockView()` | une **string** |
+| `stream()` | une `StreamedResponse`, envoyée au fil du rendu |
 
-`render()` accepte un troisième argument : une `Response` déjà construite, dont
-il remplit le contenu. C'est ainsi qu'on impose un statut autre que 200.
+Le troisième argument de `render()` est une `Response` déjà construite, dont il
+remplit le contenu : c'est ainsi qu'on impose un autre statut. Sans le bundle
+Twig, ces methods lèvent une `LogicException` qui nomme la method appelée et le
+package à installer.
 
-`renderBlock()` et `renderBlockView()` font la même chose pour un seul block du
-template. `stream()` retourne une `StreamedResponse` : le template est envoyé au
-fur et à mesure, ce qui évite de construire une page entière en mémoire.
+**Un form est converti pour vous.** Chaque parameter `FormInterface` est
+remplacé par son `createView()` avant le rendu : l'appeler à la main est
+redondant, pas faux.
 
-Sans le bundle Twig, ces methods lèvent une `LogicException` qui **nomme la
-method appelée** et le package à installer. Elles ne retournent pas une Response
-vide.
-
-### Un form passé au template est converti pour vous
-
-Avant le rendu, chaque parameter qui est un `FormInterface` est remplacé par le
-résultat de son `createView()`. On peut donc passer le form lui-même ;
-écrire `->createView()` à la main n'est pas une erreur, simplement redondant.
-
-### Le 422 automatique tient à trois conditions, pas une
-
-Le rendu sort en **422** sans qu'on l'ait demandé — mais seulement si les
-**trois** conditions suivantes sont réunies :
-
-1. la Response en cours est encore en **200** ;
-2. un parameter est un `FormInterface` ;
-3. ce form est **soumis** *et* invalide.
-
-Deux conséquences que « un form invalide donne un 422 » laisse de côté.
-
-**Un statut explicite l'emporte.** Si le troisième argument porte une `Response`
-dont le statut n'est pas 200, la promotion n'a pas lieu du tout : le code ne
-regarde les parameters que tant que le statut vaut 200.
-
-**Non soumis n'est pas invalide.** Un form fraîchement construit, jamais
-soumis, ne déclenche rien — la page d'affichage initiale sort donc bien en 200.
-
-Le comportement vaut aussi pour `renderBlock()`, les deux passant par le même
-code interne.
+**Le 422 automatique tient à trois conditions** : la Response est encore en
+**200**, un parameter est un `FormInterface`, et ce form est **soumis et
+invalide**. Un statut explicite l'emporte ; un form jamais soumis laisse le
+200. `renderBlock()` suit la même règle.
 
 ## JSON
 
-`json()` retourne une `JsonResponse`. Si le component Serializer est disponible,
-il est utilisé ; sinon la method retombe sur `json_encode`. Elle accepte le
-statut, des headers et un contexte de serialization.
-
-Le contexte n'est pas décoratif : il est fusionné par-dessus les options
-d'encoding par défaut de `JsonResponse`, ce qui en fait l'entry point pour
-les changer. Et sans Serializer, une donnée `null` est traitée à part — la
-Response porte la string `null`, pas un body vide.
+`json()` retourne une `JsonResponse`. Avec le Serializer, le contexte est
+fusionné par-dessus les options d'encoding par défaut : c'est par lui qu'on les
+change. Sans Serializer, `json_encode` sert, et une donnée `null` donne la
+string `null`.
 
 ## Servir un file
 
-`file()` retourne une `BinaryFileResponse`. Par défaut la disposition est
-`attachment` — le navigateur télécharge. Pour un affichage dans la page, il faut
-passer `ResponseHeaderBag::DISPOSITION_INLINE`. Le deuxième argument renomme le
-file vu par le user sans toucher au file sur disque ; omis, c'est le
-nom réel sur disque qui est annoncé.
-
-Le header de disposition est écrit **dans tous les cas**, y compris pour la
-default value : il n'y a pas de cas où le navigateur décide seul.
+`file()` retourne une `BinaryFileResponse` en disposition `attachment` : le
+navigateur télécharge. Pour afficher dans la page, il faut
+`ResponseHeaderBag::DISPOSITION_INLINE`. Le deuxième argument renomme le file
+vu par le user ; omis, c'est le nom réel sur disque. Le header de disposition
+est écrit dans tous les cas.
 
 ## Pièges d'examen
 
@@ -128,27 +133,93 @@ changer explicitement la disposition.
 **Sans Twig, le rendu lève.** La `LogicException` nomme la method et le package
 manquant ; ce n'est pas une Response vide.
 
-## Tips d'examen
+## Application
 
-**Pour trancher une question sur le 422** : chercher le statut de départ avant
-de chercher le form. Si l'énoncé construit une `Response` avec un statut,
-la question est réglée sans regarder les parameters.
+- Le HTML d'un template doit devenir le body d'un email → `renderView()`.
+- Une page de form doit répondre 400 quoi qu'il arrive → passer
+  `new Response(null, 400)` en troisième argument.
 
-**Pour `render()` contre `renderView()`** : le suffixe `View` annonce ce qui est
-rendu, la vue seule — donc une string, pas une Response.
+## QCM d'entraînement
 
-## Points clés
+**Question 1.** Un form soumis et **valide** est passé à `render()`, sans
+Response en troisième argument. Quel statut sort ?
 
-- Retourner une `Response`, sinon `kernel.view` doit s'en charger.
-- `render()` → `Response`, `renderView()` → `string`.
-- Les parameters `FormInterface` sont convertis en vue automatiquement.
-- Le 422 demande **trois** conditions ; un statut explicite l'emporte, et un
-  form non soumis ne compte pas.
-- `json()` utilise le Serializer s'il est installé ; le contexte porte les
-  options d'encoding.
-- `file()` télécharge par défaut ; `DISPOSITION_INLINE` pour afficher.
+- **A.** 200
+- **B.** 422, le form ayant été soumis
+- **C.** 201, une ressource créée
+- **D.** 302, vers la même page
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : A.** La promotion en 422 exige un form soumis **et**
+invalide ; un form valide laisse le statut par défaut.
+
+</details>
+
+**Question 2.** Sans component Serializer, que contient le body de
+`$this->json(null)` ?
+
+- **A.** `{}`
+- **B.** `null`
+- **C.** Un body vide
+- **D.** `[]`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** Le raccourci traite `null` à part et passe la string
+`null` déjà encodée ; une `JsonResponse` construite avec `null` aurait rendu `{}`.
+
+</details>
+
+**Question 3.** `renderBlock()` reçoit un form soumis et invalide, sans
+Response en troisième argument. Quel statut sort ?
+
+- **A.** 200 : seul `render()` promeut le statut
+- **B.** 400
+- **C.** 422
+- **D.** Une `LogicException`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : C.** `render()` et `renderBlock()` passent par le même code
+interne, qui applique la même promotion en 422.
+
+</details>
+
+**Question 4.** Un controller retourne `$this->file('/var/data/f81c.pdf')`
+sans autre argument. Quel nom de file le navigateur propose-t-il ?
+
+- **A.** `download.pdf`
+- **B.** Aucun : pas de header de disposition
+- **C.** Le nom de la route courante
+- **D.** `f81c.pdf`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : D.** Sans deuxième argument, la disposition annonce le nom
+réel du file sur disque, en mode `attachment`.
+
+</details>
+
+## Fiche express
+
+**Si tu dois retenir seulement 6 choses :**
+
+- Retourner une `Response`, sinon **`kernel.view`** doit convertir.
+- `render()` → **Response**, `renderView()` → **string**.
+- Form en parameter : **`createView()`** automatique.
+- 422 : statut **200** + `FormInterface` + **soumis et invalide** ; statut explicite gagnant.
+- `json()` : Serializer si présent, contexte = **options d'encoding** ; `null` → `null`.
+- `file()` : **attachment** par défaut, `DISPOSITION_INLINE` pour afficher.
+
+Moyen mnémotechnique : **« View, c'est la vue seule : une string »**.
 
 ## Sources officielles
 
 - [AbstractController, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php)
 - [Controller, « Returning JSON Response »](https://github.com/symfony/symfony-docs/blob/8.0/controller.rst)
+

@@ -93,7 +93,7 @@ entries:
       controller et view. `kernel.terminate` suit l'appel séparé à `terminate()`.
     courses:
       - id: CRS-mpwjc4g3vmj7
-        sections: ["Points clés"]
+        sections: ["Fiche express"]
     flashcards: [FLC-jjsdae8j3b56]
     questions: []
 
@@ -214,7 +214,7 @@ entries:
       - id: CRS-r3xywnpwrwh7
         sections: ["Trois exemples documentés qui échouent"]
       - id: CRS-sx61as7r7p0d
-        sections: ["Les parameters en trop", "Pièges d'examen", "Points clés"]
+        sections: ["Les parameters en trop", "Pièges d'examen", "Fiche express"]
       - id: CRS-tgbv3wp66rcc
         sections: ["Qui redirige, et comment", "Pièges d'examen"]
       - id: CRS-yw6c5hq2mbax
@@ -285,9 +285,9 @@ entries:
       - id: CRS-tgbv3wp66rcc
         sections: ["La barre oblique finale"]
       - id: CRS-vkgr06y3x72g
-        sections: ["La règle de base", "Tout ce qui suit un parameter facultatif doit l'être", "Défaut et requirement", "Pièges d'examen", "Points clés"]
+        sections: ["La règle de base", "Tout ce qui suit un parameter facultatif doit l'être", "Défaut et requirement", "Pièges d'examen", "Fiche express"]
       - id: CRS-wg3j0t5pm7w1
-        sections: ["Objectif", "Le problème qu'elle résout", "Ce qui est autorisé", "Deux pièges", "Pièges d'examen", "Points clés"]
+        sections: ["Objectif", "Le problème qu'elle résout", "Ce qui est autorisé", "Deux pièges", "Pièges d'examen", "Fiche express"]
       - id: CRS-x8j99kkmpsng
         sections: ["La barre n'apparaît pas toujours"]
       - id: CRS-y3g0v9nmne3t
@@ -572,7 +572,7 @@ entries:
       `RequestPayloadValueResolver` 8.0 et exécuté.
     courses:
       - id: CRS-d5ffd8b704zs
-        sections: ["Les resolvers ciblés", "Pièges d'examen", "Points clés"]
+        sections: ["Les resolvers ciblés", "Pièges d'examen", "Fiche express"]
     flashcards: []
     questions: []
 
@@ -5181,5 +5181,1010 @@ entries:
     - id: CRS-0ab7kpexq9w9
       sections:
       - Tester une command
+    flashcards: []
+    questions: []
+  - id: CVR-24dnw2hkjrrq
+    date: '2026-11-06'
+    pull_request: 459
+    commit: 08f9a6b
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-p3p7te94qc1n
+    facts: []
+    title: 'Code organization : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre
+      questions et une Fiche express. Une application Symfony a une arborescence par défaut où deux directories structurent
+      tout : **`public/`**, le seul servi par le serveur web, et **`var/`**, le seul où l''application écrit. Chaque directory
+      se déplace, mais par **trois** voies différentes : `composer.json`, la configuration d''un bundle, ou le kernel.'
+    courses:
+    - id: CRS-156khyjssm25
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : sortir le cache de `var/`'
+      - L'arborescence par défaut
+      - Sous config/
+      - Déplacer un directory
+      - Les quatre accessors du kernel
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-bznnwqt8sjda
+    date: '2026-11-06'
+    pull_request: 459
+    commit: 08f9a6b
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-favt42nvgdqh
+    facts: []
+    title: 'Functional tests with PHPUnit : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre
+      questions et une Fiche express. Un test d''application étend `WebTestCase`, qui ajoute un client à `KernelTestCase` :
+      `createClient()` démarre le kernel, en environment `test`. Les assertions de Symfony rendent l''échec lisible, et la configuration
+      des tests a ses propres files — `.env.local` n''en fait pas partie.'
+    courses:
+    - id: CRS-1en96h22twv7
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : la page d''accueil'
+      - Le squelette
+      - L'environment `test`
+      - Les assertions de Symfony
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-5kzhcjwbk0t1
+    date: '2026-11-06'
+    pull_request: 459
+    commit: 08f9a6b
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-zezwg9nya501
+    facts: []
+    title: 'HTTP Caching (reverse proxies, expiration, validation) Note: ESI (Edge Side Includes) is not included : cours au
+      format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre
+      questions et une Fiche express. Par-dessus le protocole HTTP, Symfony apporte un **reverse proxy écrit en PHP**, activé
+      par une option ; un attribute **`#[Cache]`** qui déclare la politique d''une action ; et une trace, **`X-Symfony-Cache`**,
+      qui dit pourquoi une Response vient du cache ou non. Le cache ne vaut que pour les safe methods, et sa key est l''URI.
+      ESI est hors périmètre.'
+    courses:
+    - id: CRS-1k0ce9dvdr99
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : une page publique d''une heure'
+      - Le reverse proxy de Symfony
+      - Déclarer plutôt que construire
+      - Ce que le cache ne fera pas
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-y3m5hsdg571a
+    date: '2026-11-06'
+    pull_request: 459
+    commit: 08f9a6b
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-d3nyk9z0q2pd
+    facts: []
+    title: 'HTTP request : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre
+      questions et une Fiche express. La `Request` range chaque source de données dans un **sac** typé ; on nomme toujours le
+      sac, car `Request::get()` n''existe plus en 8.0. Trois sacs sont des `InputBag`, qui **refusent un array** dans `get()`.
+      Deux données viennent du client et se falsifient : l''adresse IP et le `Host` — chacune a sa propre liste de confiance,
+      vide par défaut.'
+    courses:
+    - id: CRS-222wq64mqxye
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : lire une recherche'
+      - Les sacs
+      - InputBag n'accepte que des scalaires
+      - Client et proxys
+      - Le host, et la seconde liste de confiance
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+      - Sources officielles
+    flashcards: []
+    questions: []
+  - id: CVR-9d2h7vbtstam
+    date: '2026-11-06'
+    pull_request: 459
+    commit: 08f9a6b
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-fr58jzaj6jtb
+    facts: []
+    title: 'Serializer : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre
+      questions et une Fiche express. Une serialization se fait en **deux étapes** : un **normalizer** change la valeur PHP
+      en représentation normalisée, un **encoder** change celle-ci en format. Le normalizer décide de tout ce qui compte à l''examen
+      — quelles properties sortent, sous quel nom, avec quelle valeur ; l''encoder ne sait que produire et lire un format. Les
+      bridges vers des services tiers sont hors programme.'
+    courses:
+    - id: CRS-3z96cp2s1dka
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : une vue publique'
+      - Deux étapes, deux responsabilités
+      - Ce qui est pris par défaut
+      - Choisir selon le contexte
+      - Quel normalizer agit ?
+      - Dénormaliser
+      - Le contexte
+      - Les références circulaires
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-cms667jv889x
+    date: '2026-11-06'
+    pull_request: 459
+    commit: 08f9a6b
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-43pt66xsft9f
+    facts: []
+    title: 'PropertyAccess : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre
+      questions et une Fiche express. PropertyAccess lit et écrit une valeur désignée par un **path** : les **crochets** visent
+      un index d''array, le **point** une property d''object. Le piège central : un path absent rend `null` sur un array, mais
+      **lève** sur un object — deux défauts opposés, renversables par l''accessor builder.'
+    courses:
+    - id: CRS-5vz7w1ny9shd
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : une personne et ses enfants'
+      - Deux notations, deux cibles
+      - 'Le path absent : deux comportements opposés'
+      - Demander avant d'appeler
+      - Les methods magiques
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-5hxwwd86fb3d
+    date: '2026-11-06'
+    pull_request: 459
+    commit: 08f9a6b
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-qpjnpc56hjj0
+    facts: []
+    title: 'Clock : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre
+      questions et une Fiche express. Le component Clock existe pour **découpler le code de la clock système** : un service
+      qui lit l''heure par une `ClockInterface` injectée se teste pour n''importe quelle date. `NativeClock` en production,
+      `MockClock` en test, `MonotonicClock` pour chronométrer. Une `MockClock` ne bouge jamais seule.'
+    courses:
+    - id: CRS-6hcrc92xv6vt
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : un token qui expire'
+      - Trois clocks, trois usages
+      - Injecter la clock
+      - Tester
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-3783csm9v285
+    date: '2026-11-06'
+    pull_request: 459
+    commit: 08f9a6b
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-bz1f5nh8g9b2
+    facts: []
+    title: 'Cookies : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre
+      questions et une Fiche express. Un cookie se lit dans la Request et s''écrit dans la Response. L''object `Cookie` est
+      **immuable**, et `Cookie::create()` pose déjà des défauts sûrs : `HttpOnly`, `SameSite=Lax`, `Secure` décidé d''après
+      la Request. Chaque attribute protège d''un risque précis — et les navigateurs appliquent des règles que Symfony ne vérifie
+      pas.'
+    courses:
+    - id: CRS-7fa2behkxmf9
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : un cookie de préférence'
+      - Lire et écrire
+      - Les attributes de sécurité
+      - Les trois valeurs de SameSite
+      - Les préfixes `__Secure-` et `__Host-`
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+      - Sources officielles
+    flashcards: []
+    questions: []
+  - id: CVR-gsafnpavx3pq
+    date: '2026-11-06'
+    pull_request: 459
+    commit: 08f9a6b
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-9xdjjsqcbn13
+    facts: []
+    title: 'Mime : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre
+      questions et une Fiche express. Le component Mime **fabrique** un message électronique ; il ne l''envoie pas. L''API `Email`,
+      chaînable, couvre les besoins courants ; `Message`, bas niveau, se réserve aux cas rares. À l''examen : la structure MIME
+      produite, les adresses, et `MimeTypes`, dont la devinette lit le contenu du file.'
+    courses:
+    - id: CRS-82d40ncj59k9
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : une notification'
+      - Deux API pour un même message
+      - L'arborescence MIME
+      - Les adresses
+      - Les types MIME
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-3qvv7tb6rjeb
+    date: '2026-11-06'
+    pull_request: 459
+    commit: 08f9a6b
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-512se83ab7qj
+    facts: []
+    title: 'Status codes : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre
+      questions et une Fiche express. Un status code se lit d''abord par son **premier chiffre** : il donne la class, et donc
+      à qui revient la faute. L''examen interroge ensuite quelques paires qu''on confond : `401` et `403`, les quatre redirects
+      et `303`, `415` et `406`, `204` et `200`.'
+    courses:
+    - id: CRS-984c2bv3wh09
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : des constants plutôt que des nombres'
+      - Les cinq classes
+      - Les codes qui comptent
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+      - Sources officielles
+    flashcards: []
+    questions: []
+  - id: CVR-s9y997e2je9k
+    date: '2026-11-06'
+    pull_request: 459
+    commit: 08f9a6b
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-c9pjp03cv4bq
+    facts: []
+    title: 'Naming conventions : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre
+      questions et une Fiche express. Les standards de Symfony fixent la **casse** de chaque élément, quelques **préfixes et
+      suffixes**, deux préfixes d''attributes, et douze noms de methods pour une collection. Rien n''est à déduire : tout se
+      retient, et l''examen vise les exceptions — un cas d''enum, l''`Abstract` en préfixe, `getXXXs()` pour `all()`.'
+    courses:
+    - id: CRS-9g4qrgfs7nm4
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : une collection principale'
+      - La casse
+      - Préfixes et suffixes
+      - Nommer une method de collection
+      - Pièges d'examen
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-fa36t80v7mtm
+    date: '2026-11-06'
+    pull_request: 459
+    commit: 08f9a6b
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-qkcr4bat6dsb
+    facts: []
+    title: 'Process : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre
+      questions et une Fiche express. `Process` exécute un programme externe dans un sous-processus, en gérant les différences
+      entre systèmes et l''escaping des arguments ; il remplace `exec()`, `passthru()`, `shell_exec()` et `system()`. Trois
+      questions décident de tout : la forme de la command (array ou string), le moment où l''appel rend la main, et ce qui l''interrompt
+      — deux délais et `stop()`.'
+    courses:
+    - id: CRS-am0qe9xa8vzk
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : lister un dossier'
+      - Array ou string
+      - Trois façons de lancer
+      - Récupérer l'output
+      - Les deux délais
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-fvd47txhd843
+    date: '2026-11-06'
+    pull_request: 459
+    commit: 08f9a6b
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-6xqn9ybksrbr
+    facts: []
+    title: 'Deployment best practices : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre
+      questions et une Fiche express. La documentation ne prescrit aucun outil de deployment, mais quatre étapes qu''il comporte
+      toujours : transférer le code, installer les dependencies, migrer les données, vider le cache. Deux commands sont à connaître
+      exactement, et les variables d''environment de production peuvent être compilées dans un `.env.local.php`.'
+    courses:
+    - id: CRS-d0nvctfthnrp
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : un script de deployment'
+      - Les quatre étapes du tronc commun
+      - Les deux commands à connaître exactement
+      - Les variables d'environment en production
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-7q10cca9kr8w
+    date: '2026-11-06'
+    pull_request: 459
+    commit: 08f9a6b
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-mrvrtxm4v2m5
+    facts: []
+    title: 'Content negotiation : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre
+      questions et une Fiche express. Une ressource a plusieurs **représentations** ; le client décrit ses préférences dans
+      les headers `Accept*`, le serveur choisit et l''annonce. Chaque préférence porte un poids `q`, à `1` par défaut. Côté
+      Symfony, deux accessors ne négocient pas ce qu''on croit : `getAcceptableContentTypes()` trie sans spécificité, `getPreferredFormat()`
+      lit `_format` avant `Accept`.'
+    courses:
+    - id: CRS-dab7evz3fe29
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : lire les préférences'
+      - Le facteur de qualité, exactement
+      - Les headers de Response
+      - Proactive contre réactive
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+      - Sources officielles
+    flashcards: []
+    questions: []
+  - id: CVR-8eh62nazq2jn
+    date: '2026-11-06'
+    pull_request: 459
+    commit: 08f9a6b
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-7801mj6w73ky
+    facts: []
+    title: 'HTTP Specification (RFC 9110) : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre
+      questions et une Fiche express. RFC 9110, *HTTP Semantics* (2022), définit **le sens** d''HTTP — methods, status codes,
+      fields, négociation — indépendamment de la version. Le cache et chaque version de transport ont leur propre RFC. L''examen
+      vérifie deux choses : qui remplace quoi, et le vocabulaire, surtout **ressource** contre **représentation**.'
+    courses:
+    - id: CRS-depbnbc0g82x
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : une ressource, deux représentations'
+      - Ce que RFC 9110 remplace
+      - Vocabulaire imposé
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+      - Sources officielles
+    flashcards: []
+    questions: []
+  - id: CVR-yzaz6pxdhs7m
+    date: '2026-11-06'
+    pull_request: 459
+    commit: 08f9a6b
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-tc39jp8japfc
+    facts: []
+    title: 'Caching : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre
+      questions et une Fiche express. Une Response se met en cache selon deux modèles : l''**expiration** (le cache sait combien
+      de temps elle reste fraîche) et la **validation** (il demande au serveur si sa copie vaut encore, et reçoit un `304`).
+      Symfony part de `private` : rien n''entre dans un cache partagé sans `public`. Le reverse proxy de Symfony relève d''un
+      autre item, *HTTP Caching*.'
+    courses:
+    - id: CRS-e3j0d3a8ndrf
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : expiration et validation'
+      - Deux modèles
+      - Expiration
+      - Validation
+      - Vary
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+      - Sources officielles
+    flashcards: []
+    questions: []
+  - id: CVR-xbktr9b93nzz
+    date: '2026-11-06'
+    pull_request: 459
+    commit: 08f9a6b
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-y0ah7pq9c4hv
+    facts: []
+    title: 'HttpFoundation component : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre
+      questions et une Fiche express. HttpFoundation remplace les superglobales PHP par des objects, `Request` et `Response`,
+      qu''on peut fabriquer — d''où une pile HTTP testable. C''est un component **autonome**, et la brique la plus basse du
+      framework : le kernel est écrit dans son vocabulaire. Il fournit aussi `RequestStack`, la seule façon pour un service
+      de lire la Request en cours.'
+    courses:
+    - id: CRS-epx8j3fhb38n
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : un service qui lit la Request'
+      - Ce qu'il remplace
+      - Sa place
+      - Les trois accessors, exactement
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-0t75k62am6mf
+    date: '2026-11-06'
+    pull_request: 459
+    commit: 08f9a6b
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-qnm508g1ktqm
+    facts: []
+    title: 'HTTP methods : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre
+      questions et une Fiche express. Trois properties indépendantes classent une method : **sûre** (lecture seule), **idempotente**
+      (la rejouer ne change rien de plus) et **cacheable**. Toute method sûre est idempotente, pas l''inverse. Le piège de l''examen
+      : la RFC et Symfony ne donnent pas la même liste de cacheables. Lire d''abord le référentiel de la question : les deux
+      affirmations sont justes, chacune chez elle.'
+    courses:
+    - id: CRS-erfvgqsx1z2p
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : les trois questions de `Request`'
+      - Les trois properties
+      - Ce que la table enseigne
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+      - Sources officielles
+    flashcards: []
+    questions: []
+  - id: CVR-n81b5bk7phd9
+    date: '2026-11-06'
+    pull_request: 459
+    commit: 08f9a6b
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-9kh5cqz5qtrb
+    facts: []
+    title: 'Symfony HttpClient component : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre
+      questions et une Fiche express. `HttpClientInterface::request()` **rend la main tout de suite** : la Request n''est attendue
+      qu''au premier accès à la Response. On lance donc toutes les Requests, puis on les lit. Lire, c''est aussi décider des
+      erreurs : un statut 3xx-5xx lève à la lecture — ou à la destruction si personne ne l''a lu.'
+    courses:
+    - id: CRS-ez2qmqfk902e
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : des Requests en parallèle'
+      - L'interface
+      - 'Le point central : les Responses sont lazy'
+      - La Response
+      - La hiérarchie d'exceptions
+      - Une Response jamais lue lève quand même
+      - 'Rejouer les échecs : RetryableHttpClient'
+      - Un stream dont une Response échoue
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+      - Sources officielles
+    flashcards: []
+    questions: []
+  - id: CVR-pfm0g0xnbc4s
+    date: '2026-11-06'
+    pull_request: 459
+    commit: 08f9a6b
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-kcj9a5846b1s
+    facts: []
+    title: 'Framework interoperability and PSRs : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre
+      questions et une Fiche express. Symfony a trois rapports aux recommandations du PHP-FIG : il en **implémente** huit —
+      il fournit le code derrière l''interface —, il en **suit** deux, des conventions, et il en **ponte** une, PSR-7, par un
+      bridge. La source qui fait foi est la key `provide` du `composer.json` de `symfony/symfony`.'
+    courses:
+    - id: CRS-f74jcpnrrkhz
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : une bibliothèque qui type contre une PSR'
+      - Les PSR implémentées
+      - Les deux autres familles de `provide`
+      - Les PSR suivies
+      - Le cas PSR-7
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-37gmbscwec08
+    date: '2026-11-06'
+    pull_request: 459
+    commit: 08f9a6b
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-8xcczyjyyanz
+    facts: []
+    title: 'Event : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre
+      questions et une Fiche express. L''object event circule entre le code qui déclenche et les listeners. La class de base,
+      `Event`, est **volontairement pauvre** : elle sait seulement arrêter la propagation. Pour transporter une donnée, on écrit
+      une sous-classe, ou l''on prend `GenericEvent` — un sujet et des arguments, au prix du typage.'
+    courses:
+    - id: CRS-fhb1cbhnyaxx
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : un achat validé'
+      - Une class de base délibérément pauvre
+      - Arrêter la propagation
+      - '`GenericEvent`, quand une sous-classe ne se justifie pas'
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-qqq21kw3nd0m
+    date: '2026-11-06'
+    pull_request: 459
+    commit: 08f9a6b
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-j4vpn5bh9f27
+    facts: []
+    title: 'Mailer : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre
+      questions et une Fiche express. Mailer envoie un message par un **transport**, décrit par un DSN : `smtp`, `sendmail`
+      ou `native`. `MailerInterface::send()` ne rend rien, parce qu''il peut différer l''envoi par Messenger ; `TransportInterface::send()`
+      envoie toujours tout de suite et rend un `SentMessage`. Un succès veut seulement dire que le transport a accepté le message.'
+    courses:
+    - id: CRS-h304h6ht87kc
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : envoyer depuis un controller'
+      - Le transport
+      - Envoyer
+      - Ce que rend l'envoi
+      - Quand l'envoi échoue
+      - Plusieurs transports
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-c7yn3mya0cyy
+    date: '2026-11-06'
+    pull_request: 459
+    commit: 08f9a6b
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-tjn6kyvyc2h9
+    facts: []
+    title: 'Filesystem : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre
+      questions et une Fiche express. Le component Filesystem manipule files et directories avec un comportement uniforme, et
+      surtout **des erreurs qui lèvent une exception** au lieu de rendre `false` en silence. Deux classes : `Filesystem` agit
+      sur le disque, `Path` calcule des strings de path sans y toucher.'
+    courses:
+    - id: CRS-h9nryezt8wnb
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : publier un rapport'
+      - Les opérations à connaître
+      - Écrire et lire
+      - Les erreurs
+      - Un environment de test portable
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-5513g382bkbh
+    date: '2026-11-06'
+    pull_request: 459
+    commit: 08f9a6b
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-jh06tkfrhthq
+    facts: []
+    title: 'HTTP response : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre
+      questions et une Fiche express. Un controller **rend** une `Response` — ou une sous-classe spécialisée — et ne l''envoie
+      pas : c''est le runner du component Runtime qui l''émet, une fois. L''examen vise surtout les methods de test, dont deux
+      sont dangereusement proches : `isRedirection()` (la class 3xx) et `isRedirect()` (une liste qui inclut 201 et exclut 304).'
+    courses:
+    - id: CRS-hdsq2qdz7qdv
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : la bonne sous-classe'
+      - La class de base
+      - '`isRedirect()` contre `isRedirection()`'
+      - Autres methods de test
+      - 'L''émission : `send()`, et qui l''appelle'
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+      - Sources officielles
+    flashcards: []
+    questions: []
+  - id: CVR-971zg2j8dzvz
+    date: '2026-11-06'
+    pull_request: 459
+    commit: 08f9a6b
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-a1anzcv85my3
+    facts: []
+    title: 'Finder : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre
+      questions et une Fiche express. Le `Finder` cherche files et directories par **critères chaînés**, `in()` étant le seul
+      obligatoire. Il rend les deux par défaut, récursivement, dans l''ordre du filesystem. Le piège central : l''object est
+      **à état** — un second `name()` s''ajoute au premier ; pour réutiliser une configuration, on clone.'
+    courses:
+    - id: CRS-jwhqec35jczn
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : deux recherches sur une base commune'
+      - L'usage de base
+      - L'object est à état — le piège central
+      - Quoi chercher
+      - Récupérer les résultats
+      - Un ordre déterministe
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-hj1jbzxh0fvp
+    date: '2026-11-06'
+    pull_request: 459
+    commit: 08f9a6b
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-78k7kbfpgfxt
+    facts: []
+    title: 'Cache : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre
+      questions et une Fiche express. Le component Cache met des valeurs en cache dans le code. L''API recommandée, les **Cache
+      Contracts**, n''a que `get()` et `delete()` : pas de `set()`, car `get()` reçoit un callable qui produit la valeur au
+      manque. Le reste de la page répond à trois questions : quelle API, que fait `get()` au juste, et quel pool.'
+    courses:
+    - id: CRS-p6yhxmpxrzbs
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : un calcul coûteux'
+      - Trois API, une recommandée
+      - Quatre mots
+      - L'API qui surprend
+      - La ruée sur le cache
+      - 'PSR-6 : écrire soi-même'
+      - PSR-16 et les bridges
+      - Les pools du framework
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-9qrsbr0anetk
+    date: '2026-11-06'
+    pull_request: 459
+    commit: 08f9a6b
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-r3qcmsehzex1
+    facts: []
+    title: 'Runtime : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre
+      questions et une Fiche express. Le component Runtime sort l''amorçage du file d''entrée : `public/index.php` **retourne
+      une function**, et c''est le runtime qui l''appelle, résout ses arguments et exécute ce qu''elle rend — un kernel HTTP
+      ou une application de console. Deux conséquences à l''examen : le script d''entrée **s''exécute deux fois**, et les arguments
+      de la function sont reconnus par leur **type et leur nom**.'
+    courses:
+    - id: CRS-pm5kj5kh3gt2
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : le front controller'
+      - Le file d'entrée ne lance rien
+      - Les cinq étapes
+      - Les arguments sont résolus par type *et* par nom
+      - Choisir le runtime
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-5dr8p16f5r5a
+    date: '2026-11-06'
+    pull_request: 459
+    commit: 08f9a6b
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-fhjmv9w3wxsb
+    facts: []
+    title: 'Language detection : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre
+      questions et une Fiche express. Le client annonce ses langues dans `Accept-Language`, pondérées par `q`. Symfony en donne
+      deux lectures : `getLanguages()`, la liste **normalisée** et triée, et `getPreferredLanguage($supported)`, qui **négocie**
+      contre les locales de l''application. Le choix du locale par la route et la translation sont traités ailleurs (*User''s
+      locale guessing*, *Internationalization*).'
+    courses:
+    - id: CRS-qa0x33akw264
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : choisir parmi les locales supportés'
+      - Le header
+      - Comment Symfony normalise un tag de langue
+      - Comment `getPreferredLanguage()` choisit
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+      - Sources officielles
+    flashcards: []
+    questions: []
+  - id: CVR-r6rc56w8camh
+    date: '2026-11-06'
+    pull_request: 459
+    commit: 08f9a6b
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-c6wd3f444qjn
+    facts: []
+    title: 'Unit tests with PHPUnit : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre
+      questions et une Fiche express. La documentation Symfony distingue trois types de tests : **unitaire**, **intégration**,
+      **application**. Un unit test n''a rien de spécifique à Symfony : un test PHPUnit ordinaire, sans kernel ni container.
+      La mise en place tient en un package, `symfony/test-pack`, une command, `php bin/phpunit`, et une convention : `tests/`
+      reproduit `src/`.'
+    courses:
+    - id: CRS-tt9yn0a06ngb
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : un calcul'
+      - Trois types, trois périmètres
+      - L'installation
+      - Où vivent les tests
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-5ne3apckm7pq
+    date: '2026-11-06'
+    pull_request: 459
+    commit: 08f9a6b
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-132nwnh9c6bc
+    facts: []
+    title: 'Symfony Flex : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre
+      questions et une Fiche express. Flex est un **plugin Composer** : il ne s''appelle pas, il change ce que font `composer
+      require`, `update` et `remove`. Il apporte trois mécanismes — l''alias, la recipe, le pack — et note les recipes appliquées
+      dans `symfony.lock`, à committer. Deux repositories de recipes, deux comportements.'
+    courses:
+    - id: CRS-tyf3yfxjc3sa
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : installer et configurer en une command'
+      - Ce que Flex est
+      - Alias et recipes
+      - symfony.lock
+      - Les deux repositories de recipes
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-xct592hevydf
+    date: '2026-11-06'
+    pull_request: 459
+    commit: 08f9a6b
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-3dd7821h069b
+    facts: []
+    title: 'Internationalization and localization (Note: Intl component utilities to access ICU data are not included) : cours
+      au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre
+      questions et une Fiche express. `trans()` cherche une key dans un catalogue choisi par le **nom du file** — domain, locale,
+      loader — et rend la key telle quelle si rien ne répond. Deux syntaxes de placeholder coexistent : `%name%` en format classique,
+      `{name}` avec ICU MessageFormat, activé par le suffixe `+intl-icu`. Une key absente suit une cascade de repli.'
+    courses:
+    - id: CRS-v1808qnchx6g
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : saluer'
+      - Le nom du file n'est pas décoratif
+      - Plusieurs catalogues pour une key
+      - Les deux syntaxes de placeholder
+      - La cascade de repli
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-r35sjprcchgp
+    date: '2026-11-06'
+    pull_request: 459
+    commit: 08f9a6b
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-s601ppsyb9f7
+    facts: []
+    title: 'EventDispatcher : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre
+      questions et une Fiche express. Le dispatcher tient un registre de listeners par **nom d''event** et les notifie quand
+      l''event est distribué : le code qui déclenche ne connaît pas ceux qui écoutent. La **priority la plus haute passe en
+      premier** ; à égalité, l''ordre d''ajout décide. On s''inscrit par un listener, branché de l''extérieur, ou un subscriber,
+      qui se déclare lui-même.'
+    courses:
+    - id: CRS-wbgw87za3w5n
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : réagir à un achat'
+      - La priority, et son départage
+      - Listener ou subscriber
+      - Distribuer
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-mznqf72tfkj0
+    date: '2026-11-06'
+    pull_request: 459
+    commit: 08f9a6b
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-d1qsxrtv25kk
+    facts: []
+    title: 'Web Profiler, Web Debug Toolbar and Data collectors : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre
+      questions et une Fiche express. Trois pièces : les **data collectors** ramassent l''information, le **profiler** la stocke
+      sous un token, la **debug toolbar** en affiche un résumé. La barre n''est qu''une vue : elle manque souvent (JSON, redirect),
+      le profil existe toujours. Le tout s''installe en dependency de développement, jamais en production.'
+    courses:
+    - id: CRS-x8j99kkmpsng
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : un collector de hits'
+      - Trois pièces, trois roles
+      - La barre n'apparaît pas toujours
+      - Les collectors
+      - Un collector de bout en bout
+      - Application
+      - QCM d'entraînement
+      - Fiche express
+    flashcards: []
+    questions: []
+  - id: CVR-tnmyqg0m0pxj
+    date: '2026-11-06'
+    pull_request: 459
+    commit: 08f9a6b
+    kind: EXTENSION
+    finding: ADR-0012
+    official_items:
+    - OIT-347k8phdewem
+    facts: []
+    title: 'License : cours au format pédagogique court'
+    now: 'La page passe au format pédagogique court : l''essentiel, un schéma, un exemple, deux applications, un QCM de quatre
+      questions et une Fiche express. Symfony est publié sous licence **MIT**, au nom de **Fabien Potencier**. C''est une licence
+      permissive : tout usage est permis, commercial et propriétaire compris, à une seule condition — reproduire l''avis de
+      copyright et le texte de la licence. Rien n''oblige à publier son propre code.'
+    courses:
+    - id: CRS-y84syktt20ww
+      sections:
+      - L'essentiel
+      - Le schéma
+      - 'L''exemple : un produit propriétaire'
+      - La licence
+      - Ce qu'elle autorise
+      - Le texte, clause par clause
+      - Application
+      - QCM d'entraînement
+      - Fiche express
     flashcards: []
     questions: []

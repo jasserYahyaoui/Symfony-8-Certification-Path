@@ -6,6 +6,7 @@ content_level: STANDARD
 language: fr
 verification_status: VERIFIED
 reviewed_at: "2026-09-01"
+format: pedagogical
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/routing.rst"
@@ -52,78 +53,36 @@ Déclarer une route en YAML et en attribute PHP, savoir choisir entre les deux,
 et maîtriser la conséquence la plus piégeuse de ce choix : **l'ordre
 d'évaluation**.
 
-## Prérequis
+## L'essentiel
 
-- Attributes PHP 8 — `must-know` (topic PHP, item *Attributes*).
+Une route se déclare en attribute `#[Route]` ou en YAML : les deux formes sont
+équivalentes, mais **pas leurs options**. `priority` n'existe qu'en attribute ;
+une key YAML inconnue fait **échouer** le chargement. Et la règle qui pilote
+tout : les routes sont essayées **dans l'ordre**, et la **première** qui
+correspond gagne — jamais la plus spécifique.
 
-## Les deux formes
+## Le schéma
 
-Les deux déclarations ci-dessous sont **strictement équivalentes**.
+```text
+attribute   use Symfony\Component\Routing\Attribute\Route   (Annotation\Route : supprimé)
+            16 arguments : path, name, requirements, options, defaults, host, methods, schemes,
+            condition, priority, locale, format, utf8, stateless, env, alias
+YAML        liste AVAILABLE_KEYS : pas de priority · env → block when@prod: · alias → entrée alias seul
+            key inconnue, controller + defaults._controller, stateless + defaults._stateless → exception
+ordre       première route qui correspond = gagnante
+            priority : plus haute d'abord · égalité → ordre de déclaration · null → priority de la class, sinon 0
+```
+
+## L'exemple : les deux formes
 
 ```php
-// src/Controller/BlogController.php
 use Symfony\Component\Routing\Attribute\Route;
 
 class BlogController
 {
-    #[Route('/blog', name: 'blog_list')]
-    public function list(): Response
-    {
-        // ...
-    }
+    #[Route('/blog/{page}', name: 'blog_list', requirements: ['page' => '[0-9]+'], methods: ['GET', 'HEAD'])]
+    public function list(int $page = 1): Response {}
 }
-```
-
-```yaml
-# config/routes.yaml
-blog_list:
-    path: /blog
-    controller: App\Controller\BlogController::list
-```
-
-Le nom de la route (`blog_list`) est la key YAML, ou l'argument `name:` de
-l'attribute. Le controller est explicite en YAML ; en attribute il est déduit de
-la method portant l'attribute.
-
-## Le namespace de l'attribute
-
-```php
-use Symfony\Component\Routing\Attribute\Route;   // correct
-```
-
-`Symfony\Component\Routing\Annotation\Route` **n'existe plus** : ce namespace,
-hérité de l'époque des annotations Doctrine, a été supprimé. Un import
-`Annotation\Route` échoue en Symfony 8.0.
-
-## Deux jeux d'options, pas un seul
-
-L'attribute `#[Route]` accepte seize arguments : `path`, `name`, `requirements`,
-`options`, `defaults`, `host`, `methods`, `schemes`, `condition`, `priority`,
-`locale`, `format`, `utf8`, `stateless`, `env`, `alias`.
-
-Le loader YAML a **sa propre liste**, `AVAILABLE_KEYS`, et elle n'est pas la
-même :
-
-| Besoin | Attribute | YAML |
-|---|---|---|
-| réordonner | `priority` | **absent** — on déplace la route dans le file |
-| restreindre à un environment | `env` | un block `when@prod:` au premier niveau |
-| déclarer un alias | `alias` | une entrée qui ne porte **que** `alias` (et `deprecated`) |
-| désigner le controller | déduit de la method | `controller` |
-
-Une key hors de la liste fait **lever** une `InvalidArgumentException` qui
-énumère les keys admises : écrire `priority:` en YAML ne réordonne rien, cela
-casse le chargement. Deux autres combinaisons lèvent aussi : `controller` avec
-`defaults._controller`, et `stateless` avec `defaults._stateless`.
-
-```php
-#[Route(
-    '/blog/{page}',
-    name: 'blog_list',
-    requirements: ['page' => '[0-9]+'],
-    defaults: ['page' => 1],
-    methods: ['GET', 'HEAD'],
-)]
 ```
 
 ```yaml
@@ -137,52 +96,51 @@ blog_list:
     methods: [GET, HEAD]
 ```
 
-`path` accepte aussi un **array** indexé par locale : l'attribute produit alors
-une route par locale, nommée `blog_list.fr`, `blog_list.en`…
+## Les deux formes
+
+Le nom de la route est la key YAML, ou l'argument `name:` de l'attribute. Le
+controller est explicite en YAML ; en attribute, il est déduit de la method qui
+porte l'attribute. `path` accepte un **array** indexé par locale : l'attribute
+produit alors une route par locale, `blog_list.fr`, `blog_list.en`…
+
+Les jeux d'options diffèrent. L'attribute accepte seize arguments ; le loader
+YAML a sa propre liste, `AVAILABLE_KEYS` :
+
+| Besoin | Attribute | YAML |
+|---|---|---|
+| réordonner | `priority` | **absent** — on déplace la route dans le file |
+| restreindre à un environment | `env` | un block `when@prod:` au premier niveau |
+| déclarer un alias | `alias` | une entrée qui ne porte **que** `alias` (et `deprecated`) |
+| désigner le controller | déduit de la method | `controller` |
+
+Une key hors liste lève une `InvalidArgumentException` qui énumère les keys
+admises ; `controller` avec `defaults._controller`, ou `stateless` avec
+`defaults._stateless`, lèvent aussi.
+
+## Le namespace de l'attribute
+
+`Symfony\Component\Routing\Attribute\Route` est le seul correct.
+`Symfony\Component\Routing\Annotation\Route`, hérité des annotations, a été
+supprimé : l'importer échoue en Symfony 8.0.
 
 ## Le piège : l'ordre d'évaluation
 
-**Symfony évalue les routes dans l'ordre où elles sont définies, et la première
-qui correspond gagne.** Les suivantes ne sont jamais essayées.
-
-En YAML, cet ordre est celui du file : il suffit de déplacer une route plus
-haut.
-
-```yaml
-# /blog/list doit précéder /blog/{slug}, sinon slug="list" capture tout
-blog_list:
-    path: /blog/list
-    controller: App\Controller\BlogController::list
-
-blog_show:
-    path: /blog/{slug}
-    controller: App\Controller\BlogController::show
-```
-
-En attributes, l'ordre dépend de l'ordre de découverte des classes et des
-methods — que vous ne contrôlez pas de façon fiable. C'est précisément la
-raison d'être de l'option `priority` :
+**Symfony essaie les routes dans l'ordre, et la première qui correspond gagne.**
+En YAML, cet ordre est celui du file : on déplace la route. En attributes, il
+dépend de la découverte des classes et des methods, qu'on ne contrôle pas :
+d'où `priority`.
 
 ```php
 #[Route('/blog/list', name: 'blog_list', priority: 2)]
-public function list(): Response { /* ... */ }
+public function list(): Response {}
 
-#[Route('/blog/{slug}', name: 'blog_show')]   // priority 0 par défaut
-public function show(string $slug): Response { /* ... */ }
+#[Route('/blog/{slug}', name: 'blog_show')]   // priority 0
+public function show(string $slug): Response {}
 ```
 
-Une `priority` plus élevée est évaluée en premier ; à priority égale, l'ordre
-de déclaration départage. Dans l'attribute, l'argument vaut `null` : la route
-hérite alors de la priority posée par un `#[Route]` au niveau de la class, et à
-défaut de `0`.
-
-## Erreurs fréquentes
-
-- Croire que la route la **plus spécifique** l'emporte. Non : c'est la
-  **première déclarée** qui correspond.
-- Écrire `priority` en YAML : la key n'existe pas, le chargement lève une
-  exception. En YAML, on déplace la route.
-- Importer `Annotation\Route` au lieu de `Attribute\Route`.
+La priority la plus élevée passe en premier ; à égalité, l'ordre de
+déclaration départage. L'argument vaut `null` par défaut : la route hérite alors
+de la priority d'un `#[Route]` posé sur la class, à défaut de `0`.
 
 ## Pièges d'examen
 
@@ -200,17 +158,93 @@ existent des deux côtés, mais sous deux formes différentes.
 l'époque Doctrine échoue en Symfony 8.0 — l'attribute vit désormais dans
 `Attribute`.
 
-## Points clés
+## Application
 
-- Deux jeux d'options : `priority` n'existe qu'en attribute, `env` et `alias`
-  prennent une autre forme en YAML.
-- Une key YAML inconnue lève une `InvalidArgumentException`.
-- Première correspondance gagnante, jamais la plus spécifique.
-- `priority` existe pour les attributes, dont l'ordre n'est pas contrôlable.
-- L'attribute vit dans `Routing\Attribute`, plus dans `Routing\Annotation`.
+- `/blog/list` capté par `/blog/{slug}` en attributes → `priority: 2` sur la
+  route spécifique.
+- Une route réservée au développement en YAML → la placer sous `when@dev:`.
+
+## QCM d'entraînement
+
+**Question 1.** La class porte `#[Route(priority: 5)]`, et sa method
+`#[Route('/x', name: 'x')]` sans priority. Quelle priority a la route `x` ?
+
+- **A.** 0
+- **B.** 5
+- **C.** `null`
+- **D.** Une exception : priority ambiguë
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** L'argument `priority` vaut `null` sur la method : la
+route hérite donc de celle posée au niveau de la class.
+
+</details>
+
+**Question 2.** Une route YAML porte `controller: App\C::a` et
+`defaults: { _controller: App\C::b }`. Que se passe-t-il au chargement ?
+
+- **A.** La key `controller` l'emporte, `defaults` étant ignoré
+- **B.** `_controller` l'emporte
+- **C.** Une `InvalidArgumentException`
+- **D.** Les deux sont appelés
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : C.** Le loader refuse de recevoir le controller par deux
+voies ; il signale le conflit au lieu de trancher en silence.
+
+</details>
+
+**Question 3.** Deux routes ont la même priority, `2`. Laquelle est essayée
+d'abord ?
+
+- **A.** Celle déclarée en premier
+- **B.** Celle au path le plus long
+- **C.** Celle dont le nom vient en premier dans l'alphabet
+- **D.** Aucun ordre garanti
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : A.** La collection trie par priority décroissante et
+conserve, à priority égale, l'ordre dans lequel les routes ont été ajoutées.
+
+</details>
+
+**Question 4.** Comment restreindre une route YAML à l'environment `prod` ?
+
+- **A.** La key `env: prod` sur la route
+- **B.** Un block `when@prod:` au premier niveau
+- **C.** `priority: prod`
+- **D.** Impossible : seuls les attributes acceptent un environment
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** La key `env` n'existe pas dans la liste du loader YAML ;
+on regroupe les routes sous un block conditionnel par environment.
+
+</details>
+
+## Fiche express
+
+**Si tu dois retenir seulement 6 choses :**
+
+- Import : **`Routing\Attribute\Route`** ; `Annotation` est supprimé.
+- **Première** route qui correspond gagne, jamais la plus spécifique.
+- `priority` : **attribute seulement** ; plus haute d'abord, égalité → ordre.
+- `priority` `null` → celle de la **class**, sinon 0.
+- YAML : `when@prod:` pour l'environment, entrée **alias seul** pour un alias.
+- Key YAML inconnue ou doublon de controller → **`InvalidArgumentException`**.
+
+Moyen mnémotechnique : **« Premier arrivé, premier servi »**.
 
 ## Sources officielles
 
 - `routing.rst` (symfony-docs, branche 8.0, `eea05cb`)
 - `Symfony\Component\Routing\Attribute\Route` (symfony, branche 8.0, `6f841c0`)
 - `YamlFileLoader`, `RouteCollection`, `AttributeClassLoader` (symfony, branche 8.0)
+

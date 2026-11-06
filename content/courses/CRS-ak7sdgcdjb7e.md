@@ -6,6 +6,7 @@ content_level: MINIMAL
 language: fr
 verification_status: VERIFIED
 reviewed_at: "2026-10-26"
+format: pedagogical
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/session.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/session.rst"
@@ -36,75 +37,61 @@ outcome_sections:
 
 Poser un flash message, savoir où il est stocké et quand il disparaît.
 
+## L'essentiel
+
+Un flash message est un message de **session** utilisé une seule fois : il
+disparaît dès qu'il est lu. C'est l'outil du *Post / Redirect / Get* : traiter,
+poser un message, rediriger, l'afficher. Tout tient dans la différence entre ce
+qui **consomme** et ce qui **regarde** — et entre `add()`, qui empile, et
+`set()`, qui écrase.
+
+## Le schéma
+
+```text
+poser      $this->addFlash('notice', '…')  ≡  getSession()->getFlashBag()->add()   → démarre la session
+empiler    add('notice', $m)               remplacer   set('notice', $m) : tout le type
+consommer  get('notice') (ce type seul) · all() · clear() (= all())       Twig : app.flashes
+regarder   peek('notice') · peekAll()                                     Twig : app.session.flashbag.peekAll()
+absent     has('notice') faux si le type est vide
+```
+
+## L'exemple : après un enregistrement
+
+```php
+public function edit(Request $request): Response
+{
+    // … traitement du form
+    $this->addFlash('notice', 'Vos modifications ont été enregistrées.');
+
+    return $this->redirectToRoute('app_post_show', ['id' => $post->getId()]);
+}
+```
+
 ## Ce que c'est
 
-Un flash message est un message de **session** conçu pour être utilisé
-exactement une fois : il disparaît automatiquement dès qu'il est récupéré. C'est
-le mécanisme du pattern *Post / Redirect / Get* — on traite, on pose un message,
-on redirige, et la page suivante l'affiche puis l'oublie.
-
-Comme c'est de la session, poser un flash **démarre la session**.
+Un message stocké en **session**, consommé à la première lecture. Poser un
+flash **démarre la session** : il n'y a pas de flash sans cookie de session. Le
+type — `notice`, `warning`, `error` — est une string libre.
 
 ## Poser
 
-```php
-$this->addFlash('notice', 'Vos modifications ont été enregistrées.');
-```
-
-`addFlash()` est un raccourci strictement équivalent à
-`$request->getSession()->getFlashBag()->add()`. Le premier argument est un
-*type* libre — `notice`, `warning`, `error` sont des usages courants, pas des
-valeurs imposées.
-
-Le raccourci **lève** plutôt que d'échouer en silence : une `LogicException`
-nommant la configuration à changer si les sessions sont désactivées, une autre
-si la session en place n'implémente pas `FlashBagAwareSessionInterface`.
-
-### `add()` empile, `set()` écrase
-
-Le sac expose les deux, et elles font le contraire l'une de l'autre :
-
-```php
-public function add(string $type, mixed $message): void
-{
-    $this->flashes[$type][] = $message;
-}
-
-public function set(string $type, string|array $messages): void
-{
-    $this->flashes[$type] = (array) $messages;
-}
-```
-
-`add()` ajoute à l'array du type ; `set()` **remplace tout le type**. Un `set()`
-posé après deux `add()` ne laisse que le dernier message. Le raccourci du
-controller n'expose que `add()`, ce qui rend `set()` d'autant plus facile à
-manquer — et son effet d'autant plus surprenant.
+`addFlash()` équivaut strictement à
+`$request->getSession()->getFlashBag()->add()`. Il **lève** une
+`LogicException` si les sessions sont désactivées, ou si la session
+n'implémente pas `FlashBagAwareSessionInterface`. Le sac expose aussi `set()`,
+qui remplace tout le type : deux `add()` puis un `set()` ne laissent que le
+dernier message.
 
 ## Lire, et le piège
-
-Deux familles, une différence qui décide de tout :
 
 | Method | Effet |
 |---|---|
 | `get('warning')` / `all()` | retourne les messages **et les consomme** |
 | `peek('warning')` / `peekAll()` | retourne les messages **sans** les consommer |
 
-Dans un template Twig, `app.flashes` consomme ; `app.session.flashbag.peekAll()`
-ne consomme pas. Afficher les flashs deux fois dans une même page avec
-`app.flashes` en fait donc disparaître la moitié.
-
-### Trois précisions qu'une table ne montre pas
-
-**`get()` ne vide qu'un type ; `all()` vide tout.** Lire les `notice` laisse les
-`warning` intacts. Ce n'est pas la même portée.
-
-**`clear()` est un alias de `all()`.** Son body rend `all()`, donc elle vide
-*et retourne* ce qu'elle a vidé. Ce n'est pas une purge silencieuse : la return value porte les messages.
-
-**Un type vide compte pour absent.** `has()` exige que la key existe **et** que
-son array ne soit pas vide. Un type présent mais vidé répond `false`, et
-`get()` rend alors la default value — `[]`, sauf si on en passe une autre.
+`get()` ne vide que son type, `all()` vide tout ; `clear()` est un alias de
+`all()` — elle vide **et retourne**. Un type présent mais vide compte pour
+absent : `has()` répond `false`, et `get()` rend sa default value.
 
 ## Pièges d'examen
 
@@ -127,23 +114,94 @@ n'y a pas de flash sans cookie de session.
 **Le type du message est libre.** `notice`, `warning`, `error` sont des usages,
 pas une enum imposée par le framework.
 
-## Tips d'examen
+## Application
 
-**Le préfixe `peek` est la key de lecture.** Tout ce qui ne le porte pas
-consomme — `get`, `all`, et `clear` qui est `all` sous un autre nom.
+- Afficher les flashs dans le header **et** dans le body → `peekAll()` en haut,
+  `app.flashes` une seule fois.
+- Confirmer un enregistrement avant un redirect → `addFlash()`.
 
-## Points clés
+## QCM d'entraînement
 
-- Message de session, consommé à la première lecture.
-- `addFlash()` ≡ `getSession()->getFlashBag()->add()`, et **lève** si la session
-  manque.
-- `add()` empile, `set()` **écrase** le type entier.
-- `get()` et `all()` consomment ; `peek()` et `peekAll()` non.
-- `clear()` est `all()` : elle vide **et retourne**.
-- Un type présent mais vide compte pour absent.
+**Question 1.** Le code appelle `add('notice', 'a')`, `add('notice', 'b')`,
+puis `set('notice', 'X')`. Que contient le type `notice` ?
+
+- **A.** `['a', 'b', 'X']`
+- **B.** `['X']`
+- **C.** `['a', 'b']` : `set()` est ignoré
+- **D.** `'X'`, une string seule
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** `set()` remplace tout le type par les messages qu'on lui
+passe, mis en array ; seul `add()` empile.
+
+</details>
+
+**Question 2.** Le sac porte un `notice` et un `warning`. Le code lit
+`get('notice')`. Que devient le `warning` ?
+
+- **A.** Il reste en place
+- **B.** Il est consommé avec le reste
+- **C.** Il est déplacé sous `notice`
+- **D.** Une exception : un seul type par lecture
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : A.** `get()` ne retire que la key demandée ; c'est `all()`
+qui vide l'ensemble du sac.
+
+</details>
+
+**Question 3.** Le type `notice` existe, mais son array est vide. Que répond
+`has('notice')` ?
+
+- **A.** `true` : la key existe
+- **B.** `null`
+- **C.** `false`
+- **D.** Une `LogicException`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : C.** `has()` exige une key présente **et** un array non vide ;
+un type vidé compte pour absent.
+
+</details>
+
+**Question 4.** Les sessions sont désactivées dans `framework.yaml`, et un
+controller appelle `addFlash()`. Que se passe-t-il ?
+
+- **A.** Rien : le message est perdu en silence
+- **B.** Le message est gardé en mémoire pour la Request
+- **C.** Une session est démarrée malgré tout
+- **D.** Une `LogicException`, qui dit quoi activer
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : D.** Le raccourci préfère échouer bruyamment : son message
+indique qu'il faut activer les sessions dans `config/packages/framework.yaml`.
+
+</details>
+
+## Fiche express
+
+**Si tu dois retenir seulement 6 choses :**
+
+- Flash = **session**, lu une fois ; poser un flash **démarre** la session.
+- `addFlash()` ≡ `getFlashBag()->add()`, et **lève** sans session.
+- `add()` **empile**, `set()` **écrase** le type.
+- `get()` / `all()` / `clear()` **consomment** ; `peek()` / `peekAll()` non.
+- `get()` vide **son type** ; `clear()` vide et **retourne**.
+- Type vide = **absent** pour `has()`.
+
+Moyen mnémotechnique : **« Peek regarde, le reste consomme »**.
 
 ## Sources officielles
 
 - [Sessions, section « Flash Messages »](https://github.com/symfony/symfony-docs/blob/8.0/session.rst)
 - [`FlashBag`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Session/Flash/FlashBag.php)
 - [`AbstractController::addFlash()`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/AbstractController.php)
+

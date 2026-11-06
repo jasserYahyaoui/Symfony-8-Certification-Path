@@ -44,7 +44,9 @@ LOT01_QUESTION = 'content/questions/lot-01-php.yml'
 # were excluded; since ADR-0011 its « Objectif » leaves the budget too, and the
 # margin is computed rather than written down, so the REV-001 case below adds
 # exactly one word over the ceiling: prose added next to a diagram, after the
-# objective, must still be counted.
+# objective, must still be counted. Since 2026-11-06 the page is in the
+# pedagogical format, which REV-001 skips (ADR-0012), so that case also removes
+# the flag: the defect it injects is the same, on a course the budget governs.
 DIAGRAM_COURSE = 'content/courses/CRS-mpwjc4g3vmj7.md'
 sys.path.insert(0, str(ROOT / 'tools/audit'))
 import collect  # noqa: E402  (the one Python mirror of Course::budgetWordCount())
@@ -215,7 +217,8 @@ CASES = [
     ),
     (
         'REV-001 still counts the prose written beside a diagram',
-        [(DIAGRAM_COURSE,
+        [(DIAGRAM_COURSE, '\nformat: pedagogical\n', '\n'),
+         (DIAGRAM_COURSE,
           "## Trois façons d'échouer, trois exceptions\n",
           ('mot ' * OVER_BY_ONE).strip() + "\n\n## Trois façons d'échouer, trois exceptions\n")],
         '[ERROR] REV-001',
@@ -372,7 +375,9 @@ def main():
         except RuntimeError as e:
             failures.append(f'{expected}: {e}')
         finally:
-            for path, before, before_digest in touched:
+            # Newest first: a case may edit one file twice, and only the
+            # first snapshot holds the file as it was found.
+            for path, before, before_digest in reversed(touched):
                 path.write_bytes(before)
                 if digest(path) != before_digest:
                     failures.append(f'{expected}: {path} was NOT restored byte-identically')

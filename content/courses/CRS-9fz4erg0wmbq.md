@@ -6,6 +6,7 @@ content_level: MINIMAL
 language: fr
 verification_status: VERIFIED
 reviewed_at: "2026-10-26"
+format: pedagogical
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/controller.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/controller.rst"
@@ -52,10 +53,41 @@ Connaître les conventions propres aux controllers, et savoir lesquelles sont
 `Abstract`, suffixes `Interface` et `Trait` — sont traitées dans le lot Symfony
 Architecture.
 
-## Rien n'est imposé, presque
+## L'essentiel
 
-La documentation le dit mot pour mot : la class *peut techniquement s'appeler
-n'importe comment*, mais elle est suffixée `Controller` **par convention**.
+Presque rien n'est imposé à un controller : le suffixe `Controller`, la class de
+base, l'absence de suffixe `Action` sont des conventions. **Une seule
+obligation** : un route name unique. Quand on l'omet, Symfony le génère en deux
+couches — le component, puis FrameworkBundle qui le raccourcit — et c'est ce
+nom généré que l'examen fait calculer.
+
+## Le schéma
+
+```text
+_controller          App\Controller\BlogController::show   ·   class invocable : App\Controller\ShowPage
+nom généré, component     \ → _, puis _méthode, en minuscules   → app_controller_luckycontroller_number
+nom généré, FrameworkBundle  retire controller_ et bundle_, un suffixe action, les __   → app_lucky_number
+deuxième route de la méthode → suffixe _1, _2…     name sur la class → préfixe
+alias FQCN::méthode   seulement pour une méthode à une seule route
+template             snake_case, deux extensions : index.html.twig (format, puis moteur)
+```
+
+## L'exemple : une route sans nom
+
+```php
+namespace App\Controller;
+
+final class LuckyController extends AbstractController
+{
+    #[Route('/lucky/number')]
+    public function number(): Response   // nom généré : app_lucky_number
+    {
+        // ...
+    }
+}
+```
+
+## Rien n'est imposé, presque
 
 | Élément | Convention | Obligatoire ? |
 |---|---|---|
@@ -65,39 +97,23 @@ n'importe comment*, mais elle est suffixée `Controller` **par convention**.
 | template | `snake_case`, deux extensions | non |
 | route name | unique dans l'application | **oui** |
 
-Une seule ligne porte un « oui ».
+Le template porte deux extensions : `index.html.twig`, la première étant le
+format produit.
 
 ## Le format `_controller`
 
-Un controller est désigné par la notation
-`App\Controller\BlogController::show` — class pleinement qualifiée, `::`, nom
-de method. C'est cette string que le router dépose dans l'attribute
-`_controller` de la Request.
-
-Pour une class **invocable**, la class seule suffit : `configureRoute()` écrit
-le nom de class sans `::` quand la method est `__invoke`.
+`App\Controller\BlogController::show` : class pleinement qualifiée, `::`, nom
+de method — la string que le router dépose dans l'attribute `_controller`. Pour
+une class **invocable**, la class seule suffit.
 
 ## Le route name, et qui le génère
 
-`name` omis, Symfony génère le nom — en **deux couches**, le même partage
-component / bundle que le chapitre précédent.
-
 Le component Routing, dans `AttributeClassLoader::getDefaultRouteName()`,
-remplace les `\` du nom pleinement qualifié par des `_`, ajoute `_` puis le nom
-de la method, et met le tout **en minuscules** :
-
-```php
-$name = str_replace('\\', '_', $class->name).'_'.$method->name;
-$name = mb_strtolower($name, 'UTF-8');
-if ($this->defaultRouteIndex > 0) {
-    $name .= '_'.$this->defaultRouteIndex;
-}
-```
-
-FrameworkBundle redéfinit cette method dans `AttributeRouteControllerLoader` :
-il remplace les segments `bundle_` et `controller_` par `_`, retire un suffixe
-`action` quand la method se termine par `Action` ou `_action`, puis écrase les
-`__` restants.
+remplace les `\` par des `_`, ajoute `_` et le nom de la method, met le tout
+**en minuscules**, puis ajoute `_` et `defaultRouteIndex` à partir de la
+deuxième route d'une même method. `AttributeRouteControllerLoader`, de
+FrameworkBundle, retire ensuite les segments `bundle_` et `controller_`, un
+suffixe `action`, et les `__` restants.
 
 | Method | Component seul | Avec FrameworkBundle |
 |---|---|---|
@@ -105,18 +121,9 @@ il remplace les segments `bundle_` et `controller_` par `_`, retire un suffixe
 | `BlogController::showAction` | `app_controller_blogcontroller_showaction` | `app_blog_show` |
 | deuxième route de la même method | suffixe `_1` | `app_lucky_number_1` |
 
-Un `name` porté par la **class** est préfixé au nom, généré ou non.
-
-Symfony ajoute en outre des **alias** fondés sur le nom pleinement qualifié :
-toute method ne déclarant qu'une seule route reçoit l'alias
-`App\Controller\MainController::homepage` ; une class invocable n'ajoutant
-qu'une route reçoit un alias sur son nom de class seul.
-
-## Le nom de template
-
-La documentation recommande le `snake_case` pour les files **et** les
-directories, et **deux extensions** : `index.html.twig`. La première est le
-format produit, pas l'engine de rendu.
+Rien ne découpe le `CamelCase` : `LuckyController` devient `luckycontroller`.
+Un `name` porté par la class est préfixé. Une method qui ne déclare qu'une
+route reçoit en plus l'alias `App\Controller\LuckyController::number`.
 
 ## Pièges d'examen
 
@@ -137,20 +144,89 @@ suffixe numérique, `_1`, `_2`…
 **Le suffixe `Action` n'est plus utilisé, mais il est encore reconnu** : le
 loader du bundle le retire du nom généré.
 
-## Tips d'examen
+## Application
 
-**Une seule obligation à retenir** : l'unicité du route name. Tout le reste de
-cette page est une convention. Et pour trancher component / bundle sur un nom
-généré : s'il contient `controller`, c'est le component nu.
+- Générer l'URL d'une route sans nom explicite → le nom généré, ou l'alias
+  `FQCN::méthode`.
+- Plusieurs routes vers la même action → elles reçoivent `_1`, `_2`.
 
-## Points clés
+## QCM d'entraînement
 
-- Le suffixe `Controller` est une convention, pas une constraint.
-- Le suffixe `Action` n'est plus utilisé, mais reste retiré du nom généré.
-- `_controller` = `FQCN::méthode`, ou le FQCN seul si la class est invocable.
-- Le nom généré vient du component, puis est raccourci par FrameworkBundle.
-- Un route name doit être unique ; des alias fondés sur le FQCN existent en plus.
-- Les templates, eux, suivent le `snake_case` et portent deux extensions.
+**Question 1.** Avec FrameworkBundle, quel nom reçoit la route sans `name` de
+`App\Controller\AdminController::index` ?
+
+- **A.** `admin_index`
+- **B.** `app_admin_controller_index`
+- **C.** `app_admin_index`
+- **D.** `app_controller_admincontroller_index`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : C.** Le component produit le nom long en minuscules ; le
+loader du bundle en retire le segment `controller_`.
+
+</details>
+
+**Question 2.** La class `BlogController` porte `#[Route(name: 'blog_')]`, et
+sa method `list()` une route sans nom. Quel nom obtient-elle ?
+
+- **A.** `blog_list`
+- **B.** `blog_app_blog_list`
+- **C.** `app_blog_list`
+- **D.** `app_blog_blog_list_1`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** Le `name` de la class est un préfixe, posé devant le nom
+généré complet, qui garde son `app_blog_list`.
+
+</details>
+
+**Question 3.** Une method porte deux attributes `#[Route]` sans nom.
+Reçoit-elle l'alias `App\Controller\LuckyController::twice` ?
+
+- **A.** Oui, sur la première route
+- **B.** Oui, sur les deux routes
+- **C.** Non : une erreur de doublon de nom
+- **D.** Non : une route seulement
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : D.** L'alias fondé sur le nom pleinement qualifié n'est
+ajouté que pour une method qui ne déclare qu'une route ; ici, deux noms suffixés.
+
+</details>
+
+**Question 4.** Que désigne `html` dans `index.html.twig` ?
+
+- **A.** Le format produit par le template
+- **B.** L'engine de rendu
+- **C.** Le domain de translation
+- **D.** Rien : une simple convention de nom
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : A.** La première extension dit ce que le template produit,
+la seconde quel engine le rend ; la documentation recommande les deux.
+
+</details>
+
+## Fiche express
+
+**Si tu dois retenir seulement 6 choses :**
+
+- **Une seule obligation** : un route name unique.
+- `Controller`, `AbstractController`, pas d'`Action` : des **conventions**.
+- `_controller` = `FQCN::méthode`, ou le **FQCN seul** si invocable.
+- Nom généré : component en **minuscules**, sans découpe du CamelCase.
+- FrameworkBundle retire **`controller_`** et `action` → `app_lucky_number`.
+- Deuxième route : **`_1`** ; alias FQCN seulement pour **une** route.
+
+Moyen mnémotechnique : **« S'il contient controller, c'est le component nu »**.
 
 ## Sources officielles
 
@@ -159,3 +235,4 @@ généré : s'il contient `controller`, c'est le component nu.
 - [`AttributeClassLoader` (component Routing)](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Loader/AttributeClassLoader.php)
 - [`AttributeRouteControllerLoader` (FrameworkBundle)](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Routing/AttributeRouteControllerLoader.php)
 - [Templates, section « Template Naming »](https://github.com/symfony/symfony-docs/blob/8.0/templates.rst)
+

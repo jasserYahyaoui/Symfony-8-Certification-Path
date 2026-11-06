@@ -6,6 +6,7 @@ content_level: DEEP
 language: fr
 verification_status: VERIFIED
 reviewed_at: "2026-10-26"
+format: pedagogical
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/http_kernel.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/components/http_kernel.rst"
@@ -54,114 +55,14 @@ Suivre le trajet complet d'une Request HTTP dans une application Symfony, depuis
 le front controller jusqu'à l'envoi de la Response, et savoir **qui** fait quoi
 à chaque étape.
 
-## Prérequis
+## L'essentiel
 
-Le component HttpFoundation et le vocabulaire Request / Response.
-
-## Le contrat
-
-Tout part d'une seule signature, celle de `HttpKernelInterface` :
-
-```php
-public function handle(
-    Request $request,
-    int $type = self::MAIN_REQUEST,
-    bool $catch = true
-): Response;
-```
-
-Elle dit l'essentiel de l'architecture : une Request entre, une Response sort,
-toujours. Les deux autres arguments méritent d'être lus. `$type` vaut
-`MAIN_REQUEST` (**1**) ou `SUB_REQUEST` (**2**) — le kernel traite les deux par le
-même code, et c'est aux listeners de faire la différence quand elle compte. `$catch` décide si
-une exception est convertie en Response ou relancée telle quelle ; c'est ce qui
-distingue le comportement de production du comportement de debug.
-
-## Le trajet
-
-**1. Le front controller.** `public/index.php` est le seul entry point. Il
-inclut `vendor/autoload_runtime.php` et retourne une function qui construit le
-`Kernel`. C'est le component **Runtime** qui prend le relais : c'est lui, et non
-le file, qui crée la `Request` depuis les globales, appelle `handle()`, envoie
-la Response et déclenche `terminate()`.
-
-**2. Le kernel démarre.** `Kernel::boot()` enregistre les bundles et construit —
-ou recharge depuis `var/cache/` — le service container compilé.
-
-**3. `kernel.request`.** Le premier event, dispatché **avant** que le
-controller soit connu. C'est là que le router résout la route et dépose ses
-parameters dans `request->attributes`, dont la key `_controller`. C'est là aussi
-qu'un listener peut court-circuiter : s'il appelle `setResponse()`, la résolution
-et l'exécution du controller sont sautées — mais **pas la suite du cycle**.
-`kernel.response`, puis `kernel.finish_request`, puis `kernel.terminate` après
-l'envoi, ont lieu normalement. Un redirect de sécurité fonctionne
-exactement ainsi.
-
-**4. Résolution du controller.** Le `ControllerResolver` lit `_controller` dans
-les attributes et retourne un *callable* PHP. Le kernel ne sait rien d'autre : un
-controller est un callable, pas nécessairement une method d'une class.
-
-**5. `kernel.controller`.** Le controller est connu mais pas encore exécuté. Un
-listener peut ici le **remplacer entièrement**.
-
-**6. Résolution des arguments**, puis `kernel.controller_arguments`, juste avant
-l'appel. Cet event relit **deux** choses après le dispatch, le controller
-*et* les arguments : un listener peut donc encore remplacer le controller ici,
-pas seulement à l'étape 5. Le détail des resolvers de valeur appartient au lot
-Controllers.
-
-**7. Le controller est appelé.** Sa return value décide de la suite.
-
-**8. `kernel.view` — conditionnel.** Il n'est dispatché **que si** le controller
-n'a pas retourné de `Response`. Son role est de transformer la valeur retournée
-en Response. Si le controller a retourné une `Response`, cet event n'a jamais
-lieu.
-
-**9. `kernel.response`.** Dispatché dans tous les cas, une fois la Response
-obtenue — par le controller ou par un listener de `kernel.view`. C'est le dernier
-endroit où la modifier : headers, cookies, injection de la debug toolbar.
-
-**10. `kernel.finish_request`.** Après `kernel.response`. Il sert à **restaurer
-l'état global** de l'application — la locale, par exemple — ce qui n'a
-d'importance que lorsqu'une Request en imbrique une autre.
-
-**11. Envoi**, puis **12. `kernel.terminate`**, dispatché *après* que la Response
-a été envoyée au client. C'est le seul endroit où un traitement lent ne coûte
-rien au user.
-
-## La pile de Requests, poussée et dépilée par `handle()`
-
-`handle()` ne se contente pas d'orchestrer les events. Il **empile** la
-Request dans le `RequestStack` dès l'entrée, et la **dépile** dans un `finally`
-— donc quoi qu'il arrive, exception comprise. C'est tout le mécanisme derrière
-`getCurrentRequest()` : la Request courante est simplement celle du sommet, et
-une sub-Request empilée par-dessus la principale rend la première accessible
-par `getParentRequest()`.
-
-Une exception : si la Response est une `StreamedResponse`, sa function de rendu
-est **réenveloppée** pour réempiler la Request le temps du flux, puis la
-dépiler. Sans cela, `getCurrentRequest()` rendrait `null` à l'intérieur du
-`callback`, puisqu'il s'exécute une fois `handle()` terminé.
-
-## La branche que le trajet nominal ne montre pas
-
-Le trajet ci-dessus décrit le cas où rien n'échoue. Dès qu'une exception est
-levée, `handleRaw()` est interrompu et `$catch` décide :
-
-- **`$catch` vaut `true`** — `kernel.exception` est dispatché. Si un listener
-  pose une Response, le cycle **reprend** au filter de Response : `kernel.response`
-  puis `kernel.finish_request` ont lieu normalement. Si aucun ne le fait,
-  `kernel.finish_request` est dispatché **quand même**, puis l'exception est
-  relancée.
-- **`$catch` vaut `false`** — `kernel.exception` n'a pas lieu du tout, mais
-  `kernel.finish_request` est dispatché avant que l'exception ne remonte.
-
-Autrement dit `kernel.finish_request` a lieu sur **les trois** paths : succès,
-exception rattrapée, exception relancée — **à une condition**. Une `\Error`
-n'entre dans ces branches que si `handleAllThrowables` est vrai :
-`framework.handle_all_throwables` le fait par défaut, mais le constructor
-d'`HttpKernel` le met à `false`. Exécuté avec une `TypeError` et ce défaut :
-seul `kernel.request` a lieu, ni `kernel.exception` ni `kernel.finish_request`.
+Une Request entre, une Response sort : tout le cycle tient dans
+`HttpKernelInterface::handle()`. Le kernel ne fait qu'orchestrer des events ;
+le travail — router, résoudre, convertir — est fait par des listeners. Trois
+points tombent à l'examen : `kernel.view` est **conditionnel**, un court-circuit
+ne saute pas la fin du cycle, et `kernel.finish_request` a lieu même quand une
+exception remonte — à une condition.
 
 ## Le cycle en schéma
 
@@ -185,6 +86,59 @@ flowchart TD
   SEND --> TERM["kernel.terminate"]
 ```
 
+## L'exemple : une page de maintenance qui court-circuite
+
+```php
+#[AsEventListener(priority: 100)]
+final class MaintenanceListener
+{
+    public function __invoke(RequestEvent $event): void
+    {
+        $event->setResponse(new Response('Maintenance', 503));
+        // controller sauté ; response, finish_request et terminate ont lieu
+    }
+}
+```
+
+## Le contrat
+
+```php
+public function handle(Request $request, int $type = self::MAIN_REQUEST, bool $catch = true): Response;
+```
+
+`$type` vaut `MAIN_REQUEST` (**1**) ou `SUB_REQUEST` (**2**) : même code, aux
+listeners de distinguer. `$catch` décide si une exception devient une Response
+ou remonte.
+
+## Le trajet
+
+1. `public/index.php`, seul front controller, rend une function ; le component
+   **Runtime** crée la Request, appelle `handle()`, envoie, puis `terminate()`.
+2. `Kernel::boot()` enregistre les bundles et charge le container compilé.
+3. **`kernel.request`**, avant que le controller soit connu : le router y pose
+   `_controller` dans les attributes. `setResponse()` y saute le controller,
+   pas la suite.
+4. Le `ControllerResolver` rend un **callable** ; puis **`kernel.controller`**,
+   qui peut le remplacer.
+5. Arguments résolus, puis **`kernel.controller_arguments`**, qui relit le
+   controller **et** les arguments.
+6. Appel. **`kernel.view`** n'a lieu **que si** le retour n'est pas une
+   `Response`.
+7. **`kernel.response`** dans tous les cas, puis **`kernel.finish_request`**,
+   qui restaure l'état global.
+8. Envoi, puis **`kernel.terminate`** : le seul endroit où un traitement lent ne
+   coûte rien au user.
+
+## La pile de Requests, poussée et dépilée par `handle()`
+
+`handle()` empile la Request dans le `RequestStack` à l'entrée et la dépile dans
+un `finally`, exception comprise : c'est ce qui fait marcher
+`getCurrentRequest()`. Pour une `StreamedResponse`, le callback est réenveloppé
+pour réempiler la Request le temps du flux — sans quoi il trouverait une pile
+vide, `handle()` étant terminé.
+
+## La branche que le trajet nominal ne montre pas
+
 ```mermaid
 ---
 title: Une exception pendant handle()
@@ -203,6 +157,15 @@ flowchart TD
   FIN2 --> UP(["relancée"])
 ```
 
+Avec `$catch` à `true`, `kernel.exception` est dispatché ; si un listener pose
+une Response, `kernel.response` puis `kernel.finish_request` ont lieu, sinon
+`kernel.finish_request` puis l'exception remonte. Avec `$catch` à `false`, pas de
+`kernel.exception`, mais `kernel.finish_request` avant de remonter. Il a donc
+lieu sur les trois paths — à une condition : une `\Error` n'entre dans ces
+branches que si `handleAllThrowables` est vrai. `framework.handle_all_throwables`
+le fait par défaut, le constructor d'`HttpKernel` non : avec une `TypeError`,
+seul `kernel.request` a lieu.
+
 ## Trois façons d'échouer, trois exceptions
 
 | Ce qui manque | Ce qui est levé |
@@ -211,10 +174,8 @@ flowchart TD
 | Le controller ne rend pas une `Response`, et aucun listener de `kernel.view` n'en pose une | `ControllerDoesNotReturnResponseException` |
 | La Request elle-même est malformée (`RequestExceptionInterface`) | convertie en `BadRequestHttpException` avant la branche d'exception |
 
-La deuxième porte un message que tout le monde a déjà lu : « Did you forget to
-add a return statement somewhere in your controller? » Elle n'est levée
-**qu'après** `kernel.view` — l'event a bien eu lieu, il n'a simplement rien
-donné.
+La deuxième — « Did you forget to add a return statement somewhere in your
+controller? » — n'est levée qu'**après** `kernel.view`.
 
 ## Pièges d'examen
 
@@ -233,27 +194,96 @@ donné.
   arguments.
 - `MAIN_REQUEST` vaut **1** et `SUB_REQUEST` **2** — pas `0` et `1`.
 
-## Tips d'examen
+## Application
 
-**Deux questions suffisent à placer un event.** Le controller est-il connu ?
-(non → `kernel.request`). La Response existe-t-elle ? (oui → `kernel.response`
-puis `kernel.finish_request`, et `kernel.terminate` après l'envoi).
+- Envoyer un email lent sans retarder la Response → `kernel.terminate`.
+- Restaurer une locale modifiée par une sub-Request → `kernel.finish_request`.
 
-**`finally` est le mot-clé du cycle.** Le dépilement de la Request a lieu sur
-tous les paths ; `kernel.finish_request`, sur tous ceux qu'`HttpKernel`
-rattrape.
+## QCM d'entraînement
 
-## Points clés
+**Question 1.** `HttpKernel` est construit avec ses arguments par défaut, et le
+controller provoque une `TypeError`. Quels events ont lieu ?
 
-- `handle(Request, $type, $catch): Response` est le contrat unique.
-- L'ordre : request → controller → controller_arguments →
-  *(appel)* → [view, sans `Response`] → response → finish_request →
-  *(envoi)* → terminate.
-- Tout le travail est fait par des listeners ; `handle()` ne fait qu'orchestrer.
-- `handle()` empile la Request à l'entrée et la dépile dans un `finally` : c'est
-  ce qui fait fonctionner `getCurrentRequest()` et `getParentRequest()`.
-- Sur exception : `kernel.exception` si `$catch`, et `kernel.finish_request`
-  dans tous les cas.
+- **A.** `kernel.request` et `kernel.exception`
+- **B.** `kernel.request` seulement
+- **C.** `kernel.request`, `kernel.exception`, `kernel.finish_request`
+- **D.** `kernel.request` et `kernel.finish_request`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** Sans `handleAllThrowables`, une `\Error` n'entre pas
+dans la branche d'exception : ni `kernel.exception` ni `kernel.finish_request`.
+
+</details>
+
+**Question 2.** Le resolver ne trouve aucun controller pour la Request. Quelle
+exception est levée ?
+
+- **A.** `ControllerDoesNotReturnResponseException`
+- **B.** `NotFoundHttpException`
+- **C.** `\LogicException`, faute de callable
+- **D.** `BadRequestHttpException`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** Le kernel juge la route mal configurée et lève un 404 :
+« Unable to find the controller for path … The route is wrongly configured. »
+
+</details>
+
+**Question 3.** Dans le callback d'une `StreamedResponse`, exécuté pendant
+l'envoi, que rend `$requestStack->getCurrentRequest()` ?
+
+- **A.** `null` : `handle()` est terminé
+- **B.** La main Request d'une autre exécution
+- **C.** Une `LogicException`
+- **D.** La Request qui a produit la Response
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : D.** `handle()` réenveloppe le callback pour réempiler la
+Request le temps du flux ; hors du callback, la pile est vide.
+
+</details>
+
+**Question 4.** Le controller lève une `SuspiciousOperationException`, avec
+`$catch` à `false`. Quelle exception remonte ?
+
+- **A.** `SuspiciousOperationException`, telle quelle
+- **B.** `NotFoundHttpException`
+- **C.** `BadRequestHttpException`
+- **D.** Aucune : une Response 400 est rendue
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : C.** Une `RequestExceptionInterface` est convertie en
+`BadRequestHttpException` avant la branche d'exception ; `$catch` à `false` la
+laisse remonter.
+
+</details>
+
+## Fiche express
+
+**Si tu dois retenir seulement 8 choses :**
+
+- `handle(Request, $type, $catch): Response` ; `MAIN_REQUEST` = **1**,
+  `SUB_REQUEST` = **2**.
+- Ordre : request → controller → controller_arguments → *(appel)* → [view] →
+  response → finish_request → *(envoi)* → terminate.
+- `kernel.view` n'est dispatché que si le controller ne rend pas une `Response`.
+- Court-circuit sur `kernel.request` : **response, finish_request, terminate**
+  ont lieu.
+- `controller_arguments` peut encore **remplacer le controller**.
+- Pile : empilée à l'entrée, dépilée dans un **`finally`**.
+- `finish_request` sur les trois paths — sauf `\Error` hors
+  `handle_all_throwables`.
+- Aucun controller → 404 ; pas de Response → `ControllerDoesNotReturnResponseException`.
+
+Moyen mnémotechnique : **« Une Request entre, une Response sort »**.
 
 ## Sources officielles
 
@@ -262,3 +292,4 @@ rattrape.
 - [Component Runtime, section « Usage »](https://github.com/symfony/symfony-docs/blob/8.0/components/runtime.rst)
 - [`HttpKernel` (le code du cycle)](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/HttpKernel.php)
 - [`HttpKernelInterface`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/HttpKernelInterface.php)
+
