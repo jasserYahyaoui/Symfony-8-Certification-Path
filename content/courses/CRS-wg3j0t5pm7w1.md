@@ -6,6 +6,7 @@ content_level: STANDARD
 language: fr
 verification_status: VERIFIED
 reviewed_at: "2026-10-26"
+format: pedagogical
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/routing.rst"
@@ -50,21 +51,41 @@ outcome_sections:
 Contraindre la valeur d'un parameter de route, et savoir quand ce requirement
 s'applique.
 
-## Le problème qu'elle résout
+## L'essentiel
 
-`/blog/{page}` et `/blog/{slug}` sont indiscernables : un parameter accepte
-n'importe quelle valeur. Sans requirement, `/blog/mon-article` correspond aux
-deux, et c'est la **première route déclarée** qui gagne.
+Un requirement est une **expression régulière PHP** que la valeur d'un
+parameter doit vérifier pour que la route corresponde. Il départage
+`/blog/{page}` et `/blog/{slug}` sans dépendre de l'ordre de déclaration. Il
+s'écrit en option, inline ou par l'enum `Requirement`, et il vaut **aussi à la
+génération** : par défaut, une valeur non conforme y lève une exception.
 
-`requirements` associe à chaque parameter une **expression régulière PHP** que
-la valeur doit vérifier pour que la route entière corresponde :
+## Le schéma
 
-```php
-#[Route('/blog/{page}', name: 'blog_list', requirements: ['page' => '[0-9]+'])]
+```text
+écrire       requirements: ['page' => '[0-9]+'] · /blog/{page<[0-9]+>} · Requirement::DIGITS
+Requirement  enum sans cas, des constantes string : DIGITS [0-9]+ (0, 007 admis) · POSITIVE_INT [1-9][0-9]*
+match        requirement non vérifié → route suivante · \p{…} exige utf8: true, sinon LogicException
+default      n'a pas à vérifier le requirement (elle n'est pas dans l'URL)
+génération   strict_requirements  true (défaut) → InvalidParameterException
+                                  false → string vide + log · null → aucune vérification
 ```
 
-Désormais `/blog/2` va à `blog_list` et `/blog/mon-article` à `blog_show`,
-quel que soit l'ordre de déclaration.
+## L'exemple
+
+```php
+#[Route('/blog/{page}', name: 'blog_list', requirements: ['page' => Requirement::DIGITS])]
+public function list(int $page = 1): Response {}
+
+#[Route('/blog/{slug}', name: 'blog_show')]
+public function show(string $slug): Response {}
+```
+
+## Le problème qu'elle résout
+
+`/blog/{page}` et `/blog/{slug}` sont indiscernables : sans requirement,
+`/blog/mon-article` correspond aux deux, et la **première route déclarée**
+gagne. Avec `[0-9]+` sur `page`, `/blog/2` va à `blog_list` et
+`/blog/mon-article` à `blog_show`, quel que soit l'ordre.
 
 ## Trois façons de l'écrire
 
@@ -74,49 +95,27 @@ quel que soit l'ordre de déclaration.
 | inline dans le path | `/blog/{page<[0-9]+>}` |
 | constante de l'enum | `requirements: ['page' => Requirement::DIGITS]` |
 
-L'enum `Symfony\Component\Routing\Requirement\Requirement` rassemble les
-expressions courantes — chiffres, dates, UUID — et évite de réécrire des
-expressions régulières fragiles. En YAML elle s'utilise avec `!php/const`.
-
-C'est une enum **sans aucun cas** : elle ne sert qu'à porter des
-constantes, qui sont de simples strings. Deux d'entre elles se confondent :
-
-| Constante | Expression | Accepte `0` ? |
-|---|---|---|
-| `Requirement::DIGITS` | `[0-9]+` | oui, et `007` aussi |
-| `Requirement::POSITIVE_INT` | `[1-9][0-9]*` | non |
-
-Pour un numéro de page, `DIGITS` laisse passer `/blog/0`.
-
-La forme inline est plus concise mais devient illisible dès que l'expression est
-complexe ; c'est un arbitrage, pas une règle.
+L'enum `Symfony\Component\Routing\Requirement\Requirement` n'a **aucun cas** :
+elle porte des constants string — chiffres, dates, UUID. En YAML, on l'utilise
+avec `!php/const`. `DIGITS` vaut `[0-9]+` et laisse passer `/blog/0` ;
+`POSITIVE_INT` vaut `[1-9][0-9]*` et exclut `0`.
 
 ## Ce qui est autorisé
 
-Un requirement peut contenir un **parameter de configuration**, ce qui permet de
-définir une expression compliquée une fois et de la réutiliser. Elle accepte
-aussi les **properties Unicode PCRE**, avec l'option `utf8: true` de la route :
-`\p{Lu}` correspond alors à toute majuscule, dans n'importe quelle langue.
+Un requirement peut contenir un **parameter de configuration**, pour définir une
+expression compliquée une fois. Il accepte les **properties Unicode PCRE** avec
+l'option `utf8: true` de la route : `\p{Lu}` correspond alors à toute
+majuscule.
 
 ## Deux pièges
 
-Une default value **n'est pas tenue** de satisfaire le requirement. La
-documentation le dit explicitement. Le requirement filtre l'URL entrante ; la
-default value, elle, n'est pas dans l'URL.
+Une default value **n'est pas tenue** de satisfaire le requirement : celui-ci
+filtre l'URL entrante, et la default value n'y est pas.
 
-### Le requirement s'applique aussi en génération
-
-Le generator relit chaque requirement avant de produire l'URL. Ce qu'il fait
-d'une valeur non conforme dépend de l'option `framework.router.strict_requirements` :
-
-| Valeur | Effet d'une valeur non conforme |
-|---|---|
-| `true` — **défaut** | `InvalidParameterException` : « Parameter "page" for route "blog_list" must match… » |
-| `false` | erreur journalisée, et le generator rend une **string vide** |
-| `null` | aucune vérification |
-
-Le texte d'aide de l'option annonce `null` pour le cas `false` ; le code de la
-branche 8.0 retourne `''`. La même aide suggère `true` en développement,
+Le generator relit chaque requirement. Selon `framework.router.strict_requirements` :
+`true`, le défaut, lève une `InvalidParameterException` ; `false` journalise
+l'erreur et rend une **string vide** — l'aide de l'option annonce `null`, le code
+8.0 rend `''` ; `null` ne vérifie rien. L'aide suggère `true` en développement,
 `false` ou `null` en production.
 
 ## Pièges d'examen
@@ -133,17 +132,91 @@ route lève une `LogicException` — exécuté avec Routing 8.0.15.
 **Le requirement vaut aussi à la génération.** Générer `blog_list` avec
 `page: 'abc'` lève une exception par défaut.
 
-## Points clés
+## Application
 
-- `requirements` = expression régulière PHP ; toute la route échoue si elle n'est
-  pas vérifiée.
-- Trois écritures : option, inline `{p<regex>}`, enum `Requirement`.
-- Un requirement peut contenir un parameter de configuration.
-- La default value peut ne pas respecter le requirement.
-- Le generator vérifie le requirement : exception par défaut
-  (`strict_requirements: true`).
-- `DIGITS` accepte `0` ; `POSITIVE_INT` non.
+- Une pagination qui ne doit pas accepter `/blog/0` → `Requirement::POSITIVE_INT`.
+- Un slug accentué en majuscule initiale → `\p{Lu}\p{Ll}+` et `utf8: true`.
+
+## QCM d'entraînement
+
+**Question 1.** La route `/p/{n}` porte `Requirement::POSITIVE_INT`. Le client
+appelle `/p/0`. Que se passe-t-il ?
+
+- **A.** Elle correspond, `n` vaut `0`
+- **B.** Elle ne correspond pas
+- **C.** Elle correspond, `n` vaut `null`
+- **D.** Une `InvalidParameterException`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** L'expression `[1-9][0-9]*` exclut un zéro initial :
+l'URL ne vérifie pas le requirement, et le matcher passe à la route suivante.
+
+</details>
+
+**Question 2.** `strict_requirements` vaut `false`. Le code génère `blog_list`
+avec `page: 'abc'`. Que rend le generator ?
+
+- **A.** Une string vide
+- **B.** `null`
+- **C.** `/blog/abc`
+- **D.** Une `InvalidParameterException`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : A.** En mode non strict, l'erreur est journalisée et le code
+8.0 rend `''`, malgré l'aide de l'option qui annonce `null`.
+
+</details>
+
+**Question 3.** Même génération, mais `strict_requirements` vaut `null`. Que
+rend le generator ?
+
+- **A.** Une string vide
+- **B.** `null`
+- **C.** `/blog/abc`
+- **D.** Une `InvalidParameterException`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : C.** Avec `null`, le requirement n'est plus du tout vérifié :
+la valeur est insérée telle quelle dans l'URL produite.
+
+</details>
+
+**Question 4.** La route `/blog/{page}` a le requirement `[0-9]+` et la default
+value `first`. Que produit `generate('blog_list')` sans parameter ?
+
+- **A.** `/blog/first`
+- **B.** Une `InvalidParameterException`
+- **C.** `/blog/0`
+- **D.** `/blog`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : D.** La default value n'a pas à vérifier le requirement, et
+un parameter final égal à son défaut est omis de l'URL générée.
+
+</details>
+
+## Fiche express
+
+**Si tu dois retenir seulement 6 choses :**
+
+- Requirement = **regex PHP** ; sans lui, l'**ordre** de déclaration départage.
+- Option, inline **`{page<[0-9]+>}`**, ou enum **`Requirement`** (sans cas).
+- `DIGITS` accepte **0** ; `POSITIVE_INT` non.
+- `\p{…}` exige **`utf8: true`**.
+- Default value : **pas tenue** de vérifier le requirement.
+- Génération : `true` → **exception**, `false` → **`''`**, `null` → rien.
+
+Moyen mnémotechnique : **« Le requirement vaut à l'arrivée comme à la génération »**.
 
 ## Sources officielles
 
 - [Routing, section « Parameters Validation »](https://github.com/symfony/symfony-docs/blob/8.0/routing.rst)
+

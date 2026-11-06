@@ -6,6 +6,7 @@ content_level: STANDARD
 language: fr
 verification_status: VERIFIED
 reviewed_at: "2026-09-01"
+format: pedagogical
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/releases.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/releases.rst"
@@ -27,83 +28,69 @@ outcome_sections:
 Connaître le calendrier de publication de Symfony et les durées de maintenance.
 Ce sont des chiffres : ils se retiennent ou ne se retiennent pas.
 
-## Le modèle temporel
+## L'essentiel
 
-Symfony suit le *semantic versioning* et publie selon un modèle basé sur le
-**temps**, non sur le contenu.
+Symfony publie selon le **temps**, pas selon le contenu : un correctif environ
+chaque mois, une mineure tous les **six mois** (mai et novembre), une majeure
+tous les **deux ans** (novembre des années impaires). La dernière mineure d'une
+branche, X.4, est la LTS. Tout le reste est une affaire de chiffres qui vont
+par paires.
+
+## Le schéma
+
+```text
+cycle de 6 mois     4 mois de développement + 2 mois de stabilisation
+branche majeure     X.0 X.1 X.2 X.3 X.4 (LTS) — cinq mineures depuis la branche 3.x
+maintenance         standard : 8 mois bugs / 8 mois sécurité      LTS : 3 ans bugs / 4 ans sécurité
+délai pour migrer   standard : 2 mois                              LTS : 1 an
+en parallèle        8.0 ≡ 7.4 en fonctionnalités ; 8.0 retire ce que 7.4 déprécie
+PHP                 minimum fixé par majeure (exception possible en mineure) ; maximum = la dernière parue
+```
+
+## L'exemple : la branche 7
+
+7.0 sort en novembre 2023 ; 7.1, 7.2 et 7.3 sont standard, maintenues 8 mois ;
+7.4, la LTS, sort en novembre 2025 avec 8.0 et reçoit 3 ans de correctifs de
+bugs et 4 ans de correctifs de sécurité.
+
+## Le modèle temporel
 
 | Type | Fréquence | Contenu |
 |---|---|---|
 | **correctif** (7.1.4) | environ tous les mois | corrections de bugs seulement |
-| **mineure** (7.1 → 7.2) | tous les **six mois**, en **mai** et en **novembre** | corrections, nouvelles fonctionnalités, nouvelles deprecations, aucune rupture |
+| **mineure** (7.1 → 7.2) | tous les **six mois**, en **mai** et en **novembre** | fonctionnalités, deprecations, aucune rupture |
 | **majeure** (7.0 → 8.0) | tous les **deux ans**, en **novembre des années impaires** | peut rompre la compatibilité |
 
-**Aucune feuille de route n'est écrite à l'avance** : le projet est piloté par
-la communauté, et une fonctionnalité demandée n'est pas planifiée.
+**Aucune feuille de route** n'annonce le contenu : le projet est piloté par la
+communauté.
 
 ## Les six mois d'une version
 
-Deux phases : **quatre mois** de développement — ajout et amélioration de
-fonctionnalités — puis **deux mois** de stabilisation : correction, préparation
-de la publication, et attente que l'écosystème suive.
-
-Pendant le développement, une fonctionnalité non prête à temps peut être
-reportée au cycle suivant.
+**Quatre mois** de développement, puis **deux mois** de stabilisation —
+corriger, préparer la publication, attendre que l'écosystème suive. Une
+fonctionnalité qui n'est pas prête à temps est reportée au cycle suivant.
 
 ## LTS et durées de maintenance
 
-**Depuis la branche 3.x**, une branche majeure compte **cinq versions
-mineures** : X.0 à X.4. La
-**dernière** — 5.4, 6.4, 7.4 — est la version *long-term support*. Les quatre
-autres sont des versions standard.
-
-| Type | Bugs corrigés pendant | Failles corrigées pendant |
-|---|---|---|
-| Standard | **8 mois** | **8 mois** |
-| LTS | **3 ans** | **4 ans** |
-
-L'asymétrie de la LTS se retient mal : les bugs cessent d'être corrigés un an
-avant les failles.
-
-## Les deux fenêtres de migration
-
-Les durées de maintenance disent quand le support s'arrête. L'exposé des motifs
-donne aussi le délai dont on **dispose pour migrer**, et ce ne sont pas les
-mêmes chiffres :
-
-| | Nouvelle version tous les… | Délai pour migrer |
-|---|---|---|
-| Standard | six mois | **deux mois** |
-| LTS | deux ans | **un an** |
-
-C'est le *dual maintenance mode* : les uns veulent les nouveautés vite, les
-autres la stabilité, et chacun sait combien de temps il a.
+Depuis la branche 3.x, une branche majeure compte **cinq** mineures, X.0 à
+X.4 ; la **dernière** est la LTS. Une standard est maintenue **8 mois** pour
+les bugs comme pour la security ; une LTS **3 ans** pour les bugs, **4 ans**
+pour les failles. C'est le *dual maintenance mode* : les uns veulent les
+nouveautés vite, les autres la stabilité. Les deux fenêtres de migration le
+traduisent : **deux mois** pour passer d'une standard à la suivante, **un an**
+pour une LTS.
 
 ## Le développement en double
 
-Une majeure se développe **en parallèle** de la dernière mineure de la branche
-précédente — 8.0 avec 7.4 — et les deux ont les **mêmes fonctionnalités**. Elles
-ne diffèrent que par les deprecations : présentes dans l'ancienne, supprimées
-dans la nouvelle. C'est ce qui rend la montée praticable.
+Une majeure se développe en parallèle de la dernière mineure de la branche
+précédente : 8.0 et 7.4 ont les **mêmes fonctionnalités**, et ne diffèrent que
+par les deprecations, retirées dans 8.0.
 
-## PHP
-
-La version **minimale** de PHP est fixée pour chaque version **majeure** de
-Symfony, par **consensus de l'équipe centrale**, et documentée dans les
-prérequis techniques.
-
-La version **maximale** est la dernière publiée : toutes les versions de PHP
-parues pendant la vie d'une version de Symfony sont supportées, **y compris les
-nouvelles majeures de PHP**.
-
-Deux précisions que la règle générale masque :
-
-- **il existe une exception** — relever la version **mineure** minimale de PHP
-  est possible dans une version **mineure** de Symfony, quand cela aide à
-  corriger des problèmes importants ;
-- pour une version de Symfony **hors support**, la dernière version de PHP
-  supportée est celle en vigueur à la fin de vie. Les suivantes « peuvent
-  fonctionner ou non ».
+Côté PHP, le **minimum** est fixé pour chaque majeure, par consensus de
+l'équipe centrale ; par exception, une mineure de Symfony peut relever la
+mineure minimale de PHP pour corriger un problème important. Le **maximum** est
+la dernière version parue, nouvelles majeures de PHP comprises. Hors support,
+les versions de PHP postérieures à la fin de vie « peuvent fonctionner ou non ».
 
 ## Pièges d'examen
 
@@ -127,26 +114,94 @@ des problèmes importants.
 maintenue 8 mois, mais le délai annoncé pour migrer est de **deux mois** ; une
 LTS est maintenue 3 ou 4 ans, et le délai est d'**un an**.
 
-## Tips d'examen
+## Application
 
-**Les chiffres vont par paires.** 4 + 2 mois dans un cycle ; 8 / 8 mois pour
-une standard ; 3 / 4 ans pour une LTS ; 2 mois / 1 an pour migrer. Une question
-qui ne donne qu'un seul nombre attend souvent l'autre.
+- Une entreprise qui veut migrer le moins souvent possible → une LTS tous les
+  deux ans, et un an pour migrer.
+- Préparer le passage à 8.0 → éliminer les deprecations sur 7.4.
 
-**Mai et novembre**, et les majeures en **novembre des années impaires**.
+## QCM d'entraînement
 
-## Points clés
+**Question 1.** Depuis quelle branche une majeure compte-t-elle exactement
+cinq mineures ?
 
-- Mineure tous les 6 mois (mai / novembre), majeure tous les 2 ans (novembre des
-  années impaires), correctif mensuel.
-- 4 mois de développement + 2 mois de stabilisation.
-- 5 mineures par branche ; la dernière (X.4) est LTS.
-- Standard : 8 mois / 8 mois. LTS : **3 ans de bugs, 4 ans de sécurité**.
-- Aucune feuille de route définie à l'avance.
-- Délai pour migrer : **2 mois** en standard, **1 an** en LTS.
-- Minimum PHP par majeure, **sauf** relèvement de mineure pour un correctif
-  important ; maximum PHP = la dernière publiée.
+- **A.** Depuis la branche 2.x
+- **B.** Depuis la branche 4.x, avec Flex
+- **C.** Depuis toujours
+- **D.** Depuis la branche 3.x
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : D.** La règle des cinq mineures, de X.0 à X.4 avec la
+dernière en LTS, s'applique à partir de la branche 3.x.
+
+</details>
+
+**Question 2.** Une fonctionnalité n'est pas prête au bout des quatre mois de
+développement. Que devient-elle ?
+
+- **A.** Elle est reportée au cycle suivant
+- **B.** La publication est retardée d'un mois
+- **C.** Elle sort marquée `@experimental`
+- **D.** Elle passe dans un correctif mensuel
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : A.** Le calendrier est fixe : la stabilisation commence à
+date, et ce qui n'est pas prêt attend la version suivante.
+
+</details>
+
+**Question 3.** Une nouvelle majeure de PHP sort pendant la vie d'une version
+de Symfony encore maintenue. Est-elle supportée ?
+
+- **A.** Non : seule la prochaine majeure de Symfony
+- **B.** Oui
+- **C.** Seulement si c'est une LTS
+- **D.** Seulement après un relèvement du minimum
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** La version maximale de PHP est la dernière publiée :
+toute version parue pendant la vie d'une version de Symfony est supportée.
+
+</details>
+
+**Question 4.** Une version de Symfony est hors support. Quelle version de PHP
+reste supportée ?
+
+- **A.** Celle en vigueur à sa fin de vie
+- **B.** Toutes les versions futures de PHP
+- **C.** Aucune, dès la fin du support
+- **D.** Le minimum fixé à sa publication, seulement
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : A.** Le support PHP s'arrête avec elle ; les versions de PHP
+plus récentes « may or may not function », sans garantie.
+
+</details>
+
+## Fiche express
+
+**Si tu dois retenir seulement 7 choses :**
+
+- Correctif **mensuel** ; mineure en **mai** et **novembre** ; majeure en
+  **novembre des années impaires**.
+- Cycle : **4 mois** de développement + **2 mois** de stabilisation.
+- **Cinq** mineures par branche ; **X.4** est la LTS.
+- Standard : **8 / 8 mois** ; LTS : **3 ans** de bugs, **4 ans** de sécurité.
+- Migrer : **2 mois** en standard, **1 an** en LTS.
+- 8.0 ≡ 7.4, moins les deprecations.
+- PHP : minimum par majeure, maximum = la dernière parue.
+
+Moyen mnémotechnique : **« Les chiffres vont par paires »**.
 
 ## Sources officielles
 
 - [The Release Process](https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/releases.rst)
+

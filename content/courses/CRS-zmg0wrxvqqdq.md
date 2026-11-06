@@ -6,6 +6,7 @@ content_level: STANDARD
 language: fr
 verification_status: VERIFIED
 reviewed_at: "2026-10-26"
+format: pedagogical
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/routing.rst"
@@ -45,18 +46,25 @@ outcome_sections:
 Connaître les controllers que FrameworkBundle fournit tout faits, et le cas
 d'usage de chacun : afficher une page sans écrire de code.
 
-## Le principe
+## L'essentiel
 
-Une route désigne un controller. Rien n'oblige ce controller à être une class
-de l'application : FrameworkBundle en expose plusieurs, que l'on référence
-directement dans la configuration de route, avec des options passées en
-`defaults`. Ces options deviennent des attributes de la Request, puis des
-arguments du controller, appariés par nom.
+Une route peut viser un controller **fourni par FrameworkBundle**, réglé par
+ses seuls `defaults` : `TemplateController` rend un template,
+`RedirectController` redirige. L'examen interroge ce que le code tranche :
+cache public, 307/308, cible vide, mode `path` contre mode `route`.
 
-## `TemplateController`
+## Le schéma
 
-Rend un template sans aucun code. C'est le cas des pages statiques — mentions
-légales, page de confidentialité.
+```text
+route → controller: FQCN du framework → defaults → attributes de la Request → arguments (par nom)
+TemplateController   template (seul obligatoire) · statusCode 200 · maxAge · sharedAge · private · context · headers
+RedirectController   route  → URL absolue générée, parameters courants transmis, keepQueryParams
+                     path   → path complété (schéma, host, port) + query string · URL complète telle quelle
+                     route ET path, ou ni l'un ni l'autre → RuntimeException
+statut               302 · permanent 301 · keepRequestMethod 307 · les deux 308 · cible vide 404 / 410
+```
+
+## L'exemple : deux routes sans code
 
 ```yaml
 acme_privacy:
@@ -64,62 +72,60 @@ acme_privacy:
     controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController
     defaults:
         template: 'static/privacy.html.twig'
-        statusCode: 200
         maxAge: 86400
-        sharedAge: 86400
-        private: true
-        context: { site_name: 'ACME' }
-        headers: { Content-Type: 'text/html' }
+
+legacy_blog:
+    path: /old-blog
+    controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController
+    defaults:
+        route: 'blog_index'
+        permanent: true
 ```
 
-`template` est le seul obligatoire ; `statusCode` vaut 200 par défaut.
-`maxAge` et `sharedAge` posent les headers de cache, `context` fournit les
-variables du template. Sans TwigBundle, le controller lève une `LogicException`.
+## Le principe
 
-### Le cache public par défaut
+Rien n'oblige le controller d'une route à être une class de l'application.
+Les `defaults` deviennent des attributes de la Request, puis des arguments,
+appariés par nom.
 
-Trois détails du code que la configuration ne montre pas :
+## `TemplateController`
+
+Rend un template sans code, pour une page statique. `template` est le seul obligatoire ; `statusCode` vaut 200 par défaut ; sans
+TwigBundle, le controller lève une `LogicException`. Pour le cache :
 
 - sans `private`, poser `maxAge` ou `sharedAge` rend la Response **publique** ;
-- `private: false` la rend publique aussi, `private: true` privée ;
-- `maxAge` n'est appliqué que s'il est non nul : `maxAge: 0` ne pose **rien**,
-  alors que `sharedAge: 0` pose bien un `s-maxage` à zéro.
+- `private: true` la rend privée, `private: false` publique ;
+- `maxAge` n'est appliqué que s'il est non nul : `maxAge: 0` ne pose aucun
+  `max-age`, mais la Response devient publique quand même ; `sharedAge: 0`
+  pose bien un `s-maxage=0`.
 
 ## `RedirectController`
 
-Redirige depuis la route elle-même, sans controller applicatif. Deux modes
-exclusifs : `route` pour viser une route, `path` pour un path ou une URL.
+Redirige depuis la route elle-même. Deux modes exclusifs : `route` pour viser
+une route, `path` pour un path ou une URL.
 
 | Option | Effet |
 |---|---|
 | `permanent: true` | 301 au lieu de 302 |
+| `keepRequestMethod: true` | conserve la method HTTP : **307**, ou **308** si permanent |
 | `keepQueryParams: true` | conserve la query string — mode `route` seulement |
-| `keepRequestMethod: true` | conserve la method HTTP |
 | `ignoreAttributes` | `true` n'en transmet aucun, un array retire ceux-là |
-
-`keepRequestMethod` mérite d'être retenu : conserver la method change le status code, parce que 301 et 302 autorisent le navigateur à retomber sur `GET`.
-Le statut devient **307** pour un redirect temporaire et **308** pour un
-permanent.
 
 ### Ce que le code tranche
 
-- **`route` et `path` ensemble** lèvent une `RuntimeException` (« Ambiguous
-  redirect settings ») ; **aucun des deux** en lève une aussi.
-- **Une cible vide** ne redirige pas : elle lève une `HttpException` **404**, ou
-  **410** si `permanent` est vrai — une ressource retirée pour de bon.
-- **Les parameters de la route courante sont transmis** à la route cible par
-  défaut. C'est ce que `ignoreAttributes` coupe.
-- **L'URL générée est absolue** en mode `route` — schéma et host compris —,
-  à l'inverse de `redirectToRoute()`, qui produit un path.
-- **En mode `path`, la query string est recopiée sur un path**, sans
-  option pour s'en passer ; une URL complète — `https://…` ou `//…` — part
-  telle quelle, **sans** elle (exécuté). Un path relatif est complété par le schéma,
-  le host et le port, que `scheme`, `httpPort` et `httpsPort` permettent de fixer.
+- **`route` et `path` ensemble** lèvent une `RuntimeException`
+  (`Ambiguous redirection settings`) ; **aucun des deux** en lève une aussi.
+- **Une cible vide** lève une `HttpException` **404**, ou **410** si permanente.
+- **Mode `route`** : les parameters de la route courante sont transmis à la
+  cible, et l'URL générée est **absolue** — à l'inverse de `redirectToRoute()`.
+- **Mode `path`** : la query string est recopiée sur un path, sans option pour
+  s'en passer ; une URL complète — `https://…` ou `//…` — part telle quelle,
+  **sans** elle. Un path est complété par le schéma, le host et le port, que
+  `scheme`, `httpPort` et `httpsPort` permettent de fixer.
 
 ## `ErrorController`
 
-Il produit les pages d'erreur, et expose en développement la route de
-prévisualisation `/_error/{statusCode}`.
+Il produit les pages d'erreur ; en développement, `/_error/404` les prévisualise.
 
 ## Pièges d'examen
 
@@ -140,14 +146,93 @@ l'éviter.
 
 **Un controller de route n'est pas forcément dans `App\`.**
 
-## Points clés
+## Application
 
-- Un controller de route peut venir du framework, pas seulement de `App\`.
-- `TemplateController` : `template` obligatoire ; `maxAge` sans `private` → public.
-- `RedirectController` : `route` **ou** `path`, jamais les deux.
-- Cible vide : 404, ou 410 si permanente.
-- `keepRequestMethod: true` transforme 302/301 en **307/308**.
-- Mode `route` : URL absolue, parameters transmis ; mode `path` : query string recopiée sur un path seulement.
+- Une page « mentions légales » gardée en cache une journée → `TemplateController`
+  avec `template` et `maxAge: 86400`.
+- Une ancienne URL de form déplacée pour de bon, qui reçoit des `POST`
+  → `RedirectController` avec `permanent` et `keepRequestMethod`.
+
+## QCM d'entraînement
+
+**Question 1.** Une route `TemplateController` ne porte que `template` et
+`maxAge: 0`. Quel header `Cache-Control` part ?
+
+- **A.** `max-age=0, public`
+- **B.** `no-cache, private`
+- **C.** `public`
+- **D.** `max-age=0, private`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : C.** Un `maxAge` nul n'est pas appliqué, mais il est
+renseigné : sans `private`, le controller rend donc la Response publique.
+
+</details>
+
+**Question 2.** La route `/old` porte `path: 'https://shop.example.org/'`. Le
+client appelle `/old?ref=mail`. Que contient `Location` ?
+
+- **A.** `https://shop.example.org/?ref=mail`
+- **B.** `https://shop.example.org/`
+- **C.** `/old?ref=mail`
+- **D.** Une exception : il manque `keepQueryParams`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** Une URL complète part telle quelle ; la query string
+n'est recopiée que sur un path, que le controller complète lui-même.
+
+</details>
+
+**Question 3.** La route `/old/{id}` redirige, en mode `route` et sans autre
+option, vers `item` de path `/item/{id}`. Le client appelle `/old/7` sur
+`https://example.com`. Que contient `Location` ?
+
+- **A.** `https://example.com/item/7`
+- **B.** `/item/7`
+- **C.** Une exception : `id` manque à la route cible
+- **D.** `https://example.com/item/{id}`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : A.** Les parameters de la route courante sont transmis à la
+cible, et le mode `route` génère une URL absolue, schéma et host compris.
+
+</details>
+
+**Question 4.** La route courante porte les parameters `id` et `utm`, et
+`ignoreAttributes: ['utm']`. Que reçoit la route cible ?
+
+- **A.** `id` et `utm`
+- **B.** Aucun parameter
+- **C.** `utm` seul
+- **D.** `id` seul
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : D.** Un array dans `ignoreAttributes` retire seulement les
+parameters nommés ; la valeur `true` les aurait tous écartés.
+
+</details>
+
+## Fiche express
+
+**Si tu dois retenir seulement 6 choses :**
+
+- `TemplateController` : **`template`** obligatoire ; sans Twig → `LogicException`.
+- `maxAge` ou `sharedAge` sans `private` → Response **publique**.
+- `RedirectController` : `route` **ou** `path` ; les deux, ou aucun → exception.
+- 302 · 301 permanent · **307 / 308** avec `keepRequestMethod`.
+- Cible vide : **404**, ou **410** si permanente.
+- Mode `route` : URL **absolue**, parameters transmis ; mode `path` : query
+  string sur un **path** seulement.
+
+Moyen mnémotechnique : **« 7 garde la method, 8 la garde pour toujours »**.
 
 ## Sources officielles
 
@@ -155,3 +240,4 @@ l'éviter.
 - [Templates, rendre un template depuis une route](https://github.com/symfony/symfony-docs/blob/8.0/templates.rst)
 - [`RedirectController`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/RedirectController.php)
 - [`TemplateController`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/TemplateController.php)
+

@@ -6,6 +6,7 @@ content_level: DEEP
 language: fr
 verification_status: VERIFIED
 reviewed_at: "2026-10-26"
+format: pedagogical
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/components/event_dispatcher.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/components/event_dispatcher.rst"
@@ -55,131 +56,82 @@ propagation — et connaître le catalogue des events du kernel avec ce que
 chacun autorise. Le déroulé de la Request est traité dans *Request handling* ;
 on s'intéresse ici au **mécanisme** et aux **pouvoirs** de chaque event.
 
-## Prérequis
+## L'essentiel
 
-Le trajet d'une Request et le vocabulaire Request / Response.
+Le component EventDispatcher appelle, pour un event, ses listeners par
+**priority décroissante**. Listener et subscriber ne diffèrent que par qui
+déclare l'abonnement. `stopPropagation()` n'arrête que les listeners restants
+du **même** event, et seulement sur un event arrêtable. Le kernel dispatche
+huit events, chacun avec son pouvoir propre.
+
+## Le schéma
+
+```text
+dispatch(object $event, ?string $eventName = null): object   nom par défaut = la class ; l'event est rendu
+listener appelé avec ($event, $eventName, $dispatcher)
+ordre      krsort() : 255 → 0 (défaut) → −255 ; à égalité, ordre d'ajout
+arrêt      stopPropagation() : listeners restants de CET event ; il faut StoppableEventInterface
+kernel     request → controller → controller_arguments → [view] → response → finish_request → terminate
+           exception : à tout moment ; KernelEvents::ALIASES relie class d'event et nom
+```
+
+## L'exemple : un subscriber
+
+```php
+final class OrderSubscriber implements EventSubscriberInterface
+{
+    public static function getSubscribedEvents(): array
+    {
+        return [OrderPlacedEvent::class => [['notify', 10], ['log', -10]]];
+    }
+}
+```
 
 ## Listener ou subscriber
 
-Deux façons de réagir à un event, avec la même mécanique dessous.
-
-Un **listener** est un callable enregistré depuis l'extérieur :
-
-```php
-$dispatcher->addListener('acme.foo', [$listener, 'onFooAction'], 10);
-```
-
-Un **subscriber** est une class qui déclare elle-même à quoi elle
-s'abonne, via la method **statique** `getSubscribedEvents()` de
-`EventSubscriberInterface`. Elle retourne un array indexé par nom d'event,
-dont la valeur est soit le nom d'une method, soit un couple
-`[méthode, priorité]`, soit une liste de tels couples.
-
-La différence est de **responsabilité**, pas de fonctionnement : avec un
-listener, la configuration sait à quoi il s'abonne ; avec un subscriber, la class
-le sait, et déplacer la class suffit à déplacer l'abonnement.
-
-Dans le framework, l'enregistrement passe par le container : un subscriber est
-détecté par autoconfiguration, un listener se déclare par le tag
-`kernel.event_listener` ou par l'attribute `#[AsEventListener]`, dont les
-parameters sont `event`, `method`, `priority` et `dispatcher`.
+Un **listener** est un callable enregistré de l'extérieur
+(`addListener($nom, $callable, $priority)`) ; un **subscriber** déclare
+lui-même ses events par la method **statique** `getSubscribedEvents()` : un nom
+de method, un couple `[méthode, priorité]`, ou une liste de couples. Dans le
+framework, un subscriber est autoconfiguré ; un listener se déclare par le tag
+`kernel.event_listener` ou `#[AsEventListener]` (`event`, `method`,
+`priority`, `dispatcher`). Sans parameter `event`, le nom se déduit du **type**
+de l'argument par `KernelEvents::ALIASES` ; retirer le type
+fait échouer la compilation du container. Un type union abonne le listener à
+chacun des events.
 
 ## Priority
 
-La priority est un int, **positif ou négatif**, qui vaut `0` par défaut.
-
-> **Plus le nombre est grand, plus tôt le listener est appelé.**
-
-C'est le sens que l'intuition inverse volontiers : la priority `-255` s'exécute
-*après* la priority `0`, et la priority `255` *avant*. À priority égale, les
-listeners sont appelés dans l'ordre où ils ont été ajoutés au dispatcher.
-
-`php bin/console debug:event-dispatcher <événement>` donne l'ordre réel.
+Un int, positif ou négatif, `0` par défaut : **plus il est grand, plus tôt** le
+listener est appelé — l'ordre est établi par un `krsort()`. À priority égale,
+l'ordre d'ajout. `getListenerPriority($nom, $listener)` rend la priority réelle,
+ou `null` si le listener n'est pas enregistré ; `debug:event-dispatcher` montre
+l'ordre.
 
 ## Propagation
 
-Un listener peut appeler `$event->stopPropagation()`. Les listeners du **même
-event** qui n'ont pas encore été appelés ne le seront pas. Cela n'interrompt
-ni le traitement de la Request, ni les autres events — c'est une erreur
-d'interprétation fréquente. `isPropagationStopped()` permet de le constater
-après coup.
-
-**Mais tout object n'est pas arrêtable.** `callListeners()` ne consulte
-`isPropagationStopped()` que si l'event implémente
-`StoppableEventInterface`, l'interface PSR-14. Un object quelconque dispatché
-sans elle voit **tous** ses listeners appelés, quoi qu'ils fassent. En pratique
-`Symfony\Contracts\EventDispatcher\Event` l'implémente, et `KernelEvent`
-l'étend : les huit events du kernel sont donc arrêtables. C'est l'event
-maison bâti sur un simple object qui ne l'est pas.
-
-## Ce que fait `dispatch()`, exactement
-
-```php
-public function dispatch(object $event, ?string $eventName = null): object
-```
-
-Trois choses méritent d'être lues dans cette signature.
-
-**Le nom est facultatif, et son défaut est le nom de la class.** `$eventName
-??= $event::class`. Dispatcher un `OrderPlacedEvent` sans second argument
-l'enregistre donc sous `App\Event\OrderPlacedEvent`, pas sous une string
-pointée. Un listener branché sur `'order.placed'` ne sera jamais appelé.
-
-**L'event est retourné.** D'où l'idiome
-`$event = $dispatcher->dispatch(new OrderPlacedEvent($order));` — l'object revient
-enrichi par les listeners.
-
-**Chaque listener reçoit trois arguments**, pas un :
-`$listener($event, $eventName, $this)`. Le deuxième est utile quand une même
-method est branchée sur plusieurs events ; le troisième est le dispatcher
-lui-même.
-
-## `KernelEvents::ALIASES`
-
-La class ne porte pas que les huit constantes : elle porte aussi une table
-`ALIASES` qui associe **chaque class d'event à son nom**.
-
-```php
-RequestEvent::class  => self::REQUEST,
-ResponseEvent::class => self::RESPONSE,
-// …
-```
-
-C'est ce que lit `RegisterListenersPass`, et c'est ce qui permet d'écrire
-`#[AsEventListener]` **sans** parameter `event` : le nom est déduit du type de
-l'argument de la method. Retirer le type **fait échouer la compilation du
-container** — exécuté : `InvalidArgumentException`, *must define the "event"
-attribute*. Un type union, lui, abonne le listener à chacun des events.
-
-## Le reste de l'API
-
-`addListener()` et `addSubscriber()` ont leurs symétriques, `removeListener()`
-et `removeSubscriber()`. Deux methods d'introspection complètent l'ensemble :
-`hasListeners($nom)` et `getListenerPriority($nom, $listener)`, qui rend la
-priority réelle ou `null` si le listener n'est pas enregistré.
-
-L'ordre, lui, est établi par un `krsort()` sur les priorities — un tri **par key
-décroissante**, ce qui est la formulation la plus directe de « plus le nombre
-est grand, plus tôt ».
+`stopPropagation()` saute les listeners **restants du même event** ; ni la
+Request ni les autres events ne sont interrompus. `callListeners()` ne consulte
+`isPropagationStopped()` que si l'event implémente `StoppableEventInterface`
+(PSR-14) : un object maison sans elle voit **tous** ses listeners appelés.
+`Symfony\Contracts\EventDispatcher\Event` l'implémente, donc les events du
+kernel sont arrêtables.
 
 ## Le catalogue du kernel
 
-Tous les events du kernel étendent `KernelEvent`, qui donne `getRequest()`,
-`getKernel()`, `getRequestType()` et `isMainRequest()`.
+Tous étendent `KernelEvent` : `getRequest()`, `getKernel()`,
+`getRequestType()`, `isMainRequest()`.
 
-| Constante | Nom | Class d'event | Pouvoir spécifique |
-|---|---|---|---|
-| `REQUEST` | `kernel.request` | `RequestEvent` | `setResponse()` — court-circuite |
-| `CONTROLLER` | `kernel.controller` | `ControllerEvent` | `setController()` |
-| `CONTROLLER_ARGUMENTS` | `kernel.controller_arguments` | `ControllerArgumentsEvent` | `setArguments()` |
-| `VIEW` | `kernel.view` | `ViewEvent` | `getControllerResult()`, `setResponse()` |
-| `RESPONSE` | `kernel.response` | `ResponseEvent` | `getResponse()`, `setResponse()` |
-| `FINISH_REQUEST` | `kernel.finish_request` | `FinishRequestEvent` | *aucun* — restauration d'état |
-| `TERMINATE` | `kernel.terminate` | `TerminateEvent` | *aucun* — trop tard |
-| `EXCEPTION` | `kernel.exception` | `ExceptionEvent` | `setThrowable()`, `setResponse()` |
-
-`FINISH_REQUEST` et `TERMINATE` ne permettent pas de modifier la Response : le
-premier intervient après `kernel.response`, le second après l'envoi.
+| Nom | Class d'event | Pouvoir spécifique |
+|---|---|---|
+| `kernel.request` | `RequestEvent` | `setResponse()` — court-circuite |
+| `kernel.controller` | `ControllerEvent` | `setController()` |
+| `kernel.controller_arguments` | `ControllerArgumentsEvent` | `setArguments()` |
+| `kernel.view` | `ViewEvent` | `getControllerResult()`, `setResponse()` |
+| `kernel.response` | `ResponseEvent` | `getResponse()`, `setResponse()` |
+| `kernel.finish_request` | `FinishRequestEvent` | *aucun* — restauration d'état |
+| `kernel.terminate` | `TerminateEvent` | *aucun* — la Response est partie |
+| `kernel.exception` | `ExceptionEvent` | `setThrowable()`, `setResponse()` |
 
 ## Pièges d'examen
 
@@ -196,26 +148,92 @@ premier intervient après `kernel.response`, le second après l'envoi.
 - `#[AsEventListener]` sans `event` dépend du **type** de l'argument, via
   `KernelEvents::ALIASES`.
 
-## Tips d'examen
+## Application
 
-**`krsort` est le mot à retenir pour la priority.** Tri par key décroissante :
-255 avant 0 avant −255. Si le sens s'échappe, le nom de la function le rend.
+- Transformer en JSON les arrays rendus par les controllers → un listener de
+  `kernel.view`.
+- Ajouter un header à toutes les Responses → `kernel.response`, jamais
+  `kernel.terminate`.
 
-**Deux questions pour classer un event.** La Response existe-t-elle déjà ?
-(oui → on ne peut que la modifier). Est-elle déjà partie ? (oui → on ne peut
-plus rien).
+## QCM d'entraînement
 
-## Points clés
+**Question 1.** `$dispatcher->dispatch(new OrderPlacedEvent())` est appelé sans
+second argument ; un listener attend `'order.placed'`. Est-il appelé ?
 
-- Listener et subscriber diffèrent par qui déclare l'abonnement, pas par l'effet.
-- Priority entière, défaut `0`, décroissante dans l'ordre d'appel.
-- Huit events de kernel, tous dérivés de `KernelEvent`.
-- Chaque event a un pouvoir propre : ce que l'un permet, l'autre l'interdit.
-- `dispatch(object $event, ?string $eventName = null): object` — nom par défaut
-  = class, event retourné, listener appelé avec trois arguments.
-- L'arrêt de propagation suppose `StoppableEventInterface`.
-- `KernelEvents::ALIASES` relie class et nom ; c'est le socle de
-  `#[AsEventListener]` sans `event`.
+- **A.** Oui : le nom est déduit en snake_case
+- **B.** Oui, si la class porte un attribute de nom
+- **C.** Non : il part sous le nom de sa class
+- **D.** Non : `dispatch()` exige un nom
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : C.** Le nom par défaut est le nom complet de la class ; seul
+un listener branché sur `OrderPlacedEvent::class` est appelé.
+
+</details>
+
+**Question 2.** Combien d'arguments un listener reçoit-il quand le dispatcher
+l'appelle ?
+
+- **A.** Un seul : l'event
+- **B.** Trois : event, nom, dispatcher
+- **C.** Deux : l'event et sa priority
+- **D.** Autant que la method en déclare
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** Le nom sert à une même method branchée sur plusieurs
+events ; le troisième argument est le dispatcher lui-même.
+
+</details>
+
+**Question 3.** Que rend `getListenerPriority($nom, $listener)` pour un listener
+qui n'est pas enregistré ?
+
+- **A.** `null`
+- **B.** `0`, la priority par défaut
+- **C.** `-1`
+- **D.** Une `InvalidArgumentException`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : A.** La method ne rend une priority que pour un listener
+présent ; sinon, rien — à distinguer du défaut `0`.
+
+</details>
+
+**Question 4.** Que rend `$dispatcher->dispatch($event)` ?
+
+- **A.** `null`, l'appel ne sert qu'à notifier
+- **B.** Le nombre de listeners appelés
+- **C.** Un bool : la propagation a-t-elle été arrêtée
+- **D.** L'object event lui-même
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : D.** L'event revient enrichi par les listeners, d'où l'idiome
+`$event = $dispatcher->dispatch(new OrderPlacedEvent($order));`.
+
+</details>
+
+## Fiche express
+
+**Si tu dois retenir seulement 7 choses :**
+
+- Listener / subscriber : **qui déclare**, pas ce qui change.
+- `getSubscribedEvents()` est **statique**.
+- Priority : **haute = tôt**, défaut `0`, négative valide (`krsort`).
+- `stopPropagation()` : **cet event seulement**, et s'il est
+  `StoppableEventInterface`.
+- `dispatch()` : nom par défaut = **class** ; l'event est **rendu**.
+- Huit events de kernel ; `terminate` ne change plus rien.
+- `#[AsEventListener]` sans `event` : le **type** décide (`ALIASES`).
+
+Moyen mnémotechnique : **« Grand nombre, premier servi »**.
 
 ## Sources officielles
 
@@ -223,3 +241,4 @@ plus rien).
 - [KernelEvents (branche 8.0)](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/KernelEvents.php)
 - [`EventDispatcher` (le code du dispatch)](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/EventDispatcher/EventDispatcher.php)
 - [`Event` des contrats, et `StoppableEventInterface`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Contracts/EventDispatcher/Event.php)
+

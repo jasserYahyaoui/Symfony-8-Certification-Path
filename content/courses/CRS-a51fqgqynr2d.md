@@ -6,6 +6,7 @@ content_level: STANDARD
 language: fr
 verification_status: VERIFIED
 reviewed_at: "2026-10-26"
+format: pedagogical
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/session.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/session.rst"
@@ -44,94 +45,74 @@ outcome_sections:
 Obtenir la session depuis un controller, connaître son API de base, et
 comprendre quand elle démarre réellement.
 
-## L'obtenir
+## L'essentiel
 
-Trois paths, selon l'endroit :
+La session s'obtient par la Request, par un argument typé `SessionInterface`
+ou, dans un service, par `RequestStack`. Elle démarre **paresseusement** :
+pas parce que la configuration l'active, mais au premier accès — lire, écrire
+**ou tester**. `migrate()` change l'identifier en gardant les données ;
+`invalidate()` vide le stockage, puis appelle `migrate(true)`.
+
+## Le schéma
+
+```text
+accès        $request->getSession() · SessionInterface $session (SessionValueResolver) · RequestStack::getSession()
+démarrage    has · get · set · all · replace · remove · clear  → getAttributeBag() → start()
+             aucun accès → aucun cookie, page cachable
+Response     session démarrée → private · cookie seulement si la session n'est pas vide
+migrate($destroy = false, $lifetime = null): bool   nouvel id, données gardées, ancienne session laissée
+invalidate($lifetime = null): bool                  storage->clear() puis migrate(true, $lifetime)
+```
+
+## L'exemple
+
+```php
+public function addToCart(SessionInterface $session, int $id): Response
+{
+    $cart = $session->get('cart', []);   // [] par défaut
+    $cart[] = $id;
+    $session->set('cart', $cart);
+    // ...
+}
+```
+
+## L'obtenir
 
 | Contexte | Accès |
 |---|---|
 | controller, Request en main | `$request->getSession()` |
-| controller, argument typé | `SessionInterface $session` |
+| controller, argument typé | `SessionInterface $session`, via `SessionValueResolver` |
 | service | `RequestStack::getSession()` |
-
-Le deuxième fonctionne grâce au `SessionValueResolver` : typer l'argument avec
-`SessionInterface` suffit.
 
 ## Le démarrage est lazy
 
-C'est le point le plus interrogé. La session n'est **pas** démarrée parce que la
-configuration l'active ; elle démarre lorsqu'on **lit, écrit ou même teste** une
-valeur.
+La documentation écrit que la session démarre quand on la lit ou l'écrit. Le
+code va plus loin : sept methods de `Session` — `has()`, `get()`, `set()`,
+`all()`, `replace()`, `remove()`, `clear()` — passent par `getAttributeBag()`,
+qui démarre la session. Il n'y a donc **aucune consultation neutre** : `has()`
+la démarre comme `get()`.
 
-La documentation est plus étroite que cela : elle écrit *« Sessions are only
-started if you read from or write to them »*, sans mentionner le test. Le code
-tranche. Dans `Session`, **sept methods passent par le même accès au sac
-d'attributes** :
-
-```php
-public function has(string $name): bool
-{
-    return $this->getAttributeBag()->has($name);
-}
-```
-
-`has()`, `get()`, `set()`, `all()`, `replace()`, `remove()` et `clear()` ont
-toutes ce corps-là, à la method appelée près. Il n'y a donc **aucune
-consultation neutre** : `has()` démarre la session exactement comme `get()`.
-
-La conséquence est directe et voulue : une page qui ne touche jamais à la
-session n'émet aucun cookie de session, et reste donc cachable par un proxy
-partagé. Activer la session ne coûte rien tant que personne ne s'en sert. À
-l'inverse, une simple vérification suffit à la démarrer, et `SessionListener`
-rend alors la Response **privée**. Le cookie, lui, n'est posé que si la session
-**n'est pas vide** — exécuté : après un `has()` seul, Response `private` sans
-aucun `Set-Cookie` ; après un `set()`, le cookie part.
-
-Certaines fonctionnalités la démarrent indirectement, parce qu'elles s'en
-servent : l'authentication et les flash messages, notamment.
+Une page qui ne touche jamais à la session n'émet aucun cookie et reste
+cachable par un proxy partagé. Dès qu'un accès a lieu, fût-il un `has()`,
+elle devient privée : `SessionListener` marque la Response `private`. Le cookie,
+lui, ne part que si la session **n'est pas vide** — après un `has()` seul,
+Response privée sans `Set-Cookie`. L'authentication et les flash messages la
+démarrent indirectement.
 
 ## L'API
 
-```php
-$session->set('user_id', 42);
-$userId = $session->get('user_id', 0);   // 0 est la valeur par défaut
-$session->has('user_id');
-$session->remove('user_id');
-$session->all();
-$session->clear();
-```
+`set()`, `get($name, $default)`, `has()`, `remove()`, `all()`, `clear()`.
+Pour la security, deux methods, l'une bâtie sur l'autre :
 
-### `invalidate()` est bâtie sur `migrate()`
+- **`migrate($destroy = false, $lifetime = null)`** régénère l'identifier et
+  garde les données ; avec `destroy` à `false`, l'ancienne session **reste sur
+  le serveur**. On l'appelle après une authentication réussie, contre la
+  fixation de session.
+- **`invalidate($lifetime = null)`** vide le stockage, *puis* appelle
+  `migrate(true, $lifetime)`. C'est le vidage qui supprime les données, pas la
+  régénération. On l'appelle à la déconnexion.
 
-Les deux methods qui portent la security ne sont pas deux mécanismes
-parallèles. L'une appelle l'autre :
-
-```php
-public function invalidate(?int $lifetime = null): bool
-{
-    $this->storage->clear();
-
-    return $this->migrate(true, $lifetime);
-}
-
-public function migrate(bool $destroy = false, ?int $lifetime = null): bool
-```
-
-Trois choses se lisent là, qu'une table de deux lignes ne dirait pas.
-
-**`invalidate()` fait deux gestes, pas un.** Elle vide le stockage, *puis*
-régénère. C'est ce `clear()` qui supprime les données, pas la régénération.
-
-**`$destroy` vaut `false` par défaut.** Un `migrate()` nu régénère l'identifier
-mais **laisse l'ancienne session sur le serveur**. `invalidate()` passe `true`,
-donc elle la détruit.
-
-**Les deux acceptent une durée de vie et rendent un bool.** La signature n'est
-pas `void`.
-
-En pratique : `migrate()` après une authentication réussie, contre la fixation
-de session — on garde le panier, on change l'identifier. `invalidate()` à la
-déconnexion.
+Les deux rendent un `bool`.
 
 ## Pièges d'examen
 
@@ -155,29 +136,94 @@ sur le serveur. C'est `invalidate()` qui passe `true`.
 c'est le code qui montre que tester compte aussi. Sur ce point précis, se fier
 au texte seul donne une réponse fausse.
 
-## Tips d'examen
+## Application
 
-**Une question pour trancher `migrate()` contre `invalidate()`** : veut-on
-garder les données ? Oui → `migrate()`, c'est l'après-connexion. Non →
-`invalidate()`, c'est la déconnexion.
+- Après un login réussi → `migrate()` : le panier reste, l'identifier change.
+- Une page publique censée rester en cache → aucun appel à la session, pas même
+  `has()`.
 
-**Pour savoir si une page reste cachable** : y a-t-il un seul appel au sac
-d'attributes, fût-il un `has()` ? Si oui, elle devient privée. Le cookie, lui,
-ne part que si la session contient une donnée.
+## QCM d'entraînement
 
-## Points clés
+**Question 1.** Après une connexion, le code appelle `$session->migrate()` sans
+argument. Que devient l'ancienne session côté serveur ?
 
-- `$request->getSession()`, argument typé `SessionInterface`, ou `RequestStack`
-  dans un service.
-- Démarrage lazy : lire, écrire **ou tester** démarre la session — sept
-  methods passent par le même accès au sac.
-- Une page qui n'y touche pas n'émet pas de cookie de session.
-- `invalidate()` = `clear()` du stockage **puis** `migrate(true, …)`.
-- `migrate()` laisse l'ancienne session en place par défaut : `$destroy` vaut
-  `false`.
+- **A.** Elle est détruite
+- **B.** Elle reste sur le serveur
+- **C.** Elle est vidée de ses données
+- **D.** Elle est copiée sous le nouvel identifier, puis détruite
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** L'argument de destruction vaut `false` par défaut : seul
+l'identifier change, et c'est `invalidate()` qui passe `true`.
+
+</details>
+
+**Question 2.** Dans `invalidate()`, quelle opération supprime les données de
+la session ?
+
+- **A.** La régénération de l'identifier
+- **B.** La destruction du cookie côté client
+- **C.** Le vidage du stockage
+- **D.** Le garbage collector de PHP
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : C.** La method vide d'abord le stockage, puis régénère par
+`migrate(true)` ; la régénération seule garderait les données.
+
+</details>
+
+**Question 3.** Quel resolver fournit l'argument `SessionInterface $session`
+d'une action ?
+
+- **A.** `SessionValueResolver`
+- **B.** `RequestAttributeValueResolver`
+- **C.** `ServiceValueResolver`
+- **D.** L'autowiring du container
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : A.** Typer l'argument avec l'interface suffit : ce resolver
+dédié rend la session de la Request courante.
+
+</details>
+
+**Question 4.** Une action publique, en cache 60 secondes, appelle
+`$session->set('cart', [1])`. Que porte la Response ?
+
+- **A.** Publique, cookie de session posé
+- **B.** Publique, sans cookie de session
+- **C.** Privée, sans cookie de session
+- **D.** Privée, cookie de session posé
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : D.** La session démarrée rend la Response privée, et comme
+elle contient désormais une donnée, le cookie de session est envoyé.
+
+</details>
+
+## Fiche express
+
+**Si tu dois retenir seulement 6 choses :**
+
+- Accès : Request, **`SessionInterface`** typé, **`RequestStack`** en service.
+- Démarrage **lazy** : lire, écrire **ou tester** — `has()` compte.
+- Pas d'accès → pas de cookie, page **cachable**.
+- Accès → Response **private** ; cookie seulement si session **non vide**.
+- `migrate()` : nouvel id, données gardées, `destroy` à **`false`**.
+- `invalidate()` = **vider** puis `migrate(true)`.
+
+Moyen mnémotechnique : **« Migrate garde, invalidate vide »**.
 
 ## Sources officielles
 
 - [Sessions](https://github.com/symfony/symfony-docs/blob/8.0/session.rst)
 - [Controller, « Managing the Session »](https://github.com/symfony/symfony-docs/blob/8.0/controller.rst)
 - [`Session`, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/Session/Session.php)
+

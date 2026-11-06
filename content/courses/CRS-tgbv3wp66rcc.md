@@ -6,6 +6,7 @@ content_level: STANDARD
 language: fr
 verification_status: VERIFIED
 reviewed_at: "2026-10-26"
+format: pedagogical
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/routing.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/routing.rst"
@@ -63,90 +64,79 @@ Connaître les redirects que **le routage** déclenche de lui-même. Les
 redirects émis par un controller — `redirect()`, `redirectToRoute()` — et
 les options de `RedirectController` appartiennent au lot Controllers.
 
+## L'essentiel
+
+Le routage redirige de lui-même dans deux cas : la **barre oblique finale** et
+le **schéma** exigé par `schemes`. Toujours en **301**, toujours **seulement en
+`GET` et `HEAD`** — un `POST` sur la mauvaise forme reçoit un 404. Ce n'est pas
+le component seul qui redirige, mais le matcher de FrameworkBundle, qui route
+la Request vers `RedirectController`.
+
+## En un coup d'œil
+
+```text
+UrlMatcher (component)            ne redirige jamais → ResourceNotFoundException (404)
+RedirectableCompiledUrlMatcher    redirect() → _controller = RedirectController::urlRedirectAction
+  (FrameworkBundle)               permanent: true → 301 · query string recopiée · _route = route trouvée
+barre finale   /foo ↔ /foo/ vers la forme déclarée · GET/HEAD · route qui accepte GET · jamais /
+schemes        génération : URL absolue si le schéma change · match : 301 vers le 1er schéma, GET/HEAD
+               barre ET schéma faux → un seul redirect
+POST           mauvaise forme ou mauvais schéma → 404
+```
+
+## L'exemple
+
+```php
+#[Route('/login/', name: 'login', schemes: ['https'])]
+public function login(): Response {}
+// GET http://example.com/login  → un seul 301 vers https://example.com/login/
+// POST http://example.com/login/ → 404
+```
+
 ## Qui redirige, et comment
 
-Le `UrlMatcher` du component Routing ne redirige jamais : il lève
-`ResourceNotFoundException`, qui devient un 404. Le redirect n'existe que
-si le matcher implémente `RedirectableUrlMatcherInterface`. Le component n'en
-fournit qu'une abstract class, dont la method `redirect()` reste à écrire ;
-l'implémentation concrète est celle de FrameworkBundle,
-`RedirectableCompiledUrlMatcher`.
-
-Quand il faut rediriger, sa method `redirect()` ne construit pas de Response :
-elle retourne des attributes de Request qui désignent `RedirectController`
-comme controller, avec `permanent` à `true`. D'où trois conséquences, lues
-dans le code 8.0 :
-
-- le statut est **301** (permanent, sans demande de conserver la method) ;
-- la **query string** d'origine est recopiée sur l'URL cible ;
-- l'attribute `_route` porte le nom de la route trouvée ; seul le controller
-  est remplacé.
+Le `UrlMatcher` du component lève `ResourceNotFoundException`, qui devient un
+404. Le redirect n'existe que si le matcher implémente
+`RedirectableUrlMatcherInterface` ; le component n'en fournit qu'une abstract
+class, l'implémentation concrète est `RedirectableCompiledUrlMatcher`, de
+FrameworkBundle. Sa method `redirect()` ne construit pas de Response : elle rend
+des attributes qui désignent `RedirectController`, avec `permanent` à `true`.
+D'où un **301**, la **query string** recopiée sur la cible, et `_route` qui
+porte le nom de la route trouvée.
 
 ## La barre oblique finale
 
-Symfony redirige entre l'URL avec et sans barre finale, **uniquement pour `GET`
-et `HEAD`**, avec un **301** :
-
-| Path de la route | URL demandée `/foo` | URL demandée `/foo/` |
+| Path de la route | `/foo` demandé | `/foo/` demandé |
 |---|---|---|
-| `/foo` | correspond, **200** | **301** vers `/foo` |
-| `/foo/` | **301** vers `/foo/` | correspond, **200** |
+| `/foo` | **200** | **301** vers `/foo` |
+| `/foo/` | **301** vers `/foo/` | **200** |
 
-Le redirect va toujours vers la forme déclarée par la route, dans les deux
-sens. Le code ajoute trois conditions que la table ne montre pas :
+Le redirect va vers la forme déclarée, à trois conditions : la route accepte
+`GET`, la racine `/` n'est pas concernée, et la method est `GET` ou `HEAD`. Un
+`POST` vers `/foo` pour une route `/foo/` reçoit un **404** : RFC 9110 (15.4.2)
+permet de rejouer en `GET` un `POST` redirigé en 301, et le body serait perdu.
 
-- la route doit accepter `GET` : aucune restriction `methods`, ou une liste qui
-  contient `GET` ;
-- la racine `/` n'est jamais concernée ;
-- un `POST` vers `/foo` pour une route `/foo/` n'est **pas** redirigé. Aucune
-  route ne correspond : la Response est un **404**.
-
-Pourquoi exclure `POST` ? RFC 9110 (section 15.4.2) permet à un client de
-rejouer en `GET` une Request `POST` redirigée par un 301 : le body serait
-perdu.
-
-**Le redirect passe avant une route générique.** Avec une route `/foo/`
-suivie d'une route `/{name}`, une Request `GET /foo` est redirigée vers
-`/foo/` ; elle ne tombe pas sur `/{name}`. Le test `testFallbackPage` du
-component l'établit.
+Le redirect passe avant une route générique : avec `/foo/` puis `/{name}`,
+`GET /foo` est redirigé vers `/foo/` (test `testFallbackPage`).
 
 ## Le schéma
 
-L'option `schemes` déclare le schéma exigé par une route :
+`schemes: ['https']` agit dans les deux sens.
 
-```php
-#[Route('/login', name: 'login', schemes: ['https'])]
-```
+**À la génération**, l'URL utilise HTTPS : `path('login')` produit le path absolu `/login/` si la Request est déjà en HTTPS, mais
+`https://example.com/login/` si elle est en HTTP.
 
-Elle agit dans les deux sens, et c'est le point à retenir.
-
-**À la génération** : l'URL de `login` utilise toujours HTTPS. Conséquence
-visible dans un template — `path('login')` produit le path absolu `/login`,
-sans host, si la Request courante est déjà en HTTPS, mais une **URL absolue**
-`https://example.com/login` si elle est en HTTP, puisqu'il faut bien changer de
-schéma.
-
-**À l'appariement** : une Request `GET` en HTTP vers `/login` est
-**redirigée** en 301 vers la même URL en HTTPS. Précisions du code :
-
-- là encore, **seulement `GET` et `HEAD`**. Un `POST` en HTTP vers `/login`
-  reçoit un 404. La documentation écrit simplement que la Request est
-  redirigée, sans cette restriction ;
-- avec plusieurs schémas, aucun redirect si l'un d'eux correspond ; sinon
-  la cible est le **premier** schéma listé ;
-- barre finale manquante **et** mauvais schéma : un seul redirect corrige
-  les deux.
-
-Le schéma peut être imposé à tout un group de routes au moment de leur import
-(`schemes` sur l'entrée d'import). Derrière un proxy qui termine TLS, la
-documentation avertit que `schemes`, combiné à une configuration de proxy
-incorrecte, produit une loop de redirect.
+**À l'appariement**, un `GET` en HTTP est redirigé en 301 vers HTTPS — pas un
+`POST`, qui reçoit un 404 ; la documentation omet cette restriction. Avec
+plusieurs schémas, aucun redirect si l'un correspond, sinon vers le **premier**.
+Barre finale et schéma faux sont corrigés par un seul redirect. `schemes`
+s'impose aussi à un import ; derrière un proxy TLS mal configuré, il produit
+une loop de redirect.
 
 ## Depuis une route
 
-Une route peut enfin déléguer à `RedirectController`, fourni par
-FrameworkBundle, ce qui évite d'écrire un controller pour un simple
-déplacement d'URL. Ses options sont traitées dans le lot Controllers.
+Une route peut déléguer à `RedirectController` pour un simple déplacement
+d'URL, sans écrire de controller.
 
 ## Pièges d'examen
 
@@ -165,16 +155,90 @@ c'est le matcher de FrameworkBundle qui sait rediriger.
 **Aucun controller applicatif n'intervient.** Le matcher route la Request vers
 `RedirectController` ; le 301 conserve la query string.
 
-## Points clés
+## Application
 
-- Barre finale : redirect **301**, seulement en `GET` et `HEAD`, vers la
-  forme déclarée, si la route accepte `GET`.
-- `schemes` force le schéma à la génération **et** redirige la Request
-  entrante, vers le premier schéma listé, en `GET` et `HEAD` seulement.
-- Un `POST` sur la mauvaise forme ou le mauvais schéma : **404**.
-- Le redirect est produite par `RedirectableCompiledUrlMatcher`, qui délègue
-  à `RedirectController`.
-- `path()` peut retourner une URL absolue quand le schéma doit changer.
+- Forcer HTTPS sur l'espace client → `schemes: ['https']` sur l'import.
+- Un form en `POST` reçoit un 404 sur `/contact/` → corriger l'URL du form, pas
+  compter sur un redirect.
+
+## QCM d'entraînement
+
+**Question 1.** La route a le path `/search/`. Un form envoie `GET /search?q=php`.
+Quelle URL le navigateur charge-t-il ensuite ?
+
+- **A.** `/search/`
+- **B.** `/search/?q=php`
+- **C.** `/search?q=php/`
+- **D.** Aucune : un 404, la query string bloquant le redirect
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** Le routage redirige en 301 vers la forme déclarée, et
+`RedirectController` recopie la query string d'origine sur ce path.
+
+</details>
+
+**Question 2.** La route `/foo` est limitée à `methods: ['POST']`. Un `GET`
+arrive sur `/foo/`. Quel statut ?
+
+- **A.** 301 vers `/foo`
+- **B.** 405
+- **C.** 404
+- **D.** 200
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : C.** Le redirect de barre finale exige une route qui accepte
+`GET` ; sans lui, `/foo/` ne correspond à aucune route.
+
+</details>
+
+**Question 3.** La route `/sec/` porte `schemes: ['https']`. Le client envoie
+`GET http://example.com/sec`. Combien de redirects ?
+
+- **A.** Deux : la barre, puis le schéma
+- **B.** Un seul, vers `https://…/sec/`
+- **C.** Aucun : un 404
+- **D.** Un seul, vers `http://…/sec/`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** Le matcher corrige la barre finale et le schéma dans le
+même redirect, vers la forme déclarée en HTTPS.
+
+</details>
+
+**Question 4.** Le routage vient de décider un redirect de barre finale. Que
+vaut l'attribute `_controller` de la Request ?
+
+- **A.** Le controller de la route trouvée, inchangé
+- **B.** `null` : aucun controller
+- **C.** L'`ErrorController`
+- **D.** `RedirectController::urlRedirectAction`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : D.** Le matcher remplace seulement le controller ; `_route`
+garde le nom de la route trouvée, et le 301 part de `RedirectController`.
+
+</details>
+
+## Fiche express
+
+**Si tu dois retenir seulement 6 choses :**
+
+- Le **component** ne redirige pas ; **`RedirectableCompiledUrlMatcher`** si.
+- Redirect de routage = **301**, query string **recopiée**.
+- Barre finale : vers la forme **déclarée**, route qui accepte `GET`.
+- Barre ou schéma : **`GET` et `HEAD`** seulement ; `POST` → **404**.
+- `schemes` : URL **absolue** générée si le schéma change ; 1er schéma listé.
+- Barre et schéma faux → **un seul** redirect.
+
+Moyen mnémotechnique : **« Le routage ne redirige que ce qui se relit »**.
 
 ## Sources officielles
 
@@ -184,3 +248,4 @@ c'est le matcher de FrameworkBundle qui sait rediriger.
 - [`RedirectController::urlRedirectAction()`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Controller/RedirectController.php)
 - [`RedirectableUrlMatcherTest`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/Routing/Tests/Matcher/RedirectableUrlMatcherTest.php)
 - [RFC 9110, section 15.4.2](https://github.com/httpwg/httpwg.github.io/blob/master/specs/rfc9110.html)
+

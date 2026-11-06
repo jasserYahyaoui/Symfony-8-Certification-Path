@@ -6,6 +6,7 @@ content_level: STANDARD
 language: fr
 verification_status: VERIFIED
 reviewed_at: "2026-10-07"
+format: pedagogical
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpKernel/Kernel.php"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/Kernel.php"
@@ -46,75 +47,79 @@ Séparer ce que le **component** HttpKernel fournit de ce que **FrameworkBundle*
 y ajoute. Le déroulé d'une Request et le catalogue des events sont traités
 dans le lot Symfony Architecture ; on regarde ici le partage des roles.
 
+## L'essentiel
+
+Le **component** HttpKernel est autonome : le contrat `handle()`, la class
+`Kernel`, les events, les resolvers, les exceptions HTTP. **FrameworkBundle**
+ne réécrit rien : il **câble** — listeners enregistrés, resolvers en services,
+arbre `framework:`, commands, `AbstractController`, `MicroKernelTrait`. Une
+question tranche : cela marche-t-il sans service container ? Oui → component.
+
+## Le schéma
+
+```text
+component HttpKernel   HttpKernelInterface::handle() · abstract Kernel · 8 events · resolvers · NotFoundHttpException
+  Kernel implements KernelInterface (extends HttpKernelInterface), RebootableInterface, TerminableInterface
+  abstraites : registerBundles(), registerContainerConfiguration()
+FrameworkBundle        câblage : RouterListener, ErrorListener… enregistrés · resolvers tagués
+                       framework: · bin/console · /_error · AbstractController · MicroKernelTrait
+MicroKernelTrait       implémente les deux abstraites → appelle configureContainer(), configureRoutes()
+```
+
+## L'exemple : le kernel d'une application
+
+```php
+namespace App;
+
+use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;   // bundle
+use Symfony\Component\HttpKernel\Kernel as BaseKernel;          // component
+
+class Kernel extends BaseKernel
+{
+    use MicroKernelTrait;
+}
+```
+
 ## Ce que le component fournit
 
-HttpKernel est autonome. Il contient :
-
-- `HttpKernelInterface` et son unique contrat `handle(Request): Response` ;
-- l'abstract class `Kernel`, qui implémente `KernelInterface`,
-  `RebootableInterface` et `TerminableInterface` — c'est elle qui enregistre les
-  bundles, construit le container et expose `getEnvironment()`, `isDebug()`,
-  `getProjectDir()`, `getCacheDir()`, `getLogDir()` ;
-- les huit events, les interfaces de résolution (`ControllerResolverInterface`,
-  `ValueResolverInterface`) et leurs implémentations par défaut ;
-- les exceptions HTTP, dont `NotFoundHttpException`.
-
-Avec cela seul, on peut écrire son propre framework : c'est le sens de la
-phrase « le component est le cœur de n'importe quelle application ».
+`HttpKernelInterface` et son contrat `handle(Request): Response` ; l'abstract
+class `Kernel`, qui enregistre les bundles, construit le container et expose
+`getEnvironment()`, `isDebug()`, `getProjectDir()`, `getCacheDir()`,
+`getLogDir()` ; les huit events ; `ControllerResolverInterface`,
+`ValueResolverInterface` et leurs implémentations ; les exceptions HTTP. Avec
+cela seul, on écrit son propre framework.
 
 ## Trois interfaces, et ce que chacune apporte
 
-`Kernel` est déclarée ainsi :
-
-```php
-abstract class Kernel implements KernelInterface, RebootableInterface, TerminableInterface
-```
-
-Le détail qui structure tout : **`KernelInterface` étend `HttpKernelInterface`**.
-Un `Kernel` **est** donc un `HttpKernelInterface` — il porte `handle()` sans
-qu'on ait à le déclarer. Les deux autres interfaces n'apportent **qu'une method
-chacune** :
+**`KernelInterface` étend `HttpKernelInterface`** : un `Kernel` porte
+`handle()` sans le déclarer.
 
 | Interface | Ce qu'elle ajoute |
 |---|---|
-| `KernelInterface` | dix-sept methods — `boot()`, `shutdown()`, `registerBundles()`, `getBundle()`, `locateResource()`, les accessors de directories… **et `handle()` par inheritance** |
+| `KernelInterface` | dix-sept methods — `boot()`, `shutdown()`, `registerBundles()`, `getBundle()`, `locateResource()`, les accessors de directories… et `handle()` par inheritance |
 | `RebootableInterface` | `reboot(?string $warmupDir): void` |
 | `TerminableInterface` | `terminate(Request, Response): void` |
 
 ## Ce que FrameworkBundle ajoute
 
-FrameworkBundle est le **câblage**. Il ne réécrit rien du component ; il
-l'installe dans un service container et lui donne des collaborateurs :
-
 | Apport | Effet |
 |---|---|
-| Listeners enregistrés | `RouterListener` sur `kernel.request`, `ErrorListener` sur `kernel.exception`, et les autres |
-| Resolvers déclarés comme services | tagués `controller.argument_value_resolver`, donc extensibles |
-| Arbre de configuration `framework:` | ce que l'on écrit dans `config/packages/framework.yaml` |
-| Commands `bin/console` | `debug:router`, `debug:event-dispatcher`, `cache:clear`… |
-| Routes internes | dont `_error/{statusCode}`, la prévisualisation des pages d'erreur |
-| `AbstractController` | la class de base optionnelle des controllers |
-| `MicroKernelTrait` | configuration du kernel sans files séparés |
+| Listeners enregistrés | `RouterListener` sur `kernel.request`, `ErrorListener` sur `kernel.exception`… |
+| Resolvers en services | tagués `controller.argument_value_resolver`, donc extensibles |
+| Arbre `framework:` | `config/packages/framework.yaml` |
+| Commands `bin/console` | `debug:router`, `cache:clear`… |
+| Routes internes | dont la prévisualisation `/_error` |
+| `AbstractController`, `MicroKernelTrait` | class de base, kernel sans files séparés |
 
-La frontière la plus utile à retenir passe entre deux classes voisines :
-`Kernel` appartient au **component** HttpKernel, `MicroKernelTrait` appartient
-au **bundle**. Le `Kernel` d'une application Symfony étend la première et
-utilise le second.
+Les classes des listeners viennent du component ; leur enregistrement, du
+bundle.
 
-### Ce que `MicroKernelTrait` fait réellement
-
-Il **implémente** `registerBundles()` et `registerContainerConfiguration()` à
-votre place — les deux methods que `KernelInterface` exige. En échange, il
-appelle deux points d'extension : `configureContainer()` et `configureRoutes()`.
-
-Il les appelle **par réflexion** (`ReflectionMethod::getClosure()`), ce qui lui
-permet de lire la signature de `configureContainer()` : un premier parameter
-typé `ContainerBuilder` reçoit le container et le loader, tout autre cas un
-`ContainerConfigurator`.
-
-Leur visibilité `private` possible ne doit rien à la réflexion. Le trait est
-copié dans votre `Kernel`, qui appelle ses propres methods privées — exécuté :
-un trait appelle sans réflexion une method privée de la class qui l'utilise.
+`MicroKernelTrait` **implémente** `registerBundles()` et
+`registerContainerConfiguration()`, les deux methods restées abstraites dans
+`Kernel`, et appelle `configureContainer()` et `configureRoutes()` par
+réflexion, ce qui lui permet de lire la signature de `configureContainer()`.
+Que ces methods puissent être `private` ne doit rien à la réflexion : le trait
+est copié dans votre `Kernel`, qui appelle ses propres methods privées.
 
 ## Pièges d'examen
 
@@ -136,30 +141,88 @@ le path équivalent sous `src/Symfony/Component/HttpKernel/` **n'existe pas**.
 `HttpKernelInterface` ; chercher `handle()` dans la liste des methods de
 `KernelInterface` ne le donne pas.
 
-## Tips d'examen
+## Application
 
-**Deux questions pour trancher component / bundle.** Cela fonctionne-t-il sans
-service container ? → component. Cela apparaît-il dans
-`config/packages/framework.yaml` ou dans `bin/console` ? → bundle.
+- Chercher l'option `framework.session` → dans le bundle, pas le component.
+- Un micro-framework maison sur HttpKernel seul → fournir `registerBundles()`
+  et `registerContainerConfiguration()`.
 
-**Trois interfaces, une method chacune sauf la première.** `reboot()` et
-`terminate()` sont à elles seules `RebootableInterface` et
-`TerminableInterface`.
+## QCM d'entraînement
 
-## Points clés
+**Question 1.** Que déclare `RebootableInterface` ?
 
-- Le component définit le contrat et le kernel ; le bundle le câble.
-- `Kernel` implémente `KernelInterface`, `RebootableInterface` et
-  `TerminableInterface`.
-- `AbstractController`, `MicroKernelTrait` et l'arbre `framework:` viennent du
-  bundle, pas du component.
-- Sans FrameworkBundle, HttpKernel fonctionne toujours — l'inverse est faux.
-- `KernelInterface` **étend** `HttpKernelInterface` : un `Kernel` porte
-  `handle()` par inheritance.
-- `MicroKernelTrait` implémente `registerBundles()` et
-  `registerContainerConfiguration()`, et appelle `configureContainer()` /
-  `configureRoutes()` **par réflexion** ; leur visibilité `private` tient à
-  ce que le trait est copié dans la class, non à la réflexion.
+- **A.** `reboot(?string $warmupDir): void`
+- **B.** `reboot(): bool`
+- **C.** `restart()` et `reboot()`
+- **D.** `boot()`, `shutdown()` puis `reboot()`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : A.** L'interface ne porte que cette method ; `boot()` et
+`shutdown()` appartiennent à `KernelInterface`.
+
+</details>
+
+**Question 2.** La class `RouterListener` vient du component HttpKernel. Qui
+l'enregistre sur `kernel.request` dans une application Symfony ?
+
+- **A.** Le component, qui la dispatche lui-même
+- **B.** FrameworkBundle
+- **C.** Le component Routing
+- **D.** L'application, dans `services.yaml`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** Le component fournit la class ; c'est le bundle qui
+câble le listener dans le container et l'abonne à l'event.
+
+</details>
+
+**Question 3.** Dans un `Kernel` qui utilise `MicroKernelTrait`, qui implémente
+`registerBundles()` ?
+
+- **A.** La class `Kernel` du component
+- **B.** L'application, obligatoirement
+- **C.** `MicroKernelTrait`
+- **D.** `KernelInterface`, par défaut
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : C.** La method reste abstraite dans `Kernel` ; le trait du
+bundle l'implémente, comme `registerContainerConfiguration()`.
+
+</details>
+
+**Question 4.** Combien de methods `KernelInterface` déclare-t-elle elle-même ?
+
+- **A.** Une : `handle()`
+- **B.** Dix-huit, dont `handle()` et `terminate()`
+- **C.** Trois
+- **D.** Dix-sept, sans `handle()`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : D.** `handle()` est héritée de `HttpKernelInterface`, que
+l'interface étend ; elle n'apparaît pas parmi ses propres methods.
+
+</details>
+
+## Fiche express
+
+**Si tu dois retenir seulement 6 choses :**
+
+- **Component** : contrat, `Kernel`, events, resolvers ; il marche **seul**.
+- **Bundle** : il **câble** — listeners, `framework:`, `bin/console`.
+- `Kernel` : `KernelInterface`, **`RebootableInterface`**, **`TerminableInterface`**.
+- `KernelInterface` **étend** `HttpKernelInterface` → `handle()` hérité.
+- `AbstractController` et **`MicroKernelTrait`** : bundle.
+- Le trait implémente `registerBundles()` et `registerContainerConfiguration()`.
+
+Moyen mnémotechnique : **« Le component sait faire, le bundle branche »**.
 
 ## Sources officielles
 
@@ -167,3 +230,4 @@ service container ? → component. Cela apparaît-il dans
 - [Building your own Framework with the MicroKernelTrait](https://github.com/symfony/symfony-docs/blob/8.0/configuration/micro_kernel_trait.rst)
 - [`KernelInterface`](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpKernel/KernelInterface.php)
 - [`MicroKernelTrait` (FrameworkBundle)](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Bundle/FrameworkBundle/Kernel/MicroKernelTrait.php)
+

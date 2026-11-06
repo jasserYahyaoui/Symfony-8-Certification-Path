@@ -6,6 +6,7 @@ content_level: STANDARD
 language: fr
 verification_status: VERIFIED
 reviewed_at: "2026-10-26"
+format: pedagogical
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony-docs/8.0/contributing/code/bc.rst"
     readable_url: "https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/bc.rst"
@@ -27,54 +28,27 @@ outcome_sections:
 Savoir ce que la backward compatibility promise garantit **au user de
 Symfony**, et surtout ce qu'elle ne garantit pas.
 
-## Le principe
+## L'essentiel
 
 La promesse suit le *semantic versioning* : seule une version **majeure** peut
-casser la compatibilité. Une version mineure ajoute des fonctionnalités et peut
-déprécier, jamais casser.
+casser la compatibilité ; une mineure ajoute et déprécie. Mais elle n'est pas
+globale : elle dépend de la **manière** dont on utilise le code — utiliser,
+implémenter, étendre — et trois zones en sont exclues. Le piège le plus visé :
+les named arguments.
 
-Le point important est que la promesse n'est pas globale : elle dépend de la
-**manière** dont on utilise le code.
+## Le schéma
 
-## Utiliser, étendre, implémenter
+```text
+utiliser une class / interface          couvert
+implémenter une interface               couvert
+étendre une class                       couvert, SAUF ajouter une property ou une method ; le privé par réflexion jamais
+utiliser un trait                       tout couvert, privé compris (sauf @internal)
+named arguments                         couverts seulement pour les constructors de classes d'attribute
+hors promesse                           @internal et *\Tests\ · @experimental · translations internes · faille de sécurité
+@final                                  intention seulement ; final l'impose ; @final since Symfony x.y = transition
+```
 
-**Utiliser** est toujours couvert : typer un argument avec une class ou une
-interface Symfony, instancier, appeler une method publique, lire une property
-publique. **Implémenter une interface** l'est aussi.
-
-**Étendre une class** est couvert pour l'essentiel — accéder à une property
-protégée, appeler ou surcharger une method publique ou protégée. La grille
-officielle répond **non** à quatre lignes, et elles ne se valent pas :
-
-| Dans une class que vous étendez… | Garanti ? |
-|---|---|
-| ajouter une **nouvelle property** | **non** |
-| ajouter une **nouvelle method** | **non** |
-| appeler une method privée par réflexion | **non** |
-| accéder à une property privée par réflexion | **non** |
-
-Les **deux premières** vous concernent en écrivant du code ordinaire : si vous
-ajoutez `getFoo()` et que Symfony ajoute `getFoo()` avec une autre signature dans
-une version mineure, la collision est inévitable. Le risque vous appartient.
-
-Les **deux dernières** ne sont pas propres à l'inheritance : le privé atteint par
-réflexion sort de l'API publique, quelle que soit la class.
-
-## Les traits, et leur asymétrie avec les classes
-
-Le document leur consacre une section entière, et sa grille ne répond
-**jamais non** : le trait lui-même, ses properties et ses methods — publiques,
-protégées **ou privées** — son usage pour implémenter une interface, une
-method abstraite ou une abstract class, tout est garanti.
-
-Le contraste avec les classes est net : le privé d'une **class** n'est jamais
-garanti, le privé d'un **trait** l'est toujours. La raison est structurelle —
-un trait importé fait partie de *votre* class. Seule exception : `@internal`.
-
-## Ajouter un argument : toujours en dernier
-
-Un argument ne s'ajoute à une method publique **que s'il est le dernier**. Le
-procédé explique une bizarrerie qu'on croise dans le code du framework :
+## L'exemple : un argument ajouté en mineure
 
 ```php
 public function say(string $text, /* bool $stripWhitespace = true */): void
@@ -83,38 +57,50 @@ public function say(string $text, /* bool $stripWhitespace = true */): void
 }
 ```
 
-Argument **en commentaire** dans la signature, documenté en PHPDoc, lu par
-`func_num_args()`. Le défaut retenu est celui qui **préserve** le comportement
-actuel — ici `false`, quand l'argument commenté annonce `true` pour plus tard.
+## Utiliser, étendre, implémenter
+
+**Utiliser** et **implémenter une interface** sont toujours couverts.
+**Étendre** l'est pour l'essentiel, mais la grille officielle répond **non** à
+quatre lignes : ajouter une **property**, ajouter une **method**, appeler une
+method privée ou lire une property privée par réflexion. Les deux premières
+vous concernent en code ordinaire : si Symfony ajoute le même nom en mineure,
+la collision est à votre charge.
+
+## Les traits, et leur asymétrie avec les classes
+
+La grille des traits ne répond **jamais non** : properties et methods,
+publiques, protégées **ou privées**, tout est garanti. Le privé d'une class ne
+l'est jamais, celui d'un trait toujours : un trait importé fait partie de
+*votre* class. Seule exception : `@internal`.
+
+## Ajouter un argument : toujours en dernier
+
+Un argument ne s'ajoute à une method publique **qu'en dernière position**, en
+commentaire dans la signature, documenté en PHPDoc et lu par
+`func_num_args()` et `func_get_arg()`. Le défaut retenu **préserve** le
+comportement actuel — `false` ici, quand le commentaire annonce `true`.
 
 ## Les trois exclusions
 
-Sont **hors** de la promesse :
-
-- ce qui porte `@internal` — class, interface, trait, method, property — et
-  tout ce qui vit dans un namespace `*\Tests\` ;
-- les **fonctionnalités expérimentales**, marquées `@experimental`. Une
-  fonctionnalité ne peut le rester **qu'une seule version mineure** — la core team
-  peut prolonger d'**une** de plus au cas par cas — et ne peut
-  **jamais** être introduite dans une version **LTS**. Tant qu'elle l'est, le
-  `CHANGELOG` doit expliquer chaque rupture et la façon de migrer ;
+- ce qui porte `@internal`, et tout namespace `*\Tests\` ;
+- les fonctionnalités `@experimental` : **une seule mineure** — prolongeable
+  d'une au cas par cas —, **jamais** dans une LTS ;
 - les translations internes de sécurité et de validation.
 
-Une rupture est également tolérée lorsqu'elle est nécessaire pour corriger une
-faille de sécurité.
+Une rupture est aussi tolérée pour corriger une faille de sécurité.
 
 ## Le piège des named arguments
 
-Les **noms de parameters** ne sont couverts que pour les **constructors de
-classes d'attribute**. Partout ailleurs, `$service->method(timeout: 5)` peut
-casser en montant d'une mineure : le nom du parameter peut changer.
+Les **noms de parameters** ne sont couverts que pour les constructors de
+classes d'attribute : `#[Route(path: '/blog')]` survit à une mineure,
+`$service->method(timeout: 5)` peut casser.
 
 ## final et @final
 
-Le mot-clé `final` interdit l'extension. L'annotation `@final` marque la même
-intention **sans l'imposer techniquement** : le code fonctionne, mais l'étendre
-sort de la promesse. `@final since Symfony x.y` signale une transition — la
-class n'est pas encore considérée finale.
+`final` interdit l'extension. `@final` marque la même intention **sans
+l'imposer** : le code fonctionne, mais l'étendre sort de la promesse.
+`@final since Symfony x.y` annonce une class qui deviendra finale à la
+prochaine majeure : elle n'est pas encore considérée finale.
 
 ## Pièges d'examen
 
@@ -137,26 +123,96 @@ jamais. Le trait devient votre code ; la class reste celle de Symfony.
 porte un argument en commentaire n'est pas un oubli : c'est le procédé
 officiel.
 
-## Tips d'examen
+## Application
 
-**Trois verbes, trois verdicts.** Utiliser → oui. Implémenter → oui. Étendre →
-oui, sauf ajouter une property ou une method.
+- Une class Symfony étendue qui a besoin d'un helper → préférer une class à
+  part plutôt qu'une method ajoutée à la sous-classe.
+- Un appel de service à rendre robuste aux mineures → arguments par position,
+  pas par nom.
 
-**« Une seule mineure » est le chiffre de l'expérimental**, et « jamais en
-LTS » sa seconde moitié.
+## QCM d'entraînement
 
-## Points clés
+**Question 1.** Dans `say(string $text, /* bool $stripWhitespace = true */)`,
+quelle valeur reçoit le code quand l'appelant omet le second argument ?
 
-- Utiliser et implémenter : couverts. Étendre : couvert **sauf** ajout de
-  property ou de method.
-- `@internal`, expérimental et translations internes sont hors promesse.
-- Named arguments garantis uniquement pour les constructors d'attributes.
-- `@final` marque l'intention ; `final` l'impose.
-- Traits : tout est garanti, **privé compris** ; seule exception, `@internal`.
-- `@experimental` : une mineure seulement, jamais en LTS.
-- Un argument ne s'ajoute qu'en **dernier**, par signature commentée et
-  `func_num_args()`.
+- **A.** `true`, annoncé dans le commentaire
+- **B.** `null`, faute de valeur
+- **C.** `false`
+- **D.** Une `ArgumentCountError`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : C.** Le défaut lu par `func_num_args()` est celui qui
+préserve le comportement actuel ; le commentaire annonce seulement la suite.
+
+</details>
+
+**Question 2.** Corriger une faille de sécurité impose une rupture dans une
+version mineure. La promesse l'interdit-elle ?
+
+- **A.** Oui : seule une majeure peut casser
+- **B.** Non : c'est une tolérance prévue
+- **C.** Oui, sauf pour les classes `@internal`
+- **D.** Seulement si la LTS n'est pas touchée
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** Le document tolère explicitement une rupture nécessaire
+pour corriger une faille, en plus des exclusions habituelles.
+
+</details>
+
+**Question 3.** Les messages d'erreur traduits que Symfony fournit pour la
+validation et la security sont-ils couverts ?
+
+- **A.** Non : elles sont internes
+- **B.** Oui, comme toute API publique
+- **C.** Oui, sauf dans une version LTS
+- **D.** Seulement les messages de validation
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : A.** Ces translations sont destinées à un usage interne et
+peuvent changer ou disparaître à tout moment, hors de la promesse.
+
+</details>
+
+**Question 4.** Une class porte `@final since Symfony 8.1`. Que signifie
+l'annotation ?
+
+- **A.** La class est finale depuis 8.1
+- **B.** PHP refuse de l'étendre depuis 8.1
+- **C.** Rien : l'annotation est ignorée
+- **D.** Finale à la prochaine majeure
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : D.** L'annotation demande d'arrêter de l'étendre, mais la
+class n'est pas encore considérée finale ; la majeure suivante tranchera.
+
+</details>
+
+## Fiche express
+
+**Si tu dois retenir seulement 7 choses :**
+
+- Utiliser, implémenter : **couverts** ; étendre : sauf **ajout** de property
+  ou de method.
+- Privé par réflexion : jamais ; privé d'un **trait** : toujours.
+- Named arguments : **constructors d'attribute** seulement.
+- Hors promesse : `@internal`, `*\Tests\`, `@experimental`, translations
+  internes.
+- `@experimental` : **une mineure**, jamais en LTS.
+- Argument ajouté **en dernier**, défaut qui préserve le comportement.
+- `@final` marque l'intention ; **`final`** l'impose.
+
+Moyen mnémotechnique : **« Trois verbes, trois verdicts »**.
 
 ## Sources officielles
 
 - [Our Backward Compatibility Promise](https://github.com/symfony/symfony-docs/blob/8.0/contributing/code/bc.rst)
+

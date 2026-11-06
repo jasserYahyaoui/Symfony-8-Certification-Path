@@ -6,6 +6,7 @@ content_level: MINIMAL
 language: fr
 verification_status: VERIFIED
 reviewed_at: "2026-09-01"
+format: pedagogical
 official_sources:
   - url: "https://raw.githubusercontent.com/symfony/symfony/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php"
     readable_url: "https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php"
@@ -25,25 +26,25 @@ Savoir de quel côté un cookie se lit et de quel côté il s'écrit dans un
 controller. Les attributes de sécurité — `SameSite`, `Secure`, `HttpOnly` — et la
 constraint de suppression sont traités dans le lot HTTP.
 
-## Deux objects, deux sens
+## L'essentiel
 
-C'est l'asymétrie à retenir, et elle suit le protocole :
+Un cookie se **lit** sur la Request — c'est ce que le client a envoyé — et
+s'**écrit** sur la Response, dans le header `Set-Cookie`. Un controller qui veut
+poser un cookie doit donc tenir la Response. Deux methods aux noms voisins font
+le contraire l'une de l'autre : `removeCookie()` annule un envoi,
+`clearCookie()` efface chez le client.
 
-| Opération | Object | Path |
-|---|---|---|
-| **lire** un cookie | `Request` | `$request->cookies->get('nom')` |
-| **écrire** un cookie | `Response` | `$response->headers->setCookie(...)` |
-| **supprimer** un cookie chez le client | `Response` | `$response->headers->clearCookie('nom')` |
-| **retirer** un cookie de la Response | `Response` | `$response->headers->removeCookie('nom')` |
+## Le schéma
 
-Un cookie posé sur la Request ne part nulle part : la Request est ce que le
-client a envoyé. Un cookie s'écrit sur la Response, parce qu'il voyage dans
-le header `Set-Cookie`.
+```text
+lire        $request->cookies->get('theme')
+écrire      $response->headers->setCookie(Cookie::create('theme', 'dark'))
+effacer     $response->headers->clearCookie('sid')    → envoie sid=deleted, expiration passée
+annuler     $response->headers->removeCookie('theme') → retire du sac : rien n'est envoyé
+index       domain → path → nom   (même nom, deux paths : deux cookies)
+```
 
-## Conséquence pratique
-
-Un controller qui veut poser un cookie doit donc **avoir la Response en main** :
-il la construit, y attache le cookie, puis la retourne.
+## L'exemple : poser un cookie de préférence
 
 ```php
 $response = $this->render('page.html.twig');
@@ -52,44 +53,29 @@ $response->headers->setCookie(Cookie::create('theme', 'dark'));
 return $response;
 ```
 
-Appeler la function PHP `setcookie()` fonctionne au niveau du protocole, mais
-court-circuite l'object `Response` : le header est écrit hors du modèle de
-Symfony, échappe aux listeners de `kernel.response`, et n'apparaît pas dans les
-functional tests qui inspectent la Response. C'est la raison de passer par
-`ResponseHeaderBag`.
+## Deux objects, deux sens
 
+| Opération | Object | Path |
+|---|---|---|
+| **lire** un cookie | `Request` | `$request->cookies->get('nom')` |
+| **écrire** un cookie | `Response` | `$response->headers->setCookie(...)` |
+| **supprimer** un cookie chez le client | `Response` | `$response->headers->clearCookie('nom')` |
+| **retirer** un cookie de la Response | `Response` | `$response->headers->removeCookie('nom')` |
 
-## `clearCookie()` et `removeCookie()` font le contraire l'une de l'autre
+## Conséquence pratique
 
-Deux noms voisins, deux effets opposés — et les commentaires du code le disent
-mot pour mot.
+Le controller construit la Response, y attache le cookie, puis la retourne. La
+function PHP `setcookie()` marche au niveau du protocole, mais écrit le header
+hors de la Response : le cookie échappe aux listeners de `kernel.response` et
+aux functional tests qui inspectent la Response.
 
-| Method | Ce qu'elle fait |
-|---|---|
-| `removeCookie()` | retire le cookie **du sac**, « mais ne le supprime pas dans le navigateur » |
-| `clearCookie()` | « supprime un cookie dans le navigateur » |
-
-Le mécanisme explique tout. `removeCookie()` fait un `unset` dans le tableau
-interne : le cookie **n'est jamais envoyé**, il n'y a donc aucun `Set-Cookie`
-pour lui. `clearCookie()`, elle, **appelle `setCookie()`** avec un cookie de
-valeur nulle et de date d'expiration dans le passé : c'est bien un header
-envoyé, dont le seul role est de faire oublier le précédent.
-
-Autrement dit : pour annuler une écriture qu'on vient de faire dans le même
-controller, `removeCookie()`. Pour effacer un cookie que le client possède déjà,
-`clearCookie()`.
-
-## Un cookie est indexé par domain, path et nom
-
-`setCookie()` ne range pas les cookies par nom seul, mais sur **trois niveaux** :
-domain, puis path, puis nom. Deux cookies portant le même nom sur des paths
-différents coexistent donc sans s'écraser.
-
-C'est pourquoi `removeCookie()` prend un path et un domain en plus du nom :
-sans eux, elle viserait la mauvaise entrée. Son path par défaut est `/`.
-
-`getCookies()` rend la liste, à plat par défaut ; le format `array` conserve
-l'arborescence. Un format inconnu lève une `InvalidArgumentException`.
+`removeCookie()` fait un `unset` dans le sac : aucun `Set-Cookie` ne part.
+`clearCookie()` appelle `setCookie()` avec une valeur nulle et une date
+d'expiration dans le passé : c'est un header envoyé. Les cookies sont rangés sur
+trois niveaux — domain, path, nom — d'où le path (`/` par défaut) et le domain
+de `removeCookie()`. `getCookies()` rend une liste à plat, ou l'arborescence
+avec `ResponseHeaderBag::COOKIES_ARRAY` ; un autre format lève une
+`InvalidArgumentException`.
 
 ## Pièges d'examen
 
@@ -109,21 +95,90 @@ Response.
 **Écrire un cookie oblige donc à tenir la Response.** Un controller qui délègue
 entièrement le rendu n'a pas d'endroit où l'attacher.
 
-## Tips d'examen
+## Application
 
-**Pour choisir entre les deux suppressions** : le cookie existe-t-il déjà chez
-le client ? Oui → `clearCookie()`. Non, je viens de le poser → `removeCookie()`.
+- Faire oublier au navigateur un cookie déjà posé → `clearCookie()`.
+- Renoncer, plus bas dans le controller, à un cookie qu'on vient d'ajouter →
+  `removeCookie()`.
 
-## Points clés
+## QCM d'entraînement
 
-- Lire sur la Request, écrire et supprimer sur la Response.
-- `$response->headers` est un `ResponseHeaderBag` : `setCookie()`,
-  `removeCookie()`, `clearCookie()`, `getCookies()`.
-- `removeCookie()` annule l'envoi ; `clearCookie()` envoie une expiration passée.
-- Les cookies sont indexés par domain, path puis nom — d'où les arguments de
-  `removeCookie()`, dont le path vaut `/` par défaut.
-- `setcookie()` de PHP contourne l'object `Response` ; ne pas l'utiliser.
+**Question 1.** Une Response reçoit deux cookies `t`, l'un sur le path `/`,
+l'autre sur `/admin`. Combien `getCookies()` en rend-elle ?
+
+- **A.** Un : le second écrase le premier
+- **B.** Deux
+- **C.** Un : le premier est conservé
+- **D.** Une exception : nom dupliqué
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** L'index va du domain au path puis au nom : deux paths
+différents donnent deux entrées, qui partent toutes les deux.
+
+</details>
+
+**Question 2.** Dans ce même cas, le controller appelle
+`removeCookie('t')` sans autre argument. Que reste-t-il ?
+
+- **A.** Rien : les deux cookies sont retirés
+- **B.** Le cookie du path `/`
+- **C.** Les deux : il manque le domain
+- **D.** Le cookie du path `/admin`
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : D.** Sans path, la method vise `/` : seul le cookie de la
+racine est retiré, celui de `/admin` partira.
+
+</details>
+
+**Question 3.** Que produit `$response->headers->clearCookie('sid')` ?
+
+- **A.** Rien n'est envoyé : le sac est nettoyé
+- **B.** Une exception si `sid` n'a pas été posé
+- **C.** Un `sid` vide, déjà expiré
+- **D.** Un appel à `setcookie()` de PHP
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : C.** La method écrit un cookie de valeur nulle, daté dans le
+passé ; c'est cet envoi qui fait oublier le cookie au navigateur.
+
+</details>
+
+**Question 4.** Que fait `$response->headers->getCookies('tree')` ?
+
+- **A.** Elle rend la liste à plat
+- **B.** Une `InvalidArgumentException`
+- **C.** Elle rend l'arborescence par domain
+- **D.** Elle rend un array vide
+
+<details>
+<summary>Correction</summary>
+
+**Bonne réponse : B.** Seuls les formats à plat et en arborescence existent ;
+un autre format est refusé au lieu de retomber sur le défaut.
+
+</details>
+
+## Fiche express
+
+**Si tu dois retenir seulement 5 choses :**
+
+- **Lire** sur la Request, **écrire** sur la Response.
+- `setcookie()` de PHP contourne la Response : **à éviter**.
+- `clearCookie()` **envoie** une expiration passée ; `removeCookie()`
+  **n'envoie rien**.
+- Index **domain → path → nom** ; `removeCookie()` vise `/` par défaut.
+- `getCookies()` : à plat ou en array ; autre format → exception.
+
+Moyen mnémotechnique : **« Clear efface chez lui, remove annule chez moi »**.
 
 ## Sources officielles
 
 - [ResponseHeaderBag, branche 8.0](https://github.com/symfony/symfony/blob/8.0/src/Symfony/Component/HttpFoundation/ResponseHeaderBag.php)
+
