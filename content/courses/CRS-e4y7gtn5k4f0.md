@@ -84,8 +84,8 @@ Elle ne contient aucune property **porteuse d'état**.
 ## Les constants sont surchargeables — depuis PHP 8.1
 
 Avant PHP 8.1, une constant d'interface ne pouvait pas être redéfinie par la
-class qui l'implémente. Depuis 8.1, elle le peut — et Symfony 8.0 exige PHP
-8.4. C'est `final` sur la constant de l'interface qui interdit la surcharge,
+class qui l'implémente. Les constants d'interface sont surchargeables depuis 8.1,
+et Symfony 8.0 exige PHP 8.4. C'est `final` sur la constant de l'interface qui interdit la surcharge,
 pas l'interface elle-même.
 
 ## Les properties d'interface — depuis PHP 8.4
@@ -104,7 +104,7 @@ interface Named
 La déclaration ne porte que sur l'accès public. Une property publique ordinaire
 la satisfait, ou une property virtuelle qui implémente le hook correspondant.
 
-**Une property `readonly` ne peut pas satisfaire un `set`** : elle est
+**Une property `readonly` ne peut pas satisfaire une property d'interface `set`** : elle est
 implicitement `protected(set)` depuis PHP 8.4, et l'interface promet une
 écriture **publique**. Pour la même raison, `public private(set)` ne la satisfait pas non plus. PHP le dit :
 « Set access level of C::$name must be omitted (as in class I) ». `readonly`
