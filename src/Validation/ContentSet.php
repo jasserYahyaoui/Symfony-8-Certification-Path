@@ -6,6 +6,7 @@ namespace CertPath\Validation;
 
 use CertPath\Domain\Course;
 use CertPath\Domain\Flashcard;
+use CertPath\Domain\LotSummary;
 use CertPath\Domain\Question;
 use CertPath\Domain\SyllabusMatrix;
 
@@ -27,6 +28,8 @@ final readonly class ContentSet
      * @param list<Question>       $comprehension      ADR-0010: the end-of-lot comprehension
      *        questions, kept out of `$questions` so that no rule, payload or
      *        readiness criterion written for the exam banks can count them.
+     * @param list<LotSummary>     $summaries          ADR-0013: one beginner's summary per lot,
+     *        restating its courses with everyday examples; no exam figure reads them.
      */
     public function __construct(
         public SyllabusMatrix $matrix,
@@ -39,6 +42,7 @@ final readonly class ContentSet
         public array $contentFiles = [],
         public string $projectDir = '.',
         public array $comprehension = [],
+        public array $summaries = [],
     ) {
     }
 }

@@ -5635,6 +5635,7 @@ jobs:
           import re, sys, time, urllib.request
           base = sys.argv[1]
           PAGES = {
+              'lot-02/resume-du-lot': 1,
               'lot-03/request-handling': 2,
               'lot-06/assets-management': 1,
               'lot-06/auto-escaping': 1,
@@ -5903,6 +5904,52 @@ jobs:
                   print(f"ok  comprehension  {lot}: {entry['questions']} question(s) in the payload, page served")
           if not failed:
               print(f'ok  comprehension  {len(served)} question(s), pool COMPREHENSION, no exam-bank id')
+          sys.exit(1 if failed else 0)
+          PY
+          then
+            fail=1
+          fi
+
+          # The lot summaries « pour les nuls » (ADR-0013), against the canonical
+          # files of this commit: each is served, with its heading, one everyday
+          # example per notion, and one link per notion to the course it
+          # summarises. A summary that lost a notion in the build would show here
+          # as a count below the file's.
+          if ! python3 - "$BASE_URL" <<'PY'
+          import glob, re, sys, time, urllib.request
+          base = sys.argv[1]
+          failed, served = False, 0
+          for path in sorted(glob.glob('content/summaries/lot-*.md')):
+              lot = path.rsplit('/', 1)[1][:-3]
+              body = open(path, encoding='utf-8').read().split('---', 2)[2]
+              notions = re.findall(r'^### (.+?)\s*$', body.split('## Notion par notion', 1)[1].split('\n## ', 1)[0], re.M)
+              url = f'{base}/docs/courses/{lot}/resume-du-lot'
+              html, last = None, None
+              for attempt in range(5):
+                  try:
+                      with urllib.request.urlopen(url, timeout=30) as r:
+                          html = r.read().decode('utf-8', 'replace')
+                      break
+                  except Exception as e:
+                      last = e
+                      time.sleep(5)
+              if html is None:
+                  print(f'::error::summary of {lot} not served: {last}')
+                  failed = True
+                  continue
+              examples = html.count('<strong>Dans la vraie vie</strong>')
+              links = html.count('Le cours complet')
+              if 'Résumé du lot' not in html or 'En une phrase' not in html:
+                  print(f'::error::summary of {lot} is served without its heading')
+                  failed = True
+              elif examples != len(notions) or links != len(notions):
+                  print(f'::error::summary of {lot}: {len(notions)} notion(s) in the file, {examples} example(s) and {links} course link(s) served')
+                  failed = True
+              else:
+                  served += 1
+                  print(f'ok  summary  {lot}: {len(notions)} notion(s), each with its everyday example and its course link')
+          if not failed:
+              print(f'ok  summary  {served} lot summar{"y" if served == 1 else "ies"} served')
           sys.exit(1 if failed else 0)
           PY
           then

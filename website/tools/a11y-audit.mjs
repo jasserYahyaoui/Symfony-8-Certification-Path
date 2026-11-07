@@ -308,6 +308,13 @@ const PAGES = [
     {drive: diagramsDrawn('docs/courses/lot-03/request-handling.md')}],
   ['item page with diagrams, dark', '/docs/courses/lot-03/request-handling',
     {colorScheme: 'dark', drive: diagramsDrawn('docs/courses/lot-03/request-handling.md')}],
+  // ADR-0013: a lot summary « pour les nuls » — a tip admonition, a diagram,
+  // `###` notions under a `##`, each followed by its course link. Audited in
+  // both themes, as a diagram page.
+  ['lot summary', '/docs/courses/lot-02/resume-du-lot',
+    {drive: diagramsDrawn('docs/courses/lot-02/resume-du-lot.md')}],
+  ['lot summary, dark', '/docs/courses/lot-02/resume-du-lot',
+    {colorScheme: 'dark', drive: diagramsDrawn('docs/courses/lot-02/resume-du-lot.md')}],
   // §5 glossary: a generated table, so its header scope and reading order
   // are worth auditing rather than assumed.
   ['glossary', '/docs/syllabus/glossary'],

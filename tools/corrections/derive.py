@@ -37,6 +37,7 @@ ROOT = Path(__file__).resolve().parents[2]
 CHANGELOG = ROOT / 'docs/corrections/changelog.yml'
 MATRIX = 'docs/syllabus/syllabus-matrix.yml'
 PAGES = 'docs/whats-new'
+SUMMARIES = 'content/summaries'
 FRONT = re.compile(r'\A---\n(.*?)\n---\n(.*)\Z', re.S)
 
 
@@ -116,7 +117,8 @@ def snapshot(rev: str, only: set[str]) -> dict[str, dict]:
                     'pool': raw.get('pool', 'COMPREHENSION' if kind == 'comprehension' else None),
                     'version': raw.get('version', 1),
                 }
-    for path in files_at(rev, PAGES):
+    # A lot summary (ADR-0013) is a page too: it has no id, its path names it.
+    for path in [*files_at(rev, PAGES), *files_at(rev, SUMMARIES)]:
         if path in only and path.endswith('.md'):
             entities[path] = {'kind': 'page', 'item': None, 'sections': sections(show(rev, path) or '')}
     matrix = yaml.safe_load(show(rev, MATRIX) or '') or {} if MATRIX in only else {}

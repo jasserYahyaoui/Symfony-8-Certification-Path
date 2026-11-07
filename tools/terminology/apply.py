@@ -264,7 +264,10 @@ def main():
     check = '--check' in sys.argv
     report = []
     changed = {}
-    for p in sorted((ROOT / 'content/courses').glob('*.md')) + sorted((ROOT / 'docs/whats-new').glob('*.md')):
+    # content/summaries (ADR-0013) is French prose like a course, without the
+    # outcome map a course carries: its headings are fixed by SUM-001.
+    for p in (sorted((ROOT / 'content/courses').glob('*.md')) + sorted((ROOT / 'docs/whats-new').glob('*.md'))
+              + sorted((ROOT / 'content/summaries').glob('*.md'))):
         before = p.read_text(encoding='utf-8')
         after = course(p, report) if p.parent.name == 'courses' else whats_new(p, report)
         if after != before:

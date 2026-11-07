@@ -132,13 +132,22 @@ final class CorrectionsPage
             }
         }
         foreach ($entry['pages'] ?? [] as $page) {
+            $sections = implode(', ', array_map(static fn (string $h): string => '« '.$mdx($h).' »', $page['sections']));
+            if (str_starts_with($page['path'], 'content/summaries/')) {
+                // ADR-0013: a lot summary is named by its lot, and published
+                // under it; the title is the one the generator gives it.
+                $lot = basename($page['path'], '.md');
+                $title = 'Résumé du lot — '.$this->project->loadLotRegistry()->label($lot);
+                $read[] = '['.$this->linkText($title).']('.CourseUrl::forSummary($lot).')'.('' === $sections ? '' : ' — '.$sections);
+
+                continue;
+            }
             // The URL drops the number that orders the chapter, as
             // DocsGenerator::whatsNewPages() publishes it; the title is the H1.
             $slug = preg_replace('/^\d+-/', '', basename($page['path'], '.md'));
             $title = preg_match('/^#\s+(.+)$/m', (string) file_get_contents($this->project->path($page['path'])), $m)
                 ? trim($m[1]) : $slug;
-            $read[] = '['.$this->linkText($title).'](/docs/whats-new/'.$slug.') — '
-                .implode(', ', array_map(static fn (string $h): string => '« '.$mdx($h).' »', $page['sections']));
+            $read[] = '['.$this->linkText($title).'](/docs/whats-new/'.$slug.') — '.$sections;
         }
         if ([] !== $read) {
             $md .= "**Où le relire.**\n\n- ".implode("\n- ", $read)."\n\n";

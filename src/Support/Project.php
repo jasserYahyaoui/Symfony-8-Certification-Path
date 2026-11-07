@@ -7,6 +7,7 @@ namespace CertPath\Support;
 use CertPath\Domain\CourseLoader;
 use CertPath\Domain\FlashcardLoader;
 use CertPath\Domain\LotRegistry;
+use CertPath\Domain\LotSummaryLoader;
 use CertPath\Domain\MatrixLoader;
 use CertPath\Domain\QuestionLoader;
 use CertPath\Domain\SyllabusMatrix;
@@ -190,6 +191,12 @@ final readonly class Project
         return $this->path('content/comprehension');
     }
 
+    /** ADR-0013: the beginner's summaries, one Markdown file per lot. */
+    public function summariesDir(): string
+    {
+        return $this->path('content/summaries');
+    }
+
     public function websiteDir(): string
     {
         return $this->path('website');
@@ -235,6 +242,7 @@ final readonly class Project
             contentFiles: $this->markdownFiles(),
             projectDir: $this->rootDir,
             comprehension: QuestionLoader::comprehension()->loadDirectory($this->comprehensionDir()),
+            summaries: (new LotSummaryLoader())->loadDirectory($this->summariesDir(), $this->rootDir),
         );
     }
 

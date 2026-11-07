@@ -210,3 +210,34 @@ was checked and with which patch versions, internal mechanics no question asks,
 that repeats a bank or comprehension question, even below the `QCM-001`
 threshold, is replaced: it teaches nothing the learner will not meet anyway.
 
+
+## Lot summaries « pour les nuls » (ADR-0013)
+
+One page per lot, first in its sidebar: the whole lot in plain words, each
+notion with an everyday example. Owner, 2026-11-07: « une page de résumé de tout
+le lot pour les nuls avec des exemples de vie réelle, ça doit être
+pédagogique ».
+
+- **Where.** `content/summaries/lot-XX.md`, front matter `lot`,
+  `verification_status`, `reviewed_at`. Published at
+  `/docs/courses/lot-XX/resume-du-lot`; the generator adds the reading time and
+  a link to the course under each notion.
+- **Shape (SUM-001).** « En une phrase » (≤ 60 words, one paragraph) ;
+  « L'image de la vie réelle » ; optional « Le schéma » (DIA-001) ; « Notion par
+  notion », one `### <official item name>` per item, each with **C'est quoi ?**,
+  **Dans la vraie vie**, **Pour l'examen** ; « Les erreurs de débutant » (≥ 2
+  points) ; « La fiche du lot » (5 to 10 points). No link, no `{#…}` id.
+- **Facts.** Only what the lot's courses already teach. The example illustrates
+  a fact; it never carries one. Read the course before writing its notion, and
+  drop an analogy that bends the rule.
+- **Answers (SUM-002).** No correct answer of an exam-bank or comprehension
+  question in the prose; the lot's own code may sit in a fence. If SUM-002
+  fires, rewrite the sentence; never move it into a fence to hide another lot's
+  answer.
+- **Length.** About 100 to 150 words per notion. Report the reading time a
+  summary adds: it is reading outside the revision plan.
+- **Terminology.** French prose, technical terms in English, through
+  `tools/terminology/apply.py`. Words the list rewrites — « commande »,
+  « formulaire », « réponse », « requête » — become the Symfony term; in an
+  everyday example, choose another word (« achat », « bordereau ») rather than
+  fight the tool.

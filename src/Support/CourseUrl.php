@@ -41,6 +41,17 @@ final class CourseUrl
         return '/docs/'.self::comprehensionPath($lot);
     }
 
+    /** ADR-0013: the lot's beginner's summary, first entry of its sidebar category. */
+    public static function forSummary(string $lot): string
+    {
+        return '/docs/'.self::summaryPath($lot);
+    }
+
+    public static function summaryPath(string $lot): string
+    {
+        return 'courses/'.self::slug($lot).'/resume-du-lot';
+    }
+
     public static function comprehensionPath(string $lot): string
     {
         return 'courses/'.self::slug($lot).'/controle-de-comprehension';
