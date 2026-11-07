@@ -7327,3 +7327,582 @@ entries:
     - QST-c2ajcg5w4bqk
     reversioned:
     - QST-50q8da3a6j72
+  - id: CVR-3k3ygeh4ffwb
+    date: '2026-11-07'
+    pull_request: 465
+    commit: 5273ac1
+    kind: EXTENSION
+    finding: ADR-0013
+    official_items:
+    - OIT-fr58jzaj6jtb
+    facts: []
+    title: 'Résumé du lot 26 — Serializer : une page pour débuter'
+    now: 'Une page pour débuter ouvre le lot, avant ses cours : le lot en une phrase, une image de la vie réelle (l''envoi d''un meuble en kit), puis la notion de son item, en trois temps — « C''est quoi ? », « Dans la vraie vie », « Pour l''examen » — suivie du lien vers son cours ; enfin les erreurs de débutant et la fiche du lot. Environ 1 min de lecture, hors plan de révision. Aucun fait nouveau : chaque phrase reprend ce que les cours du lot enseignent.'
+    courses: []
+    pages:
+    - path: content/summaries/lot-26.md
+      sections: []
+    flashcards: []
+    questions: []
+  - id: CVR-grcy3zg6mm97
+    date: '2026-11-07'
+    pull_request: 465
+    commit: 5273ac1
+    kind: EXTENSION
+    finding: ADR-0013
+    official_items:
+    - OIT-r3qcmsehzex1
+    facts: []
+    title: 'Résumé du lot 25 — Runtime : une page pour débuter'
+    now: 'Une page pour débuter ouvre le lot, avant ses cours : le lot en une phrase, une image de la vie réelle (un chef d''orchestre et sa partition), puis la notion de son item, en trois temps — « C''est quoi ? », « Dans la vraie vie », « Pour l''examen » — suivie du lien vers son cours ; enfin les erreurs de débutant et la fiche du lot. Environ 1 min de lecture, hors plan de révision. Aucun fait nouveau : chaque phrase reprend ce que les cours du lot enseignent.'
+    courses: []
+    pages:
+    - path: content/summaries/lot-25.md
+      sections: []
+    flashcards: []
+    questions: []
+  - id: CVR-h8khnmzghn3y
+    date: '2026-11-07'
+    pull_request: 465
+    commit: 5273ac1
+    kind: EXTENSION
+    finding: ADR-0013
+    official_items:
+    - OIT-43pt66xsft9f
+    facts: []
+    title: 'Résumé du lot 24 — PropertyAccess : une page pour débuter'
+    now: 'Une page pour débuter ouvre le lot, avant ses cours : le lot en une phrase, une image de la vie réelle (une adresse postale décomposée), puis la notion de son item, en trois temps — « C''est quoi ? », « Dans la vraie vie », « Pour l''examen » — suivie du lien vers son cours ; enfin les erreurs de débutant et la fiche du lot. Environ 1 min de lecture, hors plan de révision. Aucun fait nouveau : chaque phrase reprend ce que les cours du lot enseignent.'
+    courses: []
+    pages:
+    - path: content/summaries/lot-24.md
+      sections: []
+    flashcards: []
+    questions: []
+  - id: CVR-g075y2q28amq
+    date: '2026-11-07'
+    pull_request: 465
+    commit: 5273ac1
+    kind: EXTENSION
+    finding: ADR-0013
+    official_items:
+    - OIT-qkcr4bat6dsb
+    facts: []
+    title: 'Résumé du lot 23 — Process : une page pour débuter'
+    now: 'Une page pour débuter ouvre le lot, avant ses cours : le lot en une phrase, une image de la vie réelle (un prestataire qu''on appelle), puis la notion de son item, en trois temps — « C''est quoi ? », « Dans la vraie vie », « Pour l''examen » — suivie du lien vers son cours ; enfin les erreurs de débutant et la fiche du lot. Environ 1 min de lecture, hors plan de révision. Aucun fait nouveau : chaque phrase reprend ce que les cours du lot enseignent.'
+    courses: []
+    pages:
+    - path: content/summaries/lot-23.md
+      sections: []
+    flashcards: []
+    questions: []
+  - id: CVR-sanajc6k855j
+    date: '2026-11-07'
+    pull_request: 465
+    commit: 5273ac1
+    kind: EXTENSION
+    finding: ADR-0013
+    official_items:
+    - OIT-j4vpn5bh9f27
+    - OIT-9xdjjsqcbn13
+    facts: []
+    title: 'Résumé du lot 22 — Mailer and Mime : une page pour débuter'
+    now: 'Une page pour débuter ouvre le lot, avant ses cours : le lot en une phrase, une image de la vie réelle (l''envoi d''une lettre recommandée), puis 2 notions, une par item, chacune en trois temps — « C''est quoi ? », « Dans la vraie vie », « Pour l''examen » — suivie du lien vers son cours ; enfin les erreurs de débutant et la fiche du lot. Environ 2 min de lecture, hors plan de révision. Aucun fait nouveau : chaque phrase reprend ce que les cours du lot enseignent.'
+    courses: []
+    pages:
+    - path: content/summaries/lot-22.md
+      sections: []
+    flashcards: []
+    questions: []
+  - id: CVR-kd8rfpewjeva
+    date: '2026-11-07'
+    pull_request: 465
+    commit: 5273ac1
+    kind: EXTENSION
+    finding: ADR-0013
+    official_items:
+    - OIT-tjn6kyvyc2h9
+    - OIT-a1anzcv85my3
+    facts: []
+    title: 'Résumé du lot 21 — Filesystem and Finder : une page pour débuter'
+    now: 'Une page pour débuter ouvre le lot, avant ses cours : le lot en une phrase, une image de la vie réelle (un déménagement), puis 2 notions, une par item, chacune en trois temps — « C''est quoi ? », « Dans la vraie vie », « Pour l''examen » — suivie du lien vers son cours ; enfin les erreurs de débutant et la fiche du lot. Environ 2 min de lecture, hors plan de révision. Aucun fait nouveau : chaque phrase reprend ce que les cours du lot enseignent.'
+    courses: []
+    pages:
+    - path: content/summaries/lot-21.md
+      sections: []
+    flashcards: []
+    questions: []
+  - id: CVR-g5vmak00f2k7
+    date: '2026-11-07'
+    pull_request: 465
+    commit: 5273ac1
+    kind: EXTENSION
+    finding: ADR-0013
+    official_items:
+    - OIT-s601ppsyb9f7
+    - OIT-8xcczyjyyanz
+    facts: []
+    title: 'Résumé du lot 20 — EventDispatcher and Event : une page pour débuter'
+    now: 'Une page pour débuter ouvre le lot, avant ses cours : le lot en une phrase, une image de la vie réelle (une alarme incendie dans un immeuble), puis 2 notions, une par item, chacune en trois temps — « C''est quoi ? », « Dans la vraie vie », « Pour l''examen » — suivie du lien vers son cours ; enfin les erreurs de débutant et la fiche du lot. Environ 2 min de lecture, hors plan de révision. Aucun fait nouveau : chaque phrase reprend ce que les cours du lot enseignent.'
+    courses: []
+    pages:
+    - path: content/summaries/lot-20.md
+      sections: []
+    flashcards: []
+    questions: []
+  - id: CVR-35n81mfbqzwx
+    date: '2026-11-07'
+    pull_request: 465
+    commit: 5273ac1
+    kind: EXTENSION
+    finding: ADR-0013
+    official_items:
+    - OIT-qpjnpc56hjj0
+    facts: []
+    title: 'Résumé du lot 19 — Clock : une page pour débuter'
+    now: 'Une page pour débuter ouvre le lot, avant ses cours : le lot en une phrase, une image de la vie réelle (un décor de théâtre avec une fausse pendule), puis la notion de son item, en trois temps — « C''est quoi ? », « Dans la vraie vie », « Pour l''examen » — suivie du lien vers son cours ; enfin les erreurs de débutant et la fiche du lot. Environ 1 min de lecture, hors plan de révision. Aucun fait nouveau : chaque phrase reprend ce que les cours du lot enseignent.'
+    courses: []
+    pages:
+    - path: content/summaries/lot-19.md
+      sections: []
+    flashcards: []
+    questions: []
+  - id: CVR-ksd8w1c0kka6
+    date: '2026-11-07'
+    pull_request: 465
+    commit: 5273ac1
+    kind: EXTENSION
+    finding: ADR-0013
+    official_items:
+    - OIT-78k7kbfpgfxt
+    facts: []
+    title: 'Résumé du lot 18 — Cache : une page pour débuter'
+    now: 'Une page pour débuter ouvre le lot, avant ses cours : le lot en une phrase, une image de la vie réelle (un post-it sur le frigo), puis la notion de son item, en trois temps — « C''est quoi ? », « Dans la vraie vie », « Pour l''examen » — suivie du lien vers son cours ; enfin les erreurs de débutant et la fiche du lot. Environ 1 min de lecture, hors plan de révision. Aucun fait nouveau : chaque phrase reprend ce que les cours du lot enseignent.'
+    courses: []
+    pages:
+    - path: content/summaries/lot-18.md
+      sections: []
+    flashcards: []
+    questions: []
+  - id: CVR-7r9xt2sxm8gc
+    date: '2026-11-07'
+    pull_request: 465
+    commit: 5273ac1
+    kind: EXTENSION
+    finding: ADR-0013
+    official_items:
+    - OIT-zezwg9nya501
+    facts: []
+    title: 'Résumé du lot 17 — HTTP Caching : une page pour débuter'
+    now: 'Une page pour débuter ouvre le lot, avant ses cours : le lot en une phrase, une image de la vie réelle (une boulangerie et sa vitrine), puis la notion de son item, en trois temps — « C''est quoi ? », « Dans la vraie vie », « Pour l''examen » — suivie du lien vers son cours ; enfin les erreurs de débutant et la fiche du lot. Environ 2 min de lecture, hors plan de révision. Aucun fait nouveau : chaque phrase reprend ce que les cours du lot enseignent.'
+    courses: []
+    pages:
+    - path: content/summaries/lot-17.md
+      sections: []
+    flashcards: []
+    questions: []
+  - id: CVR-8nnsvg9qmcjx
+    date: '2026-11-07'
+    pull_request: 465
+    commit: 5273ac1
+    kind: EXTENSION
+    finding: ADR-0013
+    official_items:
+    - OIT-3dd7821h069b
+    facts: []
+    title: 'Résumé du lot 16 — Internationalization and Localization : une page pour débuter'
+    now: 'Une page pour débuter ouvre le lot, avant ses cours : le lot en une phrase, une image de la vie réelle (un musée qui prête des audioguides), puis la notion de son item, en trois temps — « C''est quoi ? », « Dans la vraie vie », « Pour l''examen » — suivie du lien vers son cours ; enfin les erreurs de débutant et la fiche du lot. Environ 2 min de lecture, hors plan de révision. Aucun fait nouveau : chaque phrase reprend ce que les cours du lot enseignent.'
+    courses: []
+    pages:
+    - path: content/summaries/lot-16.md
+      sections: []
+    flashcards: []
+    questions: []
+  - id: CVR-jnzdwwcpfw60
+    date: '2026-11-07'
+    pull_request: 465
+    commit: 5273ac1
+    kind: EXTENSION
+    finding: ADR-0013
+    official_items:
+    - OIT-6xqn9ybksrbr
+    - OIT-d1qsxrtv25kk
+    facts: []
+    title: 'Résumé du lot 15 — Profiler and Deployment : une page pour débuter'
+    now: 'Une page pour débuter ouvre le lot, avant ses cours : le lot en une phrase, une image de la vie réelle (l''ouverture d''un magasin), puis 2 notions, une par item, chacune en trois temps — « C''est quoi ? », « Dans la vraie vie », « Pour l''examen » — suivie du lien vers son cours ; enfin les erreurs de débutant et la fiche du lot. Environ 2 min de lecture, hors plan de révision. Aucun fait nouveau : chaque phrase reprend ce que les cours du lot enseignent.'
+    courses: []
+    pages:
+    - path: content/summaries/lot-15.md
+      sections: []
+    flashcards: []
+    questions: []
+  - id: CVR-gyqqp7k4j7n0
+    date: '2026-11-07'
+    pull_request: 465
+    commit: 5273ac1
+    kind: EXTENSION
+    finding: ADR-0013
+    official_items:
+    - OIT-tvc5rjv6qvse
+    - OIT-kv7mbksn7m8v
+    - OIT-xgrbftkj67ds
+    facts: []
+    title: 'Résumé du lot 14 — Configuration and Error Handling : une page pour débuter'
+    now: 'Une page pour débuter ouvre le lot, avant ses cours : le lot en une phrase, une image de la vie réelle (une maison connectée), puis 3 notions, une par item, chacune en trois temps — « C''est quoi ? », « Dans la vraie vie », « Pour l''examen » — suivie du lien vers son cours ; enfin les erreurs de débutant et la fiche du lot. Environ 2 min de lecture, hors plan de révision. Aucun fait nouveau : chaque phrase reprend ce que les cours du lot enseignent.'
+    courses: []
+    pages:
+    - path: content/summaries/lot-14.md
+      sections: []
+    flashcards: []
+    questions: []
+  - id: CVR-ap46s1d20c7e
+    date: '2026-11-07'
+    pull_request: 465
+    commit: 5273ac1
+    kind: EXTENSION
+    finding: ADR-0013
+    official_items:
+    - OIT-c6wd3f444qjn
+    - OIT-favt42nvgdqh
+    - OIT-bc3brs4a4mtt
+    - OIT-se21g2xv6h4r
+    - OIT-t0qx5z264tyf
+    - OIT-mtbcyaax2xsk
+    - OIT-bswvewkkkj1q
+    - OIT-bzkq4e7wks9a
+    - OIT-vj24gwq6r1r4
+    facts: []
+    title: 'Résumé du lot 13 — Automated Tests : une page pour débuter'
+    now: 'Une page pour débuter ouvre le lot, avant ses cours : le lot en une phrase, une image de la vie réelle (la fabrication d''une voiture), un schéma, puis 9 notions, une par item, chacune en trois temps — « C''est quoi ? », « Dans la vraie vie », « Pour l''examen » — suivie du lien vers son cours ; enfin les erreurs de débutant et la fiche du lot. Environ 5 min de lecture, hors plan de révision. Aucun fait nouveau : chaque phrase reprend ce que les cours du lot enseignent.'
+    courses: []
+    pages:
+    - path: content/summaries/lot-13.md
+      sections: []
+    flashcards: []
+    questions: []
+  - id: CVR-vkcessmq03a8
+    date: '2026-11-07'
+    pull_request: 465
+    commit: 5273ac1
+    kind: EXTENSION
+    finding: ADR-0013
+    official_items:
+    - OIT-481gmkgbksnr
+    - OIT-zgq6w4jqamvb
+    - OIT-kbg00jqxxwhq
+    - OIT-1hdmw4gm819r
+    - OIT-nr9m883d15qq
+    - OIT-65sswf0qhw6c
+    - OIT-v6wxp78gk42c
+    - OIT-cqs3m73y3rpy
+    - OIT-dv5400dtksfg
+    facts: []
+    title: 'Résumé du lot 12 — Console : une page pour débuter'
+    now: 'Une page pour débuter ouvre le lot, avant ses cours : le lot en une phrase, une image de la vie réelle (une télécommande), un schéma, puis 9 notions, une par item, chacune en trois temps — « C''est quoi ? », « Dans la vraie vie », « Pour l''examen » — suivie du lien vers son cours ; enfin les erreurs de débutant et la fiche du lot. Environ 5 min de lecture, hors plan de révision. Aucun fait nouveau : chaque phrase reprend ce que les cours du lot enseignent.'
+    courses: []
+    pages:
+    - path: content/summaries/lot-12.md
+      sections: []
+    flashcards: []
+    questions: []
+  - id: CVR-5mg0k62ev78v
+    date: '2026-11-07'
+    pull_request: 465
+    commit: 5273ac1
+    kind: EXTENSION
+    finding: ADR-0013
+    official_items:
+    - OIT-hs1297vvhr89
+    - OIT-ckr67pq9npyb
+    - OIT-9a8aa389vk48
+    - OIT-dctf03ftx44f
+    - OIT-76x1t7z916f4
+    - OIT-amnpjdprky6z
+    - OIT-16at9vwzww43
+    facts: []
+    title: 'Résumé du lot 11 — Messenger : une page pour débuter'
+    now: 'Une page pour débuter ouvre le lot, avant ses cours : le lot en une phrase, une image de la vie réelle (un restaurant avec un passe-plat), un schéma, puis 7 notions, une par item, chacune en trois temps — « C''est quoi ? », « Dans la vraie vie », « Pour l''examen » — suivie du lien vers son cours ; enfin les erreurs de débutant et la fiche du lot. Environ 4 min de lecture, hors plan de révision. Aucun fait nouveau : chaque phrase reprend ce que les cours du lot enseignent.'
+    courses: []
+    pages:
+    - path: content/summaries/lot-11.md
+      sections: []
+    flashcards: []
+    questions: []
+  - id: CVR-mtervhhrhdq9
+    date: '2026-11-07'
+    pull_request: 465
+    commit: 5273ac1
+    kind: EXTENSION
+    finding: ADR-0013
+    official_items:
+    - OIT-942znmbjwvad
+    - OIT-z9c24d68et6w
+    - OIT-3qgn13f7zvqx
+    - OIT-xh63g15rz6n3
+    - OIT-45p7535dk4s2
+    - OIT-rwa6m06crs1h
+    - OIT-gkh08ztwdme1
+    - OIT-ta627mbwfz7m
+    - OIT-fw6db7ryrk4q
+    - OIT-cwfr5t1ngj23
+    - OIT-s3jh7wg5km19
+    - OIT-kqm5mxq4jnkj
+    facts: []
+    title: 'Résumé du lot 10 — Security : une page pour débuter'
+    now: 'Une page pour débuter ouvre le lot, avant ses cours : le lot en une phrase, une image de la vie réelle (un immeuble de bureaux), un schéma, puis 12 notions, une par item, chacune en trois temps — « C''est quoi ? », « Dans la vraie vie », « Pour l''examen » — suivie du lien vers son cours ; enfin les erreurs de débutant et la fiche du lot. Environ 6 min de lecture, hors plan de révision. Aucun fait nouveau : chaque phrase reprend ce que les cours du lot enseignent.'
+    courses: []
+    pages:
+    - path: content/summaries/lot-10.md
+      sections: []
+    flashcards: []
+    questions: []
+  - id: CVR-fe10270cekrn
+    date: '2026-11-07'
+    pull_request: 465
+    commit: 5273ac1
+    kind: EXTENSION
+    finding: ADR-0013
+    official_items:
+    - OIT-92ctf3sy3ddk
+    - OIT-79f4n087b66c
+    - OIT-dy7108w6bf4z
+    - OIT-ar4h3zfskjsp
+    - OIT-stze9x4aydp3
+    - OIT-adhs2ny9hc5f
+    - OIT-83sac57rw0xn
+    - OIT-qj4xfkhwdrx7
+    - OIT-h2n7d7dbr56p
+    - OIT-3y0b9gxyandm
+    - OIT-wm3qdqemtap9
+    - OIT-gkhcbtygef69
+    facts: []
+    title: 'Résumé du lot 09 — Dependency Injection : une page pour débuter'
+    now: 'Une page pour débuter ouvre le lot, avant ses cours : le lot en une phrase, une image de la vie réelle (un restaurant avec une grande cuisine), un schéma, puis 12 notions, une par item, chacune en trois temps — « C''est quoi ? », « Dans la vraie vie », « Pour l''examen » — suivie du lien vers son cours ; enfin les erreurs de débutant et la fiche du lot. Environ 6 min de lecture, hors plan de révision. Aucun fait nouveau : chaque phrase reprend ce que les cours du lot enseignent.'
+    courses: []
+    pages:
+    - path: content/summaries/lot-09.md
+      sections: []
+    flashcards: []
+    questions: []
+  - id: CVR-gjtmf08199h7
+    date: '2026-11-07'
+    pull_request: 465
+    commit: 5273ac1
+    kind: EXTENSION
+    finding: ADR-0013
+    official_items:
+    - OIT-6wd8860brzfy
+    - OIT-d3yp0sq36xrx
+    - OIT-9x3strrjdng7
+    - OIT-ttwpe00f32q9
+    - OIT-kkhb3wd341ex
+    - OIT-rwavvsx2d7nq
+    - OIT-hcdrp2y7kbct
+    - OIT-0wnxbapegqhv
+    facts: []
+    title: 'Résumé du lot 08 — Data Validation : une page pour débuter'
+    now: 'Une page pour débuter ouvre le lot, avant ses cours : le lot en une phrase, une image de la vie réelle (le contrôle technique d''une voiture), un schéma, puis 8 notions, une par item, chacune en trois temps — « C''est quoi ? », « Dans la vraie vie », « Pour l''examen » — suivie du lien vers son cours ; enfin les erreurs de débutant et la fiche du lot. Environ 4 min de lecture, hors plan de révision. Aucun fait nouveau : chaque phrase reprend ce que les cours du lot enseignent.'
+    courses: []
+    pages:
+    - path: content/summaries/lot-08.md
+      sections: []
+    flashcards: []
+    questions: []
+  - id: CVR-7etj7d6e16w0
+    date: '2026-11-07'
+    pull_request: 465
+    commit: 5273ac1
+    kind: EXTENSION
+    finding: ADR-0013
+    official_items:
+    - OIT-tsxxgp3ppj1n
+    - OIT-fhpttc4c5x0k
+    - OIT-mgvdw7cfpwyz
+    - OIT-5xvjqa4203xe
+    - OIT-gxew257vwhm8
+    - OIT-j2vjdxcer4ft
+    - OIT-dmkbj2x94rks
+    - OIT-j6tqs8s8f54f
+    - OIT-p810t98zedem
+    - OIT-58r9dadx916v
+    - OIT-v7zyhcm44m88
+    - OIT-gcs0jathkv9b
+    - OIT-rj9web4whgmz
+    facts: []
+    title: 'Résumé du lot 07 — Forms : une page pour débuter'
+    now: 'Une page pour débuter ouvre le lot, avant ses cours : le lot en une phrase, une image de la vie réelle (le guichet d''une mairie), un schéma, puis 13 notions, une par item, chacune en trois temps — « C''est quoi ? », « Dans la vraie vie », « Pour l''examen » — suivie du lien vers son cours ; enfin les erreurs de débutant et la fiche du lot. Environ 7 min de lecture, hors plan de révision. Aucun fait nouveau : chaque phrase reprend ce que les cours du lot enseignent.'
+    courses: []
+    pages:
+    - path: content/summaries/lot-07.md
+      sections: []
+    flashcards: []
+    questions: []
+  - id: CVR-wdbdxc6hxynt
+    date: '2026-11-07'
+    pull_request: 465
+    commit: 5273ac1
+    kind: EXTENSION
+    finding: ADR-0013
+    official_items:
+    - OIT-b9x8az2bx4t8
+    - OIT-vhd83fn6w9wy
+    - OIT-ns36thqnh2jk
+    - OIT-g3p8wdtww344
+    - OIT-dp7w7s85wxjg
+    - OIT-sqekx9pkbe5v
+    - OIT-ds2p5d4eg0pq
+    - OIT-84j0qwkbcgq6
+    - OIT-yh6zx9shv9vs
+    - OIT-c34hn4px3czj
+    - OIT-sd08j04k60m0
+    - OIT-30gnb617ksex
+    - OIT-tw3xaqbz8xjy
+    - OIT-3r7rp470754w
+    facts: []
+    title: 'Résumé du lot 06 — Templating with Twig : une page pour débuter'
+    now: 'Une page pour débuter ouvre le lot, avant ses cours : le lot en une phrase, une image de la vie réelle (une lettre type avec des trous), un schéma, puis 14 notions, une par item, chacune en trois temps — « C''est quoi ? », « Dans la vraie vie », « Pour l''examen » — suivie du lien vers son cours ; enfin les erreurs de débutant et la fiche du lot. Environ 7 min de lecture, hors plan de révision. Aucun fait nouveau : chaque phrase reprend ce que les cours du lot enseignent.'
+    courses: []
+    pages:
+    - path: content/summaries/lot-06.md
+      sections: []
+    flashcards: []
+    questions: []
+  - id: CVR-dgv0ahw6zke8
+    date: '2026-11-07'
+    pull_request: 465
+    commit: 5273ac1
+    kind: EXTENSION
+    finding: ADR-0013
+    official_items:
+    - OIT-ceaw3ewfsw85
+    - OIT-egy2wn3z7gb7
+    - OIT-1cj08dhtp9hj
+    - OIT-ff0kghjbzvpm
+    - OIT-81b2c0jmv2j3
+    - OIT-d51jbkfs21pt
+    - OIT-4pgc74ctc3vc
+    - OIT-21m4pmtymygn
+    - OIT-e2zrm9qkpx7j
+    - OIT-5g82spham3vm
+    - OIT-xxcpx1qssp93
+    - OIT-8sr74a2wnb3r
+    facts: []
+    title: 'Résumé du lot 05 — Routing : une page pour débuter'
+    now: 'Une page pour débuter ouvre le lot, avant ses cours : le lot en une phrase, une image de la vie réelle (un centre de tri postal), un schéma, puis 12 notions, une par item, chacune en trois temps — « C''est quoi ? », « Dans la vraie vie », « Pour l''examen » — suivie du lien vers son cours ; enfin les erreurs de débutant et la fiche du lot. Environ 6 min de lecture, hors plan de révision. Aucun fait nouveau : chaque phrase reprend ce que les cours du lot enseignent.'
+    courses: []
+    pages:
+    - path: content/summaries/lot-05.md
+      sections: []
+    flashcards: []
+    questions: []
+  - id: CVR-ex6vb2v1n1gd
+    date: '2026-11-07'
+    pull_request: 465
+    commit: 5273ac1
+    kind: EXTENSION
+    finding: ADR-0013
+    official_items:
+    - OIT-qr7gnht5s847
+    - OIT-ycc2c8tnv68h
+    - OIT-gqpj4rbt0hc7
+    - OIT-6cr9b8ea8g32
+    - OIT-2emwghgkkrdy
+    - OIT-pfrzrr0qcmh3
+    - OIT-e41m74xaqhy7
+    - OIT-65bev6t7wbna
+    - OIT-bwfqarnn6s2f
+    - OIT-znm2tr61aw9p
+    - OIT-emymfwgesh99
+    - OIT-tb3bnd6b0f01
+    - OIT-e93sa9rd4kd9
+    - OIT-8hs6e05vq91g
+    facts: []
+    title: 'Résumé du lot 04 — Controllers : une page pour débuter'
+    now: 'Une page pour débuter ouvre le lot, avant ses cours : le lot en une phrase, une image de la vie réelle (la réception d''un hôtel), un schéma, puis 14 notions, une par item, chacune en trois temps — « C''est quoi ? », « Dans la vraie vie », « Pour l''examen » — suivie du lien vers son cours ; enfin les erreurs de débutant et la fiche du lot. Environ 7 min de lecture, hors plan de révision. Aucun fait nouveau : chaque phrase reprend ce que les cours du lot enseignent.'
+    courses: []
+    pages:
+    - path: content/summaries/lot-04.md
+      sections: []
+    flashcards: []
+    questions: []
+  - id: CVR-gswgw42ges83
+    date: '2026-11-07'
+    pull_request: 465
+    commit: 5273ac1
+    kind: EXTENSION
+    finding: ADR-0013
+    official_items:
+    - OIT-y0ah7pq9c4hv
+    - OIT-132nwnh9c6bc
+    - OIT-347k8phdewem
+    - OIT-d416348gfhde
+    - OIT-p3p7te94qc1n
+    - OIT-7sewqvmw6468
+    - OIT-xc4zfr70jjas
+    - OIT-rd9b27fkb72r
+    - OIT-hzbednd04fd4
+    - OIT-vk57zg2wpep7
+    - OIT-ehf5zdnmdb1j
+    - OIT-efzq92vdtayj
+    - OIT-pk5s7cnhk776
+    - OIT-kcj9a5846b1s
+    - OIT-c9pjp03cv4bq
+    facts: []
+    title: 'Résumé du lot 03 — Symfony Architecture : une page pour débuter'
+    now: 'Une page pour débuter ouvre le lot, avant ses cours : le lot en une phrase, une image de la vie réelle (un aéroport), un schéma, puis 15 notions, une par item, chacune en trois temps — « C''est quoi ? », « Dans la vraie vie », « Pour l''examen » — suivie du lien vers son cours ; enfin les erreurs de débutant et la fiche du lot. Environ 8 min de lecture, hors plan de révision. Aucun fait nouveau : chaque phrase reprend ce que les cours du lot enseignent.'
+    courses: []
+    pages:
+    - path: content/summaries/lot-03.md
+      sections: []
+    flashcards: []
+    questions: []
+  - id: CVR-s6k3ps165x7d
+    date: '2026-11-07'
+    pull_request: 465
+    commit: 5273ac1
+    kind: EXTENSION
+    finding: ADR-0013
+    official_items:
+    - OIT-7801mj6w73ky
+    - OIT-512se83ab7qj
+    - OIT-d3nyk9z0q2pd
+    - OIT-jh06tkfrhthq
+    - OIT-qnm508g1ktqm
+    - OIT-bz1f5nh8g9b2
+    - OIT-tc39jp8japfc
+    - OIT-mrvrtxm4v2m5
+    - OIT-fhjmv9w3wxsb
+    - OIT-9kh5cqz5qtrb
+    facts: []
+    title: 'Résumé du lot 02 — HTTP Fundamentals : une page pour débuter'
+    now: 'Une page pour débuter ouvre le lot, avant ses cours : le lot en une phrase, une image de la vie réelle (un restaurant), un schéma, puis 10 notions, une par item, chacune en trois temps — « C''est quoi ? », « Dans la vraie vie », « Pour l''examen » — suivie du lien vers son cours ; enfin les erreurs de débutant et la fiche du lot. Environ 7 min de lecture, hors plan de révision. Aucun fait nouveau : chaque phrase reprend ce que les cours du lot enseignent.'
+    courses: []
+    pages:
+    - path: content/summaries/lot-02.md
+      sections: []
+    flashcards: []
+    questions: []
+  - id: CVR-bammqjadm7kh
+    date: '2026-11-07'
+    pull_request: 465
+    commit: 5273ac1
+    kind: EXTENSION
+    finding: ADR-0013
+    official_items:
+    - OIT-46ry8d7dypmb
+    - OIT-ywrx9x3hg9z8
+    - OIT-1kjqdnryaw0h
+    - OIT-vt0p9cacpkpd
+    - OIT-fhb3vz7xbt5h
+    - OIT-webdvbgbrfth
+    - OIT-bvnvx2b6yt2y
+    - OIT-n0zfkcr189af
+    - OIT-hqz5c2qse24w
+    facts: []
+    title: 'Résumé du lot 01 — PHP 8.4 Foundations : une page pour débuter'
+    now: 'Une page pour débuter ouvre le lot, avant ses cours : le lot en une phrase, une image de la vie réelle (un chantier de maisons), un schéma, puis 9 notions, une par item, chacune en trois temps — « C''est quoi ? », « Dans la vraie vie », « Pour l''examen » — suivie du lien vers son cours ; enfin les erreurs de débutant et la fiche du lot. Environ 6 min de lecture, hors plan de révision. Aucun fait nouveau : chaque phrase reprend ce que les cours du lot enseignent.'
+    courses: []
+    pages:
+    - path: content/summaries/lot-01.md
+      sections: []
+    flashcards: []
+    questions: []
