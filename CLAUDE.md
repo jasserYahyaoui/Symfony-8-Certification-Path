@@ -229,6 +229,17 @@ exam does not ask. Internal class names a smoke needle requires belong in
 « Sources officielles », where they are genuinely the sources. See « Short,
 exam-only » in `docs/policy/course-structure.md`.
 
+**Each lot has a summary « pour les nuls » (owner, 2026-11-07, [ADR-0013](docs/adr/0013-lot-summaries-for-beginners.md)).**
+`content/summaries/lot-XX.md` is published first in the lot's sidebar: the lot
+in one sentence, one everyday picture, then one `### ` notion per atomic item —
+**C'est quoi ?**, **Dans la vraie vie**, **Pour l'examen** — the beginner's
+mistakes and a 5-to-10-point digest. `SUM-001` checks that shape, every item of
+the lot included; `SUM-002` refuses a correct answer of any bank, the
+comprehension one included, in its prose (holdout id withheld). A summary
+teaches no fact its courses do not: read the courses, restate, illustrate. It
+carries no link — the generator links each notion to its course. Every lot
+carrying atomic items has one; a missing summary is an error.
+
 **A course maps each outcome to the section teaching it (owner, 2026-10-14, rule `SEC-001`).**
 A mock's correction links a missed question to the `## ` heading named for its
 outcome in the course's `outcome_sections`. Renaming or removing a heading, or

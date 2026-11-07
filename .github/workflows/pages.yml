@@ -5635,7 +5635,12 @@ jobs:
           import re, sys, time, urllib.request
           base = sys.argv[1]
           PAGES = {
+              'lot-01/resume-du-lot': 1,
+              'lot-02/resume-du-lot': 1,
               'lot-03/request-handling': 2,
+              'lot-03/resume-du-lot': 1,
+              'lot-04/resume-du-lot': 1,
+              'lot-05/resume-du-lot': 1,
               'lot-06/assets-management': 1,
               'lot-06/auto-escaping': 1,
               'lot-06/controller-rendering': 1,
@@ -5643,6 +5648,7 @@ jobs:
               'lot-06/filters-and-functions': 1,
               'lot-06/global-variables': 1,
               'lot-06/loops-and-conditions': 1,
+              'lot-06/resume-du-lot': 1,
               'lot-06/string-interpolation': 1,
               'lot-06/template-includes': 1,
               'lot-06/template-inheritance': 1,
@@ -5661,6 +5667,9 @@ jobs:
               'lot-07/forms-rendering-with-twig': 1,
               'lot-07/forms-theming': 1,
               'lot-07/handling-file-upload': 1,
+              'lot-07/resume-du-lot': 1,
+              'lot-08/resume-du-lot': 1,
+              'lot-09/resume-du-lot': 1,
               'lot-10/access-control-rules': 2,
               'lot-10/authentication': 1,
               'lot-10/authenticators-passports-and-badges': 1,
@@ -5669,6 +5678,7 @@ jobs:
               'lot-10/firewalls': 1,
               'lot-10/password-hashers': 1,
               'lot-10/providers': 1,
+              'lot-10/resume-du-lot': 1,
               'lot-10/roles': 1,
               'lot-10/security-core-csrf-and-passwordhasher-components': 1,
               'lot-10/users': 1,
@@ -5677,10 +5687,12 @@ jobs:
               'lot-11/messages-and-handlers': 1,
               'lot-11/messenger-component': 1,
               'lot-11/middleware': 1,
+              'lot-11/resume-du-lot': 1,
               'lot-11/retries-and-failures': 1,
               'lot-11/transports': 1,
               'lot-11/workers': 1,
               'lot-12/console-events': 1,
+              'lot-12/resume-du-lot': 1,
               'lot-13/client-configuration': 1,
               'lot-13/client-object': 1,
               'lot-13/crawler-object-cssselector-and-domcrawler-components': 1,
@@ -5688,6 +5700,7 @@ jobs:
               'lot-13/handling-legacy-deprecated-code': 1,
               'lot-13/profiler-object-webprofiler-bundle': 1,
               'lot-13/request-and-response-objects-introspection': 1,
+              'lot-13/resume-du-lot': 1,
               'lot-14/code-debugging': 1,
               'lot-14/configuration-including-dotenv-and-expressionlanguage-components': 1,
               'lot-14/error-handling': 1,
@@ -5903,6 +5916,52 @@ jobs:
                   print(f"ok  comprehension  {lot}: {entry['questions']} question(s) in the payload, page served")
           if not failed:
               print(f'ok  comprehension  {len(served)} question(s), pool COMPREHENSION, no exam-bank id')
+          sys.exit(1 if failed else 0)
+          PY
+          then
+            fail=1
+          fi
+
+          # The lot summaries « pour les nuls » (ADR-0013), against the canonical
+          # files of this commit: each is served, with its heading, one everyday
+          # example per notion, and one link per notion to the course it
+          # summarises. A summary that lost a notion in the build would show here
+          # as a count below the file's.
+          if ! python3 - "$BASE_URL" <<'PY'
+          import glob, re, sys, time, urllib.request
+          base = sys.argv[1]
+          failed, served = False, 0
+          for path in sorted(glob.glob('content/summaries/lot-*.md')):
+              lot = path.rsplit('/', 1)[1][:-3]
+              body = open(path, encoding='utf-8').read().split('---', 2)[2]
+              notions = re.findall(r'^### (.+?)\s*$', body.split('## Notion par notion', 1)[1].split('\n## ', 1)[0], re.M)
+              url = f'{base}/docs/courses/{lot}/resume-du-lot'
+              html, last = None, None
+              for attempt in range(5):
+                  try:
+                      with urllib.request.urlopen(url, timeout=30) as r:
+                          html = r.read().decode('utf-8', 'replace')
+                      break
+                  except Exception as e:
+                      last = e
+                      time.sleep(5)
+              if html is None:
+                  print(f'::error::summary of {lot} not served: {last}')
+                  failed = True
+                  continue
+              examples = html.count('<strong>Dans la vraie vie</strong>')
+              links = html.count('Le cours complet')
+              if 'Résumé du lot' not in html or 'En une phrase' not in html:
+                  print(f'::error::summary of {lot} is served without its heading')
+                  failed = True
+              elif examples != len(notions) or links != len(notions):
+                  print(f'::error::summary of {lot}: {len(notions)} notion(s) in the file, {examples} example(s) and {links} course link(s) served')
+                  failed = True
+              else:
+                  served += 1
+                  print(f'ok  summary  {lot}: {len(notions)} notion(s), each with its everyday example and its course link')
+          if not failed:
+              print(f'ok  summary  {served} lot summar{"y" if served == 1 else "ies"} served')
           sys.exit(1 if failed else 0)
           PY
           then

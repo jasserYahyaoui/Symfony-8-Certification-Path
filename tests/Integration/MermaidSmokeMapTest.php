@@ -35,6 +35,13 @@ final class MermaidSmokeMapTest extends TestCase
             self::assertNotNull($item, $course->id.' names an item the matrix does not hold');
             $expected[substr(CourseUrl::pagePath($item), \strlen('courses/'))] = $diagrams;
         }
+        // ADR-0013: a lot summary draws for beginners, and is deployed the same way.
+        foreach ($content->summaries as $summary) {
+            $diagrams = \count(Course::mermaidBlocks($summary->body));
+            if (0 !== $diagrams) {
+                $expected[substr(CourseUrl::summaryPath($summary->lot), \strlen('courses/'))] = $diagrams;
+            }
+        }
         ksort($expected);
 
         $workflow = (string) file_get_contents($project->rootDir.'/.github/workflows/pages.yml');

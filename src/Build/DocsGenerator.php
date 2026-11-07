@@ -13,6 +13,7 @@ use CertPath\Domain\Course;
 use CertPath\Domain\Flashcard;
 use CertPath\Domain\FlashcardLevel;
 use CertPath\Domain\LotRegistry;
+use CertPath\Domain\LotSummary;
 use CertPath\Domain\OfficialItem;
 use CertPath\Domain\Pool;
 use CertPath\Support\CourseUrl;
@@ -276,6 +277,15 @@ final readonly class DocsGenerator
      * its lot's category whatever the lot's size (ADR-0010).
      */
     private const int COMPREHENSION_SIDEBAR_POSITION = 10000;
+
+    /**
+     * Before any item's order (items start at 1), so the beginner's summary is
+     * the first entry of its lot's category (ADR-0013).
+     */
+    private const int SUMMARY_SIDEBAR_POSITION = 0;
+
+    /** Words per minute for the reading time a summary announces (a convention, as in AUD-04). */
+    private const int READING_WORDS_PER_MINUTE = 200;
 
     /**
      * The candidate roadmap, published rather than left in the repository.
@@ -855,12 +865,28 @@ donc exécutable, pas seulement documentaire.
             }
         }
 
+        $summaryByLot = [];
+        foreach ($content->summaries as $summary) {
+            $summaryByLot[$summary->lot] = $summary;
+        }
+
         foreach ($byLot as $lot => $items) {
             // The id stays the slug: URLs, bookmarks and internal links are
             // built on it and must not move for a label change.
             $slug = CourseUrl::slug($lot);
             $checkCount = $comprehensionByLot[$lot] ?? 0;
-            $pages['courses/'.$slug.'/index.md'] = $this->lotIndexPage($lot, $items, $lots, $checkCount);
+            $summary = $summaryByLot[$lot] ?? null;
+            $pages['courses/'.$slug.'/index.md'] = $this->lotIndexPage($lot, $items, $lots, $checkCount, null !== $summary);
+
+            if (null !== $summary) {
+                $path = CourseUrl::summaryPath($lot).'.md';
+                foreach ($items as $item) {
+                    if (CourseUrl::pagePath($item).'.md' === $path) {
+                        throw new \LogicException(\sprintf('An item page of %s already uses the path of its summary, %s.', $lot, $path));
+                    }
+                }
+                $pages[$path] = $this->summaryPage($summary, $items, $lots, $checkCount);
+            }
 
             foreach ($items as $item) {
                 $pages[CourseUrl::pagePath($item).'.md'] = $this->itemPage($item, $content);
@@ -893,7 +919,7 @@ Créer des cours avant l'import reviendrait à enseigner un programme deviné.
     /**
      * @param list<OfficialItem> $items
      */
-    private function lotIndexPage(string $lot, array $items, LotRegistry $lots, int $checkCount = 0): string
+    private function lotIndexPage(string $lot, array $items, LotRegistry $lots, int $checkCount = 0, bool $hasSummary = false): string
     {
         // "05 — Routing", never "lot-05": the id is a technical key, and the
         // leading number is the recommended revision order, not a weighting.
@@ -901,7 +927,14 @@ Créer des cours avant l'import reviendrait à enseigner un programme deviné.
 
         $markdown = $this->frontMatter($label, $lots->order($lot), $this->slug($lot))."
 # {$label}
-
+";
+        if ($hasSummary) {
+            $markdown .= \sprintf(
+                "\n**Pour débuter :** le [résumé du lot](./%s.md), toutes les notions expliquées simplement, avec des exemples de la vie courante.\n",
+                basename(CourseUrl::summaryPath($lot)),
+            );
+        }
+        $markdown .= "
 | Item officiel | Niveau | Statut |
 |---|---|---|
 ";
@@ -920,6 +953,63 @@ Créer des cours avant l'import reviendrait à enseigner un programme deviné.
             $markdown .= \sprintf(
                 "\nPour finir le lot : le [contrôle de compréhension](./%s.md), %d questions qui couvrent chaque objectif d'apprentissage de ces items.\n",
                 basename(CourseUrl::comprehensionPath($lot)),
+                $checkCount,
+            );
+        }
+
+        return $markdown;
+    }
+
+    /**
+     * ADR-0013: the lot's beginner's summary, first in its sidebar category.
+     *
+     * The canonical body is published as written, with two additions only the
+     * generator can make correctly: the reading time, and under each notion a
+     * link to the course of that item — the summary itself carries no link
+     * (SUM-001), so none can point at a page that does not exist.
+     *
+     * @param list<OfficialItem> $items
+     */
+    private function summaryPage(LotSummary $summary, array $items, LotRegistry $lots, int $checkCount): string
+    {
+        $label = $lots->label($summary->lot);
+        $title = 'Résumé du lot — '.$label;
+        $minutes = max(1, (int) round($summary->wordCount() / self::READING_WORDS_PER_MINUTE));
+
+        $byName = [];
+        foreach ($items as $item) {
+            $byName[$item->officialItem] = $item;
+        }
+
+        $out = [];
+        $inFence = false;
+        foreach (explode("\n", $this->anchoredBody($summary->body)) as $line) {
+            $out[] = $line;
+            if (str_starts_with(ltrim($line), '```')) {
+                $inFence = !$inFence;
+            } elseif (!$inFence && 1 === preg_match('/^### (.+?)\s*$/u', $line, $m) && isset($byName[$m[1]])) {
+                $out[] = '';
+                $out[] = \sprintf('→ Le cours complet : [%s](./%s.md)', $this->mdxText($m[1]), $this->slug($m[1]));
+            }
+        }
+
+        $markdown = "---\ntitle: ".$this->escapeYaml($title)
+            ."\nsidebar_position: ".self::SUMMARY_SIDEBAR_POSITION
+            ."\nsidebar_label: ".$this->escapeYaml('Résumé du lot (pour débuter)')
+            ."\n---\n"
+            ."\n# {$title}\n\n"
+            .":::tip Pour débuter\n"
+            ."Tout le lot expliqué avec des mots simples et des exemples de la vie courante, en environ {$minutes} min. "
+            ."Ce résumé ne remplace pas les cours : chaque notion renvoie à son cours complet, où les règles sont détaillées "
+            ."et vérifiées sur Symfony 8.0.\n"
+            .":::\n\n"
+            .implode("\n", $out)."\n";
+
+        $markdown .= "\n## Et maintenant ?\n\n- Lire les cours du lot, dans l'ordre de la barre latérale.\n";
+        if ($checkCount > 0) {
+            $markdown .= \sprintf(
+                "- Vérifier sa compréhension : le [contrôle de compréhension](./%s.md), %d questions corrigées une à une.\n",
+                basename(CourseUrl::comprehensionPath($summary->lot)),
                 $checkCount,
             );
         }

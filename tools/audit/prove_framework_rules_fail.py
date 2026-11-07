@@ -20,6 +20,8 @@ import pathlib
 import subprocess
 import sys
 
+import yaml
+
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 
 # Lot 01 now ships at framework version 2, so it is already inside the gated
@@ -84,6 +86,20 @@ LOT07_OUTCOME_LINK = (
     '  assesses_outcomes:\n  - OUT-xysy1a4vx444\n'
 )
 # The bare outcome id would match twice: two questions of that item name it.
+
+# ADR-0013: the lot summaries. The pilot is lot 02's; the leak case plants the
+# correct answer of a real lot-02 LEARNING question, read from the bank — never
+# a holdout one, so nothing of the holdout is read or printed here.
+SUMMARY = 'content/summaries/lot-02.md'
+_LOT02_ITEMS = {i['id'] for i in yaml.safe_load((ROOT / 'docs/syllabus/syllabus-matrix.yml').read_text(encoding='utf-8'))['items']
+                if i['lot'] == 'lot-02'}
+SUMMARY_LEAK = next(
+    c['text'].strip()
+    for q in yaml.safe_load((ROOT / 'content/questions/lot-02-http.yml').read_text(encoding='utf-8'))['questions']
+    if q.get('pool') == 'LEARNING' and q.get('official_item') in _LOT02_ITEMS
+    for c in q['choices']
+    if c.get('correct') and len(c['text'].strip()) >= 25 and '\n' not in c['text'].strip()
+)
 
 CASES = [
     (
@@ -329,6 +345,28 @@ CASES = [
           '**Question 4.** Une deprecation peut-elle être introduite dans une version\nantérieure, déjà publiée et encore maintenue ?',
           '**Question 4.** Which package must be installed for `trigger_deprecation()` to be available?')],
         '[ERROR] QCM-001',
+    ),
+    # SUM-001 and SUM-002 (ADR-0013), on the real pilot summary of lot 02.
+    (
+        'SUM-001 rejects a summary that leaves an item of its lot without a notion',
+        [(SUMMARY, '### Cookies\n', '### Les cookies\n')],
+        '[ERROR] SUM-001',
+    ),
+    (
+        'SUM-001 rejects a notion without its everyday example',
+        [(SUMMARY, "**Dans la vraie vie** À l'entrée d'une boîte de nuit", "Exemple : à l'entrée d'une boîte de nuit")],
+        '[ERROR] SUM-001',
+    ),
+    (
+        'SUM-002 rejects a summary that quotes the correct answer of a question of its lot',
+        [(SUMMARY, '- HttpClient : **lancer tout, lire après**.\n',
+          '- HttpClient : **lancer tout, lire après**.\n- ' + SUMMARY_LEAK + '\n')],
+        '[ERROR] SUM-002',
+    ),
+    (
+        'DIA-001 rejects a summary diagram without an accessible title',
+        [(SUMMARY, "  accTitle: Le trajet d'un échange HTTP\n", '')],
+        '[ERROR] DIA-001',
     ),
 ]
 

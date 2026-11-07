@@ -45,7 +45,7 @@ final class DiagramAccessibilityRule implements Rule
 
     public function description(): string
     {
-        return 'Every Mermaid diagram in a course declares its type, an accessible title and an accessible description.';
+        return 'Every Mermaid diagram in a course or a lot summary declares its type, an accessible title and an accessible description.';
     }
 
     public function check(ContentSet $content): array
@@ -55,6 +55,13 @@ final class DiagramAccessibilityRule implements Rule
         foreach ($content->courses as $course) {
             foreach ($this->problems($course->body) as $problem) {
                 $violations[] = new Violation($this->id(), Severity::Error, $problem, $course->id->value);
+            }
+        }
+
+        // ADR-0013: a lot summary draws for beginners, under the same rule.
+        foreach ($content->summaries as $summary) {
+            foreach ($this->problems($summary->body) as $problem) {
+                $violations[] = new Violation($this->id(), Severity::Error, $problem, $summary->path);
             }
         }
 
