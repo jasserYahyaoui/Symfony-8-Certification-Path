@@ -101,6 +101,21 @@ final class LotSummaryTest extends TestCase
         self::assertNotSame([], $this->structure($body));
     }
 
+    public function testALotWithoutASummaryFails(): void
+    {
+        $other = ItemFactory::make(['lot' => 'lot-09', 'officialItem' => 'Elsewhere']);
+        $content = new ContentSet(
+            matrix: new SyllabusMatrix([...$this->items(), $other]),
+            summaries: [$this->summary($this->body())],
+        );
+
+        $violations = (new LotSummaryStructureRule())->check($content);
+
+        self::assertCount(1, $violations);
+        self::assertSame('lot-09', $violations[0]->subject);
+        self::assertStringContainsString('has no summary', $violations[0]->message);
+    }
+
     public function testASummaryOfALotWithoutItemsFails(): void
     {
         $content = new ContentSet(

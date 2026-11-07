@@ -63,14 +63,17 @@ read before the lot's check. A holdout match withholds the question's id.
 **6. French, technical terms in English**, like the courses: the terminology
 tool covers `content/summaries/`.
 
-**7. Delivered lot by lot.** A lot without a summary is not checked yet. Once
-the last is written, `LotSummaryStructureRule::REQUIRE_EVERY_LOT` becomes true
-and a missing summary is an error — the exit act ADR-0010 used.
+**7. Every lot, at once.** The 26 summaries ship together, so `SUM-001` requires
+one for every lot carrying atomic items from the first day: no lot is ever
+tolerated without its summary, and there is no staging to remove later (lot 27
+carries no item, so it has none).
 
 ## Consequences
 
-- The pilot is lot 02, *HTTP Fundamentals*: ten notions, 1 340 body words,
-  about 7 minutes. The terminology pass turned « commande » (a restaurant
+- The pilot was lot 02, *HTTP Fundamentals*: ten notions, 1 346 body words,
+  about 7 minutes; the 25 others followed in the same delivery. All 26 come to
+  19 700 body words, about 99 minutes of reading, from 1 minute (a one-item
+  lot) to 8 (lot 03, fifteen notions). The terminology pass turned « commande » (a restaurant
   order) into `command` and « formulaire » (a delivery slip) into `form`; the
   sentences were rephrased rather than the list changed, since in course prose
   those rewrites are right.

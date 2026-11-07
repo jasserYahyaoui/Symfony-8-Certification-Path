@@ -237,8 +237,8 @@ mistakes and a 5-to-10-point digest. `SUM-001` checks that shape, every item of
 the lot included; `SUM-002` refuses a correct answer of any bank, the
 comprehension one included, in its prose (holdout id withheld). A summary
 teaches no fact its courses do not: read the courses, restate, illustrate. It
-carries no link — the generator links each notion to its course. A lot without
-a summary is not checked until `REQUIRE_EVERY_LOT` is set, once all are written.
+carries no link — the generator links each notion to its course. Every lot
+carrying atomic items has one; a missing summary is an error.
 
 **A course maps each outcome to the section teaching it (owner, 2026-10-14, rule `SEC-001`).**
 A mock's correction links a missed question to the `## ` heading named for its

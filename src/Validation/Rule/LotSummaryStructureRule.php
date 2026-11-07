@@ -25,14 +25,12 @@ use CertPath\Validation\Violation;
  * not exist. It carries no hand-written heading id either (`{#…}`): the
  * generator writes those, as for a course.
  *
- * A lot without a summary is not checked yet — the summaries are delivered lot
- * by lot. The rule will require one for every lot carrying atomic items once
- * the last is written, by changing REQUIRE_EVERY_LOT, the same exit act
- * ADR-0010 used for the comprehension checks.
+ * Every lot carrying atomic items has its summary: « par lot » is checked as
+ * well. The 26 summaries were delivered together, so no lot ever needed to be
+ * tolerated without one, and the rule has no staging to remove later.
  */
 final class LotSummaryStructureRule implements Rule
 {
-    public const bool REQUIRE_EVERY_LOT = false;
 
     private const int SENTENCE_MAX_WORDS = 60;
     private const int MISTAKES_MIN_POINTS = 2;
@@ -65,11 +63,9 @@ final class LotSummaryStructureRule implements Rule
             }
         }
 
-        if (self::REQUIRE_EVERY_LOT) {
-            foreach (array_keys($itemsByLot) as $lot) {
-                if (!isset($summarised[$lot])) {
-                    $violations[] = new Violation($this->id(), Severity::Error, \sprintf('Lot %s has no summary (content/summaries/%s.md).', $lot, $lot), $lot);
-                }
+        foreach (array_keys($itemsByLot) as $lot) {
+            if (!isset($summarised[$lot])) {
+                $violations[] = new Violation($this->id(), Severity::Error, \sprintf('Lot %s has no summary (content/summaries/%s.md).', $lot, $lot), $lot);
             }
         }
 

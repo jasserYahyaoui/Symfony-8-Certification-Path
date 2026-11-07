@@ -4,6 +4,23 @@
 
 ---
 
+## Résumés de lot « pour les nuls » (ADR-0013) — état au 2026-11-07
+
+Demande du propriétaire : « Par lot, ajoute une page de résumé de tout le lot
+pour les nuls avec des exemples de vie réelle, ça doit être pédagogique ». **26
+résumés** (`content/summaries/lot-XX.md`), publiés en première page de chaque
+lot (`/docs/courses/lot-XX/resume-du-lot`) : une phrase, une image de la vie
+réelle, un schéma (lots 01 à 13), puis une notion par item — **C'est quoi ?**,
+**Dans la vraie vie**, **Pour l'examen** —, les erreurs de débutant et la fiche
+du lot. Aucun fait nouveau : chaque phrase reprend un cours du lot. Règles
+`SUM-001` (forme, tous les items, tous les lots) et `SUM-002` (aucune bonne
+réponse, holdout compris, id masqué) ; DIA-001, terminologie, journal, smoke et
+a11y couvrent les résumés. 19 700 mots, environ 99 min de lecture, hors plan de
+révision. La passe terminologique a abîmé des analogies (« enveloppe » →
+`Envelope`, « contrôleur technique » → `controller`, « tableau de bord » →
+`array`) : les phrases ont été reformulées, la liste n'a pas changé. Entrées
+EXTENSION au journal dans la PR qui suit la fusion.
+
 ## Rédaction pédagogique (ADR-0012) — état au 2026-11-06
 
 **Format court, centré examen (propriétaire, 2026-11-03).** « Écrire de façon
