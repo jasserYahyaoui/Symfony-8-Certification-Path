@@ -178,7 +178,7 @@ utilisent ICU MessageFormat, dans un catalogue dont le nom porte le suffixe
 **C'est quoi ?** Insérer une expression dans une string avec `#{…}`.
 
 **Dans la vraie vie** Une phrase à trous qu'on complète au dernier moment :
-« Bonjour #{prénom} ».
+`"Bonjour #{prénom}"`.
 
 **Pour l'examen** L'interpolation ne marche qu'entre guillemets doubles ; entre
 guillemets simples, `#{…}` reste du texte. Une string interpolée est échappée

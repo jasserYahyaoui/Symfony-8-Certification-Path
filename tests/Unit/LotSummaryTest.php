@@ -81,6 +81,7 @@ final class LotSummaryTest extends TestCase
         yield 'the digest is too short' => ["- three\n- four\n- five\n", ''];
         yield 'a hand-written link' => ['An alpha example.', 'An [alpha](./alpha.md) example.'];
         yield 'a hand-written heading id' => ['## La fiche du lot', '## La fiche du lot {#digest}'];
+        yield 'a brace outside code' => ['An alpha example.', 'Hello #{name}.'];
         yield 'sections out of order' => [
             "## L'image de la vie réelle\n\nA picture.\n\n## Notion par notion",
             "## Notion par notion",

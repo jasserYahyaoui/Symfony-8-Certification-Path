@@ -173,6 +173,17 @@ final class LotSummaryStructureRule implements Rule
             $problems[] = 'A heading carries a hand-written id; the generator writes the anchors.';
         }
 
+        // MDX reads `{…}` as a JavaScript expression and `<` as a tag: outside
+        // code, either breaks the page at build time (lot 06, 2026-11-07:
+        // « #{prénom} » in prose stopped the site build). Code spans and
+        // fenced blocks are where they belong.
+        foreach (explode("\n", $summary->prose()) as $line) {
+            $outsideCode = preg_replace('/`[^`]*`/', '', $line) ?? $line;
+            if (1 === preg_match('/[{}<]/', $outsideCode)) {
+                $problems[] = \sprintf('« %s » has a {, } or < outside code, which MDX cannot render; put it in a code span.', trim(mb_substr($line, 0, 60)));
+            }
+        }
+
         return $problems;
     }
 
