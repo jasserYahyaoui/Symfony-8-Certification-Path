@@ -3420,8 +3420,8 @@ jobs:
           grep -aq '>Compréhension<' /tmp/l11r-middleware || missing="$missing l11mw:no-understanding-heading"
           grep -aq '>Application<' /tmp/l11r-middleware || missing="$missing l11mw:no-application-heading"
           grep -aq '>Pièges<' /tmp/l11r-middleware || missing="$missing l11mw:no-trap-heading"
-          grep -aq 'add_bus_name_stamp_middleware' /tmp/l11r-middleware \
-            || missing="$missing l11mw:no-default-stack"
+          # The default stack is drawn since ADR-0014: its names live in the
+          # page's JavaScript chunk, read with the diagrams below (DRAWN_NEEDLES).
           grep -aq 'allow_no_handlers' /tmp/l11r-middleware \
             || missing="$missing l11mw:no-handler-option"
           grep -aq 'default_middleware: false' /tmp/l11r-middleware \
@@ -5830,6 +5830,11 @@ jobs:
           origin = re.match(r'https?://[^/]+', base).group(0)
           absolute = lambda src: src if src.startswith('http') else origin + src
           main_js, runtime_js = get(absolute(main)), get(absolute(runtime))
+          # Facts a curl needle read in a text schema before ADR-0014 drew it:
+          # the drawing is served in the page's chunk, so the needle is read there.
+          DRAWN_NEEDLES = {
+              'lot-11/middleware': ['add_bus_name_stamp_middleware'],
+          }
           failed = False
           for page, expected in PAGES.items():
               entry = re.search(r'\[\(\)=>([^\]]*?),"@site/docs/courses/' + re.escape(page) + r'\.md"', main_js)
@@ -5837,16 +5842,26 @@ jobs:
                   print(f'::error::Mermaid check: no chunk registered for {page}')
                   failed = True
                   continue
-              found = 0
+              found, served = 0, ''
               for chunk in re.findall(r'\.e\((\d+)\)', entry.group(1)):
                   maps = re.findall(r'[{,]' + chunk + r':"([0-9a-f]+)"', runtime_js)
                   name, digest = (maps[0], maps[1]) if len(maps) > 1 else (chunk, maps[0])
-                  found += get(f'{base}/assets/js/{name}.{digest}.js').count('accTitle:')
+                  js = get(f'{base}/assets/js/{name}.{digest}.js')
+                  found += js.count('accTitle:')
+                  served += js
+              for needle in DRAWN_NEEDLES.get(page, []):
+                  if needle not in served:
+                      print(f'::error::Drawn needle: {page} no longer serves {needle} in its diagrams')
+                      failed = True
               if found != expected:
                   print(f'::error::Mermaid check: {page} writes {expected} diagram(s), its chunk serves {found}')
                   failed = True
               else:
                   print(f'ok  diagrams  {page}: {found} diagram(s) served with their accessible title')
+          missing = sorted(set(DRAWN_NEEDLES) - set(PAGES))
+          if missing:
+              print(f'::error::Drawn needle on a page the map does not list: {missing}')
+              failed = True
           sys.exit(1 if failed else 0)
           PY
           then
