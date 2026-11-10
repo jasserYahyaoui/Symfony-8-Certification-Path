@@ -53,13 +53,18 @@ rendre `false` en silence. Deux classes : `Filesystem` agit sur le disque,
 
 ## Le schéma
 
-```text
-Filesystem   mkdir (récursif, existant ignoré, umask) · copy · remove (array, fichiers + dossiers + liens)
-             rename(…, true) pour écraser · symlink · mirror
-écrire       dumpFile : atomique, crée les dossiers │ appendToFile : ajoute, lock optionnel
-lire         readFile : IOException au lieu de false (fichier absent, dossier)
-erreurs      IOExceptionInterface::getPath() — null pour readFile() sur un dossier
-Path         canonicalize · join · makeRelative … sans toucher au disque ; "\" et "C:" seulement sous Windows
+```mermaid
+---
+title: Filesystem et Path
+---
+flowchart LR
+  accTitle: Les operations de Filesystem, l'écriture, la lecture, les erreurs et Path
+  accDescr: Filesystem fait mkdir, récursif, qui ignore un dossier existant et applique l'umask ; copy ; remove, qui accepte un array et supprime files, dossiers et liens ; rename avec true pour écraser ; symlink et mirror. dumpFile écrit de façon atomique et crée les dossiers ; appendToFile ajoute, avec un lock optionnel. readFile lève IOException au lieu de rendre false, pour un file absent ou un dossier. IOExceptionInterface::getPath() rend le path, null pour readFile() sur un dossier. Path canonicalize, join et makeRelative, sans toucher au disque ; l'antislash et C: ne sont reconnus que sous Windows.
+  FS(["Filesystem"]) --> OP["mkdir (récursif, existant<br/>ignoré, umask) · copy<br/>remove (array, files +<br/>dossiers + liens)<br/>rename(…, true) pour écraser<br/>symlink · mirror"]
+  FS --> W["écrire<br/>dumpFile : atomique,<br/>crée les dossiers<br/>appendToFile : ajoute,<br/>lock optionnel"]
+  FS --> R["lire<br/>readFile : IOException<br/>au lieu de false<br/>(file absent, dossier)"]
+  FS --> E["erreurs<br/>IOExceptionInterface::getPath()<br/>null pour readFile()<br/>sur un dossier"]
+  PA(["Path"]) --> PP["canonicalize · join<br/>makeRelative …<br/>sans toucher au disque<br/>#quot;\#quot; et #quot;C:#quot; seulement<br/>sous Windows"]
 ```
 
 ## L'exemple : publier un rapport

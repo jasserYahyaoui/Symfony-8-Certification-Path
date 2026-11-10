@@ -42,15 +42,21 @@ elle.
 
 ## Le schéma
 
-```text
-            sûre   idempotente   cacheable (Symfony)   cacheable (RFC 9110 §9.2.3)
-GET/HEAD     ✔        ✔              ✔                      ✔
-OPTIONS      ✔        ✔              ✘                      ✘
-TRACE        ✔        ✔              ✘                      ✘
-QUERY        ✔        ✔              ✔                      — (hors 9110)
-PUT/DELETE   ✘        ✔              ✘                      ✘
-POST         ✘        ✘              ✘                      ✔
-PATCH        ✘        ✘              ✘                      — (RFC 5789)
+```mermaid
+---
+title: Sûre, idempotente, cacheable
+---
+flowchart TD
+  accTitle: Les methods HTTP classées par sûreté, idempotence et cacheabilité
+  accDescr: GET, HEAD, OPTIONS, TRACE et QUERY sont sûres et idempotentes. PUT et DELETE sont idempotentes sans être sûres. POST et PATCH ne sont ni l'un ni l'autre. Cacheables pour Symfony : GET, HEAD et QUERY. Cacheables selon la RFC 9110, section 9.2.3 : GET, HEAD et POST ; QUERY est hors de la RFC 9110 et PATCH relève de la RFC 5789. OPTIONS, TRACE, PUT et DELETE ne sont cacheables ni pour Symfony ni pour la RFC 9110.
+  M(["method HTTP"]) --> S{"sûre ?"}
+  S -->|"oui, donc idempotente"| SAFE["GET/HEAD · OPTIONS<br/>TRACE · QUERY"]
+  S -->|"non"| I{"idempotente ?"}
+  I -->|"oui"| PD["PUT/DELETE"]
+  I -->|"non"| PP["POST · PATCH"]
+  SAFE --> C1["cacheable Symfony et RFC 9110 : GET/HEAD<br/>Symfony seulement : QUERY (hors 9110)<br/>ni l'un ni l'autre : OPTIONS, TRACE"]
+  PD --> C2["cacheable : ni Symfony,<br/>ni RFC 9110"]
+  PP --> C3["POST : cacheable pour la RFC 9110 §9.2.3,<br/>pas pour Symfony<br/>PATCH : pas pour Symfony ;<br/>RFC 5789, hors 9110"]
 ```
 
 ## L'exemple : les trois questions de `Request`

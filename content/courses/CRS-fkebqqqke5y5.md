@@ -51,10 +51,24 @@ haute priority à la plus basse — la plus basse finit **à l'extérieur**.
 
 ## Le schéma
 
-```text
-avant    App\Mailer ──► Mailer
-après    App\Mailer ──► LoggingMailer ──$inner──► App\LoggingMailer.inner ──► Mailer (renommé)
-pile     priorities 5 puis 1 : Foo → Bar(Foo) → Baz(Bar(Foo)) ; Baz, à l'extérieur, est appelé en premier
+```mermaid
+---
+title: Avant et après une décoration
+---
+flowchart TD
+  accTitle: L'id du service, le decorator, l'inner et la pile de decorators
+  accDescr: Avant, l'id App\Mailer désigne Mailer. Après, App\Mailer désigne LoggingMailer, qui reçoit en $inner le service App\LoggingMailer.inner, c'est-à-dire Mailer renommé. Avec des priorities 5 puis 1 : Foo, puis Bar(Foo), puis Baz(Bar(Foo)) ; Baz, à l'extérieur, est appelé en premier.
+  subgraph AV["avant"]
+    direction TB
+    a1["App\Mailer"] --> a2["Mailer"]
+  end
+  subgraph AP["après"]
+    direction TB
+    b1["App\Mailer"] --> b2["LoggingMailer"]
+    b2 -->|"$inner"| b3["App\LoggingMailer.inner"]
+    b3 --> b4["Mailer (renommé)"]
+  end
+  AP ~~~ PI["pile : priorities 5 puis 1<br/>Foo → Bar(Foo) → Baz(Bar(Foo))<br/>Baz, à l'extérieur,<br/>est appelé en premier"]
 ```
 
 ## Le fil rouge : un `LoggingMailer`

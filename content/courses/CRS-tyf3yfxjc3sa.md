@@ -43,14 +43,18 @@ committer. Deux repositories de recipes, deux comportements.
 
 ## Le schéma
 
-```text
-composer require twig
-   alias    twig ─────▶ symfony/twig-bundle                (résolu par Flex, pas par Composer)
-   recipe   config/bundles.php · config/packages/twig.yaml · config/packages/test/twig.yaml · templates/base.html.twig
-   lock     symfony.lock ← la recipe appliquée et sa version   (≠ composer.lock, les dependencies)
-composer require --dev debug
-   pack     symfony/debug-pack, dépaqueté : composer.json reçoit les packages réels (symfony/var-dumper…)
-recipes          symfony/recipes : curé, sans question │ symfony/recipes-contrib : demande la permission
+```mermaid
+---
+title: Ce que Flex fait d'un composer require
+---
+flowchart TD
+  accTitle: Alias, recipe, symfony.lock et pack avec Symfony Flex
+  accDescr: composer require twig : Flex, et non Composer, résout l'alias twig en symfony/twig-bundle ; la recipe crée config/bundles.php, config/packages/twig.yaml, config/packages/test/twig.yaml et templates/base.html.twig ; symfony.lock enregistre la recipe appliquée et sa version, à ne pas confondre avec composer.lock, qui enregistre les dependencies. composer require --dev debug installe le pack symfony/debug-pack, dépaqueté : composer.json reçoit les packages réels, comme symfony/var-dumper. Les recipes viennent de symfony/recipes, curé, sans question, ou de symfony/recipes-contrib, qui demande la permission.
+  R1(["composer require twig"]) --> AL["alias<br/>twig → symfony/twig-bundle<br/>résolu par Flex,<br/>pas par Composer"]
+  AL --> RC["recipe<br/>config/bundles.php<br/>config/packages/twig.yaml<br/>config/packages/test/twig.yaml<br/>templates/base.html.twig"]
+  RC --> LK["symfony.lock<br/>la recipe appliquée et sa version<br/>≠ composer.lock, les dependencies"]
+  RC -.- REP["recipes<br/>symfony/recipes :<br/>curé, sans question<br/>symfony/recipes-contrib :<br/>demande la permission"]
+  R2(["composer require --dev debug"]) --> PK["pack symfony/debug-pack,<br/>dépaqueté : composer.json<br/>reçoit les packages réels<br/>(symfony/var-dumper…)"]
 ```
 
 ## L'exemple : installer et configurer en une command

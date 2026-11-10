@@ -36,15 +36,21 @@ ne s'importe jamais tout seul. Et le controller a deux cas.
 
 ## Le schéma
 
-```text
-template              templates/bundles/<NomDuBundle>/ même path relatif ; étendre l'original : @!
-service               décoration                 supprimer / modifier une definition : compiler pass
-form type             extension de form type
-constraint            s'ajoute, ne se remplace pas ; contournement : validation groups prévus
-translation           translations/ du projet, même domain
-route                 ne pas l'importer (jamais importée automatiquement)
-controller            service → décoration ; sinon route de même path chargée avant
-mapping d'entité      seulement via une mapped superclass : attributes et associations
+```mermaid
+---
+title: Surcharger chaque partie d'un bundle
+---
+flowchart LR
+  accTitle: Le moyen de surcharger chaque élément d'un bundle
+  accDescr: Un template se surcharge dans templates/bundles/ suivi du nom du bundle, au même path relatif ; on étend l'original avec @!. Un service se décore ; pour supprimer ou modifier une definition, un compiler pass. Un form type, par une extension de form type. Une constraint s'ajoute et ne se remplace pas ; le contournement, ce sont des validation groups prévus. Une translation, dans translations/ du projet, même domain. Une route, en ne l'important pas, car elle n'est jamais importée automatiquement. Un controller déclaré en service, par décoration ; sinon une route de même path chargée avant. Un mapping d'entité, seulement via une mapped superclass : attributes et associations.
+  Q(["surcharger"]) --> T["template<br/>templates/bundles/#lt;NomDuBundle#gt;/<br/>même path relatif<br/>étendre l'original : @!"]
+  Q --> S["service<br/>décoration<br/>supprimer / modifier<br/>une definition : compiler pass"]
+  Q --> F["form type<br/>extension de form type"]
+  Q --> C["constraint<br/>s'ajoute, ne se remplace pas<br/>contournement :<br/>validation groups prévus"]
+  Q --> TR["translation<br/>translations/ du projet,<br/>même domain"]
+  Q --> R["route<br/>ne pas l'importer<br/>(jamais importée<br/>automatiquement)"]
+  Q --> CT["controller<br/>service → décoration<br/>sinon route de même path<br/>chargée avant"]
+  Q --> M["mapping d'entité<br/>seulement via une<br/>mapped superclass :<br/>attributes et associations"]
 ```
 
 ## L'exemple : étendre le template que l'on surcharge

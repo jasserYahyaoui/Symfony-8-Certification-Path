@@ -46,12 +46,17 @@ ou un subscriber, qui se déclare lui-même.
 
 ## Le schéma
 
-```text
-addListener('acme.foo.action', callable, 10)        nom · callable · priority (0 par défaut, négative permise)
-dispatch($event [, 'nom'])                          sans nom : la CLASS de l'event ; rend le même object
-ordre                                               priority haute d'abord ; égalité → ordre d'ajout
-listener reçoit                                     ($event, $eventName, $dispatcher)
-#[AsEventListener] sans method                      on + NomCamelisé (user.registered → onUserRegistered), sinon __invoke()
+```mermaid
+---
+title: Ajouter un listener, dispatcher un event
+---
+flowchart TD
+  accTitle: addListener, dispatch, l'ordre d'appel et AsEventListener
+  accDescr: addListener('acme.foo.action', callable, 10) prend un nom, un callable et une priority, 0 par défaut, négative permise. dispatch($event) ou dispatch($event, 'nom') : sans nom, le nom est la class de l'event, et le même object est rendu. Les listeners sont appelés par priority haute d'abord ; à égalité, dans l'ordre d'ajout. Chacun reçoit ($event, $eventName, $dispatcher). #[AsEventListener] sans method appelle on suivi du nom en camel case, user.registered donnant onUserRegistered, sinon __invoke().
+  A["addListener('acme.foo.action',<br/>callable, 10)<br/>nom · callable · priority<br/>(0 par défaut, négative permise)"] --> D["dispatch($event [, 'nom'])<br/>sans nom : la CLASS de l'event<br/>rend le même object"]
+  D --> O["ordre : priority haute d'abord<br/>égalité → ordre d'ajout"]
+  O --> R["listener reçoit<br/>($event, $eventName,<br/>$dispatcher)"]
+  R ~~~ AE["#[AsEventListener] sans method<br/>on + NomCamelisé<br/>(user.registered<br/>→ onUserRegistered),<br/>sinon __invoke()"]
 ```
 
 ## L'exemple : réagir à un achat

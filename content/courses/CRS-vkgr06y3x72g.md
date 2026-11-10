@@ -54,13 +54,17 @@ qui rend aussi le parameter obligatoire à l'appariement.
 
 ## Le schéma
 
-```text
-où écrire     attribute → list(int $page = 1) · YAML/PHP → defaults · inline → {page?1}, {page?} = null
-loader        copie le défaut d'argument si : parameter homonyme dans le path, pas déjà dans defaults,
-              valeur scalaire, null ou cas d'enum adossée (sa value)
-facultatif    a une default value ET rien d'obligatoire ne le suit ET pas de !
-génération    défaut en fin de path → omis · au milieu → gardé · {!page} → toujours écrit
-requirement   la default value n'a pas à le vérifier
+```mermaid
+---
+title: D'où vient une default value, et ce qu'elle change
+---
+flowchart TD
+  accTitle: Écrire un défaut de parameter, le rendre facultatif, et la génération
+  accDescr: Un défaut s'écrit dans l'attribute, list(int $page = 1), dans defaults en YAML ou PHP, ou inline, {page?1}, et {page?} vaut null. Le loader copie le défaut d'un argument si un parameter homonyme est dans le path, qu'il n'est pas déjà dans defaults, et que la valeur est scalaire, null ou un cas d'enum adossée, dont il prend la value. Un parameter est facultatif s'il a une default value, que rien d'obligatoire ne le suit et qu'il n'a pas de !. À la génération, un défaut en fin de path est omis, au milieu il est gardé, et {!page} est toujours écrit. La default value n'a pas à vérifier le requirement.
+  W["où écrire<br/>attribute → list(int $page = 1)<br/>YAML/PHP → defaults<br/>inline → {page?1},<br/>{page?} = null"] --> L["loader : copie le défaut<br/>d'argument si parameter<br/>homonyme dans le path,<br/>pas déjà dans defaults,<br/>valeur scalaire, null ou cas<br/>d'enum adossée (sa value)"]
+  L --> F["facultatif : a une default value<br/>ET rien d'obligatoire ne le suit<br/>ET pas de !"]
+  F --> G["génération<br/>défaut en fin de path → omis<br/>au milieu → gardé<br/>{!page} → toujours écrit"]
+  F --> R["requirement : la default value<br/>n'a pas à le vérifier"]
 ```
 
 ## L'exemple

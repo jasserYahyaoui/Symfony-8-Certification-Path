@@ -35,14 +35,19 @@ method provoquent une **erreur fatale** tant que `insteadof` n'a pas tranché ;
 
 ## Le schéma
 
-```text
-contenu      properties, methods, methods statiques, methods abstraites, constantes (8.2)
-             jamais instancié : new T → Error « Cannot instantiate trait »
-précédence   class courante  >  trait  >  class parente
-conflit      use Csv, Json { Csv::export insteadof Json; Json::export as exportJson; }
-             insteadof → écarte · as → alias (l'original reste) · as protected → change la visibilité
-static       une property statique de trait : une copie par class qui l'utilise
-type         instanceof T → false · class_uses() le voit · pour typer : une interface
+```mermaid
+---
+title: Un trait, ce qu'il contient et qui gagne
+---
+flowchart LR
+  accTitle: Contenu, précédence et conflits des traits
+  accDescr: Un trait contient des properties, des methods, des methods statiques, des methods abstraites et, depuis 8.2, des constants ; il n'est jamais instancié, new T lève Error « Cannot instantiate trait ». Précédence : la class courante l'emporte sur le trait, qui l'emporte sur la class parente. Un conflit se règle dans use Csv, Json : Csv::export insteadof Json écarte, Json::export as exportJson crée un alias et l'original reste, as protected change la visibilité. Une property statique de trait existe en une copie par class qui l'utilise. instanceof T rend false, class_uses() le voit, et pour typer on utilise une interface.
+  T(["trait"]) --> C["contenu<br/>properties, methods,<br/>methods statiques,<br/>methods abstraites,<br/>constantes (8.2)"]
+  T --> N["jamais instancié<br/>new T → Error<br/>« Cannot instantiate trait »"]
+  T --> P["précédence<br/>class courante > trait<br/>> class parente"]
+  T --> CF["conflit<br/>use Csv, Json {<br/>Csv::export insteadof Json;<br/>Json::export as exportJson; }<br/>insteadof → écarte<br/>as → alias (l'original reste)<br/>as protected<br/>→ change la visibilité"]
+  T --> S["static<br/>une property statique<br/>de trait : une copie<br/>par class qui l'utilise"]
+  T --> TY["type<br/>instanceof T → false<br/>class_uses() le voit<br/>pour typer : une interface"]
 ```
 
 ## L'exemple

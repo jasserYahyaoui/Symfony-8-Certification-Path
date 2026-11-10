@@ -53,12 +53,18 @@ de Symfony relève d'un autre item, *HTTP Caching*.
 
 ## Le schéma
 
-```text
-expiration   max-age (tous les caches) · s-maxage (caches partagés, prime) · Expires (historique)
-validation   ETag ↔ If-None-Match · Last-Modified ↔ If-Modified-Since → 304 sans body
-défaut       rien demandé → no-cache, private · Last-Modified ou Expires → private, must-revalidate
-setMaxAge(n)        → max-age=n, private          setSharedMaxAge(n) → public, s-maxage=n
-no-cache = stocker mais revalider        no-store = ne rien garder        Vary = la key de cache
+```mermaid
+---
+title: Expiration, validation et défauts de Symfony
+---
+flowchart LR
+  accTitle: Les deux modèles de cache HTTP et ce que Symfony envoie par défaut
+  accDescr: Expiration : max-age vaut pour tous les caches, s-maxage pour les caches partagés et prime, Expires est historique. Validation : ETag répond à If-None-Match et Last-Modified à If-Modified-Since, avec un 304 sans body. Par défaut, si rien n'est demandé, la Response part en no-cache, private ; avec Last-Modified ou Expires, en private, must-revalidate. setMaxAge(n) donne max-age=n, private ; setSharedMaxAge(n) donne public, s-maxage=n. no-cache veut dire stocker mais revalider, no-store ne rien garder, et Vary est la key de cache.
+  R(["Response cacheable"]) --> EX["expiration<br/>max-age (tous les caches)<br/>s-maxage (caches partagés, prime)<br/>Expires (historique)"]
+  R --> VA["validation<br/>ETag ↔ If-None-Match<br/>Last-Modified ↔ If-Modified-Since<br/>→ 304 sans body"]
+  R --> DF["défaut Symfony<br/>rien demandé → no-cache, private<br/>Last-Modified ou Expires<br/>→ private, must-revalidate"]
+  R --> SM["setMaxAge(n)<br/>→ max-age=n, private<br/>setSharedMaxAge(n)<br/>→ public, s-maxage=n"]
+  R --> NC["no-cache = stocker mais revalider<br/>no-store = ne rien garder<br/>Vary = la key de cache"]
 ```
 
 ## L'exemple : expiration et validation

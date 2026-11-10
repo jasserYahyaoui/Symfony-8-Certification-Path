@@ -55,13 +55,19 @@ nom**.
 
 ## Le schéma
 
-```text
-index.php  (1re exécution)  require_once autoload_runtime.php
-   autoload_runtime.php     require $_SERVER['SCRIPT_FILENAME']   → index.php, 2e exécution : rend la closure
-                            new $_SERVER['APP_RUNTIME']           → SymfonyRuntime par défaut
-                            getResolver($app)->resolve()          → arguments, par type ET nom
-                            $app(...$args)                        → kernel ou Application
-                            exit(getRunner($app)->run())          → la 1re exécution s'arrête ici
+```mermaid
+---
+title: Les deux exécutions d'index.php
+---
+flowchart TD
+  accTitle: Comment autoload_runtime.php exécute index.php et lance l'application
+  accDescr: À sa première exécution, index.php fait require_once autoload_runtime.php. Ce file fait require $_SERVER['SCRIPT_FILENAME'] : c'est la deuxième exécution d'index.php, qui rend la closure. Puis new $_SERVER['APP_RUNTIME'], SymfonyRuntime par défaut ; getResolver($app)->resolve() résout les arguments, par type et par nom ; $app(...$args) rend le kernel ou l'Application ; enfin exit(getRunner($app)->run()) : la première exécution s'arrête là.
+  I1["index.php (1re exécution)<br/>require_once<br/>autoload_runtime.php"] --> R1["autoload_runtime.php<br/>require $_SERVER['SCRIPT_FILENAME']"]
+  R1 -->|"index.php,<br/>2e exécution"| CL(["rend la closure"])
+  CL --> R2["new $_SERVER['APP_RUNTIME']<br/>→ SymfonyRuntime par défaut"]
+  R2 --> R3["getResolver($app)->resolve()<br/>→ arguments, par type ET nom"]
+  R3 --> R4["$app(...$args)<br/>→ kernel ou Application"]
+  R4 --> R5(["exit(getRunner($app)->run())<br/>→ la 1re exécution<br/>s'arrête ici"])
 ```
 
 ## L'exemple : le front controller

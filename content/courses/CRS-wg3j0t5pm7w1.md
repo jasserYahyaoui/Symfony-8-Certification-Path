@@ -61,13 +61,30 @@ génération** : par défaut, une valeur non conforme y lève une exception.
 
 ## Le schéma
 
-```text
-écrire       requirements: ['page' => '[0-9]+'] · /blog/{page<[0-9]+>} · Requirement::DIGITS
-Requirement  enum sans cas, des constantes string : DIGITS [0-9]+ (0, 007 admis) · POSITIVE_INT [1-9][0-9]*
-match        requirement non vérifié → route suivante · \p{…} exige utf8: true, sinon LogicException
-default      n'a pas à vérifier le requirement (elle n'est pas dans l'URL)
-génération   strict_requirements  true (défaut) → InvalidParameterException
-                                  false → string vide + log · null → aucune vérification
+```mermaid
+---
+title: Écrire un requirement
+---
+flowchart TD
+  accTitle: Les trois écritures d'un requirement et la default value
+  accDescr: Un requirement s'écrit requirements: ['page' => '[0-9]+'], inline /blog/{page<[0-9]+>}, ou avec Requirement::DIGITS. Requirement est une enum sans cas, faite de constantes string : DIGITS vaut [0-9]+ et admet 0 et 007 ; POSITIVE_INT vaut [1-9][0-9]*. La default value n'a pas à vérifier le requirement, puisqu'elle n'est pas dans l'URL.
+  W["écrire<br/>requirements: ['page' => '[0-9]+']<br/>/blog/{page#lt;[0-9]+#gt;}<br/>Requirement::DIGITS"] --> R["Requirement : enum sans cas,<br/>des constants string<br/>DIGITS [0-9]+ (0, 007 admis)<br/>POSITIVE_INT [1-9][0-9]*"]
+  W --> D["default : n'a pas à vérifier<br/>le requirement<br/>(elle n'est pas dans l'URL)"]
+```
+
+```mermaid
+---
+title: Quand il agit
+---
+flowchart TD
+  accTitle: Le requirement au match et à la génération
+  accDescr: Au match, un requirement non vérifié fait passer à la route suivante ; \p{…} exige utf8: true, sinon LogicException. À la génération, strict_requirements à true, le défaut, lève InvalidParameterException ; à false, rend une string vide et journalise ; à null, ne vérifie rien.
+  M{"match"} -->|"requirement<br/>non vérifié"| M1["route suivante"]
+  M -->|"\p{…} sans<br/>utf8: true"| M2["LogicException"]
+  M2 ~~~ G
+  G{"génération<br/>strict_requirements"} -->|"true<br/>(défaut)"| G1["InvalidParameter<br/>Exception"]
+  G -->|"false"| G2["string vide<br/>+ log"]
+  G -->|"null"| G3["aucune<br/>vérification"]
 ```
 
 ## L'exemple

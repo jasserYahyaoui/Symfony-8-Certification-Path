@@ -48,14 +48,21 @@ par réflexion. `getAttributes()` rend des `ReflectionAttribute` ; c'est
 
 ## Le schéma
 
-```text
-déclarer   #[\Attribute(\Attribute::TARGET_METHOD | \Attribute::IS_REPEATABLE)] final class Route
-cibles     TARGET_CLASS · FUNCTION · METHOD · PROPERTY · CLASS_CONSTANT · PARAMETER · ALL
-poser      #[Route('/blog', name: 'blog_list')]   positionnel ou nommé
-arguments  littéral · constante · constante de class · cas d'enum · array · new (8.1) — pas d'appel, pas de variable
-lire       getAttributes(Route::class) → ReflectionAttribute[]   (IS_INSTANCEOF pour les sous-classes)
-           getArguments() → ['/blog', 'name' => 'blog_list'] · newInstance() → l'object
-erreurs    mauvaise cible, répétition interdite, constructor → levées à newInstance()
+```mermaid
+---
+title: D'un attribute déclaré à l'object lu
+---
+flowchart TD
+  accTitle: Déclarer, poser et lire un attribute PHP
+  accDescr: On déclare un attribute en marquant sa class, par exemple Attribute::TARGET_METHOD combiné à Attribute::IS_REPEATABLE sur final class Route ; les cibles sont TARGET_CLASS, FUNCTION, METHOD, PROPERTY, CLASS_CONSTANT, PARAMETER et ALL. On le pose, #[Route('/blog', name: 'blog_list')], avec des arguments positionnels ou nommés : littéral, constante, constante de class, cas d'enum, array, new depuis 8.1, mais ni appel ni variable. On le lit par réflexion : getAttributes(Route::class) rend des ReflectionAttribute, IS_INSTANCEOF inclut les sous-classes ; getArguments() rend ['/blog', 'name' => 'blog_list'] et newInstance() l'object. Une mauvaise cible, une répétition interdite ou une erreur du constructor ne sont levées qu'à newInstance().
+  D["déclarer<br/>#[\Attribute(<br/>\Attribute::TARGET_METHOD |<br/>\Attribute::IS_REPEATABLE)]<br/>final class Route"]
+  D --> CI["cibles<br/>TARGET_CLASS · FUNCTION<br/>METHOD · PROPERTY<br/>CLASS_CONSTANT<br/>PARAMETER · ALL"]
+  D --> PO["poser<br/>#[Route('/blog',<br/>name: 'blog_list')]<br/>positionnel ou nommé"]
+  PO --> AR["arguments<br/>littéral · constante<br/>constante de class<br/>cas d'enum · array<br/>new (8.1)<br/>pas d'appel,<br/>pas de variable"]
+  PO --> LI["lire<br/>getAttributes(Route::class)<br/>→ ReflectionAttribute[]<br/>IS_INSTANCEOF<br/>pour les sous-classes"]
+  LI --> GA["getArguments() →<br/>['/blog',<br/>'name' => 'blog_list']"]
+  LI --> NI["newInstance()<br/>→ l'object"]
+  NI --> ER(["erreurs levées<br/>ici seulement<br/>mauvaise cible<br/>répétition interdite<br/>constructor"])
 ```
 
 ## L'exemple

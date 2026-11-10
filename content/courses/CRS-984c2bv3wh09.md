@@ -40,13 +40,20 @@ qu'on confond : `401` et `403`, les quatre redirects et `303`, `415` et `406`,
 
 ## Le schéma
 
-```text
-1xx information   2xx succès   3xx redirect   4xx faute du CLIENT   5xx faute du SERVEUR
-redirects         permanent    temporaire
-  method gardée   308          307             303 : GET ailleurs, quelle que soit la method
-  method libre    301          302  (un POST peut devenir GET « pour des raisons historiques »)
-401 qui ? (authentication) · 403 quoi ? (authorization) · 415 le body reçu · 406 la représentation demandée
-code inconnu      traité comme le x00 de sa class : 499 → 400
+```mermaid
+---
+title: Lire un status code
+---
+flowchart TD
+  accTitle: Les familles de status codes, les redirects et les codes à ne pas confondre
+  accDescr: Le premier chiffre donne la famille : 1xx information, 2xx succès, 3xx redirect, 4xx faute du client, 5xx faute du serveur. Parmi les redirects, la method est gardée par 308, permanent, et 307, temporaire ; elle est libre avec 301, permanent, et 302, temporaire, où un POST peut devenir GET « pour des raisons historiques » ; 303 envoie un GET ailleurs, quelle que soit la method. 401 demande qui, c'est l'authentication ; 403 dit quoi, c'est l'authorization ; 415 vise le body reçu, 406 la représentation demandée. Un code inconnu est traité comme le x00 de sa class : 499 comme 400.
+  C(["status code"]) --> F["1xx information · 2xx succès<br/>3xx redirect<br/>4xx faute du CLIENT<br/>5xx faute du SERVEUR"]
+  F --> R{"redirect :<br/>la method ?"}
+  R -->|"gardée"| G["308 permanent<br/>307 temporaire"]
+  R -->|"libre"| L["301 permanent<br/>302 temporaire<br/>un POST peut<br/>devenir GET « pour des<br/>raisons historiques »"]
+  R -->|"GET ailleurs"| O["303, quelle<br/>que soit<br/>la method"]
+  C -->|"à ne pas confondre"| A["401 qui ? (authentication)<br/>403 quoi ? (authorization)<br/>415 le body reçu<br/>406 la représentation<br/>demandée"]
+  A --> U["code inconnu : traité<br/>comme le x00 de sa class<br/>499 → 400"]
 ```
 
 ## L'exemple : des constants plutôt que des nombres

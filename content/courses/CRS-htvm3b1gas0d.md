@@ -67,11 +67,16 @@ figé, d'où l'on ne fait qu'un `get()`, à l'entry point.
 
 ## Le schéma
 
-```text
-la class déclare   NewsletterManager::__construct(Mailer $mailer)
-on décrit          register('mailer', …)->addArgument('%mailer.transport%') ; register('newsletter_manager', …)->addArgument(new Reference('mailer'))
-on compile         compile() : passes, références vérifiées, privés retirés ou inlinés, parameters figés
-on obtient         un seul get('newsletter_manager'), à l'entry point ; de l'injection partout ailleurs
+```mermaid
+---
+title: Déclarer, décrire, compiler, obtenir
+---
+flowchart TD
+  accTitle: Les quatre temps du component DependencyInjection
+  accDescr: La class déclare sa dependency, NewsletterManager::__construct(Mailer $mailer). On décrit les services : register('mailer', …) avec addArgument('%mailer.transport%'), puis register('newsletter_manager', …) avec addArgument(new Reference('mailer')). On compile : compile() lance les compiler passes, vérifie les références, retire ou inline les services privés et fige les parameters. On obtient un seul get('newsletter_manager'), à l'entry point ; partout ailleurs, de l'injection.
+  D["la class déclare<br/>NewsletterManager::__construct(<br/>Mailer $mailer)"] --> R["on décrit<br/>register('mailer', …)<br/>->addArgument('%mailer.transport%')<br/>register('newsletter_manager', …)<br/>->addArgument(new Reference('mailer'))"]
+  R --> C["on compile<br/>compile() : compiler passes,<br/>références vérifiées,<br/>privés retirés ou inlinés,<br/>parameters figés"]
+  C --> G(["on obtient<br/>un seul get('newsletter_manager'),<br/>à l'entry point<br/>de l'injection partout ailleurs"])
 ```
 
 ## Le fil rouge : un `NewsletterManager` et son `Mailer`

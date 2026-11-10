@@ -57,11 +57,19 @@ invalide ne lève rien ; une constraint mal configurée, si. Hors framework,
 
 ## Le schéma
 
-```text
-entrée     un object (constraints lues sur sa class) | une valeur + des constraints en argument
-lecture    framework : attributes, YAML, XML ; hors framework : rien sans enableAttributeMapping()
-vérifier   les constraints des groups demandés (Default par défaut) ; donnée invalide → violation
-résultat   ConstraintViolationList : vide = valide ; tester count(), pas le bool
+```mermaid
+---
+title: Ce que le validator vérifie, et ce qu'il rend
+---
+flowchart TD
+  accTitle: Entrée, lecture des constraints, vérification et résultat du Validator
+  accDescr: Le validator reçoit un object, dont il lit les constraints sur la class, ou une valeur avec des constraints en argument. Dans le framework, il lit les attributes, le YAML et le XML ; hors framework, rien sans enableAttributeMapping(). Il vérifie les constraints des groups demandés, Default par défaut ; une donnée invalide produit une violation. Il rend une ConstraintViolationList : vide, c'est valide ; il faut tester count(), pas le bool.
+  E{"entrée"} -->|"un object"| O["constraints lues<br/>sur sa class"]
+  E -->|"une valeur"| V["+ des constraints<br/>en argument"]
+  O --> L["lecture<br/>framework : attributes, YAML, XML<br/>hors framework : rien sans<br/>enableAttributeMapping()"]
+  L --> C
+  V --> C["vérifier les constraints<br/>des groups demandés<br/>(Default par défaut)<br/>donnée invalide → violation"]
+  C --> R(["ConstraintViolationList<br/>vide = valide<br/>tester count(), pas le bool"])
 ```
 
 ## Le fil rouge : un `User` et son adresse

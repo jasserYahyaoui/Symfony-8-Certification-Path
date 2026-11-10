@@ -40,12 +40,18 @@ et une convention : `tests/` reproduit `src/`.
 
 ## Le schéma
 
-```text
-unitaire      une class isolée               extends TestCase (PHPUnit)    aucun kernel
-intégration   des classes via le container   extends KernelTestCase        bootKernel()
-application   route → controller → vue       extends WebTestCase           createClient()
-installation  composer require --dev symfony/test-pack  →  php bin/phpunit
-config        phpunit.xml  >  phpunit.dist.xml  >  phpunit.xml.dist (ancien nom, encore lu)
+```mermaid
+---
+title: Trois niveaux de tests
+---
+flowchart TD
+  accTitle: Unit test, test d'intégration et test d'application, puis installation et configuration
+  accDescr: Un unit test vérifie une class isolée, étend TestCase de PHPUnit, sans kernel. Un test d'intégration vérifie des classes via le container, étend KernelTestCase et appelle bootKernel(). Un test d'application suit route, controller et vue, étend WebTestCase et appelle createClient(). On installe composer require --dev symfony/test-pack et on lance php bin/phpunit. La configuration lue : phpunit.xml, sinon phpunit.dist.xml, sinon phpunit.xml.dist, l'ancien nom, encore lu.
+  T{"que tester ?"} -->|"une class isolée"| U["unitaire<br/>extends TestCase<br/>(PHPUnit)<br/>aucun kernel"]
+  T -->|"des classes via<br/>le container"| I["intégration<br/>extends KernelTestCase<br/>bootKernel()"]
+  T -->|"route → controller<br/>→ vue"| A["application<br/>extends WebTestCase<br/>createClient()"]
+  I ~~~ IN["installation<br/>composer require --dev<br/>symfony/test-pack<br/>→ php bin/phpunit"]
+  IN ~~~ CF["config : phpunit.xml<br/>> phpunit.dist.xml<br/>> phpunit.xml.dist<br/>(ancien nom, encore lu)"]
 ```
 
 ## L'exemple : un calcul

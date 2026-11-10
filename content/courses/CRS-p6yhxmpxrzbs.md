@@ -62,13 +62,18 @@ répond à trois questions : quelle API, que fait `get()` au juste, et quel pool
 
 ## Le schéma
 
-```text
-Cache Contracts   $cache->get('k', fn (ItemInterface $item) => calcul, beta) ; $cache->delete('k')
-                  le callable tourne au manque, ou sur un hit élu en avance (beta) ; &$save = false n'écrit pas
-PSR-6             getItem() → set() → save() │ saveDeferred() + commit()   ; null ≠ absent : isHit()
-PSR-16            get('k', 'défaut'), set(), has()
-pools framework   cache.app (données, Redis conseillé) │ cache.system (dérivé du code)
-tags              $item->tag([...]) → invalidateTags([...]) (TagAwareCacheInterface)
+```mermaid
+---
+title: Trois façons de parler au cache
+---
+flowchart LR
+  accTitle: Cache Contracts, PSR-6, PSR-16, les pools et les tags
+  accDescr: Avec les Cache Contracts, $cache->get('k', fn (ItemInterface $item) => calcul, beta) et $cache->delete('k') ; le callable tourne au manque, ou sur un hit élu en avance selon beta ; &$save = false n'écrit pas. Avec PSR-6, getItem(), set() puis save(), ou saveDeferred() puis commit() ; null n'est pas absent, il faut isHit(). Avec PSR-16, get('k', 'défaut'), set() et has(). Les pools du framework : cache.app, pour les données, Redis conseillé, et cache.system, pour ce qui dérive du code. Les tags : $item->tag([...]) puis invalidateTags([...]), avec TagAwareCacheInterface.
+  R(["le cache"]) --> CC["Cache Contracts<br/>$cache->get('k',<br/>fn (ItemInterface $item)<br/>=> calcul, beta)<br/>$cache->delete('k')<br/>le callable tourne au manque,<br/>ou sur un hit élu en avance (beta)<br/>#amp;$save = false n'écrit pas"]
+  R --> P6["PSR-6<br/>getItem() → set() → save()<br/>ou saveDeferred() + commit()<br/>null ≠ absent : isHit()"]
+  R --> P16["PSR-16<br/>get('k', 'défaut'), set(), has()"]
+  R --> PO["pools framework<br/>cache.app (données,<br/>Redis conseillé)<br/>cache.system (dérivé du code)"]
+  R --> TG["tags<br/>$item->tag([...])<br/>→ invalidateTags([...])<br/>(TagAwareCacheInterface)"]
 ```
 
 ## L'exemple : un calcul coûteux

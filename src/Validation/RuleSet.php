@@ -35,6 +35,7 @@ use CertPath\Validation\Rule\PedagogicalFormatRule;
 use CertPath\Validation\Rule\CourseQuizIndependenceRule;
 use CertPath\Validation\Rule\LotSummaryLeakRule;
 use CertPath\Validation\Rule\LotSummaryStructureRule;
+use CertPath\Validation\Rule\SchemaDrawnRule;
 use CertPath\Validation\Rule\SourceAnchorRule;
 use CertPath\Validation\Rule\UniqueItemIdsRule;
 use CertPath\Validation\Rule\ValidationPoolCoverageRule;
@@ -81,6 +82,7 @@ final class RuleSet
             new OutcomeAssessmentRule(),
             new RevisionBudgetRule(),
             new DiagramAccessibilityRule(),
+            new SchemaDrawnRule(),
             new ObjectiveSectionRule(),
             new OutcomeSectionRule(),
             new ComprehensionCoverageRule(),

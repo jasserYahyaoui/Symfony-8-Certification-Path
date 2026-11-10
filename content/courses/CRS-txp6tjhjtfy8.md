@@ -49,11 +49,27 @@ Le component Form convertit dans les deux sens à travers **trois couches** :
 
 ## Le schéma
 
-```text
-RENDU       model data ─model transformers─► norm data ─view transformers─► view data ─► HTML
-            getData()                         getNormData()                   getViewData()
-SUBMISSION  Request ─► view data ─view (reverse)─► norm data ─model (reverse)─► model data ─► l'object
-EVENTS      PRE_SUBMIT : valeurs brutes │ SUBMIT : norm data │ POST_SUBMIT : tout transformé
+```mermaid
+---
+title: Les trois formes d'une donnée de form
+---
+flowchart TD
+  accTitle: Model data, norm data et view data au rendu et à la submission
+  accDescr: Au rendu, la model data, lue par getData(), passe par les model transformers vers la norm data, lue par getNormData(), puis par les view transformers vers la view data, lue par getViewData(), puis vers le HTML. À la submission, la Request donne la view data, qui passe en sens inverse par les view transformers vers la norm data, puis par les model transformers vers la model data, puis vers l'object. Les events : PRE_SUBMIT voit les valeurs brutes, SUBMIT la norm data, POST_SUBMIT tout transformé.
+  subgraph R["RENDU"]
+    direction TB
+    M1["model data<br/>getData()"] -->|"model<br/>transformers"| N1["norm data<br/>getNormData()"]
+    N1 -->|"view<br/>transformers"| V1["view data<br/>getViewData()"]
+    V1 --> H(["HTML"])
+  end
+  subgraph S["SUBMISSION"]
+    direction TB
+    RQ(["Request"]) --> V2["view data"]
+    V2 -->|"view<br/>(reverse)"| N2["norm data"]
+    N2 -->|"model<br/>(reverse)"| M2["model data"]
+    M2 --> O(["l'object"])
+  end
+  EV["EVENTS<br/>PRE_SUBMIT : valeurs brutes<br/>SUBMIT : norm data<br/>POST_SUBMIT : tout transformé"]
 ```
 
 ## L'exemple : l'échéance d'une tâche

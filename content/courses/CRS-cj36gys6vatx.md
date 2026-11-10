@@ -129,9 +129,21 @@ au rendu : `createView()` n'appelle aucun transformer. Après la submission,
 `addModelTransformer()` insère **en tête**. Avec `M1`, `M2`, `V1`, `V2` ajoutés
 dans cet ordre :
 
-```text
-données posées : M2 → M1 → V1 → V2
-soumission     : V2 → V1 → M1 → M2   (reverseTransform)
+```mermaid
+---
+title: Dans quel ordre passent les transformers
+---
+flowchart TD
+  accTitle: L'ordre de M1, M2, V1 et V2 dans les deux sens
+  accDescr: Avec M1, M2, V1 et V2 ajoutés dans cet ordre, les données posées passent par M2, puis M1, puis V1, puis V2 ; à la submission, par reverseTransform, l'ordre est V2, puis V1, puis M1, puis M2.
+  subgraph P["données posées"]
+    direction TB
+    a1["M2"] --> a2["M1"] --> a3["V1"] --> a4["V2"]
+  end
+  subgraph Q["submission (reverseTransform)"]
+    direction TB
+    b1["V2"] --> b2["V1"] --> b3["M1"] --> b4["M2"]
+  end
 ```
 
 ## Signaler un échec

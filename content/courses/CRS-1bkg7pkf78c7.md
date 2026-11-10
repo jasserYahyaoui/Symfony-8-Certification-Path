@@ -57,11 +57,17 @@ invocable, une function. Les `arguments` vont **à la factory**, et la valeur
 
 ## Le schéma
 
-```text
-definition   class: NewsletterManager   factory: <callable>   arguments: [...]
-premier get  résoudre le callable : class (statique) | null = la class du service | @service (+ method) | function | @=expression
-             appeler la factory avec les arguments — le container n'appelle PAS le constructor
-             la valeur retournée = le service : un object (sinon TypeError), type non contrôlé, partagé par défaut
+```mermaid
+---
+title: Un service construit par une factory
+---
+flowchart TD
+  accTitle: La definition, la résolution du callable et l'appel de la factory
+  accDescr: La definition déclare class: NewsletterManager, factory: un callable, et arguments. Au premier get, le container résout le callable : une class, en appel statique ; null, la class du service ; @service, avec une method ; une function ; ou @= suivi d'une expression. Il appelle la factory avec les arguments et n'appelle pas le constructor. La valeur retournée est le service : un object, sinon TypeError, de type non contrôlé, partagé par défaut.
+  D["definition<br/>class: NewsletterManager<br/>factory: #lt;callable#gt;<br/>arguments: [...]"] --> G(["premier get"])
+  G --> R["résoudre le callable<br/>class (statique)<br/>null = la class du service<br/>@service (+ method)<br/>function · @=expression"]
+  R --> A["appeler la factory<br/>avec les arguments<br/>le container n'appelle PAS<br/>le constructor"]
+  A --> V["la valeur retournée = le service<br/>un object (sinon TypeError)<br/>type non contrôlé,<br/>partagé par défaut"]
 ```
 
 ## Le fil rouge : un NewsletterManager

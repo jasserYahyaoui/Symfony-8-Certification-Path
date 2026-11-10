@@ -92,9 +92,15 @@ les deux, l'application migre.
 
 ## Le schéma
 
-```text
-7.4 mineure   déprécier : @deprecated + trigger_deprecation() + trois files → l'application corrige
-8.0 majeure   supprimer : le code part, « Remove … » au CHANGELOG.md → un appel oublié = Error
+```mermaid
+---
+title: Déprécier, puis supprimer
+---
+flowchart TD
+  accTitle: Le cycle d'une deprecation, de la mineure à la majeure
+  accDescr: Dans la mineure 7.4, le code est déprécié : @deprecated, trigger_deprecation() et trois files, et l'application corrige. Dans la majeure 8.0, il est supprimé : le code part, avec une entrée « Remove … » au CHANGELOG.md, et un appel oublié devient une Error.
+  M["7.4 mineure : déprécier<br/>@deprecated + trigger_deprecation()<br/>+ trois files"] -->|"l'application corrige"| N["8.0 majeure : supprimer<br/>le code part<br/>« Remove … » au CHANGELOG.md"]
+  N --> E(["un appel oublié = Error"])
 ```
 
 ## Le fil rouge : `Request::get()`, de 7.4 à 8.0

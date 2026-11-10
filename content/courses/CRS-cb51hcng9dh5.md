@@ -55,12 +55,19 @@ service, découvert par autoconfiguration. Étendre `Command` et écrire
 
 ## Le schéma
 
-```text
-src/Command/CreateUserCommand.php ─ chargé par services.yaml
-  #[AsCommand] ──────────────┐
-  ou extends Command ────────┴─► tag console.command (autoconfiguration) ─► Application
-  invocable SANS #[AsCommand] ──► pas de tag : pas une command
-__invoke(OutputInterface, InputInterface, #[Argument], #[Option], #[Ask]…) : int
+```mermaid
+---
+title: Comment une class devient une command
+---
+flowchart TD
+  accTitle: AsCommand, extends Command et le tag console.command
+  accDescr: src/Command/CreateUserCommand.php est chargé par services.yaml. Avec #[AsCommand], ou en étendant Command, la class reçoit le tag console.command par autoconfiguration et l'Application la connaît. Une class invocable sans #[AsCommand] ne reçoit pas de tag : ce n'est pas une command. Sa signature : __invoke(OutputInterface, InputInterface, #[Argument], #[Option], #[Ask]…) : int.
+  F["src/Command/<br/>CreateUserCommand.php<br/>chargé par services.yaml"] --> Q{"déclarée par"}
+  Q -->|"#[AsCommand]"| T["tag console.command<br/>(autoconfiguration)"]
+  Q -->|"extends Command"| T
+  Q -->|"invocable SANS<br/>#[AsCommand]"| NO(["pas de tag :<br/>pas une command"])
+  T --> A(["Application"])
+  A ~~~ S["__invoke(OutputInterface,<br/>InputInterface, #[Argument],<br/>#[Option], #[Ask]…) : int"]
 ```
 
 ## L'exemple : créer un user

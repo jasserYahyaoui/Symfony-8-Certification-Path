@@ -35,14 +35,21 @@ ajoutent `->value`, `from()` — qui **lève** — et `tryFrom()` — qui rend
 
 ## Le schéma
 
-```text
-pure       enum Status { case Draft; }               → UnitEnum
-adossée    enum Suit: string { case Hearts = 'H'; }  → UnitEnum + BackedEnum · int ou string seulement
-toutes     Suit::cases() → les cas (pas les valeurs) · $case->name (readonly)
-adossées   $case->value (readonly) · from('H') → cas, sinon \ValueError · tryFrom('X') → null
-autorisé   methods, methods statiques, constantes (alias : const Default = self::Spades), interfaces, attributes
-interdit   properties d'instance, constructor, extends, new, redéfinir from()/tryFrom()
-cas        singletons : Suit::from('H') === Suit::Hearts
+```mermaid
+---
+title: Enum pure ou adossée
+---
+flowchart LR
+  accTitle: Les deux sortes d'enum et ce qu'elles permettent
+  accDescr: Une enum pure, enum Status { case Draft; }, implémente UnitEnum. Une enum adossée, enum Suit: string { case Hearts = 'H'; }, implémente UnitEnum et BackedEnum, avec int ou string seulement. Toutes ont Suit::cases(), qui rend les cas et non les valeurs, et $case->name en readonly. Les adossées ont $case->value en readonly, from('H') qui rend le cas ou lève ValueError, et tryFrom('X') qui rend null. Sont autorisés les methods, les methods statiques, les constants, par exemple l'alias const Default = self::Spades, les interfaces et les attributes ; sont interdits les properties d'instance, le constructor, extends, new et la redéfinition de from() ou tryFrom(). Les cas sont des singletons : Suit::from('H') === Suit::Hearts.
+  E(["enum"]) --> PU["pure<br/>enum Status<br/>{ case Draft; }<br/>→ UnitEnum"]
+  E --> BA["adossée<br/>enum Suit: string<br/>{ case Hearts = 'H'; }<br/>→ UnitEnum + BackedEnum<br/>int ou string seulement"]
+  PU --> ALL["toutes<br/>Suit::cases() → les cas<br/>(pas les valeurs)<br/>$case->name (readonly)"]
+  BA --> ALL
+  BA --> BV["adossées<br/>$case->value (readonly)<br/>from('H') → cas,<br/>sinon \ValueError<br/>tryFrom('X') → null"]
+  E --> OK["autorisé<br/>methods,<br/>methods statiques,<br/>constantes (alias :<br/>const Default = self::Spades),<br/>interfaces, attributes"]
+  E --> NO["interdit<br/>properties d'instance,<br/>constructor, extends, new,<br/>redéfinir from()/tryFrom()"]
+  E --> SG(["cas = singletons<br/>Suit::from('H')<br/>=== Suit::Hearts"])
 ```
 
 ## L'exemple

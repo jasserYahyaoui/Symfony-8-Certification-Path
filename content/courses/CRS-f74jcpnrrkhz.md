@@ -43,11 +43,17 @@ foi est la key `provide` du `composer.json` de `symfony/symfony`.
 
 ## Le schéma
 
-```text
-implémente  PSR-3 log · 6 cache · 11 container · 13 link · 14 event dispatcher · 16 simple cache · 18 HTTP client · 20 clock
-suit        PSR-4 autoload (src/ → App\) · PSR-12 style        ← absentes de provide
-ponte       PSR-7 messages + PSR-17 fabriques : symfony/psr-http-message-bridge + une implémentation (nyholm/psr7)
-provide     15 entrées = 8 psr/* + 5 contrats Symfony + 2 HTTPlug (php-http/*)
+```mermaid
+---
+title: Symfony et les PSR
+---
+flowchart LR
+  accTitle: Les PSR que Symfony implémente, suit et relie
+  accDescr: Symfony implémente PSR-3 log, PSR-6 cache, PSR-11 container, PSR-13 link, PSR-14 event dispatcher, PSR-16 simple cache, PSR-18 HTTP client et PSR-20 clock. Il suit PSR-4 pour l'autoload, src/ vers App\, et PSR-12 pour le style ; ces deux-là sont absentes de provide. Il relie PSR-7, les messages, et PSR-17, les factories, par symfony/psr-http-message-bridge et une implémentation comme nyholm/psr7. Son provide compte 15 entrées : 8 psr/*, 5 contrats Symfony et 2 HTTPlug, php-http/*.
+  S(["Symfony"]) -->|"implémente"| I["PSR-3 log · 6 cache<br/>11 container · 13 link<br/>14 event dispatcher<br/>16 simple cache<br/>18 HTTP client · 20 clock"]
+  S -->|"suit"| F["PSR-4 autoload (src/ → App\)<br/>PSR-12 style<br/>absentes de provide"]
+  S -->|"ponte"| P["PSR-7 messages<br/>+ PSR-17 fabriques :<br/>symfony/psr-http-message-bridge<br/>+ une implémentation<br/>(nyholm/psr7)"]
+  S -->|"provide"| PR["15 entrées = 8 psr/*<br/>+ 5 contrats Symfony<br/>+ 2 HTTPlug (php-http/*)"]
 ```
 
 ## L'exemple : une bibliothèque qui type contre une PSR

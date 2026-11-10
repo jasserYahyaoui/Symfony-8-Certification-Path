@@ -89,14 +89,29 @@ Requests, puis on les lit. Lire, c'est aussi décider des erreurs : un statut
 
 ## Le schéma
 
-```text
-request()          ne bloque pas
-getStatusCode()    bloque, ne lève PAS sur un statut (seulement transport)
-getHeaders() / getContent() / toArray()   bloquent, lèvent sur 3xx-5xx sauf ($throw = false)
-jamais lu          le destructor lève sur 3xx-5xx — désarmé par getStatusCode(), getHeaders(false), cancel()
-ExceptionInterface ├─ Transport (rien n'est arrivé) └─ Timeout
-                   ├─ Http (getResponse()) ─ Client 4xx · Server 5xx · Redirection 3xx
-                   └─ Decoding (toArray sur un body non JSON)
+```mermaid
+---
+title: Quand une Response HttpClient bloque
+---
+flowchart TD
+  accTitle: Les appels bloquants d'une Response HttpClient
+  accDescr: request() ne bloque pas. getStatusCode() bloque, mais ne lève pas sur un statut, seulement sur une erreur de transport. getHeaders(), getContent() et toArray() bloquent et lèvent sur 3xx à 5xx, sauf avec $throw = false. Une Response jamais lue lève à sa destruction sur 3xx à 5xx ; getStatusCode(), getHeaders(false) ou cancel() la désarment.
+  R(["request()<br/>ne bloque pas"]) --> SC["getStatusCode()<br/>bloque,<br/>ne lève PAS<br/>sur un statut<br/>(seulement<br/>transport)"]
+  R --> GH["getHeaders()<br/>getContent()<br/>toArray()<br/>bloquent, lèvent<br/>sur 3xx-5xx sauf<br/>($throw = false)"]
+  R --> NL["jamais lu<br/>le destructor lève<br/>sur 3xx-5xx<br/>désarmé par<br/>getStatusCode(),<br/>getHeaders(false),<br/>cancel()"]
+```
+
+```mermaid
+---
+title: Ce que HttpClient lève
+---
+flowchart TD
+  accTitle: L'arbre des exceptions de HttpClient
+  accDescr: Sous ExceptionInterface : Transport, rien n'est arrivé, avec sa fille Timeout ; Http, qui donne getResponse(), avec ClientExceptionInterface pour les 4xx, ServerExceptionInterface pour les 5xx et RedirectionExceptionInterface pour les 3xx ; Decoding, pour toArray sur un body non JSON.
+  EI(["ExceptionInterface"]) --> TR["Transport<br/>(rien n'est arrivé)"]
+  TR --> TO["Timeout"]
+  EI --> HT["Http<br/>(getResponse())<br/>Client… 4xx<br/>Server… 5xx<br/>RedirectionExceptionInterface<br/>3xx"]
+  EI --> DE["Decoding<br/>(toArray sur<br/>un body<br/>non JSON)"]
 ```
 
 ## L'exemple : des Requests en parallèle

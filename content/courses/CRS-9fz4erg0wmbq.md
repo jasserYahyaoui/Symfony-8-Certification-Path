@@ -63,13 +63,18 @@ nom généré que l'examen fait calculer.
 
 ## Le schéma
 
-```text
-_controller          App\Controller\BlogController::show   ·   class invocable : App\Controller\ShowPage
-nom généré, component     \ → _, puis _méthode, en minuscules   → app_controller_luckycontroller_number
-nom généré, FrameworkBundle  retire controller_ et bundle_, un suffixe action, les __   → app_lucky_number
-deuxième route de la méthode → suffixe _1, _2…     name sur la class → préfixe
-alias FQCN::méthode   seulement pour une méthode à une seule route
-template             snake_case, deux extensions : index.html.twig (format, puis moteur)
+```mermaid
+---
+title: Du _controller au nom de la route
+---
+flowchart TD
+  accTitle: Les noms de controller, de route générée et de template
+  accDescr: Le _controller s'écrit App\Controller\BlogController::show, ou App\Controller\ShowPage pour une class invocable. Le component génère le route name en remplaçant les antislashs par des soulignés, puis en ajoutant _ et la method, en minuscules : app_controller_luckycontroller_number. FrameworkBundle retire controller_ et bundle_, un suffixe action et les doubles soulignés : app_lucky_number. Une deuxième route de la même method reçoit le suffixe _1, _2 ; un name sur la class sert de préfixe ; l'alias FQCN::method n'existe que pour une method à une seule route. Un template s'écrit en snake_case avec deux extensions, le format puis l'engine : index.html.twig.
+  C["_controller<br/>App\Controller\BlogController::show<br/>class invocable :<br/>App\Controller\ShowPage"]
+  C --> N1["nom généré, component<br/>\ → _, puis _method,<br/>en minuscules<br/>→ app_controller_luckycontroller_number"]
+  C --> N2["nom généré, FrameworkBundle<br/>retire controller_ et bundle_,<br/>un suffixe action, les __<br/>→ app_lucky_number"]
+  N2 --> N3["deuxième route de la method<br/>→ suffixe _1, _2…<br/>name sur la class → préfixe<br/>alias FQCN::method : seulement<br/>pour une method à une seule route"]
+  T["template<br/>snake_case, deux extensions :<br/>index.html.twig<br/>(format, puis engine)"]
 ```
 
 ## L'exemple : une route sans nom

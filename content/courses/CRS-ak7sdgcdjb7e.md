@@ -47,12 +47,18 @@ qui **consomme** et ce qui **regarde** — et entre `add()`, qui empile, et
 
 ## Le schéma
 
-```text
-poser      $this->addFlash('notice', '…')  ≡  getSession()->getFlashBag()->add()   → démarre la session
-empiler    add('notice', $m)               remplacer   set('notice', $m) : tout le type
-consommer  get('notice') (ce type seul) · all() · clear() (= all())       Twig : app.flashes
-regarder   peek('notice') · peekAll()                                     Twig : app.session.flashbag.peekAll()
-absent     has('notice') faux si le type est vide
+```mermaid
+---
+title: Le FlashBag, de l'ajout à la lecture
+---
+flowchart LR
+  accTitle: Poser, empiler, consommer et regarder les flash messages
+  accDescr: $this->addFlash('notice', '…') équivaut à getSession()->getFlashBag()->add() et démarre la session. add('notice', $m) empile ; set('notice', $m) remplace tout le type. get('notice') consomme ce type seul, all() consomme tout, clear() équivaut à all() ; en Twig, app.flashes. peek('notice') et peekAll() regardent sans consommer ; en Twig, app.session.flashbag.peekAll(). has('notice') est faux si le type est vide.
+  P["poser<br/>$this->addFlash('notice', '…')<br/>≡ getSession()->getFlashBag()->add()<br/>→ démarre la session"] --> FB(["FlashBag"])
+  FB --> E["empiler : add('notice', $m)<br/>remplacer : set('notice', $m)<br/>tout le type"]
+  FB --> C["consommer<br/>get('notice') (ce type seul)<br/>· all() · clear() (= all())<br/>Twig : app.flashes"]
+  FB --> R["regarder<br/>peek('notice') · peekAll()<br/>Twig :<br/>app.session.flashbag.peekAll()"]
+  FB --> A["absent<br/>has('notice') faux<br/>si le type est vide"]
 ```
 
 ## L'exemple : après un enregistrement

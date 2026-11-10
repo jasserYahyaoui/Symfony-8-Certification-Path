@@ -55,14 +55,20 @@ piège central : la règle échoue, et la validation passe.
 
 ## Le schéma
 
-```text
-$context->addViolation('msg', [params])   ── enregistre TOUT DE SUITE, au path courant
-$context->buildViolation('msg')            ── crée un BUILDER, n'enregistre RIEN
-        ->setParameter('{{ v }}', $v)        remplit le message
-        ->atPath('email')                    déplace le PATH (pas la valeur fautive)
-        ->setCode('EMAIL_TAKEN')             code stable
-        ->setInvalidValue($this->email)      corrige la valeur fautive
-        ->addViolation();                  ── ENREGISTRE  ← sans cette ligne : 0 violation
+```mermaid
+---
+title: addViolation ou buildViolation
+---
+flowchart TD
+  accTitle: Enregistrer une violation tout de suite, ou la construire
+  accDescr: $context->addViolation('msg', [params]) enregistre tout de suite, au path courant. $context->buildViolation('msg') crée un builder et n'enregistre rien : setParameter('{{ v }}', $v) remplit le message, atPath('email') déplace le path et non la valeur fautive, setCode('EMAIL_TAKEN') donne un code stable, setInvalidValue($this->email) corrige la valeur fautive, et addViolation() enregistre ; sans cette ligne, aucune violation.
+  A["$context->addViolation(<br/>'msg', [params])"] --> A1(["enregistre TOUT DE SUITE,<br/>au path courant"])
+  B["$context->buildViolation('msg')"] --> B0["crée un BUILDER,<br/>n'enregistre RIEN"]
+  B0 --> B1["->setParameter('{{ v }}', $v)<br/>remplit le message"]
+  B1 --> B2["->atPath('email')<br/>déplace le PATH<br/>(pas la valeur fautive)"]
+  B2 --> B3["->setCode('EMAIL_TAKEN')<br/>code stable"]
+  B3 --> B4["->setInvalidValue($this->email)<br/>corrige la valeur fautive"]
+  B4 --> B5(["->addViolation()<br/>ENREGISTRE<br/>sans cette ligne : 0 violation"])
 ```
 
 ## L'exemple : une adresse déjà réservée

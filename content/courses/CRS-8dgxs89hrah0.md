@@ -74,12 +74,21 @@ par sa method, son host ou son schéma.
 
 ## Le schéma
 
-```text
-appel : PUT https://api.example.com/api/posts/1
-  → contexte : path info /api/posts/1 · method PUT · host · scheme
-  → routes essayées une par une, dans l'ordre d'évaluation   ◄ debug:router
-      ne correspond pas · correspond presque (contexte) · CORRESPOND → stop
-  → controller de la route trouvée                             ◄ router:match
+```mermaid
+---
+title: Ce que montrent debug:router et router:match
+---
+flowchart TD
+  accTitle: Le path d'un appel jusqu'au controller, et les deux commands de debug
+  accDescr: Pour l'appel PUT https://api.example.com/api/posts/1, le contexte retient le path info /api/posts/1, la method PUT, le host et le scheme. Les routes sont essayées une par une, dans l'ordre d'évaluation que liste debug:router. Une route ne correspond pas, correspond presque, à cause du contexte, ou correspond, et alors la recherche s'arrête. router:match montre le controller de la route trouvée.
+  A(["PUT https://api.example.com<br/>/api/posts/1"]) --> C["contexte : path info /api/posts/1<br/>method PUT · host · scheme"]
+  C --> R["routes essayées une par une,<br/>dans l'ordre d'évaluation"]
+  R -.-|"debug:router"| DR(["liste cet ordre"])
+  R --> E{"la route"}
+  E -->|"ne correspond pas ·<br/>correspond presque (contexte)"| R
+  E -->|"CORRESPOND"| S(["stop"])
+  S --> CT["controller de la route trouvée"]
+  CT -.-|"router:match"| RM(["le montre"])
 ```
 
 ## L'exemple

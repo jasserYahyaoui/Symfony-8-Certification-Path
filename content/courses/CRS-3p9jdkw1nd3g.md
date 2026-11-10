@@ -49,13 +49,18 @@ recommandée.
 
 ## Le schéma
 
-```text
-besoin                        helper                     via SymfonyStyle
-demander                      QuestionHelper             ask(), confirm(), choice()
-compter une tâche connue      ProgressBar                progressStart/Advance/Finish(), progressIterate()
-attendre sans compter         ProgressIndicator          —
-afficher des données          Table, Tree                table()
-entrée non interactive (-n)   question NON posée → default value (ou null)
+```mermaid
+---
+title: Quel helper pour quel besoin
+---
+flowchart LR
+  accTitle: QuestionHelper, ProgressBar, ProgressIndicator, Table et Tree
+  accDescr: Pour demander, QuestionHelper, ou ask(), confirm() et choice() de SymfonyStyle. Pour compter une tâche connue, ProgressBar, ou progressStart(), progressAdvance(), progressFinish() et progressIterate(). Pour attendre sans compter, ProgressIndicator, sans raccourci SymfonyStyle. Pour afficher des données, Table et Tree, ou table(). Avec une entrée non interactive, -n, la question n'est pas posée et la default value est prise, ou null.
+  B(["besoin"]) --> Q["demander<br/>QuestionHelper<br/>SymfonyStyle :<br/>ask(), confirm(), choice()"]
+  B --> P["compter une tâche connue<br/>ProgressBar<br/>SymfonyStyle :<br/>progressStart/Advance/Finish(),<br/>progressIterate()"]
+  B --> I["attendre sans compter<br/>ProgressIndicator<br/>(pas de raccourci<br/>SymfonyStyle)"]
+  B --> T["afficher des données<br/>Table, Tree<br/>SymfonyStyle : table()"]
+  B --> N["entrée non interactive (-n)<br/>question NON posée<br/>→ default value (ou null)"]
 ```
 
 ## L'exemple : confirmer avant d'importer

@@ -75,12 +75,17 @@ jamais en production.
 
 ## Le schéma
 
-```text
-pendant la Request    un service mesure ; le collector garde ses données
-kernel.response       collect() — une seule fois — ; barre injectée avant </body> si HTML
-kernel.terminate      lateCollect() ; profil sérialisé et stocké sous un token
-accès                 barre │ X-Debug-Token / X-Debug-Token-Link │ /_profiler │ $profiler->loadProfile($token)
-stockage              purge des profils de plus de 2 jours, une écriture sur dix
+```mermaid
+---
+title: Ce qu'un collector fait pendant une Request
+---
+flowchart TD
+  accTitle: Mesure, collect, lateCollect, accès au profil et stockage
+  accDescr: Pendant la Request, un service mesure et le collector garde ses données. À kernel.response, collect() tourne une seule fois, et la barre est injectée avant le tag de fin du body si la Response est du HTML. À kernel.terminate, lateCollect() tourne, puis le profil est sérialisé et stocké sous un token. On y accède par la barre, par les headers X-Debug-Token et X-Debug-Token-Link, par /_profiler ou par $profiler->loadProfile($token). Le stockage purge les profils de plus de 2 jours, une écriture sur dix.
+  R["pendant la Request<br/>un service mesure<br/>le collector garde ses données"] --> KR["kernel.response<br/>collect() — une seule fois<br/>barre injectée avant #lt;/body#gt;<br/>si HTML"]
+  KR --> KT["kernel.terminate<br/>lateCollect()<br/>profil sérialisé et stocké<br/>sous un token"]
+  KT --> A["accès<br/>barre · X-Debug-Token /<br/>X-Debug-Token-Link<br/>/_profiler<br/>$profiler->loadProfile($token)"]
+  KT --> S["stockage<br/>purge des profils<br/>de plus de 2 jours,<br/>une écriture sur dix"]
 ```
 
 ## L'exemple : un collector de hits

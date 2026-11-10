@@ -88,11 +88,18 @@ configuration n'est pas relue.
 
 ## Le schéma
 
-```text
-configuration   services.yaml (+ services_<env>.yaml) → une definition par class de src/, privée
-compilation     autowiring, alias résolus, privés retirés ou inlinés, tout figé — rien n'est construit
-cache           var/cache/prod/App_KernelProdContainer.php : une class PHP, la configuration n'est plus relue
-exécution       premier usage → l'object est construit ; usages suivants → la même instance
+```mermaid
+---
+title: De services.yaml à l'instance
+---
+flowchart TD
+  accTitle: Configuration, compilation, cache et exécution du service container
+  accDescr: La configuration, services.yaml et services_ suivi de l'environment, donne une definition par class de src/, privée. La compilation applique l'autowiring, résout les alias, retire ou inline les services privés et fige tout ; rien n'est construit. Le cache est var/cache/prod/App_KernelProdContainer.php, une class PHP : la configuration n'est plus relue. À l'exécution, le premier usage construit l'object, les usages suivants rendent la même instance.
+  CF["configuration<br/>services.yaml<br/>(+ services_#lt;env#gt;.yaml)<br/>→ une definition par class<br/>de src/, privée"] --> CO["compilation<br/>autowiring, alias résolus,<br/>privés retirés ou inlinés,<br/>tout figé<br/>rien n'est construit"]
+  CO --> CA["cache<br/>var/cache/prod/<br/>App_KernelProdContainer.php<br/>une class PHP, la configuration<br/>n'est plus relue"]
+  CA --> EX{"exécution"}
+  EX -->|"premier usage"| E1(["l'object est construit"])
+  EX -->|"usages suivants"| E2(["la même instance"])
 ```
 
 ## Le fil rouge : `PhpMailer`, `MailerInterface` et la `Newsletter`

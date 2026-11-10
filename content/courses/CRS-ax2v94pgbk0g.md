@@ -58,12 +58,19 @@ validation **ne descend pas** toute seule dans un object imbriqué : il faut
 
 ## Le schéma
 
-```text
-validate($author)
-1. constraints de la class + celles de TOUS ses parents — fusionnées
-2. objects imbriqués : rien → ignorés ; #[Valid] sur la property → validés (null passe) ;
-                       #[Cascade] sur la class → toutes les properties typées par une class
-3. groups : Valid ne dépend pas de Default ; le group demandé est transmis à l'object imbriqué
+```mermaid
+---
+title: Valider un object et ce qu'il contient
+---
+flowchart TD
+  accTitle: Les constraints héritées, les objects imbriqués et les groups
+  accDescr: validate($author) applique les constraints de la class et celles de tous ses parents, fusionnées. Les objects imbriqués sont ignorés par défaut ; #[Valid] sur la property les valide, null passe ; #[Cascade] sur la class valide toutes les properties typées par une class. Valid ne dépend pas de Default : le group demandé est transmis à l'object imbriqué.
+  V(["validate($author)"]) --> C1["1. constraints de la class<br/>+ celles de TOUS ses parents<br/>— fusionnées"]
+  C1 --> N{"2. objects<br/>imbriqués"}
+  N -->|"rien"| N1["ignorés"]
+  N -->|"#[Valid] sur<br/>la property"| N2["validés<br/>(null passe)"]
+  N -->|"#[Cascade]<br/>sur la class"| N3["toutes les properties<br/>typées par une class"]
+  N2 & N3 --> G["3. groups : Valid ne dépend<br/>pas de Default<br/>le group demandé est transmis<br/>à l'object imbriqué"]
 ```
 
 ## Le fil rouge : un auteur et son adresse

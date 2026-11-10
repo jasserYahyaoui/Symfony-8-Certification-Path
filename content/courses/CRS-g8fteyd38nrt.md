@@ -60,12 +60,18 @@ block. Et des attributes décident depuis la class.
 
 ## Le schéma
 
-```text
-_defaults: { autowire: true, autoconfigure: true }   ← vaut pour CE block seulement
-App\: { resource: '../src/' }                        → découvrir : une definition par class, id = FQCN, privée
-                                                     → câbler : arguments typés par un service
-                                                     → configurer : tags d'après l'interface
-App\Service\Archiver: { arguments: … }               → affiner, PLUS BAS : remplace la definition du dessus
+```mermaid
+---
+title: Ce que fait le block App\
+---
+flowchart TD
+  accTitle: _defaults, resource et la definition affinée plus bas
+  accDescr: _defaults: { autowire: true, autoconfigure: true } vaut pour ce block seulement. App\: { resource: '../src/' } découvre une definition par class, d'id son FQCN, privée ; câble les arguments typés par un service ; configure les tags d'après l'interface. App\Service\Archiver: { arguments: … }, écrit plus bas, affine en remplaçant la definition du dessus.
+  DF["_defaults: { autowire: true,<br/>autoconfigure: true }<br/>vaut pour CE block seulement"] --> APP["App\: { resource: '../src/' }"]
+  APP --> D1["découvrir : une definition<br/>par class, id = FQCN, privée"]
+  D1 --> D2["câbler : arguments typés<br/>par un service"]
+  D2 --> D3["configurer : tags<br/>d'après l'interface"]
+  D3 --> AF(["App\Service\Archiver:<br/>{ arguments: … }<br/>affiner, PLUS BAS :<br/>remplace la definition<br/>du dessus"])
 ```
 
 ## Le fil rouge : un `Archiver` et son subscriber

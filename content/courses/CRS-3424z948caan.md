@@ -50,14 +50,19 @@ class où le code est écrit, `static` suit la class appelée.
 
 ## Le schéma
 
-```text
-visibilité   public · protected (class + descendants) · private (class déclarante, toutes instances)
-PHP 8.4      public private(set) string $title  → lecture partout, écriture dans la class
-promotion    __construct(public readonly int $amount)  → property déclarée, typée, affectée
-readonly     une seule écriture ; 8.4 : protected(set) implicite → une fille peut l'initialiser
-             pas de default value · object référencé toujours mutable · readonly class (8.2)
-self         class où le code est écrit         new self()   → Parent
-static       class réellement appelée (LSB)      new static() → Child    $this:: ≡ static::
+```mermaid
+---
+title: Qui lit, qui écrit, et quelle class
+---
+flowchart LR
+  accTitle: Visibilité, écriture des properties, self et static
+  accDescr: Visibilité : public ; protected, la class et ses descendants ; private, la class déclarante, toutes instances. En PHP 8.4, public private(set) string $title se lit partout et ne s'écrit que dans la class. La promotion, __construct(public readonly int $amount), déclare, type et affecte la property. readonly n'autorise qu'une seule écriture ; en 8.4 il implique protected(set), donc une fille peut l'initialiser ; pas de default value ; un object référencé reste mutable ; readonly class existe depuis 8.2. self désigne la class où le code est écrit, new self() donne Parent ; static désigne la class réellement appelée, c'est le late static binding, new static() donne Child, et $this:: équivaut à static::.
+  P(["une property"]) --> VIS["visibilité<br/>public<br/>protected : class + descendants<br/>private : class déclarante,<br/>toutes instances"]
+  P --> AS["PHP 8.4 :<br/>public private(set) string $title<br/>lecture partout,<br/>écriture dans la class"]
+  P --> PR["promotion<br/>__construct(public readonly int $amount)<br/>property déclarée, typée, affectée"]
+  P --> RO["readonly : une seule écriture<br/>8.4 : protected(set) implicite,<br/>une fille peut l'initialiser<br/>pas de default value<br/>object référencé toujours mutable<br/>readonly class (8.2)"]
+  C(["code écrit dans Parent,<br/>appelé sur Child"]) --> SE["self : la class<br/>où le code est écrit<br/>new self() → Parent"]
+  C --> ST["static : la class<br/>réellement appelée (LSB)<br/>new static() → Child<br/>$this:: ≡ static::"]
 ```
 
 ## L'exemple

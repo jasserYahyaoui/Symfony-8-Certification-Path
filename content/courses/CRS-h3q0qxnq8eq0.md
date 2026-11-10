@@ -60,14 +60,19 @@ défaut. Le header d'override, lui, ne dépend pas de cette option.
 
 ## Le schéma
 
-```text
-route          sans methods → tous les verbes · methods: ['GET'] → GET et HEAD
-getMethod()    method réelle ≠ POST → rien n'est remplacé
-               1. header X-HTTP-METHOD-OVERRIDE (toujours lu)
-               2. _method du body, puis de la query string (si http_method_override: true)
-               nom mis en majuscules · autre chose que des lettres → SuspiciousOperationException
-               vers GET, HEAD, CONNECT, TRACE → ignoré
-allowed_http_method_override   null : tout · liste : celles-là · [] : aucun remplacement, header compris
+```mermaid
+---
+title: Quelle method la route voit
+---
+flowchart TD
+  accTitle: methods d'une route et remplacement de la method par getMethod
+  accDescr: Une route sans methods accepte tous les verbes ; methods: ['GET'] accepte GET et HEAD. getMethod() ne remplace rien si la method réelle n'est pas POST. Sinon, il lit d'abord le header X-HTTP-METHOD-OVERRIDE, toujours lu, puis _method du body, puis de la query string, si http_method_override: true. Le nom est mis en majuscules ; autre chose que des lettres lève SuspiciousOperationException ; un remplacement vers GET, HEAD, CONNECT ou TRACE est ignoré. allowed_http_method_override à null autorise tout, une liste autorise celles-là, et [] interdit tout remplacement, header compris.
+  R["route<br/>sans methods → tous les verbes<br/>methods: ['GET'] → GET et HEAD"]
+  GM{"getMethod() :<br/>method réelle ?"} -->|"≠ POST"| N(["rien n'est remplacé"])
+  GM -->|"POST"| O1["1. header<br/>X-HTTP-METHOD-OVERRIDE<br/>(toujours lu)"]
+  O1 --> O2["2. _method du body,<br/>puis de la query string<br/>(si http_method_override: true)"]
+  O2 --> NM["nom mis en majuscules<br/>autre chose que des lettres<br/>→ SuspiciousOperationException<br/>vers GET, HEAD, CONNECT,<br/>TRACE → ignoré"]
+  NM --> AL["allowed_http_method_override<br/>null : tout · liste : celles-là<br/>[] : aucun remplacement,<br/>header compris"]
 ```
 
 ## L'exemple : deux routes, un path

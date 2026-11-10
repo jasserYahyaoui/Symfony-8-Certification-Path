@@ -50,14 +50,18 @@ n'importe quelle date. `NativeClock` en production, `MockClock` en test,
 
 ## Le schéma
 
-```text
-service    ClockInterface injectée → $this->clock->now()   (au lieu de new \DateTimeImmutable())
-           ou ClockAwareTrait : setClock() par l'autowiring (#[Required]) → $this->now()
-prod       NativeClock::now() → un DatePoint (sous-classe de DateTimeImmutable)
-test       MockClock : figée ; sleep() et modify() la déplacent, instantanément
-           ClockSensitiveTrait::mockTime() fige la clock globale, restaurée après le test
-global     Clock::set(une clock PSR-20) ; now('+3 hours') ; new DatePoint() lit Clock
-durée      MonotonicClock : hrtime(), insensible aux ajustements de l'horloge
+```mermaid
+---
+title: Une clock injectée, réelle ou figée
+---
+flowchart TD
+  accTitle: ClockInterface en production et en test, la clock globale et MonotonicClock
+  accDescr: Un service reçoit ClockInterface et appelle $this->clock->now(), au lieu de new \DateTimeImmutable() ; ou il utilise ClockAwareTrait, dont setClock() est appelé par l'autowiring grâce à #[Required], puis $this->now(). En production, NativeClock::now() rend un DatePoint, sous-classe de DateTimeImmutable. En test, MockClock est figée ; sleep() et modify() la déplacent, instantanément ; ClockSensitiveTrait::mockTime() fige la clock globale, restaurée après le test. Globalement, Clock::set() accepte une clock PSR-20 ; now('+3 hours') ; new DatePoint() lit Clock. Pour une durée, MonotonicClock utilise hrtime(), insensible aux réglages de l'heure du système.
+  S["service<br/>ClockInterface injectée<br/>→ $this->clock->now()<br/>(au lieu de new \DateTimeImmutable())<br/>ou ClockAwareTrait : setClock()<br/>par l'autowiring (#[Required])<br/>→ $this->now()"]
+  S -->|"prod"| N["NativeClock::now()<br/>→ un DatePoint<br/>(sous-classe de<br/>DateTimeImmutable)"]
+  S -->|"test"| M["MockClock : figée<br/>sleep() et modify()<br/>la déplacent, instantanément<br/>ClockSensitiveTrait::mockTime()<br/>fige la clock globale,<br/>restaurée après le test"]
+  N ~~~ G["global<br/>Clock::set(une clock PSR-20)<br/>now('+3 hours')<br/>new DatePoint() lit Clock"]
+  M ~~~ D["durée<br/>MonotonicClock : hrtime(),<br/>insensible aux réglages<br/>de l'heure du système"]
 ```
 
 ## L'exemple : un token qui expire

@@ -74,12 +74,19 @@ dit quelle class le form manipule. Un field sans property est déclaré
 
 ## Le schéma
 
-```text
-createForm(TaskType::class, $task)
-buildForm()    add(NOM, TYPE, OPTIONS) ; TYPE omis → guessers (constraints, Doctrine, enum) → sinon TextType
-data_class     déclarée, ou devinée de $task ; sans object : empty_data crée un Task neuf
-lecture        NOM → getX(), isX(), hasX(), canX(), x(), puis $x publique
-               mapped: false → pas de lecture ; property_path → un autre chemin ; inherit_data → le parent
+```mermaid
+---
+title: Du createForm aux fields lus
+---
+flowchart TD
+  accTitle: buildForm, le type deviné, data_class et la lecture des fields
+  accDescr: createForm(TaskType::class, $task) appelle buildForm(), qui ajoute des fields avec add(NOM, TYPE, OPTIONS). Si TYPE est omis, les guessers le devinent, par les constraints, Doctrine ou une enum, sinon c'est TextType. data_class est déclarée, ou devinée de $task ; sans object, empty_data crée un Task neuf. Chaque field lit NOM par getX(), isX(), hasX(), canX(), x(), puis la property publique $x ; mapped: false supprime la lecture, property_path lit un autre path, inherit_data lit le parent.
+  C(["createForm(TaskType::class, $task)"]) --> B["buildForm()<br/>add(NOM, TYPE, OPTIONS)"]
+  C --> D["data_class : déclarée,<br/>ou devinée de $task<br/>sans object : empty_data<br/>crée un Task neuf"]
+  B --> T{"TYPE omis ?"}
+  T -->|"oui"| G["guessers<br/>(constraints, Doctrine, enum)<br/>→ sinon TextType"]
+  B --> L["lecture : NOM → getX(), isX(),<br/>hasX(), canX(), x(),<br/>puis $x publique"]
+  L --> L2["mapped: false → pas de lecture<br/>property_path → un autre path<br/>inherit_data → le parent"]
 ```
 
 ## L'exemple : un `TaskType`

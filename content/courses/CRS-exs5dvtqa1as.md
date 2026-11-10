@@ -76,11 +76,18 @@ le dernier mot.
 
 ## Le schéma
 
-```text
-config/packages/acme_social.yaml (+ ce que d'autres bundles ont prepend)
-L'ARBRE        keys, types, défauts, required, bornes ; fusionne et VALIDE → sinon InvalidConfigurationException
-L'EXTENSION    reçoit l'array validé et complété → enregistre acme_social.client avec $timeout
-COMPILATION    → cache ; cache chaud : ni l'arbre ni l'extension ne s'exécutent
+```mermaid
+---
+title: Du YAML du bundle aux services enregistrés
+---
+flowchart TD
+  accTitle: L'arbre de configuration, l'extension et le cache
+  accDescr: config/packages/acme_social.yaml, plus ce que d'autres bundles ont ajouté par prepend, est fusionné et validé par l'arbre : keys, types, défauts, required et bornes ; s'il est invalide, InvalidConfigurationException. L'extension reçoit l'array validé et complété et enregistre acme_social.client avec $timeout. La compilation met le tout en cache ; cache chaud, ni l'arbre ni l'extension ne s'exécutent.
+  F["config/packages/acme_social.yaml<br/>(+ ce que d'autres bundles<br/>ont prepend)"] --> T["L'ARBRE<br/>keys, types, défauts,<br/>required, bornes<br/>fusionne et VALIDE"]
+  T --> V{"valide ?"}
+  V -->|"non"| X(["InvalidConfigurationException"])
+  V -->|"oui"| E["L'EXTENSION<br/>reçoit l'array validé et complété<br/>→ enregistre acme_social.client<br/>avec $timeout"]
+  E --> C["COMPILATION → cache<br/>cache chaud : ni l'arbre<br/>ni l'extension ne s'exécutent"]
 ```
 
 ## Le fil rouge : un `AcmeSocialBundle`

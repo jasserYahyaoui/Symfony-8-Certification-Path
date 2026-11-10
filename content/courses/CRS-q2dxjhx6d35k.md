@@ -55,14 +55,21 @@ drapeau — se **déduit de la signature** : type et default value.
 
 ## Le schéma
 
-```text
-#[Argument] string $name            → REQUIRED (pas de défaut, non nullable)
-#[Argument] string $name = ''       → OPTIONAL            array $names = [] → IS_ARRAY
-#[Option] bool $yell = false        → VALUE_NONE           --yell
-#[Option] bool $yell = true         → + VALUE_NEGATABLE    --no-yell
-#[Option] string $format = 'json'   → VALUE_REQUIRED       --format=csv
-#[Option] bool|string $out = false  → VALUE_OPTIONAL       --out  ou  --out=f.txt
-#[Option] string $format            → LogicException : une option DOIT avoir un défaut
+```mermaid
+---
+title: Du type PHP au mode de l'argument ou de l'option
+---
+flowchart LR
+  accTitle: Ce que #[Argument] et #[Option] déduisent de la signature
+  accDescr: #[Argument] string $name, sans défaut et non nullable, est REQUIRED ; string $name = '' est OPTIONAL ; array $names = [] est IS_ARRAY. #[Option] bool $yell = false est VALUE_NONE, --yell ; bool $yell = true ajoute VALUE_NEGATABLE, --no-yell ; string $format = 'json' est VALUE_REQUIRED, --format=csv ; bool|string $out = false est VALUE_OPTIONAL, --out ou --out=f.txt. #[Option] string $format sans défaut lève LogicException : une option doit avoir un défaut.
+  A(["#[Argument]"]) --> A1["string $name<br/>→ REQUIRED<br/>(pas de défaut,<br/>non nullable)"]
+  A --> A2["string $name = ''<br/>→ OPTIONAL"]
+  A --> A3["array $names = []<br/>→ IS_ARRAY"]
+  O(["#[Option]"]) --> O1["bool $yell = false<br/>→ VALUE_NONE<br/>--yell"]
+  O --> O2["bool $yell = true<br/>→ + VALUE_NEGATABLE<br/>--no-yell"]
+  O --> O3["string $format = 'json'<br/>→ VALUE_REQUIRED<br/>--format=csv"]
+  O --> O4["bool|string $out = false<br/>→ VALUE_OPTIONAL<br/>--out ou --out=f.txt"]
+  O --> O5["string $format<br/>(sans défaut)<br/>→ LogicException :<br/>une option DOIT<br/>avoir un défaut"]
 ```
 
 ## L'exemple : saluer

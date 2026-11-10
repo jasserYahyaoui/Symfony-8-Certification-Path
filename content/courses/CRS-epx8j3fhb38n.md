@@ -48,13 +48,17 @@ façon pour un service de lire la Request en cours.
 
 ## Le schéma
 
-```text
-PHP nu       $_GET, $_POST, $_FILES, $_COOKIE, $_SERVER · header() + echo
-HttpFoundation   Request (Request::create('/blog') sans serveur) · Response
-dépendance   framework ──▶ HttpFoundation   (jamais l'inverse : handle(Request): Response)
-RequestStack     [ main, sub A, sub B ]   ← le kernel empile et dépile
-  getMainRequest()    → main (index 0)          getCurrentRequest() → sub B (le dernier)
-  getParentRequest()  → sub A (count − 2)        pile vide → null ; getSession() → lève
+```mermaid
+---
+title: Des superglobales aux objects, et la pile des Requests
+---
+flowchart TD
+  accTitle: HttpFoundation face au PHP nu, et ce que rend RequestStack
+  accDescr: En PHP nu, on lit $_GET, $_POST, $_FILES, $_COOKIE et $_SERVER et on répond avec header() et echo. HttpFoundation en fait des objects : une Request, que Request::create('/blog') fabrique sans serveur, et une Response. Le framework dépend de HttpFoundation, jamais l'inverse : handle(Request): Response. RequestStack contient main, sub A et sub B, que le kernel empile et dépile ; getMainRequest() rend main, à l'index 0 ; getCurrentRequest() rend sub B, la dernière ; getParentRequest() rend sub A, à count moins 2 ; sur une pile vide, ces methods rendent null et getSession() lève.
+  P["PHP nu<br/>$_GET, $_POST, $_FILES,<br/>$_COOKIE, $_SERVER<br/>header() + echo"] -->|"en objects"| H["HttpFoundation<br/>Request<br/>(Request::create('/blog')<br/>sans serveur)<br/>Response"]
+  F["framework"] -->|"dépend de, jamais l'inverse<br/>handle(Request): Response"| H
+  H --> RS["RequestStack<br/>[ main, sub A, sub B ]<br/>le kernel empile et dépile"]
+  RS --> G["getMainRequest() → main (index 0)<br/>getCurrentRequest() → sub B (le dernier)<br/>getParentRequest() → sub A (count − 2)<br/>pile vide → null<br/>getSession() → lève"]
 ```
 
 ## L'exemple : un service qui lit la Request

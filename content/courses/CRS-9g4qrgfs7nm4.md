@@ -42,13 +42,19 @@ l'examen vise les exceptions — un cas d'enum, l'`Abstract` en préfixe,
 
 ## Le schéma
 
-```text
-camelCase              variables, functions, methods, arguments      hasSession()
-snake_case             config, routes, variables et templates Twig  framework.csrf_protection
-SCREAMING_SNAKE_CASE   constantes                                    InputArgument::IS_ARRAY
-UpperCamelCase         classes, interfaces, traits, enums, cas d'enum, files PHP
-Abstract…  (préfixe, sauf *TestCase)   …Interface  …Trait  …Exception   (suffixes)
-#[As…] configure un service      #[Map…] remplit un argument de controller
+```mermaid
+---
+title: Quelle casse pour quoi
+---
+flowchart LR
+  accTitle: Les conventions de nommage de Symfony
+  accDescr: camelCase pour les variables, functions, methods et arguments, comme hasSession(). snake_case pour la configuration, les routes, les variables et les templates Twig, comme framework.csrf_protection. SCREAMING_SNAKE_CASE pour les constants, comme InputArgument::IS_ARRAY. UpperCamelCase pour les classes, interfaces, traits, enums, cas d'enum et files PHP. Le préfixe Abstract, sauf pour *TestCase, et les suffixes Interface, Trait et Exception. Un attribute #[As…] configure un service ; un attribute #[Map…] remplit un argument de controller.
+  N(["nommer"]) --> CC["camelCase<br/>variables, functions,<br/>methods, arguments<br/>hasSession()"]
+  N --> SC["snake_case<br/>config, routes, variables<br/>et templates Twig<br/>framework.csrf_protection"]
+  N --> SS["SCREAMING_SNAKE_CASE<br/>constantes<br/>InputArgument::IS_ARRAY"]
+  N --> UC["UpperCamelCase<br/>classes, interfaces, traits,<br/>enums, cas d'enum, files PHP"]
+  N --> AF["Abstract… (préfixe,<br/>sauf *TestCase)<br/>…Interface · …Trait<br/>· …Exception (suffixes)"]
+  N --> AT["#[As…] configure un service<br/>#[Map…] remplit un argument<br/>de controller"]
 ```
 
 ## L'exemple : une collection principale

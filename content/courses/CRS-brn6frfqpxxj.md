@@ -48,13 +48,21 @@ l'absence de terminal, décide.
 
 ## Le schéma
 
-```text
-bin/console app:import  →  Application : résout la command par son nom
-  new Command()            configure() tourne DANS le constructor
-  initialize()             préparer
-  interact()               seulement si l'entrée est interactive (pas de -n, -q, --silent)
-  __invoke() / execute()   faire le travail ; RETOURNER un int
-  exit code                SUCCESS 0 · FAILURE 1 · INVALID 2 · > 255 → 255 · exception → son code, ou 1
+```mermaid
+---
+title: Le trajet d'une command
+---
+flowchart TD
+  accTitle: De bin/console à l'exit code
+  accDescr: bin/console app:import : l'Application résout la command par son nom. new Command() : configure() tourne dans le constructor. initialize() prépare. interact() ne tourne que si l'entrée est interactive, sans -n, -q ni --silent. __invoke() ou execute() fait le travail et doit retourner un int. L'exit code : SUCCESS 0, FAILURE 1, INVALID 2 ; au-delà de 255, 255 ; une exception donne son code, ou 1.
+  B(["bin/console app:import"]) --> A["Application<br/>résout la command<br/>par son nom"]
+  A --> N["new Command()<br/>configure() tourne<br/>DANS le constructor"]
+  N --> I["initialize()<br/>préparer"]
+  I --> Q{"entrée interactive ?<br/>(pas de -n, -q,<br/>--silent)"}
+  Q -->|"oui"| IN["interact()"]
+  Q -->|"non"| X
+  IN --> X["__invoke() / execute()<br/>faire le travail<br/>RETOURNER un int"]
+  X --> E(["exit code<br/>SUCCESS 0 · FAILURE 1<br/>INVALID 2 · > 255 → 255<br/>exception → son code, ou 1"])
 ```
 
 ## L'exemple : une command d'import

@@ -42,13 +42,21 @@ la main, et ce qui l'interrompt — deux délais et `stop()`.
 
 ## Le schéma
 
-```text
-new Process(['ls', '-lsa'])           array : aucun escaping, recommandé
-Process::fromShellCommandline('… "${:Q}"')   string : shell, escaping et portabilité à votre charge
-run()      attend la fin, rend l'exit code      mustRun()  attend, lève ProcessFailedException
-start()    rend la main ; isRunning(), wait(), checkTimeout() à votre charge
-délais     setTimeout (total, 60 s par défaut) · setIdleTimeout (depuis la dernière sortie)
-stop(10)   SIGTERM tout de suite → à l'échéance, SIGKILL
+```mermaid
+---
+title: Construire, lancer, borner un Process
+---
+flowchart TD
+  accTitle: array ou ligne de shell, run, mustRun, start, les délais et stop
+  accDescr: new Process(['ls', '-lsa']), un array, n'escape rien et c'est la forme recommandée. Process::fromShellCommandline('… "${:Q}"'), une string, passe par le shell : escaping et portabilité sont à votre charge. run() attend la fin et rend l'exit code ; mustRun() attend et lève ProcessFailedException ; start() rend la main, et isRunning(), wait() et checkTimeout() sont à votre charge. setTimeout borne la durée totale, 60 secondes par défaut ; setIdleTimeout la durée depuis la dernière output. stop(10) envoie SIGTERM tout de suite, puis SIGKILL à l'échéance.
+  C{"construire"} -->|"array"| A["new Process(['ls', '-lsa'])<br/>aucun escaping,<br/>recommandé"]
+  C -->|"string"| S["Process::fromShellCommandline(<br/>'… #quot;${:Q}#quot;')<br/>shell, escaping et portabilité<br/>à votre charge"]
+  A & S --> L{"lancer"}
+  L -->|"run()"| R["attend la fin,<br/>rend l'exit code"]
+  L -->|"mustRun()"| M["attend, lève<br/>ProcessFailedException"]
+  L -->|"start()"| ST["rend la main<br/>isRunning(), wait(),<br/>checkTimeout()<br/>à votre charge"]
+  M ~~~ D["délais<br/>setTimeout (total,<br/>60 s par défaut)<br/>setIdleTimeout (depuis<br/>la dernière output)"]
+  ST ~~~ SP["stop(10)<br/>SIGTERM tout de suite<br/>→ à l'échéance, SIGKILL"]
 ```
 
 ## L'exemple : lister un dossier

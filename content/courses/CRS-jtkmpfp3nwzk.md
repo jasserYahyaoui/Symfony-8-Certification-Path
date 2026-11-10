@@ -70,11 +70,16 @@ manque si son bundle est absent ou sa section désactivée.
 
 ## Le schéma
 
-```text
-composer require symfony/twig-bundle → la recipe active le bundle dans config/bundles.php
-build du container → l'extension du bundle charge ses definitions ; une section désactivée n'enregistre rien
-alias de type     → Psr\Log\LoggerInterface → logger · Twig\Environment → twig
-ton constructor   → tu écris le type aliasé ; debug:autowiring te dit lequel
+```mermaid
+---
+title: D'un bundle installé à un argument de constructor
+---
+flowchart TD
+  accTitle: Comment un service fourni par un bundle arrive dans ton constructor
+  accDescr: composer require symfony/twig-bundle : la recipe active le bundle dans config/bundles.php. Au build du container, l'extension du bundle charge ses definitions ; une section désactivée n'enregistre rien. Des alias de type relient Psr\Log\LoggerInterface à logger et Twig\Environment à twig. Dans ton constructor, tu écris le type aliasé ; debug:autowiring te dit lequel.
+  A["composer require symfony/twig-bundle<br/>→ la recipe active le bundle<br/>dans config/bundles.php"] --> B["build du container<br/>→ l'extension du bundle<br/>charge ses definitions<br/>une section désactivée<br/>n'enregistre rien"]
+  B --> C["alias de type<br/>Psr\Log\LoggerInterface → logger<br/>Twig\Environment → twig"]
+  C --> D(["ton constructor<br/>tu écris le type aliasé<br/>debug:autowiring te dit lequel"])
 ```
 
 ## Le fil rouge : un `InvoiceMailer`

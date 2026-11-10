@@ -45,13 +45,18 @@ compilées dans un `.env.local.php`.
 
 ## Le schéma
 
-```text
-1. transférer le code        FTP, repository, PaaS, script : aucun outil prescrit
-2. dependencies               composer install --no-dev --optimize-autoloader
-3. migrations                 mise à jour de la structure des données
-4. cache                      APP_ENV=prod APP_DEBUG=0 php bin/console cache:clear (et préchauffer)
-variables   vraies variables, ou .env.prod.local ; composer dump-env prod → .env.local.php (prioritaire)
-projet      kernel.project_dir = directory du composer.json principal
+```mermaid
+---
+title: Les quatre étapes d'un deployment
+---
+flowchart TD
+  accTitle: Transférer, installer les dependencies, migrer, vider le cache
+  accDescr: Premièrement, transférer le code, par FTP, un repository, une PaaS ou un script : aucun outil n'est prescrit. Deuxièmement, les dependencies : composer install --no-dev --optimize-autoloader. Troisièmement, les migrations, qui mettent à jour la structure des données. Quatrièmement, le cache : APP_ENV=prod APP_DEBUG=0 php bin/console cache:clear, et le préchauffer. Les variables sont de vraies variables d'environment, ou .env.prod.local ; composer dump-env prod écrit .env.local.php, prioritaire. kernel.project_dir est le directory du composer.json principal.
+  T["1. transférer le code<br/>FTP, repository, PaaS, script :<br/>aucun outil prescrit"] --> D["2. dependencies<br/>composer install --no-dev<br/>--optimize-autoloader"]
+  D --> M["3. migrations<br/>mise à jour de la structure<br/>des données"]
+  M --> C["4. cache<br/>APP_ENV=prod APP_DEBUG=0<br/>php bin/console cache:clear<br/>(et préchauffer)"]
+  C ~~~ V["variables : vraies variables,<br/>ou .env.prod.local<br/>composer dump-env prod<br/>→ .env.local.php (prioritaire)"]
+  V ~~~ P["projet : kernel.project_dir<br/>= directory du composer.json<br/>principal"]
 ```
 
 ## L'exemple : un script de deployment

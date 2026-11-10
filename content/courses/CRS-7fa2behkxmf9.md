@@ -43,13 +43,19 @@ règles que Symfony ne vérifie pas.
 
 ## Le schéma
 
-```text
-lire     $request->cookies->get('theme')
-écrire   $response->headers->setCookie(Cookie::create('theme')->withValue('dark'))   ← garder le retour
-effacer  $response->headers->clearCookie('theme', $path, $domain)    ← mêmes path et domain
-défauts create()       path '/' · httpOnly true · sameSite lax · secure null (= HTTPS courant) · expire 0
-défauts fromString()   secure false · httponly false · samesite null
-HttpOnly → XSS (lecture)   SameSite → CSRF (envoi)   Secure → HTTPS   Domain → ÉLARGIT
+```mermaid
+---
+title: Lire, écrire, effacer un cookie
+---
+flowchart TD
+  accTitle: Les trois gestes d'un cookie, ses défauts et ses flags
+  accDescr: On lit un cookie dans la Request, $request->cookies->get('theme'). On l'écrit dans la Response, $response->headers->setCookie(Cookie::create('theme')->withValue('dark')), en gardant le retour. On l'efface avec $response->headers->clearCookie('theme', $path, $domain), avec les mêmes path et domain. Les défauts de create() sont path '/', httpOnly true, sameSite lax, secure null, c'est-à-dire HTTPS courant, et expire 0 ; ceux de fromString() sont secure false, httponly false et samesite null. HttpOnly protège de la lecture par XSS, SameSite de l'envoi par CSRF, Secure réserve à HTTPS, et Domain élargit le scope.
+  RQ(["Request"]) -->|"lire"| L["$request->cookies->get('theme')"]
+  RS(["Response"]) -->|"écrire"| W["$response->headers->setCookie(<br/>Cookie::create('theme')<br/>->withValue('dark'))<br/>garder le retour"]
+  RS -->|"effacer"| E["$response->headers->clearCookie(<br/>'theme', $path, $domain)<br/>mêmes path et domain"]
+  W --> D1["défauts create()<br/>path '/' · httpOnly true<br/>sameSite lax · expire 0<br/>secure null (= HTTPS courant)"]
+  W --> D2["défauts fromString()<br/>secure false · httponly false<br/>samesite null"]
+  W --> FL["HttpOnly → XSS (lecture)<br/>SameSite → CSRF (envoi)<br/>Secure → HTTPS<br/>Domain → ÉLARGIT"]
 ```
 
 ## L'exemple : un cookie de préférence

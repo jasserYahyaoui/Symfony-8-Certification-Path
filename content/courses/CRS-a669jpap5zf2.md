@@ -46,15 +46,28 @@ central est le **422** automatique, qui exige trois conditions à la fois.
 
 ## Le schéma
 
-```text
-retour du controller   Response → envoyée · autre valeur → kernel.view (sans listener : échec)
-render() · renderBlock()           → Response (3e argument : une Response à remplir)
-renderView() · renderBlockView()   → string        stream() → StreamedResponse
-sans Twig                          → LogicException qui nomme la method appelée
-form en parameter                  → createView() appliqué automatiquement
-422 si    statut encore 200  ET  parameter FormInterface  ET  form soumis ET invalide
-json()    Serializer s'il existe, contexte fusionné · sinon json_encode ; null → "null"
-file()    attachment par défaut · DISPOSITION_INLINE pour afficher · nom : 2e argument, sinon disque
+```mermaid
+---
+title: Ce que devient la valeur rendue
+---
+flowchart TD
+  accTitle: Le retour d'un controller
+  accDescr: Si le controller rend une Response, elle est envoyée. S'il rend une autre valeur, l'event kernel.view est dispatché ; sans listener pour le traiter, c'est un échec.
+  RT{"retour du<br/>controller"} -->|"Response"| SE(["envoyée"])
+  RT -->|"autre valeur"| KV(["kernel.view<br/>(sans listener : échec)"])
+```
+
+```mermaid
+---
+title: Les raccourcis qui fabriquent la Response
+---
+flowchart LR
+  accTitle: render, json et file dans AbstractController
+  accDescr: render() et renderBlock() rendent une Response, avec en troisième argument une Response à remplir ; renderView() et renderBlockView() rendent une string ; stream() rend une StreamedResponse ; sans Twig, une LogicException nomme la method appelée. Un form passé en parameter reçoit automatiquement createView() ; le statut devient 422 si le statut est encore 200, qu'un parameter est un FormInterface et que ce form est soumis et invalide. json() utilise le Serializer s'il existe, avec le contexte fusionné, sinon json_encode ; null devient "null". file() envoie en attachment par défaut, DISPOSITION_INLINE pour afficher ; le nom vient du deuxième argument, sinon du disque.
+  SH(["raccourcis"]) --> RE["render() · renderBlock()<br/>→ Response<br/>(3e argument : une Response à remplir)<br/>renderView() · renderBlockView()<br/>→ string<br/>stream() → StreamedResponse<br/>sans Twig → LogicException<br/>qui nomme la method appelée"]
+  RE --> FM["form en parameter<br/>→ createView() appliqué<br/>automatiquement<br/>422 si statut encore 200<br/>ET parameter FormInterface<br/>ET form soumis ET invalide"]
+  SH --> JS["json()<br/>Serializer s'il existe,<br/>contexte fusionné<br/>sinon json_encode<br/>null → #quot;null#quot;"]
+  SH --> FI["file()<br/>attachment par défaut<br/>DISPOSITION_INLINE pour afficher<br/>nom : 2e argument, sinon disque"]
 ```
 
 ## L'exemple : un form, deux issues

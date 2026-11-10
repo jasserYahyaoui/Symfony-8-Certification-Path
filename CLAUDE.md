@@ -191,6 +191,18 @@ budget. Each arrow is a claim, verified against the 8.0 code like a sentence.
 Mermaid draws in the browser: the accessibility audit waits for the SVGs, and a
 curl-based smoke test can only see the section around them.
 
+**Every schema is drawn (owner, 2026-11-08, [ADR-0014](docs/adr/0014-every-schema-is-drawn.md)).**
+« Ils doivent être visibles en tant qu'image comme mermaid, pas un code ni
+texte. » « Le schéma » holds at least one ```` ```mermaid ```` block and no
+other fenced block — rule `DIA-002`; a lot summary's optional schema too. Draw
+it for a phone: render it with the site's Mermaid at 358 px, and split a
+diagram whose scale falls below 0.5 into two. `website/tools/verify-diagrams-drawn.mjs`
+(CI, after the site build) opens every page and requires each block drawn as an
+SVG with its accessible title and description, and no code under « Le schéma ».
+The terminology pass rewrites a label like prose: write « suite », not « chaîne »;
+« de sécurité », not « sécurité » alone; an exception's full name. A memo line
+of « Fiche express » or an output in « L'exemple » is not a schema.
+
 **The page preamble is outside the budget too (owner, 2026-10-24, ADR-0011).**
 The table, « Objectifs d'apprentissage », « Justification du niveau » and
 « Limites de périmètre » are written by the generator from the matrix and were

@@ -66,13 +66,18 @@ huit events, chacun avec son pouvoir propre.
 
 ## Le schéma
 
-```text
-dispatch(object $event, ?string $eventName = null): object   nom par défaut = la class ; l'event est rendu
-listener appelé avec ($event, $eventName, $dispatcher)
-ordre      krsort() : 255 → 0 (défaut) → −255 ; à égalité, ordre d'ajout
-arrêt      stopPropagation() : listeners restants de CET event ; il faut StoppableEventInterface
-kernel     request → controller → controller_arguments → [view] → response → finish_request → terminate
-           exception : à tout moment ; KernelEvents::ALIASES relie class d'event et nom
+```mermaid
+---
+title: Dispatch, ordre des listeners et events du kernel
+---
+flowchart TD
+  accTitle: Comment l'EventDispatcher appelle les listeners, et la suite des kernel events
+  accDescr: dispatch(object $event, ?string $eventName = null): object prend par défaut la class de l'event comme nom et rend l'event. Chaque listener est appelé avec $event, $eventName et $dispatcher. L'ordre suit krsort() : de 255 à 0, le défaut, puis jusqu'à −255 ; à égalité, l'ordre d'ajout. stopPropagation() arrête les listeners restants de cet event, à condition que l'event implémente StoppableEventInterface. Les kernel events se suivent : request, controller, controller_arguments, view facultatif, response, finish_request, terminate ; exception peut survenir à tout moment ; KernelEvents::ALIASES relie class d'event et nom.
+  D["dispatch(object $event,<br/>?string $eventName = null): object<br/>nom par défaut = la class<br/>l'event est rendu"] --> L["listener appelé avec<br/>($event, $eventName, $dispatcher)"]
+  L --> O["ordre : krsort()<br/>255 → 0 (défaut) → −255<br/>à égalité, ordre d'ajout"]
+  O --> S["arrêt : stopPropagation()<br/>listeners restants de CET event<br/>il faut StoppableEventInterface"]
+  K1(["kernel.request"]) --> K2["controller"] --> K3["controller_arguments"] --> K4["[view] facultatif"] --> K5["response"] --> K6["finish_request"] --> K7(["terminate"])
+  KX["exception : à tout moment<br/>KernelEvents::ALIASES relie<br/>class d'event et nom"]
 ```
 
 ## L'exemple : un subscriber
