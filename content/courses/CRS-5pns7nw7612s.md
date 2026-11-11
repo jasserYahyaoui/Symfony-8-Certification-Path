@@ -63,13 +63,31 @@ se génère, l'extension se devine du contenu.
 
 ## Le schéma
 
-```text
-obtenir     $request->files->get('brochure')  ·  #[MapUploadedFile] UploadedFile $picture
-            key lue : option name, sinon nom de l'argument
-absent      nullable / défaut → null ou défaut · array → [] · sinon HttpException 422
-conserver   $file->move($dir, $name) → File ; lève une exception par code d'erreur PHP
-client      getClientOriginalName · …Extension · …Path · getClientMimeType · guessClientExtension
-contenu     getMimeType() · guessExtension()        → à utiliser
+```mermaid
+---
+title: Obtenir le file envoyé
+---
+flowchart TD
+  accTitle: $request->files et #[MapUploadedFile], et le cas du file absent
+  accDescr: On obtient le file par $request->files->get('brochure'), ou par #[MapUploadedFile] UploadedFile $picture, qui lit la key donnée par l'option name, sinon le nom de l'argument. Avec #[MapUploadedFile], un file absent donne null ou la default value si l'argument est nullable ou en a une, [] pour un array, et sinon une HttpException 422.
+  O1["$request->files<br/>->get('brochure')"] --> F(["UploadedFile"])
+  O2["#[MapUploadedFile]<br/>UploadedFile $picture<br/>key lue : option name,<br/>sinon nom de l'argument"] --> F
+  O2 --> A{"absent ?"}
+  A -->|"nullable / défaut"| A1["null ou défaut"]
+  A -->|"array"| A2["[]"]
+  A -->|"sinon"| A3["HttpException 422"]
+```
+
+```mermaid
+---
+title: Conserver et inspecter un UploadedFile
+---
+flowchart LR
+  accTitle: move, les methods du client et celles du contenu
+  accDescr: $file->move($dir, $name) conserve le file et rend un File ; il lève une exception par code d'erreur PHP. getClientOriginalName, getClientOriginalExtension, getClientOriginalPath, getClientMimeType et guessClientExtension viennent du client ; getMimeType() et guessExtension() lisent le contenu, et ce sont eux qu'il faut utiliser.
+  F(["UploadedFile"]) --> M["conserver<br/>$file->move($dir, $name) → File<br/>lève une exception<br/>par code d'erreur PHP"]
+  F --> CL["client<br/>getClientOriginalName<br/>· …Extension · …Path<br/>getClientMimeType<br/>guessClientExtension"]
+  F --> CO["contenu<br/>getMimeType()<br/>guessExtension()<br/>→ à utiliser"]
 ```
 
 ## L'exemple : un nom sûr

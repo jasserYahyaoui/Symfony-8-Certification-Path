@@ -75,14 +75,21 @@ celui d'une exception HTTP, **400** pour une `RequestExceptionInterface`, sinon
 
 ## Le schéma
 
-```text
-throw $this->createNotFoundException('…')   ≡ new NotFoundHttpException($message, $previous) ; défaut 'Not Found'
-statut (FlattenException::createFromThrowable)
-   HttpExceptionInterface → son statut · RequestExceptionInterface → 400 · autre → 500
-template (templates/bundles/TwigBundle/Exception/, production)
-   error404.html.twig → error.html.twig → HtmlErrorRenderer (rendu intégré)
-variables   exception (FlattenException) · status_code · status_text
-debug       page d'exception à la place ; prévisualiser par /_error/404 (when@dev)
+```mermaid
+---
+title: D'une NotFoundHttpException à la page 404
+---
+flowchart TD
+  accTitle: Le statut et le template d'une page d'erreur
+  accDescr: throw $this->createNotFoundException('…') équivaut à new NotFoundHttpException($message, $previous), avec 'Not Found' par défaut. FlattenException::createFromThrowable fixe le statut : celui d'une HttpExceptionInterface, 400 pour une RequestExceptionInterface, 500 pour toute autre exception. En debug, la page d'exception s'affiche à la place, et /_error/404 permet de prévisualiser, avec when@dev. En production, les templates de templates/bundles/TwigBundle/Exception/ sont cherchés : error404.html.twig, puis error.html.twig, puis le rendu intégré de HtmlErrorRenderer. Ils reçoivent exception, une FlattenException, status_code et status_text.
+  T["throw $this->createNotFoundException('…')<br/>≡ new NotFoundHttpException(<br/>$message, $previous)<br/>défaut 'Not Found'"] --> S{"statut<br/>FlattenException::<br/>createFromThrowable"}
+  S -->|"HttpExceptionInterface"| S1["son statut"]
+  S -->|"RequestExceptionInterface"| S2["400"]
+  S -->|"autre"| S3["500"]
+  S1 & S2 & S3 --> DB{"debug ?"}
+  DB -->|"oui"| DE["page d'exception à la place<br/>prévisualiser : /_error/404<br/>(when@dev)"]
+  DB -->|"non, production"| TP["templates/bundles/TwigBundle/Exception/<br/>error404.html.twig<br/>→ error.html.twig<br/>→ HtmlErrorRenderer (rendu intégré)"]
+  TP --> V["variables : exception (FlattenException)<br/>· status_code · status_text"]
 ```
 
 ## L'exemple

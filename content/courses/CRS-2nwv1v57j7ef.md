@@ -63,15 +63,23 @@ tout : router compilé, matcher qui sait rediriger, loader des attributes, et
 
 ## Le schéma
 
-```text
-component Routing   « Maps an HTTP request to a set of configuration variables » · requiert PHP + deprecation-contracts
-  Route · RouteCollection · UrlMatcher (URL → variables) · UrlGenerator (variables → URL) · RequestContext · Router
-HttpKernel          RouterListener : kernel.request, priority 32
-                      _controller déjà présent → rien · variables → attributes + _route_params
-                      aucune route → 404 · mauvaise method → 405 + Allow
-FrameworkBundle     router.default : RedirectableCompiledUrlMatcher + CompiledUrlGenerator (cache)
-                    service router_listener · routing.controllers (AttributeServicesLoader)
-                    #[Route] sur un service → tags routing.controller + controller.service_arguments
+```mermaid
+---
+title: Qui fait quoi dans le routing
+---
+flowchart TD
+  accTitle: Le component Routing, RouterListener et ce que câble FrameworkBundle
+  accDescr: Le component Routing « Maps an HTTP request to a set of configuration variables » ; il ne requiert que PHP et deprecation-contracts, et fournit Route, RouteCollection, UrlMatcher, de l'URL vers les variables, UrlGenerator, des variables vers l'URL, RequestContext et Router. Dans HttpKernel, RouterListener écoute kernel.request à la priority 32 : si _controller est déjà présent, il ne fait rien ; sinon il apparie, range les variables dans les attributes avec _route_params, répond 404 si aucune route ne correspond et 405 avec Allow si la method est mauvaise. FrameworkBundle câble router.default, un RedirectableCompiledUrlMatcher et un CompiledUrlGenerator en cache, le service router_listener et routing.controllers, avec AttributeServicesLoader ; un #[Route] sur un service lui donne les tags routing.controller et controller.service_arguments.
+  C["component Routing<br/>« Maps an HTTP request to a set<br/>of configuration variables »<br/>requiert PHP + deprecation-contracts<br/>Route · RouteCollection<br/>UrlMatcher (URL → variables)<br/>UrlGenerator (variables → URL)<br/>RequestContext · Router"]
+  FB["FrameworkBundle<br/>router.default :<br/>RedirectableCompiledUrlMatcher<br/>+ CompiledUrlGenerator (cache)<br/>service router_listener<br/>routing.controllers<br/>(AttributeServicesLoader)<br/>#[Route] sur un service → tags<br/>routing.controller +<br/>controller.service_arguments"]
+  C --> HK
+  FB -->|"câble"| HK["HttpKernel · RouterListener<br/>kernel.request, priority 32"]
+  HK --> D{"_controller<br/>déjà présent ?"}
+  D -->|"oui"| N(["rien"])
+  D -->|"non"| M{"appariement"}
+  M -->|"route trouvée"| V["variables → attributes<br/>+ _route_params"]
+  M -->|"aucune route"| E404(["404"])
+  M -->|"mauvaise method"| E405(["405 + Allow"])
 ```
 
 ## L'exemple : ce que l'appariement dépose

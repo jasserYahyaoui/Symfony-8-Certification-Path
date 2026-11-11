@@ -51,12 +51,16 @@ properties à la fois). La visibilité ne compte jamais.
 
 ## Le schéma
 
-```text
-une constraint posée sur…
-  ├── une PROPERTY          → la valeur stockée (privée comprise, lue par réflexion) ; non initialisée → null
-  ├── une METHOD get/is/has → sa valeur de RETOUR ; path sans préfixe : isPasswordSafe → passwordSafe
-  │                           autre nom → MappingException ; argument requis → ArgumentCountError
-  └── la CLASS              → l'object entier (Callback, getTargets() → CLASS_CONSTRAINT)
+```mermaid
+---
+title: Ce qu'une constraint valide selon sa place
+---
+flowchart TD
+  accTitle: Une constraint sur une property, une method ou la class
+  accDescr: Posée sur une property, une constraint valide la valeur stockée, privée comprise, lue par réflexion ; non initialisée, elle vaut null. Posée sur une method get, is ou has, elle valide sa return value, et le path s'écrit sans préfixe : isPasswordSafe devient passwordSafe ; un autre nom lève MappingException, un argument requis ArgumentCountError. Posée sur la class, elle reçoit l'object entier, comme Callback, dont getTargets() rend CLASS_CONSTRAINT.
+  C(["une constraint<br/>posée sur…"]) --> P["une PROPERTY<br/>→ la valeur stockée<br/>(privée comprise,<br/>lue par réflexion)<br/>non initialisée → null"]
+  C --> M["une METHOD get/is/has<br/>→ sa return value<br/>path sans préfixe :<br/>isPasswordSafe<br/>→ passwordSafe<br/>autre nom<br/>→ MappingException<br/>argument requis<br/>→ ArgumentCountError"]
+  C --> K["la CLASS<br/>→ l'object entier<br/>(Callback,<br/>getTargets()<br/>→ CLASS_CONSTRAINT)"]
 ```
 
 ## L'exemple : un `Author`

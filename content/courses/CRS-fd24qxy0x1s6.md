@@ -56,15 +56,19 @@ et la session sont **gardés**.
 
 ## Le schéma
 
-```text
-forward($controller, $path = [], $query = [])
-  $path['_controller'] = $controller
-  $sub = $request->duplicate($query, null, $path)        → handle($sub, SUB_REQUEST)
-duplicate(query, request, attributes)   un array REMPLACE · null GARDE
-  query      []    → query string d'origine perdue
-  request    null  → body POST gardé
-  attributes $path → _route, _route_params perdus ; _format reporté s'il manque
-gardés aussi : cookies, headers, serveur (donc path et method), session partagée
+```mermaid
+---
+title: Ce que forward() transmet
+---
+flowchart TD
+  accTitle: forward(), duplicate() et ce que garde la sub-Request
+  accDescr: forward($controller, $path = [], $query = []) met $controller dans $path['_controller'], puis crée $sub = $request->duplicate($query, null, $path) et appelle handle($sub, SUB_REQUEST). Dans duplicate(query, request, attributes), un array remplace et null garde. Donc la query [] perd la query string d'origine ; request null garde le body POST ; attributes $path perd _route et _route_params, et _format est reporté s'il manque. Sont gardés aussi les cookies, les headers, le serveur, donc le path et la method, et la session, partagée.
+  F["forward($controller,<br/>$path = [], $query = [])"] --> P["$path['_controller'] = $controller"]
+  P --> D["$sub = $request->duplicate(<br/>$query, null, $path)"]
+  D --> H(["handle($sub, SUB_REQUEST)"])
+  D --> R["duplicate(query, request, attributes)<br/>un array REMPLACE · null GARDE"]
+  R --> Q["query [] → query string<br/>d'origine perdue<br/>request null → body POST gardé<br/>attributes $path → _route,<br/>_route_params perdus ;<br/>_format reporté s'il manque"]
+  R --> G["gardés aussi : cookies, headers,<br/>serveur (donc path et method),<br/>session partagée"]
 ```
 
 ## L'exemple

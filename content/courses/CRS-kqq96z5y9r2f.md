@@ -63,14 +63,18 @@ correspond gagne — jamais la plus spécifique.
 
 ## Le schéma
 
-```text
-attribute   use Symfony\Component\Routing\Attribute\Route   (Annotation\Route : supprimé)
-            16 arguments : path, name, requirements, options, defaults, host, methods, schemes,
-            condition, priority, locale, format, utf8, stateless, env, alias
-YAML        liste AVAILABLE_KEYS : pas de priority · env → block when@prod: · alias → entrée alias seul
-            key inconnue, controller + defaults._controller, stateless + defaults._stateless → exception
-ordre       première route qui correspond = gagnante
-            priority : plus haute d'abord · égalité → ordre de déclaration · null → priority de la class, sinon 0
+```mermaid
+---
+title: Déclarer une route, et laquelle gagne
+---
+flowchart TD
+  accTitle: L'attribute Route, les keys YAML et l'ordre d'appariement
+  accDescr: L'attribute s'importe par use Symfony\Component\Routing\Attribute\Route ; Annotation\Route est supprimé. Il accepte 16 arguments : path, name, requirements, options, defaults, host, methods, schemes, condition, priority, locale, format, utf8, stateless, env et alias. En YAML, la liste AVAILABLE_KEYS n'a pas de priority ; env devient un block when@prod: ; alias devient une entrée alias seule ; une key inconnue, controller avec defaults._controller, ou stateless avec defaults._stateless lèvent une exception. La première route qui correspond gagne ; la priority la plus haute passe d'abord, à égalité l'ordre de déclaration, et null prend la priority de la class, sinon 0.
+  A["attribute<br/>use Symfony\Component\Routing<br/>\Attribute\Route<br/>(Annotation\Route : supprimé)<br/>16 arguments : path, name,<br/>requirements, options, defaults,<br/>host, methods, schemes, condition,<br/>priority, locale, format, utf8,<br/>stateless, env, alias"]
+  Y["YAML<br/>liste AVAILABLE_KEYS :<br/>pas de priority<br/>env → block when@prod:<br/>alias → entrée alias seul<br/>key inconnue,<br/>controller + defaults._controller,<br/>stateless + defaults._stateless<br/>→ exception"]
+  A --> O
+  Y --> O
+  O["première route qui correspond<br/>= gagnante"] --> P["priority : plus haute d'abord<br/>égalité → ordre de déclaration<br/>null → priority de la class,<br/>sinon 0"]
 ```
 
 ## L'exemple : les deux formes

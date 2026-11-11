@@ -85,15 +85,20 @@ génération, et `_fragment` est le seul que la documentation exclut des imports
 
 ## Le schéma
 
-```text
-_controller   controller exécuté                     → resolver de controller
-_format       format de la Request                   → Response::prepare() pose Content-Type s'il manque
-_locale       locale de la Request                   → LocaleListener
-_fragment     #ancre de l'URL générée                → default de la route, remplacée par celle de generate()
-_query        query string de l'URL générée          → lue SEULEMENT dans les parameters de generate()
-#[Route]      locale: → _locale · format: → _format · stateless: → _stateless · utf8: → option utf8
-              query: → Error « Unknown named parameter » ; en YAML, key query → InvalidArgumentException
-import        defaults recopiés sur chaque route ; une route localisée garde son _locale
+```mermaid
+---
+title: Les attributes réservés et qui les lit
+---
+flowchart LR
+  accTitle: _controller, _format, _locale, _fragment et _query
+  accDescr: _controller désigne le controller exécuté, lu par le resolver de controller. _format est le format de la Request ; Response::prepare() pose Content-Type s'il manque. _locale est la locale de la Request, appliquée par LocaleListener. _fragment est l'ancre de l'URL générée : un default de la route, remplacé par celui passé à generate(). _query est la query string de l'URL générée, lue seulement dans les parameters de generate(). Dans #[Route], locale: devient _locale, format: _format, stateless: _stateless, et utf8: l'option utf8 ; query: lève Error « Unknown named parameter », et en YAML une key query lève InvalidArgumentException. À l'import, les defaults sont recopiés sur chaque route, et une route localisée garde son _locale.
+  A(["attributes réservés"]) --> C["_controller<br/>controller exécuté<br/>→ resolver de controller"]
+  A --> F["_format<br/>format de la Request<br/>→ Response::prepare() pose<br/>Content-Type s'il manque"]
+  A --> L["_locale<br/>locale de la Request<br/>→ LocaleListener"]
+  A --> FR["_fragment<br/>#ancre de l'URL générée<br/>→ default de la route, remplacée<br/>par celle de generate()"]
+  A --> Q["_query<br/>query string de l'URL générée<br/>→ lue SEULEMENT dans<br/>les parameters de generate()"]
+  RT["#[Route]<br/>locale: → _locale · format: → _format<br/>stateless: → _stateless<br/>utf8: → option utf8<br/>query: → Error<br/>« Unknown named parameter »<br/>en YAML, key query<br/>→ InvalidArgumentException"]
+  I["import<br/>defaults recopiés sur chaque route<br/>une route localisée<br/>garde son _locale"]
 ```
 
 ## L'exemple

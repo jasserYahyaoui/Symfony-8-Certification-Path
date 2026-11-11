@@ -42,11 +42,16 @@ montre tout.
 
 ## Le schéma
 
-```text
---silent  <  -q  <  (défaut)  <  -v  <  -vv  <  -vvv
-SILENT       QUIET   NORMAL      VERBOSE  VERY_VERBOSE  DEBUG
-un message marqué VERBOSE s'affiche à -v, -vv ET -vvv : c'est un seuil
-SHELL_VERBOSITY : -2 … 3, réglage global ; -q et -v l'emportent
+```mermaid
+---
+title: Les niveaux de verbosity, du plus discret au plus bavard
+---
+flowchart TD
+  accTitle: Les six niveaux de verbosity et leurs options
+  accDescr: Du plus discret au plus bavard : --silent, SILENT ; -q, QUIET ; sans option, NORMAL ; -v, VERBOSE ; -vv, VERY_VERBOSE ; -vvv, DEBUG. Un message marqué VERBOSE s'affiche à -v, -vv et -vvv : c'est un seuil. SHELL_VERBOSITY, de −2 à 3, règle la verbosity globalement ; -q et -v l'emportent.
+  S["--silent · SILENT"] --> Q["-q · QUIET"] --> N["(défaut) · NORMAL"] --> V["-v · VERBOSE"] --> VV["-vv · VERY_VERBOSE"] --> D["-vvv · DEBUG"]
+  V -.- T["un message marqué VERBOSE<br/>s'affiche à -v, -vv ET -vvv :<br/>c'est un seuil"]
+  D ~~~ SH["SHELL_VERBOSITY : -2 … 3<br/>réglage global<br/>-q et -v l'emportent"]
 ```
 
 ## L'exemple : une command qui échoue

@@ -71,15 +71,32 @@ dits **ciblés**, ne tournent que si un attribute les désigne : ce sont les
 
 ## Le schéma
 
-```text
-pour chaque argument → resolvers par priority décroissante
-  120  RequestValueResolver, SessionValueResolver
-  100  RequestAttributeValueResolver, BackedEnum, Uid, DateTime
-  −50  ServiceValueResolver   −100 DefaultValueResolver   −150 VariadicValueResolver
-  1re valeur → argument suivant · 2 valeurs (non variadique) → InvalidArgumentException
-  aucune     → RuntimeException « requires the "$x" argument that could not be resolved »
-#[ValueResolver(X)] → chaîne = X, RequestAttributeValueResolver, DefaultValueResolver
-ciblés (hors chaîne) : RequestPayloadValueResolver, QueryParameterValueResolver
+```mermaid
+---
+title: Comment chaque argument reçoit sa valeur
+---
+flowchart TD
+  accTitle: La suite des argument value resolvers et ses issues
+  accDescr: Pour chaque argument, les resolvers sont essayés par priority décroissante : à 120, RequestValueResolver et SessionValueResolver ; à 100, RequestAttributeValueResolver, BackedEnum, Uid et DateTime ; à −50, ServiceValueResolver ; à −100, DefaultValueResolver ; à −150, VariadicValueResolver. La première valeur obtenue fait passer à l'argument suivant ; deux valeurs pour un argument non variadique lèvent InvalidArgumentException ; aucune valeur lève RuntimeException « requires the "$x" argument that could not be resolved ».
+  A(["pour chaque argument"]) --> P120["120 : RequestValueResolver,<br/>SessionValueResolver"]
+  P120 --> P100["100 : RequestAttributeValueResolver,<br/>BackedEnum, Uid, DateTime"]
+  P100 --> PN["−50 ServiceValueResolver<br/>−100 DefaultValueResolver<br/>−150 VariadicValueResolver"]
+  PN --> V{"valeurs"}
+  V -->|"1re valeur"| NX(["argument<br/>suivant"])
+  V -->|"2 valeurs<br/>(non variadique)"| E1["InvalidArgument<br/>Exception"]
+  V -->|"aucune"| E2["RuntimeException<br/>« requires the #quot;$x#quot;<br/>argument that could<br/>not be resolved »"]
+```
+
+```mermaid
+---
+title: Changer la suite des resolvers
+---
+flowchart TD
+  accTitle: #[ValueResolver] et les resolvers ciblés
+  accDescr: #[ValueResolver(X)] réduit la suite à X, RequestAttributeValueResolver et DefaultValueResolver. RequestPayloadValueResolver et QueryParameterValueResolver sont ciblés, hors de la suite.
+  T["#[ValueResolver(X)]<br/>→ suite = X,<br/>RequestAttributeValueResolver,<br/>DefaultValueResolver"]
+  C["ciblés (hors de la suite) :<br/>RequestPayloadValueResolver,<br/>QueryParameterValueResolver"]
+  T ~~~ C
 ```
 
 ## L'exemple : un resolver maison

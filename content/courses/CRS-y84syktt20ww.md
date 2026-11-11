@@ -40,12 +40,18 @@ la licence. Rien n'oblige à publier son propre code.
 
 ## Le schéma
 
-```text
-LICENSE (racine de symfony/symfony)          composer.json : "license": "MIT"
-1. attribution   Copyright (c) 2004-present Fabien Potencier   ← une personne
-2. concession    use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-3. condition     les DEUX avis (copyright + licence) dans toute copie ou « substantial portion »
-4. AS IS         aucune garantie      5. aucune responsabilité des auteurs
+```mermaid
+---
+title: La licence MIT, clause par clause
+---
+flowchart TD
+  accTitle: Les cinq clauses de la licence MIT de Symfony
+  accDescr: Le file LICENSE, à la racine de symfony/symfony, et composer.json, "license": "MIT". Première clause, l'attribution : Copyright (c) 2004-present Fabien Potencier, une personne. Deuxième, la concession : use, copy, modify, merge, publish, distribute, sublicense, and/or sell. Troisième, la condition : les deux avis, copyright et licence, dans toute copie ou « substantial portion ». Quatrième, AS IS : aucune garantie. Cinquième : aucune responsabilité des auteurs.
+  L(["LICENSE, racine de symfony/symfony<br/>composer.json : #quot;license#quot;: #quot;MIT#quot;"]) --> A1["1. attribution<br/>Copyright (c) 2004-present<br/>Fabien Potencier<br/>une personne"]
+  A1 --> A2["2. concession<br/>use, copy, modify, merge,<br/>publish, distribute,<br/>sublicense, and/or sell"]
+  A2 --> A3["3. condition<br/>les DEUX avis (copyright + licence)<br/>dans toute copie<br/>ou « substantial portion »"]
+  A3 --> A4["4. AS IS<br/>aucune garantie"]
+  A4 --> A5["5. aucune responsabilité<br/>des auteurs"]
 ```
 
 ## L'exemple : un produit propriétaire

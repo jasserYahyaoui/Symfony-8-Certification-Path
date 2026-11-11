@@ -50,13 +50,28 @@ form l'emporte sur le JSON.
 
 ## Le schéma
 
-```text
-controller   index(Request $request)          le type déclenche l'injection, le nom est libre
-service      RequestStack → getCurrentRequest() · getMainRequest() · getParentRequest() · getSession() (lève)
-/lucky/{max} → attributes['max'] → number(int $max)   apparié par NOM ; _route, _controller aussi dans attributes
-getPayload() 1. $request->request non vide → un CLONE de ce sac
-             2. body vide → InputBag vide
-             3. sinon JSON décodé — invalide ou pas un array : JsonException
+```mermaid
+---
+title: Atteindre la Request
+---
+flowchart TD
+  accTitle: La Request dans un controller, dans un service, et ses attributes
+  accDescr: Dans un controller, index(Request $request) : le type déclenche l'injection, le nom est libre. Dans un service, RequestStack donne getCurrentRequest(), getMainRequest(), getParentRequest() et getSession(), qui lève sans session. Pour la route /lucky/{max}, la valeur est rangée dans attributes['max'] et passée à number(int $max), appariée par nom ; _route et _controller sont aussi dans attributes.
+  RQ(["la Request"]) -->|"dans un controller"| C["index(Request $request)<br/>le type déclenche l'injection,<br/>le nom est libre"]
+  RQ -->|"dans un service"| S["RequestStack →<br/>getCurrentRequest()<br/>getMainRequest()<br/>getParentRequest()<br/>getSession() (lève)"]
+  C --> R["/lucky/{max}<br/>→ attributes['max']<br/>→ number(int $max)<br/>apparié par NOM<br/>_route, _controller<br/>aussi dans attributes"]
+```
+
+```mermaid
+---
+title: Ce que rend getPayload()
+---
+flowchart TD
+  accTitle: Les trois cas de getPayload
+  accDescr: getPayload() rend d'abord un clone de $request->request s'il n'est pas vide ; sinon, pour un body vide, un InputBag vide ; sinon le JSON décodé, et lève JsonException s'il est invalide ou n'est pas un array.
+  P{"getPayload()"} -->|"1. $request->request<br/>non vide"| P1["un CLONE<br/>de ce sac"]
+  P -->|"2. body vide"| P2["InputBag vide"]
+  P -->|"3. sinon"| P3["JSON décodé<br/>invalide ou pas un array :<br/>JsonException"]
 ```
 
 ## L'exemple : une route à parameter

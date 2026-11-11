@@ -41,12 +41,21 @@ spécificité, `getPreferredFormat()` lit `_format` avant `Accept`.
 
 ## Le schéma
 
-```text
-Request   Accept (type) · Accept-Language · Accept-Encoding · Accept-Charset (déprécié)
-q         absent = 1 · 0 = refus · 0.001 = le plus faible · 3 décimales au plus
-spécificité   choisit le pattern qui fixe le q d'UN type : text/html > text/* > */*
-Response  Content-Type · Content-Language · Vary: Accept, Accept-Language   │ rien ne convient → 406
-proactive (server-driven) : le serveur choisit   │   réactive (agent-driven) : le client choisit (300)
+```mermaid
+---
+title: Qui choisit la représentation
+---
+flowchart TD
+  accTitle: La content negotiation, des headers Accept à la Response
+  accDescr: La Request annonce ses préférences avec Accept pour le type, Accept-Language, Accept-Encoding et Accept-Charset, déprécié. Le poids q vaut 1 s'il est absent, 0 signifie refus, 0.001 est le plus faible, avec trois décimales au plus. Quand plusieurs patterns visent un type, le plus spécifique fixe son q : text/html, puis text/*, puis */*. En négociation proactive, server-driven, le serveur choisit ; il répond avec Content-Type, Content-Language et Vary: Accept, Accept-Language, ou par 406 si rien ne convient. En négociation réactive, agent-driven, le client choisit, avec un 300.
+  RQ(["Request"]) --> A["Accept (type) · Accept-Language<br/>Accept-Encoding<br/>Accept-Charset (déprécié)"]
+  A --> Q["q : absent = 1 · 0 = refus<br/>0.001 = le plus faible<br/>3 décimales au plus"]
+  Q --> SP["spécificité : le pattern<br/>qui fixe le q d'UN type<br/>text/html > text/* > */*"]
+  SP --> CH{"qui choisit ?"}
+  CH -->|"proactive<br/>(server-driven)"| SV["le serveur"]
+  CH -->|"réactive<br/>(agent-driven)"| CL(["le client (300)"])
+  SV --> RS["Response<br/>Content-Type · Content-Language<br/>Vary: Accept, Accept-Language"]
+  SV --> NA(["rien ne convient → 406"])
 ```
 
 ## L'exemple : lire les préférences

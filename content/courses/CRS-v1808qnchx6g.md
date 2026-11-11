@@ -59,12 +59,20 @@ suit une cascade de repli.
 
 ## Le schéma
 
-```text
-fichier      domaine.locale.chargeur        messages.fr_FR.yaml · admin.en.xlf · messages+intl-icu.en.yaml
-lecture      translations/ du projet, puis des bundles ; redéfinition key par key
-trans()      key trouvée → traduite ; nulle part → la key, telle quelle, sans erreur
-repli es_AR  es_AR → es_419 (locale parente) → es → fallbacks (sinon default_locale)
-twig         |trans échappe ; {% trans %} n'échappe rien et exige %var%
+```mermaid
+---
+title: Où trans() cherche une key
+---
+flowchart TD
+  accTitle: Les files de translation, l'ordre de recherche et le repli de locale
+  accDescr: Un file de translation se nomme domain.locale.loader : messages.fr_FR.yaml, admin.en.xlf, messages+intl-icu.en.yaml. Les translations/ du projet sont lues, puis celles des bundles, avec une redéfinition key par key. Pour es_AR, trans() cherche dans es_AR, puis es_419, la locale parente, puis es, puis les fallbacks, sinon default_locale ; une key trouvée est traduite ; trouvée nulle part, la key est rendue telle quelle, sans erreur. En Twig, le filter trans échappe ; le tag trans n'échappe rien et exige %var%.
+  F["file : domain.locale.loader<br/>messages.fr_FR.yaml<br/>admin.en.xlf<br/>messages+intl-icu.en.yaml"] --> L["lecture<br/>translations/ du projet,<br/>puis des bundles<br/>redéfinition key par key"]
+  L --> A["es_AR"] -->|"absente"| B["es_419<br/>(locale parente)"]
+  B -->|"absente"| C["es"]
+  C -->|"absente"| D["fallbacks<br/>(sinon default_locale)"]
+  D -->|"nulle part"| K(["la key, telle quelle,<br/>sans erreur"])
+  A -.->|"à chaque étape,<br/>key trouvée"| TR(["traduite"])
+  K ~~~ TW["twig : |trans échappe<br/>{% trans %} n'échappe rien<br/>et exige %var%"]
 ```
 
 ## L'exemple : saluer

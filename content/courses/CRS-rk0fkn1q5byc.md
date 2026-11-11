@@ -47,13 +47,29 @@ et se rappeler qu'une command vise `dev` par défaut.
 
 ## Le schéma
 
-```text
-php bin/console                 → list (la command par défaut)
-php bin/console list debug      → un namespace
-php bin/console help cache:clear
-namespace:nom   le préfixe nomme le DOMAINE (cache, routage, container), pas le bundle
-abréviation     c:c → cache:clear ; deb:c → « ambiguous » (debug:config, debug:container)
-environment     APP_ENV, sinon dev ; --env / -e et --no-debug pour un lancement
+```mermaid
+---
+title: Lister et demander l'aide
+---
+flowchart LR
+  accTitle: Les commands list et help, les namespaces et l'environment
+  accDescr: php bin/console seul lance list, la command par défaut ; php bin/console list debug liste un namespace ; php bin/console help cache:clear affiche l'aide d'une command. Dans namespace:nom, le préfixe nomme le domain, comme cache, routing ou container, pas le bundle. L'environment est APP_ENV, sinon dev ; --env ou -e et --no-debug le règlent pour un lancement.
+  R(["php bin/console"]) --> P1["sans argument<br/>→ list (la command<br/>par défaut)"]
+  R --> P2["list debug<br/>→ un namespace"]
+  R --> P3["help cache:clear"]
+  R --> NS["namespace:nom<br/>le préfixe nomme le domain<br/>(cache, routing, container),<br/>pas le bundle"]
+  R --> EN["environment<br/>APP_ENV, sinon dev<br/>--env / -e et --no-debug<br/>pour un lancement"]
+```
+
+```mermaid
+---
+title: Abréger un nom de command
+---
+flowchart TD
+  accTitle: Une abréviation unique ou ambiguë
+  accDescr: Une abréviation suffit si elle est unique : c:c donne cache:clear ; deb:c est « ambiguous », entre debug:config et debug:container.
+  AB{"abréviation"} -->|"c:c"| CC(["cache:clear"])
+  AB -->|"deb:c"| AM(["« ambiguous »<br/>(debug:config,<br/>debug:container)"])
 ```
 
 ## L'exemple : vider le cache de production

@@ -49,14 +49,21 @@ sortent **pas** avec leur statut.
 
 ## Le schéma
 
-```text
-exception ─▶ kernel.exception
-   priority 0      ErrorListener::logKernelException   log ; #[WithHttpStatus] / table exceptions → HttpException
-   listeners       setResponse() (fin du traitement) · setThrowable() (autre exception)
-   priority −128   ErrorListener::onKernelException    sub-Request vers le controller d'erreur, $catch = false
-statut   1. Response 4xx, 5xx ou redirect → son code
-         2. sinon exception HttpExceptionInterface → getStatusCode() + getHeaders()
-         3. sinon 500        (200/204 imposé : allowCustomResponseCode() AVANT setResponse())
+```mermaid
+---
+title: Ce que devient une exception
+---
+flowchart TD
+  accTitle: Le parcours de kernel.exception et le choix du status code
+  accDescr: Une exception déclenche kernel.exception. À la priority 0, ErrorListener::logKernelException la journalise et, grâce à #[WithHttpStatus] ou à la table des exceptions, la convertit en HttpException. Les listeners peuvent appeler setResponse(), qui termine le traitement, ou setThrowable(), qui remplace l'exception. À la priority −128, ErrorListener::onKernelException lance une sub-Request vers le controller d'erreur, avec $catch = false. Le statut de la Response obtenue : d'abord, une Response 4xx, 5xx ou redirect garde son code ; sinon, une exception HttpExceptionInterface donne getStatusCode() et getHeaders() ; sinon 500. Pour imposer 200 ou 204, appeler allowCustomResponseCode() avant setResponse().
+  X(["exception"]) --> KE["kernel.exception"]
+  KE --> P0["priority 0<br/>ErrorListener::logKernelException<br/>log ; #[WithHttpStatus] /<br/>table exceptions → HttpException"]
+  P0 --> LS["listeners<br/>setResponse() : fin du traitement<br/>setThrowable() : autre exception"]
+  LS --> P128["priority −128<br/>ErrorListener::onKernelException<br/>sub-Request vers le controller<br/>d'erreur, $catch = false"]
+  P128 --> ST{"statut de la<br/>Response obtenue"}
+  ST -->|"1"| S1["Response 4xx, 5xx<br/>ou redirect<br/>→ son code"]
+  ST -->|"2 sinon"| S2["exception<br/>HttpExceptionInterface<br/>→ getStatusCode()<br/>+ getHeaders()"]
+  ST -->|"3 sinon"| S3["500<br/>200/204 imposé :<br/>allowCustomResponseCode()<br/>AVANT setResponse()"]
 ```
 
 ## L'exemple : une exception qui porte son statut

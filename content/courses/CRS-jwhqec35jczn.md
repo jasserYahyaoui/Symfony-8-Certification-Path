@@ -47,12 +47,17 @@ l'ordre du filesystem. Le piège central : l'object est **à état** — un seco
 
 ## Le schéma
 
-```text
-new Finder()->files()->in(__DIR__)->name('*.php')        in() obligatoire ; files()/directories() restreignent
-défaut       fichiers ET dossiers · récursif (depth() borne) · VCS ignorés · liens non suivis
-à état       name('a*') puis name('b*') sur le même object → a* OU b*  ⇒  clone $finder
-résultats    SplFileInfo enrichi (getRelativePathname()) · iterator_to_array($finder, false) après plusieurs in()
-ordre        celui du filesystem ; sortByName(true) naturel ; sortByType() dossiers d'abord ; reverseSorting()
+```mermaid
+---
+title: Un Finder, de la recherche aux résultats
+---
+flowchart TD
+  accTitle: in obligatoire, les défauts, l'état partagé, les résultats et l'ordre
+  accDescr: new Finder()->files()->in(__DIR__)->name('*.php') : in() est obligatoire ; files() et directories() restreignent. Par défaut, le Finder rend files et dossiers, de façon récursive, depth() bornant la profondeur ; les dossiers VCS sont ignorés et les liens ne sont pas suivis. Il a un état : name('a*') puis name('b*') sur le même object donne a* ou b*, d'où clone $finder. Les résultats sont des SplFileInfo enrichis, avec getRelativePathname() ; après plusieurs in(), iterator_to_array($finder, false). L'ordre est celui du filesystem ; sortByName(true) trie de façon naturelle ; sortByType() met les dossiers d'abord ; reverseSorting() inverse.
+  N["new Finder()->files()<br/>->in(__DIR__)->name('*.php')<br/>in() obligatoire<br/>files()/directories() restreignent"] --> D["défaut<br/>files ET dossiers<br/>récursif (depth() borne)<br/>VCS ignorés · liens non suivis"]
+  D --> S["à état<br/>name('a*') puis name('b*')<br/>sur le même object<br/>→ a* OU b* ⇒ clone $finder"]
+  S --> R["résultats<br/>SplFileInfo enrichi<br/>(getRelativePathname())<br/>iterator_to_array($finder, false)<br/>après plusieurs in()"]
+  R --> O["ordre<br/>celui du filesystem<br/>sortByName(true) naturel<br/>sortByType() dossiers d'abord<br/>reverseSorting()"]
 ```
 
 ## L'exemple : deux recherches sur une base commune

@@ -76,15 +76,29 @@ Appeler `setLocale()` depuis un controller arrive **trop tard**.
 
 ## Le schéma
 
-```text
-kernel.request   RouterListener (32) pose _locale → LocaleListener (16) l'applique + contexte du router
-ordre            1. attribute _locale de la Request
-                 2. Accept-Language parmi enabled_locales, si set_locale_from_accept_language: true
-                    (+ Vary: Accept-Language sur la Response)
-                 3. framework.default_locale (en si rien n'est configuré)
-paths localisés  ['en' => '/about-us', 'nl' => '/over-ons', '/about-us'] → about_us.en, about_us.nl, about_us
-génération       about_us.<locale courante> → sinon la langue seule (fr_CA → fr) → sinon about_us
-listener maison  priority > 16 ; setLocale() dans un controller = trop tard pour le translator
+```mermaid
+---
+title: Comment la locale est choisie
+---
+flowchart TD
+  accTitle: L'ordre de choix de la locale pendant kernel.request
+  accDescr: Pendant kernel.request, RouterListener, à la priority 32, pose _locale, puis LocaleListener, à 16, l'applique, ainsi qu'au contexte du router. L'ordre : d'abord l'attribute _locale de la Request ; sinon Accept-Language parmi enabled_locales, si set_locale_from_accept_language: true, avec Vary: Accept-Language sur la Response ; sinon framework.default_locale, en si rien n'est configuré. Un listener maison doit avoir une priority supérieure à 16 ; setLocale() dans un controller arrive trop tard pour le translator.
+  K["kernel.request<br/>RouterListener (32) pose _locale<br/>→ LocaleListener (16) l'applique<br/>+ contexte du router"] --> O1{"1. attribute _locale<br/>de la Request ?"}
+  O1 -->|"oui"| U(["cette locale"])
+  O1 -->|"non"| O2{"2. Accept-Language<br/>parmi enabled_locales ?<br/>(si set_locale_from_<br/>accept_language: true)"}
+  O2 -->|"oui"| V(["cette locale<br/>+ Vary: Accept-Language<br/>sur la Response"])
+  O2 -->|"non"| O3(["3. framework.default_locale<br/>(en si rien n'est configuré)"])
+  K -.- LM["listener maison : priority > 16<br/>setLocale() dans un controller<br/>= trop tard pour le translator"]
+```
+
+```mermaid
+---
+title: Les routes localisées
+---
+flowchart TD
+  accTitle: Paths localisés et génération d'une route localisée
+  accDescr: Des paths localisés ['en' => '/about-us', 'nl' => '/over-ons', '/about-us'] donnent les routes about_us.en, about_us.nl et about_us. La génération cherche about_us suivi de la locale courante, sinon la langue seule, fr_CA donnant fr, sinon about_us.
+  P["paths localisés<br/>['en' => '/about-us',<br/>'nl' => '/over-ons', '/about-us']<br/>→ about_us.en, about_us.nl,<br/>about_us"] --> G["génération :<br/>about_us.#lt;locale courante#gt;<br/>→ sinon la langue seule<br/>(fr_CA → fr)<br/>→ sinon about_us"]
 ```
 
 ## L'exemple

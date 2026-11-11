@@ -103,13 +103,19 @@ JSON. Deux confusions reviennent : `readonly` contre `private(set)`, et
 
 ## Le schéma
 
-```text
-8.0  named arguments · promotion · match · union types · ?-> · static en return type · str_contains()
-8.1  enums · readonly · never · foo(...) · final const · array_is_list()
-8.2  readonly class · DNF types · properties dynamiques dépréciées
-8.3  constantes de class typées · #[\Override] · json_validate()
-8.4  property hooks · private(set) · lazy objects · #[\Deprecated] · new Foo()->m()
-     array_find() · array_find_key() · array_any() · array_all() · mb_trim() · mb_ucfirst()
+```mermaid
+---
+title: Ce que chaque version de PHP apporte
+---
+flowchart TD
+  accTitle: Les nouveautés de PHP 8.0 à PHP 8.4, version par version
+  accDescr: PHP 8.0 apporte les named arguments, la promotion, match, les union types, l'operator nullsafe, static en return type et str_contains. PHP 8.1 apporte les enums, readonly, never, la syntaxe foo(...), les constants final et array_is_list. PHP 8.2 apporte les readonly class et les DNF types, et déprécie les properties dynamiques. PHP 8.3 apporte les constants de class typées, l'attribute Override et json_validate. PHP 8.4 apporte les property hooks, private(set), les lazy objects, l'attribute Deprecated, new Foo()->m() sans parenthèses, array_find, array_find_key, array_any, array_all, mb_trim et mb_ucfirst.
+  V80["PHP 8.0<br/>named arguments · promotion · match<br/>union types · ?-> · static en return type<br/>str_contains()"]
+  V81["PHP 8.1<br/>enums · readonly · never<br/>foo(...) · final const · array_is_list()"]
+  V82["PHP 8.2<br/>readonly class · DNF types<br/>properties dynamiques dépréciées"]
+  V83["PHP 8.3<br/>constantes de class typées<br/>#[\Override] · json_validate()"]
+  V84["PHP 8.4<br/>property hooks · private(set) · lazy objects<br/>#[\Deprecated] · new Foo()->m()<br/>array_find() · array_find_key()<br/>array_any() · array_all()<br/>mb_trim() · mb_ucfirst()"]
+  V80 --> V81 --> V82 --> V83 --> V84
 ```
 
 ## L'exemple : un property hook

@@ -74,14 +74,21 @@ la Request vers `RedirectController`.
 
 ## En un coup d'œil
 
-```text
-UrlMatcher (component)            ne redirige jamais → ResourceNotFoundException (404)
-RedirectableCompiledUrlMatcher    redirect() → _controller = RedirectController::urlRedirectAction
-  (FrameworkBundle)               permanent: true → 301 · query string recopiée · _route = route trouvée
-barre finale   /foo ↔ /foo/ vers la forme déclarée · GET/HEAD · route qui accepte GET · jamais /
-schemes        génération : URL absolue si le schéma change · match : 301 vers le 1er schéma, GET/HEAD
-               barre ET schéma faux → un seul redirect
-POST           mauvaise forme ou mauvais schéma → 404
+```mermaid
+---
+title: Qui redirige, et quand
+---
+flowchart TD
+  accTitle: UrlMatcher, RedirectableCompiledUrlMatcher et les redirects d'appariement
+  accDescr: UrlMatcher, du component, ne redirige jamais : il lève ResourceNotFoundException, un 404. RedirectableCompiledUrlMatcher, de FrameworkBundle, appelle redirect(), qui pose _controller = RedirectController::urlRedirectAction avec permanent: true, donc un 301, recopie la query string et met dans _route la route trouvée. Pour la barre finale, /foo et /foo/ sont redirigés vers la forme déclarée, en GET ou HEAD, sur une route qui accepte GET, jamais pour /. Pour schemes, au match, 301 vers le premier schéma, en GET ou HEAD ; à la génération, l'URL devient absolue si le schéma change. Barre et schéma faux à la fois donnent un seul redirect. En POST, une mauvaise forme ou un mauvais schéma donnent un 404.
+  U["UrlMatcher (component)<br/>ne redirige jamais<br/>→ ResourceNotFoundException (404)"]
+  U ~~~ R
+  R["RedirectableCompiledUrlMatcher<br/>(FrameworkBundle)<br/>redirect() → _controller =<br/>RedirectController::urlRedirectAction<br/>permanent: true → 301<br/>query string recopiée<br/>_route = route trouvée"]
+  R -->|"barre finale"| B["/foo ↔ /foo/<br/>vers la forme déclarée<br/>GET/HEAD · route qui<br/>accepte GET · jamais /"]
+  R -->|"schemes,<br/>au match"| SC["301 vers<br/>le 1er schéma<br/>GET/HEAD"]
+  R -->|"POST"| P(["mauvaise forme<br/>ou mauvais<br/>schéma → 404"])
+  B & SC --> BOTH["barre ET schéma faux<br/>→ un seul redirect"]
+  BOTH ~~~ G["schemes, à la génération :<br/>URL absolue si le schéma change"]
 ```
 
 ## L'exemple
@@ -120,6 +127,29 @@ Le redirect passe avant une route générique : avec `/foo/` puis `/{name}`,
 `GET /foo` est redirigé vers `/foo/` (test `testFallbackPage`).
 
 ## Le schéma
+
+```mermaid
+---
+title: schemes https, à la génération
+---
+flowchart TD
+  accTitle: Ce que produit path avec schemes https
+  accDescr: Avec schemes: ['https'], à la génération, path('login') produit /login/ si la Request est déjà en HTTPS, et https://example.com/login/ si elle est en HTTP.
+  S(["schemes: ['https']"]) --> G{"Request déjà<br/>en HTTPS ?"}
+  G -->|"oui"| G1["path('login')<br/>→ /login/"]
+  G -->|"non"| G2["path('login') →<br/>https://example.com/login/"]
+```
+
+```mermaid
+---
+title: schemes https, à l'appariement
+---
+flowchart TD
+  accTitle: Ce que reçoit une Request en HTTP sur une route schemes https
+  accDescr: À l'appariement d'une Request en HTTP, un GET ou un HEAD est redirigé en 301 vers HTTPS, et un POST reçoit un 404. Avec plusieurs schémas, aucun redirect si l'un correspond, sinon vers le premier ; barre finale et schéma faux sont corrigés par un seul redirect.
+  M{"Request en HTTP :<br/>method ?"} -->|"GET / HEAD"| M1["301 vers HTTPS<br/>plusieurs schémas :<br/>aucun redirect si l'un<br/>correspond, sinon<br/>vers le premier<br/>barre finale + schéma faux :<br/>un seul redirect"]
+  M -->|"POST"| M2(["404"])
+```
 
 `schemes: ['https']` agit dans les deux sens.
 

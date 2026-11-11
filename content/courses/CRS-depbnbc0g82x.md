@@ -37,13 +37,24 @@ qui remplace quoi, et le vocabulaire, surtout **ressource** contre
 
 ## Le schéma
 
-```text
-RFC 2616 (1999) ──▶ série 7230-7235 (2014) ──▶ 911x (2022)
-9110  sémantique   ← obsolète 2818, 7231, 7232, 7233, 7235, 7538, 7615, 7694, une partie de 7230 ; Updates: 3864
-9111  cache        ← reprend 7234, absente de la liste de 9110
-9112  HTTP/1.1     ← la syntaxe de trame : ligne de Request, chunked
-9113  HTTP/2   ·   9114  HTTP/3
-ressource = la cible d'un URI   ·   représentation = une forme de son état (JSON, HTML, fr, en)
+```mermaid
+---
+title: De la RFC 2616 à la série 911x
+---
+flowchart TD
+  accTitle: La lignée des spécifications HTTP et le partage de la série 911x
+  accDescr: La RFC 2616 de 1999 a été remplacée par la série 7230 à 7235 en 2014, puis par la série 911x en 2022. 9110 porte la sémantique et rend obsolètes 2818, 7231, 7232, 7233, 7235, 7538, 7615, 7694 et une partie de 7230, avec Updates: 3864. 9111 porte le cache et reprend 7234, absente de la liste de 9110. 9112 porte HTTP/1.1, la syntaxe de trame : ligne de Request, chunked. 9113 porte HTTP/2 et 9114 HTTP/3. Une ressource est la cible d'un URI ; une représentation est une forme de son état, en JSON, en HTML, en fr ou en en.
+  A["RFC 2616 (1999)"] --> B["série 7230-7235 (2014)"]
+  B --> G
+  subgraph G["911x (2022)"]
+    direction TB
+    S0["9110 sémantique<br/>obsolète 2818, 7231, 7232, 7233,<br/>7235, 7538, 7615, 7694,<br/>une partie de 7230<br/>Updates: 3864"]
+    S1["9111 cache<br/>reprend 7234,<br/>absente de la liste de 9110"]
+    S2["9112 HTTP/1.1<br/>la syntaxe de trame :<br/>ligne de Request, chunked"]
+    S3["9113 HTTP/2 · 9114 HTTP/3"]
+    S0 ~~~ S1 ~~~ S2 ~~~ S3
+  end
+  G --> RES(["ressource = la cible d'un URI<br/>représentation = une forme de son état<br/>(JSON, HTML, fr, en)"])
 ```
 
 ## L'exemple : une ressource, deux représentations

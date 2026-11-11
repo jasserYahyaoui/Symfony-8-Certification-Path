@@ -41,13 +41,19 @@ surcharge** depuis 8.1, sauf `final` ; et une property `readonly` ne satisfait
 
 ## Le schéma
 
-```text
-methods      implicitement public + abstract · pas de corps · pas de private/protected
-constantes   publiques obligatoirement · surchargeables depuis 8.1 · final → non surchargeable
-properties   8.4 : public string $name { get; } · { get; set; } — contrat d'accès public, pas d'état
-             { get }      ← property publique, readonly, ou hook get virtuel
-             { get; set } ← property publique ordinaire · PAS readonly · PAS public private(set)
-héritage     class implements A, B · interface extends A, B
+```mermaid
+---
+title: Ce qu'une interface peut contenir
+---
+flowchart LR
+  accTitle: Le contenu d'une interface PHP 8.4
+  accDescr: Les methods d'une interface sont implicitement public et abstract, sans corps, jamais private ni protected. Ses constants sont publiques obligatoirement, surchargeables depuis 8.1, sauf si elles sont final. En 8.4 elle peut déclarer des properties, public string $name { get; } ou { get; set; }, un contrat d'accès public sans état : { get } est rempli par une property publique, readonly, ou un hook get virtuel ; { get; set } par une property publique ordinaire, pas readonly et pas public private(set). Une class implémente plusieurs interfaces, implements A, B, et une interface en étend plusieurs, extends A, B.
+  I(["interface"]) --> M["methods<br/>implicitement<br/>public + abstract<br/>pas de corps<br/>pas de private/protected"]
+  I --> K["constantes<br/>publiques obligatoirement<br/>surchargeables depuis 8.1<br/>final → non surchargeable"]
+  I --> P["properties (8.4)<br/>public string $name { get; }<br/>ou { get; set; }<br/>contrat d'accès public,<br/>pas d'état"]
+  P --> G["{ get } rempli par<br/>une property publique,<br/>readonly,<br/>ou un hook get virtuel"]
+  P --> GS["{ get; set } rempli par<br/>une property publique<br/>ordinaire<br/>PAS readonly<br/>PAS public private(set)"]
+  I --> H["inheritance<br/>class implements A, B<br/>interface extends A, B"]
 ```
 
 ## L'exemple

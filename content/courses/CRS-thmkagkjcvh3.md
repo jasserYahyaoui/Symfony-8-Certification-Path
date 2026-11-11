@@ -36,12 +36,18 @@ le contraire l'une de l'autre : `removeCookie()` annule un envoi,
 
 ## Le schéma
 
-```text
-lire        $request->cookies->get('theme')
-écrire      $response->headers->setCookie(Cookie::create('theme', 'dark'))
-effacer     $response->headers->clearCookie('sid')    → envoie sid=deleted, expiration passée
-annuler     $response->headers->removeCookie('theme') → retire du sac : rien n'est envoyé
-index       domain → path → nom   (même nom, deux paths : deux cookies)
+```mermaid
+---
+title: Lire, écrire, effacer, annuler
+---
+flowchart LR
+  accTitle: Les quatre gestes d'un cookie dans un controller
+  accDescr: On lit un cookie dans la Request, $request->cookies->get('theme'). On l'écrit dans la Response, $response->headers->setCookie(Cookie::create('theme', 'dark')). clearCookie('sid') l'efface : il envoie sid=deleted avec une expiration passée. removeCookie('theme') l'annule : il le retire du sac et rien n'est envoyé. Les cookies sont indexés par domain, puis path, puis nom : un même nom sous deux paths fait deux cookies.
+  RQ(["Request"]) -->|"lire"| L["$request->cookies->get('theme')"]
+  RS(["Response"]) -->|"écrire"| W["$response->headers->setCookie(<br/>Cookie::create('theme', 'dark'))"]
+  RS -->|"effacer"| E["$response->headers<br/>->clearCookie('sid')<br/>→ envoie sid=deleted,<br/>expiration passée"]
+  RS -->|"annuler"| A["$response->headers<br/>->removeCookie('theme')<br/>→ retire du sac :<br/>rien n'est envoyé"]
+  I["index : domain → path → nom<br/>(même nom, deux paths :<br/>deux cookies)"]
 ```
 
 ## L'exemple : poser un cookie de préférence

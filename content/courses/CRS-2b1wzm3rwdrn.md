@@ -59,14 +59,38 @@ vers un autre host produit `//hôte/…`.
 
 ## Le schéma
 
-```text
-host absent          → n'importe quel host
-host: 'm.example.com'              → ce host seul, casse ignorée
-host: '{subdomain}.example.com'    → parameter, defaults + requirements ordinaires
-   appariement : parameter de host toujours exigé (la default value ne compte pas)
-   génération  : la default value évite de le fournir ; requirement vérifié
-path() · host de la route ≠ host courant → NETWORK_PATH : //m.example.com/
-url()  → toujours l'URL absolue : https://m.example.com/
+```mermaid
+---
+title: Les trois formes de host
+---
+flowchart TD
+  accTitle: Ce qu'accepte une route selon son host
+  accDescr: Sans host, la route accepte n'importe quel host. Avec host: 'm.example.com', ce host seul, casse ignorée. Avec host: '{subdomain}.example.com', un parameter ordinaire, avec defaults et requirements.
+  H{"host de<br/>la route"} -->|"absent"| A["n'importe<br/>quel host"]
+  H -->|"'m.example.com'"| F["ce host seul,<br/>casse ignorée"]
+  H -->|"'{subdomain}.example.com'"| P["parameter,<br/>defaults +<br/>requirements<br/>ordinaires"]
+```
+
+```mermaid
+---
+title: Un parameter de host
+---
+flowchart TD
+  accTitle: Le parameter de host à l'appariement et à la génération
+  accDescr: À l'appariement, le parameter de host est toujours exigé, la default value ne compte pas. À la génération, la default value évite de le fournir, et le requirement est vérifié.
+  P(["host: '{subdomain}.example.com'"]) -->|"appariement"| PM["parameter toujours exigé<br/>(la default value<br/>ne compte pas)"]
+  P -->|"génération"| PG["la default value<br/>évite de le fournir<br/>requirement vérifié"]
+```
+
+```mermaid
+---
+title: Générer vers un autre host
+---
+flowchart TD
+  accTitle: path et url quand le host de la route diffère du host courant
+  accDescr: Quand le host de la route diffère du host courant, path() produit un NETWORK_PATH, //m.example.com/ ; url() produit toujours l'URL absolue, https://m.example.com/.
+  D(["host de la route ≠ host courant"]) --> PA["path() → NETWORK_PATH<br/>//m.example.com/"]
+  D --> UR["url() → toujours<br/>l'URL absolue<br/>https://m.example.com/"]
 ```
 
 ## L'exemple : un site mobile

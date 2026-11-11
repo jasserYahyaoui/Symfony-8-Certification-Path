@@ -54,12 +54,21 @@ ce découpage — et le bridge PHPUnit en est l'exception.
 
 ## Le schéma
 
-```text
-component   symfony/console        autonome, repository propre en lecture seule, tout projet PHP
-bridge      symfony/twig-bridge    component ↔ bibliothèque tierce (twig/twig) ; ne configure rien
-bundle      TwigBundle             extension de configuration, services, commands : branche dans le framework
-mono-dépôt  replace  : 65 packages remplacés (components, 3 bridges, 5 bundles) — pas installés en plus
-            provide  : seulement des *-implementation (psr/log-implementation…)
+```mermaid
+---
+title: Component, bridge, bundle
+---
+flowchart TD
+  accTitle: Les trois sortes de packages Symfony et le mono-dépôt
+  accDescr: Un component, comme symfony/console, est autonome, a son propre repository en lecture seule et sert dans tout projet PHP. Un bridge, comme symfony/twig-bridge, relie un component à une bibliothèque tierce, twig/twig, et ne configure rien. Un bundle, comme TwigBundle, apporte une extension de configuration, des services et des commands, et branche le tout dans le framework. Le mono-dépôt symfony/symfony déclare en replace 65 packages remplacés, components, 3 bridges et 5 bundles, qui ne sont pas installés en plus ; en provide, seulement des *-implementation, comme psr/log-implementation.
+  subgraph K["trois sortes de packages"]
+    direction TB
+    C["component · symfony/console<br/>autonome, repository propre<br/>en lecture seule<br/>tout projet PHP"]
+    B["bridge · symfony/twig-bridge<br/>component ↔ bibliothèque tierce<br/>(twig/twig)<br/>ne configure rien"]
+    BU["bundle · TwigBundle<br/>extension de configuration,<br/>services, commands :<br/>branche dans le framework"]
+    C ~~~ B ~~~ BU
+  end
+  K -->|"tous dans"| M["mono-dépôt symfony/symfony<br/>replace : 65 packages remplacés<br/>(components, 3 bridges, 5 bundles)<br/>pas installés en plus<br/>provide : seulement des *-implementation<br/>(psr/log-implementation…)"]
 ```
 
 ## L'exemple : Twig sous trois noms

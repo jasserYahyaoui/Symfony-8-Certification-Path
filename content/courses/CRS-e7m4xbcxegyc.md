@@ -40,14 +40,19 @@ Dans une class, une closure est liée à `$this`, sauf si elle est `static`.
 
 ## Le schéma
 
-```text
-function () use ($x) { … }   capture explicite · copie à la définition · use (&$x) = par référence
-fn () => expr                capture automatique · par valeur, jamais par référence · une seule expression
-dans une class               $this lié automatiquement · static fn / static function → aucun $this
-Closure::bind / bindTo       relier à un autre object · closure static + object → warning, null
-                             closure static + scope seul (object null) → possible
-strlen(...)                  callable de première class → Closure ($this lié pour $this->m(...))
-callable                     Closure, mais aussi 'strlen' ou [$obj, 'method']
+```mermaid
+---
+title: Les closures, et ce qu'elles capturent
+---
+flowchart LR
+  accTitle: function, fn, $this, bind et la syntaxe callable de première class
+  accDescr: function () use ($x) capture explicitement, par copie quand la closure est créée, et use (&$x) capture par référence. fn () => expr capture automatiquement, par valeur, jamais par référence, et ne contient qu'une expression. Dans une class, $this est lié automatiquement ; static fn ou static function n'ont aucun $this. Closure::bind et bindTo relient la closure à un autre object ; une closure static liée à un object donne un warning et null, liée à un scope seul, object null, c'est possible. strlen(...) crée une Closure, callable de première class, avec $this lié pour $this->m(...). Le type callable accepte une Closure, mais aussi 'strlen' ou [$obj, 'method'].
+  F["function () use ($x) { … }<br/>capture explicite<br/>copie à la création<br/>use (#amp;$x) = par référence"]
+  A["fn () => expr<br/>capture automatique<br/>par valeur,<br/>jamais par référence<br/>une seule expression"]
+  F --> C["dans une class<br/>$this lié automatiquement<br/>static fn / static function<br/>→ aucun $this"]
+  A --> C
+  C --> B["Closure::bind / bindTo<br/>relier à un autre object<br/>static + object<br/>→ warning, null<br/>static + scope seul<br/>(object null) → possible"]
+  S["strlen(...)<br/>callable de première class<br/>→ Closure<br/>$this lié pour $this->m(...)"] --> K["le type callable<br/>Closure, mais aussi<br/>'strlen' ou [$obj, 'method']"]
 ```
 
 ## L'exemple

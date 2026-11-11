@@ -1,6 +1,6 @@
 # CONTEXT.md — Session continuity (Master Plan §23)
 
-**Last updated:** 2026-11-07 (résumés de lot « pour les nuls » (ADR-0013) : 26 pages, livrés et déployés (#465) ; 26 entrées EXTENSION au journal et lignes de #465 sur la branche. Précédent : 2026-11-06 — 163/163 pages au format court, déployées ; F18 corrigé et déployé (#463), journalisé (#464) ; preuve hors CI `prove_audits_fail.py` réparée, PROOF OK 44 cas (#462). Précédent : 2026-10-28 — remédiation : P0, P1, P2.3–P2.7, P3.1–P3.3 livrés ; troisième passe livrée (#434–#436) ; extension properties abstraites (#437, #438) ; **cours pédagogiques (ADR-0012) : toutes les pages, dans l'ordre du calendrier ; examen reculé au 2 mars 2027 (propriétaire, 2026-10-28)** ; F4, F9 bloqués)
+**Last updated:** 2026-11-07 (résumés de lot « pour les nuls » (ADR-0013) : 26 pages, livrés et déployés (#465) ; 26 entrées EXTENSION au journal et lignes de #465 livrées et déployées (#466) ; rien d'ouvert sur la branche hormis les lignes de #466. Précédent : 2026-11-06 — 163/163 pages au format court, déployées ; F18 corrigé et déployé (#463), journalisé (#464) ; preuve hors CI `prove_audits_fail.py` réparée, PROOF OK 44 cas (#462). Précédent : 2026-10-28 — remédiation : P0, P1, P2.3–P2.7, P3.1–P3.3 livrés ; troisième passe livrée (#434–#436) ; extension properties abstraites (#437, #438) ; **cours pédagogiques (ADR-0012) : toutes les pages, dans l'ordre du calendrier ; examen reculé au 2 mars 2027 (propriétaire, 2026-10-28)** ; F4, F9 bloqués)
 
 ---
 
@@ -21,7 +21,7 @@ révision. La passe terminologique a abîmé des analogies (« enveloppe » →
 `array`) : les phrases ont été reformulées, la liste n'a pas changé. Livré par
 #465 (`5273ac1`, déployé ; smoke de production lu jusqu'au bout : 565 ok, 0
 erreur, les 26 résumés servis). Les 26 entrées EXTENSION au journal (une par
-lot, du lot 01 au lot 26 sur la page) sont dans la PR qui suit.
+lot, du lot 01 au lot 26 sur la page) : #466 (`5423581`, déployé).
 
 ## Rédaction pédagogique (ADR-0012) — état au 2026-11-06
 
@@ -171,6 +171,7 @@ Branche de travail : `claude/symfony-8-certification-plan-phmkau`.
 | F18 : `messages` et `messages+intl-icu`, la dernière resource chargée gagne (version classique dans une application) ; contrôle `translation.several-catalogues` renforcé et prouvé par mutation ; libellés Translation 8.0.14 ; lignes de #462 | #463 | `0bbfb35` | déploiement 42291019215, première tentative. Smoke 128145729823 **success, lu jusqu'au bout** (525 ok, 0 erreur ; ligne lot-16 « the one-domain pair (F18) » ; 163 lignes « pedagogical lot-… » ; journal des corrections servi ; agenda 570 sessions jusqu'au 2027-03-02) |
 | Journal : entrée CORRECTION F18 (CVR-1gbjr1ak8qfs) ; lignes de #463 | #464 | `470cf47` | déploiement 42300825054, première tentative. Smoke 128179295834 **success, lu jusqu'au bout** (525 ok, 0 erreur ; journal des corrections servi ; ligne lot-16 F18 ; agenda 570 sessions jusqu'au 2027-03-02) |
 | Résumés de lot « pour les nuls » (ADR-0013) : 26 pages, une par lot ; règles SUM-001 et SUM-002, DIA-001 étendu aux résumés ; smoke de production et a11y les couvrent ; lignes de #464 | #465 | `5273ac1` | déploiement 42373986445, première tentative. Smoke 128408282342 **success, lu jusqu'au bout** (565 ok, 0 erreur ; 26 lignes « ok summary lot-XX » et « 26 lot summaries served » ; 71 lignes « diagrams … accessible title », dont les 13 schémas de résumé ; 163 lignes « pedagogical lot-… » ; journal des corrections servi ; agenda 570 sessions jusqu'au 2027-03-02) |
+| Journal : 26 entrées EXTENSION, une par résumé de lot (ADR-0013), de la page du lot 01 à celle du lot 26 ; lignes de #465 | #466 | `5423581` | déploiement 42379003693, première tentative. Smoke 128423239281 **success, lu jusqu'au bout** (565 ok, 0 erreur ; journal des corrections servi ; « 26 lot summaries served » ; agenda 570 sessions jusqu'au 2027-03-02) |
 
 **Pièges d'examen → flashcards (2026-10-24, livré : #432, `c48317d`).** Les 788
 paragraphes « Pièges d'examen » lus contre toutes les cartes de leur item :

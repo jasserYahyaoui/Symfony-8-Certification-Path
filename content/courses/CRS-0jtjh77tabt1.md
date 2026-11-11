@@ -46,13 +46,19 @@ en une ligne : l'interface décrit un contrat, l'abstract class partage du code.
 
 ## Le schéma
 
-```text
-abstract class       non instanciable · une seule par class (extends) · constructor, état, methods concrètes
-method abstraite     sans corps · public ou protected (jamais private dans une class) · static admis
-fille concrète       implémente tout · visibilité égale ou plus large · signature compatible
-property abstraite   8.4 : abstract public string $label { get; } — au moins un hook sans corps
-                     pas de hook → erreur · private → erreur · la fille peut élargir, pas restreindre
-abstract + final     incompatibles
+```mermaid
+---
+title: Une abstract class et ce qu'elle impose
+---
+flowchart LR
+  accTitle: Ce qu'une abstract class permet et ce qu'elle impose à ses filles
+  accDescr: Une abstract class n'est pas instanciable ; une class n'en étend qu'une ; elle peut avoir un constructor, un état et des methods concrètes. Une method abstraite n'a pas de corps, est public ou protected, jamais private dans une class, et peut être static ; la fille concrète implémente tout, avec une visibilité égale ou plus large et une signature compatible. En 8.4, une property abstraite, abstract public string $label { get; }, déclare au moins un hook sans corps ; sans hook ou en private, c'est une erreur ; la fille peut élargir, pas restreindre. abstract et final sont incompatibles.
+  AC(["abstract class"]) --> N["non instanciable<br/>une seule par class<br/>(extends)<br/>constructor, état,<br/>methods concrètes"]
+  AC --> AM["method abstraite<br/>sans corps<br/>public ou protected<br/>jamais private<br/>dans une class<br/>static admis"]
+  AM --> FC["fille concrète<br/>implémente tout<br/>visibilité égale<br/>ou plus large<br/>signature compatible"]
+  AC --> AP["property abstraite (8.4)<br/>abstract public string<br/>$label { get; }<br/>au moins un hook<br/>sans corps"]
+  AP --> APE["pas de hook → erreur<br/>private → erreur<br/>la fille peut élargir,<br/>pas restreindre"]
+  AC --> X(["abstract + final :<br/>incompatibles"])
 ```
 
 ## L'exemple

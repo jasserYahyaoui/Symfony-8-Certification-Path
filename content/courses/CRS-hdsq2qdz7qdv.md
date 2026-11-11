@@ -43,12 +43,17 @@ inclut 201 et exclut 304).
 
 ## Le schéma
 
-```text
-controller → return new Response(...)     (HTTP/1.0 tant que prepare() n'est pas passé)
-runner     → $response->send(false) → fastcgi_finish_request() (hors debug) → terminate()
-isRedirection()   300 ≤ code < 400
-isRedirect()      201, 301, 302, 303, 307, 308   ← 201 dedans, 300 et 304 dehors
-isSuccessful() 2xx ⊃ isOk() 200      isClientError() 4xx ⊃ isNotFound() 404
+```mermaid
+---
+title: Le trajet d'une Response, et ses tests de statut
+---
+flowchart TD
+  accTitle: De new Response au terminate, et les methods is d'une Response
+  accDescr: Le controller rend new Response(...), qui reste en HTTP/1.0 tant que prepare() n'est pas passé. Le runner appelle $response->send(false), puis fastcgi_finish_request() hors debug, puis terminate(). Pour tester le statut : isRedirection() couvre 300 inclus à 400 exclu ; isRedirect() vaut pour 201, 301, 302, 303, 307 et 308, donc 201 dedans, 300 et 304 dehors ; isSuccessful() couvre les 2xx et contient isOk(), 200 seulement ; isClientError() couvre les 4xx et contient isNotFound(), 404.
+  C["controller<br/>return new Response(...)<br/>HTTP/1.0 tant que prepare()<br/>n'est pas passé"] --> RU["runner<br/>$response->send(false)"]
+  RU --> FF["fastcgi_finish_request()<br/>(hors debug)"]
+  FF --> T(["terminate()"])
+  C -.->|"tester son statut"| IS["isRedirection() : 300 ≤ code #lt; 400<br/>isRedirect() : 201, 301, 302, 303, 307, 308<br/>201 dedans, 300 et 304 dehors<br/>isSuccessful() 2xx ⊃ isOk() 200<br/>isClientError() 4xx ⊃ isNotFound() 404"]
 ```
 
 ## L'exemple : la bonne sous-classe

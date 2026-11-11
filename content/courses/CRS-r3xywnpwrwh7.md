@@ -87,11 +87,17 @@ aussi.
 
 ## La chaîne de recherche
 
-```text
-_user_contact_widget   →  absent ? on descend
-email_widget           →  trouvé dans form_div_layout.html.twig
-text_widget            →  jamais atteint ici
-form_widget
+```mermaid
+---
+title: Quel block rend le widget
+---
+flowchart TD
+  accTitle: L'ordre de recherche des blocks pour le field contact du form user
+  accDescr: Pour le field contact, Symfony cherche d'abord _user_contact_widget ; absent, il descend à email_widget, trouvé dans form_div_layout.html.twig ; text_widget n'est jamais atteint ici, pas plus que form_widget.
+  A["_user_contact_widget"] -->|"absent ? on descend"| B["email_widget"]
+  B -->|"trouvé dans<br/>form_div_layout.html.twig"| OK(["rendu"])
+  B -.->|"jamais atteint ici"| C["text_widget"]
+  C -.-> D["form_widget"]
 ```
 
 À chaque niveau, tous les themes sont consultés avant de descendre. Le theme

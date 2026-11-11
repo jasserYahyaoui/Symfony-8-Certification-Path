@@ -82,11 +82,16 @@ injectent un scalaire sans le répéter.
 
 ## Le schéma
 
-```text
-configuration   '%kernel.project_dir%/var/archive'  |  '%env(ARCHIVE_DSN)%'  |  '%env(int:ARCHIVE_MAX)%'
-compilation     %param% → valeur écrite en dur  |  %env()% → placeholder  |  %% → %  |  .param → supprimé
-exécution       à la construction du service : variable lue (string), convertie par son processeur ;
-                variable absente → EnvNotFoundException, pour ce service seulement
+```mermaid
+---
+title: Un parameter, de la configuration à l'exécution
+---
+flowchart TD
+  accTitle: Ce que deviennent %param% et %env()% à la compilation et à l'exécution
+  accDescr: En configuration, on écrit '%kernel.project_dir%/var/archive', '%env(ARCHIVE_DSN)%' ou '%env(int:ARCHIVE_MAX)%'. À la compilation, %param% devient la valeur écrite en dur, %env()% un placeholder, deux signes pour cent un seul, et un parameter dont le nom commence par un point est supprimé. À l'exécution, à la construction du service, la variable est lue comme string et convertie par son processeur ; une variable absente lève EnvNotFoundException, pour ce service seulement.
+  CF["configuration<br/>'%kernel.project_dir%/var/archive'<br/>'%env(ARCHIVE_DSN)%'<br/>'%env(int:ARCHIVE_MAX)%'"] --> CO["compilation<br/>%param% → valeur écrite en dur<br/>%env()% → placeholder<br/>#37;#37; → #37;<br/>.param → supprimé"]
+  CO --> EX["exécution, à la construction<br/>du service<br/>variable lue (string),<br/>convertie par son processeur"]
+  EX -->|"variable absente"| E(["EnvNotFoundException,<br/>pour ce service seulement"])
 ```
 
 ## Le fil rouge : un `Archiver`

@@ -101,8 +101,15 @@ its date and be refreshed by hand when a campaign moves it.
 
 A course may carry a Mermaid diagram where the syllabus examines an **ordered
 flow with branches** — a step that short-circuits the rest, a failure, an
-exception. A plain list does not need one, and a plain-text diagram in a
-```` ```text ```` block is often enough.
+exception. A plain list does not need one.
+
+**Every schema is drawn (owner, 2026-11-08, [ADR-0014](../adr/0014-every-schema-is-drawn.md)).**
+« Le schéma » holds at least one ```` ```mermaid ```` block and no other fenced
+block — rule `DIA-002`. A diagram written as text in a fence is shown as code,
+which the owner refused. `website/tools/verify-diagrams-drawn.mjs` opens every
+page of the built site and checks that each block is drawn, with its accessible
+title and description. A « Fiche express » memo line or an output shown in
+« L'exemple » is not a schema and stays text.
 
 - The diagram is fenced as ```` ```mermaid ````, opens with its type, and
   carries `accTitle` and `accDescr` (rule `DIA-001`). A visible title goes in
@@ -131,8 +138,8 @@ revision course, in this order — each part only where it serves the item:
 
 1. **Understand** — the problem the notion solves, why Symfony works this way,
    where a developer meets it, before any rule.
-2. **Visualise** — the whole mechanism at once; a ```` ```text ```` diagram for
-   a linear cycle, Mermaid for a branching flow (ADR-0009).
+2. **Visualise** — the whole mechanism at once, drawn in Mermaid, a linear
+   cycle as much as a branching flow (ADR-0009, ADR-0014).
 3. **Example** — one realistic case, real wherever the 8.0 sources offer one,
    reused through the page. An invented one is labelled as such.
 4. **Official rule** — quoted or paraphrased from the source, then explained:
@@ -194,7 +201,7 @@ words**; a DEEP item may run somewhat longer. The order above stays, condensed:
 |---|---|
 | Objectif | unchanged |
 | L'essentiel | the problem and the key idea, in a few sentences |
-| Le schéma | one diagram |
+| Le schéma | one Mermaid diagram, or a few for a phone (`DIA-002`) |
 | L'exemple | one realistic code example |
 | the outcome sections | the rules and the facts that answer an exam question, as compact lists or tables |
 | Pièges d'examen | unchanged — each paragraph carries a reviewed flashcard verdict |

@@ -66,13 +66,18 @@ qu'elle voit encore. Elle ne s'exécute qu'une fois, à la compilation.
 
 ## Le schéma
 
-```text
-charger      services.yaml, puis load() de chaque extension, isolée ; l'application ré-appliquée en dernier
-1. BEFORE_OPTIMIZATION (défaut)   100 autoconfiguration · 0 tes passes · -1000 extensions-passes · -10000 Kernel
-2. OPTIMIZE                       autowiring, alias, decorators, parameters résolus
-3. BEFORE_REMOVING                vide par défaut
-4. REMOVE                         privés non référencés supprimés, inlining
-5. AFTER_REMOVING                 le container final → vidage en PHP ; plus aucune passe ensuite
+```mermaid
+---
+title: Les étapes de la compilation du container
+---
+flowchart TD
+  accTitle: Le chargement, puis les cinq types de compiler passes
+  accDescr: Le container charge services.yaml, puis le load() de chaque extension, isolée ; la configuration de l'application est ré-appliquée en dernier. Puis viennent cinq étapes. BEFORE_OPTIMIZATION, le défaut : autoconfiguration à 100, tes compiler passes à 0, les passes des extensions à −1000, le Kernel à −10000. OPTIMIZE : autowiring, alias, decorators, parameters résolus. BEFORE_REMOVING, vide par défaut. REMOVE : services privés non référencés supprimés, inlining. AFTER_REMOVING : le container final, vidé en PHP ; plus aucune compiler pass ensuite.
+  CH["charger<br/>services.yaml, puis load()<br/>de chaque extension, isolée<br/>l'application ré-appliquée<br/>en dernier"] --> P1["1. BEFORE_OPTIMIZATION (défaut)<br/>100 autoconfiguration<br/>0 tes compiler passes<br/>-1000 extensions-passes<br/>-10000 Kernel"]
+  P1 --> P2["2. OPTIMIZE<br/>autowiring, alias, decorators,<br/>parameters résolus"]
+  P2 --> P3["3. BEFORE_REMOVING<br/>vide par défaut"]
+  P3 --> P4["4. REMOVE<br/>privés non référencés<br/>supprimés, inlining"]
+  P4 --> P5(["5. AFTER_REMOVING<br/>le container final<br/>→ vidage en PHP<br/>plus aucune passe ensuite"])
 ```
 
 ## Le fil rouge : une chaîne de handlers

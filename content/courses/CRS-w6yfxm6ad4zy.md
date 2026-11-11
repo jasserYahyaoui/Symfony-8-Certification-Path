@@ -53,12 +53,18 @@ se devine jamais.
 
 ## Le schéma
 
-```text
-TransformerInterface $transformer
-1. alias nommé « TransformerInterface $transformer » ou #[Target] ?  → injecté
-2. service ou alias d'identifier TransformerInterface ?               → injecté (le nom ne compte pas)
-3. sinon : nullable avec défaut → null ; scalaire → « configure its value explicitly » ;
-           interface à plusieurs implémentations → « maybe alias this interface »
+```mermaid
+---
+title: Quel service l'autowiring injecte
+---
+flowchart TD
+  accTitle: L'ordre de résolution d'un argument TransformerInterface $transformer
+  accDescr: Pour l'argument TransformerInterface $transformer, l'autowiring cherche d'abord un alias nommé « TransformerInterface $transformer » ou un #[Target] : s'il existe, il est injecté. Sinon, un service ou un alias d'identifier TransformerInterface, injecté quel que soit le nom de l'argument. Sinon, un argument nullable avec défaut reçoit null ; un scalaire lève « configure its value explicitly » ; une interface à plusieurs implémentations lève « maybe alias this interface ».
+  A(["TransformerInterface<br/>$transformer"]) --> Q1{"1. alias nommé<br/>« TransformerInterface<br/>$transformer »<br/>ou #[Target] ?"}
+  Q1 -->|"oui"| I1(["injecté"])
+  Q1 -->|"non"| Q2{"2. service ou alias<br/>d'identifier<br/>TransformerInterface ?"}
+  Q2 -->|"oui"| I2(["injecté<br/>(le nom ne compte pas)"])
+  Q2 -->|"non"| Q3["3. sinon<br/>nullable avec défaut → null<br/>scalaire → « configure<br/>its value explicitly »<br/>interface à plusieurs<br/>implémentations → « maybe<br/>alias this interface »"]
 ```
 
 ## Le fil rouge : deux transformers

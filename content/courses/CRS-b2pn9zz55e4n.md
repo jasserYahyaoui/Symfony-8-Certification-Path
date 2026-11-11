@@ -143,9 +143,21 @@ already been set. » : lire `$event->getData()`.
 
 ## Les forms imbriqués
 
-```text
-mise en place : P.PRE_SET_DATA  C.PRE_SET_DATA  C.POST_SET_DATA  P.POST_SET_DATA
-submission    : P.PRE_SUBMIT  C.PRE_SUBMIT  C.SUBMIT  C.POST_SUBMIT  P.SUBMIT  P.POST_SUBMIT
+```mermaid
+---
+title: L'ordre des events, parent P et enfant C
+---
+flowchart TD
+  accTitle: Les events d'un form parent et de son enfant, à la mise en place et à la submission
+  accDescr: À la mise en place des données : PRE_SET_DATA du parent, PRE_SET_DATA de l'enfant, POST_SET_DATA de l'enfant, POST_SET_DATA du parent. À la submission : PRE_SUBMIT du parent, PRE_SUBMIT de l'enfant, SUBMIT de l'enfant, POST_SUBMIT de l'enfant, SUBMIT du parent, POST_SUBMIT du parent.
+  subgraph A["mise en place"]
+    direction TB
+    a1["P.PRE_SET_DATA"] --> a2["C.PRE_SET_DATA"] --> a3["C.POST_SET_DATA"] --> a4["P.POST_SET_DATA"]
+  end
+  subgraph B["submission"]
+    direction TB
+    b1["P.PRE_SUBMIT"] --> b2["C.PRE_SUBMIT"] --> b3["C.SUBMIT"] --> b4["C.POST_SUBMIT"] --> b5["P.SUBMIT"] --> b6["P.POST_SUBMIT"]
+  end
 ```
 
 - L'enfant est soumis **en entier** avant le `SUBMIT` du parent : un field

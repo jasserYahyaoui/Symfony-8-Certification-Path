@@ -45,14 +45,18 @@ qui en dépend échoue à l'appel, pas à la compilation.
 
 ## Le schéma
 
-```text
-AbstractController (FrameworkBundle) implements ServiceSubscriberInterface
-  public     setContainer()  #[Required], retourne ?ContainerInterface (le précédent)
-             getSubscribedServices()  → 11 services, tous préfixés '?'
-  protected  24 raccourcis : render, json, redirectToRoute, isGranted, addFlash…
-  private    doRender, doRenderView
-service absent → render() : LogicException · generateUrl() : ServiceNotFoundException · json() : json_encode
-addLink() → attribute _links (listener → header Link) · sendEarlyHints() → 103 immédiat
+```mermaid
+---
+title: Ce que contient AbstractController
+---
+flowchart TD
+  accTitle: Les methods public, protected et private d'AbstractController
+  accDescr: AbstractController, de FrameworkBundle, implémente ServiceSubscriberInterface. Public : setContainer(), marqué #[Required], qui retourne le ContainerInterface précédent ou null, et getSubscribedServices(), qui déclare 11 services, tous préfixés '?'. Protected : 24 raccourcis, dont render, json, redirectToRoute, isGranted et addFlash. Private : doRender et doRenderView. Si un service manque, render() lève LogicException, generateUrl() ServiceNotFoundException, et json() se rabat sur json_encode. addLink() écrit dans l'attribute _links, qu'un listener transforme en header Link ; sendEarlyHints() envoie un 103 immédiatement.
+  AC(["AbstractController (FrameworkBundle)<br/>implements ServiceSubscriberInterface"]) --> PU["public<br/>setContainer() #[Required],<br/>retourne ?ContainerInterface<br/>(le précédent)<br/>getSubscribedServices()<br/>→ 11 services, tous préfixés '?'"]
+  AC --> PR["protected<br/>24 raccourcis : render, json,<br/>redirectToRoute, isGranted,<br/>addFlash…"]
+  AC --> PV["private<br/>doRender,<br/>doRenderView"]
+  PR --> AB["service absent<br/>render() : LogicException<br/>generateUrl() :<br/>ServiceNotFoundException<br/>json() : json_encode"]
+  PR --> LK["addLink() → attribute _links<br/>(listener → header Link)<br/>sendEarlyHints()<br/>→ 103 immédiat"]
 ```
 
 ## L'exemple

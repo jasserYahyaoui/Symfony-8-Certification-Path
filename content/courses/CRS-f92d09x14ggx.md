@@ -61,13 +61,18 @@ la route. Elle voit `context`, `request` et `params`, et appelle `env()` ou
 
 ## Le schéma
 
-```text
-condition: "…"   ExpressionLanguage::compile() une fois → PHP dans le matcher en cache
-variables        context (RequestContext) · request (Request) · params (parameters appariés)
-functions        env('NOM') · service('alias') ← #[AsRoutingConditionService] / tag routing.condition_service
-                 Request construite seulement si le PHP compilé mentionne $request
-condition fausse → route ignorée AVANT barre finale, schéma, method : pas de 405, pas de redirect
-génération       condition jamais évaluée → URL produite quand même
+```mermaid
+---
+title: Une condition de route
+---
+flowchart LR
+  accTitle: Compilation, variables et effets d'une condition de route
+  accDescr: condition: "…" est compilée une fois par ExpressionLanguage::compile() en PHP, dans le matcher en cache. Les variables sont context, le RequestContext, request, la Request, et params, les parameters appariés ; la Request n'est construite que si le PHP compilé mentionne $request. Les functions sont env('NOM') et service('alias'), pour un service marqué #[AsRoutingConditionService] ou tagué routing.condition_service. Une condition fausse ignore la route avant la barre finale, le schéma et la method : pas de 405, pas de redirect. À la génération, la condition n'est jamais évaluée et l'URL est produite quand même.
+  C["condition: #quot;…#quot;<br/>ExpressionLanguage::compile()<br/>une fois → PHP dans<br/>le matcher en cache"] --> V["variables<br/>context (RequestContext)<br/>request (Request)<br/>params (parameters appariés)"]
+  V --> RQ["Request construite seulement<br/>si le PHP compilé<br/>mentionne $request"]
+  C --> FN["functions<br/>env('NOM') · service('alias')<br/>← #[AsRoutingConditionService]<br/>/ tag routing.condition_service"]
+  C --> M["condition fausse → route<br/>ignorée AVANT barre finale,<br/>schéma, method :<br/>pas de 405, pas de redirect"]
+  C --> G["génération : condition<br/>jamais évaluée<br/>→ URL produite quand même"]
 ```
 
 ## L'exemple

@@ -56,14 +56,20 @@ erreur ; un object y est converti, contrairement à ce que dit la documentation.
 
 ## Le schéma
 
-```text
-controller   $this->generateUrl('blog', ['page' => 2])     service  UrlGeneratorInterface::generate()
-Twig         path() = ABSOLUTE_PATH · url() = ABSOLUTE_URL
-types        ABSOLUTE_URL 0 https://example.com/blog/2 · ABSOLUTE_PATH 1 /blog/2 (défaut)
-             RELATIVE_PATH 2 ../blog/2 · NETWORK_PATH 3 //example.com/blog/2
-en trop      → query string · égal au défaut de même nom → retiré · _query (array) prioritaire
-object       properties publiques → array · sinon Stringable → string · référence circulaire → exception
-route absente → RouteNotFoundException (ne pas appeler getRouteCollection())
+```mermaid
+---
+title: Générer une URL
+---
+flowchart LR
+  accTitle: Les trois façons de générer une URL et ce que fait generate
+  accDescr: Dans un controller, $this->generateUrl('blog', ['page' => 2]) ; dans un service, UrlGeneratorInterface::generate() ; en Twig, path() pour ABSOLUTE_PATH et url() pour ABSOLUTE_URL. Les types : ABSOLUTE_URL, 0, https://example.com/blog/2 ; ABSOLUTE_PATH, 1, /blog/2, le défaut ; RELATIVE_PATH, 2, ../blog/2 ; NETWORK_PATH, 3, //example.com/blog/2. Un parameter en trop va dans la query string ; un parameter égal au défaut de même nom est retiré ; _query, un array, est prioritaire. Un object devient un array de ses properties publiques, sinon une string s'il est Stringable ; une référence circulaire lève. Une route absente lève RouteNotFoundException ; il ne faut pas appeler getRouteCollection().
+  C["controller<br/>$this->generateUrl('blog',<br/>['page' => 2])"] --> G(["generate()"])
+  S["service<br/>UrlGeneratorInterface<br/>::generate()"] --> G
+  T["Twig<br/>path() = ABSOLUTE_PATH<br/>url() = ABSOLUTE_URL"] --> G
+  G --> TY["types<br/>ABSOLUTE_URL 0<br/>https://example.com/blog/2<br/>ABSOLUTE_PATH 1 /blog/2 (défaut)<br/>RELATIVE_PATH 2 ../blog/2<br/>NETWORK_PATH 3<br/>//example.com/blog/2"]
+  G --> X["en trop → query string<br/>égal au défaut de même nom<br/>→ retiré<br/>_query (array) prioritaire"]
+  G --> O["object<br/>properties publiques → array<br/>sinon Stringable → string<br/>référence circulaire → exception"]
+  G --> NF["route absente<br/>→ RouteNotFoundException<br/>(ne pas appeler<br/>getRouteCollection())"]
 ```
 
 ## L'exemple

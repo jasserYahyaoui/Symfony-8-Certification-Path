@@ -49,14 +49,19 @@ tests a ses propres files — `.env.local` n'en fait pas partie.
 
 ## Le schéma
 
-```text
-static::createClient()        démarre le kernel (test) — jamais bootKernel() avant
-$client->request('GET', '/')  1. une Request
-$client->clickLink(…)         2. interagir : cliquer, soumettre
-assertResponse…()             3. tester la Response (headers et corps affichés en cas d'échec)
-                              4. recommencer
-config     config/packages/test/ ou when@test:
-.env       .env → .env.test → .env.test.local (le dernier gagne) ; .env.local IGNORÉ ; le shell bat tout
+```mermaid
+---
+title: La loop d'un functional test
+---
+flowchart TD
+  accTitle: createClient, Request, interaction, assertions, et les files .env lus en test
+  accDescr: static::createClient() démarre le kernel dans l'environment test ; jamais bootKernel() avant. Puis, en boucle : une Request avec $client->request('GET', '/') ; une interaction avec $client->clickLink(…), cliquer ou soumettre ; des assertions assertResponse…() sur la Response, qui affichent headers et body en cas d'échec ; et on recommence. La configuration de test est dans config/packages/test/ ou when@test:. Les files lus : .env, puis .env.test, puis .env.test.local, le dernier gagne ; .env.local est ignoré ; le shell bat tout.
+  C["static::createClient()<br/>démarre le kernel (test)<br/>jamais bootKernel() avant"] --> R["1. $client->request('GET', '/')<br/>une Request"]
+  R --> I["2. $client->clickLink(…)<br/>interagir : cliquer, soumettre"]
+  I --> A["3. assertResponse…()<br/>tester la Response<br/>(headers et body affichés<br/>en cas d'échec)"]
+  A -->|"4. recommencer"| R
+  A ~~~ CF["config<br/>config/packages/test/<br/>ou when@test:"]
+  CF ~~~ EN[".env → .env.test<br/>→ .env.test.local<br/>(le dernier gagne)<br/>.env.local IGNORÉ<br/>le shell bat tout"]
 ```
 
 ## L'exemple : la page d'accueil

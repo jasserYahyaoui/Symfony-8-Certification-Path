@@ -54,12 +54,18 @@ classique la pose dans `configure()`, qui tourne **dans le constructor**.
 
 ## Le schéma
 
-```text
-#[AsCommand(name: 'app:create-user|app:add-user', description: …, help: …, usages: […], hidden: …)]
-name     premier segment = le nom ; les suivants = des alias ; premier segment VIDE = cachée
-lecture  description dans l'attribute → `list` ne construit pas la class
-         description dans configure() → `list` construit la class
-configure()  appelée à la FIN du constructor de Command → properties AVANT parent::__construct()
+```mermaid
+---
+title: Ce que déclare #[AsCommand]
+---
+flowchart TD
+  accTitle: name, alias, command cachée et coût de la description
+  accDescr: #[AsCommand(name: 'app:create-user|app:add-user', description: …, help: …, usages: […], hidden: …)]. Dans name, le premier segment est le nom, les suivants des alias, et un premier segment vide cache la command. Si la description est dans l'attribute, list ne construit pas la class ; si elle est dans configure(), list construit la class. configure() est appelée à la fin du constructor de Command : les properties doivent être posées avant parent::__construct().
+  AT["#[AsCommand(<br/>name: 'app:create-user|app:add-user',<br/>description: …, help: …,<br/>usages: […], hidden: …)]"] --> N["name<br/>premier segment = le nom<br/>les suivants = des alias<br/>premier segment VIDE = cachée"]
+  AT --> D{"la description<br/>est où ?"}
+  D -->|"dans l'attribute"| L1(["list ne construit<br/>pas la class"])
+  D -->|"dans configure()"| L2(["list construit<br/>la class"])
+  L2 -.- C["configure() appelée à la FIN<br/>du constructor de Command<br/>→ properties AVANT<br/>parent::__construct()"]
 ```
 
 ## L'exemple : créer un user

@@ -41,13 +41,19 @@ un object — deux défauts opposés, renversables par l'accessor builder.
 
 ## Le schéma
 
-```text
-'[first_name]'              index d'array          absent → null (par défaut)
-'firstName'                 property d'object      absente → NoSuchPropertyException
-'children[0].firstName'     les deux, mélangés
-'person?.firstname'         ? arrête sur un maillon null (pas sur une property absente)
-isReadable / isWritable     un bool au lieu d'une exception — isReadable() appelle le getter
-__get / __set               actifs par défaut      __call : enableMagicCall()
+```mermaid
+---
+title: Lire un path avec PropertyAccess
+---
+flowchart LR
+  accTitle: Index d'array, property d'object, operator nullsafe et magie
+  accDescr: '[first_name]' lit un index d'array ; absent, il rend null par défaut. 'firstName' lit une property d'object ; absente, NoSuchPropertyException. 'children[0].firstName' mélange les deux. 'person?.firstname' : le ? arrête sur un maillon null, pas sur une property absente. isReadable et isWritable rendent un bool au lieu de lever, et isReadable() appelle le getter. __get et __set sont actifs par défaut ; __call exige enableMagicCall().
+  P(["path lu"]) --> A["'[first_name]'<br/>index d'array<br/>absent → null (par défaut)"]
+  P --> O["'firstName'<br/>property d'object<br/>absente →<br/>NoSuchPropertyException"]
+  P --> M["'children[0].firstName'<br/>les deux, mélangés"]
+  P --> N["'person?.firstname'<br/>? arrête sur un maillon null<br/>(pas sur une property absente)"]
+  P --> RW["isReadable / isWritable<br/>un bool au lieu d'une exception<br/>isReadable() appelle le getter"]
+  P --> MG["__get / __set actifs par défaut<br/>__call : enableMagicCall()"]
 ```
 
 ## L'exemple : une personne et ses enfants

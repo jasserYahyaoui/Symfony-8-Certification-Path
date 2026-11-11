@@ -57,13 +57,16 @@ question tranche : cela marche-t-il sans service container ? Oui → component.
 
 ## Le schéma
 
-```text
-component HttpKernel   HttpKernelInterface::handle() · abstract Kernel · 8 events · resolvers · NotFoundHttpException
-  Kernel implements KernelInterface (extends HttpKernelInterface), RebootableInterface, TerminableInterface
-  abstraites : registerBundles(), registerContainerConfiguration()
-FrameworkBundle        câblage : RouterListener, ErrorListener… enregistrés · resolvers tagués
-                       framework: · bin/console · /_error · AbstractController · MicroKernelTrait
-MicroKernelTrait       implémente les deux abstraites → appelle configureContainer(), configureRoutes()
+```mermaid
+---
+title: Ce que fournit le component, ce que câble le bundle
+---
+flowchart TD
+  accTitle: Le component HttpKernel, la class Kernel et FrameworkBundle
+  accDescr: Le component HttpKernel fournit HttpKernelInterface::handle(), la class abstraite Kernel, 8 events, les resolvers et NotFoundHttpException. Kernel implémente KernelInterface, qui étend HttpKernelInterface, RebootableInterface et TerminableInterface ; ses methods abstraites sont registerBundles() et registerContainerConfiguration(). MicroKernelTrait implémente ces deux methods et appelle configureContainer() et configureRoutes(). FrameworkBundle câble le tout : RouterListener, ErrorListener et les autres listeners enregistrés, les resolvers tagués, la key framework:, bin/console, /_error, AbstractController et MicroKernelTrait.
+  FB["FrameworkBundle<br/>câblage : RouterListener,<br/>ErrorListener… enregistrés<br/>resolvers tagués<br/>framework: · bin/console · /_error<br/>AbstractController · MicroKernelTrait"] -->|"câble"| HK["component HttpKernel<br/>HttpKernelInterface::handle()<br/>abstract Kernel · 8 events<br/>resolvers · NotFoundHttpException"]
+  HK --> K["Kernel implements KernelInterface<br/>(extends HttpKernelInterface),<br/>RebootableInterface,<br/>TerminableInterface<br/>abstraites : registerBundles(),<br/>registerContainerConfiguration()"]
+  K --> MK["MicroKernelTrait<br/>implémente les deux abstraites<br/>→ appelle configureContainer(),<br/>configureRoutes()"]
 ```
 
 ## L'exemple : le kernel d'une application

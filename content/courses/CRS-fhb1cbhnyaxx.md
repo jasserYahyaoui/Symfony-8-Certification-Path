@@ -45,11 +45,19 @@ prend `GenericEvent` — un sujet et des arguments, au prix du typage.
 
 ## Le schéma
 
-```text
-Event (Contracts)      stopPropagation() · isPropagationStopped() — rien d'autre
-sous-classe            OrderPlacedEvent : getOrder() (et setX() si les listeners remplacent)
-GenericEvent           sujet + arguments ; ArrayAccess et IteratorAggregate sur les ARGUMENTS
-propagation            10 → 5 (stopPropagation) ✗ 0 ✗ -5 ; ce qui a tourné reste fait
+```mermaid
+---
+title: Ce que porte un event, et l'arrêt de la propagation
+---
+flowchart TD
+  accTitle: Event, ses sous-classes, GenericEvent et stopPropagation
+  accDescr: Event, des Contracts, n'a que stopPropagation() et isPropagationStopped(). Une sous-classe comme OrderPlacedEvent porte getOrder(), et setX() si les listeners doivent remplacer une valeur. GenericEvent porte un sujet et des arguments ; ArrayAccess et IteratorAggregate portent sur les arguments. Si le listener de priority 5 appelle stopPropagation(), ceux de priority 0 et −5 ne sont pas appelés ; ce qui a déjà tourné, à 10 et à 5, reste fait.
+  E["Event (Contracts)<br/>stopPropagation()<br/>isPropagationStopped()<br/>rien d'autre"] --> S["sous-classe<br/>OrderPlacedEvent : getOrder()<br/>(et setX() si les listeners<br/>remplacent)"]
+  E --> G["GenericEvent<br/>sujet + arguments<br/>ArrayAccess et<br/>IteratorAggregate<br/>sur les ARGUMENTS"]
+  P10["listener priority 10"] --> P5["listener priority 5<br/>stopPropagation()"]
+  P5 --x P0["priority 0<br/>pas appelé"]
+  P0 --x PM["priority -5<br/>pas appelé"]
+  P5 -.- DONE(["10 et 5 ont tourné :<br/>ce qui a tourné reste fait"])
 ```
 
 ## L'exemple : un achat validé

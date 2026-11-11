@@ -56,13 +56,24 @@ programme.
 
 ## Le schéma
 
-```text
-serialize()     valeur ─normalizer──▶ représentation normalisée ──encoder──▶ JSON / XML / CSV / YAML
-deserialize()   valeur ◀denormalizer── représentation normalisée ◀─decoder── format
-                 │ liste triée : le PREMIER qui accepte la valeur agit       un seul encoder : celui du format
-                 │ ObjectNormalizer : properties publiques + get/has/is/can
-                 │ #[Ignore] partout · groups au cas par cas · #[SerializedName] renomme
-                 │ contexte = 3e argument, pour UN appel
+```mermaid
+---
+title: Serializer, dans les deux sens
+---
+flowchart TD
+  accTitle: Normalizer et encoder à l'aller, decoder et denormalizer au retour
+  accDescr: serialize() passe la valeur par un normalizer vers une représentation normalisée, puis par un encoder vers JSON, XML, CSV ou YAML. deserialize() passe le format par un decoder vers la représentation normalisée, puis par un denormalizer vers la valeur. Les normalizers forment une liste triée : le premier qui accepte la valeur agit ; un seul encoder, celui du format. ObjectNormalizer lit les properties publiques et les methods get, has, is et can. #[Ignore] vaut partout, les groups au cas par cas, #[SerializedName] renomme ; le contexte, troisième argument, vaut pour un appel.
+  subgraph SE["serialize()"]
+    direction TB
+    v1["valeur"] -->|"normalizer"| n1["représentation<br/>normalisée"]
+    n1 -->|"encoder"| f1["JSON / XML<br/>/ CSV / YAML"]
+  end
+  subgraph DE["deserialize()"]
+    direction TB
+    f2["format"] -->|"decoder"| n2["représentation<br/>normalisée"]
+    n2 -->|"denormalizer"| v2["valeur"]
+  end
+  DE ~~~ R["liste triée : le PREMIER<br/>qui accepte la valeur agit<br/>un seul encoder : celui du format<br/>ObjectNormalizer : properties<br/>publiques + get/has/is/can<br/>#[Ignore] partout<br/>groups au cas par cas<br/>#[SerializedName] renomme<br/>contexte = 3e argument,<br/>pour UN appel"]
 ```
 
 ## L'exemple : une vue publique

@@ -56,13 +56,19 @@ ou le kernel.
 
 ## Le schéma
 
-```text
-public/ (servi, index.php)   src/ (App\, Kernel.php)   config/ (packages/<env>/ surcharge)   var/ (cache/, log/)
-déplacer  bin/ config/ src/ public/   → composer.json extra.{bin,config,src,public}-dir
-          .env                        → extra.runtime.dotenv_path (imbriquée)
-          vendor/                     → composer.json config.vendor-dir (pas extra)
-          templates/ · translations/  → twig.default_path · framework.translator.default_path
-          var/cache/ · var/log/       → Kernel::getCacheDir()… ou APP_*_DIR (MicroKernelTrait)
+```mermaid
+---
+title: Les dossiers, et comment les déplacer
+---
+flowchart LR
+  accTitle: L'arborescence d'un projet Symfony et le réglage qui déplace chaque dossier
+  accDescr: public/ est servi et contient index.php ; src/ contient le namespace App\ et Kernel.php ; config/ contient packages/, avec un sous-dossier par environment qui surcharge ; var/ contient cache/ et log/. Pour déplacer bin/, config/, src/ ou public/, composer.json extra.{bin,config,src,public}-dir. Pour .env, extra.runtime.dotenv_path, une key imbriquée. Pour vendor/, composer.json config.vendor-dir, pas extra. Pour templates/ et translations/, twig.default_path et framework.translator.default_path. Pour var/cache/ et var/log/, Kernel::getCacheDir() et ses voisines, ou APP_*_DIR avec MicroKernelTrait.
+  D["les dossiers<br/>public/ (servi, index.php)<br/>src/ (App\, Kernel.php)<br/>config/ (packages/#lt;env#gt;/<br/>surcharge)<br/>var/ (cache/, log/)"] --> MV{"déplacer"}
+  MV --> X1["bin/ config/ src/ public/<br/>→ composer.json<br/>extra.{bin,config,src,public}-dir"]
+  MV --> X2[".env<br/>→ extra.runtime.dotenv_path<br/>(imbriquée)"]
+  MV --> X3["vendor/<br/>→ composer.json<br/>config.vendor-dir (pas extra)"]
+  MV --> X4["templates/ · translations/<br/>→ twig.default_path<br/>· framework.translator.default_path"]
+  MV --> X5["var/cache/ · var/log/<br/>→ Kernel::getCacheDir()…<br/>ou APP_*_DIR (MicroKernelTrait)"]
 ```
 
 ## L'exemple : sortir le cache de `var/`

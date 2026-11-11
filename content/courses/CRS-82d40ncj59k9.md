@@ -39,14 +39,19 @@ adresses, et `MimeTypes`, dont la devinette lit le contenu du file.
 
 ## Le schéma
 
-```text
-multipart/mixed                    contenus de natures différentes (pièce jointe)
-├── multipart/related              un tout : le HTML et ses images intégrées
-│   ├── multipart/alternative      deux versions du MÊME contenu ; la préférée EN DERNIER
-│   │   ├── text/plain
-│   │   └── text/html
-│   └── image/png
-└── application/pdf
+```mermaid
+---
+title: La structure MIME d'un email complet
+---
+flowchart TD
+  accTitle: multipart/mixed, related et alternative imbriqués
+  accDescr: multipart/mixed réunit des contenus de natures différentes, comme une attachment ; il contient multipart/related et application/pdf. multipart/related forme un tout, le HTML et ses images intégrées ; il contient multipart/alternative et image/png. multipart/alternative donne deux versions du même contenu, la préférée en dernier : text/plain puis text/html.
+  MX["multipart/mixed<br/>contenus de natures différentes<br/>(attachment)"] --> REL["multipart/related<br/>un tout : le HTML et<br/>ses images intégrées"]
+  MX --> PDF["application/pdf"]
+  REL --> ALT["multipart/alternative<br/>deux versions du MÊME contenu<br/>la préférée EN DERNIER"]
+  REL --> PNG["image/png"]
+  ALT --> TP["text/plain"]
+  ALT --> TH["text/html"]
 ```
 
 ## L'exemple : une notification

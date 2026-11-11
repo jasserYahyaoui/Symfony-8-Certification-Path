@@ -53,13 +53,17 @@ seuls six codes sont admis, et `redirect()` ne vérifie jamais sa destination.
 
 ## Le schéma
 
-```text
-redirectToRoute($route, $params = [], $status = 302)
-   → redirect(generateUrl($route, $params), $status)     Location : path absolu (/accueil)
-redirect($url, $status = 302) → new RedirectResponse($url, $status)   aucune validation de $url
-statuts admis   201, 301, 302, 303, 307, 308 — le reste lève (304 et 300 compris)
-parameters      variable du path → path ; autre → query string ; _fragment → #ancre
-301             Cache-Control retiré s'il n'est pas fourni : cache navigateur durable
+```mermaid
+---
+title: De redirectToRoute à la RedirectResponse
+---
+flowchart TD
+  accTitle: redirectToRoute, redirect et les statuts admis
+  accDescr: redirectToRoute($route, $params = [], $status = 302) appelle redirect(generateUrl($route, $params), $status), et Location reçoit un path absolu, comme /accueil. Les parameters qui sont des variables du path vont dans le path, les autres dans la query string, et _fragment devient l'ancre. redirect($url, $status = 302) crée new RedirectResponse($url, $status), sans aucune validation de $url. Les statuts admis sont 201, 301, 302, 303, 307 et 308 ; le reste lève, 304 et 300 compris. Pour un 301, Cache-Control est retiré s'il n'est pas fourni, d'où un cache navigateur durable.
+  RR["redirectToRoute($route,<br/>$params = [], $status = 302)"] -->|"redirect(generateUrl($route,<br/>$params), $status)<br/>Location : path absolu (/accueil)"| R["redirect($url, $status = 302)<br/>→ new RedirectResponse($url, $status)<br/>aucune validation de $url"]
+  RR -.- PA["parameters<br/>variable du path → path<br/>autre → query string<br/>_fragment → #ancre"]
+  R --> ST["statuts admis<br/>201, 301, 302, 303, 307, 308<br/>le reste lève<br/>(304 et 300 compris)"]
+  ST --> P301["301 : Cache-Control retiré<br/>s'il n'est pas fourni<br/>cache navigateur durable"]
 ```
 
 ## L'exemple : Post / Redirect / Get

@@ -42,14 +42,19 @@ class** — identiques, sauf sur les objects imbriqués.
 
 ## Le schéma
 
-```text
-DÉCLARATION  sans group ou groups: ['Default'] → ["Default", "User"]
-             groups: ['User']                  → ["User"] seulement
-             groups: ['registration']          → ["registration"]
-VALIDATION   validate($user)                         → Default
-             validate($user, null, ['registration']) → registration seul
-CASCADE      le group demandé est transmis à l'object imbriqué :
-             Default y descend ; User n'y trouve rien ; registration y descend
+```mermaid
+---
+title: Les groups d'une constraint de la class User
+---
+flowchart LR
+  accTitle: Déclaration, validation et cascade des validation groups
+  accDescr: Sur la class User, une constraint sans group ou avec groups: ['Default'] appartient à Default et à User ; avec groups: ['User'], à User seulement ; avec groups: ['registration'], à registration. validate($user) valide Default ; validate($user, null, ['registration']) valide registration seul. En cascade, le group demandé est transmis à l'object imbriqué : Default y descend, User n'y trouve rien, registration y descend.
+  D(["DÉCLARATION"]) --> D1["sans group ou<br/>groups: ['Default']<br/>→ [#quot;Default#quot;, #quot;User#quot;]"]
+  D --> D2["groups: ['User']<br/>→ [#quot;User#quot;] seulement"]
+  D --> D3["groups: ['registration']<br/>→ [#quot;registration#quot;]"]
+  V(["VALIDATION"]) --> V1["validate($user)<br/>→ Default"]
+  V --> V2["validate($user, null,<br/>['registration'])<br/>→ registration seul"]
+  V2 --> CA["CASCADE : le group demandé<br/>est transmis à l'object imbriqué<br/>Default y descend<br/>User n'y trouve rien<br/>registration y descend"]
 ```
 
 ## L'exemple : un `User` à deux usages

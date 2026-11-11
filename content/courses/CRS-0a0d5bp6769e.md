@@ -52,11 +52,27 @@ compilation.
 
 ## Le schéma
 
-```text
-compilation   getSubscribedServices() lue (statique) : manquant sans ? → échec ; avec ? → absent du locator
-injection     le bus reçoit un ServiceLocator : aucun handler construit
-get('Foo')    construit Foo maintenant — la même instance que le container
-get('Bar')    non déclaré → ServiceNotFoundException « …is a smaller service locator… »
+```mermaid
+---
+title: Un service locator à la compilation
+---
+flowchart TD
+  accTitle: getSubscribedServices lue à la compilation
+  accDescr: À la compilation, getSubscribedServices() est lue, de façon statique : un service manquant déclaré sans ? fait échouer ; avec ?, il est simplement absent du locator.
+  C["compilation<br/>getSubscribedServices()<br/>lue (statique)"] --> M{"service<br/>manquant"}
+  M -->|"sans ?"| F(["échec"])
+  M -->|"avec ?"| AB(["absent du locator"])
+```
+
+```mermaid
+---
+title: Un service locator à l'exécution
+---
+flowchart TD
+  accTitle: L'injection du ServiceLocator et ses get
+  accDescr: À l'injection, le bus reçoit un ServiceLocator, et aucun handler n'est construit. get('Foo') construit Foo maintenant, la même instance que dans le container. get('Bar'), non déclaré, lève ServiceNotFoundException « …is a smaller service locator… ».
+  I["injection<br/>le bus reçoit un ServiceLocator :<br/>aucun handler construit"] --> G1["get('Foo')<br/>construit Foo maintenant<br/>la même instance<br/>que le container"]
+  I --> G2["get('Bar') non déclaré<br/>→ ServiceNotFoundException<br/>« …is a smaller<br/>service locator… »"]
 ```
 
 ## Le fil rouge : un CommandBus

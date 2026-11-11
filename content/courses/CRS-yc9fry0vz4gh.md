@@ -36,17 +36,17 @@ compatible gagne, et `finally` s'exécute même après un `return`.
 
 ## Le schéma
 
-```text
-Throwable  (interface, étend Stringable)
-├── Error                    problèmes du moteur
-│   ├── TypeError → ArgumentCountError
-│   ├── ValueError
-│   ├── ArithmeticError → DivisionByZeroError
-│   └── AssertionError
-└── Exception                conditions applicatives
-    ├── RuntimeException  → OutOfBoundsException, UnexpectedValueException…
-    ├── LogicException    → InvalidArgumentException, DomainException…
-    └── ErrorException
+```mermaid
+---
+title: La hiérarchie de Throwable
+---
+flowchart TD
+  accTitle: Les deux branches sœurs sous Throwable
+  accDescr: Throwable est une interface qui étend Stringable. Deux branches sœurs en descendent. Error, pour les problèmes de l'engine, avec TypeError et sa fille ArgumentCountError, ValueError, ArithmeticError et sa fille DivisionByZeroError, et AssertionError. Exception, pour les conditions applicatives, avec RuntimeException, dont OutOfBoundsException et UnexpectedValueException, LogicException, dont InvalidArgumentException et DomainException, et ErrorException.
+  T(["Throwable<br/>interface, étend Stringable"]) --> E["Error<br/>problèmes de l'engine"]
+  T --> X["Exception<br/>conditions applicatives"]
+  E --> EL["TypeError<br/>→ ArgumentCountError<br/>ValueError<br/>ArithmeticError<br/>→ DivisionByZeroError<br/>AssertionError"]
+  X --> XL["RuntimeException<br/>→ OutOfBoundsException,<br/>UnexpectedValueException…<br/>LogicException<br/>→ InvalidArgumentException,<br/>DomainException…<br/>ErrorException"]
 ```
 
 ## L'exemple

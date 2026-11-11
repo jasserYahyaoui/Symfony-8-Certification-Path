@@ -130,15 +130,16 @@ réception de l'envoi.
 
 ## Où se place un middleware maison
 
-```text
-add_default_stamps_middleware
-add_bus_name_stamp_middleware
-reject_redelivered_message_middleware
-dispatch_after_current_bus
-failed_message_processing_middleware
-   ← vos middlewares, dans l'ordre déclaré
-send_message
-handle_message
+```mermaid
+---
+title: La pile des middlewares d'un bus
+---
+flowchart TD
+  accTitle: L'ordre des middlewares par défaut et la place des middlewares déclarés
+  accDescr: Un message traverse add_default_stamps_middleware, add_bus_name_stamp_middleware, reject_redelivered_message_middleware, dispatch_after_current_bus et failed_message_processing_middleware ; puis vos middlewares, dans l'ordre déclaré ; puis send_message, qui envoie au transport, et handle_message, qui appelle les handlers.
+  M1["add_default_stamps_middleware"] --> M2["add_bus_name_stamp_middleware"] --> M3["reject_redelivered_message_middleware"] --> M4["dispatch_after_current_bus"] --> M5["failed_message_processing_middleware"]
+  M5 --> U(["vos middlewares,<br/>dans l'ordre déclaré"])
+  U --> S["send_message"] --> H["handle_message"]
 ```
 
 `send_message` envoie au transport ; `handle_message` appelle les handlers et

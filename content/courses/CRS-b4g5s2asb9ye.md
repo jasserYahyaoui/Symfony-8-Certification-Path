@@ -66,11 +66,17 @@ seulement si on le demande.
 
 ## Le schéma
 
-```text
-1. MARQUER    tags: [app.handler], ou #[AutoconfigureTag] sur l'interface
-2. LIRE       #[AutowireIterator] / !tagged_iterator, #[AutowireLocator], ou une passe — sinon : aucun effet, aucune erreur
-3. ORDONNER   priority la plus HAUTE d'abord ; index = une key, avec index_by ou dans un locator
-4. EXÉCUTER   HandlerChain construit, AUCUN handler encore ; chacun naît quand le foreach l'atteint
+```mermaid
+---
+title: Un tag, de la marque à l'exécution
+---
+flowchart TD
+  accTitle: Marquer, lire, ordonner et exécuter les services tagués
+  accDescr: On marque un service par tags: [app.handler], ou par #[AutoconfigureTag] sur l'interface. On lit le tag par #[AutowireIterator] ou !tagged_iterator, par #[AutowireLocator], ou par un compiler pass ; sinon le tag n'a aucun effet et ne produit aucune erreur. On ordonne : la priority la plus haute d'abord ; l'index est une key, avec index_by ou dans un locator. À l'exécution, HandlerChain est construit sans aucun handler ; chacun naît quand le foreach l'atteint.
+  M["1. MARQUER<br/>tags: [app.handler],<br/>ou #[AutoconfigureTag]<br/>sur l'interface"] --> L{"2. LIRE ?"}
+  L -->|"#[AutowireIterator] /<br/>!tagged_iterator,<br/>#[AutowireLocator],<br/>ou un compiler pass"| O["3. ORDONNER<br/>priority la plus HAUTE d'abord<br/>index = une key, avec index_by<br/>ou dans un locator"]
+  L -->|"sinon"| N(["aucun effet,<br/>aucune erreur"])
+  O --> E["4. EXÉCUTER<br/>HandlerChain construit,<br/>AUCUN handler encore<br/>chacun naît quand<br/>le foreach l'atteint"]
 ```
 
 ## Le fil rouge : des handlers de notification

@@ -67,11 +67,19 @@ la string vide, `All` contre `Collection` — et la configuration 8.0 en
 
 ## Le schéma
 
-```text
-null ?        seules NotNull / NotBlank (et IsNull, Blank) jugent ; toutes les autres laissent passer
-'' ?          NotBlank refuse ; Email, Regex, Url, Type('string') acceptent ; Length(min), Choice, Positive peuvent refuser
-organiser ?   All (chaque élément) · Collection (chaque key) · Sequentially (1re erreur) · AtLeastOneOf · When · Compound
-sinon         la constraint juge la valeur elle-même
+```mermaid
+---
+title: Quelle constraint juge quoi
+---
+flowchart TD
+  accTitle: null, string vide et constraints d'organisation
+  accDescr: Pour null, seules NotNull et NotBlank, ainsi qu'IsNull et Blank, jugent ; toutes les autres laissent passer. Pour la string vide, NotBlank refuse ; Email, Regex, Url et Type('string') acceptent ; Length avec min, Choice et Positive peuvent refuser. Pour organiser : All, sur chaque élément, Collection, sur chaque key, Sequentially, jusqu'à la première erreur, AtLeastOneOf, When et Compound. Sinon, la constraint juge la valeur elle-même.
+  Q1{"null ?"} -->|"oui"| A1["seules NotNull / NotBlank<br/>(et IsNull, Blank) jugent<br/>toutes les autres<br/>laissent passer"]
+  Q1 -->|"non"| Q2{"'' ?"}
+  Q2 -->|"oui"| A2["NotBlank refuse<br/>Email, Regex, Url,<br/>Type('string') acceptent<br/>Length(min), Choice,<br/>Positive peuvent refuser"]
+  Q2 -->|"non"| Q3{"organiser ?"}
+  Q3 -->|"oui"| A3["All (chaque élément)<br/>Collection (chaque key)<br/>Sequentially (1re erreur)<br/>AtLeastOneOf · When<br/>Compound"]
+  Q3 -->|"sinon"| A4["la constraint juge<br/>la valeur elle-même"]
 ```
 
 ## Le fil rouge : un form de contact

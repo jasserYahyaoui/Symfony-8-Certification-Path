@@ -38,14 +38,20 @@ les named arguments.
 
 ## Le schéma
 
-```text
-utiliser une class / interface          couvert
-implémenter une interface               couvert
-étendre une class                       couvert, SAUF ajouter une property ou une method ; le privé par réflexion jamais
-utiliser un trait                       tout couvert, privé compris (sauf @internal)
-named arguments                         couverts seulement pour les constructors de classes d'attribute
-hors promesse                           @internal et *\Tests\ · @experimental · translations internes · faille de sécurité
-@final                                  intention seulement ; final l'impose ; @final since Symfony x.y = transition
+```mermaid
+---
+title: Ce que la promesse couvre
+---
+flowchart LR
+  accTitle: Les usages couverts par la backward compatibility promise et ce qui en est exclu
+  accDescr: Utiliser une class ou une interface est couvert. Implémenter une interface est couvert. Étendre une class est couvert, sauf pour ajouter une property ou une method ; atteindre le privé par réflexion ne l'est jamais. Utiliser un trait est tout couvert, privé compris, sauf @internal. Les named arguments ne sont couverts que pour les constructors des classes d'attribute. Hors promesse : @internal et *\Tests\, @experimental, les translations internes et une faille de sécurité. @final n'exprime qu'une intention, final l'impose, et @final since Symfony x.y marque une transition.
+  U(["votre code"]) --> A["utiliser une class / interface<br/>couvert"]
+  U --> B["implémenter une interface<br/>couvert"]
+  U --> C["étendre une class<br/>couvert, SAUF ajouter<br/>une property ou une method<br/>le privé par réflexion : jamais"]
+  U --> D["utiliser un trait<br/>tout couvert, privé compris<br/>(sauf @internal)"]
+  U --> E["named arguments<br/>couverts seulement pour<br/>les constructors de classes d'attribute"]
+  H["hors promesse<br/>@internal et *\Tests\<br/>@experimental<br/>translations internes<br/>faille de sécurité"]
+  F["@final : intention seulement<br/>final l'impose<br/>@final since Symfony x.y<br/>= transition"]
 ```
 
 ## L'exemple : un argument ajouté en mineure

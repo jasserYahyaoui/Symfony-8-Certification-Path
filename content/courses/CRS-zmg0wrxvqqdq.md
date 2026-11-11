@@ -55,13 +55,19 @@ cache public, 307/308, cible vide, mode `path` contre mode `route`.
 
 ## Le schéma
 
-```text
-route → controller: FQCN du framework → defaults → attributes de la Request → arguments (par nom)
-TemplateController   template (seul obligatoire) · statusCode 200 · maxAge · sharedAge · private · context · headers
-RedirectController   route  → URL absolue générée, parameters courants transmis, keepQueryParams
-                     path   → path complété (schéma, host, port) + query string · URL complète telle quelle
-                     route ET path, ou ni l'un ni l'autre → RuntimeException
-statut               302 · permanent 301 · keepRequestMethod 307 · les deux 308 · cible vide 404 / 410
+```mermaid
+---
+title: TemplateController et RedirectController
+---
+flowchart TD
+  accTitle: Les deux controllers intégrés et leurs options
+  accDescr: Une route vers un controller du framework donne son FQCN dans _controller ; ses defaults deviennent des attributes de la Request, puis des arguments, par nom. TemplateController prend template, seul obligatoire, statusCode à 200, maxAge, sharedAge, private, context et headers. RedirectController avec route génère une URL absolue en transmettant les parameters courants, et keepQueryParams ; avec path, il complète le path, schéma, host et port, avec la query string, et prend une URL complète telle quelle ; avec route et path, ou ni l'un ni l'autre, RuntimeException. Le statut est 302, 301 avec permanent, 307 avec keepRequestMethod, 308 avec les deux, et 404 ou 410 pour une cible vide.
+  R["route → controller :<br/>FQCN du framework → defaults<br/>→ attributes de la Request<br/>→ arguments (par nom)"] --> T["TemplateController<br/>template (seul obligatoire)<br/>statusCode 200 · maxAge<br/>sharedAge · private<br/>context · headers"]
+  R --> RC{"RedirectController"}
+  RC -->|"route"| RR["URL absolue générée,<br/>parameters courants<br/>transmis, keepQueryParams"]
+  RC -->|"path"| RP["path complété<br/>(schéma, host, port)<br/>+ query string<br/>URL complète telle quelle"]
+  RC -->|"route ET path,<br/>ou aucun"| RX["RuntimeException"]
+  RR & RP --> ST["statut : 302 · permanent 301<br/>keepRequestMethod 307<br/>les deux 308<br/>cible vide 404 / 410"]
 ```
 
 ## L'exemple : deux routes sans code

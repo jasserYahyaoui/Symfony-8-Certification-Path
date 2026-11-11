@@ -37,13 +37,18 @@ pas de bundle applicatif, les boutons dans le template.
 
 ## Le schéma
 
-```text
-dépend de la machine (URL de base, SMTP)   → variable d'environment
-sensible                                   → secret
-applicatif, identique partout              → parameter, préfixé app. (app.contents_dir)
-change presque jamais (éléments par page)  → constante de class
-code applicatif → src/, sans bundle   ·   controller → AbstractController   ·   1 firewall, hasher auto (bcrypt)
-form → class PHP, boutons dans le template, constraints sur l'object   ·   tests → smoke test + URL en dur
+```mermaid
+---
+title: Où ranger une valeur, et les autres conseils
+---
+flowchart LR
+  accTitle: Les bonnes pratiques officielles, de la configuration aux tests
+  accDescr: Une valeur qui dépend de la machine, comme l'URL de base ou le SMTP, va dans une variable d'environment ; une valeur sensible, dans un secret ; une valeur applicative identique partout, dans un parameter préfixé app., comme app.contents_dir ; une valeur qui ne change presque jamais, comme le nombre d'éléments par page, dans une constant de class. Le code applicatif va dans src/, sans bundle ; un controller étend AbstractController ; un seul firewall, avec le hasher auto, bcrypt ; un form est une class PHP, ses boutons sont dans le template et ses constraints sur l'object ; les tests sont des smoke tests avec des URL en dur.
+  Q{"où ranger<br/>une valeur ?"} -->|"dépend de la machine<br/>(URL de base, SMTP)"| E["variable d'environment"]
+  Q -->|"sensible"| S["secret"]
+  Q -->|"applicatif,<br/>identique partout"| P["parameter, préfixé app.<br/>(app.contents_dir)"]
+  Q -->|"change presque jamais<br/>(éléments par page)"| C["constante de class"]
+  R["code applicatif → src/, sans bundle<br/>controller → AbstractController<br/>1 firewall, hasher auto (bcrypt)<br/>form → class PHP, boutons<br/>dans le template,<br/>constraints sur l'object<br/>tests → smoke test + URL en dur"]
 ```
 
 ## L'exemple : une valeur qui ne change presque jamais

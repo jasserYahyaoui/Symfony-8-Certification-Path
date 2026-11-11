@@ -68,12 +68,23 @@ diagnostic vont sur un second flux, **`STDERR`**.
 
 ## Le schéma
 
-```text
-entrée   ArgvInput ($argv) │ ArrayInput (tests, appel interne) │ StringInput  ──► InputInterface
-         getArgument() / getOption() : valeurs ; hasOption() : DÉCLARÉE ? ; hasParameterOption() : ligne brute
-sortie   OutputInterface ── write() / writeln() ── formateur : <info> <comment> <question> <error>
-         ConsoleOutputInterface::getErrorOutput() ──► STDERR (diagnostic, hors des données redirigées)
-tests    CommandTester : la command seule, sans event │ ApplicationTester : par l'Application, avec events
+```mermaid
+---
+title: L'entrée, l'output et les testeurs
+---
+flowchart TD
+  accTitle: Les Input, l'Output, STDERR et les deux testeurs
+  accDescr: L'entrée est un ArgvInput, construit sur $argv, un ArrayInput, pour les tests ou un appel interne, ou un StringInput, tous des InputInterface. getArgument() et getOption() rendent les valeurs ; hasOption() dit si l'option est déclarée ; hasParameterOption() lit la ligne brute. L'output est une OutputInterface, avec write() et writeln() et un formateur qui comprend les tags info, comment, question et error. ConsoleOutputInterface::getErrorOutput() écrit sur STDERR, pour le diagnostic, hors des données redirigées. CommandTester teste la command seule, sans event ; ApplicationTester passe par l'Application, avec les events.
+  subgraph IN["entrée"]
+    direction TB
+    I1["ArgvInput ($argv)<br/>ArrayInput (tests,<br/>appel interne)<br/>StringInput"] --> II["InputInterface"]
+    II --> I2["getArgument() / getOption() :<br/>valeurs<br/>hasOption() : DÉCLARÉE ?<br/>hasParameterOption() :<br/>ligne brute"]
+  end
+  subgraph OUT["sortie"]
+    direction TB
+    O1["OutputInterface<br/>write() / writeln()<br/>formateur : #lt;info#gt;<br/>#lt;comment#gt; #lt;question#gt;<br/>#lt;error#gt;"] --> O2["ConsoleOutputInterface<br/>::getErrorOutput()<br/>→ STDERR (diagnostic,<br/>hors des données<br/>redirigées)"]
+  end
+  OUT ~~~ T["tests<br/>CommandTester : la command seule,<br/>sans event<br/>ApplicationTester : par l'Application,<br/>avec events"]
 ```
 
 ## L'exemple : une command d'export

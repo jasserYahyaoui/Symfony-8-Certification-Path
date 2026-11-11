@@ -41,13 +41,21 @@ dynamique.
 
 ## Le schéma
 
-```text
-validate($user)  (ou ['Default'])  → Default = la SÉQUENCE déclarée sur la class
-   étape 1  group « User »    ── une violation ? ──► STOP, ces violations seulement
-   étape 2  group « Strict »  ── seulement si l'étape 1 est vide
-validate($user, null, ['Strict'])  → Strict SEUL, sans séquence
-déclaration : ['Default', …] ou sans 'User' → GroupDefinitionException
-provider    : [['User', 'Premium'], 'Api'] → User et Premium dans la MÊME étape
+```mermaid
+---
+title: Une group sequence, étape par étape
+---
+flowchart TD
+  accTitle: validate avec une group sequence, et les deux erreurs de déclaration
+  accDescr: validate($user), ou avec ['Default'], valide Default, qui est la séquence déclarée sur la class. Étape 1, le group User : s'il produit une violation, la validation s'arrête et rend ces violations seulement. Étape 2, le group Strict, seulement si l'étape 1 est vide. validate($user, null, ['Strict']) valide Strict seul, sans séquence. Une séquence déclarée avec 'Default', ou sans 'User', lève GroupDefinitionException. Un provider qui rend [['User', 'Premium'], 'Api'] met User et Premium dans la même étape.
+  V(["validate($user)<br/>(ou ['Default'])"]) --> S["Default = la SÉQUENCE<br/>déclarée sur la class"]
+  S --> E1["étape 1 : group « User »"]
+  E1 --> Q{"une violation ?"}
+  Q -->|"oui"| STOP(["STOP, ces<br/>violations seulement"])
+  Q -->|"non"| E2["étape 2 : group « Strict »"]
+  VS(["validate($user, null,<br/>['Strict'])"]) --> SS["Strict SEUL,<br/>sans séquence"]
+  SS ~~~ DE["déclaration : ['Default', …]<br/>ou sans 'User'<br/>→ GroupDefinitionException"]
+  DE ~~~ PR["provider :<br/>[['User', 'Premium'], 'Api']<br/>→ User et Premium<br/>dans la MÊME étape"]
 ```
 
 ## L'exemple : un `User` en deux étapes

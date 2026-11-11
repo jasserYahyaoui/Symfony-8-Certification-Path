@@ -3,7 +3,8 @@
 ARC-001, PED-003 and REV-001 were added to a corpus that satisfies all three,
 DIA-001 (ADR-0009) to one whose two diagrams satisfy it, OBJ-001
 (ADR-0011) to one whose 163 objectives satisfy it, and FMT-001 and QCM-001
-(ADR-0012) to one whose single pedagogical page satisfies both,
+(ADR-0012) to one whose single pedagogical page satisfies both, and DIA-002
+(owner, 2026-11-08) to one whose 175 schema sections are all drawn,
 so each of them reports nothing on the canonical data. A rule that has only
 ever been silent has not been shown to be capable of speaking: five checks in
 this project were found to be vacuous, four of them comparing a value with
@@ -235,6 +236,18 @@ CASES = [
           "flowchart TD\n  accTitle: Le trajet d'une",
           "Ce paragraphe se cache dans un schema pour echapper au budget.\n  accTitle: Le trajet d'une")],
         '[ERROR] DIA-001',
+    ),
+    # DIA-002 (owner, 2026-11-08): « Le schéma » is drawn. Each case breaks the
+    # real pilot page, whose schema is a Mermaid diagram since the conversion.
+    (
+        'DIA-002 rejects a schema written back as a text fence',
+        [(PEDAGOGICAL_COURSE, "```mermaid\n---\ntitle: Déprécier, puis supprimer\n", "```text\n---\ntitle: Déprécier, puis supprimer\n")],
+        '[ERROR] DIA-002',
+    ),
+    (
+        'DIA-002 rejects a text fence left beside the drawing',
+        [(PEDAGOGICAL_COURSE, "\n## Le fil rouge : `Request::get()`, de 7.4 à 8.0\n", "\n```text\n7.4 → 8.0\n```\n\n## Le fil rouge : `Request::get()`, de 7.4 à 8.0\n")],
+        '[ERROR] DIA-002',
     ),
     (
         'REV-001 still counts the prose written beside a diagram',

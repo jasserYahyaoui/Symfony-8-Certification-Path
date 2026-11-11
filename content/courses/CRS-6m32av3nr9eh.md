@@ -38,13 +38,19 @@ par paires.
 
 ## Le schéma
 
-```text
-cycle de 6 mois     4 mois de développement + 2 mois de stabilisation
-branche majeure     X.0 X.1 X.2 X.3 X.4 (LTS) — cinq mineures depuis la branche 3.x
-maintenance         standard : 8 mois bugs / 8 mois sécurité      LTS : 3 ans bugs / 4 ans sécurité
-délai pour migrer   standard : 2 mois                              LTS : 1 an
-en parallèle        8.0 ≡ 7.4 en fonctionnalités ; 8.0 retire ce que 7.4 déprécie
-PHP                 minimum fixé par majeure (exception possible en mineure) ; maximum = la dernière parue
+```mermaid
+---
+title: Le calendrier des versions
+---
+flowchart TD
+  accTitle: Le cycle des versions de Symfony et la durée de maintenance
+  accDescr: Une version paraît tous les six mois : quatre mois de développement et deux mois de stabilisation. Une branche majeure compte cinq mineures depuis la branche 3.x : X.0, X.1, X.2, X.3 et X.4, qui est LTS. Une version standard reçoit 8 mois de corrections de bugs et 8 mois de sécurité, et laisse 2 mois pour migrer ; une LTS reçoit 3 ans de bugs et 4 ans de sécurité, et laisse un an pour migrer. 8.0 paraît en même temps que 7.4, avec les mêmes fonctionnalités, et retire ce que 7.4 déprécie. Le minimum de PHP est fixé par majeure, avec une exception possible en mineure ; le maximum est la dernière version parue.
+  C["cycle de 6 mois<br/>4 mois de développement<br/>+ 2 mois de stabilisation"] -->|"cinq mineures par<br/>branche depuis 3.x"| X0["X.0"]
+  X0 --> X1["X.1"] --> X2["X.2"] --> X3["X.3"] --> X4["X.4 (LTS)"]
+  X3 -.- STD["version standard<br/>8 mois de bugs<br/>8 mois de sécurité<br/>2 mois pour migrer"]
+  X4 -.- LTS["LTS<br/>3 ans de bugs<br/>4 ans de sécurité<br/>1 an pour migrer"]
+  P["en parallèle<br/>8.0 ≡ 7.4 en fonctionnalités<br/>8.0 retire ce que 7.4 déprécie"]
+  PHP["PHP : minimum fixé par majeure<br/>(exception possible en mineure)<br/>maximum = la dernière parue"]
 ```
 
 ## L'exemple : la branche 7

@@ -39,12 +39,17 @@ sont traités ailleurs (*User's locale guessing*, *Internationalization*).
 
 ## Le schéma
 
-```text
-Accept-Language: fr-FR,fr;q=0.9,en;q=0.8,*;q=0.5        q absent = 1.0 ; q=0 = refusé (pour la RFC)
-getLanguages()                → ['fr_FR', 'fr', 'en', '*']   tri par q, forme fr_FR, doublons retirés
-getPreferredLanguage()        → 'fr_FR'                      la 1re du client : aucune négociation
-getPreferredLanguage(['en'])  → 'en'                         1er supporté qui COMMENCE par une combinaison ;
-                                                              rien ne correspond → le 1er de la liste, jamais null
+```mermaid
+---
+title: Ce que rendent les methods de langue
+---
+flowchart TD
+  accTitle: Accept-Language lu par getLanguages et getPreferredLanguage
+  accDescr: Avec Accept-Language: fr-FR,fr;q=0.9,en;q=0.8,*;q=0.5, un q absent vaut 1.0 et q=0 signifie refusé pour la RFC. getLanguages() rend ['fr_FR', 'fr', 'en', '*'], trié par q, à la forme fr_FR, doublons retirés. getPreferredLanguage() sans argument rend 'fr_FR', la première du client, sans aucune négociation. getPreferredLanguage(['en']) rend 'en' : le premier code supporté qui commence par une combinaison ; si rien ne correspond, le premier de la liste, jamais null.
+  H["Accept-Language:<br/>fr-FR,fr;q=0.9,en;q=0.8,*;q=0.5<br/>q absent = 1.0<br/>q=0 = refusé (pour la RFC)"]
+  H --> GL["getLanguages()<br/>→ ['fr_FR', 'fr', 'en', '*']<br/>tri par q, forme fr_FR,<br/>doublons retirés"]
+  H --> GP["getPreferredLanguage()<br/>→ 'fr_FR'<br/>la 1re du client :<br/>aucune négociation"]
+  H --> GS["getPreferredLanguage(['en'])<br/>→ 'en'<br/>1er supporté qui COMMENCE<br/>par une combinaison<br/>rien ne correspond<br/>→ le 1er de la liste, jamais null"]
 ```
 
 ## L'exemple : choisir parmi les locales supportés
@@ -86,8 +91,14 @@ Pour chaque langue demandée, la method construit **toutes ses combinaisons**,
 de la plus précise à la plus générale, et retient le premier locale supporté
 qui **commence par** l'une d'elles :
 
-```text
-fr_Latn_FR  ->  fr_Latn  ->  fr_FR  ->  fr
+```mermaid
+---
+title: Les combinaisons essayées
+---
+flowchart TD
+  accTitle: L'ordre des combinaisons pour fr_Latn_FR
+  accDescr: Pour la langue fr_Latn_FR, les combinaisons sont essayées dans cet ordre : fr_Latn_FR, puis fr_Latn, puis fr_FR, puis fr.
+  A["fr_Latn_FR"] --> B["fr_Latn"] --> C["fr_FR"] --> D["fr"]
 ```
 
 C'est un **préfixe**, pas une égalité, et **l'ordre de votre liste départage** :

@@ -52,13 +52,20 @@ de confiance, vide par défaut.
 
 ## Le schéma
 
-```text
-createFromGlobals()  superglobales → Request (front controller)   │  create()  Request fabriquée (tests)
-InputBag     $query ($_GET) · $request (body POST !) · $cookies    get() exige un scalaire, all() un array
-ParameterBag $attributes (_route, _controller, {slug})             accepte tout : vient de l'application
-autres       $headers HeaderBag · $server ServerBag · $files FileBag
-getClientIp()  X-Forwarded-For + REMOTE_ADDR − proxys de confiance, renversé → le 1er restant
-getHost()      X-Forwarded-Host (proxy de confiance) · Host · SERVER_NAME → setTrustedHosts([regex])
+```mermaid
+---
+title: D'où vient la Request, où sont ses données
+---
+flowchart LR
+  accTitle: Créer une Request et lire ses sacs de données
+  accDescr: createFromGlobals() fabrique la Request depuis les superglobales, dans le front controller ; create() fabrique une Request, dans les tests. Les InputBag sont $query pour $_GET, $request pour le body POST, et $cookies ; leur get() exige un scalaire, all() un array. Le ParameterBag $attributes, avec _route, _controller ou {slug}, accepte tout, car il vient de l'application. Les autres sacs sont $headers, un HeaderBag, $server, un ServerBag, et $files, un FileBag. getClientIp() lit X-Forwarded-For et REMOTE_ADDR, retire les proxys de confiance, renverse la liste et rend le premier restant. getHost() lit X-Forwarded-Host derrière un proxy de confiance, sinon Host, sinon SERVER_NAME, et se contrôle par setTrustedHosts avec des regex.
+  G["createFromGlobals()<br/>superglobales → Request<br/>(front controller)"] --> RQ(["Request"])
+  CR["create()<br/>Request fabriquée<br/>(tests)"] --> RQ
+  RQ --> IB["InputBag<br/>$query ($_GET)<br/>$request (body POST !)<br/>$cookies<br/>get() exige un scalaire,<br/>all() un array"]
+  RQ --> PB["ParameterBag $attributes<br/>(_route, _controller, {slug})<br/>accepte tout :<br/>vient de l'application"]
+  RQ --> OT["autres<br/>$headers HeaderBag<br/>$server ServerBag<br/>$files FileBag"]
+  RQ --> IP["getClientIp()<br/>X-Forwarded-For + REMOTE_ADDR<br/>− proxys de confiance, renversé<br/>→ le 1er restant"]
+  RQ --> HO["getHost()<br/>X-Forwarded-Host (proxy de confiance)<br/>· Host · SERVER_NAME<br/>→ setTrustedHosts([regex])"]
 ```
 
 ## L'exemple : lire une recherche

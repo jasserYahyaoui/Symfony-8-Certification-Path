@@ -55,13 +55,17 @@ pas parce que la configuration l'active, mais au premier accès — lire, écrir
 
 ## Le schéma
 
-```text
-accès        $request->getSession() · SessionInterface $session (SessionValueResolver) · RequestStack::getSession()
-démarrage    has · get · set · all · replace · remove · clear  → getAttributeBag() → start()
-             aucun accès → aucun cookie, page cachable
-Response     session démarrée → private · cookie seulement si la session n'est pas vide
-migrate($destroy = false, $lifetime = null): bool   nouvel id, données gardées, ancienne session laissée
-invalidate($lifetime = null): bool                  storage->clear() puis migrate(true, $lifetime)
+```mermaid
+---
+title: Quand la session démarre, et ce qu'elle change
+---
+flowchart TD
+  accTitle: Accès, démarrage, effet sur la Response, migrate et invalidate
+  accDescr: On accède à la session par $request->getSession(), par un argument SessionInterface $session, résolu par SessionValueResolver, ou par RequestStack::getSession(). has, get, set, all, replace, remove et clear passent par getAttributeBag(), qui appelle start(). Sans aucun accès, aucun cookie n'est envoyé et la page reste cachable. Une session démarrée rend la Response private ; le cookie n'est envoyé que si la session n'est pas vide. migrate($destroy = false, $lifetime = null): bool donne un nouvel id, garde les données et laisse l'ancienne session. invalidate($lifetime = null): bool appelle storage->clear() puis migrate(true, $lifetime).
+  AC["accès<br/>$request->getSession()<br/>SessionInterface $session<br/>(SessionValueResolver)<br/>RequestStack::getSession()"] --> D["has · get · set · all<br/>replace · remove · clear<br/>→ getAttributeBag() → start()"]
+  AC -.->|"aucun accès"| N(["aucun cookie,<br/>page cachable"])
+  D --> R["Response<br/>session démarrée → private<br/>cookie seulement si<br/>la session n'est pas vide"]
+  I["invalidate($lifetime = null): bool<br/>storage->clear()<br/>puis migrate(true, $lifetime)"] -->|"appelle"| M["migrate($destroy = false,<br/>$lifetime = null): bool<br/>nouvel id, données gardées,<br/>ancienne session laissée"]
 ```
 
 ## L'exemple
